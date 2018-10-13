@@ -1,0 +1,15 @@
+%h1.ui.red.header HOME
+
+- if flash[:notice]
+  .ui.success.message
+    = flash[:notice]
+
+- if current_user
+  %p
+    Welcome
+    = current_user.email
+    !
+  = link_to "Logout", :logout, method: :post
+- else
+  %p Not logged in.
+  = link_to 'Login', login_path

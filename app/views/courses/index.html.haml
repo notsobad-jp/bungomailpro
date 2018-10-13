@@ -1,0 +1,4 @@
+%h1 配信コース一覧
+
+- @courses.each do |course|
+  = link_to course.title, course_path(course)

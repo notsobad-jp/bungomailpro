@@ -1,0 +1,4 @@
+%h1 購読中のコース一覧
+
+- @user_courses.each do |user_course|
+  = link_to user_course.course.title, course_path(user_course.course)

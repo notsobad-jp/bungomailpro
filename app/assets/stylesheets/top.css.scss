@@ -1,0 +1,36 @@
+.gray-flat { background-color: #e7e8e9; }
+.gray-black { background-color: #c4c8d4; }
+.gray-accent { background-color: #443b55 !important; }
+section, footer { padding: 50px 10px !important; }
+.gray-accent.button {
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+#header {
+  padding-top: 30px !important;
+  background: image-url('seigaiha_red.png');
+}
+#header .huge.header {
+  font-size: 3em;
+  line-height: 1.5em;
+}
+.sub.header { margin-top: 15px !important; }
+
+footer.ui.segment {
+  color: rgba(255,255,255,.6);
+  margin-bottom: 0;
+}
+footer a { color: #fff !important; }
+
+.ui.mini.divider {
+  width: 50px;
+  margin: 50px auto;
+  border-width: 3px !important;
+  border-color: #333 !important;
+}
+
+@media only screen and (max-width: 767px) {
+  #header .huge.header { font-size: 3em; }
+  .computer.only { display: none; }
+}

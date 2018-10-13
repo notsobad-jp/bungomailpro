@@ -1,0 +1,26 @@
+%h1
+  = @course.title
+  - if @subscription && @subscription.status == 1
+    %span.ui.red.mini.label 購読中
+  - elsif @subscription && @subscription.status == 2
+    %span.ui.orange.mini.label 一時停止中
+%p= @course.description
+
+- if @subscription
+  = link_to '購読を解除する', subscription_path(course_id: @course.id), method: :delete, class: 'ui red button'
+- else
+  = link_to '購読する', subscriptions_path(course_id: @course.id), method: :post, class: 'ui primary button'
+
+- if @subscription && @subscription.status == 1
+  = link_to '一時停止', subscription_path(course_id: @course.id, status: 2), method: :put, class: 'ui default button'
+  = link_to '配信中の本をスキップする', edit_subscription_path(course_id: @course.id, skip: true), class: 'ui primary button'
+  = link_to '配信', edit_subscription_path(course_id: @course.id), class: 'ui basic button'
+- if @subscription && @subscription.status == 2
+  = link_to '再開する', subscription_path(course_id: @course.id, status: 1), method: :put, class: 'ui default button'
+
+
+- @course.books.each do |book|
+  %ul
+    %li
+      = book.title
+      = "（#{book.author}）"
