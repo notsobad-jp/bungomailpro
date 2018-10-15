@@ -18,7 +18,7 @@
           .item
             = link_to current_user.email, subscriptions_path
           .item
-            = link_to 'ログアウト', logout_path
+            = link_to 'ログアウト', logout_path, method: :post
         - else
           .item
             = link_to 'ログイン', login_path

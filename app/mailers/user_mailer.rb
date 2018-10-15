@@ -7,7 +7,7 @@ class UserMailer < ApplicationMailer
   #
   def magic_login_email(user)
     @user = User.find user.id
-    @url  = "http://localhost:3000/auth?token=" + @user.magic_login_token
+    @url  = URI.join(root_url, "auth?token=#{@user.magic_login_token}")
 
     mail(to: @user.email, subject: "Magic Login")
   end
