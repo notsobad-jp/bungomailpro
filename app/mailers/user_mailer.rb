@@ -11,4 +11,12 @@ class UserMailer < ApplicationMailer
 
     mail(to: @user.email, subject: "Magic Login")
   end
+
+
+  def deliver_chapter(delivery)
+    @user = delivery.user_course.user
+    @chapter = delivery.chapter
+
+    mail(to: @user.email, subject: 'ほげ')
+  end
 end
