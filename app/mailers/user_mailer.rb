@@ -13,9 +13,10 @@ class UserMailer < ApplicationMailer
   end
 
 
-  def deliver_chapter(delivery)
-    @user = delivery.user_course.user
-    @chapter = delivery.chapter
+  def deliver_chapter
+    @delivery = params[:delivery]
+    @user = @delivery.user_course.user
+    @chapter = @delivery.chapter
 
     mail(to: @user.email, subject: 'ほげ')
   end

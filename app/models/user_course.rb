@@ -38,7 +38,7 @@ class UserCourse < ApplicationRecord
   end
 
 
-  # 配信時間変更
+  #TODO: 配信時間変更
   def change_delivery_hours
   end
 
@@ -48,9 +48,10 @@ class UserCourse < ApplicationRecord
     return set_first_delivery if !last_delivery
 
     next_chapter = last_delivery.chapter.next_chapter
+    # 次のchapterがなかったら、courseの次の本を探す
     if !next_chapter
       next_book_id = self.course.next_book_id(last_delivery.chapter.book_id)
-      raise 'no more books!' if !next_book_id
+      return self.update(status: 3) if !next_book_id  # 次の本がなかったら配信完了
       next_chapter = Chapter.find_by(book_id: next_book_id, index: 1)
     end
 
@@ -63,7 +64,7 @@ class UserCourse < ApplicationRecord
 
   def skip_current_book
     next_book_id = self.course.next_book_id(self.last_delivery.chapter.book_id)
-    raise 'no more books!' if !next_book_id
+    return self.update(status: 3) if !next_book_id  # 次の本がなかったら配信完了
     next_chapter = Chapter.find_by(book_id: next_book_id, index: 1)
 
     self.deliveries.find_by(delivered: false).destroy
