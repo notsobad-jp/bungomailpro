@@ -18,7 +18,7 @@ class Delivery < ApplicationRecord
 
 
   def deliver
-    UserMailer.with(delivery: self).deliver_chapter.deliver_now
+    UserMailer.with(delivery: self).deliver_chapter.deliver_later
 
     self.update(delivered: true)
     self.user_course.set_next_delivery

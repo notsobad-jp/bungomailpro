@@ -1,9 +1,12 @@
 %h1
   = @course.title
-  - if @user_course && @user_course.status == 1
-    %span.ui.red.mini.label 購読中
-  - elsif @user_course && @user_course.status == 2
-    %span.ui.orange.mini.label 一時停止中
+  - if @user_course
+    - if @user_course.status == 1
+      %span.ui.red.mini.label 購読中
+    - elsif @user_course.status == 2
+      %span.ui.orange.mini.label 一時停止中
+    - elsif @user_course.status == 3
+      %span.ui.mini.label 配信完了
 %p= @course.description
 
 - if @user_course
