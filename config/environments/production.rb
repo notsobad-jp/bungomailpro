@@ -78,7 +78,6 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
   config.action_mailer.default_url_options = { host: 'bungomail.herokuapp.com' }
-  config.action_mailer.deliver_later_queue_name = 'default'
 
   # Active Job Adapter
   config.active_job.queue_adapter = :delayed_job
