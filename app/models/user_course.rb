@@ -17,9 +17,6 @@ class UserCourse < ApplicationRecord
   has_many :deliveries, dependent: :destroy
   serialize :delivery_hours
 
-  after_create :set_first_delivery
-  before_update :update_delivery
-
 
   # 次の配信日時を取得
   def next_deliver_at
@@ -45,9 +42,14 @@ class UserCourse < ApplicationRecord
 
   def set_next_delivery
     last_delivery = self.last_delivery
-    return set_first_delivery if !last_delivery
 
-    next_chapter = last_delivery.chapter.next_chapter
+    if last_delivery
+      next_chapter = last_delivery.chapter.next_chapter
+    else
+      first_book_id = self.course.first_book_id
+      next_chapter = Chapter.find_by(book_id: first_book_id, index: 1)
+    end
+
     # 次のchapterがなかったら、courseの次の本を探す
     if !next_chapter
       next_book_id = self.course.next_book_id(last_delivery.chapter.book_id)
@@ -75,26 +77,14 @@ class UserCourse < ApplicationRecord
   end
 
 
-  private
-    # after_create: 登録後に最初のメッセージを配信設定しておく
-    def set_first_delivery
-      first_book_id = self.course.first_book_id
-      first_chapter = Chapter.find_by(book_id: first_book_id, index: 1)
-      self.deliveries.create(
-        chapter_id: first_chapter.id,
-        deliver_at: self.next_deliver_at
-      )
-    end
+  # 一時停止
+  def pause
+    self.deliveries.find_by(delivered: false).update(deliver_at: nil)
+  end
 
-    # before_update: 更新時はカラムに合わせて処理振り分け
-    def update_delivery
-      # 配信時間変更
-      self.change_delivery_hours if delivery_hours_changed?
 
-      # 一時停止
-      self.deliveries.find_by(delivered: false).update(deliver_at: nil) if status_changed? && status == 2
-
-      # 配信再開
-      self.deliveries.find_by(delivered: false).update(deliver_at: self.next_deliver_at) if status_changed? && status == 1
-    end
+  # 配信再開
+  def restart
+    self.deliveries.find_by(delivered: false).update(deliver_at: self.next_deliver_at)
+  end
 end

@@ -5,6 +5,6 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find(params[:id])
-    @subscription = current_user.user_courses.find_by(course_id: @course.id) if current_user
+    @user_course = current_user.user_courses.find_by(course_id: @course.id) if current_user
   end
 end
