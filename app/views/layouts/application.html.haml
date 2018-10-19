@@ -11,8 +11,6 @@
     .ui.secondary.menu
       .header.item
         = link_to 'ブンゴウメール PRO', root_path
-      .item
-        = link_to '配信コース', courses_path
       .right.menu
         - if current_user
           .item
@@ -22,4 +20,5 @@
         - else
           .item
             = link_to 'ログイン', login_path
-    = yield
+    .ui.container
+      = yield
