@@ -2,10 +2,6 @@
 %section#header.ui.centered.stackable.grid
   .ui.row
     .ten.wide.center.aligned.column
-      %h1.ui.left.aligned.header
-        ブンゴウメール
-        %span.ui.large.label.red PRO
-      %br/
       %br/
       %div
         = image_tag('logo.png', class: 'ui medium centered image', alt: 'ブンゴウメール')
@@ -20,6 +16,7 @@
       %br/
       %a.ui.gray-accent.inverted.button{:href => "https://goo.gl/forms/oOWiGUaqMckVXgBk2", :target => "_blank"}
         登録する（税込324円/月）
+
 %section.ui.centered.stackable.grid
   %h2.ui.huge.header
     月に1冊では満足できないあなたに
@@ -60,33 +57,32 @@
   .ui.centered.stackable.grid
     .ui.row
       .twelve.wide.center.aligned.column
-        .ui.centered.four.stackable.cards
+        .ui.centered.two.stackable.cards
           .ui.card
             .image
-              = image_tag('logo.png')
+              = image_tag('courses/random.png')
             .content
               %a.header
                 おまかせ配信コース
-                %span.ui.mini.orange.label オススメ
               .description
                 いろんな作家の名作をおまかせで配信してくれるコースもあります。配信タイトルは2~3ヶ月程度の中長編のみ。自分では選ばないような作品をおまかせで読んでみたい方にオススメです。
           .ui.card
             .image
-              = image_tag('author/natsume.png')
+              = image_tag('courses/author.png')
             .content
-              %a.header 文豪限定コース
+              %a.header 作家限定コース
               .description
                 各文豪ごとに、その作家の作品のみをひたすら配信し続けるコースを用意しています。好きな文豪の作品を読み尽くしたいときにぜひご登録ください。
           .ui.card
             .image
-              = image_tag('author/edogawa.png')
+              = image_tag('courses/long.png')
             .content
-              %a.header 超長編コース
+              %a.header 超長編チャレンジコース
               .description
                 超長編を1年くらいかけて読み切るコースです。ふつうなら諦めてしまうような長編も、毎日強制的にメールで届けば読めるかも？コースが用意されていない作品でも、自分で好きな作品を選んでコースを作成することができます。
           .ui.card
             .image
-              = image_tag('author/akutagawa.png')
+              = image_tag('courses/theme.png')
             .content
               %a.header テーマ別コース
               .description
@@ -98,17 +94,9 @@
     %div
       %small ※テスト提供中は、コースの追加要望や好きな作品の配信などは、手動での対応となります。お手数ですが運営までお気軽にご連絡ください（正式リリース時には自動化される予定です）。
 
-.ui.mini.divider
-
-%section
-  %h2.ui.huge.centered.header
-    たとえば、こんな使い方ができます
-    %p.sub.header
-      コースはいくつでも登録できるので、好みに合わせて自分だけの読書環境を作ってみてください。
-  %br/
-  .ui.centered.stackable.grid
 
 .ui.mini.divider
+
 
 %section.ui.centered.stackable.grid
   .ui.row
@@ -206,18 +194,23 @@
               %p
                 また毎日配信されるメールの最下部にも同様のリンクと案内を記載しておりますので、不要になった場合はいつでもご解約ください。
 
-%footer.ui.basic.center.aligned.segment.gray-accent
+%footer.ui.basic.center.aligned.inverted.segment
+  %h5.ui.header
+    ブンゴウメール
+    %span.ui.red.label PRO
+  %br
   .ui.horizontal.list
     %a.item{:href => "https://twitter.com/bungomail", :target => "_blank"} 公式Twitter
     %a.item{:href => "https://bungomail.hatenablog.com/", :target => "_blank"} 公式ブログ
+    %a.item{:href => "https://notsobad.jp", :target => "_blank"} 利用規約
+    %a.item{:href => "https://notsobad.jp", :target => "_blank"} プライバシーポリシー
+    %a.item{:href => "https://notsobad.jp", :target => "_blank"} 特商法
     %a.item{:href => "https://notsobad.jp", :target => "_blank"} 運営
-  %br/
   %br/
   %br/
   %br/
   %div
     %small Copyright ブンゴウメール 2018 All rights reserved.
-     
     %small
       Powered by
       %a{:href => "https://notsobad.jp", :target => "_blank"} NOT SO BAD, LLC.

@@ -1,24 +1,30 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta(content="text/html" charset="UTF-8" http-equiv="Content-Type")
+    %meta(name="viewport" content="width=device-width" initial-scale="1.0" maximum-scale="1.0")
     %title Bungomailpro
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    .ui.secondary.menu
-      .header.item
-        = link_to 'ブンゴウメール PRO', root_path
+    .ui.top.fixed.inverted.borderless.menu
+      = link_to(root_path, class: 'header item') do
+        ブンゴウメール
+        %span.ui.red.label PRO
       .right.menu
-        - if current_user
-          .item
-            = link_to current_user.email, subscriptions_path
-          .item
-            = link_to 'ログアウト', logout_path, method: :post
-        - else
-          .item
-            = link_to 'ログイン', login_path
-    .ui.container
-      = yield
+        .ui.simple.dropdown.item
+          %i.content.icon
+          .inverted.menu
+            - if current_user
+              = link_to 'マイページ', subscriptions_path, class: 'item'
+              = link_to 'ログアウト', logout_path, method: :post, class: 'item'
+            - else
+              = link_to 'ログイン', login_path, class: 'item'
+    %div(style="margin-top: 50px;")
+      - if controller.controller_name == 'pages'
+        = yield
+      - else
+        .ui.container
+          = yield
