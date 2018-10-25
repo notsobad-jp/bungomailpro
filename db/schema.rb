@@ -10,21 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_18_054904) do
+ActiveRecord::Schema.define(version: 2018_10_25_034725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "books", force: :cascade do |t|
     t.integer "aozora_id", null: false
-    t.string "title"
+    t.string "title", null: false
     t.string "author"
     t.index ["aozora_id"], name: "index_books_on_aozora_id", unique: true
   end
 
   create_table "chapters", force: :cascade do |t|
     t.bigint "book_id"
-    t.integer "index"
+    t.integer "index", null: false
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
   create_table "course_books", force: :cascade do |t|
     t.bigint "course_id"
     t.bigint "book_id"
-    t.integer "index"
+    t.integer "index", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_course_books_on_book_id"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

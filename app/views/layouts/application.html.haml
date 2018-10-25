@@ -27,4 +27,7 @@
         = yield
       - else
         .ui.container
-          = yield
+          .ui.stackable.grid
+            .ui.twelve.wide.column
+              = yield
+            .ui.four.wide.column

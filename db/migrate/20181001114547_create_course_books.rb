@@ -3,7 +3,7 @@ class CreateCourseBooks < ActiveRecord::Migration[5.2]
     create_table :course_books do |t|
       t.references :course, foreign_key: true
       t.references :book, foreign_key: true
-      t.integer :index
+      t.integer :index, null: false
 
       t.timestamps
     end

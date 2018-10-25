@@ -1,0 +1,24 @@
+%h1 コース作成
+
+= form_for @course, html: {class: 'ui form'} do |f|
+  .required.field
+    = f.label :title, 'タイトル'
+    = f.text_field :title
+  .field
+    = f.label :description, '説明'
+    = f.text_area :description, rows: '3'
+
+  %h3.ui.small.header 本の追加
+  .ui.secondary.padded.segment
+    .ui.action.fluid.input
+      %input(type="text" placeholder="青空文庫の図書カードURLを入力")
+      = link_to 'books/scrape', class: 'ui primary button', remote: true do
+        %i.add.icon
+        追加
+
+
+  .ui.bottom.fixed.borderless.menu
+    .item
+      %button.ui.basic.button(type="submit" value="draft") 下書き保存
+    .item
+      %button.ui.primary.button(type="submit" value="public") 公開
