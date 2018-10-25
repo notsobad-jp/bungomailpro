@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :subscriptions
   resources :deliveries
 
+  post 'books/scrape' => 'books#scrape'
+
   post 'subscriptions/:id/skip' => 'subscriptions#skip', as: :skip_subscription
   post 'subscriptions/:id/deliver' => 'subscriptions#deliver', as: :test_deliver
 
