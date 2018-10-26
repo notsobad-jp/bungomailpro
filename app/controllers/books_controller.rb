@@ -4,9 +4,12 @@ require 'nokogiri'
 class BooksController < ApplicationController
   def scrape
     url = params[:url]
-    aozora_id = url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/\d+\/card(\d+)\.html/)[1]
+    match = url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/\d+\/card(\d+)\.html/)
+    return if !match
+
+    aozora_id = match[1]
     book = Book.find_by(aozora_id: aozora_id)
-    render json: book.attributes if book
+    render json: book.attributes and return if book
 
     charset = nil
     html = open(url) do |f|
