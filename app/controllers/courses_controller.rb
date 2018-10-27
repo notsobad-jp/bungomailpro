@@ -13,6 +13,7 @@ class CoursesController < ApplicationController
   end
 
   def edit
+    @course = Course.includes(:course_books).find(params[:id])
   end
 
   def create
@@ -20,7 +21,21 @@ class CoursesController < ApplicationController
     params[:course][:course_books].each.with_index(1) do |cb, index|
       @course.course_books.new(book_id: cb[:id], index: index)
     end
-    
+
+    if @course.save
+      redirect_to course_path @course
+    else
+    end
+  end
+
+  def update
+    @course = Course.find(params[:id])
+    params[:course][:course_books].each.with_index(1) do |cb, index|
+      course_book = @course.course_books.find_by(book_id: cb[:id])
+      course_book.index = index if course_book
+      @course.course_books.new(book_id: cb[:id], index: index)
+    end
+
     if @course.save
       redirect_to course_path @course
     else
