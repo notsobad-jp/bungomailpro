@@ -27,7 +27,8 @@
       %i.icon.content
       .content
         .header
-          = course_book.book_id
+          = course_book.book.author
+          『#{course_book.book.title}』
         .description
           %small 文字数：
           %input(value="#{course_book.book_id}" type="hidden" name="course[course_books[][id]]")
