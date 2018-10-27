@@ -21,9 +21,9 @@ namespace :import_books do
     end
 
     title, author, text = parse_html(args['url'])
-    aozora_id = args['url'].split('/').last.split('_')[0].to_i
+    id = args['url'].split('/').last.split('_')[0].to_i
 
-    book = Book.find_or_create_by(aozora_id: aozora_id)
+    book = Book.find_or_create_by(id: id)
     book.update(
       title: title,
       author: author,
@@ -33,8 +33,8 @@ namespace :import_books do
   end
 
   desc "テキストを分割してbook_chaptersに格納"
-  task :split_texts, ['aozora_id'] => :environment do |task, args|
-    @book = Book.find_by(aozora_id: args['aozora_id'])
+  task :split_texts, ['id'] => :environment do |task, args|
+    @book = Book.find_by(id: args['id'])
     chapters = @book.split_texts
 
     chapters.each.with_index(1) do |chapter, index|
@@ -68,9 +68,9 @@ namespace :import_books do
     end
 
     title, author, text = parse_html(args['url'])
-    aozora_id = args['url'].split('/').last.split('_')[0].to_i
+    id = args['url'].split('/').last.split('_')[0].to_i
 
-    @book = Book.find_or_create_by(aozora_id: aozora_id)
+    @book = Book.find_or_create_by(id: id)
     @book.update(
       title: title,
       author: author

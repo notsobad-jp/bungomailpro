@@ -4,7 +4,7 @@
 #
 #  id         :bigint(8)        not null, primary key
 #  book_id    :bigint(8)
-#  index      :integer
+#  index      :integer          not null
 #  text       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

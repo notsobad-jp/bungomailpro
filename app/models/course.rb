@@ -3,7 +3,7 @@
 # Table name: courses
 #
 #  id          :bigint(8)        not null, primary key
-#  title       :string
+#  title       :string           not null
 #  description :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

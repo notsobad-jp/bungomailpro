@@ -2,16 +2,16 @@
 #
 # Table name: books
 #
-#  id        :bigint(8)        not null, primary key
-#  aozora_id :integer          not null
-#  title     :string
-#  author    :string
+#  id     :bigint(8)        not null
+#  title  :string           not null
+#  author :string           not null
 #
 
 class Book < ApplicationRecord
   has_many :course_books
   has_many :courses, through: :course_books
   has_many :chapters
+  self.primary_key = 'id'
 
 
   USUAL_KANJIS = %w(

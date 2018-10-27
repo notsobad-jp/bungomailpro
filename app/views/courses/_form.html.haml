@@ -46,7 +46,7 @@
   ***********************************************/
   function addBook(data) {
     var item = document.createElement('div');
-    item.setAttribute('id', data['aozora_id']);
+    item.setAttribute('id', data['id']);
     item.setAttribute('class', 'item');
     item.innerHTML = `
       <div class="right floated content">
@@ -69,8 +69,8 @@
     document.getElementById('bookList').appendChild(item);
   }
 
-  function removeBook(aozora_id) {
-    var element = document.getElementById(aozora_id);
+  function removeBook(book_id) {
+    var element = document.getElementById(book_id);
     element.parentNode.removeChild(element);
   }
 
@@ -101,7 +101,7 @@
       return false;
     }
 
-    if(document.getElementById(data['aozora_id'])) {
+    if(document.getElementById(data['id'])) {
       alert('その本はもうリストに追加されているようです。他の本をお試しください。')
     }else {
       addBook(data);

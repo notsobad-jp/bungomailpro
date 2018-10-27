@@ -13,7 +13,7 @@ course = Course.create(
 
 
 book1 = Book.create(
-  aozora_id: 51860,
+  id: 51860,
   title: 'かもめ',
   author: 'チェーホフ'
 )
@@ -25,7 +25,7 @@ book1.chapters.create([
   { index: 5, text: 'かもめのテキスト5' }
 ])
 book2 = Book.create(
-  aozora_id: 51862,
+  id: 51862,
   title: 'ワーニャおじさん',
   author: 'チェーホフ'
 )

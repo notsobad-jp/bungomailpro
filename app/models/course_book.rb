@@ -5,7 +5,7 @@
 #  id         :bigint(8)        not null, primary key
 #  course_id  :bigint(8)
 #  book_id    :bigint(8)
-#  index      :integer
+#  index      :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

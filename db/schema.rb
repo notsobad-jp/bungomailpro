@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_25_034725) do
+ActiveRecord::Schema.define(version: 2018_10_18_054904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "books", force: :cascade do |t|
-    t.integer "aozora_id", null: false
+  create_table "books", id: false, force: :cascade do |t|
+    t.bigint "id", null: false
     t.string "title", null: false
-    t.string "author"
-    t.index ["aozora_id"], name: "index_books_on_aozora_id", unique: true
+    t.string "author", null: false
+    t.index ["id"], name: "index_books_on_id", unique: true
   end
 
   create_table "chapters", force: :cascade do |t|
@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(version: 2018_10_25_034725) do
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["book_id", "index"], name: "index_chapters_on_book_id_and_index", unique: true
     t.index ["book_id"], name: "index_chapters_on_book_id"
-    t.index ["index"], name: "index_chapters_on_index"
   end
 
   create_table "course_books", force: :cascade do |t|
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2018_10_25_034725) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_course_books_on_book_id"
+    t.index ["course_id", "book_id"], name: "index_course_books_on_course_id_and_book_id", unique: true
     t.index ["course_id"], name: "index_course_books_on_course_id"
     t.index ["index"], name: "index_course_books_on_index"
   end

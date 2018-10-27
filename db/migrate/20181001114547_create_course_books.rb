@@ -8,5 +8,6 @@ class CreateCourseBooks < ActiveRecord::Migration[5.2]
       t.timestamps
     end
     add_index :course_books, :index
+    add_index :course_books, [:course_id, :book_id], unique: true
   end
 end

@@ -7,8 +7,8 @@ class BooksController < ApplicationController
     match = url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/\d+\/card(\d+)\.html/)
     return if !match
 
-    aozora_id = match[1]
-    book = Book.find_by(aozora_id: aozora_id)
+    id = match[1]
+    book = Book.find_by(id: id)
     render json: book.attributes and return if book
 
     charset = nil
@@ -18,7 +18,7 @@ class BooksController < ApplicationController
     end
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
-    title_data = {aozora_id: aozora_id}
+    title_data = {id: id}
     table = doc.xpath("//table[@summary='タイトルデータ']").first
     table.children.each do |node|
       next if node.name != 'tr'
