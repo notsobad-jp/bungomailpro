@@ -1,4 +1,4 @@
-%h1 コース作成
+%h1 新しいコースを作成する
 
 = form_for @course, html: {class: 'ui form'} do |f|
   .required.field
@@ -8,10 +8,11 @@
     = f.label :description, '説明'
     = f.text_area :description, rows: '3'
 
+
   %h3.ui.small.header 本の追加
   .ui.secondary.padded.segment
     .ui.action.fluid.input
-      %input(type="text" placeholder="青空文庫の図書カードURLを入力" onchange="setURL(this.value)")
+      %input#searchInput(type="text" placeholder="青空文庫の図書カードURLを入力")
       = link_to '/books/scrape/?url=', id: 'searchButton', class: 'ui primary button', method: :post, remote: true do
         %i.add.icon
         追加
@@ -23,9 +24,8 @@
 
   .ui.bottom.fixed.borderless.menu
     .item
-      %button.ui.basic.button(type="submit" value="draft") 下書き保存
-    .item
-      %button.ui.primary.button(type="submit" value="public") 公開
+      %button.ui.red.button(type="submit" value="draft") 保存する
+      %small （まだ一般公開はされません）
 
 
 
@@ -33,18 +33,13 @@
   /***********************************************
   * Functions
   ***********************************************/
-  function setURL(url) {
-    var baseHref = '/books/scrape/?url=';
-    document.getElementById('searchButton').setAttribute('href', baseHref + url);
-  }
-
   function addBook(data) {
     var item = document.createElement('div');
     item.setAttribute('id', data['aozora_id']);
     item.setAttribute('class', 'item');
     item.innerHTML = `
       <div class="right floated content">
-        <div class="ui icon basic button" onclick="removeBook(${ data['aozora_id'] })">
+        <div class="ui icon basic button" onclick="removeBook(${ data['id'] })">
           <i class="icon remove"></i>
         </div>
       </div>
@@ -56,6 +51,7 @@
         </div>
         <div class="description">
           <small>文字数：約12,000字</small>
+          <input value="${ data['id'] }" type="hidden" name="course[course_books[][id]]">
         </div>
       </div>
     `;
@@ -71,6 +67,14 @@
   /***********************************************
   * Events
   ***********************************************/
+  document.getElementById("searchButton").onclick = function(e) {
+    var baseHref = '/books/scrape/?url=';
+    var searchButton = e.currentTarget;
+    var searchInput = document.getElementById("searchInput");
+    searchButton.setAttribute('href', baseHref + searchInput.value);
+    searchInput.value = '';
+  };
+
   document.body.addEventListener('ajax:before', function() {
     document.getElementById('loader').classList.replace('disabled', 'active');
   })
@@ -91,4 +95,9 @@
     }else {
       addBook(data);
     }
+  })
+
+  document.body.addEventListener('ajax:error', function(event) {
+    document.getElementById('loader').classList.replace('active', 'disabled');
+    alert('データの追加に失敗しました(´；ω；｀) URLを再度ご確認いただき、それでも追加できない場合は運営までお問い合わせください。')
   })

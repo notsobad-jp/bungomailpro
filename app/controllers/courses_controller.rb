@@ -16,5 +16,19 @@ class CoursesController < ApplicationController
   end
 
   def create
+    @course = Course.new course_params
+    params[:course][:course_books].each.with_index(1) do |cb, index|
+      @course.course_books.new(book_id: cb[:id], index: index)
+    end
+    
+    if @course.save
+      redirect_to course_path @course
+    else
+    end
   end
+
+  private
+    def course_params
+      params.require(:course).permit(:title, :description)
+    end
 end

@@ -14,6 +14,7 @@ class Course < ApplicationRecord
   has_many :users, through: :user_courses
   has_many :course_books
   has_many :books, through: :course_books
+  accepts_nested_attributes_for :course_books, allow_destroy: true
 
   def first_book_id
     self.course_books.order(index: :asc).first.book_id
