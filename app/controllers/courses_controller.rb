@@ -30,16 +30,8 @@ class CoursesController < ApplicationController
 
   def update
     @course = Course.find(params[:id])
-    params[:course][:course_books].each.with_index(1) do |cb, index|
-      course_book = @course.course_books.find_by(book_id: cb[:id])
-      if course_book
-        course_book.index = index if course_book
-      else
-        @course.course_books.new(book_id: cb[:id], index: index)
-      end
-    end
 
-    if @course.save
+    if @course.update(course_params)
       redirect_to course_path @course
     else
     end
@@ -48,6 +40,6 @@ class CoursesController < ApplicationController
 
   private
     def course_params
-      params.require(:course).permit(:title, :description)
+      params.require(:course).permit(:title, :description, course_books_attributes: [:id, :index, :book_id, :_destroy])
     end
 end

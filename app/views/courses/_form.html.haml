@@ -6,7 +6,9 @@
   = f.text_area :description, rows: '3'
 
 
-%h3.ui.small.header 本の追加
+%br
+.ui.horizontal.divider 本の追加
+-# %h3.ui.small.header 本の追加
 .ui.secondary.padded.segment
   .ui.action.fluid.input
     %input#searchInput(type="text" placeholder="青空文庫の図書カードURLを入力")
@@ -14,24 +16,27 @@
       %i.add.icon
       追加
 
-.ui.divider
+.ui.hidden.divider
+#loader.ui.disabled.text.loader Loading..
 
 #bookList.ui.middle.alligned.divided.relaxed.large.list
-  #loader.ui.disabled.text.loader Loading..
-
-  - @course.course_books.each do |course_book|
-    %div.item(id="#{course_book.id}")
+  = f.fields_for :course_books do |cb|
+    - course_book = cb.object
+    %div.item(id="#{course_book.book_id}" data-saved="true")
       .right.floated.content
-        .ui.icon.basic.button(onclick="removeBook(#{course_book.id})")
+        .ui.icon.basic.button(onclick="removeBook(#{course_book.book_id})")
           %i.icon.remove
-      %i.icon.content
+      %i.icon.content.handler
       .content
         .header
           = course_book.book.author
           『#{course_book.book.title}』
         .description
           %small 文字数：
-          %input(value="#{course_book.book_id}" type="hidden" name="course[course_books[][id]]")
+          = cb.hidden_field :id, value: course_book.id
+          = cb.hidden_field :book_id, value: course_book.book_id
+          = cb.hidden_field :index, value: course_book.index, id: "#{course_book.book_id}_index"
+          = cb.hidden_field :_destroy, value: false, id: "#{course_book.book_id}_destroy"
 
 
 .ui.bottom.fixed.borderless.menu
@@ -46,6 +51,9 @@
   * Functions
   ***********************************************/
   function addBook(data) {
+    var bookList = document.getElementById('bookList');
+    var index = bookList.childElementCount;
+
     var item = document.createElement('div');
     item.setAttribute('id', data['id']);
     item.setAttribute('class', 'item');
@@ -63,22 +71,63 @@
         </div>
         <div class="description">
           <small>文字数：約12,000字</small>
-          <input value="${ data['id'] }" type="hidden" name="course[course_books[][id]]">
+          <input value="${ data['id'] }" type="hidden" name="course[course_books_attributes][${ index }][book_id]">
+          <input id="${ data['id'] }_index" value="${ index + 1 }" type="hidden" name="course[course_books_attributes][${ index }][index]">
+          <input id="${ data['id'] }_destroy" value="false" type="hidden" name="course[course_books_attributes][${ index }][_destroy]">
+          <input value="" type="hidden" name="course[course_books_attributes][${ index }][id]">
         </div>
       </div>
     `;
-    document.getElementById('bookList').appendChild(item);
+
+    bookList.appendChild(item);
+    setItemIndex();
   }
 
   function removeBook(book_id) {
     var element = document.getElementById(book_id);
-    element.parentNode.removeChild(element);
+    var saved = element.hasAttribute('data-saved');
+
+    // 元から存在するitemは削除フラグをつけて隠す
+    if(saved) {
+      document.getElementById(book_id+'_destroy').value = "true";
+      element.style.display = 'none';
+    // あとから追加したitemはそのまま削除
+    }else {
+      element.parentNode.removeChild(element);
+    }
+
+    // index振り直し
+    setItemIndex();
+  }
+
+  function setItemIndex() {
+    var booklist = document.getElementById('bookList');
+    var index = 1;
+    for (var i = 0; i < booklist.children.length; i++) {
+      var book_id = booklist.children[i].getAttribute('id');
+
+      // 削除フラグのついたitemはスキップ
+      if(document.getElementById(book_id + '_destroy').value == 'true') { continue };
+
+      // indexセット
+      document.getElementById(book_id + '_index').value = index;
+      index++;
+    }
   }
 
 
   /***********************************************
   * Events
   ***********************************************/
+  document.addEventListener('turbolinks:load', function(){
+    var el = document.getElementById('bookList');
+    var sortable = Sortable.create(el, {
+      handle: ".icon.content",
+      sort: true,
+      onEnd: setItemIndex
+    });
+  }, false);
+
   document.getElementById("searchButton").onclick = function(e) {
     var baseHref = '/books/scrape/?url=';
     var searchButton = e.currentTarget;
@@ -102,8 +151,15 @@
       return false;
     }
 
-    if(document.getElementById(data['id'])) {
-      alert('その本はもうリストに追加されているようです。他の本をお試しください。')
+    var element = document.getElementById(data['id']);
+    if(element) {
+      var destroy_flg = document.getElementById(data['id']+'_destroy');
+      if(destroy_flg.value=='true') {
+        destroy_flg.value = 'false'
+        element.style.display = 'block';
+      }else {
+        alert('その本はもうリストに追加されているようです。他の本をお試しください。')
+      }
     }else {
       addBook(data);
     }

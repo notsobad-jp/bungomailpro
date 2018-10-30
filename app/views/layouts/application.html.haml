@@ -8,7 +8,7 @@
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  %body
+  %body(data-controller="#{controller_name}" data-action="#{action_name}")
     .ui.top.fixed.inverted.borderless.menu
       = link_to(root_path, class: 'header item') do
         ブンゴウメール
