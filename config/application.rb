@@ -40,5 +40,10 @@ module Bungomailpro
       g.assets     false
       g.helper     false
     end
+
+    # Form Error Field
+    config.action_view.field_error_proc = Proc.new do |html_tag, instance|
+      %Q(<div class="field error">#{html_tag}</div>).html_safe
+    end
   end
 end

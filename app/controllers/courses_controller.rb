@@ -18,13 +18,11 @@ class CoursesController < ApplicationController
 
   def create
     @course = Course.new course_params
-    params[:course][:course_books].each.with_index(1) do |cb, index|
-      @course.course_books.new(book_id: cb[:id], index: index)
-    end
 
     if @course.save
       redirect_to course_path @course
     else
+      render :new
     end
   end
 
@@ -34,6 +32,7 @@ class CoursesController < ApplicationController
     if @course.update(course_params)
       redirect_to course_path @course
     else
+      render :edit
     end
   end
 

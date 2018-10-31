@@ -3,7 +3,7 @@
 ***********************************************/
 document.addEventListener("turbolinks:load", () => {
   // courses#new, courses#edit以外はスキップ
-  if(document.body.dataset.controller != 'courses' || !['new', 'edit'].includes(document.body.dataset.action)) { return false; }
+  if(document.body.dataset.controller != 'courses' || !['new', 'edit', 'create', 'update'].includes(document.body.dataset.action)) { return false; }
 
 
   // Sortable

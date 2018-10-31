@@ -1,3 +1,10 @@
+- if @course.errors.any?
+  .ui.error.visible.message
+    .header データの保存に失敗しました
+    .list
+      - @course.errors.full_messages.each do |e|
+        %li= e
+
 .required.field
   = f.label :title, 'タイトル'
   = f.text_field :title
