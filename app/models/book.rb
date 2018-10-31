@@ -8,9 +8,9 @@
 #
 
 class Book < ApplicationRecord
-  has_many :course_books
+  has_many :course_books, dependent: :nullify
   has_many :courses, through: :course_books
-  has_many :chapters
+  has_many :chapters, dependent: :destroy
   self.primary_key = 'id'
 
 

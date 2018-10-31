@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_18_054904) do
+ActiveRecord::Schema.define(version: 2018_10_31_063528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "owner_id", default: 1, null: false
+    t.index ["owner_id"], name: "index_courses_on_owner_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

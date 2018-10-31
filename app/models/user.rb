@@ -18,4 +18,5 @@ class User < ApplicationRecord
   has_many :user_courses, dependent: :delete_all
   has_many :courses, through: :user_courses
   has_many :deliveries, through: :user_courses
+  has_many :own_courses, class_name: 'Course', foreign_key: :owner_id, dependent: :nullify
 end
