@@ -7,7 +7,9 @@
       %span.ui.orange.mini.label 一時停止中
     - elsif @user_course.status == 3
       %span.ui.mini.label 配信完了
-%p= @course.description
+
+%div= simple_format_with_link @course.description
+
 
 - if @user_course
   = link_to '購読を解除する', subscription_path(user_course_id: @user_course.id), method: :delete, class: 'ui red button'
