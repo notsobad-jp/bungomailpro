@@ -15,6 +15,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'sorcery'
 gem 'dotenv-rails'
 gem 'delayed_job_active_record'
+gem "pundit"
+
 
 group :production do
   gem 'scout_apm'

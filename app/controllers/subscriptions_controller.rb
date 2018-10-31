@@ -1,6 +1,8 @@
 class SubscriptionsController < ApplicationController
   before_action :require_login
-  before_action :set_course_and_user_course, only: [:destroy, :update, :edit, :skip, :deliver]
+  before_action :authorize_subscription, only: [:index, :create]
+  before_action :set_user_course, only: [:destroy, :update, :skip, :deliver]
+  after_action :verify_authorized
 
   def index
     @user_courses = current_user.user_courses
@@ -14,13 +16,10 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
+    course = @user_course.course
     @user_course.destroy
-    redirect_to @course
+    redirect_to course
   end
-
-  def edit
-  end
-
 
   # 配信ステータスの変更（一時停止・再開）
   def update
@@ -34,14 +33,14 @@ class SubscriptionsController < ApplicationController
       @user_course.pause
     end
 
-    redirect_to @course
+    redirect_to @user_course.course
   end
 
 
   # 現在の本をスキップ
   def skip
     @user_course.skip_current_book
-    redirect_to @course
+    redirect_to @user_course.course
   end
 
 
@@ -49,13 +48,17 @@ class SubscriptionsController < ApplicationController
   def deliver
     @delivery = @user_course.deliveries.find_by(delivered: false)
     @delivery.deliver
-    redirect_to @course
+    redirect_to @user_course.course
   end
 
 
   private
-    def set_course_and_user_course
+    def set_user_course
       @user_course = UserCourse.find(params[:user_course_id])
-      @course = @user_course.course
+      authorize @user_course
+    end
+
+    def authorize_subscription
+      authorize UserCourse
     end
 end

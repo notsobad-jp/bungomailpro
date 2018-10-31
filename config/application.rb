@@ -45,5 +45,8 @@ module Bungomailpro
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|
       %Q(<div class="field error">#{html_tag}</div>).html_safe
     end
+
+    # Set 403 for Pundit NotAuthorized Error
+    config.action_dispatch.rescue_responses["Pundit::NotAuthorizedError"] = :forbidden
   end
 end

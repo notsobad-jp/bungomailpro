@@ -29,5 +29,9 @@
         .ui.container
           .ui.stackable.grid
             .ui.twelve.wide.column
+              - %w(warning error success info).each do |status|
+                - if flash[status]
+                  .ui.message(class="#{status}")
+                    = flash[status]
               = yield
             .ui.four.wide.column
