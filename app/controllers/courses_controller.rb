@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
   before_action :require_login, except: [:index, :show]
   before_action :authorize_course, only: [:index, :new, :create]
-  before_action :set_course_with_books, only: [:show, :edit, :update]
+  before_action :set_course_with_books, only: [:show, :edit, :update, :publish, :destroy]
   after_action :verify_authorized
 
 
@@ -22,7 +22,6 @@ class CoursesController < ApplicationController
 
   def create
     @course = Course.new course_params
-    authorize Course
 
     if @course.save
       redirect_to course_path @course
@@ -37,6 +36,16 @@ class CoursesController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def publish
+    @course.update(status: 2)
+    redirect_to course_path @course
+  end
+
+  def destroy
+    @course.update(status: 3)
+    redirect_to courses_path
   end
 
 

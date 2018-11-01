@@ -7,6 +7,8 @@
 #  description :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  owner_id    :integer          default(1), not null
+#  status      :integer          default(1), not null
 #
 
 class Course < ApplicationRecord
@@ -19,6 +21,7 @@ class Course < ApplicationRecord
 
   validates :title, presence: true
   validates :course_books, presence: true
+  validates :status, inclusion: { in: [1,2,3] }
 
 
   def first_book_id

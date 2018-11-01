@@ -1,3 +1,7 @@
+= link_to courses_path, class: 'ui basic button' do
+  %i.icon.reply
+  戻る
+
 %h1
   = @course.title
   - if @user_course
@@ -10,6 +14,11 @@
 
 %div= simple_format_with_link @course.description
 
+- if current_user && current_user.id == @course.owner_id
+  .ui.secondary.segment
+    = link_to '編集する', edit_course_path(@course), class: 'ui primary button'
+    = link_to '公開する', publish_course_path(@course), method: :post, class: 'ui red button', data: {confirm: '公開すると、本の編集はできなくなります。本当にいいですか？'}
+    = link_to '削除', course_path(@course), method: :delete, class: 'ui basic button'
 
 - if @user_course
   = link_to '購読を解除する', subscription_path(user_course_id: @user_course.id), method: :delete, class: 'ui red button'

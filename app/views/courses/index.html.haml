@@ -1,87 +1,100 @@
 %h1.ui.large.header 配信コース一覧
 
-
-%h3.ui.medium.header おまかせコース
-%p 完全おまかせで色々なジャンルの作品を配信してくれるコースです。気軽に楽しみたいときにオススメ！
 .ui.cards
-  .ui.card
-    .ui.image
-      = image_tag("courses/omakase_middle.png")
-    .content
-      .header おまかせ中編コース
-      .meta
-        最終更新：2018年10月16日
-      .description
-        有名作家を中心に、2~3ヶ月程度で完結する中編作品を配信するコースです。
-    .ui.bottom.attached.button
-      %i.add.icon
-      購読する
-  .ui.card
-    .ui.image
-      = image_tag("courses/omakase_long.png")
-    .content
-      .header おまかせ長編コース
-      .meta
-        最終更新：2018年10月16日
-      .description
-        有名作家を中心に、4~6ヶ月程度で完結する長編作品を配信するコースです。
-    .ui.bottom.attached.button
-      %i.add.icon
-      購読する
+  - @courses.each do |course|
+    .ui.card
+      .content
+        .header= course.title
+        .meta
+          %i.icon.calendar.alternate.outline
+          = course.updated_at.strftime('%Y年%m月%d日')
+        .description= course.description
+      = link_to course_path(course), class: 'ui bottom attached button' do
+        詳細を見る
 
 
-%h3.ui.medium.header 作家限定コース
-%p 特定の作家の作品だけを配信するコースです。推しの作家を読みつくしたいときにぜひどうぞ！
-.ui.cards
-  .ui.card
-    .ui.image
-      = image_tag("courses/author_natsume.png")
-    .content
-      .header 【夏目漱石】中編読破コース
-      .meta
-        最終更新：2018年10月16日
-      .description
-        夏目漱石の中編作品をひたすら配信するコースです。約1年で青空文庫に掲載されている中編作品をすべて読み尽くすことができます。
-    .ui.bottom.attached.button
-      %i.add.icon
-      購読する
-  .ui.card
-    .ui.image
-      = image_tag("courses/author_akutagawa.png")
-    .content
-      .header 【芥川龍之介】中編読破コース
-      .meta
-        最終更新：2018年10月16日
-      .description
-        芥川龍之介の中編作品をひたすら配信するコースです。約1年で青空文庫に掲載されている中編作品をすべて読み尽くすことができます。
-    .ui.bottom.attached.button
-      %i.add.icon
-      購読する
+/
+  %h3.ui.medium.header おまかせコース
+  %p 完全おまかせで色々なジャンルの作品を配信してくれるコースです。気軽に楽しみたいときにオススメ！
+  .ui.cards
+    .ui.card
+      .ui.image
+        = image_tag("courses/omakase_middle.png")
+      .content
+        .header おまかせ中編コース
+        .meta
+          最終更新：2018年10月16日
+        .description
+          有名作家を中心に、2~3ヶ月程度で完結する中編作品を配信するコースです。
+      .ui.bottom.attached.button
+        %i.add.icon
+        購読する
+    .ui.card
+      .ui.image
+        = image_tag("courses/omakase_long.png")
+      .content
+        .header おまかせ長編コース
+        .meta
+          最終更新：2018年10月16日
+        .description
+          有名作家を中心に、4~6ヶ月程度で完結する長編作品を配信するコースです。
+      .ui.bottom.attached.button
+        %i.add.icon
+        購読する
 
-%h3.ui.medium.header 超長編チャレンジコース
-%p 読了に1年程度かかる超長編作品を配信するコースです。過去に挫折した作品やなかなか手が出せなかったあの作品に、ぜひ挑戦してみてください。
-.ui.cards
-  .ui.card
-    .ui.image
-      = image_tag("courses/long_dogramagra.png")
-    .content
-      .header 『ドグラ・マグラ』完全読破コース
-      .meta
-        最終更新：2018年10月16日
-      .description
-        夢野久作の怪作『ドグラ・マグラ』を読破するコースです。1日2回配信で約1年かけて読了できます。
-    .ui.bottom.attached.button
-      %i.add.icon
-      購読する
-  .ui.card
-    .ui.image
-      = image_tag("courses/long_kusamakura.png")
-    .content
-      .header 『草枕』完全読破コース
-      .meta
-        最終更新：2018年10月16日
-      .description
-        夏目漱石の晩年の名作『草枕』を読破するコースです。1日3回配信で約10ヶ月で読了できます。
-    .ui.bottom.attached.button
-      %i.add.icon
-      購読する
+
+  %h3.ui.medium.header 作家限定コース
+  %p 特定の作家の作品だけを配信するコースです。推しの作家を読みつくしたいときにぜひどうぞ！
+  .ui.cards
+    .ui.card
+      .ui.image
+        = image_tag("courses/author_natsume.png")
+      .content
+        .header 【夏目漱石】中編読破コース
+        .meta
+          最終更新：2018年10月16日
+        .description
+          夏目漱石の中編作品をひたすら配信するコースです。約1年で青空文庫に掲載されている中編作品をすべて読み尽くすことができます。
+      .ui.bottom.attached.button
+        %i.add.icon
+        購読する
+    .ui.card
+      .ui.image
+        = image_tag("courses/author_akutagawa.png")
+      .content
+        .header 【芥川龍之介】中編読破コース
+        .meta
+          最終更新：2018年10月16日
+        .description
+          芥川龍之介の中編作品をひたすら配信するコースです。約1年で青空文庫に掲載されている中編作品をすべて読み尽くすことができます。
+      .ui.bottom.attached.button
+        %i.add.icon
+        購読する
+
+  %h3.ui.medium.header 超長編チャレンジコース
+  %p 読了に1年程度かかる超長編作品を配信するコースです。過去に挫折した作品やなかなか手が出せなかったあの作品に、ぜひ挑戦してみてください。
+  .ui.cards
+    .ui.card
+      .ui.image
+        = image_tag("courses/long_dogramagra.png")
+      .content
+        .header 『ドグラ・マグラ』完全読破コース
+        .meta
+          最終更新：2018年10月16日
+        .description
+          夢野久作の怪作『ドグラ・マグラ』を読破するコースです。1日2回配信で約1年かけて読了できます。
+      .ui.bottom.attached.button
+        %i.add.icon
+        購読する
+    .ui.card
+      .ui.image
+        = image_tag("courses/long_kusamakura.png")
+      .content
+        .header 『草枕』完全読破コース
+        .meta
+          最終更新：2018年10月16日
+        .description
+          夏目漱石の晩年の名作『草枕』を読破するコースです。1日3回配信で約10ヶ月で読了できます。
+      .ui.bottom.attached.button
+        %i.add.icon
+        購読する

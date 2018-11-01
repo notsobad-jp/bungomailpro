@@ -17,6 +17,8 @@ class UserCourse < ApplicationRecord
   has_many :deliveries, dependent: :destroy
   serialize :delivery_hours
 
+  validates :status, inclusion: { in: [1,2,3] }
+
 
   # 次の配信日時を取得
   def next_deliver_at

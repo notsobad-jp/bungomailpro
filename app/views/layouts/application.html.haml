@@ -9,23 +9,23 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body(data-controller="#{controller_name}" data-action="#{action_name}")
-    .ui.top.fixed.inverted.borderless.menu
+    .ui.top.fixed.borderless.menu
       = link_to(root_path, class: 'header item') do
         ブンゴウメール
         %span.ui.red.label PRO
       .right.menu
         .ui.simple.dropdown.item
           %i.content.icon
-          .inverted.menu
+          .menu
             - if current_user
               = link_to 'マイページ', subscriptions_path, class: 'item'
               = link_to 'ログアウト', logout_path, method: :post, class: 'item'
             - else
               = link_to 'ログイン', login_path, class: 'item'
-    %div(style="margin-top: 50px;")
-      - if controller.controller_name == 'pages'
-        = yield
-      - else
+    - if controller.controller_name == 'pages'
+      = yield
+    - else
+      %div(style="margin-top: 50px;")
         .ui.container
           .ui.stackable.grid
             .ui.twelve.wide.column
