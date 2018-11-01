@@ -64,5 +64,6 @@ Rails.application.routes.draw do
   get 'auth' => 'magic_tokens#auth', as: :auth
   post 'logout' => 'magic_tokens#destroy', as: :logout
 
+  get 'mypage' => 'pages#mypage', as: :mypage
   root to: 'pages#pro'
 end

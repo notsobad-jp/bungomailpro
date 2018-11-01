@@ -1,0 +1,15 @@
+%h1.ui.header 作成したコース
+
+.ui.middle.alligned.divided.relaxed.large.list
+  - @courses.each do |course|
+    .item
+      .right.floated.content
+        = link_to edit_course_path(course), class: 'ui blue basic icon small button' do
+          %i.icon.write
+        = link_to publish_course_path(course), method: 'post', class: 'ui red basic icon small button' do
+          %i.icon.globe
+        = link_to course_path(course), method: 'delete', class: 'ui black basic icon small button', confirm: 'コースを削除します。本当によろしいですか？' do
+          %i.icon.trash
+      .content
+        .header= course.title
+        .description ほげほげ

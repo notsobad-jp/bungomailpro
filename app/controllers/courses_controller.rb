@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
 
 
   def index
-    @courses = Course.all
+    @courses = Course.where(status: 2)
   end
 
   def show

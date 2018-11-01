@@ -64,3 +64,5 @@
     %button.ui.red.button(type="submit" value="draft") 保存する
     - if @course.status == 1
       %small （まだ一般公開はされません）
+  .right.floated.menu
+    = link_to 'キャンセル', course_path(@course), class: 'item'

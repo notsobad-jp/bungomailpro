@@ -17,4 +17,10 @@ class CoursePolicy < ApplicationPolicy
   def publish?
     update?
   end
+
+  class Scope < Scope
+    def resolve
+      scope.where(status: 2).or(scope.where(owner_id: user.id, status: 1))
+    end
+  end
 end
