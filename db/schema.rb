@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.string "author", null: false
     t.bigint "author_id", null: false
     t.text "text"
+    t.text "footnote"
     t.index ["id"], name: "index_books_on_id", unique: true
   end
 

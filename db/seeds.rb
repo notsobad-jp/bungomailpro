@@ -6,42 +6,27 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-course = Course.create(
+User.create( email: ENV['MAILER_EMAIL'] )
+
+urls = [
+  'https://www.aozora.gr.jp/cards/001155/files/43644_29257.html',
+  'https://www.aozora.gr.jp/cards/001155/files/51860_41507.html'
+]
+urls.each do |url|
+  params = Book.parse_html(url)
+  Book.create(params)
+end
+
+
+course = Course.new(
   title: 'チェーホフ完読コース',
-  description: '青空文庫で公開されているチェーホフの全作品を読破できるコースです。おもしろいよ！'
+  description: '青空文庫で公開されているチェーホフの全作品を読破できるコースです。おもしろいよ！',
+  owner_id: 1
 )
-
-
-book1 = Book.create(
-  id: 51860,
-  title: 'かもめ',
-  author: 'チェーホフ'
-)
-book1.chapters.create([
-  { index: 1, text: 'かもめのテキスト1' },
-  { index: 2, text: 'かもめのテキスト2' },
-  { index: 3, text: 'かもめのテキスト3' },
-  { index: 4, text: 'かもめのテキスト4' },
-  { index: 5, text: 'かもめのテキスト5' }
-])
-book2 = Book.create(
-  id: 51862,
-  title: 'ワーニャおじさん',
-  author: 'チェーホフ'
-)
-book2.chapters.create([
-  { index: 1, text: 'おじさんのテキスト1' },
-  { index: 2, text: 'おじさんのテキスト2' },
-  { index: 3, text: 'おじさんのテキスト3' }
-])
-
-
-course.course_books.create([
-  { book_id: 1, index: 2 },
-  { book_id: 2, index: 1 }
-])
-
-
-User.create(
-  email: ENV['MAILER_EMAIL']
-)
+Book.all.each.with_index(1) do |book, index|
+  course.course_books.new(
+    book_id: book.id,
+    index: index
+  )
+end
+course.save

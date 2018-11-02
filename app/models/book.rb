@@ -21,6 +21,10 @@ class Book < ApplicationRecord
 
   # scrape and parse Aozora URL
   def self.parse_html(url)
+    # m, author_id, book_id = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/card(\d+)\.html/).to_a
+    m, author_id, book_id = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/files\/(\d+)_\d+\.html/).to_a
+    return nil if !m
+
     charset = nil
     html = open(url) do |f|
       charset = f.charset
@@ -67,9 +71,12 @@ class Book < ApplicationRecord
               .gsub(/★★★/, "。") # ★を句点に戻す
 
     return {
+      id: book_id,
       title: doc.css('.title').inner_text,
       author: doc.css('.author').inner_text,
-      text: text
+      author_id: author_id,
+      text: text,
+      footnote: doc.css('.bibliographical_information').inner_text
     }
   end
 

@@ -6,6 +6,7 @@ class CreateBooks < ActiveRecord::Migration[5.2]
       t.string :author, null: false
       t.integer :author_id, limit: 8, null: false
       t.text :text
+      t.text :footnote
     end
     add_index :books, :id, unique: true
   end
