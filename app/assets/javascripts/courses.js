@@ -79,7 +79,7 @@ function addBook(data) {
         <small><a href="#" target="_blank"><i class="icon external"></i></a></small>
       </div>
       <div class="description">
-        <small>文字数：約12,000字</small>
+        <small>文字数：${ data['text'].length }</small>
         <input value="${ data['id'] }" type="hidden" name="course[course_books_attributes][${ index }][book_id]">
         <input id="${ data['id'] }_index" value="${ index + 1 }" type="hidden" name="course[course_books_attributes][${ index }][index]">
         <input id="${ data['id'] }_destroy" value="false" type="hidden" name="course[course_books_attributes][${ index }][_destroy]">

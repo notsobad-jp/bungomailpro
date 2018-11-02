@@ -14,7 +14,7 @@
 class Course < ApplicationRecord
   has_many :user_courses
   has_many :users, through: :user_courses
-  has_many :course_books
+  has_many :course_books, -> { order(:index) }
   has_many :books, through: :course_books
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
   accepts_nested_attributes_for :course_books, allow_destroy: true

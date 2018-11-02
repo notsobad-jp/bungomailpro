@@ -21,9 +21,8 @@ class Book < ApplicationRecord
 
   # scrape and parse Aozora URL
   def self.parse_html(url)
-    # m, author_id, book_id = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/card(\d+)\.html/).to_a
-    m, author_id, book_id = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/files\/(\d+)_\d+\.html/).to_a
-    return nil if !m
+    match, author_id, book_id = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/files\/(\d+)_\d+\.html/).to_a
+    return nil if !match
 
     charset = nil
     html = open(url) do |f|

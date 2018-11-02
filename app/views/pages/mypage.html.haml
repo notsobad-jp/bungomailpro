@@ -4,12 +4,16 @@
   - @courses.each do |course|
     .item
       .right.floated.content
+        - if course.status == 1
+          = link_to publish_course_path(course), method: 'post', class: 'ui red basic icon small button' do
+            %i.icon.globe
         = link_to edit_course_path(course), class: 'ui blue basic icon small button' do
           %i.icon.write
-        = link_to publish_course_path(course), method: 'post', class: 'ui red basic icon small button' do
-          %i.icon.globe
         = link_to course_path(course), method: 'delete', class: 'ui black basic icon small button', confirm: 'コースを削除します。本当によろしいですか？' do
           %i.icon.trash
       .content
-        .header= course.title
+        .header
+          = course.title
+          %span.ui.mini.label{class: course.status==1 ? 'default' : 'orange'}
+            = course.status==1 ? '下書き' : '公開中'
         .description ほげほげ
