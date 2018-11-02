@@ -4,6 +4,8 @@ class CreateBooks < ActiveRecord::Migration[5.2]
       t.integer :id, limit: 8, null: false
       t.string :title, null: false
       t.string :author, null: false
+      t.integer :author_id, limit: 8, null: false
+      t.text :text
     end
     add_index :books, :id, unique: true
   end

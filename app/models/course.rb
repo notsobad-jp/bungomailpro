@@ -5,10 +5,10 @@
 #  id          :bigint(8)        not null, primary key
 #  title       :string           not null
 #  description :text
+#  owner_id    :bigint(8)        not null
+#  status      :integer          default(1), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  owner_id    :integer          default(1), not null
-#  status      :integer          default(1), not null
 #
 
 class Course < ApplicationRecord

@@ -4,7 +4,9 @@
 #
 #  id             :bigint(8)        not null, primary key
 #  user_course_id :bigint(8)
-#  chapter_id     :bigint(8)
+#  book_id        :bigint(8)
+#  index          :integer          not null
+#  text           :text
 #  deliver_at     :datetime
 #  delivered      :boolean          default(FALSE)
 #  created_at     :datetime         not null
@@ -12,9 +14,9 @@
 #
 
 class Delivery < ApplicationRecord
-  belongs_to :chapter
+  belongs_to :book
   belongs_to :user_course
-  has_one :user, through: :user_course
+  belongs_to :user, through: :user_course
 
 
   def deliver

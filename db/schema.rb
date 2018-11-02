@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_01_063528) do
+ActiveRecord::Schema.define(version: 2018_10_18_054904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,17 +19,9 @@ ActiveRecord::Schema.define(version: 2018_11_01_063528) do
     t.bigint "id", null: false
     t.string "title", null: false
     t.string "author", null: false
-    t.index ["id"], name: "index_books_on_id", unique: true
-  end
-
-  create_table "chapters", force: :cascade do |t|
-    t.bigint "book_id"
-    t.integer "index", null: false
+    t.bigint "author_id", null: false
     t.text "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["book_id", "index"], name: "index_chapters_on_book_id_and_index", unique: true
-    t.index ["book_id"], name: "index_chapters_on_book_id"
+    t.index ["id"], name: "index_books_on_id", unique: true
   end
 
   create_table "course_books", force: :cascade do |t|
@@ -47,12 +39,11 @@ ActiveRecord::Schema.define(version: 2018_11_01_063528) do
   create_table "courses", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
+    t.bigint "owner_id", null: false
+    t.integer "status", default: 1, null: false, comment: "1:draft, 2:public, 3:closed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "owner_id", default: 1, null: false
-    t.integer "status", default: 1, null: false
     t.index ["owner_id"], name: "index_courses_on_owner_id"
-    t.index ["status"], name: "index_courses_on_status"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -72,20 +63,23 @@ ActiveRecord::Schema.define(version: 2018_11_01_063528) do
 
   create_table "deliveries", force: :cascade do |t|
     t.bigint "user_course_id"
-    t.bigint "chapter_id"
+    t.bigint "book_id"
+    t.integer "index", null: false
+    t.text "text"
     t.datetime "deliver_at"
     t.boolean "delivered", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["chapter_id"], name: "index_deliveries_on_chapter_id"
+    t.index ["book_id"], name: "index_deliveries_on_book_id"
     t.index ["deliver_at"], name: "index_deliveries_on_deliver_at"
     t.index ["delivered"], name: "index_deliveries_on_delivered"
+    t.index ["user_course_id", "book_id", "index"], name: "index_deliveries_on_user_course_id_and_book_id_and_index", unique: true
     t.index ["user_course_id"], name: "index_deliveries_on_user_course_id"
   end
 
   create_table "user_courses", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "course_id", null: false
+    t.bigint "user_id"
+    t.bigint "course_id"
     t.integer "status", default: 1, null: false, comment: "1:active, 2:paused, 3:finished"
     t.text "delivery_hours"
     t.datetime "created_at", null: false
@@ -109,10 +103,9 @@ ActiveRecord::Schema.define(version: 2018_11_01_063528) do
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
   end
 
-  add_foreign_key "chapters", "books"
   add_foreign_key "course_books", "books"
   add_foreign_key "course_books", "courses"
-  add_foreign_key "deliveries", "chapters"
+  add_foreign_key "deliveries", "books"
   add_foreign_key "deliveries", "user_courses"
   add_foreign_key "user_courses", "courses"
   add_foreign_key "user_courses", "users"

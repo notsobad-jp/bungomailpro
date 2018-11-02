@@ -3,8 +3,8 @@
 # Table name: user_courses
 #
 #  id             :bigint(8)        not null, primary key
-#  user_id        :bigint(8)        not null
-#  course_id      :bigint(8)        not null
+#  user_id        :bigint(8)
+#  course_id      :bigint(8)
 #  status         :integer          default(1), not null
 #  delivery_hours :text
 #  created_at     :datetime         not null
