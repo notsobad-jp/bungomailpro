@@ -9,10 +9,10 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    @course = Course.find(params[:course_id])
-    @user_course = current_user.user_courses.create(course_id: @course.id, delivery_hours: ['7:00', '23:00'])
-    @user_course.set_next_delivery
-    redirect_to @course
+    course_id = params[:course_id]
+    @user_course = UserCourse.create(user_id: current_user.id, course_id: course_id, delivery_hours: ['7:00', '23:00'])
+    @user_course.set_deliveries #TODO: delayed_jobつかう
+    redirect_to course_path(course_id)
   end
 
   def destroy

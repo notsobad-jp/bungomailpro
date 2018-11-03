@@ -16,7 +16,7 @@
 class Delivery < ApplicationRecord
   belongs_to :book
   belongs_to :user_course
-  belongs_to :user, through: :user_course
+  has_one :user, through: :user_course
 
 
   def deliver

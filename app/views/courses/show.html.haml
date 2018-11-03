@@ -28,7 +28,7 @@
 - if @user_course && @user_course.status == 1
   = link_to '一時停止', subscription_path(user_course_id: @user_course.id, status: 2), method: :put, class: 'ui default button'
   = link_to '配信中の本をスキップする', skip_subscription_path(user_course_id: @user_course.id), method: :post, class: 'ui primary button'
-  = link_to '配信', test_deliver_path(user_course_id: @user_course.id), method: :post, class: 'ui basic button'
+  = link_to '配信', deliver_subscription_path(user_course_id: @user_course.id), method: :post, class: 'ui basic button'
 - if @user_course && @user_course.status == 2
   = link_to '再開する', subscription_path(user_course_id: @user_course.id, status: 1), method: :put, class: 'ui default button'
 

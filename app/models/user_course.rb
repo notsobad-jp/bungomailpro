@@ -20,49 +20,23 @@ class UserCourse < ApplicationRecord
   validates :status, inclusion: { in: [1,2,3] }
 
 
-  # 次の配信日時を取得
-  def next_deliver_at
-    # 一番最初に見つけた未来の配信時間を返す
-    self.delivery_hours.each do |time|
-      return time.in_time_zone if Time.zone.now < time.in_time_zone
-    end
-    # 未来時間がなければ翌日日付で最初の配信時間を返す
-    return self.delivery_hours.first.in_time_zone.tomorrow
-  end
-
-
-  # 最後に配信した内容を取得
-  def last_delivery
-    self.deliveries.order(id: :desc).first
-  end
-
-
   #TODO: 配信時間変更
   def change_delivery_hours
   end
 
 
-  def set_next_delivery
-    last_delivery = self.last_delivery
+  def set_deliveries
+    return if !next_book
 
-    if last_delivery
-      next_chapter = last_delivery.chapter.next_chapter
-    else
-      first_book_id = self.course.first_book_id
-      next_chapter = Chapter.find_by(book_id: first_book_id, index: 1)
+    next_book.splited_text.each.with_index(1) do |text, index|
+      self.deliveries.build(
+        book_id: next_book.id,
+        index: index,
+        text: text,
+        deliver_at: next_deliver_at + (index-1).day
+      )
     end
-
-    # 次のchapterがなかったら、courseの次の本を探す
-    if !next_chapter
-      next_book_id = self.course.next_book_id(last_delivery.chapter.book_id)
-      return self.update(status: 3) if !next_book_id  # 次の本がなかったら配信完了
-      next_chapter = Chapter.find_by(book_id: next_book_id, index: 1)
-    end
-
-    self.deliveries.create(
-      chapter_id: next_chapter.id,
-      deliver_at: self.next_deliver_at
-    )
+    self.save
   end
 
 
@@ -74,19 +48,57 @@ class UserCourse < ApplicationRecord
     self.deliveries.find_by(delivered: false).destroy
     self.deliveries.create(
       chapter_id: next_chapter.id,
-      deliver_at: self.next_deliver_at
+      deliver_at: next_deliver_at
     )
   end
 
 
   # 一時停止
   def pause
-    self.deliveries.find_by(delivered: false).update(deliver_at: nil)
+    self.deliveries.where(delivered: false).delete_all
   end
 
 
   # 配信再開
   def restart
-    self.deliveries.find_by(delivered: false).update(deliver_at: self.next_deliver_at)
+    current_book.splited_text.each.with_index(next_delivery_index) do |text, index|
+      self.deliveries.build(
+        book_id: current_book.id,
+        index: index,
+        text: text,
+        deliver_at: next_deliver_at + (index-1).day
+      )
+    end
+    self.save
   end
+
+
+  private
+    def current_book
+      current_book_index = [self.next_book_index - 1, 1].max
+      self.course.course_books.includes(:book).find_by(index: current_book_index).try(:book)
+    end
+
+    def next_book
+      self.course.course_books.includes(:book).find_by(index: self.next_book_index).try(:book)
+    end
+
+    # 次の配信日時を取得
+    def next_deliver_at
+      # 一番最初に見つけた未来の配信時間を返す
+      self.delivery_hours.each do |time|
+        return time.in_time_zone if Time.zone.now < time.in_time_zone
+      end
+      # 未来時間がなければ翌日日付で最初の配信時間を返す
+      return self.delivery_hours.first.in_time_zone.tomorrow
+    end
+
+    def last_delivery
+      self.deliveries.order(deliver_at: :desc).first
+    end
+
+    def next_delivery_index
+      #[TODO]次の本の初回を配信せずに中断・再開した場合は？
+      last_delivery ? last_delivery.index + 1 : 1
+    end
 end

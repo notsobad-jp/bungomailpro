@@ -81,12 +81,12 @@ class Book < ApplicationRecord
 
 
   # split novels
-  def split_text(text, chars_per=800)
-    count = text.length.div(chars_per) + 1
-    chars_per = text.length.quo(count).ceil
+  def splited_text(chars_per=800)
+    count = self.text.length.div(chars_per) + 1
+    chars_per = self.text.length.quo(count).ceil
 
     contents = []
-    text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
+    self.text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
       if index == 0
         contents[index] = content
       else
