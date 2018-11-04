@@ -20,9 +20,11 @@ class Delivery < ApplicationRecord
 
 
   def deliver
-    UserMailer.with(delivery: self).deliver_chapter.deliver_later
-
+    #TMP: UserMailer.with(delivery: self).deliver_chapter.deliver_later
     self.update(delivered: true)
-    self.user_course.set_next_delivery
+
+    # 最後の配信なら次の作品をセット
+    self.user_course.set_deliveries if !Delivery.find_by(user_course_id: self.user_course.id, delivered: false)
+    self.user_course.increment!(:next_book_id)
   end
 end

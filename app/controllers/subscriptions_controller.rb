@@ -46,8 +46,8 @@ class SubscriptionsController < ApplicationController
 
   #FIXME: テスト配信メソッド
   def deliver
-    @delivery = @user_course.deliveries.find_by(delivered: false)
-    @delivery.deliver
+    @delivery = @user_course.deliveries.where(delivered: false).order_by(:deliver_at).first
+    @delivery.try(:deliver)
     redirect_to @user_course.course
   end
 

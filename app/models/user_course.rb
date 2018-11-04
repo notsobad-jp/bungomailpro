@@ -26,7 +26,7 @@ class UserCourse < ApplicationRecord
 
 
   def set_deliveries
-    return if !next_book
+    return self.update(status: 3) if !next_book  # 次の本がなかったら配信完了
 
     next_book.splited_text.each.with_index(1) do |text, index|
       self.deliveries.build(
@@ -36,20 +36,14 @@ class UserCourse < ApplicationRecord
         deliver_at: next_deliver_at + (index-1).day
       )
     end
+    self.increment(:next_book_index)
     self.save
   end
 
 
   def skip_current_book
-    next_book_id = self.course.next_book_id(self.last_delivery.chapter.book_id)
-    return self.update(status: 3) if !next_book_id  # 次の本がなかったら配信完了
-    next_chapter = Chapter.find_by(book_id: next_book_id, index: 1)
-
-    self.deliveries.find_by(delivered: false).destroy
-    self.deliveries.create(
-      chapter_id: next_chapter.id,
-      deliver_at: next_deliver_at
-    )
+    self.deliveries.where(delivered: false).delete_all
+    set_deliveries
   end
 
 
