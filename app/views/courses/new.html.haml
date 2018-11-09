@@ -1,3 +1,8 @@
+- content_for :breadcrumb do
+  = link_to 'マイページ', subscriptions_path, class: 'section'
+  %i.icon.right.angle.divider
+  コース作成
+
 %h1 新しいコースを作成する
 
 = form_for @course, url: {action: 'create'}, html: {class: 'ui form'} do |f|

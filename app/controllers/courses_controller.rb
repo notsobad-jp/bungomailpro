@@ -25,7 +25,8 @@ class CoursesController < ApplicationController
     @course.owner_id = current_user.id
 
     if @course.save
-      redirect_to course_path @course
+      flash[:success] = 'コースを作成しました🎉'
+      redirect_to mypage_path
     else
       render :new
     end
@@ -33,7 +34,8 @@ class CoursesController < ApplicationController
 
   def update
     if @course.update(course_params)
-      redirect_to course_path @course
+      flash[:success] = 'コースを保存しました🎉'
+      redirect_to mypage_path
     else
       render :edit
     end
@@ -41,12 +43,14 @@ class CoursesController < ApplicationController
 
   def publish
     @course.update(status: 2)
-    redirect_to course_path @course
+    flash[:success] = 'コースを公開しました🎉'
+    redirect_to mypage_path
   end
 
   def destroy
     @course.update(status: 3)
-    redirect_to courses_path
+    flash[:success] = 'コースを削除しました'
+    redirect_to mypage_path
   end
 
 

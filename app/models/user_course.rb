@@ -66,6 +66,18 @@ class UserCourse < ApplicationRecord
     self.save
   end
 
+  def active?
+    self.status == 1
+  end
+
+  def paused?
+    self.status == 2
+  end
+
+  def finished?
+    self.status == 3
+  end
+
 
   private
     def current_book

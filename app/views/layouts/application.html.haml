@@ -17,6 +17,8 @@
         .ui.simple.dropdown.item
           %i.content.icon
           .menu
+            = link_to 'ホーム', root_path, class: 'item'
+            = link_to 'コース一覧', courses_path, class: 'item'
             - if current_user
               = link_to 'マイページ', subscriptions_path, class: 'item'
               = link_to 'ログアウト', logout_path, method: :post, class: 'item'
@@ -25,7 +27,8 @@
     - if controller.controller_name == 'pages' && controller.action_name == 'pro'
       = yield
     - else
-      %div(style="margin-top: 50px;")
+      %div#main-content
+        = render partial: 'layouts/breadcrumb'
         .ui.container
           .ui.stackable.grid
             .ui.twelve.wide.column
@@ -35,3 +38,18 @@
                     = flash[status]
               = yield
             .ui.four.wide.column
+            
+      %footer.ui.inverted.basic.attached.center.aligned.segment{class: footer_hidden}
+        .ui.hidden.divider
+        %h5 ブンゴウメールPRO
+        .ui.horizontal.list
+          .item プライバシーポリシー
+          .item 利用規約
+          .item 運営
+          .item 特定商取引法に基づく表示
+          .item よくある質問
+          .item お問い合わせ
+          .item メディア
+        .ui.hidden.divider
+        %div
+          %small Copyright ブンゴウメール 2018 Allrights reserved.

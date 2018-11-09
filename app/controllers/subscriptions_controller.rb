@@ -54,7 +54,7 @@ class SubscriptionsController < ApplicationController
 
   private
     def set_user_course
-      @user_course = UserCourse.find(params[:user_course_id])
+      @user_course = UserCourse.find(params[:id])
       authorize @user_course
     end
 

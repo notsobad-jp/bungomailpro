@@ -21,7 +21,7 @@
     公開済みのコースでは本を編集することができません。修正したい場合は新しいコースを作り直してください。
 .ui.secondary.padded.segment{class: "#{'hidden' if @course.status != 1}"}
   .ui.action.fluid.input
-    %input#searchInput(type="text" placeholder="青空文庫の図書カードURLを入力")
+    %input#searchInput(type="text" placeholder="青空文庫の作品ページURLを入力")
     = link_to '/books/scrape/?url=', id: 'searchButton', class: 'ui primary button', method: :post, remote: true do
       %i.add.icon
       追加
@@ -66,13 +66,11 @@
 .ui.bottom.fixed.borderless.menu
   .item
     %button.ui.red.button(type="submit" value="draft") 保存する
-    - if @course.status == 1
-      %small （まだ一般公開はされません）
     - if @course.persisted?
-      = link_to 'キャンセル', course_path(@course), class: 'item'
+      = link_to 'キャンセル', mypage_path, class: 'item'
   .right.floated.menu
     .item
       - if @course.persisted?
         = link_to '削除', course_path(@course), method: :delete, class: 'ui red basic button', data: {confirm: 'コースを削除します。本当によろしいですか？'}
       - else
-        = link_to 'キャンセル', @course.persisted? ? course_path(@course) : courses_path, class: 'item'
+        = link_to 'キャンセル', mypage_path, class: 'item'

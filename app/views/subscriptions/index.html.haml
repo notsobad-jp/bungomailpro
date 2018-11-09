@@ -1,4 +1,34 @@
-%h1 購読中のコース一覧
+- content_for :breadcrumb do
+  マイページ
+  %i.icon.right.angle.divider
+  購読中コース
 
-- @user_courses.each do |user_course|
-  = link_to user_course.course.title, course_path(user_course.course)
+%h1.ui.header マイページ
+
+.ui.secondary.pointing.menu
+  .active.item 購読中コース
+  = link_to '作成したコース', mypage_path, class: 'item'
+
+.ui.middle.alligned.divided.relaxed.large.list
+  - @user_courses.each do |user_course|
+    - course = user_course.course
+    .item
+      .right.floated.content
+        - if user_course.active?
+          = link_to skip_subscription_path(user_course), method: 'post', class: 'ui blue basic icon small button', 'data-tooltip'=>'スキップ', 'data-inverted'=>'', data: {confirm: '現在の本をスキップして次の本を配信します。本当によろしいですか？'} do
+            %i.icon.fast.forward
+          = link_to subscription_path(id: user_course.id, status: 2), method: 'put', class: 'ui red basic icon small button', 'data-tooltip'=>'一時停止', 'data-inverted'=>'' do
+            %i.icon.pause
+        - if user_course.paused?
+          = link_to subscription_path(id: user_course.id, status: 1), method: :put, class: 'ui blue basic icon small button', 'data-tooltip'=>'再開', 'data-inverted'=>'' do
+            %i.icon.play
+        = link_to subscription_path(user_course), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'購読解除', 'data-inverted'=>'', data: {confirm: '購読を解除します。本当によろしいですか？'} do
+          %i.icon.trash
+      .content
+        .header
+          = link_to course_path(course) do
+            = course.title
+          %span.ui.mini.label{class: label_class(user_course.status)}
+            = label_name user_course.status
+        %small.description
+          = course.description.truncate(30)

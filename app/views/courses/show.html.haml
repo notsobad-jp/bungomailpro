@@ -1,6 +1,8 @@
-= link_to courses_path, class: 'ui basic button' do
-  %i.icon.reply
-  戻る
+- content_for :breadcrumb do
+  = link_to 'コース一覧', courses_path, class: 'section'
+  %i.icon.right.angle.divider
+  = @course.title
+
 
 %h1
   = @course.title
@@ -14,27 +16,17 @@
 
 %div= simple_format_with_link @course.description
 
-- if current_user && current_user.id == @course.owner_id
-  .ui.secondary.segment
-    = link_to '編集する', edit_course_path(@course), class: 'ui primary button'
-    = link_to '公開する', publish_course_path(@course), method: :post, class: 'ui red button', data: {confirm: '公開すると、本の編集はできなくなります。本当にいいですか？'}
-    = link_to '削除', course_path(@course), method: :delete, class: 'ui basic button'
-
-- if @user_course
-  = link_to '購読を解除する', subscription_path(user_course_id: @user_course.id), method: :delete, class: 'ui red button'
-- else
-  = link_to '購読する', subscriptions_path(course_id: @course.id), method: :post, class: 'ui primary button'
-
-- if @user_course && @user_course.status == 1
-  = link_to '一時停止', subscription_path(user_course_id: @user_course.id, status: 2), method: :put, class: 'ui default button'
-  = link_to '配信中の本をスキップする', skip_subscription_path(user_course_id: @user_course.id), method: :post, class: 'ui primary button'
-  = link_to '配信', deliver_subscription_path(user_course_id: @user_course.id), method: :post, class: 'ui basic button'
-- if @user_course && @user_course.status == 2
-  = link_to '再開する', subscription_path(user_course_id: @user_course.id, status: 1), method: :put, class: 'ui default button'
-
-
-- @course.books.each do |book|
-  %ul
-    %li
-      = book.title
-      = "（#{book.author}）"
+.ui.secondary.segment
+  - if @user_course
+    - if @user_course.active?
+      = link_to skip_subscription_path(@user_course), method: 'post', class: 'ui blue basic icon small button', 'data-tooltip'=>'スキップ', 'data-inverted'=>'', data: {confirm: '現在の本をスキップして次の本を配信します。本当によろしいですか？'} do
+        %i.icon.fast.forward
+      = link_to subscription_path(id: @user_course.id, status: 2), method: 'put', class: 'ui red basic icon small button', 'data-tooltip'=>'一時停止', 'data-inverted'=>'' do
+        %i.icon.pause
+    - if @user_course.paused?
+      = link_to subscription_path(id: @user_course.id, status: 1), method: :put, class: 'ui blue basic icon small button', 'data-tooltip'=>'再開', 'data-inverted'=>'' do
+        %i.icon.play
+    = link_to subscription_path(@user_course), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'購読解除', 'data-inverted'=>'', data: {confirm: '購読を解除します。本当によろしいですか？'} do
+      %i.icon.trash
+  - else
+    = link_to 'このコースを購読する', subscriptions_path(course_id: @course.id), method: :post, class: 'ui red button'
