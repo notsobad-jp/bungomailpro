@@ -11,8 +11,8 @@
   %body(data-controller="#{controller_name}" data-action="#{action_name}")
     .ui.top.fixed.borderless.menu
       = link_to(root_path, class: 'header item') do
-        ブンゴウメール
-        %span.ui.red.label PRO
+        ブンゴウメールPRO
+        %span.ui.red.label BETA
       .right.menu
         .ui.simple.dropdown.item
           %i.content.icon
@@ -38,18 +38,5 @@
                     = flash[status]
               = yield
             .ui.four.wide.column
-            
-      %footer.ui.inverted.basic.attached.center.aligned.segment{class: footer_hidden}
-        .ui.hidden.divider
-        %h5 ブンゴウメールPRO
-        .ui.horizontal.list
-          .item プライバシーポリシー
-          .item 利用規約
-          .item 運営
-          .item 特定商取引法に基づく表示
-          .item よくある質問
-          .item お問い合わせ
-          .item メディア
-        .ui.hidden.divider
-        %div
-          %small Copyright ブンゴウメール 2018 Allrights reserved.
+
+      = render partial: 'layouts/footer'

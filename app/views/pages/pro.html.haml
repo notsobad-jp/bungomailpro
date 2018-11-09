@@ -10,13 +10,14 @@
 / Header
 %section#header.ui.centered.stackable.grid
   .ui.row
-    .ten.wide.center.aligned.column
+    .six.wide.right.aligned.column
       %br/
       %div
-        = image_tag('logo.png', class: 'ui medium centered image', alt: 'ブンゴウメール')
+        = image_tag('logo.png', id: 'logo', class: 'ui medium centered image', alt: 'ブンゴウメール')
       %br/
-      .ui.huge.header
-        もっと、読書をたのしもう。
+    #header-catch.six.wide.left.aligned.column.mt-30
+      .ui.large.header
+        もっと読書をたのしもう。
         .sub.header
           好きな作家をずっと配信したり、おまかせで中長編の配信を楽しんだり。
           %br.computer.only/
@@ -24,7 +25,7 @@
       %br/
       %br/
       %a.ui.gray-accent.inverted.button{:href => "https://goo.gl/forms/oOWiGUaqMckVXgBk2", :target => "_blank"}
-        登録する（税込324円/月）
+        ベータ版を利用する（無料）
 
 %section.ui.centered.stackable.grid
   %h2.ui.huge.header
@@ -68,40 +69,29 @@
       .twelve.wide.center.aligned.column
         .ui.centered.two.stackable.cards
           .ui.card
-            .image
-              = image_tag('courses/random.png')
             .content
               %a.header
                 おまかせ配信コース
               .description
-                いろんな作家の名作をおまかせで配信してくれるコースもあります。配信タイトルは2~3ヶ月程度の中長編のみ。自分では選ばないような作品をおまかせで読んでみたい方にオススメです。
+                いろんな作家の名作をおまかせで配信してくれるコースです。配信タイトルは2~3ヶ月程度の中長編のみ。自分では選ばないような作品をおまかせで読んでみたい方にオススメです。
           .ui.card
-            .image
-              = image_tag('courses/author.png')
             .content
               %a.header 作家限定コース
               .description
                 各文豪ごとに、その作家の作品のみをひたすら配信し続けるコースを用意しています。好きな文豪の作品を読み尽くしたいときにぜひご登録ください。
           .ui.card
-            .image
-              = image_tag('courses/long.png')
             .content
               %a.header 超長編チャレンジコース
               .description
                 超長編を1年くらいかけて読み切るコースです。ふつうなら諦めてしまうような長編も、毎日強制的にメールで届けば読めるかも？コースが用意されていない作品でも、自分で好きな作品を選んでコースを作成することができます。
           .ui.card
-            .image
-              = image_tag('courses/theme.png')
             .content
               %a.header テーマ別コース
               .description
                 SF小説だけ配信するコース、詩だけを配信するコース、など、テーマに沿って配信されるコースもあります。ユニークな切り口のコースを探してみてください。通常の読書と並行して、毎日ちょっとずつ詩を読むなんていうのもいいですね。
   .ui.center.aligned.basic.segment
     %div
-      = link_to '配信コース一覧', courses_path, class: 'ui large button'
-    %br
-    %div
-      %small ※テスト提供中は、コースの追加要望や好きな作品の配信などは、手動での対応となります。お手数ですが運営までお気軽にご連絡ください（正式リリース時には自動化される予定です）。
+      = link_to '配信コース一覧を見る', courses_path, class: 'ui large button'
 
 
 .ui.mini.divider
@@ -113,7 +103,9 @@
       %h2.ui.huge.header
         料金
       %p.sub.header
-        ※テスト提供中はすべて無料でご利用いただけます
+        ベータ版提供中はすべて無料でご利用いただけます。
+        %br
+        また正式版開始時に勝手に料金を請求されるようなことはありません。
   .ui.row
     .ten.wide.center.aligned.column
       .ui.two.stackable.centered.cards
@@ -129,19 +121,18 @@
               %li.item 全コース、いくつでも登録可能
               %li.item 好きなコースを作成可能
               %li.item メール内の広告なし、広告メールの配信なし
+  %div
+    %small ※料金は正式リリース時に変更となる可能性があります。
 
 %section.ui.centered.stackable.grid.gray-flat
   .ui.row
     .ten.wide.center.aligned.column
       %h2.ui.huge.header
-        ブンゴウメールPROに登録する（30日間無料）
+        ブンゴウメールPROに登録する（ベータ版無料）
       %p.sub.header
-        登録から30日間は無料でご利用いただけます。
-        %br/
-        無料期間終了後、初月は日割りで請求され、その後は毎月20日に翌月分の料金が請求されます。
+        現在ベータ版としてテスト運用中のため、すべての機能を無料でご利用いただけます。
       %br/
-      %a.ui.gray-accent.inverted.button{:href => "https://goo.gl/forms/oOWiGUaqMckVXgBk2", :target => "_blank"}
-        PROに登録する
+      = link_to 'ベータ版を利用する（無料）', login_path, class: 'ui gray-accent inverted button'
 
 %section.ui.centered.stackable.grid
   .ui.row
@@ -175,51 +166,7 @@
               PROプランから退会したい
             .description
               %p
-                以下の解約フォームに、登録いただいているアドレスを入力してください。
-              %p
-                %a{:href => "https://goo.gl/forms/kVz3fE9HdDq5iuA03", :target => "_blank"} https://goo.gl/forms/kVz3fE9HdDq5iuA03
-              %p
-                また毎日配信されるメールの最下部にも同様のリンクと案内を記載しておりますので、不要になった場合はいつでもご解約ください。
-        .item
-          .content
-            .header
-              月の途中で登録した場合、料金はどうなるのか
-            .description
-              %p
-                過去の配信分は、
-                %a{:href => "https://bungomail.hatenablog.com/", :target => "_blank"} 公式ブログ
-                にすべてログとして記録されています。月途中で登録した場合は、公式ブログをご確認いただければ追いつくことができます。
-              %p
-                もちろん青空文庫にもすべて掲載されていますので、そちらでお読みいただいても結構ですが、全部読んでしまうと楽しみが減ってしまいますのでお気をつけください。
-        .item
-          .content
-            .header
-              無料版の配信だけに戻したい
-            .description
-              %p
-                以下の解約フォームに、登録いただいているアドレスを入力してください。
-              %p
-                %a{:href => "https://goo.gl/forms/kVz3fE9HdDq5iuA03", :target => "_blank"} https://goo.gl/forms/kVz3fE9HdDq5iuA03
-              %p
-                また毎日配信されるメールの最下部にも同様のリンクと案内を記載しておりますので、不要になった場合はいつでもご解約ください。
+                「info@notsobad.jp」まで「退会希望」とメールをご送信ください。
+                無料版の登録は同時に解約されません。無料版の解約を希望される場合は、お手数ですが別途無料版の解約フォームよりご解約ください。
 
-%footer.ui.basic.center.aligned.inverted.segment
-  %h5.ui.header
-    ブンゴウメール
-    %span.ui.red.label PRO
-  %br
-  .ui.horizontal.list
-    %a.item{:href => "https://twitter.com/bungomail", :target => "_blank"} 公式Twitter
-    %a.item{:href => "https://bungomail.hatenablog.com/", :target => "_blank"} 公式ブログ
-    %a.item{:href => "https://notsobad.jp", :target => "_blank"} 利用規約
-    %a.item{:href => "https://notsobad.jp", :target => "_blank"} プライバシーポリシー
-    %a.item{:href => "https://notsobad.jp", :target => "_blank"} 特商法
-    %a.item{:href => "https://notsobad.jp", :target => "_blank"} 運営
-  %br/
-  %br/
-  %br/
-  %div
-    %small Copyright ブンゴウメール 2018 All rights reserved.
-    %small
-      Powered by
-      %a{:href => "https://notsobad.jp", :target => "_blank"} NOT SO BAD, LLC.
+= render partial: 'layouts/footer'
