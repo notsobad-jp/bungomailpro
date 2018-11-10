@@ -20,11 +20,14 @@ class Delivery < ApplicationRecord
 
 
   def deliver
-    #TMP: UserMailer.with(delivery: self).deliver_chapter.deliver_later
+    UserMailer.with(delivery: self).deliver_chapter.deliver_later
     self.update(delivered: true)
 
     # 最後の配信なら次の作品をセット
-    self.user_course.set_deliveries if !Delivery.find_by(user_course_id: self.user_course.id, delivered: false)
-    self.user_course.increment!(:next_book_id)
+    self.user_course.set_deliveries if !Delivery.find_by(user_course_id: self.user_course_id, delivered: false)
+  end
+
+  def last_index
+    Delivery.where(user_course_id: self.user_course_id, book_id: self.book_id).maximum(:index)
   end
 end

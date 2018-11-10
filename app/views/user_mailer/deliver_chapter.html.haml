@@ -1,3 +1,13 @@
-デリバー！
+（#{@delivery.text.length}字。目安の読了時間：#{@delivery.text.length.quo(500).ceil}分）
 
-= @user.email
+= simple_format(@delivery.text)
+
+%hr
+%p ブンゴウメールPRO（ベータ版）
+
+%ul.ui.small.list
+  %li.item
+    公式サイト:
+    = link_to 'https://bungomail.notsobad.jp', 'https://bungomail.notsobad.jp', target: '_blank'
+  %li.item 運営: 合同会社NOT SO BAD
+  %li.item お問い合わせ: info@notsobad.jp

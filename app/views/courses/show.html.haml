@@ -6,26 +6,19 @@
 
 %h1= @course.title
 
-.ui.small.list
-  .item
-    %i.icon.user
-    作成者:
-    = @course.owner.id
+.ui.small.horizontal.list
   .item
     %i.icon.book
-    登録数:
+    登録数：
     = @course.course_books.count
     冊
-  .item
-    %i.icon.calendar.alternate.outline
-    作成日:
-    = @course.updated_at.strftime('%Y年%m月%d日')
 
 %div= simple_format_with_link @course.description
 
 
 %br
 .ui.horizontal.divider
+  %i.icon.mail.outline
   配信状況
 
 .ui.basic.center.aligned.segment
@@ -56,16 +49,23 @@
       = link_to subscription_path(@user_course), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'購読解除', 'data-inverted'=>'', data: {confirm: '購読を解除します。本当によろしいですか？'} do
         %i.icon.trash
         購読解除
+
+      / TMP
+      - if @user_course.active?
+        %br
+        %br
+        %br
+        %div
+          = link_to 'いますぐ配信', deliver_subscription_path(@user_course), method: 'post', class: 'ui red button'
   - else
     = link_to 'このコースを購読する', subscriptions_path(course_id: @course.id), method: :post, class: 'ui red button'
 
 
-%br
-.ui.divider
-
 - if @user_course
+  %br
+  .ui.divider
 
-  .ui.middle.alligned.divided.relaxed.large.list
+  .ui.middle.alligned.divided.relaxed.large.ordered.list
     - @user_course.delivered_course_books.each do |course_book|
       - book = course_book.book
       .item

@@ -46,8 +46,9 @@ class SubscriptionsController < ApplicationController
 
   #FIXME: テスト配信メソッド
   def deliver
-    @delivery = @user_course.deliveries.where(delivered: false).order_by(:deliver_at).first
+    @delivery = @user_course.deliveries.includes(:user, :book).where(delivered: false).order(:deliver_at).first
     @delivery.try(:deliver)
+    flash[:success] = 'メールを配信しました！'
     redirect_to @user_course.course
   end
 
