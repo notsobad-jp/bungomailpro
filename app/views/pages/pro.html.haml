@@ -1,12 +1,3 @@
-:css
-  .ui.top.fixed.menu {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-
-  }
-
-
 / Header
 %section#header.ui.centered.stackable.grid
   .ui.row
@@ -24,8 +15,7 @@
           ブンゴウメールPROは、もっと読書を楽しみたいあなたのためのサービスです。
       %br/
       %br/
-      %a.ui.gray-accent.inverted.button{:href => "https://goo.gl/forms/oOWiGUaqMckVXgBk2", :target => "_blank"}
-        ベータ版を利用する（無料）
+      = link_to 'ベータ版を利用する（無料）', login_path, class: 'ui gray-accent inverted button'
 
 %section.ui.centered.stackable.grid
   %h2.ui.huge.header
@@ -168,5 +158,3 @@
               %p
                 「info@notsobad.jp」まで「退会希望」とメールをご送信ください。
                 無料版の登録は同時に解約されません。無料版の解約を希望される場合は、お手数ですが別途無料版の解約フォームよりご解約ください。
-
-= render partial: 'layouts/footer'

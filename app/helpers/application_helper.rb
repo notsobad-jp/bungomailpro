@@ -10,6 +10,10 @@ module ApplicationHelper
     text
   end
 
+  def path
+    "#{controller.controller_name}##{controller.action_name}"
+  end
+
   def simple_format_with_link text
     simple_format(sanitize(linknize(text), attributes: ["href", "target"]), {}, sanitize: false)
   end

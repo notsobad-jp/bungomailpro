@@ -9,4 +9,8 @@ class ApplicationController < ActionController::Base
       flash[:warning] = "権限がありません。ログイン状態を確認してください。"
       redirect_to(request.referrer || root_path)
     end
+    def not_authenticated
+      flash[:error] = 'ログインしてください'
+      redirect_to login_path
+    end
 end

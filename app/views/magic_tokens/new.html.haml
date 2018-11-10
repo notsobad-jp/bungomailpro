@@ -1,8 +1,16 @@
-%h1 Login
+- content_for :breadcrumb do
+  ログイン
+
+%h1.ui.medium.header
+  %i.icon.mail
+  メールでログイン
+
 = form_tag magic_tokens_path, method: :post do
-  .field
-    = label_tag :email
-    %br
-    = text_field_tag :email
-  .actions
-    = submit_tag "Magic Login"
+  .ui.action.fluid.input
+    = text_field_tag :email, nil, placeholder: 'メールアドレス'
+    %button.ui.pink.right.labeled.icon.button
+      送信
+      %i.send.icon
+
+.ui.basic.segment
+  %small 入力したメールアドレスに、ログイン用URLが届きます。

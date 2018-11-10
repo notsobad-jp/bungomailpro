@@ -24,7 +24,7 @@
               = link_to 'ログアウト', logout_path, method: :post, class: 'item'
             - else
               = link_to 'ログイン', login_path, class: 'item'
-    - if controller.controller_name == 'pages' && controller.action_name == 'pro'
+    - if path == 'pages#pro'
       = yield
     - else
       %div#main-content
@@ -39,4 +39,4 @@
               = yield
             .ui.four.wide.column
 
-      = render partial: 'layouts/footer'
+    = render partial: 'layouts/footer'
