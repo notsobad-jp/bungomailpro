@@ -24,9 +24,9 @@ course = Course.new(
   owner_id: 1
 )
 Book.all.each.with_index(1) do |book, index|
-  course.course_books.new(
+  course.course_books.build(
     book_id: book.id,
     index: index
   )
 end
-course.save
+course.save!

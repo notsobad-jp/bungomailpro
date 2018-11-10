@@ -11,6 +11,6 @@
 #
 
 class CourseBook < ApplicationRecord
-  belongs_to :course
+  belongs_to :course, required: false
   belongs_to :book
 end
