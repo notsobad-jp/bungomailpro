@@ -49,6 +49,7 @@
 
 Rails.application.routes.draw do
   resources :courses do
+    get 'owned', on: :collection, as: :owned
     post 'publish', on: :member, as: :publish
   end
   resources :deliveries
@@ -64,6 +65,5 @@ Rails.application.routes.draw do
   get 'auth' => 'magic_tokens#auth', as: :auth
   post 'logout' => 'magic_tokens#destroy', as: :logout
 
-  get 'mypage' => 'pages#mypage', as: :mypage
   root to: 'pages#pro'
 end

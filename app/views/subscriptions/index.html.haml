@@ -7,7 +7,7 @@
 
 .ui.secondary.pointing.menu
   .active.item 購読中コース
-  = link_to '作成したコース', mypage_path, class: 'item'
+  = link_to '作成したコース', owned_courses_path, class: 'item'
 
 .ui.middle.alligned.divided.relaxed.large.list
   - @user_courses.each do |user_course|

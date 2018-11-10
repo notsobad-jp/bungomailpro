@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   before_action :require_login, except: [:index, :show]
-  before_action :authorize_course, only: [:index, :new, :create]
+  before_action :authorize_course, only: [:index, :new, :create, :owned]
   before_action :set_course_with_books, only: [:show, :edit, :update, :publish, :destroy]
   after_action :verify_authorized
 
@@ -26,7 +26,7 @@ class CoursesController < ApplicationController
 
     if @course.save
       flash[:success] = 'コースを作成しました🎉'
-      redirect_to mypage_path
+      redirect_to owned_courses_path
     else
       render :new
     end
@@ -35,7 +35,7 @@ class CoursesController < ApplicationController
   def update
     if @course.update(course_params)
       flash[:success] = 'コースを保存しました🎉'
-      redirect_to mypage_path
+      redirect_to owned_courses_path
     else
       render :edit
     end
@@ -44,13 +44,17 @@ class CoursesController < ApplicationController
   def publish
     @course.update(status: 2)
     flash[:success] = 'コースを公開しました🎉'
-    redirect_to mypage_path
+    redirect_to owned_courses_path
   end
 
   def destroy
     @course.update(status: 3)
     flash[:success] = 'コースを削除しました'
-    redirect_to mypage_path
+    redirect_to owned_courses_path
+  end
+
+  def owned
+    @courses = policy_scope current_user.own_courses
   end
 
 
