@@ -3,14 +3,20 @@
 
 %h1.ui.header 配信コース一覧
 
-.ui.two.cards
+.ui.cards
   - @courses.each do |course|
     .ui.card
       .content
         .header= course.title
         .meta
-          %i.icon.calendar.alternate.outline
-          = course.updated_at.strftime('%Y年%m月%d日')
+          .ui.horizontal.list
+            .item
+              %i.icon.book
+              = course.course_books.count
+              冊
+            .item
+              %i.icon.calendar.alternate.outline
+              = course.updated_at.strftime('%Y年%m月%d日')
         .description= course.description.truncate(40)
       = link_to course_path(course), class: 'ui bottom attached button' do
         詳細を見る

@@ -78,6 +78,14 @@ class UserCourse < ApplicationRecord
     self.status == 3
   end
 
+  def next_delivery
+    self.deliveries.order(:deliver_at).first
+  end
+
+  def delivered_course_books
+    self.course.course_books.includes(:book).where("index < ?", self.next_book_index).order(:index)
+  end
+
 
   private
     def current_book

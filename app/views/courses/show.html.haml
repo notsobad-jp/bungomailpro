@@ -4,29 +4,78 @@
   = @course.title
 
 
-%h1
-  = @course.title
-  - if @user_course
-    - if @user_course.status == 1
-      %span.ui.red.mini.label 購読中
-    - elsif @user_course.status == 2
-      %span.ui.orange.mini.label 一時停止中
-    - elsif @user_course.status == 3
-      %span.ui.mini.label 配信完了
+%h1= @course.title
+
+.ui.small.list
+  .item
+    %i.icon.user
+    作成者:
+    = @course.owner.id
+  .item
+    %i.icon.book
+    登録数:
+    = @course.course_books.count
+    冊
+  .item
+    %i.icon.calendar.alternate.outline
+    作成日:
+    = @course.updated_at.strftime('%Y年%m月%d日')
 
 %div= simple_format_with_link @course.description
 
-.ui.secondary.segment
+
+%br
+.ui.horizontal.divider
+  配信状況
+
+.ui.basic.center.aligned.segment
   - if @user_course
-    - if @user_course.active?
-      = link_to skip_subscription_path(@user_course), method: 'post', class: 'ui blue basic icon small button', 'data-tooltip'=>'スキップ', 'data-inverted'=>'', data: {confirm: '現在の本をスキップして次の本を配信します。本当によろしいですか？'} do
-        %i.icon.fast.forward
-      = link_to subscription_path(id: @user_course.id, status: 2), method: 'put', class: 'ui red basic icon small button', 'data-tooltip'=>'一時停止', 'data-inverted'=>'' do
-        %i.icon.pause
-    - if @user_course.paused?
-      = link_to subscription_path(id: @user_course.id, status: 1), method: :put, class: 'ui blue basic icon small button', 'data-tooltip'=>'再開', 'data-inverted'=>'' do
-        %i.icon.play
-    = link_to subscription_path(@user_course), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'購読解除', 'data-inverted'=>'', data: {confirm: '購読を解除します。本当によろしいですか？'} do
-      %i.icon.trash
+    .ui.secondary.center.aligned.segment
+      .ui.mini.statistic
+        .label 次回配信
+        .value
+          - if @user_course.next_delivery
+            = @user_course.next_delivery.deliver_at.strftime('%Y年%m月%d日 %H:%M')
+          - else
+            （なし）
+
+    %div
+      - if @user_course.active?
+        = link_to skip_subscription_path(@user_course), method: 'post', class: 'ui blue basic icon small button', 'data-tooltip'=>'スキップ', 'data-inverted'=>'', data: {confirm: '現在の本をスキップして次の本を配信します。本当によろしいですか？'} do
+          %i.icon.fast.forward
+          スキップ
+        = link_to subscription_path(id: @user_course.id, status: 2), method: 'put', class: 'ui red basic icon small button', 'data-tooltip'=>'一時停止', 'data-inverted'=>'' do
+          %i.icon.pause
+          一時停止
+      - if @user_course.paused?
+        = link_to subscription_path(id: @user_course.id, status: 1), method: :put, class: 'ui blue basic icon small button', 'data-tooltip'=>'再開', 'data-inverted'=>'' do
+          %i.icon.play
+          配信再開
+      - if @user_course.finished?
+        %p このコースの配信は完了しました。もう一度読みたい場合は、一度購読を解除してから再度購読してください。
+      = link_to subscription_path(@user_course), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'購読解除', 'data-inverted'=>'', data: {confirm: '購読を解除します。本当によろしいですか？'} do
+        %i.icon.trash
+        購読解除
   - else
     = link_to 'このコースを購読する', subscriptions_path(course_id: @course.id), method: :post, class: 'ui red button'
+
+
+%br
+.ui.divider
+
+- if @user_course
+
+  .ui.middle.alligned.divided.relaxed.large.list
+    - @user_course.delivered_course_books.each do |course_book|
+      - book = course_book.book
+      .item
+        .right.floated.content
+        .content
+          .header
+            = book.title
+            - if !@user_course.finished? && course_book.index == @user_course.next_book_index - 1
+              %span.ui.mini.orange.label 配信中
+            - else
+              %span.ui.mini.label 配信済
+          %small.description
+            = book.author
