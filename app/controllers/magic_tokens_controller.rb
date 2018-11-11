@@ -17,6 +17,7 @@ class MagicTokensController < ApplicationController
       return
     else
       auto_login(@user)
+      remember_me!
       @user.clear_magic_login_token!
       redirect_to(root_path, notice: 'Logged in successfully')
     end
