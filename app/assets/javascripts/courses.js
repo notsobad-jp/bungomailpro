@@ -75,11 +75,13 @@ function addBook(data) {
     <i class="icon content"></i>
     <div class="content">
       <div class="header">
-        ${ data['author'] }『${ data['title'] }』
-        <small><a href="#" target="_blank"><i class="icon external"></i></a></small>
+        ${ data['title'] }
       </div>
       <div class="description">
-        <small>文字数：${ data['text'].length }</small>
+        <small>${ data['author'] }</small>
+      </div>
+      <div class="extra">
+        <small>（${ data['text'].length }文字）</small>
         <input value="${ data['id'] }" type="hidden" name="course[course_books_attributes][${ index }][book_id]">
         <input id="${ data['id'] }_index" value="${ index + 1 }" type="hidden" name="course[course_books_attributes][${ index }][index]">
         <input id="${ data['id'] }_destroy" value="false" type="hidden" name="course[course_books_attributes][${ index }][_destroy]">

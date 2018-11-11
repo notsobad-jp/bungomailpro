@@ -5,7 +5,7 @@
 
 .ui.cards
   - @courses.each do |course|
-    .ui.card
+    = link_to course_path(course), class: 'ui card' do
       .content
         .header= course.title
         .meta
@@ -18,5 +18,3 @@
               %i.icon.calendar.alternate.outline
               = course.updated_at.strftime('%Y年%m月%d日')
         .description= course.description.truncate(40)
-      = link_to course_path(course), class: 'ui bottom attached button' do
-        詳細を見る

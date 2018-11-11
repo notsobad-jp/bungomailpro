@@ -40,12 +40,12 @@
         %i.icon.content.handler
         .content
           .header
-            = course_book.book.author
-            『#{course_book.book.title}』
+            = course_book.book.title
           .description
+            %small= book.author
+          .extra
             %small
-              文字数：
-              = course_book.book.text.length.to_s(:delimited)
+              （#{course_book.book.text.length.to_s(:delimited)}文字）
             = cb.hidden_field :id, value: course_book.id
             = cb.hidden_field :book_id, value: course_book.book_id
             = cb.hidden_field :index, value: course_book.index, id: "#{course_book.book_id}_index"
@@ -55,12 +55,12 @@
       %div.item
         .content
           .header
-            = book.author
-            『#{book.title}』
+            = book.title
           .description
+            %small= book.author
+          .extra
             %small
-              文字数：
-              = book.text.length.to_s(:delimited)
+              （#{book.text.length.to_s(:delimited)}文字）
 
 
 .ui.bottom.fixed.borderless.menu

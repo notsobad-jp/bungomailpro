@@ -88,6 +88,16 @@ class UserCourse < ApplicationRecord
     self.course.course_books.includes(:book).where("index < ?", self.next_book_index).order(:index)
   end
 
+  # 次の配信日時を取得
+  def next_deliver_at
+    # 一番最初に見つけた未来の配信時間を返す
+    self.delivery_hours.each do |time|
+      return time.in_time_zone if Time.zone.now < time.in_time_zone
+    end
+    # 未来時間がなければ翌日日付で最初の配信時間を返す
+    return self.delivery_hours.first.in_time_zone.tomorrow
+  end
+
 
   private
     def current_book
@@ -97,16 +107,6 @@ class UserCourse < ApplicationRecord
 
     def next_book
       self.course.course_books.includes(:book).find_by(index: self.next_book_index).try(:book)
-    end
-
-    # 次の配信日時を取得
-    def next_deliver_at
-      # 一番最初に見つけた未来の配信時間を返す
-      self.delivery_hours.each do |time|
-        return time.in_time_zone if Time.zone.now < time.in_time_zone
-      end
-      # 未来時間がなければ翌日日付で最初の配信時間を返す
-      return self.delivery_hours.first.in_time_zone.tomorrow
     end
 
     def last_delivery
