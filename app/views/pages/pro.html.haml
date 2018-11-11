@@ -18,6 +18,20 @@
       = link_to 'ベータ版を利用する（無料）', login_path, class: 'ui gray-accent inverted button'
 
 %section.ui.centered.stackable.grid
+  .ui.row
+    .ten.wide.column
+      .ui.error.message
+        .content
+          .header
+            %i.icon.exclamation.circle
+            これは正式リリース前のベータ版先行公開です
+          %p
+            正式リリースまでは無料でお使いいただけますが、一部の機能がまだ実装されていません。
+            また不具合が発生する可能性もありますので、ご理解のうえご利用ください。
+            不具合報告や改善要望などは、info@notsobad.jpまでご連絡いただけると大変助かります！
+
+
+%section.ui.centered.stackable.grid
   %h2.ui.huge.header
     月に1冊では満足できないあなたに
     %p.sub.header
@@ -60,23 +74,23 @@
         .ui.centered.two.stackable.cards
           .ui.card
             .content
-              %a.header
+              .header
                 おまかせ配信コース
               .description
                 いろんな作家の名作をおまかせで配信してくれるコースです。配信タイトルは2~3ヶ月程度の中長編のみ。自分では選ばないような作品をおまかせで読んでみたい方にオススメです。
           .ui.card
             .content
-              %a.header 作家限定コース
+              .header 作家限定コース
               .description
                 各文豪ごとに、その作家の作品のみをひたすら配信し続けるコースを用意しています。好きな文豪の作品を読み尽くしたいときにぜひご登録ください。
           .ui.card
             .content
-              %a.header 超長編チャレンジコース
+              .header 超長編チャレンジコース
               .description
                 超長編を1年くらいかけて読み切るコースです。ふつうなら諦めてしまうような長編も、毎日強制的にメールで届けば読めるかも？コースが用意されていない作品でも、自分で好きな作品を選んでコースを作成することができます。
           .ui.card
             .content
-              %a.header テーマ別コース
+              .header テーマ別コース
               .description
                 SF小説だけ配信するコース、詩だけを配信するコース、など、テーマに沿って配信されるコースもあります。ユニークな切り口のコースを探してみてください。通常の読書と並行して、毎日ちょっとずつ詩を読むなんていうのもいいですね。
   .ui.center.aligned.basic.segment

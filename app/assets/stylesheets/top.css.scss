@@ -8,7 +8,7 @@ section, footer { padding: 50px 10px !important; }
 }
 
 body[data-controller="pages"][data-action="pro"] .ui.top.fixed.menu {
-  background: transparent;
+  // background: transparent;
   border: none;
   box-shadow: none;
 }
@@ -19,7 +19,7 @@ body[data-controller="pages"][data-action="pro"] .ui.top.fixed.menu {
 }
 #header {
   padding-top: 60px !important;
-  background: image-url('seigaiha_red.png');
+  background: image-url('seigaiha.png');
 }
 #header-catch { margin-top: 30px; }
 .sub.header { margin-top: 15px !important; }

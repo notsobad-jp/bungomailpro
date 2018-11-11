@@ -1,9 +1,15 @@
+.ui.top.fixed.menu {
+  background-image: image-url('seigaiha.png');
+}
+
 #main-content {
   margin: 45px 0;
   word-break: break-all;
   min-height: calc(100vh - 190px);
 }
-#breadcrumb { margin-bottom: 2rem; }
+#breadcrumb {
+  margin-bottom: 2rem;
+}
 
 .hidden { display: none; }
 
