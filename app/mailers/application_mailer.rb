@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: ENV['MAILER_EMAIL']
+  default from: 'bungomail@notsobad.jp'
   layout 'mailer'
 end

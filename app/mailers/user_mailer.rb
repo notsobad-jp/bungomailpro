@@ -9,14 +9,16 @@ class UserMailer < ApplicationMailer
     @user = User.find user.id
     @url  = URI.join(root_url, "auth?token=#{@user.magic_login_token}")
 
-    mail(to: @user.email, subject: "Magic Login")
+    mail(to: @user.email, subject: "【ブンゴウメール】ログイン用URL")
   end
 
 
   def deliver_chapter
     @delivery = params[:delivery]
-    @user = @delivery.user
-
-    mail(to: @user.email, subject: "【ブンゴウメール】#{@delivery.book.title}（#{@delivery.index}/#{@delivery.last_index}）")
+    mail(
+      from: "#{@delivery.book.author} <bungomail@notsobad.jp>",
+      to: @user.email,
+      subject: "【ブンゴウメール】#{@delivery.book.title}（#{@delivery.index}/#{@delivery.last_index}）"
+    )
   end
 end
