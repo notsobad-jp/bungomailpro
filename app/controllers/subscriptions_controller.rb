@@ -10,8 +10,8 @@ class SubscriptionsController < ApplicationController
 
   def create
     course_id = params[:course_id]
-    @user_course = UserCourse.create(user_id: current_user.id, course_id: course_id, delivery_hours: ['7:00', '23:00'])
-    @user_course.set_deliveries #TODO: delayed_jobつかう
+    @user_course = UserCourse.create(user_id: current_user.id, course_id: course_id, delivery_hours: ['8:00'])
+    @user_course.set_deliveries
     redirect_to course_path(course_id)
   end
 

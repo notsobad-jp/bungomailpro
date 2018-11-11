@@ -39,6 +39,7 @@ class UserCourse < ApplicationRecord
     self.increment(:next_book_index)
     self.save
   end
+  handle_asynchronously :set_deliveries
 
 
   def skip_current_book
@@ -65,6 +66,7 @@ class UserCourse < ApplicationRecord
     end
     self.save
   end
+  handle_asynchronously :restart
 
   def active?
     self.status == 1
