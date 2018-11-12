@@ -3,7 +3,7 @@
 
 %h1.ui.header 配信コース一覧
 
-.ui.cards
+.ui.two.doubling.cards
   - @courses.each do |course|
     = link_to course_path(course), class: 'ui card' do
       .content
