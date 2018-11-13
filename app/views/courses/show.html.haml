@@ -28,7 +28,7 @@
         .label 次回配信
         .value
           - if @user_course.active?
-            = @user_course.next_deliver_at.strftime('%Y%m月%d日 %H:%M')
+            = @user_course.next_deliver_at.strftime('%Y年%m月%d日 %H:%M')
           - else
             （なし）
 

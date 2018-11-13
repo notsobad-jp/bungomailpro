@@ -17,13 +17,26 @@
         .ui.simple.dropdown.item
           %i.content.icon
           .menu
-            = link_to 'ホーム', root_path, class: 'item'
-            = link_to 'コース一覧', courses_path, class: 'item'
+            = link_to root_path, class: 'item' do
+              %i.icon.home
+              ホーム
+            = link_to courses_path, class: 'item' do
+              %i.icon.search
+              コース一覧
             - if current_user
-              = link_to 'マイページ', subscriptions_path, class: 'item'
-              = link_to 'ログアウト', logout_path, method: :post, class: 'item'
+              = link_to new_course_path, class: 'item' do
+                %i.icon.plus
+                コース作成
+              = link_to subscriptions_path, class: 'item' do
+                %i.icon.user
+                マイページ
+              = link_to logout_path, method: :post, class: 'item' do
+                %i.icon.sign.out
+                ログアウト
             - else
-              = link_to 'ログイン', login_path, class: 'item'
+              = link_to login_path, class: 'item' do
+                %i.icon.sign.in
+                ログイン
     - if path == 'pages#pro'
       = yield
     - else

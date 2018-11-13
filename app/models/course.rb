@@ -32,4 +32,16 @@ class Course < ApplicationRecord
     current_index = self.course_books.find_by(book_id: current_id).index
     self.course_books.find_by(index: current_index + 1)
   end
+
+  def draft?
+    self.status == 1
+  end
+
+  def public?
+    self.status == 2
+  end
+
+  def closed?
+    self.status == 3
+  end
 end

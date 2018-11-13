@@ -1,12 +1,9 @@
 class CoursePolicy < ApplicationPolicy
   def show?
-    case record.status
-    when 1  # draft
+    if record.draft?
       user.id == record.owner_id
-    when 2  # public
-      true
     else
-      false
+      true
     end
   end
 
