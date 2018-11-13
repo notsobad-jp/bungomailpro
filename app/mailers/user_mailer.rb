@@ -17,7 +17,7 @@ class UserMailer < ApplicationMailer
     @delivery = params[:delivery]
     mail(
       from: "#{@delivery.book.author} <bungomail@notsobad.jp>",
-      to: @user.email,
+      to: @delivery.user.email,
       subject: "【ブンゴウメール】#{@delivery.book.title}（#{@delivery.index}/#{@delivery.last_index}）"
     )
   end
