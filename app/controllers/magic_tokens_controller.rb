@@ -5,7 +5,8 @@ class MagicTokensController < ApplicationController
   def create
     @user = User.find_or_create_by(email: params[:email])
     @user.deliver_magic_login_instructions!
-    redirect_to(root_path, notice: 'Instructions have been sent to your email.')
+    flash[:success] = 'ログインURLをメールで送信しました！（数分程度かかる場合があります）'
+    redirect_to root_path
   end
 
   def auth
@@ -14,17 +15,20 @@ class MagicTokensController < ApplicationController
 
     if @user.blank?
       not_authenticated
+      flash[:error] = 'ログインに失敗しました…😢'
       return
     else
       auto_login(@user)
       remember_me!
       @user.clear_magic_login_token!
+      flash[:success] = 'ログインしました！'
       redirect_to(root_path, notice: 'Logged in successfully')
     end
   end
 
   def destroy
     logout
-    redirect_to(root_path, notice: 'Logged out!')
+    flash[:info] = 'ログアウトしました！'
+    redirect_to root_path
   end
 end

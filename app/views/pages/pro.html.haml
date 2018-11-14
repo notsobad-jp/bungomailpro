@@ -1,6 +1,14 @@
 / Header
 %section#header.ui.centered.stackable.grid
+  - if flash.present?
+    .ui.row
+      .ui.twelve.wide.column
+        - %w(warning error success info).each do |status|
+          - if flash[status]
+            .ui.message(class="#{status}")
+              = flash[status]
   .ui.row
+  %br
     .six.wide.right.aligned.column
       %br/
       %div
@@ -33,142 +41,47 @@
 
 %section.ui.centered.stackable.grid
   %h2.ui.huge.header
-    月に1冊では満足できないあなたに
+    今後の開発スケジュール
     %p.sub.header
-      ブンゴウメールPROでは、無料版にはない機能を多数提供しています。
-      %br/
-      毎月コーヒー1杯の値段で、もっと読書量を増やしてみませんか？
-  .ui.row
-    .four.wide.center.aligned.column
-      = image_tag('feature_1.png', class: 'ui centered image', alt: '')
-      %h3.ui.header 中長編の名作が読める
-      %p
-        無料版では1ヶ月で完結する短編しか読めませんが、PROなら2ヶ月以上かかる中長編も配信できます。
-        文豪の代表作は多くが中長編。PROでぜひあの名作を読んでみてください。
-    .four.wide.center.aligned.column
-      = image_tag('feature_2.png', class: 'ui centered image', alt: '')
-      %h3.ui.header テーマのある読書をおまかせで
-      %p
-        ブンゴウメールPROでは、特定の文豪の作品を配信し続けるコース、SFなどテーマに沿った作品を配信するコースなど、様々なコースにいくつでも登録できます。
-        ひたすらあの作家の作品を読みたい！など、テーマのある読書をお楽しみください。
-    .four.wide.center.aligned.column
-      = image_tag('feature_3.png', class: 'ui centered image', alt: '')
-      %h3.ui.header 好きな作品の配信もできる
-      %p
-        コースは自分でも登録することが可能です。気になるけど読めなかった作品があれば、自分で登録してメール読書をお楽しみください。
-        自分の好きな作品でコースを作って、友達と一緒に読むなんて楽しみ方も可能です。
-
-.ui.mini.divider
-
-%section
-  %h2.ui.huge.centered.header
-    好きなコースを、いくつでも
-    %p.sub.header
-      各コースごとに様々なテーマで作品を配信中！いくつでも同時に登録可能です。
-      %br/
-      自分で好きなコースを作成して配信することもできます。
-  %br/
-  .ui.centered.stackable.grid
-    .ui.row
-      .twelve.wide.center.aligned.column
-        .ui.centered.two.stackable.cards
-          .ui.card
-            .content
-              .header
-                おまかせ配信コース
-              .description
-                いろんな作家の名作をおまかせで配信してくれるコースです。配信タイトルは2~3ヶ月程度の中長編のみ。自分では選ばないような作品をおまかせで読んでみたい方にオススメです。
-          .ui.card
-            .content
-              .header 作家限定コース
-              .description
-                各文豪ごとに、その作家の作品のみをひたすら配信し続けるコースを用意しています。好きな文豪の作品を読み尽くしたいときにぜひご登録ください。
-          .ui.card
-            .content
-              .header 超長編チャレンジコース
-              .description
-                超長編を1年くらいかけて読み切るコースです。ふつうなら諦めてしまうような長編も、毎日強制的にメールで届けば読めるかも？コースが用意されていない作品でも、自分で好きな作品を選んでコースを作成することができます。
-          .ui.card
-            .content
-              .header テーマ別コース
-              .description
-                SF小説だけ配信するコース、詩だけを配信するコース、など、テーマに沿って配信されるコースもあります。ユニークな切り口のコースを探してみてください。通常の読書と並行して、毎日ちょっとずつ詩を読むなんていうのもいいですね。
-  .ui.center.aligned.basic.segment
-    %div
-      = link_to '配信コース一覧を見る', courses_path, class: 'ui large button'
-
-
-.ui.mini.divider
-
-
-%section.ui.centered.stackable.grid
-  .ui.row
-    .ten.wide.center.aligned.column
-      %h2.ui.huge.header
-        料金
-      %p.sub.header
-        ベータ版提供中はすべて無料でご利用いただけます。
-        %br
-        また正式版開始時に勝手に料金を請求されるようなことはありません。
-  .ui.row
-    .ten.wide.center.aligned.column
-      .ui.two.stackable.centered.cards
-        .ui.card
-          .ui.secondary.center.aligned.attached.segment
-            %h3.ui.small.header PRO
-          .content
-            %p.ui.huge.red.header
-              300円/月
-              %small.sub.header （税込324円）
-            %br/
-            %ul.ui.list
-              %li.item 全コース、いくつでも登録可能
-              %li.item 好きなコースを作成可能
-              %li.item メール内の広告なし、広告メールの配信なし
-  %div
-    %small ※料金は正式リリース時に変更となる可能性があります。
-
-%section.ui.centered.stackable.grid.gray-flat
-  .ui.row
-    .ten.wide.center.aligned.column
-      %h2.ui.huge.header
-        ブンゴウメールPROに登録する（ベータ版無料）
-      %p.sub.header
-        現在ベータ版としてテスト運用中のため、すべての機能を無料でご利用いただけます。
-      %br/
-      = link_to 'ベータ版を利用する（無料）', login_path, class: 'ui gray-accent inverted button'
-
-%section.ui.centered.stackable.grid
+      ブンゴウメールPROプランの、今後のリリーススケジュールです。
+      %br
+      かなりの確率で予定通りには進まないと思いますが、温かい目で見守ってください。
   .ui.row
     .ten.wide.column
-      %h2.ui.huge.center.aligned.header
-        よくある質問
-      %br/
-      .ui.divided.relaxed.items
+      .ui.info.message
+        開発ロードマップを公開しています。詳しい進捗状況はこちら！
+        = link_to 'https://trello.com/b/3V3wAp6S/', 'https://trello.com/b/3V3wAp6S/', target: '_blank'
+  .ui.row
+    .ten.wide.column
+      .ui.divided.items
         .item
           .content
             .header
-              登録したけどメールが届かない
+              %i.green.icon.check
+              クローズドBETA版
+              %span.ui.orange.mini.label NOW!
             .description
-              %p
-                お使いのメールソフトによっては、自動で迷惑メールフォルダなどにはいってしまう場合があります。
-                特に
-                %span.ui.small.red.header> Gmail
-                や
-                %span.ui.small.red.header> 携帯キャリアアドレス
-                をお使いの場合にフィルタされるケースが多いようです。
-              %p
-                公式ブログに対応方法をご案内しておりますので、メールが届かない場合はこちらを参考にご設定お願いいたします。
-                それでも届かない場合は運営までお問い合わせください。
-              %p
-                %a{:href => "https://bungomail.hatenablog.com/entry/2018/05/21/172542", :target => "_blank"}
-                  公式ブログ「ブンゴウメールからメールを受信できないケースと対応方法について」
-                  %i.icon.link.external
+              先行登録ユーザーのみ利用可能な状態で、最低限の機能のベータ版を無料で公開します。
+              できる限り努力しますが、登録したデータなどが引き継がれない可能性もありますのでご了承ください。
+              まだまだ不具合なども多いと思いますので、バグ報告や要望などを積極的にフィードバックいただけると大変たすかります。
         .item
           .content
             .header
-              PROプランから退会したい
+              %i.red.icon.check
+              オープンBETA版
+              %span.ui.mini.label 2019年初頭
             .description
-              %p
-                「info@notsobad.jp」まで「退会希望」とメールをご送信ください。
-                無料版の登録は同時に解約されません。無料版の解約を希望される場合は、お手数ですが別途無料版の解約フォームよりご解約ください。
+              ある程度システムが安定してきたタイミングで、オープンBETAに移行します。
+              これは引き続きベータ版として無料で公開しますが、誰でも利用可能にしたバージョンです。
+              機能追加も続くため、引き続きバグ報告もご協力お願いします。
+        .item
+          .content
+            .header
+              %i.red.icon.check
+              正式リリース
+              %span.ui.mini.label 2019年春頃
+            .description
+              オープンBETA版での機能追加を終え、システム的にも問題ないことが確認できたら、正式版としてリリースします。
+              このタイミングでPROプラン本来の料金体系を導入し、有料とさせていただきます。
+              （登録後の無料期間を設ける場合、このタイミングからカウントして無料期間を付与いたします）
+              早くここまでたどりつけるようにがんばります。。
