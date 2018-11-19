@@ -81,7 +81,11 @@ class UserCourse < ApplicationRecord
   end
 
   def next_delivery
-    self.deliveries.order(:deliver_at).first
+    self.deliveries.includes(:book).where(delivered: false).order(:deliver_at).first
+  end
+
+  def delivery_count(book_id)
+    self.deliveries.where(book_id: book_id).count
   end
 
   def delivered_course_books

@@ -1,11 +1,12 @@
 class MagicTokensController < ApplicationController
   def new
+    redirect_to subscriptions_path if current_user
   end
 
   def create
     @user = User.find_or_create_by(email: params[:email])
     @user.deliver_magic_login_instructions!
-    flash[:success] = 'ログインURLをメールで送信しました！（数分程度かかる場合があります）'
+    flash[:success] = 'ログインURLをメールで送信しました！（届くまで数分程度かかる場合があります）'
     redirect_to root_path
   end
 

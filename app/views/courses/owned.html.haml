@@ -10,7 +10,9 @@
   .active.item 作成したコース
 
 .ui.secondary.basic.center.aligned.segment
-  = link_to '新しいコースを作成する', new_course_path, class: 'ui red large button'
+  = link_to  new_course_path, class: 'ui red button' do
+    %i.icon.plus
+    新しいコースを作成する
 
 
 .ui.middle.alligned.divided.relaxed.large.list
