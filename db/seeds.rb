@@ -8,25 +8,54 @@
 
 User.create( email: ENV['MAILER_EMAIL'] )
 
-urls = [
-  'https://www.aozora.gr.jp/cards/001155/files/43644_29257.html',
-  'https://www.aozora.gr.jp/cards/001155/files/51860_41507.html'
+book_ids = [
+  [1155,43644],
+  [1155,51860],
+  [1095,45735],
+  [1095,43147],
+  [1235,49866],
+  [1235,49867],
+  [1235,49865],
+  [1235,49861],
+  [1235,53047],
+  [1235,49862],
+  [1235,49860],
+  [1235,49859],
+  [1235,49858],
+  [1235,49864],
+  [96,2093],
+  [1403,49986],
+  [119,24439],
+  [119,621],
+  [119,1737],
+  [119,42301],
+  [119,24443],
+  [119,2521],
+  [879,43016],
+  [879,43015],
+  [879,60],
+  [879,140],
+  [879,3814],
+  [879,19],
+  [879,55],
+  [879,42],
+  [879,179],
+  [879,127]
 ]
-urls.each do |url|
-  params = Book.parse_html(url)
+book_ids.each do |ids|
+  params = Book.scrape_from_id(ids)
   Book.create(params)
 end
 
 
-course = Course.new(
-  title: 'チェーホフ完読コース',
-  description: '青空文庫で公開されているチェーホフの全作品を読破できるコースです。おもしろいよ！',
-  owner_id: 1
-)
-Book.all.each.with_index(1) do |book, index|
-  course.course_books.build(
-    book_id: book.id,
-    index: index
-  )
-end
-course.save!
+# course = Course.new(
+#   title: 'チェーホフ完読コース',
+#   owner_id: 1
+# )
+# Book.all.each.with_index(1) do |book, index|
+#   course.course_books.build(
+#     book_id: book.id,
+#     index: index
+#   )
+# end
+# course.save!
