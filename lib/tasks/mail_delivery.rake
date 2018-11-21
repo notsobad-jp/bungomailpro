@@ -8,7 +8,7 @@ namespace :mail do
 
   desc "hourlyのメール送信タスク"
   task :hourly_deliver => :environment do |task, args|
-    deliveries = Delivery.where(delivered: false, deliver_at: Time.now - 1.hour .. Time.now)
+    deliveries = Delivery.where(delivered: false, deliver_at: Time.now - 3.hour .. Time.now)
     deliveries.each do |delivery|
       delivery.deliver
       p "delivered #{delivery.id}"
