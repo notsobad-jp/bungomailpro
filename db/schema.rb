@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_062338) do
+ActiveRecord::Schema.define(version: 2018_10_18_054904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2018_11_11_062338) do
   end
 
   create_table "deliveries", force: :cascade do |t|
-    t.bigint "user_course_id"
+    t.bigint "subscription_id"
     t.bigint "book_id"
     t.integer "index", null: false
     t.text "text"
@@ -74,11 +74,11 @@ ActiveRecord::Schema.define(version: 2018_11_11_062338) do
     t.index ["book_id"], name: "index_deliveries_on_book_id"
     t.index ["deliver_at"], name: "index_deliveries_on_deliver_at"
     t.index ["delivered"], name: "index_deliveries_on_delivered"
-    t.index ["user_course_id", "book_id", "index"], name: "index_deliveries_on_user_course_id_and_book_id_and_index", unique: true
-    t.index ["user_course_id"], name: "index_deliveries_on_user_course_id"
+    t.index ["subscription_id", "book_id", "index"], name: "index_deliveries_on_subscription_id_and_book_id_and_index", unique: true
+    t.index ["subscription_id"], name: "index_deliveries_on_subscription_id"
   end
 
-  create_table "user_courses", force: :cascade do |t|
+  create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "course_id"
     t.integer "next_book_index", default: 1, null: false
@@ -86,32 +86,36 @@ ActiveRecord::Schema.define(version: 2018_11_11_062338) do
     t.text "delivery_hours"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_user_courses_on_course_id"
-    t.index ["status"], name: "index_user_courses_on_status"
-    t.index ["user_id", "course_id"], name: "index_user_courses_on_user_id_and_course_id", unique: true
-    t.index ["user_id"], name: "index_user_courses_on_user_id"
+    t.index ["course_id"], name: "index_subscriptions_on_course_id"
+    t.index ["status"], name: "index_subscriptions_on_status"
+    t.index ["user_id", "course_id"], name: "index_subscriptions_on_user_id_and_course_id", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
+    t.string "token", null: false
     t.string "crypted_password"
     t.string "salt"
+    t.string "magic_login_token"
+    t.string "string"
+    t.string "magic_login_token_expires_at"
+    t.string "datetime"
+    t.string "magic_login_email_sent_at"
+    t.string "remember_me_token"
+    t.string "remember_me_token_expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "magic_login_token"
-    t.datetime "magic_login_token_expires_at"
-    t.datetime "magic_login_email_sent_at"
-    t.string "remember_me_token"
-    t.datetime "remember_me_token_expires_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
+    t.index ["token"], name: "index_users_on_token", unique: true
   end
 
   add_foreign_key "course_books", "books"
   add_foreign_key "course_books", "courses"
   add_foreign_key "deliveries", "books"
-  add_foreign_key "deliveries", "user_courses"
-  add_foreign_key "user_courses", "courses"
-  add_foreign_key "user_courses", "users"
+  add_foreign_key "deliveries", "subscriptions"
+  add_foreign_key "subscriptions", "courses"
+  add_foreign_key "subscriptions", "users"
 end

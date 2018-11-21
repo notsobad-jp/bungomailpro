@@ -48,8 +48,8 @@ class Book < ApplicationRecord
     # scrape and parse Aozora URL
     def parse_html(url)
       # 図書カードURLが来てたら、ファイルURLに変換
-      match = url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/(\d+)\/card\d+.html/)
-      url = card_to_file_url(url) if match
+      # match = url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/(\d+)\/card\d+.html/)
+      # url = card_to_file_url(url) if match
 
       match, author_id, book_id = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/files\/(\d+)_\d+\.html/).to_a
       return nil if !match

@@ -23,7 +23,7 @@ book_ids = [
   [1235,49859],
   [1235,49858],
   [1235,49864],
-  [96,2093],
+  # [96,2093],  #青空文庫のID間違いで取得できず（ドグラ・マグラ）
   [1403,49986],
   [119,24439],
   [119,621],
@@ -43,8 +43,10 @@ book_ids = [
   [879,127]
 ]
 book_ids.each do |ids|
-  params = Book.scrape_from_id(ids)
-  Book.create(params)
+  params = Book.scrape_from_id(*ids)
+  book = Book.create(params)
+  p "created #{book.title}"
+  sleep 1
 end
 
 
