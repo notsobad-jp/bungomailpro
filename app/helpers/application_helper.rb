@@ -22,8 +22,8 @@ module ApplicationHelper
     return 'hidden' if controller_name == 'courses' && %w(new edit create update).include?(action_name)
   end
 
-  def label_class user_course_status
-    case user_course_status
+  def label_class subscription_status
+    case subscription_status
     when 1
       'orange'
     when 2
@@ -33,8 +33,8 @@ module ApplicationHelper
     end
   end
 
-  def label_name user_course_status
-    case user_course_status
+  def label_name subscription_status
+    case subscription_status
     when 1
       '購読中'
     when 2

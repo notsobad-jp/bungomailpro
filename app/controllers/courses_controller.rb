@@ -10,7 +10,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @user_course = current_user.user_courses.find_by(course_id: @course.id) if current_user
+    @subscription = current_user.subscriptions.find_by(course_id: @course.id) if current_user
   end
 
   def new

@@ -1,65 +1,65 @@
 class SubscriptionsController < ApplicationController
   before_action :require_login
   before_action :authorize_subscription, only: [:index, :create]
-  before_action :set_user_course, only: [:destroy, :update, :skip, :deliver]
+  before_action :set_subscription, only: [:destroy, :update, :skip, :deliver]
   after_action :verify_authorized
 
   def index
-    @user_courses = current_user.user_courses
+    @subscriptions = current_user.subscriptions
   end
 
   def create
     course_id = params[:course_id]
-    @user_course = UserCourse.create(user_id: current_user.id, course_id: course_id, delivery_hours: ['8:00'])
-    @user_course.set_deliveries
+    @subscription = Subscription.create(user_id: current_user.id, course_id: course_id, delivery_hours: ['8:00'])
+    @subscription.set_deliveries
     redirect_to course_path(course_id)
   end
 
   def destroy
-    course = @user_course.course
-    @user_course.destroy
+    course = @subscription.course
+    @subscription.destroy
     redirect_to course
   end
 
   # 配信ステータスの変更（一時停止・再開）
   def update
     status = params[:status].to_i
-    @user_course.update(status: status)
+    @subscription.update(status: status)
 
     # deliveriesの配信状況をアップデート
     if status == 1
-      @user_course.restart
+      @subscription.restart
     elsif status == 2
-      @user_course.pause
+      @subscription.pause
     end
 
-    redirect_to @user_course.course
+    redirect_to @subscription.course
   end
 
 
   # 現在の本をスキップ
   def skip
-    @user_course.skip_current_book
-    redirect_to @user_course.course
+    @subscription.skip_current_book
+    redirect_to @subscription.course
   end
 
 
   #FIXME: テスト配信メソッド
   def deliver
-    @delivery = @user_course.deliveries.includes(:user, :book).where(delivered: false).order(:deliver_at).first
+    @delivery = @subscription.deliveries.includes(:user, :book).where(delivered: false).order(:deliver_at).first
     @delivery.try(:deliver)
     flash[:success] = 'メールを配信しました！'
-    redirect_to @user_course.course
+    redirect_to @subscription.course
   end
 
 
   private
-    def set_user_course
-      @user_course = UserCourse.find(params[:id])
-      authorize @user_course
+    def set_subscription
+      @subscription = Subscription.find(params[:id])
+      authorize @subscription
     end
 
     def authorize_subscription
-      authorize UserCourse
+      authorize Subscription
     end
 end

@@ -15,8 +15,10 @@
 
 class User < ApplicationRecord
   authenticates_with_sorcery!
-  has_many :user_courses, dependent: :delete_all
-  has_many :courses, through: :user_courses
-  has_many :deliveries, through: :user_courses
+  has_many :subscriptions, dependent: :delete_all
+  has_many :courses, through: :subscriptions
+  has_many :deliveries, through: :subscriptions
   has_many :own_courses, class_name: 'Course', foreign_key: :owner_id, dependent: :nullify
+
+  attribute :token, :string, default: SecureRandom.hex(10)
 end

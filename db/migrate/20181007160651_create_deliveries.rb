@@ -1,7 +1,7 @@
 class CreateDeliveries < ActiveRecord::Migration[5.2]
   def change
     create_table :deliveries do |t|
-      t.references :user_course, foreign_key: true
+      t.references :subscription, foreign_key: true
       t.references :book, foreign_key: true
       t.integer :index, null: false
       t.text :text
@@ -12,6 +12,6 @@ class CreateDeliveries < ActiveRecord::Migration[5.2]
     end
     add_index :deliveries, :deliver_at
     add_index :deliveries, :delivered
-    add_index :deliveries, [:user_course_id, :book_id, :index], unique: true
+    add_index :deliveries, [:subscription_id, :book_id, :index], unique: true
   end
 end

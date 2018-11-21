@@ -1,4 +1,4 @@
-class UserCoursePolicy < ApplicationPolicy
+class SubscriptionPolicy < ApplicationPolicy
   def deliver?
     update?
   end

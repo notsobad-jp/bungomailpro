@@ -11,7 +11,7 @@
 #  updated_at     :datetime         not null
 #
 
-class UserCourse < ApplicationRecord
+class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :course
   has_many :deliveries, dependent: :destroy

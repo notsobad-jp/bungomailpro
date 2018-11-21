@@ -10,7 +10,7 @@
   = link_to '作成したコース', owned_courses_path, class: 'item'
 
 
-- if @user_courses.blank?
+- if @subscriptions.blank?
   .ui.secondary.basic.center.aligned.segment
     %p 購読中のコースがありません。
     = link_to courses_path, class: 'ui blue button' do
@@ -18,17 +18,17 @@
       コースを探す
 
 .ui.middle.alligned.divided.relaxed.large.list
-  - @user_courses.each do |user_course|
-    - course = user_course.course
+  - @subscriptions.each do |subscription|
+    - course = subscription.course
     .item
       .right.floated.content
-        = link_to subscription_path(user_course), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'購読解除', 'data-inverted'=>'', data: {confirm: '購読を解除します。本当によろしいですか？'} do
+        = link_to subscription_path(subscription), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'購読解除', 'data-inverted'=>'', data: {confirm: '購読を解除します。本当によろしいですか？'} do
           %i.icon.trash
       .content
         .header
           = link_to course_path(course) do
             = course.title
-          %span.ui.mini.label{class: label_class(user_course.status)}
-            = label_name user_course.status
+          %span.ui.mini.label{class: label_class(subscription.status)}
+            = label_name subscription.status
         %small.description
           = course.description.truncate(30)
