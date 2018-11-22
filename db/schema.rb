@@ -15,14 +15,12 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "books", id: false, force: :cascade do |t|
-    t.bigint "id", null: false
+  create_table "books", id: :bigint, default: nil, force: :cascade do |t|
     t.string "title", null: false
     t.string "author", null: false
     t.bigint "author_id", null: false
     t.text "text"
     t.text "footnote"
-    t.index ["id"], name: "index_books_on_id", unique: true
   end
 
   create_table "course_books", force: :cascade do |t|

@@ -8,6 +8,6 @@ class CreateBooks < ActiveRecord::Migration[5.2]
       t.text :text
       t.text :footnote
     end
-    add_index :books, :id, unique: true
+    execute "ALTER TABLE books ADD PRIMARY KEY (id);"
   end
 end

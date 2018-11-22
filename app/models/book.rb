@@ -67,27 +67,27 @@ class Book < ApplicationRecord
         # ルビ内に外字がある場合、外字を*に置き換えてルビを削除（あとで同じ外字に一括ルビ振り）
         if ruby.css('rb img.gaiji').first
           ruby.css('rb img.gaiji').each do |img|
-            img.replace('※'.encode("Shift_JIS"))
+            img.replace('※'.encode('Shift_JIS', invalid: :replace, undef: :replace))
           end
           rb = ruby.css('rb').inner_text
           rubys[rb] = "#{rb}（#{ruby.css('rt').inner_text}）"
-          ruby.replace(rb.encode("Shift_JIS"))
+          ruby.replace(rb.encode('Shift_JIS', invalid: :replace, undef: :replace))
         # 外字なしのルビは、常用漢字の有無でルビを残すか判定
         else
           rb = ruby.css('rb').inner_text
           # 常用漢字なし：ルビを残す
           if (rb.split("") & USUAL_KANJIS).empty?
-            ruby.replace(rb.encode('Shift_JIS'))
-            ruby.replace("#{rb}（#{ruby.css('rt').inner_text}）".encode('Shift_JIS'))
+            ruby.replace(rb.encode('Shift_JIS', invalid: :replace, undef: :replace))
+            ruby.replace("#{rb}（#{ruby.css('rt').inner_text}）".encode('Shift_JIS', invalid: :replace, undef: :replace))
           # 常用漢字あり：ルビを削除
           else
-            ruby.replace(rb.encode('Shift_JIS'))
+            ruby.replace(rb.encode('Shift_JIS', invalid: :replace, undef: :replace))
           end
         end
       end
       # ルビなしの外字はすべて*に置換（一度ルビが振られてたものは後で一括ルビ振り）
       doc.search('img.gaiji').each do |img|
-        img.replace('※'.encode("Shift_JIS"))
+        img.replace('※'.encode('Shift_JIS', invalid: :replace, undef: :replace))
       end
 
       text = doc.css('.main_text').inner_text
