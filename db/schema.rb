@@ -95,13 +95,13 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.string "token", null: false
     t.string "crypted_password"
     t.string "salt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "magic_login_token"
     t.datetime "magic_login_token_expires_at"
     t.datetime "magic_login_email_sent_at"
     t.string "remember_me_token"
     t.datetime "remember_me_token_expires_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"

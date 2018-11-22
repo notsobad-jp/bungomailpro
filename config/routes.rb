@@ -1,6 +1,7 @@
 # == Route Map
 #
 #                    Prefix Verb   URI Pattern                                                                              Controller#Action
+#             owned_courses GET    /courses/owned(.:format)                                                                 courses#owned
 #            publish_course POST   /courses/:id/publish(.:format)                                                           courses#publish
 #                   courses GET    /courses(.:format)                                                                       courses#index
 #                           POST   /courses(.:format)                                                                       courses#create

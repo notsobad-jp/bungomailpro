@@ -7,6 +7,7 @@
 #  author    :string           not null
 #  author_id :bigint(8)        not null
 #  text      :text
+#  footnote  :text
 #
 
 class Book < ApplicationRecord

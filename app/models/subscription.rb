@@ -1,14 +1,15 @@
 # == Schema Information
 #
-# Table name: user_courses
+# Table name: subscriptions
 #
-#  id             :bigint(8)        not null, primary key
-#  user_id        :bigint(8)
-#  course_id      :bigint(8)
-#  status         :integer          default(1), not null
-#  delivery_hours :text
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id              :bigint(8)        not null, primary key
+#  user_id         :bigint(8)
+#  course_id       :bigint(8)
+#  next_book_index :integer          default(1), not null
+#  status          :integer          default(1), not null
+#  delivery_hours  :text
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class Subscription < ApplicationRecord

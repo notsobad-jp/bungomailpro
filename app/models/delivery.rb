@@ -2,15 +2,15 @@
 #
 # Table name: deliveries
 #
-#  id             :bigint(8)        not null, primary key
+#  id              :bigint(8)        not null, primary key
 #  subscription_id :bigint(8)
-#  book_id        :bigint(8)
-#  index          :integer          not null
-#  text           :text
-#  deliver_at     :datetime
-#  delivered      :boolean          default(FALSE)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  book_id         :bigint(8)
+#  index           :integer          not null
+#  text            :text
+#  deliver_at      :datetime
+#  delivered       :boolean          default(FALSE)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class Delivery < ApplicationRecord
