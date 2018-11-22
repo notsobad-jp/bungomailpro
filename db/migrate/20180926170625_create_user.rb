@@ -6,12 +6,12 @@ class CreateUser < ActiveRecord::Migration[5.2]
       t.string :crypted_password
       t.string :salt
 
-      t.string :magic_login_token, :string, default: nil
-      t.string :magic_login_token_expires_at, :datetime, default: nil
-      t.string :magic_login_email_sent_at, :datetime, default: nil
+      t.string :magic_login_token, default: nil
+      t.datetime :magic_login_token_expires_at, default: nil
+      t.datetime :magic_login_email_sent_at, default: nil
 
-      t.string :remember_me_token, :string, default: nil
-      t.string :remember_me_token_expires_at, :datetime, default: nil
+      t.string :remember_me_token, default: nil
+      t.datetime :remember_me_token_expires_at, default: nil
 
       t.timestamps
     end
