@@ -3,6 +3,7 @@
 #                    Prefix Verb   URI Pattern                                                                              Controller#Action
 #             owned_courses GET    /courses/owned(.:format)                                                                 courses#owned
 #            publish_course POST   /courses/:id/publish(.:format)                                                           courses#publish
+#              books_course GET    /courses/:id/books(.:format)                                                             courses#books
 #                   courses GET    /courses(.:format)                                                                       courses#index
 #                           POST   /courses(.:format)                                                                       courses#create
 #                new_course GET    /courses/new(.:format)                                                                   courses#new
@@ -52,6 +53,7 @@ Rails.application.routes.draw do
   resources :courses do
     get 'owned', on: :collection, as: :owned
     post 'publish', on: :member, as: :publish
+    get 'books', on: :member, as: :books
   end
   resources :deliveries
   resources :magic_tokens

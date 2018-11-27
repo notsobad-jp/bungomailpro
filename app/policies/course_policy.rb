@@ -19,6 +19,10 @@ class CoursePolicy < ApplicationPolicy
     create?
   end
 
+  def books?
+    show?
+  end
+
   class Scope < Scope
     def resolve
       scope.where(status: 2).or(scope.where(owner_id: user.id, status: 1))

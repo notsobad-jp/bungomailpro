@@ -1,0 +1,12 @@
+= render partial: 'course_header', locals: {course: @course, subscription: @subscription, path: 'books'}
+
+.ui.middle.alligned.relaxed.large.ordered.list
+  - @course.course_books.each do |course_book|
+    - book = course_book.book
+    .item
+      .right.floated.content
+      .content
+        .header
+          = book.title
+        %small.description
+          = book.author

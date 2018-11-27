@@ -1,0 +1,40 @@
+- content_for :breadcrumb do
+  = link_to 'コース一覧', courses_path, class: 'section'
+  %i.icon.right.angle.divider
+  - if path == 'course'
+    = course.title
+  - else
+    = link_to course.title, course_path(course), class: 'section'
+    %i.icon.right.angle.divider
+    = path=='books' ? '登録書籍' : '配信状況'
+
+%h1.ui.huge.header
+  = course.title
+  - if subscription
+    %span.ui.orange.mini.label 購読中
+
+%div
+  - if subscription
+    = link_to subscription_path(subscription), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'購読解除', 'data-inverted'=>'', data: {confirm: '購読を解除します。本当によろしいですか？'} do
+      %i.icon.trash
+      購読解除
+  - else
+    = link_to subscriptions_path(course_id: course.id), method: :post, class: 'ui red icon left labeled small button' do
+      %i.icon.feed
+      このコースを購読する
+
+.ui.secondary.pointing.menu
+  - if path == 'course'
+    .active.item コース概要
+  - else
+    = link_to 'コース概要', course_path(course), class: 'item'
+
+  - if path == 'books'
+    .active.item 登録書籍
+  - else
+    = link_to '登録書籍', books_course_path(course), class: 'item'
+
+  - if path == 'subscription'
+    .active.item 配信状況
+  - elsif subscription
+    = link_to '配信状況', subscription_path(subscription), class: 'item'

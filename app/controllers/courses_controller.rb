@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
-  before_action :require_login, except: [:index, :show]
+  before_action :require_login, except: [:index, :show, :books]
   before_action :authorize_course, only: [:index, :new, :create, :owned]
-  before_action :set_course_with_books, only: [:show, :edit, :update, :publish, :destroy]
+  before_action :set_course_with_books, only: [:show, :edit, :update, :publish, :destroy, :books]
   after_action :verify_authorized
 
 
@@ -55,6 +55,10 @@ class CoursesController < ApplicationController
 
   def owned
     @courses = policy_scope current_user.own_courses
+  end
+
+  def books
+    @subscription = current_user.subscriptions.find_by(course_id: @course.id) if current_user
   end
 
 

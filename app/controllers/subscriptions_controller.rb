@@ -1,18 +1,21 @@
 class SubscriptionsController < ApplicationController
   before_action :require_login
   before_action :authorize_subscription, only: [:index, :create]
-  before_action :set_subscription, only: [:destroy, :update, :skip, :deliver]
+  before_action :set_subscription, only: [:destroy, :update, :skip, :deliver, :show]
   after_action :verify_authorized
 
   def index
     @subscriptions = current_user.subscriptions
   end
 
+  def show
+  end
+
   def create
     course_id = params[:course_id]
     @subscription = Subscription.create(user_id: current_user.id, course_id: course_id, delivery_hours: ['8:00'])
     @subscription.set_deliveries
-    redirect_to course_path(course_id)
+    redirect_to @subscription.course
   end
 
   def destroy
@@ -33,14 +36,14 @@ class SubscriptionsController < ApplicationController
       @subscription.pause
     end
 
-    redirect_to @subscription.course
+    redirect_to @subscription
   end
 
 
   # 現在の本をスキップ
   def skip
     @subscription.skip_current_book
-    redirect_to @subscription.course
+    redirect_to @subscription
   end
 
 
@@ -49,13 +52,13 @@ class SubscriptionsController < ApplicationController
     @delivery = @subscription.deliveries.includes(:user, :book).where(delivered: false).order(:deliver_at).first
     @delivery.try(:deliver)
     flash[:success] = 'メールを配信しました！'
-    redirect_to @subscription.course
+    redirect_to @subscription
   end
 
 
   private
     def set_subscription
-      @subscription = Subscription.find(params[:id])
+      @subscription = Subscription.includes(:course).find(params[:id])
       authorize @subscription
     end
 

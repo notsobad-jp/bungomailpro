@@ -33,7 +33,7 @@
   - if @course.status == 1
     = f.fields_for :course_books do |cb|
       - course_book = cb.object
-      %div.item(id="#{course_book.book_id}" data-saved="true")
+      .item(id="#{course_book.book_id}" data-saved="true")
         .right.floated.content
           .ui.icon.basic.button(onclick="removeBook(#{course_book.book_id})")
             %i.icon.remove
