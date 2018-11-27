@@ -23,5 +23,6 @@ class User < ApplicationRecord
   has_many :deliveries, through: :subscriptions
   has_many :own_courses, class_name: 'Course', foreign_key: :owner_id, dependent: :nullify
 
+  validates :email, presence: true, uniqueness: true
   attribute :token, :string, default: SecureRandom.hex(10)
 end

@@ -10,12 +10,10 @@
   = link_to '作成したコース', owned_courses_path, class: 'item'
 
 
-- if @subscriptions.blank?
-  .ui.secondary.basic.center.aligned.segment
-    %p 購読中のコースがありません。
-    = link_to courses_path, class: 'ui blue button' do
-      %i.icon.search
-      コースを探す
+.ui.secondary.basic.center.aligned.segment
+  = link_to courses_path, class: 'ui blue button' do
+    %i.icon.search
+    公開されているコースを探す
 
 .ui.middle.alligned.divided.relaxed.large.list
   - @subscriptions.each do |subscription|

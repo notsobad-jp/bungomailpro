@@ -19,13 +19,26 @@
   .ui.warning.visible.message
     %i.icon.warning.circle
     公開済みのコースでは本を編集することができません。修正したい場合は新しいコースを作り直してください。
+- else
+  %div
+    %small
+      = link_to 'https://www.aozora.gr.jp/index_pages/index_top.html', target: '_blank' do
+        青空文庫で作品を探す
+        %i.icon.external
 .ui.secondary.padded.segment{class: "#{'hidden' if @course.status != 1}"}
   .ui.action.fluid.input
-    %input#searchInput(type="text" placeholder="青空文庫の作品ページURLを入力")
+    %input#searchInput(type="text" placeholder="青空文庫の作品URL")
     = link_to '/books/scrape/?url=', id: 'searchButton', class: 'ui primary button', method: :post, remote: true do
       %i.add.icon
       追加
-.ui.hidden.divider
+  %div
+    %small
+      （
+      = link_to '図書カード', 'https://www.aozora.gr.jp/cards/000035/card1567.html', target: '_blank'
+      もしくは
+      = link_to 'XHTMLファイル', 'https://www.aozora.gr.jp/cards/000035/files/1567_14913.html', target: '_blank'
+      のURL
+      ）
 #loader.ui.disabled.text.loader Loading..
 
 
