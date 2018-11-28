@@ -103,23 +103,22 @@ class Subscription < ApplicationRecord
     return self.delivery_hours.first.in_time_zone.tomorrow
   end
 
+  def current_book
+    current_book_index = [self.next_book_index - 1, 1].max
+    self.course.course_books.includes(:book).find_by(index: current_book_index).try(:book)
+  end
+
+  def next_delivery_index
+    #[TODO]次の本の初回を配信せずに中断・再開した場合は？
+    last_delivery ? last_delivery.index + 1 : 1
+  end
 
   private
-    def current_book
-      current_book_index = [self.next_book_index - 1, 1].max
-      self.course.course_books.includes(:book).find_by(index: current_book_index).try(:book)
-    end
-
     def next_book
       self.course.course_books.includes(:book).find_by(index: self.next_book_index).try(:book)
     end
 
     def last_delivery
       self.deliveries.order(deliver_at: :desc).first
-    end
-
-    def next_delivery_index
-      #[TODO]次の本の初回を配信せずに中断・再開した場合は？
-      last_delivery ? last_delivery.index + 1 : 1
     end
 end
