@@ -28,7 +28,7 @@ class MagicTokensController < ApplicationController
       remember_me!
       @user.clear_magic_login_token!
       flash[:success] = 'ログインしました！'
-      redirect_to(root_path, notice: 'Logged in successfully')
+      redirect_to(user_path(@user.token), notice: 'Logged in successfully')
     end
   end
 

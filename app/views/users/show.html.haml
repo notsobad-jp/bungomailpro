@@ -1,0 +1,35 @@
+- content_for :breadcrumb do
+  マイページ
+
+%h1.ui.header マイページ
+
+.ui.secondary.pointing.menu
+  .active.item プロフィール
+  = link_to '購読中コース', subscriptions_path, class: 'item'
+  = link_to '作成したコース', owned_courses_path, class: 'item'
+
+.ui.warning.small.message
+  プロフィール編集はまだできません。もうちょっとお待ちください。
+  メールアドレスの変更や解約希望はinfo@notsobad.jpまで直接ご連絡ください。
+
+%br
+.ui.stackable.grid
+  .row
+    .three.wide.column
+      = image_tag(@user.profile_image_url, class: 'ui circular small image', style: 'max-width: 100px;')
+    .thirteen.wide.column
+      .ui.form
+        .field
+          %label.label ニックネーム
+          .ui.fluid.input
+            %input(type="text" value="#{@user.token}" disabled)
+        .field
+          %label.label メールアドレス
+          .ui.fluid.input
+            %input(type="text" value="#{@user.email}" disabled)
+        .field
+          %label.label 登録日
+          = @user.created_at.strftime('%Y年%m月%d日')
+        .field
+          %label.label 現在のプラン
+          %span.ui.orange.label FREE

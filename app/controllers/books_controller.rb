@@ -1,6 +1,8 @@
 require 'open-uri'
 
 class BooksController < ApplicationController
+  before_action :require_login
+
   def scrape
     url = params[:url]
 

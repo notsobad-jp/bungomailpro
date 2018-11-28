@@ -1,11 +1,12 @@
 - content_for :breadcrumb do
-  = link_to 'マイページ', subscriptions_path, class: 'section'
+  = link_to 'マイページ', user_path(current_user.token), class: 'item'
   %i.icon.right.angle.divider
   作成したコース
 
 %h1.ui.header マイページ
 
 .ui.secondary.pointing.menu
+  = link_to 'プロフィール', user_path(current_user.token), class: 'item'
   = link_to '購読中コース', subscriptions_path, class: 'item'
   .active.item 作成したコース
 

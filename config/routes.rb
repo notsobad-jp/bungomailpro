@@ -55,12 +55,14 @@ Rails.application.routes.draw do
     post 'publish', on: :member, as: :publish
     get 'books', on: :member, as: :books
   end
-  resources :deliveries
-  resources :magic_tokens
   resources :subscriptions do
     post 'skip', on: :member, as: :skip
     post 'deliver', on: :member, as: :deliver
   end
+  resources :deliveries
+  resources :magic_tokens
+
+  get 'users/:token' => 'users#show', as: :user
 
   post 'books/scrape' => 'books#scrape'
 

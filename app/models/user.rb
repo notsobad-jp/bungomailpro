@@ -29,4 +29,9 @@ class User < ApplicationRecord
   before_create do
     self.token = SecureRandom.hex(10)
   end
+
+  def profile_image_url
+    hash = Digest::MD5.hexdigest(self.email.downcase)
+    "https://www.gravatar.com/avatar/#{hash}"
+  end
 end
