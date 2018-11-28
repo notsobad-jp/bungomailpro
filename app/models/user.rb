@@ -23,6 +23,10 @@ class User < ApplicationRecord
   has_many :deliveries, through: :subscriptions
   has_many :own_courses, class_name: 'Course', foreign_key: :owner_id, dependent: :nullify
 
-  validates :email, presence: true, uniqueness: true
-  attribute :token, :string, default: SecureRandom.hex(10)
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
+
+  before_create do
+    self.token = SecureRandom.hex(10)
+  end
 end
