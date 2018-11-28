@@ -1,9 +1,14 @@
 require 'open-uri'
-require 'nokogiri'
 
 class BooksController < ApplicationController
   def scrape
     url = params[:url]
+
+    # 図書カードURLが来てたら、ファイルURLに変換
+    if url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/(\d+)\/card\d+.html/)
+      url = Book.card_to_file_url(url)
+    end
+
     match = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/files\/(\d+)_\d+\.html/).to_a
     return if !match
 
