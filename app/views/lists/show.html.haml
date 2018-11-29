@@ -1,0 +1,10 @@
+= render partial: 'list_header', locals: {list: @list, subscription: @subscription, path: 'list'}
+
+.ui.small.horizontal.list
+  .item
+    %i.icon.book
+    登録数：
+    = @list.list_books.count
+    冊
+
+%div= simple_format_with_link @list.description

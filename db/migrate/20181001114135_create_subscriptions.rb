@@ -1,6 +1,6 @@
-class CreateUserBooks < ActiveRecord::Migration[5.2]
+class CreateSubscriptions < ActiveRecord::Migration[5.2]
   def change
-    create_table :user_books do |t|
+    create_table :subscriptions do |t|
       t.references :user, foreign_key: true, null: false
       t.references :book, foreign_key: true, null: false
       t.references :list, foreign_key: true
@@ -9,9 +9,9 @@ class CreateUserBooks < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_index :user_books, :status
-    add_index :user_books, :index
-    add_index :user_books, [:user_id, :book_id], unique: true
-    add_index :user_books, [:user_id, :index], unique: true
+    add_index :subscriptions, :status
+    add_index :subscriptions, :index
+    add_index :subscriptions, [:user_id, :book_id], unique: true
+    add_index :subscriptions, [:user_id, :index], unique: true
   end
 end

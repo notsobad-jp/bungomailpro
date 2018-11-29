@@ -1,9 +1,9 @@
 - content_for :breadcrumb do
   = link_to 'マイページ', subscriptions_path, class: 'section'
   %i.icon.right.angle.divider
-  コース作成
+  リスト作成
 
-%h1 新しいコースを作成する
+%h1 新しいリストを作成する
 
-= form_for @course, url: {action: 'create'}, html: {class: 'ui form'} do |f|
+= form_for @list, url: {action: 'create'}, html: {class: 'ui form'} do |f|
   = render partial: 'form', locals: {f: f}

@@ -1,19 +1,19 @@
 # == Schema Information
 #
-# Table name: courses
+# Table name: lists
 #
 #  id          :bigint(8)        not null, primary key
+#  user_id     :bigint(8)        not null
 #  title       :string           not null
 #  description :text
-#  owner_id    :bigint(8)        not null
-#  status      :integer          default(1), not null
+#  published   :boolean          default(FALSE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 class List < ApplicationRecord
   belongs_to :user
-  has_many :list_books, -> { order(:index) }
+  has_many :list_books, -> { order(:index) }, dependent: :destroy
   has_many :books, through: :list_books
   accepts_nested_attributes_for :list_books, allow_destroy: true
 

@@ -18,7 +18,7 @@
 
 class User < ApplicationRecord
   authenticates_with_sorcery!
-  has_many :user_books, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_many :lists
   has_many :deliveries, through: :user_books
 
@@ -32,5 +32,9 @@ class User < ApplicationRecord
   def profile_image_url
     hash = Digest::MD5.hexdigest(self.email.downcase)
     "https://www.gravatar.com/avatar/#{hash}"
+  end
+
+  def subscribed?(book)
+    self.subscriptions.where(book_id: book.id).present?
   end
 end

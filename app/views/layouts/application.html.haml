@@ -20,13 +20,10 @@
             = link_to root_path, class: 'item' do
               %i.icon.home
               ホーム
-            = link_to courses_path, class: 'item' do
+            = link_to lists_path, class: 'item' do
               %i.icon.search
-              コース一覧
+              リスト一覧
             - if current_user
-              = link_to new_course_path, class: 'item' do
-                %i.icon.plus
-                コース作成
               = link_to user_path(current_user.token), class: 'item' do
                 %i.icon.user
                 マイページ
@@ -37,11 +34,12 @@
               = link_to login_path, class: 'item' do
                 %i.icon.sign.in
                 ログイン
-    - if path == 'pages#pro'
+    - if path == 'pages#about'
       = yield
     - else
       %div#main-content
-        = render partial: 'layouts/breadcrumb'
+        - if path != 'pages#top'
+          = render partial: 'layouts/breadcrumb'
         .ui.container
           .ui.stackable.grid
             .ui.twelve.wide.column
@@ -50,4 +48,5 @@
                   .ui.message(class="#{status}")
                     = flash[status]
               = yield
+            .ui.four.wide.column
     = render partial: 'layouts/footer'

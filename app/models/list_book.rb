@@ -1,11 +1,12 @@
 # == Schema Information
 #
-# Table name: course_books
+# Table name: list_books
 #
 #  id         :bigint(8)        not null, primary key
-#  course_id  :bigint(8)
+#  list_id    :bigint(8)
 #  book_id    :bigint(8)
 #  index      :integer          not null
+#  comment    :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

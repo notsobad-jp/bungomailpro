@@ -2,21 +2,18 @@
 #
 # Table name: deliveries
 #
-#  id              :bigint(8)        not null, primary key
-#  subscription_id :bigint(8)
-#  book_id         :bigint(8)
-#  index           :integer          not null
-#  text            :text
-#  deliver_at      :datetime
-#  delivered       :boolean          default(FALSE)
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id           :bigint(8)        not null, primary key
+#  user_book_id :bigint(8)        not null
+#  next_index   :integer          default(1), not null
+#  deliver_at   :datetime
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 class Delivery < ApplicationRecord
-  belongs_to :user_book
-  has_one :user, through: :user_book
-  has_one :book, through: :user_book
+  belongs_to :subscription
+  has_one :user, through: :subscription
+  has_one :book, through: :subscription
 
 
   def deliver

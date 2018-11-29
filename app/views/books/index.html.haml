@@ -1,0 +1,29 @@
+- content_for :breadcrumb do
+  作品一覧
+
+%h1.ui.header 作品一覧
+
+.ui.secondary.padded.segment
+  .ui.action.fluid.input
+    %input#searchInput(type="text" placeholder="青空文庫の作品URL")
+    = link_to '/books/scrape/?url=', id: 'searchButton', class: 'ui primary button', method: :post, remote: true do
+      %i.search.icon
+      検索
+#loader.ui.disabled.text.loader Loading..
+
+%br
+
+.ui.middle.alligned.divided.relaxed.large.list
+  - @books.each do |book|
+    .item
+      .right.floated.content
+        - if current_user && current_user.subscribed?(book)
+          %small 追加済み
+        - else
+          = link_to subscriptions_path(book_id: book.id), method: :post, class: 'ui red small button' do
+            %i.icon.plus
+            配信リストに追加
+      .content
+        .header= book.title
+        .meta
+          %small= book.author

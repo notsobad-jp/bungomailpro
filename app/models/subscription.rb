@@ -1,21 +1,21 @@
 # == Schema Information
 #
-# Table name: subscriptions
+# Table name: user_books
 #
-#  id              :bigint(8)        not null, primary key
-#  user_id         :bigint(8)
-#  course_id       :bigint(8)
-#  next_book_index :integer          default(1), not null
-#  status          :integer          default(1), not null
-#  delivery_hours  :text
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id         :bigint(8)        not null, primary key
+#  user_id    :bigint(8)        not null
+#  book_id    :bigint(8)        not null
+#  list_id    :bigint(8)
+#  index      :integer          default(1), not null
+#  status     :integer          default(1), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
-class UserBook < ApplicationRecord
+class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :book
-  belongs_to :list
+  belongs_to :list, optional: true
   has_one :delivery, dependent: :destroy
 
   validates :status, inclusion: { in: [1,2,3] }

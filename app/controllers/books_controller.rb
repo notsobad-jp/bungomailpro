@@ -1,7 +1,16 @@
 require 'open-uri'
 
 class BooksController < ApplicationController
-  before_action :require_login
+  before_action :require_login, only: [:scrape]
+
+  def index
+    #FIXME: 仮の一覧表示
+    @books = Book.all
+  end
+
+  def show
+    @book = Book.find(params[:id])
+  end
 
   def scrape
     url = params[:url]
@@ -18,7 +27,20 @@ class BooksController < ApplicationController
     render json: book.attributes and return if book
 
     book_params = Book.parse_html(url)
-    book = Book.create(book_params)
-    render json: book.attributes
+    text = book_params.delete(:text)
+    book = Book.new(book_params)
+
+    chapters = []
+    Book.splited_text(text).each.with_index(1) do |chapter, index|
+      chapters << Chapter.new(index: index, text: chapter)
+    end
+    book.chapters = chapters
+
+    if book.save
+      render json: book.attributes
+    else
+      p book.errors
+      return nil
+    end
   end
 end

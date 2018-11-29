@@ -5,17 +5,23 @@ class SubscriptionsController < ApplicationController
   after_action :verify_authorized
 
   def index
-    @subscriptions = current_user.subscriptions.includes(course: :books)
+    @subscriptions = current_user.subscriptions.includes(:book)
   end
 
   def show
   end
 
   def create
-    course_id = params[:course_id]
-    @subscription = Subscription.create(user_id: current_user.id, course_id: course_id, delivery_hours: ['8:00'])
-    @subscription.set_deliveries
-    redirect_to @subscription.course
+    book_id = params[:book_id]
+    current_index = current_user.subscriptions.maximum(:index) || 0
+    @subscription = Subscription.new(user_id: current_user.id, book_id: book_id, index: current_index + 1)
+
+    if @subscription.save
+      flash[:success] = '配信リストに追加しました🎉'
+      redirect_to subscriptions_path
+    else
+      p @subscription.errors
+    end
   end
 
   def destroy
@@ -40,13 +46,6 @@ class SubscriptionsController < ApplicationController
   end
 
 
-  # 現在の本をスキップ
-  def skip
-    @subscription.skip_current_book
-    redirect_to @subscription
-  end
-
-
   #FIXME: テスト配信メソッド
   def deliver
     @delivery = @subscription.deliveries.includes(:user, :book).where(delivered: false).order(:deliver_at).first
@@ -58,7 +57,7 @@ class SubscriptionsController < ApplicationController
 
   private
     def set_subscription
-      @subscription = Subscription.includes(:course).find(params[:id])
+      @subscription = Subscription.includes(:books).find(params[:id])
       authorize @subscription
     end
 

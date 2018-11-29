@@ -1,0 +1,20 @@
+- content_for :breadcrumb do
+  リスト一覧
+
+%h1.ui.header リスト一覧
+
+.ui.two.doubling.cards
+  - @lists.each do |list|
+    = link_to list_path(list), class: 'ui card' do
+      .content
+        .header= list.title
+        .meta
+          .ui.horizontal.list
+            .item
+              %i.icon.book
+              = list.list_books.count
+              冊
+            .item
+              %i.icon.calendar.alternate.outline
+              = list.updated_at.strftime('%Y年%m月%d日')
+        .description= list.description.truncate(40)

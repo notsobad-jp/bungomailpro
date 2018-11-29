@@ -50,25 +50,19 @@
 #      rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
 
 Rails.application.routes.draw do
-  resources :courses do
-    get 'owned', on: :collection, as: :owned
-    post 'publish', on: :member, as: :publish
-    get 'books', on: :member, as: :books
-  end
-  resources :subscriptions do
-    post 'skip', on: :member, as: :skip
-    post 'deliver', on: :member, as: :deliver
-  end
+  resources :lists
+  resources :books
+  resources :subscriptions
   resources :deliveries
   resources :magic_tokens
 
   get 'users/:token' => 'users#show', as: :user
-
+  get 'about' => 'pages#about', as: :about
   post 'books/scrape' => 'books#scrape'
 
   get 'login' => 'magic_tokens#new', as: :login
   get 'auth' => 'magic_tokens#auth', as: :auth
   post 'logout' => 'magic_tokens#destroy', as: :logout
 
-  root to: 'pages#pro'
+  root to: 'pages#top'
 end

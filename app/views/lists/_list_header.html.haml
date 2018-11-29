@@ -1,8 +1,8 @@
 - content_for :breadcrumb do
-  = link_to 'コース一覧', courses_path, class: 'section'
+  = link_to 'リスト一覧', lists_path
   %i.icon.right.angle.divider
   - if path == 'course'
-    = course.title
+    = list.title
   - else
     = link_to course.title, course_path(course), class: 'section'
     %i.icon.right.angle.divider

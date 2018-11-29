@@ -6,13 +6,13 @@
 #  title     :string           not null
 #  author    :string           not null
 #  author_id :bigint(8)        not null
-#  text      :text
 #  footnote  :text
 #
 
 class Book < ApplicationRecord
   has_many :list_books, dependent: :nullify
   has_many :lists, through: :list_books
+  has_many :chapters, dependent: :destroy
   self.primary_key = 'id'
 
   validates :title, presence: true
@@ -24,36 +24,36 @@ class Book < ApplicationRecord
   )
 
 
-  # split novels
-  def splited_text(chars_per=800)
-    count = self.text.length.div(chars_per) + 1
-    chars_per = self.text.length.quo(count).ceil
-
-    contents = []
-    self.text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
-      if index == 0
-        contents[index] = content
-      else
-        # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
-        # 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
-        splits = content.sub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
-        contents[index-1] += splits[0]
-
-        # 前日の最後の１文を再掲する
-        last_sentence = contents[index-1].gsub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
-        contents[index] = last_sentence + splits[1]
-      end
-    end
-    return contents
-  end
-
-
   def aozora_card_url
     "https://www.aozora.gr.jp/cards/#{sprintf('%06d', self.author_id)}/card#{self.id}.html"
   end
 
 
   class << self
+    # split novels
+    def splited_text(text, chars_per=800)
+      count = text.length.div(chars_per) + 1
+      chars_per = text.length.quo(count).ceil
+
+      contents = []
+      text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
+        if index == 0
+          contents[index] = content
+        else
+          # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
+          # 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
+          splits = content.sub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
+          contents[index-1] += splits[0]
+
+          # 前日の最後の１文を再掲する
+          last_sentence = contents[index-1].gsub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
+          contents[index] = last_sentence + splits[1]
+        end
+      end
+      return contents
+    end
+
+
     # scrape and parse Aozora URL
     def parse_html(url)
       # 図書カードURLが来てたら、ファイルURLに変換

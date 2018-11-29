@@ -1,15 +1,56 @@
-%h1.ui.red.header HOME
+%br
+.ui.basic.segment
+  %div
+    %h3.ui.medium.header
+      %i.mini.icon.star
+      特集
 
-- if flash[:notice]
-  .ui.success.message
-    = flash[:notice]
+    .ui.three.stackable.cards
+      .ui.card
+        .content
+          .header ミステリー作品ツアー
+          .meta
+            %span.ui.mini.label.orange ミステリー
+          .description おもしろいやつ
+        .extra.content
+          %i.user.icon
+          User XXX
+      .ui.card
+        .content
+          .header おまかせ名作セット
+          .meta
+            %span.ui.mini.label.red 文豪読破
+          .description おもしろいやつ
+        .extra.content
+          %i.user.icon
+          User XXX
+      .ui.card
+        .content
+          .header 傑作短編集
+          .meta
+            %span.ui.mini.label.blue ポエム
+          .description おもしろいやつ
+        .extra.content
+          %i.user.icon
+          User XXX
+  %br
+  %br
 
-- if current_user
-  %p
-    Welcome
-    = current_user.email
-    !
-  = link_to "Logout", :logout, method: :post
-- else
-  %p Not logged in.
-  = link_to 'Login', login_path
+  %div
+    %h3.ui.medium.header
+      %i.mini.icon.book
+      人気の本
+
+    .ui.four.stackable.cards
+      .ui.card
+        .content
+          .header 走れメロス
+          .meta 太宰治
+        .extra.content
+          %button.ui.red.button 配信リストに追加
+      .ui.card
+        .content
+          .header 走れメロス
+          .meta 太宰治
+        .extra.content
+          %button.ui.red.button 配信リストに追加

@@ -1,0 +1,13 @@
+- content_for :breadcrumb do
+  = link_to '作品一覧', books_path
+  %i.icon.right.angle.divider
+  = @book.title
+
+
+%h1.ui.huge.header
+  = @book.title
+  .sub.header
+    = @book.author
+
+.ui.segment
+  = link_to '配信リストに追加', subscriptions_path(book_id: @book.id), method: :post, class: 'ui red button'
