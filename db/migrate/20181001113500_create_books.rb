@@ -5,7 +5,6 @@ class CreateBooks < ActiveRecord::Migration[5.2]
       t.string :title, null: false
       t.string :author, null: false
       t.integer :author_id, limit: 8, null: false
-      t.text :text
       t.text :footnote
     end
     execute "ALTER TABLE books ADD PRIMARY KEY (id);"

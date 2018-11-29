@@ -12,18 +12,13 @@
 #  updated_at      :datetime         not null
 #
 
-class Subscription < ApplicationRecord
+class UserBook < ApplicationRecord
   belongs_to :user
-  belongs_to :course
-  has_many :deliveries, dependent: :destroy
-  serialize :delivery_hours
+  belongs_to :book
+  belongs_to :list
+  has_one :delivery, dependent: :destroy
 
   validates :status, inclusion: { in: [1,2,3] }
-
-
-  #TODO: 配信時間変更
-  def change_delivery_hours
-  end
 
 
   def set_deliveries

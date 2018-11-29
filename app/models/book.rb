@@ -11,8 +11,8 @@
 #
 
 class Book < ApplicationRecord
-  has_many :course_books, dependent: :nullify
-  has_many :courses, through: :course_books
+  has_many :list_books, dependent: :nullify
+  has_many :lists, through: :list_books
   self.primary_key = 'id'
 
   validates :title, presence: true

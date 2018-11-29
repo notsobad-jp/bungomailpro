@@ -11,17 +11,14 @@
 #  updated_at  :datetime         not null
 #
 
-class Course < ApplicationRecord
-  has_many :subscriptions
-  has_many :users, through: :subscriptions
-  has_many :course_books, -> { order(:index) }
-  has_many :books, through: :course_books
-  belongs_to :owner, class_name: 'User', foreign_key: :owner_id
-  accepts_nested_attributes_for :course_books, allow_destroy: true
+class List < ApplicationRecord
+  belongs_to :user
+  has_many :list_books, -> { order(:index) }
+  has_many :books, through: :list_books
+  accepts_nested_attributes_for :list_books, allow_destroy: true
 
   validates :title, presence: true
-  validates :course_books, presence: true
-  validates :status, inclusion: { in: [1,2,3] }
+  validates :list_books, presence: true
 
 
   def first_book_id

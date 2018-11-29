@@ -10,7 +10,9 @@
 #  updated_at :datetime         not null
 #
 
-class CourseBook < ApplicationRecord
-  belongs_to :course, required: false
+class ListBook < ApplicationRecord
+  belongs_to :list, required: false
   belongs_to :book
+
+  validates :index, presence: true
 end
