@@ -15,6 +15,9 @@
 #  remember_me_token            :string
 #  remember_me_token_expires_at :datetime
 #
+require 'net/http'
+require 'uri'
+require 'json'
 
 class User < ApplicationRecord
   authenticates_with_sorcery!
@@ -32,6 +35,13 @@ class User < ApplicationRecord
   def profile_image_url
     hash = Digest::MD5.hexdigest(self.email.downcase)
     "https://www.gravatar.com/avatar/#{hash}"
+  end
+
+  def profile
+    hash = Digest::MD5.hexdigest(self.email.downcase)
+    uri = URI.parse "https://ja.gravatar.com/#{hash}.json"
+    json = Net::HTTP.get(uri)
+    JSON.parse(json)['entry'].first
   end
 
   def subscribed?(book)
