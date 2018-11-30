@@ -19,6 +19,6 @@ module ApplicationHelper
   end
 
   def footer_hidden
-    return 'hidden' if controller_name == 'courses' && %w(new edit create update).include?(action_name)
+    return 'hidden' if controller_name == 'channels' && %w(new edit create update).include?(action_name)
   end
 end

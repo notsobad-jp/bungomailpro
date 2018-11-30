@@ -1,0 +1,59 @@
+- content_for :breadcrumb do
+  = link_to '配信チャネル', subscriptions_path
+  %i.icon.right.angle.divider
+  = @channel.title
+
+
+%h1.ui.huge.header
+  = @channel.title
+
+  - if !@channel.public?
+    %small
+      %i.mini.red.lock.icon
+
+  - if @subscription
+    %span.ui.orange.mini.label 購読中
+
+%div
+  = link_to '編集する', edit_channel_path(@channel), class: 'ui primary small button'
+  = link_to channels_path(@channel), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
+    %i.icon.trash
+    削除
+
+%div= simple_format_with_link @channel.description
+
+.ui.small.header
+  %i.icon.podcast
+  配信中のタイトル
+.ui.secondary.padded.segment
+  - book = @channel.current_book
+  #{book.author}『#{book.title}』
+  = link_to book.aozora_card_url do
+    %i.icon.mini.external
+  ：
+  第#{@channel.index}回（全#{book.chapters_count}回配信）
+
+.ui.secondary.pointing.menu
+  - if @finished
+    = link_to '配信予定リスト', channel_path(@channel), class: 'item'
+    .active.item 過去の配信リスト
+  - else
+    .active.item 配信予定リスト
+    = link_to '過去の配信リスト', channel_path(@channel, books: 'finished'), class: 'item'
+
+.ui.middle.alligned.relaxed.large.ordered.list
+  - status = @finished ? 3 : 1
+  - books = @channel.channel_books.where(status: status)
+  - books.each do |cb|
+    - book = cb.book
+    .item
+      .content
+        .header
+          = book.title
+          = link_to book.aozora_card_url do
+            %i.icon.mini.external
+        .meta
+          %small= book.author
+
+- if books.blank?
+  %small まだ配信済みの本がないようです。始まったばかりなので、今が登録のチャンスですよ！

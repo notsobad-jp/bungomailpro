@@ -17,5 +17,7 @@ class ChannelBook < ApplicationRecord
   belongs_to :book
 
   validates :index, presence: true
+  validates :channel_id, uniqueness: { scope: [:book_id] }
+  validates :channel_id, uniqueness: { scope: [:index] }, allow_nil: true
   validates :status, inclusion: { in: [1,2,3] }
 end

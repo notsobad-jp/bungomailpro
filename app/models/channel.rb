@@ -20,7 +20,7 @@ class Channel < ApplicationRecord
   belongs_to :current_book, class_name: 'Book', foreign_key: 'book_id', optional: true
   has_many :channel_books, -> { order(:index) }, dependent: :destroy
   has_many :books, through: :channel_books
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
   has_many :subscribers, through: :subscriptions, source: :user
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 

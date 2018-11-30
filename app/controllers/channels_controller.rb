@@ -1,16 +1,17 @@
 class ChannelsController < ApplicationController
   before_action :require_login, except: [:index, :show]
-  before_action :authorize_channel, only: [:index, :new, :create, :owned]
+  before_action :authorize_channel, only: [:index, :new, :create]
   before_action :set_channel_with_books, only: [:show, :edit, :update, :publish, :destroy, :add_book]
   after_action :verify_authorized
 
 
   def index
-    @channels = Channel.where(status: 2)
+    @channels = Channel.where(public: true)
   end
 
   def show
     @subscription = current_user.subscriptions.find_by(channel_id: @channel.id) if current_user
+    @finished = params[:books] == 'finished'
   end
 
   def new
@@ -23,10 +24,11 @@ class ChannelsController < ApplicationController
   def create
     @channel = Channel.new channel_params
     @channel.user_id = current_user.id
+    @channel.subscriptions.new(user_id: current_user.id, deliver_at: ['8:00'])
 
     if @channel.save
       flash[:success] = 'チャネルを作成しました🎉'
-      redirect_to owned_channels_path
+      redirect_to subscriptions_path
     else
       render :new
     end
@@ -35,7 +37,7 @@ class ChannelsController < ApplicationController
   def update
     if @channel.update(channel_params)
       flash[:success] = '変更を保存しました🎉'
-      redirect_to owned_channels_path
+      redirect_to subscriptions_path
     else
       render :edit
     end
@@ -50,16 +52,10 @@ class ChannelsController < ApplicationController
     redirect_to subscriptions_path
   end
 
-  #TODO
   def destroy
-    @channel.update(status: 3)
-    flash[:success] = 'コースを削除しました'
-    redirect_to owned_channels_path
-  end
-
-  #TODO
-  def owned
-    @channels = policy_scope current_user.own_channels
+    @channel.destroy
+    flash[:success] = 'チャネルを削除しました'
+    redirect_to subscriptions_path
   end
 
   def add_book

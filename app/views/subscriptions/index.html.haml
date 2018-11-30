@@ -22,15 +22,9 @@
           .ui.fluid.card
             .content
               .header
-                = channel.title
-                - if channel.user != current_user
-                  %small(data-tooltip="共有" data-inverted="")
-                    %i.small.blue.users.icon
-                - elsif channel.public?
-                  %small(data-tooltip="公開" data-inverted="")
-                    %i.small.orange.unlock.icon
-                - else
-                  %small(data-tooltip="非公開" data-inverted="")
+                = link_to channel.title, channel_path(channel)
+                - if !channel.public?
+                  %small
                     %i.small.red.lock.icon
               .meta
                 %i.icon.book
@@ -49,18 +43,13 @@
               - elsif channel.books_count == 0
                 .ui.warning.message
                   .content
-                    まだ本が登録されていないようです。本を追加して配信開始しましょう！
-                    %br
-                    %br
-                    = link_to books_path, class: 'ui fluid primary button' do
-                      %i.icon.search
-                      本を検索する
+                    まだ本が登録されていないようです。「編集」ボタンから本を追加して配信開始しましょう！
             .extra.content
               - if !channel.current_book
                 - publishable = channel.publishable? ? '' : 'disabled'
-                = link_to '配信開始', publish_channel_path(subscription.channel), method: 'post', class: "ui red small fluid button #{publishable}"
+                = link_to '配信開始', publish_channel_path(subscription.channel), method: 'post', class: "ui red small button #{publishable}"
               = link_to '編集', edit_channel_path(channel), class: "ui primary small button"
-              = link_to channel_path(channel), method: 'destroy', class: 'ui basic small icon right floated button', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
+              = link_to channel_path(channel), method: :delete, class: 'ui basic small icon right floated button', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
                 %i.icon.trash
 
         - else

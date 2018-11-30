@@ -1,14 +1,6 @@
 class ChannelPolicy < ApplicationPolicy
-  def show?
-    update?
-  end
-
   def publish?
     update?
-  end
-
-  def owned?
-    create?
   end
 
   def add_book?
