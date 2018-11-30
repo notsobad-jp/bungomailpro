@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.bigint "channel_id"
     t.bigint "book_id"
     t.integer "index", null: false
-    t.integer "status", default: 1, null: false, comment: "1:waiting, 2:delivring, 3:finished"
+    t.integer "status", default: 1, null: false, comment: "1:waiting, 2:delivering, 3:finished"
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -41,7 +41,8 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
 
   create_table "channels", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "chapter_id"
+    t.bigint "book_id"
+    t.integer "index"
     t.string "title", null: false
     t.text "description"
     t.boolean "public", default: false, null: false
@@ -49,7 +50,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.integer "subscribers_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["chapter_id"], name: "index_channels_on_chapter_id"
+    t.index ["book_id"], name: "index_channels_on_book_id"
     t.index ["public"], name: "index_channels_on_public"
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
@@ -81,7 +82,8 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "channel_id", null: false
-    t.text "deliver_at", null: false
+    t.boolean "default", default: false, null: false
+    t.text "deliver_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
@@ -109,7 +111,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
 
   add_foreign_key "channel_books", "books"
   add_foreign_key "channel_books", "channels"
-  add_foreign_key "channels", "chapters"
+  add_foreign_key "channels", "books"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
   add_foreign_key "subscriptions", "channels"

@@ -3,7 +3,8 @@ class CreateSubscriptions < ActiveRecord::Migration[5.2]
     create_table :subscriptions do |t|
       t.references :user, foreign_key: true, null: false
       t.references :channel, foreign_key: true, null: false
-      t.text :deliver_at, null: false
+      t.boolean :default, null: false, default: false
+      t.text :deliver_at
 
       t.timestamps
     end

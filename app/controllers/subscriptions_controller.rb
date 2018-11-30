@@ -5,7 +5,7 @@ class SubscriptionsController < ApplicationController
   after_action :verify_authorized
 
   def index
-    @subscriptions = current_user.subscriptions.includes(:book)
+    @subscriptions = current_user.subscriptions.includes(channel: :current_book)
   end
 
   def show

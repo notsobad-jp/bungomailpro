@@ -21,26 +21,4 @@ module ApplicationHelper
   def footer_hidden
     return 'hidden' if controller_name == 'courses' && %w(new edit create update).include?(action_name)
   end
-
-  def label_class subscription_status
-    case subscription_status
-    when 1
-      'orange'
-    when 2
-      'yellow'
-    else
-      'default'
-    end
-  end
-
-  def label_name subscription_status
-    case subscription_status
-    when 1
-      '購読中'
-    when 2
-      '停止中'
-    else
-      '配信終了'
-    end
-  end
 end

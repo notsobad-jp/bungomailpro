@@ -2,7 +2,8 @@ class CreateChannels < ActiveRecord::Migration[5.2]
   def change
     create_table :channels do |t|
       t.references :user, foreign_key: true, null: false
-      t.references :chapter, foreign_key: true
+      t.references :book, foreign_key: true
+      t.integer :index
       t.string :title, null: false
       t.text :description
       t.boolean :public, null: false, default: false

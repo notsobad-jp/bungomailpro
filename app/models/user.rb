@@ -26,11 +26,21 @@ class User < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
+  validates :subscriptions, length: { minimum: 1, maximum: 3 }, on: :update
 
   before_create do
     self.token = SecureRandom.hex(10)
   end
 
+  after_create do
+    channel = self.channels.create(title: 'デフォルトチャネル')
+    self.subscriptions.create(channel_id: channel.id, default: true, deliver_at: ['7:00'])
+  end
+
+
+  def display_name
+    self.profile ? self.profile['displayName'] : self.token
+  end
 
   def profile_image_url
     hash = Digest::MD5.hexdigest(self.email.downcase)
@@ -41,7 +51,8 @@ class User < ApplicationRecord
     hash = Digest::MD5.hexdigest(self.email.downcase)
     uri = URI.parse "https://ja.gravatar.com/#{hash}.json"
     json = Net::HTTP.get(uri)
-    JSON.parse(json)['entry'].first
+
+    JSON.parse(json)['entry'].try(:first)
   end
 
   def subscribed?(book)

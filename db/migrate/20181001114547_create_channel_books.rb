@@ -4,7 +4,7 @@ class CreateChannelBooks < ActiveRecord::Migration[5.2]
       t.references :channel, foreign_key: true
       t.references :book, foreign_key: true
       t.integer :index, null: false
-      t.integer :status, null: false, default: 1, comment: "1:waiting, 2:delivring, 3:finished"
+      t.integer :status, null: false, default: 1, comment: "1:waiting, 2:delivering, 3:finished"
       t.text :comment
 
       t.timestamps

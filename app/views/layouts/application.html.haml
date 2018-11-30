@@ -20,9 +20,6 @@
             = link_to root_path, class: 'item' do
               %i.icon.home
               ホーム
-            = link_to lists_path, class: 'item' do
-              %i.icon.search
-              リスト一覧
             - if current_user
               = link_to user_path(current_user.token), class: 'item' do
                 %i.icon.user

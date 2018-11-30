@@ -1,11 +1,11 @@
 require 'open-uri'
 
 class BooksController < ApplicationController
-  before_action :require_login, only: [:scrape]
-
   def index
     #FIXME: 仮の一覧表示
     @books = Book.all
+    @default_channel_id = current_user.subscriptions.find_by(default: true).try(:channel_id) if current_user
+    @default_channel_id ||= 1 #FIXME
   end
 
   def show

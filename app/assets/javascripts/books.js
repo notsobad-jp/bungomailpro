@@ -23,7 +23,6 @@ document.addEventListener("turbolinks:load", () => {
       alert('データの追加に失敗しました(´；ω；｀) URLを再度ご確認いただき、それでも追加できない場合は運営までお問い合わせください。')
       return false;
     }
-    alert('作品を追加しました🎉')
   })
   document.body.addEventListener('ajax:error', (event) => {
     document.getElementById('loader').classList.replace('active', 'disabled');

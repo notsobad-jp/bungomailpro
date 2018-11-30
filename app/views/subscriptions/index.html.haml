@@ -1,33 +1,73 @@
 - content_for :breadcrumb do
   = link_to 'マイページ', user_path(current_user.token), class: 'item'
   %i.icon.right.angle.divider
-  配信リスト
+  配信チャネル
 
 %h1.ui.header マイページ
 
 .ui.secondary.pointing.menu
   = link_to 'プロフィール', user_path(current_user.token), class: 'item'
-  .active.item 配信リスト
+  .active.item 配信チャネル
 
+.ui.info.message
+  「チャネル」に読みたい本を追加して配信を開始しましょう。チャネルは3つまで購読できます。
 
-.ui.secondary.basic.center.aligned.segment
-  = link_to books_path, class: 'ui blue button' do
-    %i.icon.search
-    作品を検索する
+.ui.stackable.grid
+  .ui.three.columns.row
+    - 3.times do |i|
+      - subscription = @subscriptions[i]
+      .ui.column
+        - if subscription
+          - channel = subscription.channel
+          .ui.fluid.card
+            .content
+              .header
+                = channel.title
+                - if channel.user != current_user
+                  %small(data-tooltip="共有" data-inverted="")
+                    %i.small.blue.users.icon
+                - elsif channel.public?
+                  %small(data-tooltip="公開" data-inverted="")
+                    %i.small.orange.unlock.icon
+                - else
+                  %small(data-tooltip="非公開" data-inverted="")
+                    %i.small.red.lock.icon
+              .meta
+                %i.icon.book
+                #{channel.books_count}冊
+              .description= channel.description
+            .extra.content
+              - if channel.current_book
+                .ui.small.list
+                  .item
+                    %i.icon.rss
+                    = "#{channel.current_book.author}『#{channel.current_book.title}』"
+                    = "##{channel.index}（全#{channel.current_book.chapters_count}回）"
+                  .item
+                    %i.icon.clock.outline
+                    = subscription.deliver_at.join(", ")
+              - elsif channel.books_count == 0
+                .ui.warning.message
+                  .content
+                    まだ本が登録されていないようです。本を追加して配信開始しましょう！
+                    %br
+                    %br
+                    = link_to books_path, class: 'ui fluid primary button' do
+                      %i.icon.search
+                      本を検索する
+            .extra.content
+              - if !channel.current_book
+                - publishable = channel.publishable? ? '' : 'disabled'
+                = link_to '配信開始', publish_channel_path(subscription.channel), method: 'post', class: "ui red small fluid button #{publishable}"
+              = link_to '編集', edit_channel_path(channel), class: "ui primary small button"
+              = link_to channel_path(channel), method: 'destroy', class: 'ui basic small icon right floated button', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
+                %i.icon.trash
 
-.ui.middle.alligned.divided.relaxed.large.ordered.list
-  - @subscriptions.each do |subscription|
-    .item
-      .right.floated.content
-        = link_to subscription_path(subscription), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'リストから削除します。本当によろしいですか？'} do
-          %i.icon.trash
-      .content
-        - book = subscription.book
-        .header
-          = book.title
-          %small
-            &nbsp;
-            = link_to book.aozora_card_url, target: '_blank' do
-              %i.icon.mini.external
-        .description
-          %small= book.author
+        - else
+          .ui.placeholder.segment
+            .ui.icon.header
+              %i.icon.rss
+
+            = link_to 'チャネルを作成する', new_channel_path, class: 'ui primary small button'
+            .ui.horizontal.divider OR
+            = link_to '公開チャネルを購読する', channels_path, class: 'ui small button'

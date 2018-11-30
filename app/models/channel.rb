@@ -4,7 +4,8 @@
 #
 #  id                :bigint(8)        not null, primary key
 #  user_id           :bigint(8)        not null
-#  chapter_id        :bigint(8)
+#  book_id           :bigint(8)
+#  index             :integer
 #  title             :string           not null
 #  description       :text
 #  public            :boolean          default(FALSE), not null
@@ -16,32 +17,24 @@
 
 class Channel < ApplicationRecord
   belongs_to :user
+  belongs_to :current_book, class_name: 'Book', foreign_key: 'book_id', optional: true
   has_many :channel_books, -> { order(:index) }, dependent: :destroy
   has_many :books, through: :channel_books
+  has_many :subscriptions
+  has_many :subscribers, through: :subscriptions, source: :user
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true
-  validates :channel_books, length: { maximum: 3 }
 
 
-  def first_book_id
-    self.course_books.order(index: :asc).first.book_id
+  def publish
+    next_book = self.channel_books.where(status: 1).first
+    return if !next_book
+    self.update(book_id: next_book.book_id, index: 1)
   end
 
-  def next_book_id(current_id)
-    current_index = self.course_books.find_by(book_id: current_id).index
-    self.course_books.find_by(index: current_index + 1)
-  end
-
-  def draft?
-    self.status == 1
-  end
-
-  def public?
-    self.status == 2
-  end
-
-  def closed?
-    self.status == 3
+  def publishable?
+    # 現在配信中ではなくて、かつ配信待ちの本が存在する
+    self.book_id.blank? && self.channel_books.find_by(status: 1)
   end
 end

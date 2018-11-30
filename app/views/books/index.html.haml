@@ -1,7 +1,7 @@
 - content_for :breadcrumb do
-  作品一覧
+  作品検索
 
-%h1.ui.header 作品一覧
+%h1.ui.header 作品検索
 
 .ui.secondary.padded.segment
   .ui.action.fluid.input
@@ -13,16 +13,19 @@
 
 %br
 
-.ui.middle.alligned.divided.relaxed.large.list
+#searchResult.ui.middle.alligned.divided.relaxed.large.list
   - @books.each do |book|
     .item
       .right.floated.content
-        - if current_user && current_user.subscribed?(book)
-          %small 追加済み
-        - else
-          = link_to subscriptions_path(book_id: book.id), method: :post, class: 'ui red small button' do
-            %i.icon.plus
-            配信リストに追加
+        .ui.small.basic.buttons
+          = link_to 'チャネルに追加', add_book_channel_path(id: @default_channel_id, book_id: book.id), method: :post, class: 'ui button'
+          .ui.floating.dropdown.icon.button
+            %i.dropdown.icon
+            .menu
+              .item
+                %i.icon.edit Edit
+                %i.icon.edit Edit
+                %i.icon.edit Edit
       .content
         .header= book.title
         .meta
