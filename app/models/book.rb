@@ -2,16 +2,17 @@
 #
 # Table name: books
 #
-#  id        :bigint(8)        not null, primary key
-#  title     :string           not null
-#  author    :string           not null
-#  author_id :bigint(8)        not null
-#  footnote  :text
+#  id             :bigint(8)        not null, primary key
+#  title          :string           not null
+#  author         :string           not null
+#  author_id      :bigint(8)        not null
+#  footnote       :text
+#  chapters_count :integer          default(0), not null
 #
 
 class Book < ApplicationRecord
-  has_many :list_books, dependent: :nullify
-  has_many :lists, through: :list_books
+  has_many :channel_books, dependent: :nullify
+  has_many :channels, through: :channel_books
   has_many :chapters, dependent: :destroy
   self.primary_key = 'id'
 

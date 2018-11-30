@@ -20,6 +20,38 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.string "author", null: false
     t.bigint "author_id", null: false
     t.text "footnote"
+    t.integer "chapters_count", default: 0, null: false
+  end
+
+  create_table "channel_books", force: :cascade do |t|
+    t.bigint "channel_id"
+    t.bigint "book_id"
+    t.integer "index", null: false
+    t.integer "status", default: 1, null: false, comment: "1:waiting, 2:delivring, 3:finished"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_channel_books_on_book_id"
+    t.index ["channel_id", "book_id"], name: "index_channel_books_on_channel_id_and_book_id", unique: true
+    t.index ["channel_id", "index"], name: "index_channel_books_on_channel_id_and_index", unique: true
+    t.index ["channel_id"], name: "index_channel_books_on_channel_id"
+    t.index ["index"], name: "index_channel_books_on_index"
+    t.index ["status"], name: "index_channel_books_on_status"
+  end
+
+  create_table "channels", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "chapter_id"
+    t.string "title", null: false
+    t.text "description"
+    t.boolean "public", default: false, null: false
+    t.integer "books_count", default: 0, null: false
+    t.integer "subscribers_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chapter_id"], name: "index_channels_on_chapter_id"
+    t.index ["public"], name: "index_channels_on_public"
+    t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
   create_table "chapters", force: :cascade do |t|
@@ -46,55 +78,14 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "deliveries", force: :cascade do |t|
-    t.bigint "subscription_id", null: false
-    t.integer "next_index", default: 1, null: false
-    t.datetime "deliver_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["deliver_at"], name: "index_deliveries_on_deliver_at"
-    t.index ["subscription_id"], name: "index_deliveries_on_subscription_id", unique: true
-  end
-
-  create_table "list_books", force: :cascade do |t|
-    t.bigint "list_id"
-    t.bigint "book_id"
-    t.integer "index", null: false
-    t.text "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_list_books_on_book_id"
-    t.index ["index"], name: "index_list_books_on_index"
-    t.index ["list_id", "book_id"], name: "index_list_books_on_list_id_and_book_id", unique: true
-    t.index ["list_id", "index"], name: "index_list_books_on_list_id_and_index", unique: true
-    t.index ["list_id"], name: "index_list_books_on_list_id"
-  end
-
-  create_table "lists", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "title", null: false
-    t.text "description"
-    t.boolean "published", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["published"], name: "index_lists_on_published"
-    t.index ["user_id"], name: "index_lists_on_user_id"
-  end
-
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "book_id", null: false
-    t.bigint "list_id"
-    t.integer "index", default: 1, null: false
-    t.integer "status", default: 1, null: false, comment: "1:waiting, 2:delivering, 3:finished"
+    t.bigint "channel_id", null: false
+    t.text "deliver_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_subscriptions_on_book_id"
-    t.index ["index"], name: "index_subscriptions_on_index"
-    t.index ["list_id"], name: "index_subscriptions_on_list_id"
-    t.index ["status"], name: "index_subscriptions_on_status"
-    t.index ["user_id", "book_id"], name: "index_subscriptions_on_user_id_and_book_id", unique: true
-    t.index ["user_id", "index"], name: "index_subscriptions_on_user_id_and_index", unique: true
+    t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
+    t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
@@ -116,12 +107,11 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.index ["token"], name: "index_users_on_token", unique: true
   end
 
+  add_foreign_key "channel_books", "books"
+  add_foreign_key "channel_books", "channels"
+  add_foreign_key "channels", "chapters"
+  add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
-  add_foreign_key "deliveries", "subscriptions"
-  add_foreign_key "list_books", "books"
-  add_foreign_key "list_books", "lists"
-  add_foreign_key "lists", "users"
-  add_foreign_key "subscriptions", "books"
-  add_foreign_key "subscriptions", "lists"
+  add_foreign_key "subscriptions", "channels"
   add_foreign_key "subscriptions", "users"
 end

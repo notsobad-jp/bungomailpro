@@ -1,24 +1,18 @@
 # == Schema Information
 #
-# Table name: user_books
+# Table name: subscriptions
 #
 #  id         :bigint(8)        not null, primary key
 #  user_id    :bigint(8)        not null
-#  book_id    :bigint(8)        not null
-#  list_id    :bigint(8)
-#  index      :integer          default(1), not null
-#  status     :integer          default(1), not null
+#  channel_id :bigint(8)        not null
+#  deliver_at :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
 class Subscription < ApplicationRecord
   belongs_to :user
-  belongs_to :book
-  belongs_to :list, optional: true
-  has_one :delivery, dependent: :destroy
-
-  validates :status, inclusion: { in: [1,2,3] }
+  belongs_to :channel, counter_cache: :subscribers_count
 
 
   def set_deliveries

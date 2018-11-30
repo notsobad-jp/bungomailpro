@@ -22,8 +22,7 @@ require 'json'
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_many :subscriptions, dependent: :destroy
-  has_many :lists
-  has_many :deliveries, through: :user_books
+  has_many :channels, dependent: :destroy
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
@@ -31,6 +30,7 @@ class User < ApplicationRecord
   before_create do
     self.token = SecureRandom.hex(10)
   end
+
 
   def profile_image_url
     hash = Digest::MD5.hexdigest(self.email.downcase)
