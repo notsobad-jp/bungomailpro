@@ -29,7 +29,8 @@ class UserMailer < ApplicationMailer
       from: "夏目漱石 <bungomail@notsobad.jp>",
       to: 'tomomichi.onishi@gmail.com',
       subject: "【ブンゴウメール】夢十夜",
-      'X-SMTPAPI'=> {send_at: @deliver_at.to_i}
+      # 'X-SMTPAPI'=> {send_at: @deliver_at.to_i}
+      'X-SMTPAPI'=> {send_at: '1538528400'}
     )
   end
 end
