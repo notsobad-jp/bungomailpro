@@ -2,7 +2,7 @@ namespace :mailer do
   desc "テスト送信"
   task :tmp_deliver => :environment do |task, args|
     chapter_id = ENV['CHAPTER_ID'].to_i
-    subscription_id = ENV['SUBSCRIPTION_ID'].to_id
+    subscription_id = ENV['SUBSCRIPTION_ID'].to_i
     deliver_at = Time.zone.parse(ENV['DELIVER_AT'])
 
     chapter = Chapter.includes(:book).find(chapter_id)
