@@ -50,7 +50,7 @@
       .content
         .header
           = book.title
-          = link_to book.aozora_card_url do
+          = link_to book.aozora_card_url, target: '_blank' do
             %i.icon.mini.external
         .meta
           %small= book.author
