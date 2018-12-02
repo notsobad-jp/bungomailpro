@@ -61,7 +61,9 @@ Rails.application.routes.draw do
     post 'books' => 'channels#add_book', on: :member, as: :add_book
     post 'publish', on: :member
   end
-  resources :books
+  resources :books do
+    post 'search', on: :collection
+  end
   resources :subscriptions
   resources :deliveries
   resources :magic_tokens

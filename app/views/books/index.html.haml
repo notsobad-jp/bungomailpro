@@ -1,19 +1,14 @@
 - content_for :breadcrumb do
   作品検索
 
-%h1.ui.header 作品検索
-
-.ui.secondary.padded.segment
-  .ui.action.fluid.input
-    %input#searchInput(type="text" placeholder="青空文庫の作品URL")
-    = link_to '/books/scrape/?url=', id: 'searchButton', class: 'ui primary button', method: :post, remote: true do
-      %i.search.icon
-      検索
-#loader.ui.disabled.text.loader Loading..
+= render partial: 'form'
 
 %br
 
-#searchResult.ui.middle.alligned.divided.relaxed.large.list
+%h3.ui.small.dividing.header
+  %i.icon.mini.history
+  最近検索された本
+.ui.middle.alligned.divided.relaxed.large.list
   - @books.each do |book|
     .item
       .right.floated.content
@@ -25,8 +20,10 @@
               .item
                 %i.icon.edit Edit
                 %i.icon.edit Edit
-                %i.icon.edit Edit
       .content
-        .header= book.title
+        .header
+          = book.title
+          = link_to book.aozora_card_url, target: '_blank' do
+            %i.icon.mini.external
         .meta
           %small= book.author

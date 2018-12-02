@@ -1,0 +1,21 @@
+%h1.ui.header 作品検索
+%div
+  %small
+    = link_to 'https://www.aozora.gr.jp/index_pages/index_top.html', target: '_blank' do
+      青空文庫で作品を探す
+      %i.icon.external
+.ui.secondary.padded.segment
+  = form_tag({action: :search}, {method: :post}) do
+    .ui.action.fluid.input
+      = text_field_tag :url, nil, placeholder: '青空文庫の作品URL'
+      = button_tag type: :submit, class: 'ui primary button' do
+        %i.search.icon
+        検索
+  %div
+    %small
+      （
+      = link_to '図書カード', 'https://www.aozora.gr.jp/cards/000035/card1567.html', target: '_blank'
+      もしくは
+      = link_to 'XHTMLファイル', 'https://www.aozora.gr.jp/cards/000035/files/1567_14913.html', target: '_blank'
+      のURL
+      ）

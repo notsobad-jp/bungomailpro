@@ -1,6 +1,4 @@
 - content_for :breadcrumb do
-  = link_to 'マイページ', user_path(current_user.token), class: 'section'
-  %i.icon.right.angle.divider
   = link_to '配信チャネル', subscriptions_path, class: 'section'
   %i.icon.right.angle.divider
   チャネル作成

@@ -3,16 +3,18 @@ require 'open-uri'
 class BooksController < ApplicationController
   def index
     #FIXME: 仮の一覧表示
-    @books = Book.all
+    @books = Book.order(id: :desc).limit(30)
     @default_channel_id = current_user.subscriptions.find_by(default: true).try(:channel_id) if current_user
     @default_channel_id ||= 1 #FIXME
   end
 
   def show
     @book = Book.find(params[:id])
+    @default_channel_id = current_user.subscriptions.find_by(default: true).try(:channel_id) if current_user
+    @default_channel_id ||= 1 #FIXME
   end
 
-  def scrape
+  def search
     url = params[:url]
 
     # 図書カードURLが来てたら、ファイルURLに変換
@@ -21,10 +23,13 @@ class BooksController < ApplicationController
     end
 
     match = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/files\/(\d+)_\d+\.html/).to_a
-    return if !match
+    if match.blank?
+      flash[:error] = 'URLが正しくないようです。。XHTMLファイルか図書カードのURLを入力してください。'
+      return redirect_to books_path
+    end
 
     book = Book.find_by(id: match[2])
-    render json: book.attributes and return if book
+    return redirect_to book_path(book) if book
 
     book_params = Book.parse_html(url)
     text = book_params.delete(:text)
@@ -37,10 +42,10 @@ class BooksController < ApplicationController
     book.chapters = chapters
 
     if book.save
-      render json: book.attributes
+      redirect_to book_path book
     else
-      p book.errors
-      return nil
+      flash[:error] = '本が見つかりませんでした…。URLをもう一度確認してください。'
+      redirect_to books_path
     end
   end
 end

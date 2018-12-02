@@ -1,13 +1,27 @@
 - content_for :breadcrumb do
-  = link_to '作品一覧', books_path
+  = link_to '作品検索', books_path
   %i.icon.right.angle.divider
   = @book.title
 
+= render partial: 'form'
 
-%h1.ui.huge.header
-  = @book.title
-  .sub.header
-    = @book.author
-
-.ui.segment
-  = link_to '配信リストに追加', subscriptions_path(book_id: @book.id), method: :post, class: 'ui red button'
+%br
+.ui.three.stackable.cards
+  .ui.fluid.card
+    .content
+      .header
+        = @book.title
+        = link_to @book.aozora_card_url, target: '_blank' do
+          %i.icon.mini.external
+      .meta
+        全#{@book.chapters_count}回配信
+      .description= @book.author
+    .extra.content
+      .ui.small.basic.buttons
+        = link_to 'チャネルに追加', add_book_channel_path(id: @default_channel_id, book_id: @book.id), method: :post, class: 'ui button'
+        .ui.floating.dropdown.icon.button
+          %i.dropdown.icon
+          .menu
+            .item
+              %i.icon.edit Edit
+              %i.icon.edit Edit
