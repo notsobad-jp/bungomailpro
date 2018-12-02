@@ -25,12 +25,17 @@ class UserMailer < ApplicationMailer
 
 
   def test
+    @deliver_at = params[:deliver_at]
+    @subscription = params[:subscription]
+    @chapter = params[:chapter]
+
+    xsmtp_api_params = { send_at: @deliver_at.to_i }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
     mail(
       from: "夏目漱石 <bungomail@notsobad.jp>",
-      to: 'tomomichi.onishi@gmail.com',
-      subject: "【ブンゴウメール】夢十夜",
-      # 'X-SMTPAPI'=> {send_at: @deliver_at.to_i}
-      'X-SMTPAPI'=> {send_at: '1538472000'}
+      to: @subscription.user.email,
+      subject: "【ブンゴウメール】夢十夜"
     )
   end
 end
