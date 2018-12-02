@@ -14,11 +14,22 @@ class UserMailer < ApplicationMailer
 
 
   def deliver_chapter
-    @delivery = params[:delivery]
+    @subscription = params[:subscription]
+    @chapter = params[:delivery]
     mail(
-      from: "#{@delivery.book.author} <bungomail@notsobad.jp>",
-      to: @delivery.user.email,
-      subject: "【ブンゴウメール】#{@delivery.book.title}（#{@delivery.index}/#{@delivery.last_index}）"
+      from: "#{@chapter.book.author} <bungomail@notsobad.jp>",
+      to: @subscription.user.email,
+      subject: "【ブンゴウメール】#{@chapter.book.title}"
+    )
+  end
+
+
+  def test
+    mail(
+      from: "夏目漱石 <bungomail@notsobad.jp>",
+      to: 'tomomichi.onishi@gmail.com',
+      subject: "【ブンゴウメール】夢十夜",
+      send_at: @deliver_at.to_i
     )
   end
 end

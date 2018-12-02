@@ -5,7 +5,7 @@
 #  id                                          :bigint(8)        not null, primary key
 #  channel_id                                  :bigint(8)
 #  book_id                                     :bigint(8)
-#  index                                       :integer          not null
+#  index                                       :integer
 #  status(1:waiting, 2:delivering, 3:finished) :integer          default(1), not null
 #  comment                                     :text
 #  created_at                                  :datetime         not null

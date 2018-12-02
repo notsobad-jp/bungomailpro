@@ -1,23 +1,24 @@
 namespace :mailer do
   desc "テスト送信"
-  task :tmp_deliver, ['delivery_id'] => :environment do |task, args|
-    delivery = Delivery.find(args[:delivery_id])
-    delivery.deliver
-    p "delivered #{delivery.id}"
+  task :tmp_deliver => :environment do |task, args|
+    chapter_id = ENV['CHAPTER_ID'].to_i
+    subscription_id = ENV['SUBSCRIPTION_ID'].to_id
+    deliver_at = Time.zone.parse(ENV['DELIVER_AT'])
+
+    chapter = Chapter.includes(:book).find(chapter_id)
+    subscription = Subscription.includes(:user).find(subscription_id)
+
+    UserMailer.with(deliver_at: deliver_at, chapter: chapter, subscription: subscription).test.deliver_now
   end
 
   desc "当日分のメール配信をSendGridに予約"
   task :schedule => :environment do |task, args|
     Channel.where.not(book_id: nil).find_each do |channel|
-      p "----"
-      p channel.title
       chapter = Chapter.includes(:book).find_by(book_id: channel.book_id, index: channel.index)
       next if !chapter
-      p "#{chapter.book.title} #{chapter.index}"
 
-      subscribers = channel.subscribers.pluck(:email)
-      p subscribers
-
+      channel.subscriptions.includes(:user).each do |subscription|
+      end
       #TODO: SendGridに配信予約
     end
   end
