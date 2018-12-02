@@ -21,19 +21,20 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.bigint "author_id", null: false
     t.text "footnote"
     t.integer "chapters_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "channel_books", force: :cascade do |t|
     t.bigint "channel_id"
     t.bigint "book_id"
-    t.integer "index", null: false
+    t.integer "index"
     t.integer "status", default: 1, null: false, comment: "1:waiting, 2:delivering, 3:finished"
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_channel_books_on_book_id"
     t.index ["channel_id", "book_id"], name: "index_channel_books_on_channel_id_and_book_id", unique: true
-    t.index ["channel_id", "index"], name: "index_channel_books_on_channel_id_and_index", unique: true
     t.index ["channel_id"], name: "index_channel_books_on_channel_id"
     t.index ["index"], name: "index_channel_books_on_index"
     t.index ["status"], name: "index_channel_books_on_status"
@@ -59,6 +60,8 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.bigint "book_id", null: false
     t.integer "index", null: false
     t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["book_id", "index"], name: "index_chapters_on_book_id_and_index", unique: true
     t.index ["book_id"], name: "index_chapters_on_book_id"
     t.index ["index"], name: "index_chapters_on_index"

@@ -8,6 +8,8 @@
 #  author_id      :bigint(8)        not null
 #  footnote       :text
 #  chapters_count :integer          default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 
 class Book < ApplicationRecord

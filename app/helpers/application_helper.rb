@@ -15,7 +15,7 @@ module ApplicationHelper
   end
 
   def simple_format_with_link text
-    simple_format(sanitize(linknize(text), attributes: ["href", "target"]), {}, sanitize: false)
+    simple_format(sanitize(linknize(text), attributes: ["href", "target"]), {}, sanitize: false) if text
   end
 
   def footer_hidden

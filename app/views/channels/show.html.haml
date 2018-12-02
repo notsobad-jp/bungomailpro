@@ -27,11 +27,14 @@
   配信中のタイトル
 .ui.secondary.padded.segment
   - book = @channel.current_book
-  #{book.author}『#{book.title}』
-  = link_to book.aozora_card_url do
-    %i.icon.mini.external
-  ：
-  第#{@channel.index}回（全#{book.chapters_count}回配信）
+  - if book
+    #{book.author}『#{book.title}』
+    = link_to book.aozora_card_url do
+      %i.icon.mini.external
+    ：
+    第#{@channel.index}回（全#{book.chapters_count}回配信）
+  - else
+    現在配信中のタイトルはありません
 
 .ui.secondary.pointing.menu
   - if @finished
@@ -56,4 +59,5 @@
           %small= book.author
 
 - if books.blank?
-  %small まだ配信済みの本がないようです。始まったばかりなので、今が登録のチャンスですよ！
+  - message = @finished ? 'まだ配信済みの本がないようです。始まったばかりなので、今が登録のチャンスですよ！' : '配信予定の本がありません'
+  %small= message

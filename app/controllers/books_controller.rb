@@ -3,7 +3,7 @@ require 'open-uri'
 class BooksController < ApplicationController
   def index
     #FIXME: 仮の一覧表示
-    @books = Book.order(id: :desc).limit(30)
+    @books = Book.order(created_at: :desc).limit(30)
     @default_channel_id = current_user.subscriptions.find_by(default: true).try(:channel_id) if current_user
     @default_channel_id ||= 1 #FIXME
   end

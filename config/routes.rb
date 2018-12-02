@@ -11,6 +11,7 @@
 #                           PATCH  /channels/:id(.:format)                                                                  channels#update
 #                           PUT    /channels/:id(.:format)                                                                  channels#update
 #                           DELETE /channels/:id(.:format)                                                                  channels#destroy
+#              search_books POST   /books/search(.:format)                                                                  books#search
 #                     books GET    /books(.:format)                                                                         books#index
 #                           POST   /books(.:format)                                                                         books#create
 #                  new_book GET    /books/new(.:format)                                                                     books#new
