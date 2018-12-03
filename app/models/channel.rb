@@ -29,15 +29,15 @@ class Channel < ApplicationRecord
 
 
   def publish
-    next_book = self.channel_books.where(status: 1).first
+    next_book = self.channel_books.where(delivered: false).first
     return if !next_book
     self.update(current_book_id: next_book.book_id, index: 1)
-    next_book.update(status: 2)
+    next_book.update(delivered: true)
   end
 
   def publishable?
     # 現在配信中ではなくて、かつ配信待ちの本が存在する
-    self.current_book_id.blank? && self.channel_books.find_by(status: 1)
+    self.current_book_id.blank? && self.channel_books.find_by(delivered: false)
   end
 
   def set_next_chapter
@@ -51,11 +51,9 @@ class Channel < ApplicationRecord
 
     if next_book
       self.update(current_book_id: next_book.id, index: 1)
-      current_book.update(status: 3)
-      next_book.update(status: 2)
+      next_book.update(delivered: true)
     else
       self.update(current_book_id: nil, index: nil)
-      current_book.update(status: 3)
     end
   end
 end

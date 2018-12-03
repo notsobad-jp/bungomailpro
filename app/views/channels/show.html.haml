@@ -49,8 +49,7 @@
     = link_to '過去の配信リスト', channel_path(@channel, books: 'finished'), class: 'item'
 
 .ui.middle.alligned.relaxed.large.ordered.list
-  - status = @finished ? 3 : 1
-  - books = @channel.channel_books.where(status: status)
+  - books = @channel.channel_books.where(delivered: @finished).where.not(book_id: @channel.current_book_id)
   - books.each do |cb|
     - book = cb.book
     .item

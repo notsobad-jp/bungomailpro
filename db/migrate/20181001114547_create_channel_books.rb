@@ -1,16 +1,16 @@
 class CreateChannelBooks < ActiveRecord::Migration[5.2]
   def change
     create_table :channel_books do |t|
-      t.references :channel, foreign_key: true
-      t.references :book, foreign_key: true
+      t.references :channel, foreign_key: true, null: false
+      t.references :book, foreign_key: true, null: false
       t.integer :index
-      t.integer :status, null: false, default: 1, comment: "1:waiting, 2:delivering, 3:finished"
+      t.boolean :delivered, default: false, null: false
       t.text :comment
 
       t.timestamps
     end
     add_index :channel_books, :index
-    add_index :channel_books, :status
+    add_index :channel_books, :delivered
     add_index :channel_books, [:channel_id, :book_id], unique: true
   end
 end

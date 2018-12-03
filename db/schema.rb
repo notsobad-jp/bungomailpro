@@ -26,18 +26,18 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
   end
 
   create_table "channel_books", force: :cascade do |t|
-    t.bigint "channel_id"
-    t.bigint "book_id"
+    t.bigint "channel_id", null: false
+    t.bigint "book_id", null: false
     t.integer "index"
-    t.integer "status", default: 1, null: false, comment: "1:waiting, 2:delivering, 3:finished"
+    t.boolean "delivered", default: false, null: false
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_channel_books_on_book_id"
     t.index ["channel_id", "book_id"], name: "index_channel_books_on_channel_id_and_book_id", unique: true
     t.index ["channel_id"], name: "index_channel_books_on_channel_id"
+    t.index ["delivered"], name: "index_channel_books_on_delivered"
     t.index ["index"], name: "index_channel_books_on_index"
-    t.index ["status"], name: "index_channel_books_on_status"
   end
 
   create_table "channels", force: :cascade do |t|

@@ -37,7 +37,7 @@
 
 
 #bookList.ui.middle.alligned.divided.relaxed.large.list
-  = f.fields_for :channel_books, @channel.channel_books.where(status: 1) do |cb|
+  = f.fields_for :channel_books, @channel.channel_books.where(delivered: false) do |cb|
     - channel_book = cb.object
     .item(id="#{channel_book.book_id}" data-saved="true")
       .right.floated.content

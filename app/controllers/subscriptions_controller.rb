@@ -30,18 +30,8 @@ class SubscriptionsController < ApplicationController
     redirect_to course
   end
 
-  # 配信ステータスの変更（一時停止・再開）
+  # TBD
   def update
-    status = params[:status].to_i
-    @subscription.update(status: status)
-
-    # deliveriesの配信状況をアップデート
-    if status == 1
-      @subscription.restart
-    elsif status == 2
-      @subscription.pause
-    end
-
     redirect_to @subscription
   end
 
