@@ -11,8 +11,10 @@
     %small
       %i.mini.red.lock.icon
 
-  - if @subscription
-    %span.ui.orange.mini.label 購読中
+  - if @channel.current_book_id
+    %span.ui.orange.mini.label 配信中
+  - else
+    %span.ui.mini.label 配信停止中
 
 - if @channel.user_id == current_user.id
   %div
@@ -32,21 +34,24 @@
 .ui.secondary.padded.segment
   - book = @channel.current_book
   - if book
-    #{book.author}『#{book.title}』
-    = link_to book.aozora_card_url do
-      %i.icon.mini.external
-    ：
-    第#{@channel.index}回（全#{book.chapters_count}回配信）
+    .ui.small.header
+      #{book.author}『#{book.title}』
+      = link_to book.aozora_card_url do
+        %i.icon.mini.external
+    %span.ui.label 次の配信
+    第#{@channel.index}回（全#{book.chapters_count}回）
+    %i.icon.clock.outline
+    = @channel.deliver_at.map{|m| "#{m}:00"}.join(',')
   - else
     現在配信中のタイトルはありません
 
 .ui.secondary.pointing.menu
   - if @finished
-    = link_to '配信予定リスト', channel_path(@channel), class: 'item'
-    .active.item 過去の配信リスト
+    = link_to '今後の配信予定', channel_path(@channel), class: 'item'
+    .active.item 過去の配信
   - else
-    .active.item 配信予定リスト
-    = link_to '過去の配信リスト', channel_path(@channel, books: 'finished'), class: 'item'
+    .active.item 今後の配信予定
+    = link_to '過去の配信', channel_path(@channel, books: 'finished'), class: 'item'
 
 .ui.middle.alligned.relaxed.large.ordered.list
   - books = @channel.channel_books.where(delivered: @finished).where.not(book_id: @channel.current_book_id)

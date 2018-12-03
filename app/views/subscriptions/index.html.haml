@@ -20,23 +20,28 @@
               .header
                 = link_to channel.title, channel_path(channel)
                 - if !channel.public?
-                  %small
-                    %i.small.red.lock.icon
-              .description= channel.description
+                  %small(data-tooltip="非公開" data-inverted="true")
+                    %i.small.lock.icon
+              .description
+                - if channel.current_book_id
+                  %span.ui.orange.mini.label 配信中
+                - else
+                  %span.ui.mini.label 配信停止中
+                = channel.description
             .extra.content
-              - if channel.current_book
-                .ui.small.list
-                  .item
-                    %i.icon.book
-                    #{channel.books_count}冊
-                  .item
-                    %i.icon.rss
+              .ui.small.list
+                .item
+                  %i.icon.book
+                  #{channel.books_count}冊
+                .item
+                  %i.icon.podcast
+                  - if channel.current_book
                     = "#{channel.current_book.author}『#{channel.current_book.title}』"
                     = "##{channel.index}（全#{channel.current_book.chapters_count}回）"
-                  .item
-                    %i.icon.clock.outline
-                    = channel.deliver_at.map{|m| "#{m}:00"}.join(", ")
-              - elsif channel.books_count == 0
+                .item
+                  %i.icon.clock.outline
+                  = channel.deliver_at.map{|m| "#{m}:00"}.join(", ")
+              - if channel.books_count == 0
                 .ui.warning.message
                   .content
                     まだ本が登録されていないようです。「編集」ボタンから本を追加して配信開始しましょう！
