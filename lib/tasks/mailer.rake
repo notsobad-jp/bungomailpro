@@ -14,14 +14,12 @@ namespace :mailer do
 
   desc "当日分のメール配信をSendGridに予約"
   task :schedule => :environment do |task, args|
-    Channel.where.not(book_id: nil).find_each do |channel|
+    Channel.includes(subscriptions: :user).where.not(current_book_id: nil).each do |channel|
       chapter = Chapter.includes(:book).find_by(book_id: channel.book_id, index: channel.index)
       next if !chapter
 
-      channel.subscriptions.includes(:user).each do |subscription|
-        UserMailer.with(subscription: subscription, chapter: chapter)
-      end
-      #TODO: SendGridに配信予約
+      UserMailer.with(channel: channel, chapter: chapter).test.deliver_later
+      channel.delay.set_next_chapter
     end
   end
 end

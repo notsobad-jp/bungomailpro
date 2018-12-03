@@ -39,4 +39,23 @@ class Channel < ApplicationRecord
     # 現在配信中ではなくて、かつ配信待ちの本が存在する
     self.current_book_id.blank? && self.channel_books.find_by(status: 1)
   end
+
+  def set_next_chapter
+    # 同じ本で次のchapterが存在すればindexをincrement
+    next_chapter = Chapter.find_by(book_id: self.current_book_id, index: self.index + 1)
+    return self.increment(:index).save if next_chapter
+
+    # 次のchapterがなければ、次の本を探してindex:1でセット
+    current_book = self.channel_books.find_by(book_id: self.current_book_id)
+    next_book = self.channel_books.find_by(index: current_book.index + 1)
+
+    if next_book
+      self.update(current_book_id: next_book.id, index: 1)
+      current_book.update(status: 3)
+      next_book.update(status: 2)
+    else
+      self.update(current_book_id: nil, index: nil)
+      current_book.update(status: 3)
+    end
+  end
 end
