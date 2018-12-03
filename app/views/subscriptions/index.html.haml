@@ -1,7 +1,9 @@
 - content_for :breadcrumb do
-  配信チャネル
+  購読チャネル
 
-%h1.ui.header 配信チャネル
+%h1.ui.header
+  %i.icon.rss
+  購読チャネル
 
 .ui.info.message
   「チャネル」に読みたい本を追加して配信を開始しましょう。チャネルは3つまで購読できます。
@@ -33,7 +35,7 @@
                     = "##{channel.index}（全#{channel.current_book.chapters_count}回）"
                   .item
                     %i.icon.clock.outline
-                    = subscription.deliver_at.join(", ")
+                    = channel.deliver_at.map{|m| "#{m}:00"}.join(", ")
               - elsif channel.books_count == 0
                 .ui.warning.message
                   .content
@@ -49,8 +51,8 @@
         - else
           .ui.placeholder.segment
             .ui.icon.header
-              %i.icon.rss
+              %i.grey.icon.rss
 
             = link_to 'チャネルを作成する', new_channel_path, class: 'ui primary small button'
-            .ui.horizontal.divider OR
-            = link_to '公開チャネルを購読する', channels_path, class: 'ui small button'
+            -# .ui.horizontal.divider OR
+            -# = link_to '公開チャネルを購読する', channels_path, class: 'ui small button'

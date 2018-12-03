@@ -14,12 +14,18 @@ class UserMailer < ApplicationMailer
 
 
   def deliver_chapter
-    @subscription = params[:subscription]
-    @chapter = params[:delivery]
+    @channel = params[:channel]
+    @chapter = params[:chapter]
+
+    xsmtp_api_params = {
+      send_at: @channel.deliver_at.first.to_i,  #FIXME
+      to: @channel.subscribers.pluck(:email)
+    }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
     mail(
       from: "#{@chapter.book.author} <bungomail@notsobad.jp>",
-      to: @subscription.user.email,
-      subject: "【ブンゴウメール】#{@chapter.book.title}"
+      subject: "【ブンゴウメール】#{@chapter.book.title}（#{@chapter.index}/#{@chapter.book.chapters_count}）"
     )
   end
 

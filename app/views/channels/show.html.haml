@@ -1,5 +1,5 @@
 - content_for :breadcrumb do
-  = link_to '配信チャネル', subscriptions_path
+  = link_to '購読チャネル', subscriptions_path
   %i.icon.right.angle.divider
   = @channel.title
 
@@ -14,11 +14,15 @@
   - if @subscription
     %span.ui.orange.mini.label 購読中
 
-%div
-  = link_to '編集する', edit_channel_path(@channel), class: 'ui primary small button'
-  = link_to channels_path(@channel), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
-    %i.icon.trash
-    削除
+- if @channel.user_id == current_user.id
+  %div
+    - if !@channel.current_book
+      - publishable = @channel.publishable? ? '' : 'disabled'
+      = link_to '配信開始', publish_channel_path(@channel), method: 'post', class: "ui red small button #{publishable}"
+    = link_to '編集する', edit_channel_path(@channel), class: 'ui primary small button'
+    = link_to channels_path(@channel), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
+      %i.icon.trash
+      削除
 
 %div= simple_format_with_link @channel.description
 
@@ -45,8 +49,7 @@
     = link_to '過去の配信リスト', channel_path(@channel, books: 'finished'), class: 'item'
 
 .ui.middle.alligned.relaxed.large.ordered.list
-  - status = @finished ? 3 : 1
-  - books = @channel.channel_books.where(status: status)
+  - books = @channel.channel_books.where(delivered: @finished).where.not(book_id: @channel.current_book_id)
   - books.each do |cb|
     - book = cb.book
     .item
@@ -59,5 +62,5 @@
           %small= book.author
 
 - if books.blank?
-  - message = @finished ? 'まだ配信済みの本がないようです。始まったばかりなので、今が登録のチャンスですよ！' : '配信予定の本がありません'
+  - message = @finished ? 'まだ配信済みの本がないようです。' : '配信予定の本がありません。'
   %small= message
