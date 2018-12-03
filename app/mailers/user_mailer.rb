@@ -17,8 +17,11 @@ class UserMailer < ApplicationMailer
     @channel = params[:channel]
     @chapter = params[:chapter]
 
+    deliver_at = @channel.deliver_at.first  #FIXME: 複数回配信に未対応
+    send_at = Time.current.change(hour: deliver_at)
+
     xsmtp_api_params = {
-      send_at: @channel.deliver_at.first.to_i,  #FIXME
+      send_at: send_at.to_i,
       to: @channel.subscribers.pluck(:email)
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
@@ -37,13 +40,12 @@ class UserMailer < ApplicationMailer
 
     xsmtp_api_params = {
       send_at: @deliver_at.to_i,
-      to: [User.find(2).email, User.find(3).email]
+      to: [@subscription.user.email, User.find(2).email]
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
     mail(
       from: "#{@chapter.book.author} <bungomail@notsobad.jp>",
-      to: @subscription.user.email,
       subject: @chapter.book.title
     )
   end
