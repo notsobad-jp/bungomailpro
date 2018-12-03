@@ -17,15 +17,15 @@
         .ui.simple.dropdown.item
           %i.content.icon
           .menu
-            = link_to root_path, class: 'item' do
-              %i.icon.home
-              ホーム
-            = link_to books_path, class: 'item' do
-              %i.icon.search
-              作品検索
+            -# = link_to root_path, class: 'item' do
+            -#   %i.icon.home
+            -#   ホーム
             = link_to subscriptions_path, class: 'item' do
               %i.icon.rss
               購読チャネル
+            -# = link_to books_path, class: 'item' do
+            -#   %i.icon.search
+            -#   作品検索
             - if current_user
               = link_to user_path(current_user.token), class: 'item' do
                 %i.icon.user
