@@ -16,7 +16,8 @@ gem 'sorcery'
 gem 'dotenv-rails'
 gem 'delayed_job_active_record'
 gem "pundit"
-
+gem "rack", ">= 2.0.6"
+gem "loofah", ">= 2.2.3"
 
 group :production do
   gem 'scout_apm'
