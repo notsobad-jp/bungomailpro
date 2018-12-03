@@ -4,10 +4,11 @@
 #
 #  id                :bigint(8)        not null, primary key
 #  user_id           :bigint(8)        not null
-#  book_id           :bigint(8)
+#  current_book_id   :bigint(8)
 #  index             :integer
 #  title             :string           not null
 #  description       :text
+#  deliver_at        :integer          default(["8"]), is an Array
 #  public            :boolean          default(FALSE), not null
 #  books_count       :integer          default(0), not null
 #  subscribers_count :integer          default(0), not null
@@ -31,6 +32,7 @@ class Channel < ApplicationRecord
     next_book = self.channel_books.where(status: 1).first
     return if !next_book
     self.update(current_book_id: next_book.book_id, index: 1)
+    next_book.update(status: 2)
   end
 
   def publishable?

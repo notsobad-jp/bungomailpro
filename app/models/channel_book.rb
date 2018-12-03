@@ -13,10 +13,13 @@
 #
 
 class ChannelBook < ApplicationRecord
-  belongs_to :channel, counter_cache: :books_count
+  belongs_to :channel, counter_cache: :books_count, required: false
   belongs_to :book
 
-  validates :index, presence: true
   validates :channel_id, uniqueness: { scope: [:book_id] }
   validates :status, inclusion: { in: [1,2,3] }
+
+  before_save do
+    self.index = nil if self.status != 1
+  end
 end

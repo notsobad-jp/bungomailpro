@@ -6,7 +6,6 @@
 #  user_id    :bigint(8)        not null
 #  channel_id :bigint(8)        not null
 #  default    :boolean          default(FALSE), not null
-#  deliver_at :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

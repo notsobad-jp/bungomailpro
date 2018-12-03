@@ -14,11 +14,15 @@
   - if @subscription
     %span.ui.orange.mini.label 購読中
 
-%div
-  = link_to '編集する', edit_channel_path(@channel), class: 'ui primary small button'
-  = link_to channels_path(@channel), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
-    %i.icon.trash
-    削除
+- if @channel.user_id == current_user.id
+  %div
+    - if !@channel.current_book
+      - publishable = @channel.publishable? ? '' : 'disabled'
+      = link_to '配信開始', publish_channel_path(@channel), method: 'post', class: "ui red small button #{publishable}"
+    = link_to '編集する', edit_channel_path(@channel), class: 'ui primary small button'
+    = link_to channels_path(@channel), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
+      %i.icon.trash
+      削除
 
 %div= simple_format_with_link @channel.description
 
@@ -59,5 +63,5 @@
           %small= book.author
 
 - if books.blank?
-  - message = @finished ? 'まだ配信済みの本がないようです。始まったばかりなので、今が登録のチャンスですよ！' : '配信予定の本がありません'
+  - message = @finished ? 'まだ配信済みの本がないようです。' : '配信予定の本がありません。'
   %small= message

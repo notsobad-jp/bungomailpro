@@ -25,7 +25,7 @@
               作品検索
             = link_to subscriptions_path, class: 'item' do
               %i.icon.rss
-              配信チャネル
+              購読チャネル
             - if current_user
               = link_to user_path(current_user.token), class: 'item' do
                 %i.icon.user
