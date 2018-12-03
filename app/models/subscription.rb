@@ -14,5 +14,4 @@
 class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :channel, counter_cache: :subscribers_count
-  serialize :deliver_at
 end

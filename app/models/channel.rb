@@ -17,7 +17,7 @@
 
 class Channel < ApplicationRecord
   belongs_to :user
-  belongs_to :current_book, class_name: 'Book', foreign_key: 'book_id', optional: true
+  belongs_to :current_book, class_name: 'Book', foreign_key: 'current_book_id', optional: true
   has_many :channel_books, -> { order(:index) }, dependent: :destroy
   has_many :books, through: :channel_books
   has_many :subscriptions, dependent: :destroy
@@ -30,11 +30,11 @@ class Channel < ApplicationRecord
   def publish
     next_book = self.channel_books.where(status: 1).first
     return if !next_book
-    self.update(book_id: next_book.book_id, index: 1)
+    self.update(current_book_id: next_book.book_id, index: 1)
   end
 
   def publishable?
     # 現在配信中ではなくて、かつ配信待ちの本が存在する
-    self.book_id.blank? && self.channel_books.find_by(status: 1)
+    self.current_book_id.blank? && self.channel_books.find_by(status: 1)
   end
 end

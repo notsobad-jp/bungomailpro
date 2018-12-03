@@ -34,7 +34,7 @@ class User < ApplicationRecord
 
   after_create do
     channel = self.channels.create(title: 'デフォルトチャネル')
-    self.subscriptions.create(channel_id: channel.id, default: true, deliver_at: ['7:00'])
+    self.subscriptions.create(channel_id: channel.id, default: true)
   end
 
 
