@@ -29,31 +29,37 @@ class Channel < ApplicationRecord
 
 
   def publish
-    next_book = self.channel_books.where(delivered: false).first
-    return if !next_book
-    self.update(current_book_id: next_book.book_id, index: 1)
-    next_book.update(delivered: true)
+    ActiveRecord::Base.transaction do
+      self.update!(current_book_id: next_book.book_id, index: 1)
+      next_book.update!(delivered: true)
+    end
   end
 
   def publishable?
     # 現在配信中ではなくて、かつ配信待ちの本が存在する
-    self.current_book_id.blank? && self.channel_books.find_by(delivered: false)
+    self.current_book_id.blank? && self.next_book
   end
 
   def set_next_chapter
     # 同じ本で次のchapterが存在すればindexをincrement
     next_chapter = Chapter.find_by(book_id: self.current_book_id, index: self.index + 1)
-    return self.increment(:index).save if next_chapter
+    return self.increment(:index).save! if next_chapter
 
     # 次のchapterがなければ、次の本を探してindex:1でセット
-    current_book = self.channel_books.find_by(book_id: self.current_book_id)
-    next_book = self.channel_books.find_by(index: current_book.index + 1)
-
     if next_book
-      self.update(current_book_id: next_book.id, index: 1)
-      next_book.update(delivered: true)
+      ActiveRecord::Base.transaction do
+        self.update!(current_book_id: next_book.book_id, index: 1)
+        next_book.update!(delivered: true)
+      end
+    # next_bookもなければ配信停止状態にする
     else
-      self.update(current_book_id: nil, index: nil)
+      self.update!(current_book_id: nil, index: nil)
     end
   end
+
+
+  private
+    def next_book
+      self.channel_books.where(delivered: false).first
+    end
 end

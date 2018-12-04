@@ -28,6 +28,7 @@ class UserMailer < ApplicationMailer
 
     mail(
       from: "#{@chapter.book.author} <bungomail@notsobad.jp>",
+      to: 'bungomail@notsobad.jp',
       subject: "【ブンゴウメール】#{@chapter.book.title}（#{@chapter.index}/#{@chapter.book.chapters_count}）"
     )
   end

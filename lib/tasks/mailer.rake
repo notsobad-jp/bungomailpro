@@ -22,4 +22,13 @@ namespace :mailer do
       channel.delay.set_next_chapter
     end
   end
+
+  task :test => :environment do |task, args|
+    channel = Channel.first
+    chapter = Chapter.includes(:book).find_by(book_id: channel.current_book_id, index: channel.index)
+    return if !chapter
+
+    # UserMailer.with(channel: channel, chapter: chapter).deliver_chapter.deliver_now
+    channel.set_next_chapter
+  end
 end
