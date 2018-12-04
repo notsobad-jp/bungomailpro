@@ -10,7 +10,15 @@
 .ui.secondary.padded.segment
   = form_tag do
     .ui.action.fluid.input
-      = text_field_tag :keyword, nil, placeholder: '作品名 or 著者名'
+      = text_field_tag :keyword, keyword, placeholder: 'キーワード'
       = button_tag type: :submit, class: 'ui primary button' do
         %i.search.icon
         検索
+    %br
+    .ui.checkbox
+      = check_box_tag 'target[work]', true, @target[:work]
+      %label 作品名
+    &nbsp;
+    .ui.checkbox
+      = check_box_tag 'target[author]', true, @target[:author]
+      %label 著者名

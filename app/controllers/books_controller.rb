@@ -2,20 +2,32 @@ require 'open-uri'
 
 class BooksController < ApplicationController
   def index
-    #FIXME: 仮の一覧表示
-    @books = Book.order(created_at: :desc).limit(30)
-    @default_channel_id = current_user.subscriptions.find_by(default: true).try(:channel_id) if current_user
-    @default_channel_id ||= 1 #FIXME
+    @keyword = params[:keyword]
+    @target = params[:target] || {work: true, author: true}
+    # 検索実行時
+    if @keyword.present?
+      Algolia.init(
+        application_id: ENV['ALGOLIA_ID'],
+        api_key:        ENV['ALGOLIA_KEY']
+      )
+      index = Algolia::Index.new('books')
 
-    Algolia.init(
-      application_id: ENV['ALGOLIA_ID'],
-      api_key:        ENV['ALGOLIA_KEY']
-    )
-    index = Algolia::Index.new('books')
+      # 検索対象が絞られてるとき
+      restrictSearchableAttributes = []
+      if @target[:work] && !@target[:author]
+        restrictSearchableAttributes = ['作品名', '作品名読み', '副題', '副題読み', '原題']
+      elsif @target[:author] && !@target[:work]
+        restrictSearchableAttributes = ['姓', '姓読み', '姓ローマ字', '名', '名読み', '名ローマ字']
+      end
+      @results = index.search(@keyword, restrictSearchableAttributes: restrictSearchableAttributes)['hits']
 
-    @results = params[:keyword] ? index.search(params[:keyword])['hits'] : []
-    # restrictSearchableAttributes = ['姓', '名']
-    # index.search('太宰', restrictSearchableAttributes)['hits']
+    # 初期表示
+    else
+      #FIXME: 仮の一覧表示
+      @books = Book.order(created_at: :desc).limit(30)
+      @default_channel_id = current_user.subscriptions.find_by(default: true).try(:channel_id) if current_user
+      @default_channel_id ||= 1 #FIXME
+    end
   end
 
   def show

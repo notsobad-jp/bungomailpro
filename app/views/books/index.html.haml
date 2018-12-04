@@ -1,7 +1,7 @@
 - content_for :breadcrumb do
   作品検索
 
-= render partial: 'form'
+= render partial: 'form', locals: {keyword: @keyword}
 
 %br
 
@@ -16,10 +16,26 @@
           .header
             = result['作品名']
             %small= result['副題']
+            = link_to aozora_card_url(book_id: result['作品ID'], author_id: result['人物ID']), target: '_blank' do
+              %i.icon.mini.external
           .meta
             %small
               = result['姓']
               = result['名']
+- else
+  %h3.ui.small.dividing.header
+    %i.icon.mini.star
+    人気の文豪
+  .ui.four.doubling.cards
+    .ui.card
+      .image
+      .content
+        .header 夏目漱石
+        .meta
+        .description
+      .extra.content
+        %button.ui.small.button 作品一覧
+        -# = link_to '作品一覧', author_path(1), class: 'ui button'
 
   -# - @books.each do |book|
   -#   .item

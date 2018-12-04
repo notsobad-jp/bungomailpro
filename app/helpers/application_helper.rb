@@ -21,4 +21,8 @@ module ApplicationHelper
   def footer_hidden
     return 'hidden' if controller_name == 'channels' && %w(new edit create update).include?(action_name)
   end
+
+  def aozora_card_url(author_id:, book_id:)
+    "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/card#{book_id}.html"
+  end
 end
