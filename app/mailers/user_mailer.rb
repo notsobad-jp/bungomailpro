@@ -31,6 +31,7 @@ class UserMailer < ApplicationMailer
       to: 'bungomail@notsobad.jp',
       subject: "【ブンゴウメール】#{@chapter.book.title}（#{@chapter.index}/#{@chapter.book.chapters_count}）"
     )
+    Logger.new(STDOUT).info "[SCHEDULED] channel:#{@channel.id}, chapter:#{@chapter.id}, send_at:#{send_at}, to:#{@channel.subscribers.pluck(:id)}"
   end
 
 

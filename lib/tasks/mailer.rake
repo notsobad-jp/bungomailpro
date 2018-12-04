@@ -24,11 +24,11 @@ namespace :mailer do
   end
 
   task :test => :environment do |task, args|
-    channel = Channel.first
+    channel = Channel.find(2)
     chapter = Chapter.includes(:book).find_by(book_id: channel.current_book_id, index: channel.index)
     return if !chapter
 
-    # UserMailer.with(channel: channel, chapter: chapter).deliver_chapter.deliver_now
+    UserMailer.with(channel: channel, chapter: chapter).deliver_chapter.deliver_now
     channel.set_next_chapter
   end
 end
