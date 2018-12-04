@@ -44,6 +44,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    algoliasearch (1.24.0)
+      httpclient (~> 2.8, >= 2.8.3)
+      json (>= 1.5.1)
     annotate (2.7.4)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
@@ -89,11 +92,13 @@ GEM
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
+    httpclient (2.8.3)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    json (2.1.0)
     jwt (1.5.6)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -221,6 +226,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  algoliasearch
   annotate
   bootsnap (>= 1.1.0)
   byebug
