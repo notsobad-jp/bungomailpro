@@ -41,19 +41,22 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
   end
 
   create_table "channels", force: :cascade do |t|
+    t.string "token", null: false
     t.bigint "user_id", null: false
-    t.bigint "current_book_id"
-    t.integer "index"
+    t.bigint "next_chapter_id"
+    t.bigint "last_chapter_id"
     t.string "title", null: false
     t.text "description"
-    t.integer "deliver_at", default: [8], array: true
+    t.integer "deliver_at", default: 8
     t.boolean "public", default: false, null: false
     t.integer "books_count", default: 0, null: false
     t.integer "subscribers_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["current_book_id"], name: "index_channels_on_current_book_id"
+    t.index ["last_chapter_id"], name: "index_channels_on_last_chapter_id"
+    t.index ["next_chapter_id"], name: "index_channels_on_next_chapter_id"
     t.index ["public"], name: "index_channels_on_public"
+    t.index ["token"], name: "index_channels_on_token", unique: true
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
@@ -114,7 +117,8 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
 
   add_foreign_key "channel_books", "books"
   add_foreign_key "channel_books", "channels"
-  add_foreign_key "channels", "books", column: "current_book_id"
+  add_foreign_key "channels", "chapters", column: "last_chapter_id"
+  add_foreign_key "channels", "chapters", column: "next_chapter_id"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
   add_foreign_key "subscriptions", "channels"

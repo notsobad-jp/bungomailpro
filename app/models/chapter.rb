@@ -12,4 +12,8 @@
 
 class Chapter < ApplicationRecord
   belongs_to :book, counter_cache: true
+
+  def next_chapter
+    Chapter.find_by(book_id: self.book_id, index: self.index + 1)
+  end
 end
