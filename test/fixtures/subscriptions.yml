@@ -1,0 +1,4 @@
+sub1:
+  user: user1
+  channel: channel1
+  default: true
