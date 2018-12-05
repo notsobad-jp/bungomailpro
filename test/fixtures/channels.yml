@@ -1,4 +1,15 @@
-channel1:
-  user_id: user1
-  token: 'fugafugafugafuga'
+empty:
+  user: user1
+  token: <%= SecureRandom.hex(10) %>
+  title: '作ったばっかりのちゃんねる'
+
+not_started:
+  user: user1
+  token: <%= SecureRandom.hex(10) %>
+  title: '本はあるけどまだ開始してないチャネル'
+
+started:
+  user: user1
+  token: <%= SecureRandom.hex(10) %>
   title: 'デフォルトちゃんねる'
+  next_chapter: chapters(:book1_chapter2)

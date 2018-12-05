@@ -47,8 +47,9 @@ class Channel < ApplicationRecord
   end
 
   def publish
+    return if self.next_chapter_id
     ActiveRecord::Base.transaction do
-      self.update!(current_book_id: next_channel_book.book_id, index: 1)
+      self.update!(next_chapter_id: next_channel_book.first_chapter.id)
       next_channel_book.update!(delivered: true)
     end
   end

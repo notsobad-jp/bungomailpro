@@ -1,4 +1,12 @@
-sub1:
+user1_empty:
   user: user1
-  channel: channel1
+  channel: channel_empty
   default: true
+
+user1_not_started:
+  user: user1
+  channel: channel_not_started
+
+user1_started:
+  user: user1
+  channel: channel_started
