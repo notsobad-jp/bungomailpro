@@ -11,7 +11,7 @@
 #                           PATCH  /channels/:id(.:format)                                                                  channels#update
 #                           PUT    /channels/:id(.:format)                                                                  channels#update
 #                           DELETE /channels/:id(.:format)                                                                  channels#destroy
-#              search_books POST   /books/search(.:format)                                                                  books#search
+#                    search POST   /books(.:format)                                                                         books#index
 #                     books GET    /books(.:format)                                                                         books#index
 #                           POST   /books(.:format)                                                                         books#create
 #                  new_book GET    /books/new(.:format)                                                                     books#new
@@ -50,7 +50,7 @@
 #                     login GET    /login(.:format)                                                                         magic_tokens#new
 #                      auth GET    /auth(.:format)                                                                          magic_tokens#auth
 #                    logout POST   /logout(.:format)                                                                        magic_tokens#destroy
-#                      root GET    /                                                                                        pages#top
+#                      root GET    /                                                                                        subscriptions#index
 #        rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 # rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
 #        rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
