@@ -13,7 +13,7 @@ class UserMailer < ApplicationMailer
   end
 
 
-  def deliver_chapter
+  def chapter_email
     @channel = params[:channel]
     @chapter = params[:chapter]
 

@@ -1,29 +1,57 @@
 - content_for :breadcrumb do
   作品検索
 
-= render partial: 'form'
+= render partial: 'form', locals: {keyword: @keyword}
 
 %br
 
-%h3.ui.small.dividing.header
-  %i.icon.mini.history
-  最近検索された本
-.ui.middle.alligned.divided.relaxed.large.list
-  - @books.each do |book|
-    .item
-      .right.floated.content
-        .ui.small.basic.buttons
-          = link_to 'チャネルに追加', add_book_channel_path(id: @default_channel_id, book_id: book.id), method: :post, class: 'ui button'
-          .ui.floating.dropdown.icon.button
-            %i.dropdown.icon
-            .menu
-              .item
-                %i.icon.edit Edit
-                %i.icon.edit Edit
+- if @results.present?
+  %h3.ui.small.dividing.header
+    %i.icon.mini.history
+    検索結果
+  .ui.middle.alligned.divided.relaxed.large.list
+    - @results.each do |result|
+      .item
+        .content
+          .header
+            = result['作品名']
+            %small= result['副題']
+            = link_to aozora_card_url(book_id: result['作品ID'], author_id: result['人物ID']), target: '_blank' do
+              %i.icon.mini.external
+          .meta
+            %small
+              = result['姓']
+              = result['名']
+- else
+  %h3.ui.small.dividing.header
+    %i.icon.mini.star
+    人気の文豪
+  .ui.four.doubling.cards
+    .ui.card
+      .image
       .content
-        .header
-          = book.title
-          = link_to book.aozora_card_url, target: '_blank' do
-            %i.icon.mini.external
+        .header 夏目漱石
         .meta
-          %small= book.author
+        .description
+      .extra.content
+        %button.ui.small.button 作品一覧
+        -# = link_to '作品一覧', author_path(1), class: 'ui button'
+
+  -# - @books.each do |book|
+  -#   .item
+  -#     .right.floated.content
+  -#       .ui.small.basic.buttons
+  -#         = link_to 'チャネルに追加', add_book_channel_path(id: @default_channel_id, book_id: book.id), method: :post, class: 'ui button'
+  -#         .ui.floating.dropdown.icon.button
+  -#           %i.dropdown.icon
+  -#           .menu
+  -#             .item
+  -#               %i.icon.edit Edit
+  -#               %i.icon.edit Edit
+  -#     .content
+  -#       .header
+  -#         = book.title
+  -#         = link_to book.aozora_card_url, target: '_blank' do
+  -#           %i.icon.mini.external
+  -#       .meta
+  -#         %small= book.author
