@@ -80,7 +80,7 @@ class ChannelsController < ApplicationController
     end
 
     def set_channel_with_books
-      @channel = Channel.includes([channel_books: :book, next_chapter: :book, last_chapter: :book]).find(params[:id])
+      @channel = Channel.includes([channel_books: :book, next_chapter: :book, last_chapter: :book]).find_by!(token: params[:id])
       authorize @channel
     end
 

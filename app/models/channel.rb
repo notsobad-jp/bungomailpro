@@ -3,12 +3,13 @@
 # Table name: channels
 #
 #  id                :bigint(8)        not null, primary key
+#  token             :string           not null
 #  user_id           :bigint(8)        not null
-#  current_book_id   :bigint(8)
-#  index             :integer
+#  next_chapter_id   :bigint(8)
+#  last_chapter_id   :bigint(8)
 #  title             :string           not null
 #  description       :text
-#  deliver_at        :integer          default(["8"]), is an Array
+#  deliver_at        :integer          default(8)
 #  public            :boolean          default(FALSE), not null
 #  books_count       :integer          default(0), not null
 #  subscribers_count :integer          default(0), not null
@@ -56,7 +57,7 @@ class Channel < ApplicationRecord
 
   def publishable?
     # 現在配信中ではなくて、かつ配信待ちの本が存在する
-    self.current_book_id.blank? && self.next_channel_book
+    self.next_chapter_id.blank? && self.next_channel_book
   end
 
   def set_next_chapter
