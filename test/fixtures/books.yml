@@ -1,0 +1,11 @@
+book1:
+  title: 走れメロス
+  author: 太宰 治
+  author_id: 100
+  footnote: ほんの情報とか
+
+book2:
+  title: 走り終わっためろす
+  author: 芥川さん
+  author_id: 200
+  footnote: ほげほげ

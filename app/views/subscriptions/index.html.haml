@@ -23,7 +23,7 @@
                   %small(data-tooltip="非公開" data-inverted="true")
                     %i.small.lock.icon
               .description
-                - if channel.current_book_id
+                - if channel.next_book_id
                   %span.ui.orange.mini.label 配信中
                 - else
                   %span.ui.mini.label 配信停止中

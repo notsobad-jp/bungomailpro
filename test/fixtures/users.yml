@@ -1,0 +1,7 @@
+user1:
+  token: <%= SecureRandom.hex(10) %>
+  email: 'sample@example.com'
+
+user2:
+  token: <%= SecureRandom.hex(10) %>
+  email: 'sample2@example.com'

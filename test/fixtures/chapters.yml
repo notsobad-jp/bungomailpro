@@ -1,0 +1,24 @@
+book1_chapter1:
+  book: book1
+  index: 1
+  text: 最初のchapterだよー
+
+book1_chapter2:
+  book: book1
+  index: 2
+  text: 2つ目のchapterだよー
+
+book1_chapter3:
+  book: book1
+  index: 3
+  text: 3つ目のchapterだよー
+
+book2_chapter1:
+  book: book2
+  index: 1
+  text: 最初のchapterだよー
+
+book2_chapter2:
+  book: book2
+  index: 2
+  text: 2つ目のchapterだよー

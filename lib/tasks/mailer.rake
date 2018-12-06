@@ -1,10 +1,9 @@
 namespace :mailer do
   desc "当日分のメール配信をSendGridに予約"
   task :schedule => :environment do |task, args|
-    Channel.includes(subscriptions: :user).where.not(current_book_id: nil).each do |channel|
-      chapter = Chapter.includes(:book).find_by(book_id: channel.current_book_id, index: channel.index)
+    Channel.includes([:next_chapter, subscriptions: :user]).where.not(next_chapter_id: nil).each do |channel|
       begin
-        UserMailer.with(channel: channel, chapter: chapter).chapter_email.deliver_later
+        UserMailer.with(channel: channel).chapter_email.deliver_later
         channel.delay.set_next_chapter
       rescue => e
         Logger.new(STDOUT).error e

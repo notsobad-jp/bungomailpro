@@ -15,10 +15,8 @@ class UserMailer < ApplicationMailer
 
   def chapter_email
     @channel = params[:channel]
-    @chapter = params[:chapter]
-
-    deliver_at = @channel.deliver_at.first  #FIXME: 複数回配信に未対応
-    send_at = Time.current.change(hour: deliver_at)
+    @chapter = @channel.next_chapter
+    send_at = Time.current.change(hour: @channel.deliver_at)
 
     xsmtp_api_params = {
       send_at: send_at.to_i,

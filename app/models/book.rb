@@ -15,7 +15,7 @@
 class Book < ApplicationRecord
   has_many :channel_books, dependent: :nullify
   has_many :channels, through: :channel_books
-  has_many :chapters, dependent: :destroy
+  has_many :chapters, -> { order(:index) }, dependent: :destroy
   self.primary_key = 'id'
 
   validates :title, presence: true
