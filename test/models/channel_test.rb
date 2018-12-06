@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # == Schema Information
 #
 # Table name: channels
@@ -17,6 +18,8 @@
 #  updated_at        :datetime         not null
 #
 
+=======
+>>>>>>> bb148cf739ee602d6d72697108641a07c30f84d5
 require 'test_helper'
 
 class ChannelTest < ActiveSupport::TestCase
