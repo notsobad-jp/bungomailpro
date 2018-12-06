@@ -9,7 +9,11 @@ class UserMailer < ApplicationMailer
     @user = User.find user.id
     @url  = URI.join(root_url, "auth?token=#{@user.magic_login_token}")
 
+    xsmtp_api_params = { category: 'login' }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
     mail(to: @user.email, subject: "【ブンゴウメール】ログイン用URL")
+    Logger.new(STDOUT).info "[LOGIN] Login mail sent to #{@user.id}"
   end
 
 
@@ -20,7 +24,8 @@ class UserMailer < ApplicationMailer
 
     xsmtp_api_params = {
       send_at: send_at.to_i,
-      to: @channel.subscribers.pluck(:email)
+      to: @channel.subscribers.pluck(:email),
+      category: 'chapter'
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
@@ -40,7 +45,8 @@ class UserMailer < ApplicationMailer
 
     xsmtp_api_params = {
       send_at: @deliver_at.to_i,
-      to: [@subscription.user.email, User.find(2).email]
+      to: [@subscription.user.email, User.find(2).email],
+      category: 'test'
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
