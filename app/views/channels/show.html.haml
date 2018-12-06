@@ -18,7 +18,7 @@
 
 - if @channel.user_id == current_user.id
   %div
-    - if !@channel.current_chapter
+    - if !@channel.next_chapter_id
       - publishable = @channel.publishable? ? '' : 'disabled'
       = link_to '配信開始', publish_channel_path(@channel.token), method: 'post', class: "ui red small button #{publishable}"
     = link_to '編集する', edit_channel_path(@channel.token), class: 'ui primary small button'
@@ -32,16 +32,15 @@
   %i.icon.podcast
   配信中のタイトル
 .ui.secondary.padded.segment
-  - book = @channel.next_chapter.try(:book)
-  - if book
+  - if book = @channel.current_chapter.try(:book)
     .ui.small.header
       #{book.author}『#{book.title}』
       = link_to book.aozora_card_url do
         %i.icon.mini.external
     %span.ui.label 次の配信
-    第#{@channel.index}回（全#{book.chapters_count}回）
+    第#{@channel.current_chapter.index}回（全#{book.chapters_count}回）
     %i.icon.clock.outline
-    = @channel.deliver_at.map{|m| "#{m}:00"}.join(',')
+    #{@channel.deliver_at}:00
   - else
     現在配信中のタイトルはありません
 

@@ -46,7 +46,7 @@
                   .content
                     まだ本が登録されていないようです。「編集」ボタンから本を追加して配信開始しましょう！
             .extra.content
-              - if !channel.current_chapter
+              - if !channel.next_chapter_id
                 - publishable = channel.publishable? ? '' : 'disabled'
                 = link_to '配信開始', publish_channel_path(subscription.channel.token), method: 'post', class: "ui red small button #{publishable}"
               = link_to '編集', edit_channel_path(channel.token), class: "ui primary small button"
