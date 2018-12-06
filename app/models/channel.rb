@@ -65,18 +65,26 @@ class Channel < ApplicationRecord
   def set_next_chapter
     # 同じ本で次のchapterが存在すればそれをセット
     next_chapter = self.next_chapter.next_chapter
-    return self.update!(last_chapter_id: self.next_chapter_id, next_chapter_id: next_chapter.id) if next_chapter
+    return self.update!(
+      next_chapter_id: next_chapter.id,
+      last_chapter_id: self.next_chapter_id
+    ) if next_chapter
 
     # 次のchapterがなければ、次の本を探してindex:1でセット
     if next_channel_book
       ActiveRecord::Base.transaction do
-        next_chapter = Chapter.find_by(book_id: next_channel_book.book_id, index: 1)
-        self.update!(last_chapter_id: self.next_chapter_id, next_chapter_id: next_chapter.id)
+        self.update!(
+          next_chapter_id: next_channel_book.first_chapter.id,
+          last_chapter_id: self.next_chapter_id
+        )
         next_channel_book.update!(delivered: true)
       end
     # next_channel_bookもなければ配信停止状態にする
     else
-      self.update!(last_chapter_id: self.next_chapter_id, next_chapter_id: nil)
+      self.update!(
+        next_chapter_id: nil,
+        last_chapter_id: self.next_chapter_id
+      )
     end
   end
 
