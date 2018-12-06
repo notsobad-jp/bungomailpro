@@ -76,7 +76,7 @@ class ChannelsController < ApplicationController
 
   private
     def channel_params
-      params.require(:channel).permit(:title, :description, channel_books_attributes: [:id, :index, :book_id, :_destroy])
+      params.require(:channel).permit(:title, :description, :deliver_at, :public, channel_books_attributes: [:id, :index, :book_id, :_destroy])
     end
 
     def set_channel_with_books

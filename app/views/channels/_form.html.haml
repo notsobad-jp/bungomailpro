@@ -11,7 +11,11 @@
 .field
   = f.label :description, '説明'
   = f.text_area :description, rows: '3', placeholder: '改行が使えます。またURLは自動でリンクに変換されます。'
+.field
+  = f.label :deliver_at, '配信時間'
+  = f.select :deliver_at, time_select, {}, class: 'ui dropdown'
 %br
+
 
 .ui.horizontal.divider 配信予定作品
 %div

@@ -25,4 +25,12 @@ module ApplicationHelper
   def aozora_card_url(author_id:, book_id:)
     "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/card#{book_id}.html"
   end
+
+  def time_select
+    times = {}
+    (4..23).each do |i|
+      times["#{i}:00"] = i
+    end
+    times
+  end
 end
