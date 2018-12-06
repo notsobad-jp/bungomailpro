@@ -35,16 +35,18 @@ class Channel < ApplicationRecord
 
 
   def current_chapter
-    # 当日の配信時間を過ぎてればnext_chapter、まだならlast_chapterを返す
-    if Time.current > Time.current.change(hour: self.deliver_at)
-      self.next_chapter
-    else
-      self.last_chapter
-    end
+    # 当日分を配信済み OR 配信開始直後なら、next_chapterを返す
+    no_delivery_for_today ? self.next_chapter : self.last_chapter
   end
 
   def next_channel_book
     self.channel_books.where(delivered: false).first
+  end
+
+  def next_deliver_at
+    # 当日分を配信済み OR 配信開始直後なら、翌日日付にする
+    date = no_delivery_for_today ? Time.current.tomorrow : Time.current
+    date.change(hour: self.deliver_at)
   end
 
   def publish
@@ -77,4 +79,11 @@ class Channel < ApplicationRecord
       self.update!(last_chapter_id: self.next_chapter_id, next_chapter_id: nil)
     end
   end
+
+
+  private
+    # 当日分を配信済み OR 配信開始直後
+    def no_delivery_for_today
+      !self.last_chapter_id || Time.current > Time.current.change(hour: self.deliver_at)
+    end
 end

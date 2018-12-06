@@ -37,7 +37,7 @@
                   %i.icon.podcast
                   - if channel.current_chapter
                     = "#{channel.current_chapter.book.author}『#{channel.current_chapter.book.title}』"
-                    = "##{channel.index}（全#{channel.current_chapter.book.chapters_count}回）"
+                    = "##{channel.current_chapter.index}（全#{channel.current_chapter.book.chapters_count}回）"
                 .item
                   %i.icon.clock.outline
                   #{channel.deliver_at}:00

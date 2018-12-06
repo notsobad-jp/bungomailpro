@@ -40,7 +40,11 @@
     %span.ui.label 次の配信
     第#{@channel.current_chapter.index}回（全#{book.chapters_count}回）
     %i.icon.clock.outline
-    #{@channel.deliver_at}:00
+    = @channel.next_deliver_at.strftime("%m月%d日 %H:%M")
+    - if !@channel.last_chapter_id
+      .ui.warning.mini.message
+        %i.icon.exclamation.circle
+        配信は翌日から開始します。もう少々お待ちください。
   - else
     現在配信中のタイトルはありません
 
