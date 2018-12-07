@@ -16,7 +16,7 @@
   - else
     %span.ui.mini.label 配信停止中
 
-- if @channel.user_id == current_user.id
+- if current_user && @channel.user_id == current_user.id
   %div
     - if !@channel.next_chapter_id
       - publishable = @channel.publishable? ? '' : 'disabled'

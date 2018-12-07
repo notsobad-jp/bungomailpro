@@ -2,11 +2,6 @@
   %i.icon.search
   作品検索
 
-%div
-  %small
-    = link_to 'https://www.aozora.gr.jp/index_pages/index_top.html', target: '_blank' do
-      青空文庫で作品を探す
-      %i.icon.external
 .ui.secondary.padded.segment
   = form_tag do
     .ui.action.fluid.input
@@ -22,3 +17,8 @@
     .ui.checkbox
       = check_box_tag 'target[author]', true, @target[:author]
       %label 著者名
+%div
+  %small
+    = link_to 'https://www.aozora.gr.jp/index_pages/index_top.html', target: '_blank' do
+      青空文庫で作品を探す
+      %i.icon.external
