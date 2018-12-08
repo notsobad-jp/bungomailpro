@@ -59,18 +59,24 @@ class ChannelsController < ApplicationController
   end
 
   def add_book
-    @book = Book.find(params[:book_id])
-    return if @channel.channel_books.find_by(book_id: @book.id) || !@book
+    @book = Book.find_by(id: params[:book_id])
+
+    # 本が存在しない場合はまず追加
+    if !@book
+      book_params = Book.scrape_from_id(author_id: params[:author_id], book_id: params[:book_id])
+      ActiveRecord::Base.transaction do
+        @book = Book.create!(book_params.except(:text))
+        Book.splited_text(book_params[:text]).each.with_index(1) do |chapter, index|
+          @book.chapters.create!(index: index, text: chapter)
+        end
+      end
+    end
+    # チャネルに登録済みの場合は何もせず返す（処理的には正常扱い）
+    return true if @channel.channel_books.find_by(book_id: @book.id)
 
     current_index = @channel.channel_books.maximum(:index) || 0
-
-    course_book = @channel.channel_books.new(book_id: @book.id, index: current_index + 1)
-    if course_book.save
-      return true
-    else
-      p course_book.errors
-      return false
-    end
+    @channel.channel_books.create!(book_id: @book.id, index: current_index + 1)
+    true
   end
 
 

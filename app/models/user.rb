@@ -38,6 +38,10 @@ class User < ApplicationRecord
   end
 
 
+  def default_channel
+    self.subscriptions.includes(:channel).find_by(default: true).try(:channel)
+  end
+
   def display_name
     self.profile ? self.profile['displayName'] : self.token
   end

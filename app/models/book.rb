@@ -146,7 +146,7 @@ class Book < ApplicationRecord
     end
 
 
-    def scrape_from_id(author_id, book_id)
+    def scrape_from_id(author_id:, book_id:)
       card_url = "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/card#{book_id}.html"
       file_url = card_to_file_url(card_url)
       return nil if !file_url

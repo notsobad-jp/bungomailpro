@@ -4,6 +4,8 @@ class BooksController < ApplicationController
   def index
     @keyword = params[:keyword]
     @target = params[:target] || {work: true, author: true}
+    @channels = current_user.channels if current_user
+
     # 検索実行時
     if @keyword.present?
       Algolia.init(
