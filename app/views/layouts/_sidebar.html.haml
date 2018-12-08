@@ -1,0 +1,31 @@
+%h5.ui.small.header
+  %i.icon.search
+  作品検索
+.ui.secondary.segment
+  = form_tag(books_path) do
+    .ui.action.fluid.input
+      = text_field_tag :keyword, nil, placeholder: 'キーワード'
+      = button_tag type: :submit, class: 'ui primary button' do
+        %i.search.icon
+        検索
+
+%h5.ui.small.header
+  %i.icon.user
+  アカウント
+.ui.segment
+  .ui.horizontal.list
+    - if current_user
+      .item
+        = image_tag(current_user.profile_image_url, class: 'ui avatar bordered image')
+        .content
+          .header
+            = link_to current_user.display_name, user_path(current_user.token)
+          .description= current_user.email
+    - else
+      .item
+        = image_tag('avatar.png', class: 'ui avatar bordered image')
+        .content
+          .header ゲスト
+          .description
+      %br
+      = link_to 'ログイン', login_path, class: 'ui basic small right floated button'

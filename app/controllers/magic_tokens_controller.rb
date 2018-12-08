@@ -8,8 +8,7 @@ class MagicTokensController < ApplicationController
     if @user.try(:persisted?)
       @user.deliver_magic_login_instructions!
       flash[:success] = 'ログインURLをメールで送信しました！（届くまで数分程度かかる場合があります）'
-      # redirect_to root_path
-      redirect_to about_path  #FIXME
+      redirect_to root_path
     else
       flash[:error] = 'メールアドレスが正しくないようです…😢もう一度ご確認ください。'
       redirect_to login_path

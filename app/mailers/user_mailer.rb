@@ -30,9 +30,9 @@ class UserMailer < ApplicationMailer
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
     mail(
-      from: "#{@chapter.book.author} <bungomail@notsobad.jp>",
+      from: "#{@chapter.book.author}（ブンゴウメール） <bungomail@notsobad.jp>",
       to: 'bungomail@notsobad.jp',
-      subject: "【ブンゴウメール】#{@chapter.book.title}（#{@chapter.index}/#{@chapter.book.chapters_count}）"
+      subject: "【#{@channel.title}】#{@chapter.book.title}（#{@chapter.index}/#{@chapter.book.chapters_count}）"
     )
     Logger.new(STDOUT).info "[SCHEDULED] channel:#{@channel.id}, chapter:#{@chapter.id}, send_at:#{send_at}, to:#{@channel.subscribers.pluck(:id)}"
   end
