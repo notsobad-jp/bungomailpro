@@ -11,17 +11,16 @@
 
 %h5.ui.small.header
   %i.icon.user
-  アカウント情報
+  アカウント
 .ui.segment
   .ui.horizontal.list
     - if current_user
       .item
         = image_tag(current_user.profile_image_url, class: 'ui avatar bordered image')
         .content
-          .header= current_user.display_name
+          .header
+            = link_to current_user.display_name, user_path(current_user.token)
           .description= current_user.email
-      %br
-      = link_to '編集', user_path(current_user.token), class: 'ui basic small button'
     - else
       .item
         = image_tag('avatar.png', class: 'ui avatar bordered image')
