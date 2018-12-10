@@ -13,6 +13,13 @@
       = link_to(root_path, class: 'header item') do
         ブンゴウメール
         %span.ui.red.label PRO
+      = link_to subscriptions_path, class: 'computer only item' do
+        %i.icon.rss
+        購読中のチャネル
+      = link_to books_path, class: 'computer only item' do
+        %i.icon.search
+        作品検索
+
       .right.menu
         .ui.simple.dropdown.item
           %i.content.icon
@@ -20,6 +27,9 @@
             = link_to root_path, class: 'item' do
               %i.icon.home
               ホーム
+            = link_to subscriptions_path, class: 'item' do
+              %i.icon.rss
+              購読中のチャネル
             = link_to books_path, class: 'item' do
               %i.icon.search
               作品検索
@@ -38,7 +48,7 @@
       = yield
     - else
       %div#main-content
-        - if path == 'subscriptions#index'
+        - if path == 'pages#top'
           %br
           %br
         - else
