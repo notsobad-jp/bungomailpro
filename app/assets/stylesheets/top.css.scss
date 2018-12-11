@@ -1,14 +1,5 @@
-.gray-flat { background-color: #e7e8e9; }
-.gray-black { background-color: #c4c8d4; }
-.gray-accent { background-color: #443b55 !important; }
-section, footer { padding: 50px 10px !important; }
-.gray-accent.button {
-  padding-top: 1.5em;
-  padding-bottom: 1.5em;
-}
-
-body[data-controller="pages"][data-action="about"] .ui.top.fixed.menu {
-  // background: transparent;
+body[data-controller="pages"][data-action="about"] .ui.top.fixed.menu,
+body[data-controller="pages"][data-action="top"] .ui.top.fixed.menu {
   border: none;
   box-shadow: none;
 }
@@ -17,15 +8,9 @@ body[data-controller="pages"][data-action="about"] .ui.top.fixed.menu {
   // margin-right: 50px;
   max-width: 80%;
 }
-#header { padding-top: 60px !important; }
+#header { padding: 20px !important; }
 #header-catch { margin-top: 30px; }
 .sub.header { margin-top: 15px !important; }
-
-footer.ui.segment {
-  color: rgba(255,255,255,.6);
-  margin-bottom: 0;
-}
-footer a { color: #fff !important; }
 
 .ui.mini.divider {
   width: 50px;

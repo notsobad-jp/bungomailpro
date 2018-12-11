@@ -49,6 +49,39 @@
     - else
       %div#main-content
         - if path == 'pages#top'
+          %section#header.ui.centered.stackable.seigaiha.grid
+            - if flash.present?
+              .ui.row
+                .ui.twelve.wide.column
+                  - %w(warning error success info).each do |status|
+                    - if flash[status]
+                      .ui.message(class="#{status}")
+                        = flash[status]
+            .ui.row
+              %br
+                .six.wide.right.aligned.column
+                  %br/
+                  %div
+                    = image_tag('logo.png', id: 'logo', class: 'ui medium centered image', alt: 'ブンゴウメール')
+                  %br/
+                #header-catch.six.wide.left.aligned.column.mt-30
+                  .ui.large.header
+                    もっと読書をたのしもう。
+                    .sub.header
+                      好きな作家をずっと配信したり、おまかせで中長編の配信を楽しんだり。
+                      %br.computer.only/
+                      ブンゴウメールPROは、もっと読書を楽しみたいあなたのためのサービスです。
+                  %br/
+                  %br/
+                  - if current_user
+                    = link_to subscriptions_path, class: 'ui large red left labeled icon button' do
+                      %i.icon.rss
+                      購読中のチャネルを見る
+                  - else
+                    = link_to login_path, class: 'ui large red left labeled icon button' do
+                      %i.icon.sign.in
+                      ベータ版を利用する（無料）
+          %br
           %br
           %br
         - else
