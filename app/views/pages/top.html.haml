@@ -1,13 +1,16 @@
-.ui.warning.icon.message
-  %i.icon.warning.circle
+.ui.warning.message
   .content
-    .header 現在クローズドBETA版として提供しています
-    一部の機能がまだ実装されていません。バグや不具合にお気づきの際は、info@notsobad.jpまでご連絡ください。
-    また改善要望もぜひお気軽にお願いします。
+    .header
+      %i.icon.warning.circle
+      現在クローズドBETA版として提供しています
+    一部の機能がまだ実装されていません。またバグや不具合が出る可能性もあります。お気づきのことや改善要望などあれば、info@notsobad.jpまでぜひご連絡ください。
+    今後の開発ロードマップは
+    = link_to 'こちら', 'https://trello.com/b/3V3wAp6S/', target: '_blank'
+    で公開しています。
 
 
 %h3.ui.small.dividing.header
-  %i.icon.mini.child
+  %i.icon.child
   人気の文豪
 .ui.four.doubling.cards
   - @popular_authors.each do |author|
@@ -21,8 +24,14 @@
 %br
 
 %h3.ui.small.dividing.header
-  %i.icon.mini.book
+  %i.icon.book
   人気の作品
+- if !current_user
+  .ui.warning.message
+    %i.icon.warning.circle
+    作品をチャネルに追加するには
+    = link_to 'ログイン', login_path
+    してください
 .ui.four.doubling.cards
   - @popular_books.each do |book|
     .ui.card
@@ -39,5 +48,3 @@
               .menu
                 - @channels.each do |channel|
                   = link_to channel.title, add_book_channel_path(channel.token, book_id: book.id, author_id: book.author_id), method: 'post', class: 'item', remote: true
-        - else
-          = link_to 'チャネルに追加', login_path, class: 'ui small basic button'

@@ -50,13 +50,6 @@
       %div#main-content
         - if path == 'pages#top'
           %section#header.ui.centered.stackable.seigaiha.grid
-            - if flash.present?
-              .ui.row
-                .ui.twelve.wide.column
-                  - %w(warning error success info).each do |status|
-                    - if flash[status]
-                      .ui.message(class="#{status}")
-                        = flash[status]
             .ui.row
               %br
                 .six.wide.right.aligned.column

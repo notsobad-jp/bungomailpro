@@ -1,4 +1,4 @@
-%h5.ui.small.header
+%h5.ui.small.dividing.header
   %i.icon.search
   作品検索
 .ui.secondary.segment
@@ -9,11 +9,11 @@
         %i.search.icon
         検索
 
-%h5.ui.small.header
+%h5.ui.small.dividing.header
   %i.icon.user
   アカウント
 .ui.segment
-  .ui.horizontal.list
+  .ui.list
     - if current_user
       .item
         = image_tag(current_user.profile_image_url, class: 'ui avatar bordered image')
@@ -21,11 +21,26 @@
           .header
             = link_to current_user.display_name, user_path(current_user.token)
           .description= current_user.email
+          .list
+            .item
+              %i.icon.setting
+              .content
+                .description
+                  = link_to 'アカウント情報', user_path(current_user.token)
+            .item
+              %i.icon.sign.in
+              .content
+                .description
+                  = link_to 'ログアウト', logout_path, method: :post
     - else
       .item
         = image_tag('avatar.png', class: 'ui avatar bordered image')
         .content
-          .header ゲスト
+          .header ゲストユーザー
           .description
-      %br
-      = link_to 'ログイン', login_path, class: 'ui basic small right floated button'
+          .list
+            .item
+              %i.icon.sign.in
+              .content
+                .description
+                  = link_to 'ログイン', login_path
