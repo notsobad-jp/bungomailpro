@@ -1,7 +1,3 @@
-.ui.top.fixed.menu {
-  background-image: image-url('seigaiha.png');
-}
-
 #main-content {
   margin: 45px 0;
   word-break: break-all;
@@ -20,7 +16,16 @@
 
 .ui.horizontal.divider:before { background-color: transparent; }
 
+.seigaiha {
+  background-image: image-url('seigaiha.png') !important;
+}
+
 
 @media only screen and (max-width: 767px) {
   .computer.only { display: none !important; }
+  #sidebar {
+    border-top: 1px solid #ddd;
+    margin-top: 50px !important;
+    padding-top: 50px !important;
+  }
 }

@@ -1,3 +1,11 @@
+.ui.warning.small.message
+  .content
+    .header
+      %i.icon.warning.circle
+      ベータ版の制約
+    一部の作品が検索対象外となっています。もし読みたい作品が見つからない場合は、チャネル編集画面から直接作品URLを指定して追加してください。
+
+
 .ui.secondary.padded.segment
   = form_tag do
     .ui.action.fluid.input
@@ -13,6 +21,8 @@
     .ui.checkbox
       = check_box_tag 'target[author]', true, @target[:author]
       %label 著者名
+    - if keyword
+      = link_to '検索条件をリセット', books_path, style: 'float: right;'
 %div
   %small
     = link_to 'https://www.aozora.gr.jp/index_pages/index_top.html', target: '_blank' do

@@ -9,7 +9,7 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body(data-controller="#{controller_name}" data-action="#{action_name}")
-    .ui.top.fixed.borderless.menu
+    .ui.top.fixed.borderless.seigaiha.menu
       = link_to(root_path, class: 'header item') do
         ブンゴウメール
         %span.ui.red.label PRO
@@ -61,6 +61,6 @@
                   .ui.message(class="#{status}")
                     = flash[status]
               = yield
-            .ui.four.wide.column
+            #sidebar.ui.four.wide.column
               = render partial: 'layouts/sidebar'
     = render partial: 'layouts/footer'
