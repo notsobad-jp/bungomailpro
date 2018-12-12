@@ -96,7 +96,7 @@ class BooksController < ApplicationController
 
     ActiveRecord::Base.transaction do
       book = Book.create!(book_params)
-      Book.splited_text(text).each.with_index(1) do |chapter, index|
+      Book.split_text(text).each.with_index(1) do |chapter, index|
         book.chapters.create!(index: index, text: chapter)
       end
     end

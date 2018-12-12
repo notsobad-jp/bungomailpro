@@ -66,7 +66,7 @@ class ChannelsController < ApplicationController
       book_params = Book.scrape_from_id(author_id: params[:author_id], book_id: params[:book_id])
       ActiveRecord::Base.transaction do
         @book = Book.create!(book_params.except(:text))
-        Book.splited_text(book_params[:text]).each.with_index(1) do |chapter, index|
+        Book.split_text(book_params[:text]).each.with_index(1) do |chapter, index|
           @book.chapters.create!(index: index, text: chapter)
         end
       end

@@ -33,10 +33,13 @@ class Book < ApplicationRecord
 
 
   class << self
-    # split novels
-    def splited_text(text, chars_per=800)
-      count = text.length.div(chars_per) + 1
-      chars_per = text.length.quo(count).ceil
+    def split_text(text, chars_per=750)
+      # 120000字以上の場合は、chars_perの文字列に近い量で、30日単位で割り切れるように調整
+      # （12000字以内の超短編は調整せずにデフォルトのchars_perで区切る）
+      if text.length > 12000
+        count = (text.length.div(chars_per).div(30) + 1 ) * 30
+        chars_per = text.length.quo(count).ceil
+      end
 
       contents = []
       text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
@@ -53,7 +56,7 @@ class Book < ApplicationRecord
           contents[index] = last_sentence + splits[1]
         end
       end
-      return contents
+      contents
     end
 
 
