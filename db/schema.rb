@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.string "title", null: false
     t.string "author", null: false
     t.bigint "author_id", null: false
+    t.bigint "file_id", null: false
     t.text "footnote"
     t.integer "chapters_count", default: 0, null: false
     t.datetime "created_at", null: false
