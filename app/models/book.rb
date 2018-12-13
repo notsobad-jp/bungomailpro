@@ -25,10 +25,7 @@ class Book < ApplicationRecord
   validates :file_id, presence: true
 
   after_create do
-    text, footnote = self.get_text_from_aozora_file
-    self.update!(footnote: footnote)
-
-    contents = self.split_text(text)
+    self.delay.create_chapters
   end
 
   USUAL_KANJIS = %w(
@@ -42,7 +39,22 @@ class Book < ApplicationRecord
 
 
   def aozora_file_url
-    "https://www.aozora.gr.jp/cards/#{sprintf('%06d', self.author_id)}/files/#{self.book_id}_#{self.file_id}.html"
+    "https://www.aozora.gr.jp/cards/#{sprintf('%06d', self.author_id)}/files/#{self.id}_#{self.file_id}.html"
+  end
+
+
+  def create_chapters
+    text, footnote = self.get_text_from_aozora_file
+
+    chapters = []
+    Book.split_text(text).each.with_index(1) do |chapter, index|
+      chapters << Chapter.new(book_id: self.id, index: index, text: chapter)
+    end
+
+    ActiveRecord::Base.transaction do
+      Chapter.import! chapters
+      self.update!(chapters_count: chapters.count, footnote: footnote)
+    end
   end
 
 
@@ -97,33 +109,6 @@ class Book < ApplicationRecord
   end
 
 
-  def split_text(text, chars_per=750)
-    # 120000字以上の場合は、chars_perの文字列に近い量で、30日単位で割り切れるように調整
-    # （12000字以内の超短編は調整せずにデフォルトのchars_perで区切る）
-    if text.length > 12000
-      count = (text.length.div(chars_per).div(30) + 1 ) * 30
-      chars_per = text.length.quo(count).ceil
-    end
-
-    contents = []
-    text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
-      if index == 0
-        contents[index] = content
-      else
-        # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
-        # 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
-        splits = content.sub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
-        contents[index-1] += splits[0]
-
-        # 前日の最後の１文を再掲する
-        last_sentence = contents[index-1].gsub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
-        contents[index] = last_sentence + splits[1]
-      end
-    end
-    contents
-  end
-
-
 
   class << self
     def aozora_card_url(author_id:, book_id:)
@@ -174,6 +159,33 @@ class Book < ApplicationRecord
       end
 
       Book.create!(attributes)
+    end
+
+
+    def split_text(text, chars_per=750)
+      # 120000字以上の場合は、chars_perの文字列に近い量で、30日単位で割り切れるように調整
+      # （12000字以内の超短編は調整せずにデフォルトのchars_perで区切る）
+      if text.length > 12000
+        count = (text.length.div(chars_per).div(30) + 1 ) * 30
+        chars_per = text.length.quo(count).ceil
+      end
+
+      contents = []
+      text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
+        if index == 0
+          contents[index] = content
+        else
+          # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
+          # 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
+          splits = content.sub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
+          contents[index-1] += splits[0]
+
+          # 前日の最後の１文を再掲する
+          last_sentence = contents[index-1].gsub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
+          contents[index] = last_sentence + splits[1]
+        end
+      end
+      contents
     end
   end
 end
