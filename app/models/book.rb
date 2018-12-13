@@ -33,13 +33,14 @@ class Book < ApplicationRecord
   )
 
 
+
   def aozora_card_url
-    "https://www.aozora.gr.jp/cards/#{sprintf('%06d', self.author_id)}/card#{self.id}.html"
+    Book.aozora_card_url(author_id: self.author_id, book_id: self.book_id)
   end
 
 
   def aozora_file_url
-    "https://www.aozora.gr.jp/cards/#{sprintf('%06d', self.author_id)}/files/#{self.id}_#{self.file_id}.html"
+    Book.aozora_file_url(author_id: self.author_id, book_id: self.book_id, file_id: self.file_id)
   end
 
 
@@ -60,8 +61,9 @@ class Book < ApplicationRecord
 
   # scrape and parse Aozora URL
   def get_text_from_aozora_file
+    url = Book.aozora_file_url(author_id: self.author_id, book_id: self.id, file_id: self.file_id)
     charset = nil
-    html = open(self.aozora_file_url) do |f|
+    html = open(url) do |f|
       charset = f.charset
       f.read
     end
@@ -113,6 +115,11 @@ class Book < ApplicationRecord
   class << self
     def aozora_card_url(author_id:, book_id:)
       "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/card#{book_id}.html"
+    end
+
+
+    def aozora_file_url(author_id:, book_id:, file_id:)
+      "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/files/#{book_id}_#{file_id}.html"
     end
 
 

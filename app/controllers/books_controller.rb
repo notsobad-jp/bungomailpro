@@ -31,16 +31,11 @@ class BooksController < ApplicationController
         { id: 1779, name: '江戸川乱歩' },
         { id: 81, name: '宮沢賢治' }
       ]
-      popular_book_ids = [275, 262, 301, 43016]
+      popular_book_ids = [] #TODO
       @popular_books = Book.find(popular_book_ids)
     end
   end
 
-  def show
-    @book = Book.find(params[:id])
-    @default_channel_id = current_user.subscriptions.find_by(default: true).try(:channel_id) if current_user
-    @default_channel_id ||= 1 #FIXME
-  end
 
   def search
     # url = params[:url]

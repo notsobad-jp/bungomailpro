@@ -36,7 +36,7 @@
           .header
             = result['作品名']
             %small= result['副題']
-            = link_to aozora_card_url(book_id: result['作品ID'], author_id: result['人物ID']), target: '_blank' do
+            = link_to Book.aozora_card_url(book_id: result['作品ID'], author_id: result['人物ID']), target: '_blank' do
               %i.icon.mini.external
           .meta
             %small
