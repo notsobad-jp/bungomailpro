@@ -35,12 +35,12 @@ class Book < ApplicationRecord
 
 
   def aozora_card_url
-    Book.aozora_card_url(author_id: self.author_id, book_id: self.book_id)
+    Book.aozora_card_url(author_id: self.author_id, book_id: self.id)
   end
 
 
   def aozora_file_url
-    Book.aozora_file_url(author_id: self.author_id, book_id: self.book_id, file_id: self.file_id)
+    Book.aozora_file_url(author_id: self.author_id, book_id: self.id, file_id: self.file_id)
   end
 
 
