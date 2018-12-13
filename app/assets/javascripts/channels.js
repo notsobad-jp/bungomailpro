@@ -129,7 +129,7 @@ function setItemIndex() {
 
 
 function setScrapeUrl(e) {
-  var baseHref = '/books/scrape/?url=';
+  var baseHref = '/books/url/?url=';
   var searchButton = e.currentTarget;
   var searchInput = document.getElementById("searchInput");
   searchButton.setAttribute('href', baseHref + searchInput.value);

@@ -53,30 +53,24 @@ class ChannelsController < ApplicationController
   end
 
   def destroy
-    @channel.destroy
-    flash[:success] = 'チャネルを削除しました'
+    if @channel == current_user.default_channel
+      flash[:error] = 'デフォルトチャネルは削除できません...'
+    else
+      @channel.destroy
+      flash[:success] = 'チャネルを削除しました'
+    end
     redirect_to subscriptions_path
   end
 
   def add_book
-    @book = Book.find_by(id: params[:book_id])
-
-    # 本が存在しない場合はまず追加
-    if !@book
-      book_params = Book.scrape_from_id(author_id: params[:author_id], book_id: params[:book_id])
-      ActiveRecord::Base.transaction do
-        @book = Book.create!(book_params.except(:text))
-        Book.split_text(book_params[:text]).each.with_index(1) do |chapter, index|
-          @book.chapters.create!(index: index, text: chapter)
-        end
-      end
-    end
-    # チャネルに登録済みの場合は何もせず返す（処理的には正常扱い）
-    return true if @channel.channel_books.find_by(book_id: @book.id)
-
+    @book = Book.find_or_scrape(book_id: params[:book_id], author_id: params[:author_id])
     current_index = @channel.channel_books.maximum(:index) || 0
-    @channel.channel_books.create!(book_id: @book.id, index: current_index + 1)
-    true
+
+    if @channel.channel_books.create_with(index: current_index + 1).find_or_create_by(book_id: @book.id)
+      render json: true, status: 200
+    else
+      render json: nil, status: 500
+    end
   end
 
 

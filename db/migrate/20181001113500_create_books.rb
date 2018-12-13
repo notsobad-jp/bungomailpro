@@ -5,6 +5,7 @@ class CreateBooks < ActiveRecord::Migration[5.2]
       t.string :title, null: false
       t.string :author, null: false
       t.integer :author_id, limit: 8, null: false
+      t.integer :file_id, limit: 8, null: false
       t.text :footnote
       t.integer :chapters_count, null: false, default: 0
       t.timestamps

@@ -36,49 +36,12 @@
           .header
             = result['作品名']
             %small= result['副題']
-            = link_to aozora_card_url(book_id: result['作品ID'], author_id: result['人物ID']), target: '_blank' do
+            = link_to Book.aozora_card_url(book_id: result['作品ID'], author_id: result['人物ID']), target: '_blank' do
               %i.icon.mini.external
           .meta
             %small
               = result['姓']
               = result['名']
-- else
-  -# %h3.ui.small.dividing.header
-  -#   %i.icon.mini.child
-  -#   人気の文豪
-  -# .ui.four.doubling.cards
-  -#   - @popular_authors.each do |author|
-  -#     = link_to books_path(keyword: author[:name], target: {author: true}), method: :post, class: 'ui card' do
-  -#       .image
-  -#         = image_tag("authors/#{author[:id]}.png")
-  -#       .content
-  -#         .header= author[:name]
-  -#         .meta
-  -#         .description
-  -# %br
-  -#
-  -# %h3.ui.small.dividing.header
-  -#   %i.icon.mini.book
-  -#   人気の作品
-  -# .ui.four.doubling.cards
-  -#   - @popular_books.each do |book|
-  -#     .ui.card
-  -#       .content
-  -#         .header= book.title
-  -#         .meta= book.author
-  -#         .description
-  -#       .extra.content
-  -#         .ui.compact.small.menu
-  -#           - if current_user && @channels
-  -#             .ui.simple.dropdown.item
-  -#               = link_to 'チャネルに追加', add_book_channel_path(current_user.default_channel.token, book_id: book.id, author_id: book.author_id), method: :post, remote: :true
-  -#               .dropdown.icon
-  -#               .menu
-  -#                 - @channels.each do |channel|
-  -#                   = link_to channel.title, add_book_channel_path(channel.token, book_id: book.id, author_id: book.author_id), method: 'post', class: 'item', remote: true
-  -#           - else
-  -#             = link_to 'チャネルに追加', login_path, class: 'ui small basic button'
-  -#
 
 
 :javascript
