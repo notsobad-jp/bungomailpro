@@ -63,14 +63,15 @@ Rails.application.routes.draw do
     post 'publish', on: :member
   end
   post 'books' => 'books#index', as: :search
-  resources :books
+  resources :books do
+    post 'url', on: :collection
+  end
   resources :subscriptions
   resources :deliveries
   resources :magic_tokens
 
   get 'users/:token' => 'users#show', as: :user
   get 'about' => 'pages#about', as: :about
-  post 'books/scrape' => 'books#scrape'
 
   get 'login' => 'magic_tokens#new', as: :login
   get 'auth' => 'magic_tokens#auth', as: :auth

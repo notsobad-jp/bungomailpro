@@ -131,12 +131,12 @@ class Book < ApplicationRecord
 
       # まだなら図書カードURLをscrapeして、新規作成したbookを返す
       aozora_card_url = self.aozora_card_url(book_id: book_id, author_id: author_id)
-      self.create_book_from_aozora_card(aozora_card_url)
+      self.create_from_aozora_card(aozora_card_url)
     end
 
 
     # 図書カードURLをscrapeしてbookを作成する
-    def create_book_from_aozora_card(card_url)
+    def create_from_aozora_card(card_url)
       match, author_id, book_id = card_url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/(\d+)\/card(\d+).html/).to_a
       return nil if !match
 

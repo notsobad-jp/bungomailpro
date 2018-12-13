@@ -27,7 +27,7 @@
 .ui.secondary.padded.segment
   .ui.action.fluid.input
     %input#searchInput(type="text" placeholder="青空文庫の作品URL")
-    = link_to '/books/scrape/?url=', id: 'searchButton', class: 'ui primary button', method: :post, remote: true do
+    = link_to '/books/url/?url=', id: 'searchButton', class: 'ui primary button', method: :post, remote: true do
       %i.add.icon
       追加
   %div
