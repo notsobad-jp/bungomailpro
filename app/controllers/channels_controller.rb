@@ -67,7 +67,7 @@ class ChannelsController < ApplicationController
     current_index = @channel.channel_books.maximum(:index) || 0
 
     if @channel.channel_books.create_with(index: current_index + 1).find_or_create_by(book_id: @book.id)
-      render json: true, status: 200
+      render json: { channel: @channel.title, book: @book.title }, status: 200
     else
       render json: nil, status: 500
     end

@@ -42,15 +42,25 @@
             %small
               = result['姓']
               = result['名']
+#dimmer.ui.page.inverted.dimmer
+  .ui.text.loader Loading..
 
 
 :javascript
   document.addEventListener("turbolinks:load", () => {
-    // Ajaxで本のデータを受け取ってリストに追加
+    let dimmer = document.getElementById('dimmer');
+
+    document.body.addEventListener('ajax:before', (event) => {
+      dimmer.classList.add('active');
+    })
     document.body.addEventListener('ajax:success', (event) => {
-      alert("チャネルに追加しました！");
+      let res = event.detail[0];
+      alert(`${res.channel}に「${res.book}」追加しました！`);
     })
     document.body.addEventListener('ajax:error', (event) => {
       alert("チャネルへの追加に失敗しました…");
+    })
+    document.body.addEventListener('ajax:complete', (event) => {
+      dimmer.classList.remove('active');
     })
   })
