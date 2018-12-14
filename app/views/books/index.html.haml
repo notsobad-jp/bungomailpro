@@ -28,7 +28,6 @@
               .ui.floating.dropdown.icon.button(tabindex="#{index}")
                 %i.icon.dropdown
                 .menu
-                  = link_to 'ほげ', root_path, class: 'item'
                   - @channels.each do |channel|
                     = link_to channel.title, add_book_channel_path(channel.token, book_id: result['作品ID'], author_id: result['人物ID']), method: 'post', class: 'item', remote: true, tabindex: 2
           - else
