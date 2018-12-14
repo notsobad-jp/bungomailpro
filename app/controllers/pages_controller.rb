@@ -1,7 +1,5 @@
 class PagesController < ApplicationController
   def top
-    @channels = current_user.channels if current_user
-
     @popular_authors = [
       { id: 148, name: '夏目漱石' },
       { id: 879, name: '芥川龍之介' },
