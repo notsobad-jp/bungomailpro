@@ -29,16 +29,6 @@ footer.ui.segment {
 footer a { color: #fff !important; }
 
 
-.ui.dropdown.button .menu {
-  display: block !important;
-  visibility: hidden;
-  transition: .1s linear;
-}
-.ui.dropdown.button:focus .menu {
-  visibility: visible;
-}
-
-
 @media only screen and (max-width: 767px) {
   .computer.only { display: none !important; }
   #sidebar {
