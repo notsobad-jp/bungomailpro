@@ -61,9 +61,8 @@ class Book < ApplicationRecord
 
   # scrape and parse Aozora URL
   def get_text_from_aozora_file
-    url = Book.aozora_file_url(author_id: self.author_id, book_id: self.id, file_id: self.file_id)
     charset = nil
-    html = open(url) do |f|
+    html = open(self.aozora_file_url) do |f|
       charset = f.charset
       f.read
     end
