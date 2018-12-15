@@ -31,7 +31,10 @@
                   - @channels.each do |channel|
                     = link_to channel.title, add_book_channel_path(channel.token, book_id: result['作品ID'], author_id: result['人物ID']), method: 'post', class: 'item', remote: true
           - else
-            = link_to 'チャネルに追加', login_path, class: 'ui small basic button'
+            .ui.basic.buttons
+              .ui.disabled.button チャネルに追加
+              .ui.simple.dropdown.icon.disabled.button
+                %i.icon.dropdown
         .content
           .header
             = result['作品名']

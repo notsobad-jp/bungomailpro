@@ -13,6 +13,15 @@
     = link_to 'ログイン', login_path
     が必要です。
 
+  .ui.stackable.grid
+    .ui.three.columns.row
+      - 3.times do |i|
+        .ui.column
+          .ui.placeholder.segment
+            .ui.icon.header
+              %i.grey.icon.rss
+            = link_to 'チャネルを作成する', new_channel_path, class: 'ui primary small button'
+
 - else
   .ui.info.message
     「チャネル」に読みたい本を追加して配信を開始しましょう。チャネルは3つまで購読できます。
