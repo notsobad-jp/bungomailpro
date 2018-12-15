@@ -53,12 +53,9 @@ class ChannelsController < ApplicationController
   end
 
   def destroy
-    if @channel == current_user.default_channel
-      flash[:error] = 'デフォルトチャネルは削除できません...'
-    else
-      @channel.destroy
-      flash[:success] = 'チャネルを削除しました'
-    end
+    @channel.destroy
+    flash[:success] = 'チャネルを削除しました'
+
     redirect_to subscriptions_path
   end
 
