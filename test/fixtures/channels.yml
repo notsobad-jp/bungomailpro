@@ -30,5 +30,5 @@ not_started:
 started:
   user: user1
   token: <%= SecureRandom.hex(10) %>
-  title: 'デフォルトちゃんねる'
+  title: '開始済みチャンネル'
   next_chapter: chapters(:book1_chapter2)

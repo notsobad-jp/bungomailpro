@@ -16,13 +16,15 @@ class Subscription < ApplicationRecord
 
   before_create do
     # Userがdefault_channelを持ってなければデフォルト指定する
-    self.default = self.user.default_channel ? false : true
+    self.default = self.user.default_channel.blank?
   end
 
   after_destroy do
-    # Userが他にチャネル持ってるのにdefault_channelがなければ、適当にデフォルト指定する
-    alt_channel = self.user.channels.where.not(id: self.channel.id).first
-    if alt_channel && self.user.default_channel
+    # Userが他に自作チャネル持ってるのにdefault_channelがなければ、適当にデフォルト指定する
+    ## この時点ではまだ親channelが消えてないので、where.notで自身の親channelを除外する
+    ## subscriptionsはすでに削除されてるので、default_channelは正しくnilが返る
+    alt_channel = self.user.channels.where.not(id: self.channel_id).first
+    if alt_channel && !self.user.default_channel
       self.user.subscriptions.find_by(channel_id: alt_channel.id).update!(default: true)
     end
   end
