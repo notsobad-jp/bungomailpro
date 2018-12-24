@@ -22,7 +22,6 @@ class Book < ApplicationRecord
   validates :title, presence: true
   validates :author, presence: true
   validates :author_id, presence: true
-  validates :file_id, presence: true
 
   after_create do
     self.delay.create_chapters
@@ -118,7 +117,8 @@ class Book < ApplicationRecord
 
 
     def aozora_file_url(author_id:, book_id:, file_id:)
-      "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/files/#{book_id}_#{file_id}.html"
+      file_path = file_id ? "#{book_id}_#{file_id}" : book_id
+      "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/files/#{file_path}.html"
     end
 
 
@@ -161,8 +161,11 @@ class Book < ApplicationRecord
       doc.css("table.download tr").each do |tr|
         next if tr.css('td:first-child').inner_text.match(/X?HTMLファイル/).nil?
         href = tr.css('td a')[0][:href]
-        file_id = href.match(/files\/(\d*_?\d+)\.html/).to_a[1] # URLが「ファイルID」のときと「著者ID_ファイルID」のときがある
-        attributes[:file_id] = file_id.split("_").last
+
+        # URLが「作品ID」だけのときと「作品ID_ファイルID」のときがある
+        ## 作品IDだけのときは、file_idはnilで保存
+        match = href.match(/files\/\d+_(\d+)\.html/)
+        attributes[:file_id] = match.to_a[1] if match
       end
 
       Book.create!(attributes)
