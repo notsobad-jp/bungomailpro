@@ -39,7 +39,8 @@ class User < ApplicationRecord
 
 
   def default_channel
-    self.subscriptions.includes(:channel).find_by(default: true).try(:channel)
+    # デフォルト指定がなければ適当なchannelを返す（それもなければnil）
+    self.subscriptions.find_by(default: true).try(:channel) || self.channels.first
   end
 
   def display_name

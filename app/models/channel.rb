@@ -33,6 +33,10 @@ class Channel < ApplicationRecord
     self.token = SecureRandom.hex(10)
   end
 
+  after_create do
+    self.subscriptions.create!(user_id: self.user_id)
+  end
+
 
   def current_chapter
     # 当日分を配信済み OR 配信開始直後なら、next_chapterを返す

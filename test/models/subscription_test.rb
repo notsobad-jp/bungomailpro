@@ -25,45 +25,52 @@ class SubscriptionTest < ActiveSupport::TestCase
     @user2 = users(:user2)
   end
 
+  test "channel owned" do
+    sub = subscriptions(:user1_empty)
 
-  test "create when default exists" do
-    channel1 = channels(:empty)
-    sub1 = @user2.subscriptions.create(channel_id: channel1.id)
-
-    channel2 = channels(:started)
-    sub2 = @user2.subscriptions.create(channel_id: channel2.id)
-
-    assert_equal false, sub2.default
+    assert sub.channel_owned?
   end
 
-  test "create when no default exists" do
+  test "channel not owned" do
+    channel1 = channels(:empty)
+    sub = @user2.subscriptions.create(channel_id: channel1.id)
+
+    assert !sub.channel_owned?
+  end
+
+  test "owned and no default exists" do
+    channel = channels(:user2)
+    sub = @user2.subscriptions.create(channel_id: channel.id)
+
+    assert sub.default
+  end
+
+  test "owned and default exists" do
+    channel1 = channels(:user2)
+    sub1 = @user2.subscriptions.create(channel_id: channel1.id)
+
+    channel2 = channels(:user2_2)
+    sub2 = @user2.subscriptions.create(channel_id: channel2.id)
+
+    assert sub1.default
+    assert !sub2.default
+  end
+
+  test "not owned and no default exists" do
     channel = channels(:empty)
     sub = @user2.subscriptions.create(channel_id: channel.id)
 
-    assert_equal true, sub.default
+    assert !sub.default
   end
 
-  test "destroy when default exists" do
-    default = @user1.default_channel
-    @user1.subscriptions.find_by(default: false).destroy!
-
-    assert_equal 2, @user1.subscriptions.count
-    assert_equal default, @user1.subscriptions.find_by(default: true).channel
-  end
-
-  test "destroy when no channel and no default exists" do
-    channel1 = channels(:empty)
+  test "not owned and default exists" do
+    channel1 = channels(:user2)
     sub1 = @user2.subscriptions.create(channel_id: channel1.id)
-    sub1.destroy!
 
-    assert_equal 0, @user2.subscriptions.count
-    assert_equal nil, @user2.default_channel
-  end
+    channel2 = channels(:empty)
+    sub2 = @user2.subscriptions.create(channel_id: channel2.id)
 
-  test "destroy when channel exists but no default exists" do
-    @user1.subscriptions.find_by(default: true).destroy!
-
-    assert_equal 2, @user1.subscriptions.count
-    assert_equal true, @user1.subscriptions.find_by(default: true)
+    assert sub1.default
+    assert !sub2.default
   end
 end

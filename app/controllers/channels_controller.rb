@@ -24,7 +24,6 @@ class ChannelsController < ApplicationController
   def create
     @channel = Channel.new channel_params
     @channel.user_id = current_user.id
-    @channel.subscriptions.new(user_id: current_user.id)
 
     if @channel.save
       flash[:success] = 'チャネルを作成しました🎉'
