@@ -26,20 +26,21 @@ class User < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
-  validates :subscriptions, length: { minimum: 1, maximum: 3 }, on: :update
+  validates :channels, length: { maximum: 3 }, on: :update
+  validates :subscriptions, length: { maximum: 3 }, on: :update
 
   before_create do
     self.token = SecureRandom.hex(10)
   end
 
   after_create do
-    channel = self.channels.create(title: 'デフォルトチャネル')
-    self.subscriptions.create(channel_id: channel.id, default: true)
+    self.channels.create!(title: 'デフォルトチャネル')
   end
 
 
   def default_channel
-    self.subscriptions.includes(:channel).find_by(default: true).try(:channel)
+    # デフォルト指定がなければ適当なchannelを返す（それもなければnil）
+    self.subscriptions.find_by(default: true).try(:channel) || self.channels.first
   end
 
   def display_name
@@ -57,9 +58,5 @@ class User < ApplicationRecord
     json = Net::HTTP.get(uri)
 
     JSON.parse(json)['entry'].try(:first)
-  end
-
-  def subscribed?(book)
-    self.subscriptions.where(book_id: book.id).present?
   end
 end

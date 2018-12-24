@@ -24,7 +24,6 @@ class ChannelsController < ApplicationController
   def create
     @channel = Channel.new channel_params
     @channel.user_id = current_user.id
-    @channel.subscriptions.new(user_id: current_user.id)
 
     if @channel.save
       flash[:success] = 'チャネルを作成しました🎉'
@@ -53,12 +52,9 @@ class ChannelsController < ApplicationController
   end
 
   def destroy
-    if @channel == current_user.default_channel
-      flash[:error] = 'デフォルトチャネルは削除できません...'
-    else
-      @channel.destroy
-      flash[:success] = 'チャネルを削除しました'
-    end
+    @channel.destroy
+    flash[:success] = 'チャネルを削除しました'
+
     redirect_to subscriptions_path
   end
 

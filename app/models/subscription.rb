@@ -13,4 +13,13 @@
 class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :channel, counter_cache: :subscribers_count
+
+  before_create do
+    # 自作channelで、かつuserがdefault_channelを持ってなければデフォルト指定する
+    self.default = self.channel_owned? && self.user.subscriptions.find_by(default: true).blank?
+  end
+
+  def channel_owned?
+    self.user_id == self.channel.user_id
+  end
 end

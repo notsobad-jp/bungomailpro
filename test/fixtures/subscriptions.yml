@@ -12,13 +12,13 @@
 
 user1_empty:
   user: user1
-  channel: channel_empty
+  channel: empty
   default: true
 
 user1_not_started:
   user: user1
-  channel: channel_not_started
+  channel: not_started
 
 user1_started:
   user: user1
-  channel: channel_started
+  channel: started
