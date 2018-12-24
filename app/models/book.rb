@@ -159,9 +159,10 @@ class Book < ApplicationRecord
 
       # XHTMLファイルのURL取得
       doc.css("table.download tr").each do |tr|
-        next if tr.css('td:first-child').inner_text.strip != 'XHTMLファイル'
+        next if tr.css('td:first-child').inner_text.match(/X?HTMLファイル/).nil?
         href = tr.css('td a')[0][:href]
-        attributes[:file_id] = href.match(/files\/\d+_(\d+)\.html/).to_a[1]
+        file_id = href.match(/files\/(\d*_?\d+)\.html/).to_a[1] # URLが「ファイルID」のときと「著者ID_ファイルID」のときがある
+        attributes[:file_id] = file_id.split("_").last
       end
 
       Book.create!(attributes)
