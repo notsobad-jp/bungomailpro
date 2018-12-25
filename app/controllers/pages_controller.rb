@@ -6,7 +6,6 @@ class PagesController < ApplicationController
       { id: 1779, name: '江戸川乱歩' },
       { id: 81, name: '宮沢賢治' }
     ]
-    popular_book_ids = [127, 301, 45630, 789]
-    @popular_books = Book.find(popular_book_ids)
+    @popular_books = Book.all.order(created_at: :desc).take(12)
   end
 end
