@@ -31,6 +31,7 @@ started:
   user: user1
   token: <%= SecureRandom.hex(10) %>
   title: '開始済みチャンネル'
+  last_chapter: chapters(:book1_chapter1)
   next_chapter: chapters(:book1_chapter2)
 
 user2:
