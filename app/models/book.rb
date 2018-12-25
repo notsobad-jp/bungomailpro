@@ -60,9 +60,8 @@ class Book < ApplicationRecord
 
   # scrape and parse Aozora URL
   def get_text_from_aozora_file
-    charset = nil
+    charset = 'CP932'
     html = open(self.aozora_file_url) do |f|
-      charset = f.charset
       f.read
     end
     doc = Nokogiri::HTML.parse(html, nil, charset)
@@ -96,7 +95,9 @@ class Book < ApplicationRecord
       img.replace('※'.encode('Shift_JIS', invalid: :replace, undef: :replace))
     end
 
-    text = doc.css('.main_text').inner_text
+    # 古いファイルは.main_textがないので、body配下の全文を本文扱いする
+    main_text = doc.css('.main_text').presence || doc.css('body')
+    text = main_text.inner_text
               .gsub(/(\R{1,})/, '\1'+"\r\n") # 元からある改行を1つ増やす
               .gsub(/\R/, "\r\n")  # 改行コードを\r\nに変える
               .gsub(/#{rubys.keys.join("|")}/, rubys)  # 外字にルビを振る
@@ -144,9 +145,8 @@ class Book < ApplicationRecord
         author_id: author_id.to_i
       }
 
-      charset = nil
+      charset = 'CP932'
       html = open(card_url) do |f|
-        charset = f.charset
         f.read
       end
       doc = Nokogiri::HTML.parse(html, nil, charset)
