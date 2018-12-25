@@ -11,13 +11,14 @@ namespace :mailer do
     end
   end
 
-  desc "テスト配信"
-  task :test => :environment do |task, args|
-    channel = Channel.find(2)
-    chapter = Chapter.includes(:book).find_by(book_id: channel.current_book_id, index: channel.index)
-    return if !chapter
-
-    UserMailer.with(channel: channel, chapter: chapter).test.deliver_now
-    channel.set_next_chapter
+  desc "配信作品が切り替わるタイミングのChannelにコメントを追加"
+  task :comment => :environment do |task, args|
+    Channel.includes(:next_chapter).where.not(next_chapter_id: nil).each do |channel|
+      begin
+        channel.add_comment
+      rescue => e
+        Logger.new(STDOUT).error e
+      end
+    end
   end
 end

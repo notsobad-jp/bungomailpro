@@ -1,20 +1,13 @@
 # == Schema Information
 #
-# Table name: channels
+# Table name: subscriptions
 #
-#  id                :bigint(8)        not null, primary key
-#  token             :string           not null
-#  user_id           :bigint(8)        not null
-#  next_chapter_id   :bigint(8)
-#  last_chapter_id   :bigint(8)
-#  title             :string           not null
-#  description       :text
-#  deliver_at        :integer          default(8)
-#  public            :boolean          default(FALSE), not null
-#  books_count       :integer          default(0), not null
-#  subscribers_count :integer          default(0), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id         :bigint(8)        not null, primary key
+#  user_id    :bigint(8)        not null
+#  channel_id :bigint(8)        not null
+#  default    :boolean          default(FALSE), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 require 'test_helper'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_24_094608) do
+ActiveRecord::Schema.define(version: 2018_12_25_063937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,16 @@ ActiveRecord::Schema.define(version: 2018_12_24_094608) do
     t.index ["index"], name: "index_chapters_on_index"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.bigint "channel_id", null: false
+    t.text "text"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id"], name: "index_comments_on_channel_id"
+    t.index ["date"], name: "index_comments_on_date"
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -122,6 +132,7 @@ ActiveRecord::Schema.define(version: 2018_12_24_094608) do
   add_foreign_key "channels", "chapters", column: "next_chapter_id"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
+  add_foreign_key "comments", "channels"
   add_foreign_key "subscriptions", "channels"
   add_foreign_key "subscriptions", "users"
 end
