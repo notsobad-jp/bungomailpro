@@ -57,6 +57,10 @@
   - books.each do |cb|
     - book = cb.book
     .item
+      .right.floated.content
+        全
+        %span.ui.circular.label= book.chapters_count
+        回
       .content
         .header
           = book.title

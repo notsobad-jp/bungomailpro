@@ -76,7 +76,11 @@
           = book.title
           = link_to book.aozora_card_url, target: '_blank' do
             %i.icon.mini.external
-        .meta= book.author
+        .meta
+          %i.icon.podcast
+          配信回数:
+          %span.ui.circular.label= book.chapters_count
+        .description= book.author
       - if current_user && current_user.default_channel
         = link_to add_book_channel_path(current_user.default_channel.token, book_id: book.id, author_id: book.author_id), method: :post, remote: :true, class: 'ui fluid bottom attached button' do
           %i.icon.plus
