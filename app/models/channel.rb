@@ -44,12 +44,12 @@ class Channel < ApplicationRecord
     return if self.next_chapter.next_chapter
 
     comment = self.comments.new(date: Time.current.tomorrow)
-    if next_chapter_book
+    if next_channel_book
       comment.text = 'この作品の配信は本日で終了です。翌日からは次の作品の配信が始まります。'
     else
       comment.text = 'この作品の配信は本日で終了です。現在次の作品が登録されていないため、チャネルは配信停止状態になります。再開する際は作品を追加して再度「配信開始」してください。'
     end
-    comment.save!
+    comment.tap(&:save!)  # true/falseでなく作成したobjectを返す
   end
 
   def current_chapter
