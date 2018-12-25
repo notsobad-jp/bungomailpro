@@ -145,8 +145,9 @@ class Book < ApplicationRecord
         author_id: author_id.to_i
       }
 
-      charset = 'CP932'
+      charset = nil
       html = open(card_url) do |f|
+        charset = f.charset
         f.read
       end
       doc = Nokogiri::HTML.parse(html, nil, charset)
@@ -184,11 +185,11 @@ class Book < ApplicationRecord
         else
           # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
           # 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
-          splits = content.sub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
+          splits = content.sub(/([。！？][」）]|[。！？!?.])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
           contents[index-1] += splits[0]
 
           # 前日の最後の１文を再掲する
-          last_sentence = contents[index-1].gsub(/([。！？][」）]|[。！？])/, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
+          last_sentence = contents[index-1].gsub(/([。！？][」）]|[。！？!?.])/, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
           contents[index] = last_sentence + splits[1]
         end
       end
