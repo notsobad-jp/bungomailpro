@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_18_054904) do
+ActiveRecord::Schema.define(version: 2018_12_24_094608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_054904) do
     t.string "title", null: false
     t.string "author", null: false
     t.bigint "author_id", null: false
-    t.bigint "file_id", null: false
+    t.bigint "file_id"
     t.text "footnote"
     t.integer "chapters_count", default: 0, null: false
     t.datetime "created_at", null: false
