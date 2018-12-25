@@ -43,7 +43,7 @@ class Channel < ApplicationRecord
     # 同じ本で次のchapterがあれば継続配信なのでcomment不要
     return if self.next_chapter.next_chapter
 
-    comment = self.comments.new(date: Time.current.tomorrow)
+    comment = self.comments.new(date: Time.zone.tomorrow)
     if next_channel_book
       comment.text = 'この作品の配信は本日で終了です。翌日からは次の作品の配信が始まります。'
     else
@@ -104,6 +104,10 @@ class Channel < ApplicationRecord
         last_chapter_id: self.next_chapter_id
       )
     end
+  end
+
+  def todays_comments
+    self.comments.where(date: Time.zone.today).pluck(:text)
   end
 
 
