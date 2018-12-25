@@ -1,0 +1,85 @@
+{
+  "name": "bungomailpro",
+  "scripts": {
+  },
+  "env": {
+    "ALGOLIA_ID": {
+      "required": true
+    },
+    "ALGOLIA_KEY": {
+      "required": true
+    },
+    "GOOGLE_TAG_MANAGER_ID": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "MAILER_EMAIL": {
+      "required": true
+    },
+    "MAILER_PASSWORD": {
+      "required": true
+    },
+    "PAPERTRAIL_API_TOKEN": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RAILS_LOG_TO_STDOUT": {
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true
+    },
+    "SCOUT_KEY": {
+      "required": true
+    },
+    "SCOUT_LOG_LEVEL": {
+      "required": true
+    },
+    "SCOUT_MONITOR": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "SENDGRID_API_KEY": {
+      "required": true
+    },
+    "SENDGRID_PASSWORD": {
+      "required": true
+    },
+    "SENDGRID_USERNAME": {
+      "required": true
+    },
+    "TZ": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    },
+    "worker": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "papertrail",
+    "heroku-postgresql",
+    "scheduler",
+    "scout",
+    "sendgrid"
+  ],
+  "stack": "heroku-18",
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
