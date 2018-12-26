@@ -25,7 +25,6 @@ class Channel < ApplicationRecord
   has_many :books, through: :channel_books
   has_many :subscriptions, dependent: :destroy
   has_many :subscribers, through: :subscriptions, source: :user
-  has_many :comments, dependent: :destroy
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true
@@ -38,19 +37,6 @@ class Channel < ApplicationRecord
     self.subscriptions.create!(user_id: self.user_id)
   end
 
-
-  def add_comment
-    # 同じ本で次のchapterがあれば継続配信なのでcomment不要
-    return if self.next_chapter.next_chapter
-
-    comment = self.comments.new(date: Time.zone.tomorrow)
-    if next_channel_book
-      comment.text = 'この作品の配信は本日で終了です。翌日からは次の作品の配信が始まります。'
-    else
-      comment.text = 'この作品の配信は本日で終了です。現在次の作品が登録されていないため、チャネルは配信停止状態になります。再開する際は作品を追加して再度「配信開始」してください。'
-    end
-    comment.tap(&:save!)  # true/falseでなく作成したobjectを返す
-  end
 
   def current_chapter
     # 当日分を配信済み OR 配信開始直後なら、next_chapterを返す
@@ -104,10 +90,6 @@ class Channel < ApplicationRecord
         last_chapter_id: self.next_chapter_id
       )
     end
-  end
-
-  def todays_comments
-    self.comments.where(date: Time.zone.today).pluck(:text)
   end
 
 

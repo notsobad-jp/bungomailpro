@@ -36,23 +36,4 @@ class UserMailer < ApplicationMailer
     )
     Logger.new(STDOUT).info "[SCHEDULED] channel:#{@channel.id}, chapter:#{@chapter.id}, send_at:#{send_at}, to:#{@channel.subscribers.pluck(:id)}"
   end
-
-
-  def test
-    @deliver_at = Time.zone.parse(params[:deliver_at])
-    @subscription = params[:subscription]
-    @chapter = params[:chapter]
-
-    xsmtp_api_params = {
-      send_at: @deliver_at.to_i,
-      to: [@subscription.user.email, User.find(2).email],
-      category: 'test'
-    }
-    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
-
-    mail(
-      from: "#{@chapter.book.author} <bungomail@notsobad.jp>",
-      subject: @chapter.book.title
-    )
-  end
 end
