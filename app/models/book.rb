@@ -186,10 +186,19 @@ class Book < ApplicationRecord
           # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
           # 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
           splits = content.sub(/([。！？][」）]|[。！？!?.])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
+
+          # 句点がなくて区切れない場合は、やむをえず読点で区切る
+          if !splits[1]
+            splits = content.sub(/(、)/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
+            no_period = true
+          end
+
           contents[index-1] += splits[0]
 
-          # 前日の最後の１文を再掲する
-          last_sentence = contents[index-1].gsub(/([。！？][」）]|[。！？!?.])/, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
+          # 前日の最後の１文を再掲する（句点がなかった場合は読点で区切る）
+          regex = no_period ? /(、)/ : /([。！？][」）]|[。！？!?.])/
+          last_sentence = contents[index-1].gsub(regex, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
+
           contents[index] = last_sentence + splits[1]
         end
       end
