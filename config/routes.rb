@@ -66,6 +66,7 @@ Rails.application.routes.draw do
   resources :books do
     post 'url', on: :collection
   end
+  resources :channel_books
   resources :subscriptions
   resources :deliveries
   resources :magic_tokens
