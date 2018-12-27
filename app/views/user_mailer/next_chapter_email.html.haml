@@ -4,11 +4,6 @@
 
 = simple_format(@chapter.text)
 
-- if @channel.todays_comments.present?
-  %hr
-  %ul.ui.small.list
-    - @channel.todays_comments.each do |comment|
-      %li.item= comment
 %hr
 %p ブンゴウメールPRO（ベータ版）
 

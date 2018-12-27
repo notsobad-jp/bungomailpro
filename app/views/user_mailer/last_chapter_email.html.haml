@@ -1,0 +1,20 @@
+（本日分のメールが一部届かないケースがあったため、同じ内容で再送しております。重複して届いた場合はお手数ですが削除ください）
+%br
+%br
+#{@channel.title}
+%br
+（#{@chapter.text.length}字。目安の読了時間：#{@chapter.text.length.quo(500).ceil}分）
+
+= simple_format(@chapter.text)
+
+%hr
+%p ブンゴウメールPRO（ベータ版）
+
+%ul.ui.small.list
+  %li.item
+    = link_to '配信設定', subscriptions_url, target: '_blank'
+  %li.item
+    公式サイト:
+    = link_to 'https://bungomail.notsobad.jp', 'https://bungomail.notsobad.jp', target: '_blank'
+  %li.item 運営: 合同会社NOT SO BAD
+  %li.item お問い合わせ: info@notsobad.jp
