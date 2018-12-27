@@ -36,4 +36,13 @@ footer a { color: #fff !important; }
     margin-top: 50px !important;
     padding-top: 50px !important;
   }
+  .scrolling {
+    flex-wrap: nowrap !important;
+    overflow-x: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+    overflow-scrolling: touch !important;
+  }
+  .scrolling > .ui.card {
+    flex: 0 0 60% !important;
+  }
 }
