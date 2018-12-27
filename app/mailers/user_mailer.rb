@@ -17,7 +17,7 @@ class UserMailer < ApplicationMailer
   end
 
 
-  def chapter_email
+  def next_chapter_email
     @channel = params[:channel]
     @chapter = @channel.next_chapter
     send_at = Time.current.change(hour: @channel.deliver_at)
@@ -35,5 +35,26 @@ class UserMailer < ApplicationMailer
       subject: "#{@chapter.book.title}（#{@chapter.index}/#{@chapter.book.chapters_count}）【#{@channel.title}】"
     )
     Logger.new(STDOUT).info "[SCHEDULED] channel:#{@channel.id}, chapter:#{@chapter.id}, send_at:#{send_at}, to:#{@channel.subscribers.pluck(:id)}"
+  end
+
+
+  def last_chapter_email
+    @channel = params[:channel]
+    @chapter = @channel.last_chapter
+    send_at = Time.current + 10.minutes
+
+    xsmtp_api_params = {
+      send_at: send_at.to_i,
+      to: @channel.subscribers.pluck(:email),
+      category: 'last_chapter'
+    }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
+    mail(
+      from: "#{@chapter.book.author}（ブンゴウメール） <bungomail@notsobad.jp>",
+      to: 'bungomail@notsobad.jp',
+      subject: "【再送】#{@chapter.book.title}（#{@chapter.index}/#{@chapter.book.chapters_count}）【#{@channel.title}】"
+    )
+    Logger.new(STDOUT).info "[RESEND] channel:#{@channel.id}, chapter:#{@chapter.id}, send_at:#{send_at}, to:#{@channel.subscribers.pluck(:id)}"
   end
 end

@@ -29,6 +29,8 @@ class Channel < ApplicationRecord
 
   validates :title, presence: true
 
+  scope :sent_today, -> { where.not(last_chapter_id: nil).where(updated_at: Time.current.all_day) }
+
   before_create do
     self.token = SecureRandom.hex(10)
   end
