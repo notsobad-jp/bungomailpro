@@ -40,9 +40,17 @@ class Channel < ApplicationRecord
   end
 
 
+  def add_book(book)
+    self.channel_books.create_with(index: self.current_index + 1).find_or_create_by(book_id: book.id)
+  end
+
   def current_chapter
     # 当日分を配信済み OR 配信開始直後なら、next_chapterを返す
     no_delivery_for_today ? self.next_chapter : self.last_chapter
+  end
+
+  def current_index
+    self.channel_books.maximum(:index) || 0
   end
 
   def next_channel_book

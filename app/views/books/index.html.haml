@@ -24,12 +24,12 @@
         .right.floated.content
           - if current_user.try(:default_channel)
             .ui.basic.buttons
-              = link_to 'チャネルに追加', add_book_channel_path(current_user.default_channel.token, book_id: result['作品ID'], author_id: result['人物ID']), method: :post, remote: :true, class: 'ui button'
+              = link_to 'チャネルに追加', channel_books_channel_path(current_user.default_channel.token, book_id: result['作品ID'], author_id: result['人物ID']), method: :post, remote: :true, class: 'ui button'
               .ui.simple.dropdown.icon.button
                 %i.icon.dropdown
                 .menu
                   - @channels.each do |channel|
-                    = link_to channel.title, add_book_channel_path(channel.token, book_id: result['作品ID'], author_id: result['人物ID']), method: 'post', class: 'item', remote: true
+                    = link_to channel.title, channel_books_channel_path(channel.token, book_id: result['作品ID'], author_id: result['人物ID']), method: 'post', class: 'item', remote: true
           - else
             .ui.basic.buttons
               .ui.disabled.button チャネルに追加

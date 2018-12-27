@@ -1,7 +1,7 @@
 class ChannelsController < ApplicationController
   before_action :require_login, except: [:index, :show]
   before_action :authorize_channel, only: [:index, :new, :create]
-  before_action :set_channel_with_books, only: [:show, :edit, :update, :publish, :destroy, :add_book]
+  before_action :set_channel_with_books, only: [:show, :edit, :update, :publish, :destroy]
   after_action :verify_authorized
 
 
@@ -56,17 +56,6 @@ class ChannelsController < ApplicationController
     flash[:success] = 'チャネルを削除しました'
 
     redirect_to subscriptions_path
-  end
-
-  def add_book
-    @book = Book.find_or_scrape(book_id: params[:book_id], author_id: params[:author_id])
-    current_index = @channel.channel_books.maximum(:index) || 0
-
-    if @channel.channel_books.create_with(index: current_index + 1).find_or_create_by(book_id: @book.id)
-      render json: { channel: @channel.title, book: @book.title }, status: 200
-    else
-      render json: nil, status: 500
-    end
   end
 
 
