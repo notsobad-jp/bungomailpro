@@ -36,14 +36,13 @@ footer a { color: #fff !important; }
     margin-top: 50px !important;
     padding-top: 50px !important;
   }
-  .slide.wrapper {
+  .scrolling {
     flex-wrap: nowrap !important;
     overflow-x: scroll !important;
     -webkit-overflow-scrolling: touch !important;
     overflow-scrolling: touch !important;
   }
-  .slide.content {
-    width: 70% !important;
-    flex: 0 0 70% !important;
+  .scrolling > .ui.card {
+    flex: 0 0 60% !important;
   }
 }

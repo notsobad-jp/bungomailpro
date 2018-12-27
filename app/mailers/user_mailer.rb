@@ -46,7 +46,7 @@ class UserMailer < ApplicationMailer
     xsmtp_api_params = {
       send_at: send_at.to_i,
       to: @channel.subscribers.pluck(:email),
-      category: 'last_chapter'
+      category: 'resend'
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
