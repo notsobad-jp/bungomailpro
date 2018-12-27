@@ -15,9 +15,6 @@ class ChannelBooksController < ApplicationController
     end
   end
 
-  def import
-  end
-
 
   private
     def set_channel_with_books

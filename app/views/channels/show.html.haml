@@ -20,9 +20,9 @@
   %div
     - if !@channel.next_chapter_id
       - publishable = @channel.publishable? ? '' : 'disabled'
-      = link_to '配信開始', publish_channel_path(@channel.token), method: 'post', class: "ui red small button #{publishable}"
+      = link_to '配信開始', publish_channel_path(@channel.token), method: :post, class: "ui red small button #{publishable}"
     = link_to '編集する', edit_channel_path(@channel.token), class: 'ui primary small button'
-    = link_to channels_path(@channel.token), method: 'delete', class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
+    = link_to channels_path(@channel.token), method: :delete, class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
       %i.icon.trash
       削除
 - elsif current_user && current_user.default_channel
@@ -30,7 +30,7 @@
     %button.ui.red.disabled.button
       %i.icon.rss
       購読する
-    = link_to root_path, class: 'ui red basic button' do
+    = link_to import_channel_path(current_user.default_channel.token, from_channel_id: @channel.token), method: :post, class: 'ui red basic button' do
       %i.icon.download
       登録作品をインポート
   %div

@@ -53,6 +53,18 @@ class Channel < ApplicationRecord
     self.channel_books.maximum(:index) || 0
   end
 
+  def import(from_channel)
+    channel_books = []
+    from_channel.channel_books.each.with_index(self.current_index + 1) do |channel_book, index|
+      channel_books << ChannelBook.new(channel_id: self.id, book_id: channel_book.book_id)
+    end
+
+    ActiveRecord::Base.transaction do
+      ChannelBook.import! channel_books
+      self.update!(books_count: self.channel_books.count)
+    end
+  end
+
   def next_channel_book
     self.channel_books.where(delivered: false).first
   end

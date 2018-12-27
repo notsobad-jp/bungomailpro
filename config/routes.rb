@@ -2,7 +2,8 @@
 #
 #                    Prefix Verb   URI Pattern                                                                              Controller#Action
 #           publish_channel POST   /channels/:id/publish(.:format)                                                          channels#publish
-#     channel_books_channel POST   /channels/:id/channel_books(.:format)                                                    channel_books#create
+#            import_channel POST   /channels/:id/import(.:format)                                                           channels#import
+#             books_channel POST   /channels/:id/books(.:format)                                                            channel_books#create
 #                  channels GET    /channels(.:format)                                                                      channels#index
 #                           POST   /channels(.:format)                                                                      channels#create
 #               new_channel GET    /channels/new(.:format)                                                                  channels#new
@@ -60,6 +61,7 @@
 Rails.application.routes.draw do
   resources :channels do
     post 'publish', on: :member
+    post 'import', on: :member
     post 'channel_books' => 'channel_books#create', on: :member
   end
   post 'books' => 'books#index', as: :search
