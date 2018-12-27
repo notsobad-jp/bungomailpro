@@ -48,9 +48,9 @@
 %h3.ui.small.dividing.header
   %i.icon.child
   人気の文豪
-.ui.four.doubling.cards
+.ui.four.doubling.cards.slide.wrapper
   - @popular_authors.each do |author|
-    = link_to books_path(keyword: author[:name], target: {author: true}), method: :post, class: 'ui card' do
+    = link_to books_path(keyword: author[:name], target: {author: true}), method: :post, class: 'ui card slide content' do
       .image
         = image_tag("authors/#{author[:id]}.png")
       .content
