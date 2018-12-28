@@ -4,6 +4,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user && user.id == record.id
+    user.try(:id) == record.id
   end
 end

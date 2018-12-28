@@ -1,4 +1,8 @@
 class ChannelPolicy < ApplicationPolicy
+  def show?
+    record.public? || user.try(:id) == record.id
+  end
+
   def publish?
     update?
   end
