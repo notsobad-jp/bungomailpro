@@ -1,8 +1,9 @@
 # == Route Map
 #
 #                    Prefix Verb   URI Pattern                                                                              Controller#Action
-#          add_book_channel POST   /channels/:id/books(.:format)                                                            channels#add_book
 #           publish_channel POST   /channels/:id/publish(.:format)                                                          channels#publish
+#            import_channel POST   /channels/:id/import(.:format)                                                           channels#import
+#     channel_books_channel POST   /channels/:id/channel_books(.:format)                                                    channel_books#create
 #                  channels GET    /channels(.:format)                                                                      channels#index
 #                           POST   /channels(.:format)                                                                      channels#create
 #               new_channel GET    /channels/new(.:format)                                                                  channels#new
@@ -12,6 +13,7 @@
 #                           PUT    /channels/:id(.:format)                                                                  channels#update
 #                           DELETE /channels/:id(.:format)                                                                  channels#destroy
 #                    search POST   /books(.:format)                                                                         books#index
+#                 url_books POST   /books/url(.:format)                                                                     books#url
 #                     books GET    /books(.:format)                                                                         books#index
 #                           POST   /books(.:format)                                                                         books#create
 #                  new_book GET    /books/new(.:format)                                                                     books#new
@@ -46,11 +48,10 @@
 #                           DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
 #                      user GET    /users/:token(.:format)                                                                  users#show
 #                     about GET    /about(.:format)                                                                         pages#about
-#              books_scrape POST   /books/scrape(.:format)                                                                  books#scrape
 #                     login GET    /login(.:format)                                                                         magic_tokens#new
 #                      auth GET    /auth(.:format)                                                                          magic_tokens#auth
 #                    logout POST   /logout(.:format)                                                                        magic_tokens#destroy
-#                      root GET    /                                                                                        subscriptions#index
+#                      root GET    /                                                                                        pages#top
 #        rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 # rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
 #        rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
@@ -59,11 +60,13 @@
 
 Rails.application.routes.draw do
   resources :channels do
-    post 'books' => 'channels#add_book', on: :member, as: :add_book
     post 'publish', on: :member
+    post 'import', on: :member
+    post 'channel_books' => 'channel_books#create', on: :member
   end
   post 'books' => 'books#index', as: :search
   resources :books do
+    #TODO: channel編集画面でのURL作品追加で使用中。検索からの追加に一本化したら削除する
     post 'url', on: :collection
   end
   resources :subscriptions

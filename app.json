@@ -36,15 +36,6 @@
     "RAILS_SERVE_STATIC_FILES": {
       "required": true
     },
-    "SCOUT_KEY": {
-      "required": true
-    },
-    "SCOUT_LOG_LEVEL": {
-      "required": true
-    },
-    "SCOUT_MONITOR": {
-      "required": true
-    },
     "SECRET_KEY_BASE": {
       "required": true
     },

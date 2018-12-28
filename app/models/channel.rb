@@ -40,9 +40,31 @@ class Channel < ApplicationRecord
   end
 
 
+  def add_book(book)
+    self.channel_books.create_with(index: self.current_index + 1).find_or_create_by(book_id: book.id)
+  end
+
   def current_chapter
     # 当日分を配信済み OR 配信開始直後なら、next_chapterを返す
     no_delivery_for_today ? self.next_chapter : self.last_chapter
+  end
+
+  def current_index
+    self.channel_books.maximum(:index) || 0
+  end
+
+  def import(from_channel)
+    existing_books = self.channel_books.pluck(:book_id)
+    channel_books = []
+    from_channel.channel_books.each.with_index(self.current_index + 1) do |channel_book, index|
+      next if existing_books.include? channel_book.book_id
+      channel_books << ChannelBook.new(channel_id: self.id, book_id: channel_book.book_id, index: index)
+    end
+
+    ActiveRecord::Base.transaction do
+      ChannelBook.import! channel_books
+      Channel.reset_counters(self.id, :channel_books)
+    end
   end
 
   def next_channel_book

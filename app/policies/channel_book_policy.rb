@@ -1,0 +1,2 @@
+class ChannelBookPolicy < ApplicationPolicy
+end

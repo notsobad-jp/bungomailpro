@@ -1,7 +1,7 @@
 class ChannelsController < ApplicationController
   before_action :require_login, except: [:index, :show]
   before_action :authorize_channel, only: [:index, :new, :create]
-  before_action :set_channel_with_books, only: [:show, :edit, :update, :publish, :destroy, :add_book]
+  before_action :set_channel_with_books, only: [:show, :edit, :update, :publish, :destroy, :import]
   after_action :verify_authorized
 
 
@@ -42,6 +42,13 @@ class ChannelsController < ApplicationController
     end
   end
 
+  def destroy
+    @channel.destroy
+    flash[:success] = 'チャネルを削除しました'
+
+    redirect_to subscriptions_path
+  end
+
   def publish
     if @channel.publish
       flash[:success] = 'チャネルの配信を開始しました🎉翌日からメール配信が始まります。'
@@ -51,22 +58,14 @@ class ChannelsController < ApplicationController
     redirect_to subscriptions_path
   end
 
-  def destroy
-    @channel.destroy
-    flash[:success] = 'チャネルを削除しました'
-
-    redirect_to subscriptions_path
-  end
-
-  def add_book
-    @book = Book.find_or_scrape(book_id: params[:book_id], author_id: params[:author_id])
-    current_index = @channel.channel_books.maximum(:index) || 0
-
-    if @channel.channel_books.create_with(index: current_index + 1).find_or_create_by(book_id: @book.id)
-      render json: { channel: @channel.title, book: @book.title }, status: 200
+  def import
+    from_channel = Channel.find_by(token: params[:from_channel_id])
+    if @channel.import(from_channel)
+      flash[:success] = "#{@channel.title}に#{from_channel.books_count}冊の作品をインポートしました🎉（登録済みの本はスキップされています）"
     else
-      render json: nil, status: 500
+      flash[:error] = 'インポートに失敗しました..😢 再度試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
     end
+    redirect_to channel_path from_channel.token
   end
 
 
