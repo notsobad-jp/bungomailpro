@@ -18,10 +18,6 @@ class ChannelBook < ApplicationRecord
 
   validates :channel_id, uniqueness: { scope: [:book_id] }
 
-  before_save do
-    self.index = nil if self.delivered
-  end
-
   def first_chapter
     Chapter.find_by(book_id: self.book_id, index: 1)
   end

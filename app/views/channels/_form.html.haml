@@ -42,21 +42,22 @@
 
 
 #bookList.ui.middle.alligned.divided.relaxed.large.list
-  = f.fields_for :channel_books, @channel.channel_books.where(delivered: false) do |cb|
+  = f.fields_for :channel_books do |cb|
     - channel_book = cb.object
-    .item(id="#{channel_book.book_id}" data-saved="true")
+    - book = channel_book.book
+    .item(id="#{book.id}" data-saved="true" class="#{ channel_book.delivered? ? 'hidden' : '' }")
       .right.floated.content
-        .ui.icon.basic.button(onclick="removeBook(#{channel_book.book_id})")
+        .ui.icon.basic.button(onclick="removeBook(#{book.id})")
           %i.icon.remove
       %i.icon.content.handler
       .content
         .header
-          = channel_book.book.title
+          = book.title
         .description
-          %small= channel_book.book.author
+          %small= book.author
         .extra
           %small
-            （全#{channel_book.book.chapters_count}回配信）
+            （全#{book.chapters_count}回配信）
           = cb.hidden_field :id, value: channel_book.id
           = cb.hidden_field :book_id, value: channel_book.book_id
           = cb.hidden_field :index, value: channel_book.index, id: "#{channel_book.book_id}_index"

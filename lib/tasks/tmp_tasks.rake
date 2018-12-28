@@ -1,17 +1,21 @@
 namespace :tmp_tasks do
-  task :reset_token => :environment do |task, args|
-    User.all.each do |user|
-      user.token = SecureRandom.hex(10)
-      user.save
-    end
-  end
+  task :reset_index => :environment do |task, args|
+    Channel.all.each do |channel|
+      # 重複しないように、すでにindexがある未配信作品のindexを100ずらす
+      channel.channel_books.where(delivered: false).each do |cb|
+        cb.update!(index: cb.index + 100)
+      end
 
-  task :algolia => :environment do |task, args|
-    Algolia.init(
-      application_id: 'ZDNL6PSK6G',
-      api_key:        'f893fc38e80d8a577ab15be80c46c255'
-    )
-    index = Algolia::Index.new('books')
-    # byebug
+      # 配信済み（index: nil）の作品をupdated昇順でindexを1から振り直す
+      channel.channel_books.where(delivered: true).order(:updated_at).each.with_index(1) do |cb, index|
+        cb.update!(index: index)
+      end
+
+      # 未配信作品を続きからindex振り直す
+      current_index = channel.channel_books.where(delivered: true).maximum(:index) || 0
+      channel.channel_books.where(delivered: false).each.with_index(current_index + 1) do |cb, index|
+        cb.update!(index: index)
+      end
+    end
   end
 end
