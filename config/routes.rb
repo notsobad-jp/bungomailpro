@@ -3,7 +3,7 @@
 #                    Prefix Verb   URI Pattern                                                                              Controller#Action
 #           publish_channel POST   /channels/:id/publish(.:format)                                                          channels#publish
 #            import_channel POST   /channels/:id/import(.:format)                                                           channels#import
-#             books_channel POST   /channels/:id/books(.:format)                                                            channel_books#create
+#     channel_books_channel POST   /channels/:id/channel_books(.:format)                                                    channel_books#create
 #                  channels GET    /channels(.:format)                                                                      channels#index
 #                           POST   /channels(.:format)                                                                      channels#create
 #               new_channel GET    /channels/new(.:format)                                                                  channels#new
