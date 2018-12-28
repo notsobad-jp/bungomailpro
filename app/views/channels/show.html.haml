@@ -26,17 +26,18 @@
       %i.icon.trash
       削除
 - elsif current_user && current_user.default_channel
-  %div
-    %button.ui.red.disabled.button
-      %i.icon.rss
-      購読する
-    = link_to import_channel_path(current_user.default_channel.token, from_channel_id: @channel.token), method: :post, class: 'ui red basic button' do
-      %i.icon.download
-      登録作品をインポート
-  %div
-    %small
-      「インポート」機能を使うと、登録作品を自分のチャネルに一括で追加することができます。
-      公開チャネルの購読機能は近日公開予定です！
+  /
+    %div
+      %button.ui.red.disabled.button
+        %i.icon.rss
+        購読する
+      = link_to import_channel_path(current_user.default_channel.token, from_channel_id: @channel.token), method: :post, class: 'ui red basic button' do
+        %i.icon.download
+        登録作品をインポート
+    %div
+      %small
+        「インポート」機能を使うと、登録作品を自分のチャネルに一括で追加することができます。
+        公開チャネルの購読機能は近日公開予定です！
 
 %div= simple_format_with_link @channel.description
 
