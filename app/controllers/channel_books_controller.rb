@@ -9,6 +9,8 @@ class ChannelBooksController < ApplicationController
     channel = Channel.find_by(token: params[:id])
 
     if channel.add_book(book)
+      # TODO: とりあえずチャネル追加後にchapterをscrapingする（全データ取得後に削除）
+      book.delay.create_chapters if book.chapters_count == 0
       render json: { channel: channel.title, book: book.title }, status: 200
     else
       render json: nil, status: 500
