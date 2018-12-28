@@ -54,14 +54,16 @@ class Channel < ApplicationRecord
   end
 
   def import(from_channel)
+    existing_books = self.channel_books.pluck(:book_id)
     channel_books = []
     from_channel.channel_books.each.with_index(self.current_index + 1) do |channel_book, index|
-      channel_books << ChannelBook.new(channel_id: self.id, book_id: channel_book.book_id)
+      next if existing_books.include? channel_book.book_id
+      channel_books << ChannelBook.new(channel_id: self.id, book_id: channel_book.book_id, index: index)
     end
 
     ActiveRecord::Base.transaction do
       ChannelBook.import! channel_books
-      self.update!(books_count: self.channel_books.count)
+      Channel.reset_counters(self.id, :channel_books)
     end
   end
 
