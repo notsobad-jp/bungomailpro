@@ -38,6 +38,10 @@ class Book < ApplicationRecord
   end
 
 
+  def aozora_file_path
+    Book.aozora_file_path(author_id: self.author_id, book_id: self.id, file_id: self.file_id)
+  end
+
   def aozora_file_url
     Book.aozora_file_url(author_id: self.author_id, book_id: self.id, file_id: self.file_id)
   end
@@ -58,12 +62,15 @@ class Book < ApplicationRecord
   end
 
 
-  # scrape and parse Aozora URL
-  def get_text_from_aozora_file
-    charset = 'CP932'
-    html = open(self.aozora_file_url) do |f|
-      f.read
+  # scrape and parse Aozora File
+  def get_text_from_aozora_file(remote: false)
+    if remote
+      html = open(self.aozora_file_url) { |f| f.read }
+    else
+      html = File.open(self.aozora_file_path) { |f| f.read }
     end
+
+    charset = 'CP932'
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     # ルビと外字(img)のtagを外してプレーンテキストにする
@@ -116,6 +123,10 @@ class Book < ApplicationRecord
       "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/card#{book_id}.html"
     end
 
+    def aozora_file_path(author_id:, book_id:, file_id:)
+      file_path = file_id ? "#{book_id}_#{file_id}" : book_id
+      "tmp/aozorabunko/cards/#{sprintf('%06d', author_id)}/files/#{file_path}.html"
+    end
 
     def aozora_file_url(author_id:, book_id:, file_id:)
       file_path = file_id ? "#{book_id}_#{file_id}" : book_id
@@ -181,7 +192,7 @@ class Book < ApplicationRecord
       contents = []
       text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
         if index == 0
-          contents[index] = content
+          contents[index] = content.gsub(/^(\r\n|\r|\n|\s|\t)/, "")  # 冒頭の改行を削除
         else
           # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
           # 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
@@ -199,7 +210,7 @@ class Book < ApplicationRecord
           regex = no_period ? /(、)/ : /([。！？][」）]|[。！？!?.])/
           last_sentence = contents[index-1].gsub(regex, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
 
-          contents[index] = last_sentence + splits[1]
+          contents[index] = (last_sentence + splits[1]).gsub(/^(\r\n|\r|\n|\s|\t)/, "")  # 冒頭の改行を削除
         end
       end
       contents
