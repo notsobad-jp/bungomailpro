@@ -6,6 +6,6 @@ class PagesController < ApplicationController
       { id: 1779, name: '江戸川乱歩' },
       { id: 81, name: '宮沢賢治' }
     ]
-    @popular_books = ChannelBook.includes(:book).all.order(created_at: :desc).map(&:book).uniq.take(12)
+    @popular_books = ChannelBook.joins(:book).where("books.chapters_count <> 0").order(created_at: :desc).map(&:book).uniq.take(12)
   end
 end
