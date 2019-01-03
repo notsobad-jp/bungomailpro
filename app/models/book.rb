@@ -23,6 +23,7 @@ class Book < ApplicationRecord
   validates :author, presence: true
   validates :author_id, presence: true
 
+  # TODO: chapter全作成後に削除
   after_create do
     self.delay.create_chapters
   end

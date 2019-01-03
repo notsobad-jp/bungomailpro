@@ -34,7 +34,7 @@ class User < ApplicationRecord
   end
 
   after_create do
-    self.channels.create!(title: 'デフォルトチャネル')
+    self.channels.create!(title: 'マイチャネル')
   end
 
 

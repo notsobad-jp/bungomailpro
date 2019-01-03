@@ -1,4 +1,5 @@
 namespace :tmp_tasks do
+  # channel_bookのindexを配信後も保持するようにした対応
   task :reset_index => :environment do |task, args|
     Channel.all.each do |channel|
       # 重複しないように、すでにindexがある未配信作品のindexを100ずらす
@@ -16,6 +17,21 @@ namespace :tmp_tasks do
       channel.channel_books.where(delivered: false).each.with_index(current_index + 1) do |cb, index|
         cb.update!(index: index)
       end
+    end
+  end
+
+
+  # delivery情報をchannelsからsubscriptionsに移す対応
+  task :subscriptionize => :environment do |task, args|
+    Channel.all.each do |channel|
+      next_deliver_at = Time.zone.tomorrow if channel.next_chapter_id
+      sub = channel.subscriptions.first
+      sub.update!(
+        next_chapter_id: channel.next_chapter_id,
+        last_chapter_id: channel.last_chapter_id,
+        delivery_hour: channel.deliver_at,
+        next_deliver_at: next_deliver_at
+      )
     end
   end
 end
