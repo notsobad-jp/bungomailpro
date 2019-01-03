@@ -1,8 +1,6 @@
 # == Route Map
 #
 #                    Prefix Verb   URI Pattern                                                                              Controller#Action
-#           publish_channel POST   /channels/:id/publish(.:format)                                                          channels#publish
-#            import_channel POST   /channels/:id/import(.:format)                                                           channels#import
 #     channel_books_channel POST   /channels/:id/channel_books(.:format)                                                    channel_books#create
 #                  channels GET    /channels(.:format)                                                                      channels#index
 #                           POST   /channels(.:format)                                                                      channels#create
@@ -22,6 +20,7 @@
 #                           PATCH  /books/:id(.:format)                                                                     books#update
 #                           PUT    /books/:id(.:format)                                                                     books#update
 #                           DELETE /books/:id(.:format)                                                                     books#destroy
+#        start_subscription POST   /subscriptions/:id/start(.:format)                                                       subscriptions#start
 #             subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
 #                           POST   /subscriptions(.:format)                                                                 subscriptions#create
 #          new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new
@@ -30,14 +29,6 @@
 #                           PATCH  /subscriptions/:id(.:format)                                                             subscriptions#update
 #                           PUT    /subscriptions/:id(.:format)                                                             subscriptions#update
 #                           DELETE /subscriptions/:id(.:format)                                                             subscriptions#destroy
-#                deliveries GET    /deliveries(.:format)                                                                    deliveries#index
-#                           POST   /deliveries(.:format)                                                                    deliveries#create
-#              new_delivery GET    /deliveries/new(.:format)                                                                deliveries#new
-#             edit_delivery GET    /deliveries/:id/edit(.:format)                                                           deliveries#edit
-#                  delivery GET    /deliveries/:id(.:format)                                                                deliveries#show
-#                           PATCH  /deliveries/:id(.:format)                                                                deliveries#update
-#                           PUT    /deliveries/:id(.:format)                                                                deliveries#update
-#                           DELETE /deliveries/:id(.:format)                                                                deliveries#destroy
 #              magic_tokens GET    /magic_tokens(.:format)                                                                  magic_tokens#index
 #                           POST   /magic_tokens(.:format)                                                                  magic_tokens#create
 #           new_magic_token GET    /magic_tokens/new(.:format)                                                              magic_tokens#new
@@ -60,17 +51,17 @@
 
 Rails.application.routes.draw do
   resources :channels do
-    post 'publish', on: :member
-    post 'import', on: :member
     post 'channel_books' => 'channel_books#create', on: :member
   end
+  #TODO: 本の検索をGET化してindexに一本化する
   post 'books' => 'books#index', as: :search
   resources :books do
     #TODO: channel編集画面でのURL作品追加で使用中。検索からの追加に一本化したら削除する
     post 'url', on: :collection
   end
-  resources :subscriptions
-  resources :deliveries
+  resources :subscriptions do
+    post 'start', on: :member
+  end
   resources :magic_tokens
 
   get 'users/:token' => 'users#show', as: :user

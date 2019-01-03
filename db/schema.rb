@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_034410) do
+ActiveRecord::Schema.define(version: 2019_01_03_034411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 2019_01_03_034410) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "delivered", default: false, null: false
     t.index ["book_id"], name: "index_channel_books_on_book_id"
     t.index ["channel_id", "book_id"], name: "index_channel_books_on_channel_id_and_book_id", unique: true
     t.index ["channel_id", "index"], name: "index_channel_books_on_channel_id_and_index", unique: true
@@ -51,13 +50,10 @@ ActiveRecord::Schema.define(version: 2019_01_03_034410) do
     t.integer "subscribers_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "last_chapter_id"
-    t.bigint "next_chapter_id"
-    t.integer "deliver_at", default: 8
-    t.index ["last_chapter_id"], name: "index_channels_on_last_chapter_id"
-    t.index ["next_chapter_id"], name: "index_channels_on_next_chapter_id"
+    t.boolean "default", default: false, null: false
     t.index ["public"], name: "index_channels_on_public"
     t.index ["token"], name: "index_channels_on_token", unique: true
+    t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
@@ -90,7 +86,6 @@ ActiveRecord::Schema.define(version: 2019_01_03_034410) do
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "channel_id", null: false
-    t.boolean "default", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "next_chapter_id"
@@ -101,7 +96,6 @@ ActiveRecord::Schema.define(version: 2019_01_03_034410) do
     t.index ["last_chapter_id"], name: "index_subscriptions_on_last_chapter_id"
     t.index ["next_chapter_id"], name: "index_subscriptions_on_next_chapter_id"
     t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
-    t.index ["user_id", "default"], name: "index_subscriptions_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
@@ -125,8 +119,6 @@ ActiveRecord::Schema.define(version: 2019_01_03_034410) do
 
   add_foreign_key "channel_books", "books"
   add_foreign_key "channel_books", "channels"
-  add_foreign_key "channels", "chapters", column: "last_chapter_id"
-  add_foreign_key "channels", "chapters", column: "next_chapter_id"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
   add_foreign_key "subscriptions", "channels"

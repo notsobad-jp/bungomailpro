@@ -5,7 +5,6 @@
 #  id              :bigint(8)        not null, primary key
 #  user_id         :bigint(8)        not null
 #  channel_id      :bigint(8)        not null
-#  default         :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  next_chapter_id :bigint(8)

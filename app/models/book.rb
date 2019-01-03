@@ -59,6 +59,11 @@ class Book < ApplicationRecord
   end
 
 
+  def first_chapter
+    Chapter.find_by(book_id: self.id, index: 1)
+  end
+
+
   # scrape and parse Aozora URL
   def get_text_from_aozora_file
     charset = 'CP932'
