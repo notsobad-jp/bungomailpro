@@ -5,6 +5,7 @@ class SubscriptionsController < ApplicationController
   after_action :verify_authorized
 
   def index
+    @draft_channels = current_user.channels.where(subscribers_count: 0)
     @subscriptions = current_user.subscriptions.includes(:channel, next_chapter: :book, last_chapter: :book) if current_user
   end
 

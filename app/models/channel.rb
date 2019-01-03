@@ -30,10 +30,6 @@ class Channel < ApplicationRecord
     self.token = SecureRandom.hex(10)
   end
 
-  after_create do
-    self.subscriptions.create!(user_id: self.user_id)
-  end
-
 
   def add_book(book)
     self.channel_books.create_with(index: self.current_index + 1).find_or_create_by(book_id: book.id)

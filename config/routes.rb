@@ -20,7 +20,6 @@
 #                           PATCH  /books/:id(.:format)                                                                     books#update
 #                           PUT    /books/:id(.:format)                                                                     books#update
 #                           DELETE /books/:id(.:format)                                                                     books#destroy
-#        start_subscription POST   /subscriptions/:id/start(.:format)                                                       subscriptions#start
 #             subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
 #                           POST   /subscriptions(.:format)                                                                 subscriptions#create
 #          new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new
@@ -59,9 +58,7 @@ Rails.application.routes.draw do
     #TODO: channel編集画面でのURL作品追加で使用中。検索からの追加に一本化したら削除する
     post 'url', on: :collection
   end
-  resources :subscriptions do
-    post 'start', on: :member
-  end
+  resources :subscriptions
   resources :magic_tokens
 
   get 'users/:token' => 'users#show', as: :user
