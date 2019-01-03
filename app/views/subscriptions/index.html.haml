@@ -38,7 +38,6 @@
                   %small(data-tooltip="非公開" data-inverted="true")
                     %i.small.lock.icon
               .description
-                %span.ui.mini.label 配信停止中
                 = channel.description
             .extra.content
               - if channel.books_count == 0
@@ -52,8 +51,8 @@
                     #{channel.books_count}冊
             .extra.content
               - startable = channel.books_count > 0 ? '' : 'disabled'
-              = link_to '配信開始', subscriptions_path(channel_id: channel.id), method: 'post', class: "ui red small button #{startable}"
-              = link_to '編集', edit_channel_path(channel.token), class: "ui primary small button"
+              = link_to '配信開始', subscriptions_path(channel_id: channel.token), method: :post, class: "ui small red button #{startable}"
+              = link_to '編集', edit_channel_path(channel.token), class: "ui primary small basic button"
               = link_to channel_path(channel.token), method: :delete, class: 'ui basic small icon right floated button', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
                 %i.icon.trash
 
@@ -70,8 +69,6 @@
               .description
                 - if subscription.next_deliver_at
                   %span.ui.orange.mini.label 配信中
-                - else
-                  %span.ui.mini.label 配信停止中
                 = channel.description
             .extra.content
               - if channel.books_count == 0

@@ -17,8 +17,4 @@ class ChannelBook < ApplicationRecord
 
   validates :index, presence: true
   validates :channel_id, uniqueness: { scope: [:book_id] }
-
-  def first_chapter
-    Chapter.find_by(book_id: self.book_id, index: 1)
-  end
 end

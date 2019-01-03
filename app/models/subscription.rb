@@ -2,15 +2,15 @@
 #
 # Table name: subscriptions
 #
-#  id              :bigint(8)        not null, primary key
-#  user_id         :bigint(8)        not null
-#  channel_id      :bigint(8)        not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  next_chapter_id :bigint(8)
-#  last_chapter_id :bigint(8)
-#  delivery_hour   :integer          default(8), not null
-#  next_deliver_at :date
+#  id                 :bigint(8)        not null, primary key
+#  user_id            :bigint(8)        not null
+#  channel_id         :bigint(8)        not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  next_chapter_id    :bigint(8)
+#  last_chapter_id    :bigint(8)
+#  delivery_hour      :integer          default(8), not null
+#  next_delivery_date :date
 #
 
 class Subscription < ApplicationRecord
@@ -22,10 +22,6 @@ class Subscription < ApplicationRecord
   validates :delivery_hour, presence: true
 
 
-  def channel_owned?
-    self.user_id == self.channel.user_id
-  end
-
   def current_chapter
     # 当日分を配信済み OR 配信開始前なら、next_chapterを返す
     no_delivery_for_today ? self.next_chapter : self.last_chapter
@@ -33,6 +29,11 @@ class Subscription < ApplicationRecord
 
   def next_book
     self.channel.next_book(self.next_chapter.book_id)
+  end
+
+  def next_deliver_at
+    return if !self.next_delivery_date
+    Time.zone.parse(self.next_delivery_date.to_s).change(hour: self.delivery_hour)
   end
 
   def set_next_chapter

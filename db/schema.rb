@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_034411) do
     t.bigint "next_chapter_id"
     t.bigint "last_chapter_id"
     t.integer "delivery_hour", default: 8, null: false
-    t.date "next_deliver_at"
+    t.date "next_delivery_date"
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
     t.index ["last_chapter_id"], name: "index_subscriptions_on_last_chapter_id"
     t.index ["next_chapter_id"], name: "index_subscriptions_on_next_chapter_id"

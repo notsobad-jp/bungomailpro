@@ -11,10 +11,6 @@
 .field
   = f.label :description, '説明'
   = f.text_area :description, rows: '3', placeholder: '改行が使えます。またURLは自動でリンクに変換されます。'
-.field
-  = f.label :deliver_at, '配信時間'
-  = f.select :deliver_at, time_select, {}, class: 'ui dropdown'
-  %small ※配信時間の変更は翌日分から反映されます。
 %br
 
 
@@ -45,7 +41,7 @@
   = f.fields_for :channel_books do |cb|
     - channel_book = cb.object
     - book = channel_book.book
-    .item(id="#{book.id}" data-saved="true" class="#{ channel_book.delivered? ? 'hidden' : '' }")
+    .item(id="#{book.id}" data-saved="true")
       .right.floated.content
         .ui.icon.basic.button(onclick="removeBook(#{book.id})")
           %i.icon.remove

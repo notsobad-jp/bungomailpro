@@ -11,62 +11,55 @@
     %small(data-tooltip="非公開" data-inverted="true")
       %i.mini.lock.icon
 
-  - if @channel.next_chapter_id
-    %span.ui.orange.mini.label 配信中
-  - else
-    %span.ui.mini.label 配信停止中
-
 - if current_user && @channel.user_id == current_user.id
   %div
-    - if !@channel.next_chapter_id
-      - publishable = @channel.publishable? ? '' : 'disabled'
-      = link_to '配信開始', publish_channel_path(@channel.token), method: :post, class: "ui red small button #{publishable}"
+    - if !@subscription.try(:next_chapter_id)
+      - publishable = @channel.books_count > 0 ? '' : 'disabled'
+      = link_to '配信開始', subscriptions_path(channel_id: @channel.token), method: :post, class: "ui small red button #{publishable}"
     = link_to '編集する', edit_channel_path(@channel.token), class: 'ui primary small button'
     = link_to channels_path(@channel.token), method: :delete, class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
       %i.icon.trash
       削除
 - elsif current_user && current_user.default_channel
-  /
-    %div
-      %button.ui.red.disabled.button
-        %i.icon.rss
-        購読する
-      = link_to import_channel_path(current_user.default_channel.token, from_channel_id: @channel.token), method: :post, class: 'ui red basic button' do
-        %i.icon.download
-        登録作品をインポート
-    %div
-      %small
-        「インポート」機能を使うと、登録作品を自分のチャネルに一括で追加することができます。
-        公開チャネルの購読機能は近日公開予定です！
+  %div
+    %button.ui.red.disabled.button
+      %i.icon.rss
+      購読する
 
 %div= simple_format_with_link @channel.description
 
-.ui.small.header
-  %i.icon.podcast
-  配信中のタイトル
-.ui.secondary.padded.segment
-  - if book = @channel.current_chapter.try(:book)
-    .ui.small.header
-      #{book.author}『#{book.title}』
-      = link_to book.aozora_card_url do
-        %i.icon.mini.external
-    %span.ui.label 次の配信
-    第#{@channel.current_chapter.index}回（全#{book.chapters_count}回）
-    %i.icon.clock.outline
-    = @channel.next_deliver_at.strftime("%m月%d日 %H:%M")
-  - else
-    現在配信中のタイトルはありません
 
-.ui.secondary.pointing.menu
-  - if @finished
-    = link_to '今後の配信予定', channel_path(@channel.token), class: 'item'
-    .active.item 過去の配信
-  - else
-    .active.item 今後の配信予定
-    = link_to '過去の配信', channel_path(@channel.token, books: 'finished'), class: 'item'
+- if @subscription
+  .ui.small.header
+    %i.icon.podcast
+    配信中のタイトル
+  .ui.secondary.padded.segment
+    - if book = @subscription.current_chapter.try(:book)
+      .ui.small.header
+        #{book.author}『#{book.title}』
+        = link_to book.aozora_card_url do
+          %i.icon.mini.external
+      %span.ui.label 次の配信
+      第#{@subscription.current_chapter.index}回（全#{book.chapters_count}回）
+      %i.icon.clock.outline
+      = @subscription.next_deliver_at.strftime("%m月%d日 %H:%M")
+    - else
+      現在配信中のタイトルはありません
+
+  .ui.secondary.pointing.menu
+    - if @finished
+      = link_to '今後の配信予定', channel_path(@channel.token), class: 'item'
+      .active.item 過去の配信
+    - else
+      .active.item 今後の配信予定
+      = link_to '過去の配信', channel_path(@channel.token, books: 'finished'), class: 'item'
+- else
+  .ui.small.dividing.header
+    %i.icon.book
+    配信タイトル
 
 .ui.middle.alligned.relaxed.large.ordered.list
-  - books = @channel.channel_books.where(delivered: @finished).where.not(book_id: @channel.next_chapter.try(:book))
+  - books = @channel.channel_books.where.not(book_id: @subscription.try(:next_chapter).try(:book))
   - books.each do |cb|
     - book = cb.book
     .item

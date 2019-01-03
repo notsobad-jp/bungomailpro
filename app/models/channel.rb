@@ -32,19 +32,16 @@ class Channel < ApplicationRecord
 
 
   def add_book(book)
-    self.channel_books.create_with(index: self.current_index + 1).find_or_create_by(book_id: book.id)
+    self.channel_books.create_with(index: self.last_index + 1).find_or_create_by(book_id: book.id)
   end
 
-  def current_index
+  def last_index
     self.channel_books.maximum(:index) || 0
   end
 
-  def next_book(current_book_id)
-    current_index = self.channel_books.find_by(book_id: current_book_id).index
+  # current_book_idの指定がなければ、最初の本を返す
+  def next_book(current_book_id=nil)
+    current_index = self.channel_books.find_by(book_id: current_book_id).try(:index) || 0
     self.channel_books.where('index > ?', current_index).first.try(:book)
-  end
-
-  def owner_subscription
-    self.subscriptions.find_by(user_id: self.user_id)
   end
 end
