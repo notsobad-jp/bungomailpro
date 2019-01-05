@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_034411) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "delivered", default: false, null: false
     t.index ["book_id"], name: "index_channel_books_on_book_id"
     t.index ["channel_id", "book_id"], name: "index_channel_books_on_channel_id_and_book_id", unique: true
     t.index ["channel_id", "index"], name: "index_channel_books_on_channel_id_and_index", unique: true
@@ -50,7 +51,12 @@ ActiveRecord::Schema.define(version: 2019_01_03_034411) do
     t.integer "subscribers_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "last_chapter_id"
+    t.bigint "next_chapter_id"
+    t.integer "deliver_at", default: 8
     t.boolean "default", default: false, null: false
+    t.index ["last_chapter_id"], name: "index_channels_on_last_chapter_id"
+    t.index ["next_chapter_id"], name: "index_channels_on_next_chapter_id"
     t.index ["public"], name: "index_channels_on_public"
     t.index ["token"], name: "index_channels_on_token", unique: true
     t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
@@ -88,13 +94,13 @@ ActiveRecord::Schema.define(version: 2019_01_03_034411) do
     t.bigint "channel_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "next_chapter_id"
-    t.bigint "last_chapter_id"
+    t.boolean "default", default: false, null: false
+    t.bigint "current_book_id"
+    t.integer "current_chapter_index"
     t.integer "delivery_hour", default: 8, null: false
     t.date "next_delivery_date"
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
-    t.index ["last_chapter_id"], name: "index_subscriptions_on_last_chapter_id"
-    t.index ["next_chapter_id"], name: "index_subscriptions_on_next_chapter_id"
+    t.index ["current_book_id"], name: "index_subscriptions_on_current_book_id"
     t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
@@ -119,10 +125,11 @@ ActiveRecord::Schema.define(version: 2019_01_03_034411) do
 
   add_foreign_key "channel_books", "books"
   add_foreign_key "channel_books", "channels"
+  add_foreign_key "channels", "chapters", column: "last_chapter_id"
+  add_foreign_key "channels", "chapters", column: "next_chapter_id"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
+  add_foreign_key "subscriptions", "books", column: "current_book_id"
   add_foreign_key "subscriptions", "channels"
-  add_foreign_key "subscriptions", "chapters", column: "last_chapter_id"
-  add_foreign_key "subscriptions", "chapters", column: "next_chapter_id"
   add_foreign_key "subscriptions", "users"
 end

@@ -2,22 +2,24 @@
 #
 # Table name: subscriptions
 #
-#  id                 :bigint(8)        not null, primary key
-#  user_id            :bigint(8)        not null
-#  channel_id         :bigint(8)        not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  next_chapter_id    :bigint(8)
-#  last_chapter_id    :bigint(8)
-#  delivery_hour      :integer          default(8), not null
-#  next_delivery_date :date
+#  id                    :bigint(8)        not null, primary key
+#  user_id               :bigint(8)        not null
+#  channel_id            :bigint(8)        not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  default               :boolean          default(FALSE), not null
+#  current_book_id       :bigint(8)
+#  current_chapter_index :integer
+#  delivery_hour         :integer          default(8), not null
+#  next_delivery_date    :date
 #
 
 class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :channel, counter_cache: :subscribers_count
-  belongs_to :next_chapter, class_name: 'Chapter', foreign_key: 'next_chapter_id', optional: true
-  belongs_to :last_chapter, class_name: 'Chapter', foreign_key: 'last_chapter_id', optional: true
+  belongs_to :current_book, class_name: 'Book', foreign_key: 'current_book_id', optional: true
+  belongs_to :current_chapter, class_name: 'Chapter', foreign_key: [:current_book_id, :current_chapter_index], optional: true
+  belongs_to :current_channel_book, class_name: 'ChannelBook', foreign_key: [:channel_id, :current_book_id], optional: true
 
   validates :delivery_hour, presence: true
 

@@ -20,6 +20,7 @@ gem 'rack', '>= 2.0.6'
 gem 'loofah', '>= 2.2.3'
 gem 'algoliasearch'
 gem 'activerecord-import'
+gem 'composite_primary_keys', '~> 11.0'
 
 group :production do
   gem 'scout_apm'
