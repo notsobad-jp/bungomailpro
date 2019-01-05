@@ -41,10 +41,4 @@ class Channel < ApplicationRecord
   def last_index
     self.channel_books.maximum(:index) || 0
   end
-
-  # current_book_idの指定がなければ、最初の本を返す
-  def next_book(current_book_id=nil)
-    current_index = self.channel_books.find_by(book_id: current_book_id).try(:index) || 0
-    self.channel_books.where('index > ?', current_index).first.try(:book)
-  end
 end

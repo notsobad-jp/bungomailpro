@@ -14,7 +14,11 @@ class Chapter < ApplicationRecord
   self.primary_keys = :book_id, :index
   belongs_to :book
 
-  def next_chapter
+  def next
     Chapter.find_by(book_id: self.book_id, index: self.index + 1)
+  end
+
+  def prev
+    Chapter.find_by(book_id: self.book_id, index: self.index - 1)
   end
 end

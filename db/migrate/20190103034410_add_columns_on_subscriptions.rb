@@ -1,7 +1,7 @@
 class AddColumnsOnSubscriptions < ActiveRecord::Migration[5.2]
   def change
     add_reference :subscriptions, :current_book, foreign_key: { to_table: :books }
-    add_column :subscriptions, :current_chapter_index, :integer
+    add_column :subscriptions, :next_chapter_index, :integer
     add_column :subscriptions, :delivery_hour, :integer, default: 8, null: false
     add_column :subscriptions, :next_delivery_date, :date
 

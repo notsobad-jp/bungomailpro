@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_034411) do
     t.datetime "updated_at", null: false
     t.boolean "default", default: false, null: false
     t.bigint "current_book_id"
-    t.integer "current_chapter_index"
+    t.integer "next_chapter_index"
     t.integer "delivery_hour", default: 8, null: false
     t.date "next_delivery_date"
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
