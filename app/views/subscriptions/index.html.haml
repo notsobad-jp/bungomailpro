@@ -83,15 +83,12 @@
                   .item
                     %i.icon.podcast
                     - if subscription.current_chapter
-                      = "#{subscription.current_chapter.book.author}『#{subscription.current_chapter.book.title}』"
-                      = "##{subscription.current_chapter.index}（全#{subscription.current_chapter.book.chapters_count}回）"
+                      = "#{subscription.current_book.author}『#{subscription.current_book.title}』"
+                      = "##{subscription.current_chapter.index}（全#{subscription.current_book.chapters_count}回）"
                   .item
                     %i.icon.clock.outline
                     #{subscription.delivery_hour}:00
             .extra.content
-              - if !subscription.next_chapter_id
-                - startable = channel.books_count > 0 ? '' : 'disabled'
-                = link_to '配信開始', start_subscription_path(subscription), method: 'post', class: "ui red small button #{startable}"
               = link_to '編集', edit_channel_path(channel.token), class: "ui primary small button"
               = link_to channel_path(channel.token), method: :delete, class: 'ui basic small icon right floated button', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
                 %i.icon.trash

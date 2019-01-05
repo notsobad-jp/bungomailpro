@@ -1,7 +1,7 @@
 # == Route Map
 #
 #                    Prefix Verb   URI Pattern                                                                              Controller#Action
-#     channel_books_channel POST   /channels/:id/channel_books(.:format)                                                    channel_books#create
+#             books_channel POST   /channels/:id/books(.:format)                                                            channel_books#create
 #                  channels GET    /channels(.:format)                                                                      channels#index
 #                           POST   /channels(.:format)                                                                      channels#create
 #               new_channel GET    /channels/new(.:format)                                                                  channels#new
@@ -50,7 +50,7 @@
 
 Rails.application.routes.draw do
   resources :channels do
-    post 'channel_books' => 'channel_books#create', on: :member
+    post 'books' => 'channel_books#create', on: :member
   end
   #TODO: 本の検索をGET化してindexに一本化する
   post 'books' => 'books#index', as: :search

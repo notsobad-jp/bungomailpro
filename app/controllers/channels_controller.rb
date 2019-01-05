@@ -12,6 +12,12 @@ class ChannelsController < ApplicationController
   def show
     @subscription = current_user.subscriptions.find_by(channel_id: @channel.id) if current_user
     @finished = params[:books] == 'finished'
+
+    if @subscription
+      @books = @finished ? @subscription.finished_books : @subscription.scheduled_books
+    else
+      @books = @channel.channel_books.map(&:book)
+    end
   end
 
   def new
@@ -49,29 +55,10 @@ class ChannelsController < ApplicationController
     redirect_to subscriptions_path
   end
 
-  def publish
-    if @channel.publish
-      flash[:success] = 'チャネルの配信を開始しました🎉翌日からメール配信が始まります。'
-    else
-      flash[:error] = '配信開始できませんでした..😢チャネルに本が登録されているか確認してください。'
-    end
-    redirect_to subscriptions_path
-  end
-
-  def import
-    from_channel = Channel.find_by(token: params[:from_channel_id])
-    if @channel.import(from_channel)
-      flash[:success] = "#{@channel.title}に#{from_channel.books_count}冊の作品をインポートしました🎉（登録済みの本はスキップされています）"
-    else
-      flash[:error] = 'インポートに失敗しました..😢 再度試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
-    end
-    redirect_to channel_path from_channel.token
-  end
-
 
   private
     def channel_params
-      params.require(:channel).permit(:title, :description, :deliver_at, :public, channel_books_attributes: [:id, :index, :book_id, :_destroy])
+      params.require(:channel).permit(:title, :description, :public, :default, channel_books_attributes: [:id, :index, :book_id, :_destroy])
     end
 
     def set_channel_with_books

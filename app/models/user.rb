@@ -39,7 +39,7 @@ class User < ApplicationRecord
 
 
   def default_channel
-    self.channels.find_by(default: true)
+    self.channels.find_by(default: true) || self.channels.first
   end
 
   def display_name

@@ -27,7 +27,6 @@ class Channel < ApplicationRecord
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true
-  validates :default, presence: true
 
   before_create do
     self.token = SecureRandom.hex(10)

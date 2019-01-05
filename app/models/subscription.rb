@@ -17,23 +17,37 @@
 class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :channel, counter_cache: :subscribers_count
-  belongs_to :current_channel_book, class_name: 'ChannelBook', foreign_key: [:channel_id, :current_book_id], optional: true
   belongs_to :current_book, class_name: 'Book', foreign_key: 'current_book_id', optional: true
   belongs_to :next_chapter, class_name: 'Chapter', foreign_key: [:current_book_id, :next_chapter_index], optional: true
 
   validates :delivery_hour, presence: true
 
 
+  def current_channel_book
+    ChannelBook.find_by(channel_id: self.channel_id, book_id: self.current_book_id)
+  end
+
   def current_chapter
     return if !self.next_chapter  # 配信完了状態ではnilを返す
 
     # 配信時間を過ぎてればnext_chapterを返す
-    if Time.current > Time.current.change(hour: self.deliver_at)
+    if Time.current > Time.current.change(hour: self.delivery_hour)
       self.next_chapter
     # それ以前ならprev_chapter（配信予約中は存在しないので、next_chapterを返す）
     else
       self.prev_chapter || self.next_chapter
     end
+  end
+
+
+  def finished_books
+    self.channel.channel_books.where("index < ?", self.current_channel_book.index).map(&:book)
+  end
+
+
+  def next_deliver_at
+    return if !self.next_delivery_date
+    Time.zone.parse(self.next_delivery_date.to_s).change(hour: self.delivery_hour)
   end
 
 
@@ -51,9 +65,8 @@ class Subscription < ApplicationRecord
   end
 
 
-  def next_deliver_at
-    return if !self.next_delivery_date
-    Time.zone.parse(self.next_delivery_date.to_s).change(hour: self.delivery_hour)
+  def scheduled_books
+    self.channel.channel_books.where("index > ?", self.current_channel_book.index).map(&:book)
   end
 
 
@@ -72,13 +85,13 @@ class Subscription < ApplicationRecord
         current_book_id: next_channel_book.book_id,
         next_deliver_at: Time.zone.tomorrow
       )
-    # next_channel_bookもなければ配信停止状態にする
-    else
-      self.update!(
-        next_chapter_index: nil,
-        current_book_id: nil,
-        next_deliver_at: nil
-      )
     end
+
+    # next_channel_bookもなければ配信停止状態にする
+    self.update!(
+      next_chapter_index: nil,
+      current_book_id: nil,
+      next_deliver_at: nil
+    )
   end
 end
