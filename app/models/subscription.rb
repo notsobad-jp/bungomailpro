@@ -27,6 +27,7 @@ class Subscription < ApplicationRecord
     ChannelBook.find_by(channel_id: self.channel_id, book_id: self.current_book_id)
   end
 
+
   def current_chapter
     return if !self.next_chapter  # 配信完了状態ではnilを返す
 
@@ -52,16 +53,20 @@ class Subscription < ApplicationRecord
 
 
   def prev_chapter
-    return if !self.next_chapter
+    return if !self.next_chapter_index
 
     # 同じ本で前のchapterが存在すればそれを返す
-    prev_chapter = self.next_chapter.prev
-    return prev_chapter if prev_chapter
+    if self.next_chapter_index > 1
+      return self.next_chapter.prev
+    end
 
     # なければ前の本の最後のchapterを返す
-    prev_channel_book = self.current_channel_book.prev
-    return if !prev_channel_book  #前の本もなければnil
-    prev_channel_book.book.chapters.last
+    if self.current_channel_book.index > 1
+      prev_channel_book = self.current_channel_book.prev
+      return prev_channel_book.book.chapters.last
+    end
+
+    # 前の本もない場合（＝最初の本の最初の配信前）；prevなし
   end
 
 
@@ -93,5 +98,11 @@ class Subscription < ApplicationRecord
       current_book_id: nil,
       next_deliver_at: nil
     )
+  end
+
+
+  # 最初の本の最初のchapter配信前
+  def not_started?
+    self.next_chapter_index == 1 && self.current_channel_book.index == 1
   end
 end

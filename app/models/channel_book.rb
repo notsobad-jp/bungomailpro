@@ -25,6 +25,6 @@ class ChannelBook < ApplicationRecord
   end
 
   def prev
-    self.channel.channel_books.where("index < ?", self.index).last
+    self.channel.channel_books.where("index < ?", self.index).last if self.index > 1
   end
 end

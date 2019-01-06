@@ -19,6 +19,6 @@ class Chapter < ApplicationRecord
   end
 
   def prev
-    Chapter.find_by(book_id: self.book_id, index: self.index - 1)
+    Chapter.find_by(book_id: self.book_id, index: self.index - 1) if self.index > 1
   end
 end
