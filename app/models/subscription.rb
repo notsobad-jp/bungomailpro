@@ -42,7 +42,7 @@ class Subscription < ApplicationRecord
 
 
   def finished_books
-    self.channel.channel_books.where("index < ?", self.current_channel_book.index).map(&:book)
+    self.channel.channel_books.where("index < ?", current_book_index).map(&:book)
   end
 
 
@@ -71,7 +71,7 @@ class Subscription < ApplicationRecord
 
 
   def scheduled_books
-    self.channel.channel_books.where("index > ?", self.current_channel_book.index).map(&:book)
+    self.channel.channel_books.where("index > ?", current_book_index).map(&:book)
   end
 
 
@@ -105,4 +105,10 @@ class Subscription < ApplicationRecord
   def not_started?
     self.next_chapter_index == 1 && self.current_channel_book.index == 1
   end
+
+
+  private
+    def current_book_index
+      self.current_channel_book.try(:index) || 0
+    end
 end
