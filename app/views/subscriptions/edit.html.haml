@@ -1,0 +1,31 @@
+- content_for :breadcrumb do
+  = link_to '購読チャネル', subscriptions_path, class: 'section'
+  %i.icon.right.angle.divider
+  = link_to @channel.title, channel_path(@channel.token), class: 'section'
+  %i.icon.right.angle.divider
+  配信設定
+
+%h1
+  = @channel.title
+  の配信設定
+
+= form_for @subscription, url: {action: 'update'}, html: {class: 'ui form'} do |f|
+  - if @channel.errors.any?
+    .ui.error.visible.message
+      .header データの保存に失敗しました
+      .list
+        - @channel.errors.full_messages.each do |e|
+          %li= e
+
+  .required.field
+    = f.label :delivery_hour, '配信時間'
+    = f.select :delivery_hour, delivery_hours, {}, class: 'ui fluid dropdown'
+
+  %button.ui.small.red.button(type="submit" value="draft") 保存する
+  = link_to 'キャンセル', channel_path(@channel.token), class: 'item'
+
+.ui.divider
+
+= link_to subscription_path(@subscription), method: :delete, data: {confirm: '配信を解除します。本当によろしいですか？'} do
+  %i.icon.trash
+  配信を解除する

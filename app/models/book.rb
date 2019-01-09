@@ -23,6 +23,7 @@ class Book < ApplicationRecord
   validates :author, presence: true
   validates :author_id, presence: true
 
+  # TODO: chapter全作成後に削除
   after_create do
     self.delay.create_chapters
   end
@@ -55,6 +56,11 @@ class Book < ApplicationRecord
       Chapter.import! chapters
       self.update!(chapters_count: chapters.count, footnote: footnote)
     end
+  end
+
+
+  def first_chapter
+    Chapter.find_by(book_id: self.id, index: 1)
   end
 
 

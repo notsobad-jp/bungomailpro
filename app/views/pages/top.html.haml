@@ -82,7 +82,7 @@
           %span.ui.circular.label= book.chapters_count
         .description= book.author
       - if current_user && current_user.default_channel
-        = link_to channel_books_channel_path(current_user.default_channel.token, book_id: book.id, author_id: book.author_id), method: :post, remote: :true, class: 'ui fluid bottom attached button' do
+        = link_to books_channel_path(current_user.default_channel.token, book_id: book.id, author_id: book.author_id), method: :post, remote: :true, class: 'ui fluid bottom attached button' do
           %i.icon.plus
           チャネルに追加
       - else
