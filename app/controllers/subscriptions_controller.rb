@@ -12,6 +12,18 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @subscription.update(subscription_params)
+      flash[:success] = '変更を保存しました🎉 配信時間の変更は翌日の配信から反映されます。'
+      redirect_to channel_path(@channel.token)
+    else
+      render :edit
+    end
+  end
+
   def create
     @channel = Channel.find_by(token: params[:channel_id])
     @channel.subscriptions.create!(
@@ -24,14 +36,26 @@ class SubscriptionsController < ApplicationController
     redirect_to channel_path(@channel.token)
   end
 
+  def destroy
+    @subscription.destroy
+    flash[:success] = '配信を解除しました。すでに配信予約済みのメールは翌日も届く場合があります。ご了承ください。'
+
+    redirect_to channel_path(@channel.token)
+  end
+
 
   private
+    def subscription_params
+      params.require(:subscription).permit(:delivery_hour)
+    end
+
     def authorize_subscription
       authorize Subscription
     end
 
     def set_subscription
       @subscription = Subscription.includes(:channel).find(params[:id])
+      @channel = @subscription.channel
       authorize @subscription
     end
 end

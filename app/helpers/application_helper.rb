@@ -1,6 +1,15 @@
 module ApplicationHelper
   require "uri"
 
+
+  def delivery_hours
+    delivery_hours = {}
+    (3..22).each do |h|
+      delivery_hours["#{h}:00"] = h
+    end
+    delivery_hours
+  end
+
   def linknize text
     URI.extract(text, ['http', 'https']).uniq.each do |url|
       sub_text = ""
