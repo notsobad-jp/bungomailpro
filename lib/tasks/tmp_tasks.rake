@@ -55,4 +55,14 @@ namespace :tmp_tasks do
       )
     end
   end
+
+
+  task :timestamp => :environment do |task, args|
+    Subscription.all.each do |s|
+      s.update!(
+        new_created_at: s.created_at,
+        new_updated_at: s.updated_at
+      )
+    end
+  end
 end

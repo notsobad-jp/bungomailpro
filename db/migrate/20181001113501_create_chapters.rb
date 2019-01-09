@@ -1,6 +1,6 @@
 class CreateChapters < ActiveRecord::Migration[5.2]
   def change
-    create_table :chapters do |t|
+    create_table :chapters, id: false do |t|
       t.references :book, foreign_key: true, null: false
       t.integer :index, null: false
       t.text :text
