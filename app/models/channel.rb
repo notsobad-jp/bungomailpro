@@ -12,9 +12,6 @@
 #  subscribers_count :integer          default(0), not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  last_chapter_id   :bigint(8)
-#  next_chapter_id   :bigint(8)
-#  deliver_at        :integer          default(8)
 #  default           :boolean          default(FALSE), not null
 #
 

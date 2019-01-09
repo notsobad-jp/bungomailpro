@@ -2,7 +2,6 @@
 #
 # Table name: chapters
 #
-#  id         :bigint(8)        not null
 #  book_id    :bigint(8)        not null, primary key
 #  index      :integer          not null, primary key
 #  text       :text

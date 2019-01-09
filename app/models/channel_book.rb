@@ -9,7 +9,6 @@
 #  comment    :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  delivered  :boolean          default(FALSE), not null
 #
 
 class ChannelBook < ApplicationRecord
