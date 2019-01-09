@@ -34,4 +34,25 @@ namespace :tmp_tasks do
       )
     end
   end
+
+
+  # ChannelからSubscriptionにデータ移行
+  task :migration => :environment do |task, args|
+    Channel.all.each do |channel|
+      sub = channel.subscriptions.first
+      next_chapter = Chapter.find_by(id: channel.next_chapter_id)
+
+      next_delivery_date = Time.zone.tomorrow  if next_chapter
+      sub.update!(
+        current_book_id: next_chapter.try(:book_id),
+        next_chapter_index: next_chapter.try(:index),
+        delivery_hour: channel.deliver_at,
+        next_delivery_date: next_delivery_date
+      )
+
+      channel.update!(
+        default: sub.default
+      )
+    end
+  end
 end
