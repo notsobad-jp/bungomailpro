@@ -34,13 +34,12 @@ class User < ApplicationRecord
   end
 
   after_create do
-    self.channels.create!(title: 'デフォルトチャネル')
+    self.channels.create!(title: 'マイチャネル', default: true)
   end
 
 
   def default_channel
-    # デフォルト指定がなければ適当なchannelを返す（それもなければnil）
-    self.subscriptions.find_by(default: true).try(:channel) || self.channels.first
+    self.channels.find_by(default: true) || self.channels.first
   end
 
   def display_name

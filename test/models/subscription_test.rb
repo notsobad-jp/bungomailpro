@@ -2,12 +2,15 @@
 #
 # Table name: subscriptions
 #
-#  id         :bigint(8)        not null, primary key
-#  user_id    :bigint(8)        not null
-#  channel_id :bigint(8)        not null
-#  default    :boolean          default(FALSE), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                 :bigint(8)        not null, primary key
+#  user_id            :bigint(8)        not null
+#  channel_id         :bigint(8)        not null
+#  current_book_id    :bigint(8)
+#  next_chapter_index :integer
+#  delivery_hour      :integer          default(8), not null
+#  next_delivery_date :date
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
 #
 
 require 'test_helper'
