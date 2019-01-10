@@ -64,11 +64,12 @@ class Book < ApplicationRecord
 
 
   # scrape and parse Aozora File
-  def get_text_from_aozora_file(remote: false)
-    if remote
-      html = open(self.aozora_file_url) { |f| f.read }
-    else
+  def get_text_from_aozora_file
+    begin
       html = File.open(self.aozora_file_path) { |f| f.read }
+    # ローカルにファイルが存在しない場合は青空文庫サイトに見に行く
+    rescue Errno::ENOENT
+      html = open(self.aozora_file_url) { |f| f.read }
     end
 
     charset = 'CP932'
