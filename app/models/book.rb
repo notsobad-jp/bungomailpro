@@ -194,25 +194,33 @@ class Book < ApplicationRecord
       text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
         if index == 0
           contents[index] = content.gsub(/^(\r\n|\r|\n|\s|\t)/, "")  # 冒頭の改行を削除
-        else
-          # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
-          # 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
-          splits = content.sub(/([。！？][」）]|[。！？!?.])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
-
-          # 句点がなくて区切れない場合は、やむをえず読点で区切る
-          if !splits[1]
-            splits = content.sub(/(、)/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
-            no_period = true
-          end
-
-          contents[index-1] += splits[0]
-
-          # 前日の最後の１文を再掲する（句点がなかった場合は読点で区切る）
-          regex = no_period ? /(、)/ : /([。！？][」）]|[。！？!?.])/
-          last_sentence = contents[index-1].gsub(regex, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
-
-          contents[index] = (last_sentence + splits[1]).gsub(/^(\r\n|\r|\n|\s|\t)/, "")  # 冒頭の改行を削除
+          next
         end
+
+        # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
+        ## 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
+        splits = content.sub(/([。！？][」）]|[。！？!?.])/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
+
+        ## 句点がなくて区切れない場合は、やむをえず読点で区切る
+        if !splits[1]
+          splits = content.sub(/(、)/, '\1'+"[[TMP]]").split("[[TMP]]", 2)
+          no_period = true
+        end
+
+        ## 読点すらない場合は前回への追加はスキップ
+        splits = ['', content] if !splits[1]
+
+        contents[index-1] += splits[0]
+
+
+        # 前日の最後の１文を再掲する
+        ## 句点がなかった場合は読点で区切る
+        ## 句点すらなかった場合はlast_sentenceに全文入るけど、最後に文字数でスライスするのでOK
+        regex = no_period ? /(、)/ : /([。！？][」）]|[。！？!?.])/
+        last_sentence = contents[index-1].gsub(regex, '\1'+"[[TMP]]").split("[[TMP]]")[-1]
+        last_sentence = '…' + last_sentence.slice(-150..-1) if last_sentence.length > 150
+
+        contents[index] = (last_sentence + splits[1]).gsub(/^(\r\n|\r|\n|\s|\t)/, "")  # 冒頭の改行を削除
       end
       contents
     end
