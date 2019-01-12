@@ -52,8 +52,6 @@ Rails.application.routes.draw do
   resources :channels do
     post 'books' => 'channel_books#create', on: :member
   end
-  #TODO: 本の検索をGET化してindexに一本化する
-  post 'books' => 'books#index', as: :search
   resources :books do
     #TODO: channel編集画面でのURL作品追加で使用中。検索からの追加に一本化したら削除する
     post 'url', on: :collection

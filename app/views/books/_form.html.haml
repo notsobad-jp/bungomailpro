@@ -1,5 +1,5 @@
 .ui.secondary.padded.segment
-  = form_tag do
+  = form_tag books_path, method: :get do
     .ui.action.fluid.input
       = text_field_tag :keyword, keyword, placeholder: 'キーワード'
       = button_tag type: :submit, class: 'ui primary button' do
