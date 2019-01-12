@@ -10,7 +10,7 @@ class BooksController < ApplicationController
     if @keyword.present?
       query = []
       query << "replace(title, ' ', '') LIKE :q" if @target[:work]
-      query << "replace(autor, ' ', '') LIKE :q" if @target[:author]
+      query << "replace(author, ' ', '') LIKE :q" if @target[:author]
       @results = Book.where(query.join(" OR "), q: "%#{@keyword.gsub(' ', '')}%")
       @results = @results.page params[:page]
     end

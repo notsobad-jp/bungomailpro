@@ -24,12 +24,12 @@
         .right.floated.content
           - if current_user.try(:default_channel)
             .ui.basic.buttons
-              = link_to 'チャネルに追加', books_channel_path(current_user.default_channel.token, book_id: book.id, author_id: book.author_id), method: :post, remote: :true, class: 'ui button'
+              = link_to 'チャネルに追加', books_channel_path(current_user.default_channel.token, book_id: book.id, redirect_to: request.fullpath), method: :post, class: 'ui button'
               .ui.simple.dropdown.icon.button
                 %i.icon.dropdown
                 .menu
                   - @channels.each do |channel|
-                    = link_to channel.title, books_channel_path(channel.token, book_id: book.id, author_id: book.author_id), method: 'post', class: 'item', remote: true
+                    = link_to channel.title, books_channel_path(channel.token, book_id: book.id, redirect_to: request.fullpath), method: 'post', class: 'item'
           - else
             .ui.basic.buttons
               .ui.disabled.button チャネルに追加
@@ -38,7 +38,7 @@
         .content
           .header
             = book.title
-            = link_to Book.aozora_card_url(book_id: book.id, author_id: book.author_id), target: '_blank' do
+            = link_to book.aozora_card_url, target: '_blank' do
               %i.icon.mini.external
           .meta
             %small
