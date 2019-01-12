@@ -43,7 +43,9 @@
               - if channel.books_count == 0
                 .ui.warning.message
                   .content
-                    まだ本が登録されていないようです。「作品検索」で本を追加して配信開始しましょう！
+                    まだ本が登録されていないようです。「
+                    = link_to '作品検索', books_path
+                    」から本を追加して配信開始しましょう！
               - else
                 .ui.small.list
                   .item

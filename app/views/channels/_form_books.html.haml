@@ -1,0 +1,52 @@
+.ui.horizontal.divider 配信予定作品
+
+.ui.secondary.center.aligned.segment
+  = link_to books_path, class: 'ui primary small button' do
+    %i.icon.search
+    作品を検索して追加する
+  %br
+  %small （ページを移動します。変更がある場合は先に保存してください）
+
+- if @channel.subscribers_count == 0
+  #bookList.ui.middle.alligned.divided.relaxed.large.list
+    = f.fields_for :channel_books do |cb|
+      - channel_book = cb.object
+      - book = channel_book.book
+      .item(id="#{book.id}")
+        .right.floated.content
+          .ui.icon.basic.button(onclick="removeBook(#{book.id})")
+            %i.icon.remove
+        %i.icon.content.handler
+        .content
+          .header
+            = book.title
+          .description
+            %small= book.author
+          .extra
+            %small
+              （全#{book.chapters_count}回配信）
+            = cb.hidden_field :id, value: channel_book.id
+            = cb.hidden_field :book_id, value: channel_book.book_id
+            = cb.hidden_field :index, value: channel_book.index, id: "#{channel_book.book_id}_index"
+            = cb.hidden_field :_destroy, value: false, id: "#{channel_book.book_id}_destroy"
+- else
+  .ui.warning.visible.message
+    .header
+      %i.icon.warning.circle
+      このチャネルは現在配信中です
+    .content
+      配信中のチャネルでは新しい本の追加のみ可能です。本の並べ替えや削除はできません。
+
+  #bookList.ui.middle.alligned.divided.relaxed.large.ordered.list
+    - @channel.channel_books.map(&:book).each do |book|
+      .item
+        .content
+          .header
+            = book.title
+          .description
+            %small= book.author
+          .extra
+            %small
+              （全#{book.chapters_count}回配信）
+%br
+%br
