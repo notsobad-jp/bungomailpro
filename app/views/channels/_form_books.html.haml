@@ -7,6 +7,11 @@
   %br
   %small （ページを移動します。変更がある場合は先に保存してください）
 
+- if @channel.books_count == 0
+  まだ本が登録されていないようです。「
+  = link_to '作品検索', books_path
+  」から本を検索して追加してください。
+
 - if @channel.subscribers_count == 0
   #bookList.ui.middle.alligned.divided.relaxed.large.list
     = f.fields_for :channel_books do |cb|
