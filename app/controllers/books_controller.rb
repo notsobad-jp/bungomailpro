@@ -8,16 +8,10 @@ class BooksController < ApplicationController
 
     # 検索実行時
     if @keyword.present?
-      # 作品名検索
-      if @target[:work] && !@target[:author]
-        @results = Book.where("title LIKE ?", @keyword)
-      # 著者名検索
-      elsif @target[:author] && !@target[:work]
-        @results = Book.where("author LIKE ?", @keyword)
-      # 両方検索
-      else
-        @results = Book.where("author LIKE :q OR title LIKE :q", q: @keyword)
-      end
+      query = []
+      query << "replace(title, ' ', '') LIKE :q" if @target[:work]
+      query << "replace(autor, ' ', '') LIKE :q" if @target[:author]
+      @results = Book.where(query.join(" OR "), q: "%#{@keyword.gsub(' ', '')}%")
       @results = @results.page params[:page]
     end
   end
