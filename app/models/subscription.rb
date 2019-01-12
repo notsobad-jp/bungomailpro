@@ -79,7 +79,7 @@ class Subscription < ApplicationRecord
     next_chapter = self.next_chapter.next
     return self.update!(
       next_chapter_index: next_chapter.index,
-      next_deliver_at: Time.zone.tomorrow
+      next_delivery_date: Time.zone.tomorrow
     ) if next_chapter
 
     # 次のchapterがなければ、次の本を探してindex:1でセット
@@ -87,7 +87,7 @@ class Subscription < ApplicationRecord
       self.update!(
         next_chapter_index: 1,
         current_book_id: next_channel_book.book_id,
-        next_deliver_at: Time.zone.tomorrow
+        next_delivery_date: Time.zone.tomorrow
       )
     end
 
@@ -95,7 +95,7 @@ class Subscription < ApplicationRecord
     self.update!(
       next_chapter_index: nil,
       current_book_id: nil,
-      next_deliver_at: nil
+      next_delivery_date: nil
     )
   end
 
