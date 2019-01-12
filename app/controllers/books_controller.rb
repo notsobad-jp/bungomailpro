@@ -18,6 +18,7 @@ class BooksController < ApplicationController
       else
         @results = Book.where("author LIKE :q OR title LIKE :q", q: @keyword)
       end
+      @results = @results.page params[:page]
     end
   end
 
