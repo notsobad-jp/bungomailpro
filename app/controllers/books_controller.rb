@@ -8,20 +8,11 @@ class BooksController < ApplicationController
 
     # 検索実行時
     if @keyword.present?
-      Algolia.init(
-        application_id: ENV['ALGOLIA_ID'],
-        api_key:        ENV['ALGOLIA_KEY']
-      )
-      index = Algolia::Index.new('books')
-
-      # 検索対象が絞られてるとき
-      restrictSearchableAttributes = []
-      if @target[:work] && !@target[:author]
-        restrictSearchableAttributes = ['作品名', '作品名読み', '副題', '副題読み', '原題']
-      elsif @target[:author] && !@target[:work]
-        restrictSearchableAttributes = ['姓', '姓読み', '姓ローマ字', '名', '名読み', '名ローマ字']
-      end
-      @results = index.search(@keyword, restrictSearchableAttributes: restrictSearchableAttributes)['hits']
+      query = []
+      query << "replace(title, ' ', '') LIKE :q" if @target[:work]
+      query << "replace(author, ' ', '') LIKE :q" if @target[:author]
+      @results = Book.where(query.join(" OR "), q: "%#{@keyword.gsub(' ', '')}%")
+      @results = @results.page params[:page]
     end
   end
 

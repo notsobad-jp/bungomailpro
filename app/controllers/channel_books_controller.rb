@@ -4,18 +4,15 @@ class ChannelBooksController < ApplicationController
   after_action :verify_authorized
 
 
-  # TODO: 検索をGET化したらAJAXをやめてリダイレクトする
   def create
-    book = Book.find_or_scrape(book_id: params[:book_id], author_id: params[:author_id])
-    # channel = Channel.find_by(token: params[:id])
+    book = Book.find(params[:book_id])
 
     if @channel.add_book(book)
-      # TODO: とりあえずチャネル追加後にchapterをscrapingする（全データ取得後に削除）
-      book.delay.create_chapters if book.chapters_count == 0
-      render json: { channel: @channel.title, book: book.title }, status: 200
+      flash[:success] = "「#{@channel.title}」に『#{book.title}』を追加しました🎉"
     else
-      render json: nil, status: 500
+      flash[:error] = "本の追加に失敗しました。。解決しない場合は運営までお問い合わせください。"
     end
+    redirect_to params[:redirect_to]
   end
 
 

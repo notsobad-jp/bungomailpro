@@ -10,16 +10,6 @@
   %i.icon.search
   作品検索
 
-.ui.warning.small.message
-  .content
-    .header
-      %i.icon.warning.circle
-      ベータ版の制約
-    .ui.bulleted.list
-      .item 詩など、句読点のない作品は配信回数が「0」となり、まだうまく配信できません。対応までもうしばらくお待ちください。
-      .item 一部の作品が検索対象外となっています。もし読みたい作品が見つからない場合は、チャネル編集画面から直接作品URLを指定して追加してください。
-
-
 = render partial: 'form', locals: {keyword: @keyword}
 
 %br
@@ -29,17 +19,17 @@
     %i.icon.history
     検索結果
   .ui.middle.alligned.divided.relaxed.large.list
-    - @results.each.with_index(1) do |result, index|
+    - @results.each do |book|
       .item
         .right.floated.content
           - if current_user.try(:default_channel)
             .ui.basic.buttons
-              = link_to 'チャネルに追加', books_channel_path(current_user.default_channel.token, book_id: result['作品ID'], author_id: result['人物ID']), method: :post, remote: :true, class: 'ui button'
+              = link_to 'チャネルに追加', books_channel_path(current_user.default_channel.token, book_id: book.id, redirect_to: request.fullpath), method: :post, class: 'ui button'
               .ui.simple.dropdown.icon.button
                 %i.icon.dropdown
                 .menu
                   - @channels.each do |channel|
-                    = link_to channel.title, books_channel_path(channel.token, book_id: result['作品ID'], author_id: result['人物ID']), method: 'post', class: 'item', remote: true
+                    = link_to channel.title, books_channel_path(channel.token, book_id: book.id, redirect_to: request.fullpath), method: 'post', class: 'item'
           - else
             .ui.basic.buttons
               .ui.disabled.button チャネルに追加
@@ -47,11 +37,12 @@
                 %i.icon.dropdown
         .content
           .header
-            = result['作品名']
-            %small= result['副題']
-            = link_to Book.aozora_card_url(book_id: result['作品ID'], author_id: result['人物ID']), target: '_blank' do
+            = book.title
+            = link_to book.aozora_card_url, target: '_blank' do
               %i.icon.mini.external
           .meta
             %small
-              = result['姓']
-              = result['名']
+              = book.author
+  .ui.divider
+  .ui.basic.centered.segment
+    = paginate @results, window: 2

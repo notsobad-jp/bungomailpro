@@ -11,7 +11,7 @@
   %i.icon.search
   作品検索
 .ui.secondary.segment
-  = form_tag(books_path) do
+  = form_tag books_path, method: :get do
     .ui.action.fluid.input
       = text_field_tag :keyword, nil, placeholder: 'キーワード'
       = button_tag type: :submit, class: 'ui primary button' do

@@ -50,7 +50,7 @@
   人気の文豪
 .ui.four.scrolling.cards
   - @popular_authors.each do |author|
-    = link_to books_path(keyword: author[:name], target: {author: true}), method: :post, class: 'ui card' do
+    = link_to books_path(keyword: author[:name], target: {author: true}), class: 'ui card' do
       .image
         = image_tag("authors/#{author[:id]}.png")
       .content
@@ -82,7 +82,7 @@
           %span.ui.circular.label= book.chapters_count
         .description= book.author
       - if current_user && current_user.default_channel
-        = link_to books_channel_path(current_user.default_channel.token, book_id: book.id, author_id: book.author_id), method: :post, remote: :true, class: 'ui fluid bottom attached button' do
+        = link_to books_channel_path(current_user.default_channel.token, book_id: book.id, redirect_to: request.fullpath), method: :post, class: 'ui fluid bottom attached button' do
           %i.icon.plus
           チャネルに追加
       - else

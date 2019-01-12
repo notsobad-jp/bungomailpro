@@ -21,6 +21,7 @@ gem 'loofah', '>= 2.2.3'
 gem 'algoliasearch'
 gem 'activerecord-import'
 gem 'composite_primary_keys', '~> 11.0'
+gem 'kaminari'
 
 group :production do
   gem 'scout_apm'
