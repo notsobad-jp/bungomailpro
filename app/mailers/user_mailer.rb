@@ -22,6 +22,7 @@ class UserMailer < ApplicationMailer
     @channel = @subscription.channel
     @chapter = @subscription.next_chapter
     @book = @subscription.current_book
+    @notification = Notification.find_by(date: Time.current)
     send_at = Time.current.change(hour: @subscription.delivery_hour)
 
     xsmtp_api_params = {

@@ -4,6 +4,11 @@
 
 = simple_format(@chapter.text)
 
+- if @notification
+  %hr
+  %h5 【お知らせ】
+  = @notification.text
+
 %hr
 %p ブンゴウメールPRO（ベータ版）
 
