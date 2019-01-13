@@ -18,6 +18,7 @@ class Subscription < ApplicationRecord
   belongs_to :channel, counter_cache: :subscribers_count
   belongs_to :current_book, class_name: 'Book', foreign_key: 'current_book_id', optional: true
   belongs_to :next_chapter, class_name: 'Chapter', foreign_key: [:current_book_id, :next_chapter_index], optional: true
+  has_one :feed, dependent: :destroy
 
   validates :delivery_hour, presence: true
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_13_060155) do
+ActiveRecord::Schema.define(version: 2019_01_13_102801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,12 @@ ActiveRecord::Schema.define(version: 2019_01_13_060155) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "feeds", primary_key: "subscription_id", force: :cascade do |t|
+    t.json "entries"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.date "date", null: false
     t.text "text"
@@ -128,6 +134,7 @@ ActiveRecord::Schema.define(version: 2019_01_13_060155) do
   add_foreign_key "channel_books", "channels"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
+  add_foreign_key "feeds", "subscriptions"
   add_foreign_key "subscriptions", "books", column: "current_book_id"
   add_foreign_key "subscriptions", "channels"
   add_foreign_key "subscriptions", "users"
