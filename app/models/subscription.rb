@@ -40,6 +40,10 @@ class Subscription < ApplicationRecord
   end
 
 
+  def finished?
+    !self.current_book_id
+  end
+
   def finished_books
     self.channel.channel_books.where("index < ?", current_book_index).map(&:book)
   end
@@ -110,7 +114,8 @@ class Subscription < ApplicationRecord
 
 
   private
+    # 配信終了（current_channel_bookがnil）の場合は最大値を返す
     def current_book_index
-      self.current_channel_book.try(:index) || 0
+      self.current_channel_book.try(:index) || Float::MAX
     end
 end

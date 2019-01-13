@@ -69,8 +69,10 @@
                   %small(data-tooltip="非公開" data-inverted="true")
                     %i.small.lock.icon
               .description
-                - if subscription.next_deliver_at
+                - if subscription.current_book_id
                   %span.ui.orange.mini.label 配信中
+                - else
+                  %span.ui.mini.label 配信終了
                 = channel.description
             .extra.content
               - if channel.books_count == 0

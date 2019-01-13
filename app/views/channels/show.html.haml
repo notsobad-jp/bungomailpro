@@ -32,6 +32,11 @@
 
 
 - if @subscription
+  - if @subscription.finished?
+    .ui.warning.message
+      %i.icon.warning.circle
+      このチャネルの配信は終了しました。もう一度購読したい場合は、「配信設定」から一度購読を解除し、再度購読し直してください。
+
   .ui.small.header
     %i.icon.podcast
     配信中のタイトル
