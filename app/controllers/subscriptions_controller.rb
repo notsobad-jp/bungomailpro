@@ -26,12 +26,8 @@ class SubscriptionsController < ApplicationController
 
   def create
     @channel = Channel.find_by(token: params[:channel_id])
-    @channel.subscriptions.create!(
-      user_id: current_user.id,
-      next_delivery_date: Time.zone.tomorrow, #TODO: 月初開始の場合分け
-      current_book_id: @channel.channel_books.first.book_id,
-      next_chapter_index: 1
-    )
+    current_user.subscribe(@channel)
+
     flash[:success] = 'チャネルの配信を開始しました🎉 翌日からメール配信が始まります。'
     redirect_to channel_path(@channel.token)
   end

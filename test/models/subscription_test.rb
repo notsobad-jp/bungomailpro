@@ -18,55 +18,24 @@ require 'test_helper'
 class SubscriptionTest < ActiveSupport::TestCase
   def setup
     @user1 = users(:user1)
-    @user2 = users(:user2)
+    @sub = subscriptions(:user1_with_books)
   end
 
-  test "channel owned" do
-    sub = subscriptions(:user1_empty)
-
-    assert sub.channel_owned?
+  test "current_chapter" do
+    # 配信開始前
+    assert_equal chapters(:book1_chapter1), @sub.current_chapter
+    # 配信完了後
+    # 配信中（配信時間前）
+    # 配信中（配信時間後）
   end
 
-  test "channel not owned" do
-    channel1 = channels(:empty)
-    sub = @user2.subscriptions.create(channel_id: channel1.id)
-
-    assert !sub.channel_owned?
+  test "prev_chapter" do
+    # index > 1のとき
+    # 2冊めのindex:1
+    # 1冊目のindex:1
+    # 配信完了後
   end
 
-  test "owned and no default exists" do
-    channel = channels(:user2)
-    sub = @user2.subscriptions.create(channel_id: channel.id)
-
-    assert sub.default
-  end
-
-  test "owned and default exists" do
-    channel1 = channels(:user2)
-    sub1 = @user2.subscriptions.create(channel_id: channel1.id)
-
-    channel2 = channels(:user2_2)
-    sub2 = @user2.subscriptions.create(channel_id: channel2.id)
-
-    assert sub1.default
-    assert !sub2.default
-  end
-
-  test "not owned and no default exists" do
-    channel = channels(:empty)
-    sub = @user2.subscriptions.create(channel_id: channel.id)
-
-    assert !sub.default
-  end
-
-  test "not owned and default exists" do
-    channel1 = channels(:user2)
-    sub1 = @user2.subscriptions.create(channel_id: channel1.id)
-
-    channel2 = channels(:empty)
-    sub2 = @user2.subscriptions.create(channel_id: channel2.id)
-
-    assert sub1.default
-    assert !sub2.default
+  test "set_next_chapter" do
   end
 end

@@ -20,22 +20,15 @@ empty:
   token: <%= SecureRandom.hex(10) %>
   title: '作ったばっかりのちゃんねる'
 
-not_started:
+with_books:
   user: user1
   token: <%= SecureRandom.hex(10) %>
-  title: '本はあるけどまだ開始してないチャネル'
+  title: '本も登録してあるチャンネル'
 
-started:
-  user: user1
-  token: <%= SecureRandom.hex(10) %>
-  title: '開始済みチャンネル'
-  last_chapter: chapters(:book1_chapter1)
-  next_chapter: chapters(:book1_chapter2)
-
-user2:
+user2_1:
   user: user2
   token: <%= SecureRandom.hex(10) %>
-  title: 'user2のチャンネル'
+  title: 'user2のチャンネル1'
 
 user2_2:
   user: user2

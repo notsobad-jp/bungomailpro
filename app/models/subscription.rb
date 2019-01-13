@@ -75,28 +75,31 @@ class Subscription < ApplicationRecord
 
 
   def set_next_chapter
-    # 同じ本で次のchapterが存在すればそれをセット
-    next_chapter = self.next_chapter.next
-    return self.update!(
-      next_chapter_index: next_chapter.index,
-      next_delivery_date: Time.zone.tomorrow
-    ) if next_chapter
+    current_chapter = self.next_chapter
+    return if !current_chapter
 
+    # 同じ本で次のchapterが存在すればそれをセット
+    if next_chapter = current_chapter.next
+      self.update!(
+        next_chapter_index: next_chapter.index,
+        next_delivery_date: Time.zone.tomorrow
+      )
     # 次のchapterがなければ、次の本を探してindex:1でセット
-    if next_channel_book = self.current_channel_book.next
+    elsif next_channel_book = self.current_channel_book.next
       self.update!(
         next_chapter_index: 1,
         current_book_id: next_channel_book.book_id,
         next_delivery_date: Time.zone.tomorrow
       )
-    end
-
     # next_channel_bookもなければ配信停止状態にする
-    self.update!(
-      next_chapter_index: nil,
-      current_book_id: nil,
-      next_delivery_date: nil
-    )
+    else
+      self.update!(
+        next_chapter_index: nil,
+        current_book_id: nil,
+        next_delivery_date: nil
+      )
+    end
+    Logger.new(STDOUT).info "[CHAPTER SET] sub:#{self.id}, from:#{current_chapter.book_id}-#{current_chapter.index}, to:#{next_chapter.try(:book_id)}-#{next_chapter.try(:index)}"
   end
 
 
