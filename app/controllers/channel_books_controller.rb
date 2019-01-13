@@ -8,7 +8,8 @@ class ChannelBooksController < ApplicationController
     book = Book.find(params[:book_id])
 
     if @channel.add_book(book)
-      flash[:success] = "「#{@channel.title}」に『#{book.title}』を追加しました🎉"
+      channel_link = view_context.link_to @channel.title, channel_path(@channel.token)
+      flash[:success] = "「#{channel_link}」に『#{book.title}』を追加しました🎉"
     else
       flash[:error] = "本の追加に失敗しました。。解決しない場合は運営までお問い合わせください。"
     end

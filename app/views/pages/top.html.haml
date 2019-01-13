@@ -44,6 +44,21 @@
       .description チャネルを配信開始すると、翌日からメールが届き始めます。
 
 
+- if @popular_channels.present?
+  %h3.ui.small.dividing.header
+    %i.icon.rss
+    公開チャネル
+  .ui.three.cards
+    - @popular_channels.each do |channel|
+      = link_to channel_path(channel.token), class: 'ui card' do
+        .content
+          .header= channel.title
+          .meta
+          .description
+            = channel.description.truncate(50)
+        .ui.fluid.bottom.attached.button
+          %i.icon.search
+          詳細を見る
 
 %h3.ui.small.dividing.header
   %i.icon.child

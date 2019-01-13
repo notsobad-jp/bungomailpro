@@ -119,7 +119,7 @@
               - %w(warning error success info).each do |status|
                 - if flash[status] && path != 'pages#top'
                   .ui.message(class="#{status}")
-                    = flash[status]
+                    = sanitize flash[status]
               = yield
             #sidebar.ui.four.wide.column
               = render partial: 'layouts/sidebar'

@@ -38,7 +38,7 @@
                   %small(data-tooltip="非公開" data-inverted="true")
                     %i.small.lock.icon
               .description
-                = channel.description
+                = channel.description.truncate(50)
             .extra.content
               - if channel.books_count == 0
                 .ui.warning.message
@@ -73,7 +73,7 @@
                   %span.ui.orange.mini.label 配信中
                 - else
                   %span.ui.mini.label 配信終了
-                = channel.description
+                = channel.description.truncate(50)
             .extra.content
               - if channel.books_count == 0
                 .ui.warning.message

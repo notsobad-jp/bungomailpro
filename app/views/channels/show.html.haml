@@ -26,6 +26,7 @@
       = link_to channels_path(@channel.token), method: :delete, class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
         %i.icon.trash
         削除
+  %br
 
 
 %div= simple_format_with_link @channel.description
