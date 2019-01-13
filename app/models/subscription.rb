@@ -76,6 +76,7 @@ class Subscription < ApplicationRecord
 
   def set_next_chapter
     current_chapter = self.next_chapter
+    return if !current_chapter
 
     # 同じ本で次のchapterが存在すればそれをセット
     if next_chapter = current_chapter.next
