@@ -13,15 +13,9 @@
 #  updated_at         :datetime         not null
 #
 
-user1_empty:
+user1_with_books:
   user: user1
-  channel: empty
-  default: true
-
-user1_not_started:
-  user: user1
-  channel: not_started
-
-user1_started:
-  user: user1
-  channel: started
+  channel: with_books
+  current_book: book_1
+  next_chapter_index: 1
+  next_delivery_date: <%= Time.zone.tomorrow %>
