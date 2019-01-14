@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 2019_01_13_102801) do
   create_table "feeds", force: :cascade do |t|
     t.bigint "subscription_id", null: false
     t.bigint "book_id", null: false
-    t.integer "chapter_index", null: false
+    t.integer "index", null: false
     t.datetime "delivered_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -112,8 +112,10 @@ ActiveRecord::Schema.define(version: 2019_01_13_102801) do
     t.date "next_delivery_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "token", null: false
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
     t.index ["current_book_id"], name: "index_subscriptions_on_current_book_id"
+    t.index ["token"], name: "index_subscriptions_on_token", unique: true
     t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
