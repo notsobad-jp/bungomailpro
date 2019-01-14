@@ -83,10 +83,16 @@ ActiveRecord::Schema.define(version: 2019_01_13_102801) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "feeds", primary_key: "subscription_id", force: :cascade do |t|
-    t.json "entries"
+  create_table "feeds", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.bigint "book_id", null: false
+    t.integer "chapter_index", null: false
+    t.datetime "delivered_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_feeds_on_book_id"
+    t.index ["delivered_at"], name: "index_feeds_on_delivered_at"
+    t.index ["subscription_id"], name: "index_feeds_on_subscription_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -134,6 +140,7 @@ ActiveRecord::Schema.define(version: 2019_01_13_102801) do
   add_foreign_key "channel_books", "channels"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
+  add_foreign_key "feeds", "books"
   add_foreign_key "feeds", "subscriptions"
   add_foreign_key "subscriptions", "books", column: "current_book_id"
   add_foreign_key "subscriptions", "channels"
