@@ -7,7 +7,7 @@ class CreateSubscriptions < ActiveRecord::Migration[5.2]
       t.references :current_book, foreign_key: { to_table: :books }
       t.integer :next_chapter_index
       t.integer :delivery_hour, default: 8, null: false
-      t.date :mext_delivery_date
+      t.date :next_delivery_date
 
       t.timestamps
     end
