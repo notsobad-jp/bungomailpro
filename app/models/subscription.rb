@@ -11,6 +11,7 @@
 #  next_delivery_date :date
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  token              :string           not null
 #
 
 class Subscription < ApplicationRecord
@@ -21,6 +22,10 @@ class Subscription < ApplicationRecord
   has_many :feeds, dependent: :destroy
 
   validates :delivery_hour, presence: true
+
+  before_create do
+    self.token = SecureRandom.hex(10)
+  end
 
 
   def create_feed

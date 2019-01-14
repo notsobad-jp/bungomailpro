@@ -11,6 +11,7 @@
 #  next_delivery_date :date
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  token              :string           not null
 #
 
 user1_with_books:

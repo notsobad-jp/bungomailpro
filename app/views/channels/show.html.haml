@@ -15,7 +15,7 @@
   %div
     -# 購読管理
     - if @subscription
-      = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'
+      = link_to '配信設定', edit_subscription_path(@subscription.token), class: 'ui red basic small button'
     - else
       - publishable = @channel.books_count > 0 ? '' : 'disabled'
       = link_to '配信開始', subscriptions_path(channel_id: @channel.token), method: :post, class: "ui small red button #{publishable}"

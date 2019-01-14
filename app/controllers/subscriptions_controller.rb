@@ -50,7 +50,7 @@ class SubscriptionsController < ApplicationController
     end
 
     def set_subscription
-      @subscription = Subscription.includes(:channel).find(params[:id])
+      @subscription = Subscription.includes(:channel).find_by(token: params[:id])
       @channel = @subscription.channel
       authorize @subscription
     end

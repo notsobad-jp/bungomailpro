@@ -26,6 +26,6 @@
 
 .ui.divider
 
-= link_to subscription_path(@subscription), method: :delete, data: {confirm: '配信を解除します。本当によろしいですか？'} do
+= link_to subscription_path(@subscription.token), method: :delete, data: {confirm: '配信を解除します。本当によろしいですか？'} do
   %i.icon.trash
   配信を解除する
