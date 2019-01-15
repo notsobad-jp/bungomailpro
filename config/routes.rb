@@ -10,8 +10,6 @@
 #                           PATCH  /channels/:id(.:format)                                                                  channels#update
 #                           PUT    /channels/:id(.:format)                                                                  channels#update
 #                           DELETE /channels/:id(.:format)                                                                  channels#destroy
-#                    search POST   /books(.:format)                                                                         books#index
-#                 url_books POST   /books/url(.:format)                                                                     books#url
 #                     books GET    /books(.:format)                                                                         books#index
 #                           POST   /books(.:format)                                                                         books#create
 #                  new_book GET    /books/new(.:format)                                                                     books#new
@@ -20,6 +18,7 @@
 #                           PATCH  /books/:id(.:format)                                                                     books#update
 #                           PUT    /books/:id(.:format)                                                                     books#update
 #                           DELETE /books/:id(.:format)                                                                     books#destroy
+#         feed_subscription GET    /subscriptions/:id/feed(.:format)                                                        subscriptions#feed
 #             subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
 #                           POST   /subscriptions(.:format)                                                                 subscriptions#create
 #          new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new
@@ -52,11 +51,10 @@ Rails.application.routes.draw do
   resources :channels do
     post 'books' => 'channel_books#create', on: :member
   end
-  resources :books do
-    #TODO: channel編集画面でのURL作品追加で使用中。検索からの追加に一本化したら削除する
-    post 'url', on: :collection
+  resources :books
+  resources :subscriptions do
+    get 'feed', on: :member
   end
-  resources :subscriptions
   resources :magic_tokens
 
   get 'users/:token' => 'users#show', as: :user

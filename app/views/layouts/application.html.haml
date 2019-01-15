@@ -83,7 +83,7 @@
                 .ui.row
                   .column
                     .ui.message(class="#{status}")
-                      = flash[status]
+                      = sanitize flash[status]
             .ui.row
               %br
                 .six.wide.right.aligned.column

@@ -11,6 +11,7 @@
 #  next_delivery_date :date
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  token              :string           not null
 #
 
 class Subscription < ApplicationRecord
@@ -18,8 +19,22 @@ class Subscription < ApplicationRecord
   belongs_to :channel, counter_cache: :subscribers_count
   belongs_to :current_book, class_name: 'Book', foreign_key: 'current_book_id', optional: true
   belongs_to :next_chapter, class_name: 'Chapter', foreign_key: [:current_book_id, :next_chapter_index], optional: true
+  has_many :feeds, -> { order(delivered_at: :desc) },  dependent: :destroy
 
   validates :delivery_hour, presence: true
+
+  before_create do
+    self.token = SecureRandom.hex(10)
+  end
+
+
+  def create_feed
+    self.feeds.create!(
+      book_id: self.current_book_id,
+      index: self.next_chapter_index,
+      delivered_at: self.next_deliver_at
+    )
+  end
 
 
   def current_channel_book

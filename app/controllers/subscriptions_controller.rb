@@ -15,6 +15,30 @@ class SubscriptionsController < ApplicationController
   def edit
   end
 
+  def feed
+    subscription = Subscription.includes(:channel, feeds: [:book, :chapter]).find_by(token: params[:id])
+    authorize subscription
+
+    rss = RSS::Maker.make("atom") do |feed|
+      feed.channel.title = subscription.channel.title
+      feed.channel.author = 'ブンゴウメール'
+      feed.channel.updated = subscription.feeds.first.delivered_at.to_s
+      feed.channel.about = subscription_url(subscription.token)
+
+      subscription.feeds.each do |entry|
+        feed.items.new_item do |item|
+          item.id = "#{entry.book_id}-#{entry.index}"
+          item.title = "#{entry.book.title}（#{entry.chapter.index}/#{entry.book.chapters_count}）"
+          item.updated = entry.delivered_at.to_s
+          item.author = entry.book.author
+          item.description = view_context.simple_format entry.chapter.text
+        end
+      end
+    end
+
+    render xml: rss.to_s
+  end
+
   def update
     if @subscription.update(subscription_params)
       flash[:success] = '変更を保存しました🎉 配信時間の変更は翌日の配信から反映されます。'
@@ -50,7 +74,7 @@ class SubscriptionsController < ApplicationController
     end
 
     def set_subscription
-      @subscription = Subscription.includes(:channel).find(params[:id])
+      @subscription = Subscription.includes(:channel).find_by(token: params[:id])
       @channel = @subscription.channel
       authorize @subscription
     end

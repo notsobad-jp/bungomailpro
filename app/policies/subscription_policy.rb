@@ -3,6 +3,10 @@ class SubscriptionPolicy < ApplicationPolicy
     update?
   end
 
+  def feed?
+    true
+  end
+
   def skip?
     update?
   end

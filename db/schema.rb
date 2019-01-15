@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_13_060155) do
+ActiveRecord::Schema.define(version: 2019_01_13_102801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,18 @@ ActiveRecord::Schema.define(version: 2019_01_13_060155) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "feeds", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.bigint "book_id", null: false
+    t.integer "index", null: false
+    t.datetime "delivered_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_feeds_on_book_id"
+    t.index ["delivered_at"], name: "index_feeds_on_delivered_at"
+    t.index ["subscription_id"], name: "index_feeds_on_subscription_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.date "date", null: false
     t.text "text"
@@ -100,8 +112,10 @@ ActiveRecord::Schema.define(version: 2019_01_13_060155) do
     t.date "next_delivery_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "token", null: false
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
     t.index ["current_book_id"], name: "index_subscriptions_on_current_book_id"
+    t.index ["token"], name: "index_subscriptions_on_token", unique: true
     t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
@@ -128,6 +142,8 @@ ActiveRecord::Schema.define(version: 2019_01_13_060155) do
   add_foreign_key "channel_books", "channels"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
+  add_foreign_key "feeds", "books"
+  add_foreign_key "feeds", "subscriptions"
   add_foreign_key "subscriptions", "books", column: "current_book_id"
   add_foreign_key "subscriptions", "channels"
   add_foreign_key "subscriptions", "users"
