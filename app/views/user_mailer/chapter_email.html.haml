@@ -3,11 +3,28 @@
 （#{@chapter.text.length}字。目安の読了時間：#{@chapter.text.length.quo(500).ceil}分）
 
 = simple_format(@chapter.text)
+%br
+
 
 - if @notification
   %hr
   %h5 【お知らせ】
   = @notification.text
+  %br
+
+
+- today = Time.zone.today
+- if today.day == 30 && today.end_of_month.day == 31
+  %hr
+  ブンゴウメールでは配信が毎月30回になるよう調整しているため、明日31日はメールが配信されません。
+  次回の配信は翌月1日となります。ご了承ください。
+  %br
+- elsif (today.month==2 && today.day==1) || (today.month==2 && today.day==2 && !today.leap)
+  %hr
+  ブンゴウメールでは配信が毎月30回になるよう調整しているため、2月のみ月初に2通お送りしています。
+  ご了承ください。
+  %br
+
 
 %hr
 %p ブンゴウメールPRO（ベータ版）
