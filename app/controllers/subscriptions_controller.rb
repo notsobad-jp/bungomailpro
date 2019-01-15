@@ -24,7 +24,7 @@ class SubscriptionsController < ApplicationController
     rss = RSS::Maker.make("atom") do |feed|
       feed.channel.title = subscription.channel.title
       feed.channel.author = 'ブンゴウメール'
-      feed.channel.updated = subscription.feeds.first.delivered_at.to_s
+      feed.channel.updated = subscription.feeds.first.try(:delivered_at).try(:to_s) || subscription.created_at.to_s
       feed.channel.about = subscription_url(subscription.token)
 
       subscription.feeds.each do |entry|
