@@ -1,3 +1,5 @@
+require 'rss'
+
 class SubscriptionsController < ApplicationController
   before_action :require_login, except: [:index]
   before_action :authorize_subscription, only: [:index, :create]
