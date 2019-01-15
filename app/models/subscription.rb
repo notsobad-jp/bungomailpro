@@ -55,6 +55,15 @@ class Subscription < ApplicationRecord
   end
 
 
+  # メール送信して、RSSフィードに追加して、配信情報を更新する
+  ## TODO: メール配信でコケたらその後の処理も止まるけど、途中でコケるとメールだけ送られてしまう問題
+  def deliver_and_update
+    UserMailer.with(subscription: self).chapter_email.deliver_now   #deliver_nowはjobを使わないだけ。SendGrid側で予約配信するのでまだ送られない
+    self.create_feed
+    self.set_next_chapter
+  end
+
+
   def finished?
     !self.current_book_id
   end
@@ -97,18 +106,22 @@ class Subscription < ApplicationRecord
     current_chapter = self.next_chapter
     return if !current_chapter
 
+    # 次回配信は基本翌日。翌日が31日だった場合のみ飛ばしてその次の日(1日)をセット
+    tomorrow = Time.zone.tomorrow
+    next_delivery_date = (tomorrow.day == 31) ? tomorrow.tomorrow : tomorrow
+
     # 同じ本で次のchapterが存在すればそれをセット
     if next_chapter = current_chapter.next
       self.update!(
         next_chapter_index: next_chapter.index,
-        next_delivery_date: Time.zone.tomorrow
+        next_delivery_date: next_delivery_date
       )
     # 次のchapterがなければ、次の本を探してindex:1でセット
     elsif next_channel_book = self.current_channel_book.next
       self.update!(
         next_chapter_index: 1,
         current_book_id: next_channel_book.book_id,
-        next_delivery_date: Time.zone.tomorrow
+        next_delivery_date: next_delivery_date
       )
     # next_channel_bookもなければ配信停止状態にする
     else
