@@ -71,13 +71,13 @@ Rails.application.configure do
   ActionMailer::Base.smtp_settings = {
     :user_name => ENV['SENDGRID_USERNAME'],
     :password => ENV['SENDGRID_PASSWORD'],
-    :domain => 'herokuapp.com',
+    :domain => 'bungomail.com',
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,
     :enable_starttls_auto => true
   }
-  config.action_mailer.default_url_options = { host: 'bungomail.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'bungomail.com' }
 
   # Active Job Adapter
   config.active_job.queue_adapter = :delayed_job
