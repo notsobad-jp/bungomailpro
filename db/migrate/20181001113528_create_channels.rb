@@ -1,5 +1,5 @@
 class CreateChannels < ActiveRecord::Migration[5.2]
-  def change
+  def up
     create_table :channels do |t|
       t.string :token, null: false
       t.references :user, foreign_key: true, null: false
@@ -15,5 +15,12 @@ class CreateChannels < ActiveRecord::Migration[5.2]
     add_index :channels, :public
     add_index :channels, :token, unique: true
     add_index :channels, [:user_id, :default], where: '"default" = true', unique: true
+
+    # publicのときは、descriptionも入力必須
+    execute "ALTER TABLE channels ADD CONSTRAINT require_description_when_public CHECK (public IS FALSE OR (description IS NOT NULL AND description <> ''));"
+  end
+
+  def down
+    drop_table :channels
   end
 end

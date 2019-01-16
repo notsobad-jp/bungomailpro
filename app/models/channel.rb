@@ -24,6 +24,7 @@ class Channel < ApplicationRecord
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true
+  validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: Proc.new { |c| c.public? }
 
   before_create do
     self.token = SecureRandom.hex(10)

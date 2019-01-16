@@ -1,0 +1,6 @@
+ja:
+  activerecord:
+    attributes:
+      channel:
+        title: タイトル
+        description: チャネルの説明
