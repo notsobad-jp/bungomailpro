@@ -36,11 +36,11 @@
 #                           PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                           DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
 #                      user GET    /users/:token(.:format)                                                                  users#show
+#                  pro_root GET    /pro(.:format)                                                                           pages#top
 #                     about GET    /about(.:format)                                                                         pages#about
 #                     login GET    /login(.:format)                                                                         magic_tokens#new
 #                      auth GET    /auth(.:format)                                                                          magic_tokens#auth
 #                    logout POST   /logout(.:format)                                                                        magic_tokens#destroy
-#                      root GET    /                                                                                        pages#top
 #        rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 # rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
 #        rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
@@ -58,11 +58,12 @@ Rails.application.routes.draw do
   resources :magic_tokens
 
   get 'users/:token' => 'users#show', as: :user
+  get 'pro' => 'pages#top', as: :pro_root
   get 'about' => 'pages#about', as: :about
 
   get 'login' => 'magic_tokens#new', as: :login
   get 'auth' => 'magic_tokens#auth', as: :auth
   post 'logout' => 'magic_tokens#destroy', as: :logout
 
-  root to: 'pages#top'
+  # root to: 'pages#top'
 end

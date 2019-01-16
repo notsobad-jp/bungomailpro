@@ -35,7 +35,7 @@
       .ui.text.loader Loading..
 
     .ui.top.fixed.borderless.seigaiha.menu
-      = link_to(root_path, class: 'header item') do
+      = link_to(pro_root_path, class: 'header item') do
         ブンゴウメール
         %span.ui.red.label PRO
       = link_to subscriptions_path, class: 'computer only item' do
@@ -49,7 +49,7 @@
         .ui.simple.dropdown.item
           %i.content.icon
           .menu
-            = link_to root_path, class: 'item' do
+            = link_to pro_root_path, class: 'item' do
               %i.icon.home
               ホーム
             = link_to subscriptions_path, class: 'item' do

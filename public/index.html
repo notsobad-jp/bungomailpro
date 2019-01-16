@@ -1,0 +1,547 @@
+<html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30867542-25"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30867542-25');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>ブンゴウメール | 1日3分のメールでムリせず毎月本が読める、忙しいあなたのための読書サポートサービス</title>
+
+    <meta name="description" content="青空文庫の作品を小分けにして、毎朝メールで配信。気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。"/>
+    <meta name="keywords" content="ブンゴウメール,文豪メール,青空文庫,メール,短編,毎日,毎朝,読書,3分,会社,仕事中"/>
+    <meta property="og:title" content="ブンゴウメール | 文豪から毎朝メールが届く、新感覚の読書体験📕"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://bungomail.notsobad.jp/"/>
+    <meta id="og-image" property="og:image" content="https://app.the-tournament.jp/assets/img/bungo-ogp.png" />
+    <meta property="og:site_name" content="ブンゴウメール"/>
+    <meta property="og:description" content="青空文庫の作品を小分けにして、毎朝メールで配信。気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。" />
+    <meta property="og:locale" content="ja_JP"/>
+    <meta id="twitter-card" name="twitter:card" content="summary_large_image" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.3/semantic.min.css">
+    <link rel="shortcut icon" href="icon.ico" >
+    <style media="screen">
+      .gray-flat { background-color: #e7e8e9; }
+      .gray-black { background-color: #c4c8d4; }
+      .gray-accent { background-color: #443b55 !important; }
+      section, footer { padding: 50px 10px !important; }
+      .gray-accent.button {
+        padding-top: 1.5em;
+        padding-bottom: 1.5em;
+      }
+
+      #header {
+        padding-top: 30px !important;
+        background: url('./images/seigaiha.png');
+      }
+      #header .huge.header {
+        font-size: 3em;
+        line-height: 1.5em;
+      }
+      .sub.header { margin-top: 15px !important; }
+
+      .ui.mini.divider {
+        width: 50px;
+        margin: 50px auto;
+        border-width: 3px !important;
+        border-color: #333 !important;
+      }
+
+      footer.ui.segment {
+        background-color: #333 !important;
+        color: rgba(255,255,255,.6);
+        margin-bottom: 0;
+      }
+      footer a { color: #fff !important; }
+
+      @media only screen and (max-width: 767px) {
+        #header .huge.header { font-size: 3em; }
+        .computer.only { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- facebook -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v3.0&appId=139414576217599&autoLogAppEvents=1';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- Header -->
+    <section id="header" class="ui centered stackable grid gray-flat">
+      <div class="ui row">
+        <div class="ten wide center aligned column">
+          <h1 class="ui left aligned header">
+            ブンゴウメール
+            <span class="ui mini label orange">BETA</span>
+          </h1>
+          <br><br>
+          <div class="">
+            <img class="ui medium centered image" src="./images/logo.png" alt="ブンゴウメール">
+          </div>
+          <br>
+          <div class="ui huge header">
+            1日3分のメールで、<br class="computer only">ムリせず毎月本が読める
+            <div class="sub header">
+              青空文庫の作品を小分けにして、毎朝メールで配信。
+              <br class="computer only">
+              気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。
+            </div>
+          </div>
+          <br><br>
+          <a class="ui gray-accent inverted button" href="https://goo.gl/forms/oOWiGUaqMckVXgBk2" target="_blank">
+            メールアドレス登録（無料）
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="ui centered stackable grid">
+      <div class="ui row">
+        <div class="four wide center aligned column">
+          <img src="./images/1.png" alt="">
+          <h3 class="ui header">
+            最近、仕事以外の本読みました？
+          </h3>
+          <p>
+            忙しいと、すぐに役立つ知識ばかり仕入れがち。なかなか仕事以外の本を読む時間が取れなかったりしませんか。
+          </p>
+        </div>
+        <div class="four wide center aligned column">
+          <img src="./images/2.png" alt="">
+          <h3 class="ui header">
+            でも毎日メールは読んでますよね
+          </h3>
+          <p>
+            じゃあそのメールで本が読めたらどうでしょう。1〜3分程度のメールが1通増えるだけなので大丈夫。あなたならきっと読めます。
+          </p>
+        </div>
+        <div class="four wide center aligned column">
+          <img src="./images/3.png" alt="">
+          <h3 class="ui header">
+            せっかくなら教養になる名作を
+          </h3>
+          <p>
+            名前は知ってるけど読んでなかった名作、青空文庫にはいっぱいあります。普段自分では選ばない本を読めるのもいいものです。
+          </p>
+        </div>
+    </section>
+
+    <div class="ui mini divider"></div>
+
+    <section class="ui centered stackable grid">
+      <div class="ui row">
+        <div class="ten wide center aligned column">
+          <h2 class="ui huge header">
+            本当に文豪からメールが届きます
+            <p class="sub header">
+              メールの送信者名がその作品の文豪になっているので、たのしい気分になります。
+              <br>
+              Gmailだとアイコンもいい感じになっているかもしれません。
+            </p>
+          </h2>
+          <br>
+          <div class="ui stackable centered two cards">
+            <div class="ui card">
+              <div class="image">
+                <img src="./images/mailbox.png">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ui mini divider"></div>
+
+    <section class="ui centered stackable grid">
+      <div class="ui row">
+        <div class="ten wide center aligned column">
+          <h2 class="ui huge header">
+            たとえば、1年でこれだけ本が読めます
+            <p class="sub header">1日3分のメールを読み続けるだけで、1年ではこれだけの作品を読むことができます。（あくまで一例なので、実際に配信する内容とは異なります）</p>
+          </h2>
+        </div>
+      </div>
+      <div class="ui row">
+        <div class="twelve wide center aligned column">
+          <div class="ui four doubling cards">
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">芥川龍之介</p>
+                <div class="meta">藪の中</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">萩原朔太郎</p>
+                <div class="meta">月に吠える</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">新美南吉</p>
+                <div class="meta">ごん狐</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">坂口安吾</p>
+                <div class="meta">堕落論</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">太宰治</p>
+                <div class="meta">ヴィヨンの妻</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">宮沢賢治</p>
+                <div class="meta">銀河鉄道の夜</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">カフカ</p>
+                <div class="meta">断食芸人</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">森鴎外</p>
+                <div class="meta">高瀬舟</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">夏目漱石</p>
+                <div class="meta">夢十夜</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">中島敦</p>
+                <div class="meta">山月記</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">泉鏡花</p>
+                <div class="meta">外科室</div>
+              </div>
+            </div>
+            <div class="ui violet card">
+              <div class="content">
+                <p class="header">林芙美子</p>
+                <div class="meta">風琴と魚の町</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ui mini divider"></div>
+
+    <section class="ui centered stackable grid">
+      <div class="ui row">
+        <div class="ten wide center aligned column">
+          <h2 class="ui huge header">
+            料金
+            <p class="sub header">
+              基本機能はすべて無料で利用できます。
+              <br class="computer only">
+              有料版は現在事前登録を受け付けています。登録いただいた方から優先的にご案内します。
+            </p>
+          </h2>
+        </div>
+      </div>
+
+      <div class="ui row">
+        <div class="ten wide column">
+          <div class="ui two stackable cards">
+            <div class="ui card">
+              <div class="ui secondary center aligned attached segment">
+                <h3 class="ui small header">FREEプラン</h3>
+              </div>
+              <div class="content">
+                <div class="description">
+                  <div class="ui huge center aligned red header">
+                    無料
+                    <div class="sub header">毎月1冊、おまかせ読書</div>
+                  </div>
+                  <div class="ui divider"></div>
+                  <div class="ui small header">
+                    <i class="icon green check"></i>
+                    編集部が毎月1冊の短編をセレクトして配信します。
+                  </div>
+                  <div class="ui small header">
+                    <i class="icon green check"></i>
+                    月の途中で登録した場合、作品の途中から届き始めます。
+                  </div>
+                  <div class="ui small header">
+                    <i class="icon green check"></i>
+                    メール内に広告が掲載されたり、広告メールが配信されたりします。
+                  </div>
+                </div>
+              </div>
+              <a class="ui bottom attached primary button" href="" target="_blank">
+                <i class="icon mail"></i>
+                FREEプランに登録する（無料）
+              </a>
+            </div>
+
+            <br>
+
+            <div class="ui card">
+              <div class="ui secondary center aligned attached segment">
+                <h3 class="ui small header">PROプラン</h3>
+              </div>
+              <div class="content">
+                <div class="description">
+                  <div class="ui huge center aligned red header">
+                    ￥350/月
+                    <small>（税込）</small>
+                    <div class="sub header">もっと読書を楽しみたいあなたに</div>
+                  </div>
+                  <div class="ui divider"></div>
+                  <div class="ui small header">
+                    <i class="icon green check"></i>
+                    無料版では配信できない中長編の名作が読めます。
+                  </div>
+                  <div class="ui small header">
+                    <i class="icon green check"></i>
+                    好きな作家の作品だけ、SF小説だけ、など好きなコースをいくつでも購読できます。
+                  </div>
+                  <div class="ui small header">
+                    <i class="icon green check"></i>
+                    自分の読みたい作品を好きなペースで配信することも可能です。
+                  </div>
+                </div>
+              </div>
+              <a class="ui bottom attached red button" href="https://goo.gl/forms/JUUyf1yzgGmEoZOO2" target="_blank">
+                <i class="icon mail"></i>
+                PROの事前登録に申し込む
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui basic segment">
+        ※青空文庫作品の商用利用は、<a href="https://www.aozora.gr.jp/guide/kijyunn.html" target="_blank">青空文庫の規約</a>で公式に認可されています。
+        <br class="computer only">
+        またこのサービスは青空文庫というすばらしい活動の上に成立するものであるため、収益の一部は青空文庫の活動支援に還元する予定です。
+      </div>
+    </section>
+
+    <div class="ui mini divider"></div>
+
+    <section class="ui centered stackable grid">
+      <div class="ui row">
+        <div class="ten wide column">
+          <h2 class="ui huge center aligned header">
+            よくある質問
+          </h2>
+          <br>
+          <div class="ui divided relaxed items">
+            <div class="item">
+              <div class="content">
+                <div class="header">
+                  登録したけどメールが届かない
+                </div>
+                <div class="description">
+                  <p>
+                    お使いのメールソフトによっては、自動で迷惑メールフォルダなどにはいってしまう場合があります。
+                    特に<span class="ui small red header">Gmail</span>や<span class="ui small red header">携帯キャリアアドレス</span>をお使いの場合にフィルタされるケースが多いようです。
+                  </p>
+                  <p>
+                    公式ブログに対応方法をご案内しておりますので、メールが届かない場合はこちらを参考にご設定お願いいたします。
+                    それでも届かない場合は運営までお問い合わせください。
+                  </p>
+                  <p>
+                    <a href="https://bungomail.hatenablog.com/entry/2018/05/21/172542" target="_blank">
+                      ブンゴウメールからメールを受信できないケースと対応方法について
+                      <i class="icon link external"></i>
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <div class="header">
+                  メール配信を解約したい
+                </div>
+                <div class="description">
+                  <p>
+                    以下の解約フォームに、登録いただいているアドレスを入力してください。
+                  </p>
+                  <p>
+                    <a href="https://goo.gl/forms/kVz3fE9HdDq5iuA03" target="_blank">https://goo.gl/forms/kVz3fE9HdDq5iuA03</a>
+                  </p>
+                  <p>
+                    また毎日配信されるメールの最下部にも同様のリンクと案内を記載しておりますので、不要になった場合はいつでもご解約ください。
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <div class="header">
+                  月の途中で登録したので、それまでの話がわからない
+                </div>
+                <div class="description">
+                  <p>
+                    過去の配信分は、
+                    <a href="https://bungomail.hatenablog.com/" target="_blank">公式ブログ</a>
+                    にすべてログとして記録されています。月途中で登録した場合は、公式ブログをご確認いただければ追いつくことができます。
+                  </p>
+                  <p>
+                    もちろん青空文庫にもすべて掲載されていますので、そちらでお読みいただいても結構ですが、全部読んでしまうと楽しみが減ってしまいますのでお気をつけください。
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <div class="header">
+                  どうしてもメール以外の手段で読みたい
+                </div>
+                <div class="description">
+                  <p>
+                    ご安心ください。そんなあなたのためにRSSフィードを配信しています。
+                    そのままRSSリーダーで購読したり、Slackなどに連携して読むこともできますね。
+                    <br>
+                    <a href="https://us11.campaign-archive.com/feed?u=c71a56a796830e0127965ec03&id=866db6afae" target="_blank">RSSフィード</a>
+                  </p>
+                  <p>
+                    また同じ内容を公式ブログにも配信していますので、もちろんこちらで購読いただくことも可能です。
+                    <br>
+                    <a href="https://bungomail.hatenablog.com/" target="_blank">公式ブログ</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <div class="header">
+                  次に配信される作品を選びたい！
+                </div>
+                <div class="description">
+                  <p>
+                    申し訳ありません、ブンゴウメールは現在全員で同じ作品を読み進めるスタイルになっているため、配信作品を選ぶことはできません。
+                  </p>
+                  <p>
+                    今後有料版として、好きな作品を好きなペースで配信できる機能の実装も検討しています。もしご興味をお持ちの場合は、以下フォームから事前登録いただければ、サービス開始時に優先的にご案内いたします（ご案内時に購入を強制するものではありません）。
+                    <br>
+                    <a class="ui primary button" href="https://goo.gl/forms/oaezLhJ5O38wEvTi1" target="_blank">有料版の事前登録フォーム</a>
+                  </p>
+                  <br>
+                  <p>
+                    また、通常版での今後の配信候補作品はスプレッドシートで公開され、誰でも作品を追加できるようになっています。
+                    配信を約束するものではありませんが、もし読みたい作品があればぜひ追加してみてください。
+                    <br>
+                    <i class="angle double right icon"></i>
+                    <a href="http://blog.notsobad.jp/entry/2018/05/03/145404" target="_blank">配信候補リストについて</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ui mini divider"></div>
+
+    <section class="ui centered stackable grid">
+      <div class="ui row">
+        <div class="ten wide center aligned column">
+          <h2 class="ui huge center aligned header">
+            メディア掲載
+          </h2>
+          <div class="ui horizontal list">
+            <a class="item" href="https://gigazine.net/news/20180531-bungomail/" target="_blank">
+              <img src="./images/gigazine.png" alt="GIGAZINE" class="ui small image">
+            </a>
+            <a class="item" href="http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html" target="_blank">
+              <img src="./images/nlab.png" alt="ねとらぼ" class="ui small image">
+            </a>
+            <a class="item" href="https://irorio.jp/nagasawamaki/20180912/492864/" target="_blank">
+              <img src="./images/irorio.jpg" alt="IRORIO" class="ui small image">
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="ui centered stackable grid gray-flat">
+      <div class="ui row">
+        <div class="ten wide center aligned column">
+          <h2 class="ui huge header">
+            ブンゴウメールに登録する（無料）
+            <p class="sub header">
+              月の途中で登録した場合、月末まで作品の途中から配信されます。
+              <br class="computer only">
+              <a href="https://bungomail.hatenablog.com/" target="_blank">公式ブログ</a>
+              で追いつくか、翌月初に次の作品が始まるのをお待ちください。
+            </p>
+          </h2>
+          <br>
+          <a class="ui gray-accent inverted button" href="https://goo.gl/forms/oOWiGUaqMckVXgBk2" target="_blank">
+            メールアドレス登録（無料）
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <footer class="ui basic center aligned segment">
+      <div>
+        <div class="fb-like" data-href="https://bungomail.notsobad.jp/" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+        &nbsp;&nbsp;
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="1日3分のメールでムリせず毎月本が読める、忙しいあなたのための読書サポートサービス" data-url="https://bungomail.notsobad.jp" data-hashtags="ブンゴウメール" data-show-count="false">Tweet</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        &nbsp;&nbsp;
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+      <br>
+      <div class="ui horizontal list">
+        <a href="https://twitter.com/bungomail" class="item" target="_blank">公式Twitter</a>
+        <a href="https://bungomail.hatenablog.com/" class="item" target="_blank">公式ブログ</a>
+        <a href="https://notsobad.jp" class="item" target="_blank">運営</a>
+      </div>
+      <br><br>
+      <div>
+        <p><small>⬇⬇サービスへのご支援はこちらからどうぞ（泣いて喜びます）⬇⬇</small></p>
+        <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#ffffff !important;background-color:#FF813F !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 1px 9px !important;font-size: 23px !important;letter-spacing:0.6px !important;;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#ffffff !important;}</style><link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/bungomail"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a>
+      </div>
+      <br><br>
+      <div>
+        <small>Copyright ブンゴウメール 2018 All rights reserved.</small>
+        &nbsp;
+        <small>
+          Powered by
+          <a href="https://notsobad.jp" target="_blank">NOT SO BAD, LLC.</a>
+        </small>
+      </div>
+    </footer>
+  </body>
+</html>
