@@ -22,6 +22,7 @@ gem 'algoliasearch'
 gem 'activerecord-import'
 gem 'composite_primary_keys', '~> 11.0'
 gem 'kaminari'
+gem 'rails-i18n', '~> 5.1'
 
 group :production do
   gem 'scout_apm'
