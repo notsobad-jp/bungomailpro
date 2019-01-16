@@ -9,7 +9,7 @@
 - if @notification
   %hr
   %h5 【お知らせ】
-  = @notification.text
+  = simple_format(@notification.text)
   %br
 
 
