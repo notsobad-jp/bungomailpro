@@ -38,7 +38,7 @@ class SubscriptionsController < ApplicationController
       end
     end
 
-    render xml: rss.to_s
+    render xml: rss.to_s, content_type: 'application/rss+xml'
   end
 
   def update
