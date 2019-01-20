@@ -23,9 +23,6 @@
     -# ownerの場合は管理メニュー表示
     - if @channel.user_id == current_user.id
       = link_to 'チャネルの編集', edit_channel_path(@channel.token), class: 'ui primary basic small button'
-      = link_to channels_path(@channel.token), method: :delete, class: 'ui black basic icon small button', 'data-tooltip'=>'削除', 'data-inverted'=>'', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
-        %i.icon.trash
-        削除
   %br
 
 

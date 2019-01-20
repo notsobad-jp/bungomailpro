@@ -1,9 +1,18 @@
 - content_for :breadcrumb do
   = link_to '購読チャネル', subscriptions_path, class: 'section'
   %i.icon.right.angle.divider
-  = @channel.title
+  = link_to @channel.title, channel_path(@channel.token), class: 'section'
+  %i.icon.right.angle.divider
+  編集
 
-%h1= @channel.title
+%h1.ui.header
+  = @channel.title
+  の編集
+- if @channel.persisted?
+  .ui.basic.right.aligned.small.segment
+    = link_to channel_path(@channel.token), method: :delete, class: 'item', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
+      %i.icon.trash
+      チャネルを削除する
 
 = form_for @channel, url: {action: 'update'}, html: {class: 'ui form'} do |f|
   = render partial: 'form', locals: {f: f}
