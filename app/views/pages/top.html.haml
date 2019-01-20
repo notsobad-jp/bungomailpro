@@ -48,7 +48,7 @@
   %h3.ui.small.dividing.header
     %i.icon.rss
     公開チャネル
-  .ui.three.cards
+  .ui.three.doubling.cards
     - @popular_channels.each do |channel|
       = link_to channel_path(channel.token), class: 'ui card' do
         .content

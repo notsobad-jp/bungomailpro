@@ -30,6 +30,10 @@ class Channel < ApplicationRecord
     self.token = SecureRandom.hex(10)
   end
 
+  before_save do
+    self.user.channels.update_all(default: false) if self.default
+  end
+
 
   def add_book(book)
     self.channel_books.create_with(index: self.last_index + 1).find_or_create_by(book_id: book.id)

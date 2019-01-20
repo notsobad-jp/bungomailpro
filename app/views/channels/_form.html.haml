@@ -15,6 +15,12 @@
   = f.label :public do
     = f.check_box :public
     チャネルを公開する
+.field
+  = f.label :default do
+    = f.check_box :default
+    デフォルトのチャネルにする
+    %span(data-tooltip="デフォルトの本の追加先がこのチャネルになります" data-inverted="")
+      %i.icon.question.circle
 %br
 
 
