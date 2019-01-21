@@ -25,11 +25,10 @@
         .content
           .header
             = book.title
+            = delivery_period_label(book.chapters_count)
           .description
             %small= book.author
           .extra
-            %small
-              （全#{book.chapters_count}回配信）
             = cb.hidden_field :id, value: channel_book.id
             = cb.hidden_field :book_id, value: channel_book.book_id
             = cb.hidden_field :index, value: channel_book.index, id: "#{channel_book.book_id}_index"
@@ -48,10 +47,8 @@
         .content
           .header
             = book.title
+            = delivery_period_label(book.chapters_count)
           .description
             %small= book.author
-          .extra
-            %small
-              （全#{book.chapters_count}回配信）
 %br
 %br

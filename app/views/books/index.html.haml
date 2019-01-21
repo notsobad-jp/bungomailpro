@@ -40,6 +40,7 @@
             = book.title
             = link_to book.aozora_card_url, target: '_blank' do
               %i.icon.mini.external
+            = delivery_period_label(book.chapters_count)
           .meta
             %small
               = book.author

@@ -10,6 +10,16 @@ module ApplicationHelper
     delivery_hours
   end
 
+  def delivery_period_label(chapters_count)
+    if chapters_count >= 30
+      content = "#{chapters_count.div(30)}ヶ月"
+      content_tag(:span, content, class: 'ui mini label')
+    else
+      content = "#{chapters_count}日"
+      content_tag(:span, content, class: 'ui mini basic label')
+    end
+  end
+
   def linknize text
     URI.extract(text, ['http', 'https']).uniq.each do |url|
       sub_text = ""
