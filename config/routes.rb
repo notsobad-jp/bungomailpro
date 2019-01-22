@@ -18,7 +18,6 @@
 #                           PATCH  /books/:id(.:format)                                                                     books#update
 #                           PUT    /books/:id(.:format)                                                                     books#update
 #                           DELETE /books/:id(.:format)                                                                     books#destroy
-#         feed_subscription GET    /subscriptions/:id/feed(.:format)                                                        subscriptions#feed
 #             subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
 #                           POST   /subscriptions(.:format)                                                                 subscriptions#create
 #          new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new
@@ -35,7 +34,7 @@
 #                           PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                           PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                           DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
-#             user_channels GET    /users/:token/channels(.:format)                                                         channels#owned
+#            owned_channels GET    /users/:token/channels(.:format)                                                         channels#owned
 #                      user GET    /users/:token(.:format)                                                                  users#show
 #                  pro_root GET    /pro(.:format)                                                                           pages#top
 #                     about GET    /about(.:format)                                                                         pages#about
@@ -54,9 +53,7 @@ Rails.application.routes.draw do
     post 'books' => 'channel_books#create', on: :member
   end
   resources :books
-  resources :subscriptions do
-    get 'feed', on: :member
-  end
+  resources :subscriptions
   resources :magic_tokens
 
   get 'users/:token/channels' => 'channels#owned', as: :owned_channels
