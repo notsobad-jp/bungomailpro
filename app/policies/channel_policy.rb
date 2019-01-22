@@ -3,12 +3,8 @@ class ChannelPolicy < ApplicationPolicy
     record.public? || user.try(:id) == record.user_id
   end
 
-  def publish?
-    update?
-  end
-
-  def import?
-    update?
+  def owned?
+    user
   end
 
   class Scope < Scope
