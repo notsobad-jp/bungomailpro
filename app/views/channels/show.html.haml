@@ -78,3 +78,16 @@
 - if @books.blank?
   - message = @finished ? 'まだ配信済みの本がないようです。' : '配信予定の本がありません。'
   %small= message
+
+
+- if @subscription
+  .ui.divider
+  .ui.info.message
+    .header
+      %i.icon.rss
+      RSSフィード
+    .content
+      = link_to subscription_path(@subscription.token, format: :atom), target: '_blank' do
+        = subscription_url(@subscription.token, format: :atom)
+        &nbsp;
+        %i.icon.small.external
