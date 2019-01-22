@@ -11,6 +11,7 @@
 .field
   = f.label :description, 'チャネルの説明'
   = f.text_area :description, rows: '1', placeholder: '改行が使えます。URLは自動でリンクに変換されます。'
+  %small ※チャネルを公開する場合のみ、説明の入力が必須になります。
 .field
   = f.label :public do
     = f.check_box :public
