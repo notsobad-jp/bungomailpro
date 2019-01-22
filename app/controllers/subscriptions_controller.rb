@@ -8,9 +8,10 @@ class SubscriptionsController < ApplicationController
 
   def index
     if current_user
-      # 作成直後でまだ購読してないchannelも表示する
-      @draft_channels = current_user.channels.where(subscribers_count: 0)
-      @subscriptions = current_user.subscriptions.includes(:channel, :next_chapter, :current_book)
+      @type = params[:q] || 'active'
+      query = current_user.subscriptions.includes(:channel, :next_chapter, :current_book)
+      @subscriptions = (@type == 'finished') ? query.where(current_book_id: nil) : query.where.not(current_book_id: nil)
+      @draft_channels = current_user.channels.where(subscribers_count: 0)  if @type == 'draft'
     end
   end
 
