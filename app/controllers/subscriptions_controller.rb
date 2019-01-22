@@ -1,7 +1,7 @@
 require 'rss'
 
 class SubscriptionsController < ApplicationController
-  before_action :require_login, except: [:index]
+  before_action :require_login, except: [:index, :show]
   before_action :authorize_subscription, only: [:index, :create]
   before_action :set_subscription, only: [:destroy, :update, :show, :edit]
   after_action :verify_authorized
