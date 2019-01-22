@@ -17,28 +17,10 @@ class SubscriptionsController < ApplicationController
   def edit
   end
 
-  def feed
-    subscription = Subscription.includes(:channel, feeds: [:book, :chapter]).find_by(token: params[:id])
-    authorize subscription
-
-    rss = RSS::Maker.make("atom") do |feed|
-      feed.channel.title = subscription.channel.title
-      feed.channel.author = 'ブンゴウメール'
-      feed.channel.updated = subscription.feeds.first.try(:delivered_at).try(:to_s) || subscription.created_at.to_s
-      feed.channel.about = subscription_url(subscription.token)
-
-      subscription.feeds.each do |entry|
-        feed.items.new_item do |item|
-          item.id = "#{entry.book_id}-#{entry.index}"
-          item.title = "#{entry.book.title}（#{entry.chapter.index}/#{entry.book.chapters_count}）"
-          item.updated = entry.delivered_at.to_s
-          item.author = entry.book.author
-          item.description = view_context.simple_format entry.chapter.text
-        end
-      end
+  def show
+    respond_to do |format|
+      format.atom
     end
-
-    render xml: rss.to_s, content_type: 'application/rss'
   end
 
   def update
