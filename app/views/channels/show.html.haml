@@ -11,19 +11,18 @@
     %small(data-tooltip="非公開" data-inverted="true")
       %i.mini.lock.icon
 
-- if current_user
-  %div
-    -# 購読管理
-    - if @subscription
-      = link_to '配信設定', edit_subscription_path(@subscription.token), class: 'ui red basic small button'
-    - else
-      - publishable = @channel.books_count > 0 ? '' : 'disabled'
-      = link_to '配信開始', subscriptions_path(channel_id: @channel.token), method: :post, class: "ui small red button #{publishable}"
+%div
+  -# 購読管理
+  - if @subscription
+    = link_to '配信設定', edit_subscription_path(@subscription.token), class: 'ui red basic small button'
+  - else
+    - publishable = @channel.books_count > 0 ? '' : 'disabled'
+    = link_to '配信開始', subscriptions_path(channel_id: @channel.token), method: :post, class: "ui small red button #{publishable}"
 
-    -# ownerの場合は管理メニュー表示
-    - if @channel.user_id == current_user.id
-      = link_to 'チャネルの編集', edit_channel_path(@channel.token), class: 'ui primary basic small button'
-  %br
+  -# ownerの場合は管理メニュー表示
+  - if current_user && @channel.user_id == current_user.id
+    = link_to 'チャネルの編集', edit_channel_path(@channel.token), class: 'ui primary basic small button'
+%br
 
 
 %div= simple_format_with_link @channel.description
