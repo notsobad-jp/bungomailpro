@@ -8,10 +8,10 @@ class SubscriptionsController < ApplicationController
 
   def index
     if current_user
-      @type = params[:q] || 'active'
+      @finished = params[:q] == 'finished'
       query = current_user.subscriptions.includes(:channel, :next_chapter, :current_book)
-      @subscriptions = (@type == 'finished') ? query.where(current_book_id: nil) : query.where.not(current_book_id: nil)
-      @draft_channels = current_user.channels.where(subscribers_count: 0)  if @type == 'draft'
+      @subscriptions = @finished ? query.where(current_book_id: nil) : query.where.not(current_book_id: nil)
+      @draft_channels = current_user.channels.where(subscribers_count: 0)  if !@finished
     end
   end
 
