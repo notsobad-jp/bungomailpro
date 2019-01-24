@@ -13,20 +13,11 @@ class BooksController < ApplicationController
       query << "replace(author, ' ', '') LIKE :q" if @target[:author]
       @results = Book.where(query.join(" OR "), q: "%#{@keyword.gsub(' ', '')}%")
       @results = @results.page params[:page]
-    end
-  end
 
-
-  # 図書カード OR XHTMLのURLを受け取って、@bookを返す（存在しなければscrape）
-  def url
-    url = params[:url]
-    match = url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/(\d+)\/card(\d+).html/)
-    match = url.match(/https?:\/\/www.aozora.gr.jp\/cards\/(\d+)\/files\/(\d+)_(\d+)\.html/) if !match
-
-    if match
-      render json: Book.find_or_scrape(author_id: match[1].to_i, book_id: match[2].to_i).attributes, status: 200
+      @breadcrumbs << {name: '作品検索', url: books_path}
+      @breadcrumbs << {name: @keyword}
     else
-      render json: nil, status: 500
+      @breadcrumbs << {name: '作品検索'}
     end
   end
 end

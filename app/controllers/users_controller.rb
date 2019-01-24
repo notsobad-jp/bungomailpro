@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   after_action :verify_authorized
 
   def show
+    @breadcrumbs << {name: 'アカウント情報'}
   end
 
   private

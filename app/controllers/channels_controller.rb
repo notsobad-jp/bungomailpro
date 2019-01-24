@@ -7,6 +7,7 @@ class ChannelsController < ApplicationController
 
   def index
     @channels = Channel.where(public: true)
+    @breadcrumbs << {name: 'チャネル一覧'}
   end
 
   def show
@@ -23,13 +24,22 @@ class ChannelsController < ApplicationController
     @meta_description = @channel.description
     @meta_keywords = @channel.title
     @meta_noindex = !@channel.public?
+
+    @breadcrumbs << {name: '購読チャネル', url: subscriptions_path}
+    @breadcrumbs << {name: @channel.title}
   end
 
   def new
     @channel = Channel.new
+
+    @breadcrumbs << {name: '購読チャネル', url: subscriptions_path}
+    @breadcrumbs << {name: 'チャネル作成'}
   end
 
   def edit
+    @breadcrumbs << {name: '購読チャネル', url: subscriptions_path}
+    @breadcrumbs << {name: @channel.title, url: channel_path(@channel.token)}
+    @breadcrumbs << {name: '編集'}
   end
 
   def create

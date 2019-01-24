@@ -22,5 +22,6 @@ class ApplicationController < ActionController::Base
       @meta_title       = t('.title')
       @meta_description = t('.description')
       @meta_noindex     = t('.noindex') == true
+      @breadcrumbs      = []
     end
 end

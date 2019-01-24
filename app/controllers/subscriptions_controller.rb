@@ -13,9 +13,13 @@ class SubscriptionsController < ApplicationController
       @subscriptions = @finished ? query.where(current_book_id: nil) : query.where.not(current_book_id: nil)
       @draft_channels = current_user.channels.where(subscribers_count: 0)  if !@finished
     end
+    @breadcrumbs << {name: '購読チャネル'}
   end
 
   def edit
+    @breadcrumbs << {name: '購読チャネル', url: subscriptions_path}
+    @breadcrumbs << {name: @channel.title, url: channel_path(@channel.token)}
+    @breadcrumbs << {name: '配信設定'}
   end
 
   def show

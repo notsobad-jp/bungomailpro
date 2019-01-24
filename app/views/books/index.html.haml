@@ -1,10 +1,17 @@
 - content_for :breadcrumb do
   - if @keyword
-    = link_to '作品検索', books_path
+    .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
+      = link_to books_path, itemprop: 'item' do
+        %span(itemprop="name") 作品検索
     %i.icon.right.angle.divider
-    = @keyword
+    .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
+      %div(itemprop='item')
+        %span(itemprop="name")= @keyword
   - else
-    作品検索
+    .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
+      %div(itemprop='item')
+        %span(itemprop="name") 作品検索
+
 
 %h1.ui.header
   %i.icon.search

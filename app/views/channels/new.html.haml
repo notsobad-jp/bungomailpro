@@ -1,8 +1,3 @@
-- content_for :breadcrumb do
-  = link_to '購読チャネル', subscriptions_path, class: 'section'
-  %i.icon.right.angle.divider
-  チャネル作成
-
 %h1 新しいチャネルを作成する
 
 = form_for @channel, url: {action: 'create'}, html: {class: 'ui form'} do |f|
