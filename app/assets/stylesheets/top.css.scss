@@ -1,13 +1,12 @@
-body[data-controller="pages"][data-action="about"] .ui.top.fixed.menu,
-body[data-controller="pages"][data-action="top"] .ui.top.fixed.menu {
-  border: none;
-  box-shadow: none;
+body[data-controller="pages"][data-action="top"] {
+  h1 { margin: 0; }
+  .ui.top.fixed.menu {
+    border: none;
+    box-shadow: none;
+  }
 }
 
-#logo {
-  // margin-right: 50px;
-  max-width: 80%;
-}
+#logo { max-width: 80%; }
 #header { padding: 20px !important; }
 #header-catch { margin-top: 30px; }
 .sub.header { margin-top: 15px !important; }
