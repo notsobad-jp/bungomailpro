@@ -55,7 +55,7 @@
           .header= channel.title
           .meta
           .description
-            = channel.description.truncate(50)
+            = channel.description.try(:truncate, 50)
         .ui.fluid.bottom.attached.button
           %i.icon.search
           詳細を見る

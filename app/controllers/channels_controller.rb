@@ -1,6 +1,6 @@
 class ChannelsController < ApplicationController
   before_action :require_login, except: [:index, :show]
-  before_action :authorize_channel, only: [:index, :new, :create, :owned]
+  before_action :authorize_channel, only: [:index, :new, :create]
   before_action :set_channel_with_books, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized
 
@@ -53,10 +53,6 @@ class ChannelsController < ApplicationController
     flash[:success] = 'チャネルを削除しました'
 
     redirect_to subscriptions_path
-  end
-
-  def owned
-    @channels = current_user.channels.includes(subscriptions: [:next_chapter, :current_book])
   end
 
 

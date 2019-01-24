@@ -17,4 +17,4 @@
             .item
               %i.icon.calendar.alternate.outline
               = list.updated_at.strftime('%Y年%m月%d日')
-        .description= list.description.truncate(40)
+        .description= list.description.try(:truncate, 40)

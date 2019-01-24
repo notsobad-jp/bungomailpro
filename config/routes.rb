@@ -34,7 +34,6 @@
 #                           PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                           PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                           DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
-#            owned_channels GET    /users/:token/channels(.:format)                                                         channels#owned
 #                      user GET    /users/:token(.:format)                                                                  users#show
 #                  pro_root GET    /pro(.:format)                                                                           pages#top
 #                     about GET    /about(.:format)                                                                         pages#about
@@ -56,7 +55,6 @@ Rails.application.routes.draw do
   resources :subscriptions
   resources :magic_tokens
 
-  get 'users/:token/channels' => 'channels#owned', as: :owned_channels
   get 'users/:token' => 'users#show', as: :user
   get 'pro' => 'pages#top', as: :pro_root
   get 'about' => 'pages#about', as: :about
