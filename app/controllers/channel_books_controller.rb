@@ -1,6 +1,6 @@
 class ChannelBooksController < ApplicationController
   before_action :require_login
-  before_action :set_channel_with_books
+  before_action :set_channel
   after_action :verify_authorized
 
 
@@ -18,8 +18,8 @@ class ChannelBooksController < ApplicationController
 
 
   private
-    def set_channel_with_books
+    def set_channel
       @channel = Channel.includes(:channel_books).find_by!(token: params[:id])
-      authorize @channel
+      authorize @channel, :update?
     end
 end

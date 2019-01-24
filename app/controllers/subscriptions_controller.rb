@@ -2,8 +2,7 @@ require 'rss'
 
 class SubscriptionsController < ApplicationController
   before_action :require_login, except: [:index, :show]
-  before_action :authorize_subscription, only: [:index, :create]
-  before_action :set_subscription, only: [:destroy, :update, :show, :edit]
+  before_action :set_subscription
   after_action :verify_authorized
 
   def index
@@ -58,13 +57,13 @@ class SubscriptionsController < ApplicationController
       params.require(:subscription).permit(:delivery_hour)
     end
 
-    def authorize_subscription
-      authorize Subscription
-    end
-
     def set_subscription
-      @subscription = Subscription.includes(:channel).find_by(token: params[:id])
-      @channel = @subscription.channel
-      authorize @subscription
+      if token = params[:id]
+        @subscription = Subscription.includes(:channel).find_by(token: token)
+        @channel = @subscription.channel
+        authorize @subscription
+      else
+        authorize Subscription
+      end
     end
 end
