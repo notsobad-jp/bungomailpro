@@ -18,6 +18,11 @@ class ChannelsController < ApplicationController
     else
       @books = @channel.channel_books.map(&:book)
     end
+
+    @meta_title = @channel.title
+    @meta_description = @channel.description
+    @meta_keywords = @channel.title
+    @meta_noindex = !@channel.public?
   end
 
   def new

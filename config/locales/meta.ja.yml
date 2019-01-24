@@ -1,0 +1,47 @@
+ja:
+  pages:
+    top:
+      title: ブンゴウメール | 1日3分のメールでムリせず毎月本が読める
+      description: 青空文庫の作品を小分けにして、毎朝メールで配信。気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。
+  books:
+    index:
+      title: 青空文庫の作品検索
+      description: 青空文庫に登録されている約1.5万作品を、著者名と作品名で検索できます。
+  channels:
+    index:
+      title: 公開チャネル一覧
+      description: ブンゴウメールで公開されているチャネル一覧です。誰でも購読することができます。
+    new:
+      title: 新規チャネル作成
+      description: 新規チャネルを作成します。
+      noindex: true
+    show:
+      title: (チャネル名)
+      description: (チャネル)の説明文
+    edit:
+      title: チャネルの編集
+      description: チャネルを編集します。
+      noindex: true
+  magic_tokens:
+    new:
+      title: ログイン
+      description: ログイン画面です。
+      noindex: true
+  subscriptions:
+    index:
+      title: 購読中のチャネル
+      description: 現在購読中のチャネル一覧です。
+      noindex: true
+    show:
+      title: 配信設定
+      description: 配信設定の詳細です。
+      noindex: true
+    edit:
+      title: 配信設定の編集
+      description: 配信設定を編集します。
+      noindex: true
+  users:
+    show:
+      title: アカウント詳細
+      description: アカウント詳細ページです。
+      noindex: true
