@@ -1,0 +1,21 @@
+ja:
+  pages:
+    top:
+      title: ブンゴウメール | 1日3分のメールでムリせず毎日本が読めるサービス
+      description: 青空文庫の作品を小分けにして、毎朝メールで配信。気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。
+      keywords: ブンゴウメール,文豪,読書,青空文庫,無料,文学,古典,小説,毎日,毎月,継続,続かない,メール
+  books:
+    index:
+  channels:
+    index:
+    new:
+    show:
+    edit:
+  magic_tokens:
+    new:
+  subscriptions:
+    index:
+    show:
+    edit:
+  users:
+    show:

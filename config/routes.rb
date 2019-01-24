@@ -36,7 +36,6 @@
 #                           DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
 #                      user GET    /users/:token(.:format)                                                                  users#show
 #                  pro_root GET    /pro(.:format)                                                                           pages#top
-#                     about GET    /about(.:format)                                                                         pages#about
 #                     login GET    /login(.:format)                                                                         magic_tokens#new
 #                      auth GET    /auth(.:format)                                                                          magic_tokens#auth
 #                    logout POST   /logout(.:format)                                                                        magic_tokens#destroy
@@ -57,7 +56,6 @@ Rails.application.routes.draw do
 
   get 'users/:token' => 'users#show', as: :user
   get 'pro' => 'pages#top', as: :pro_root
-  get 'about' => 'pages#about', as: :about
 
   get 'login' => 'magic_tokens#new', as: :login
   get 'auth' => 'magic_tokens#auth', as: :auth
