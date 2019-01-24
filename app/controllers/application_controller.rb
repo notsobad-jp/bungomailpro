@@ -15,9 +15,12 @@ class ApplicationController < ActionController::Base
       redirect_to login_path
     end
 
+    # メタタグ設定
+    ## 基本は静的なのでlocales/meta.ja.ymlから読み込み
+    ## 動的に設定するパラメータは各controllerで設定
     def set_meta_tags
       @meta_title       = t('.title')
       @meta_description = t('.description')
-      @meta_keywords    = t('.keywords')
+      @meta_noindex     = t('.noindex') == true
     end
 end
