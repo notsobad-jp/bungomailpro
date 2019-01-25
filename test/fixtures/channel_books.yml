@@ -25,3 +25,8 @@ channel2_book1:
   channel: channel2
   book: book2
   index: 1
+
+channel2_book2:
+  channel: channel2
+  book: book1
+  index: 2
