@@ -19,17 +19,52 @@ require 'test_helper'
 class SubscriptionTest < ActiveSupport::TestCase
   def setup
     @user1 = users(:user1)
-    @sub = subscriptions(:user1_with_books)
   end
 
-  test "current_chapter" do
-    # 配信開始前
-    assert_equal chapters(:book1_chapter1), @sub.current_chapter
-    # 配信完了後
-    # 配信中（配信時間前）
-    # 配信中（配信時間後）
+  ########################################################################
+  # current_chapter
+  ########################################################################
+  ## 配信開始前
+  test "current_chapter_when_not_started" do
+    sub = subscriptions(:user1_channel1)
+
+    # 配信時間前
+    travel_to(Time.zone.now.change(hour: 6)) do
+      assert_equal chapters(:book1_chapter1), sub.current_chapter
+    end
+
+    # 配信時間後
+    travel_to(Time.zone.now.change(hour: 10)) do
+      assert_equal chapters(:book1_chapter1), sub.current_chapter
+    end
   end
 
+  ## 配信完了後
+  test "current_chapter_when_finished" do
+    sub = subscriptions(:user2_channel1)
+    assert_nil sub.current_chapter
+  end
+
+  ## 配信中（配信時間前）
+  test "current_chapter_before_delivery_time" do
+    travel_to(Time.zone.now.change(hour: 6)) do
+      sub = subscriptions(:user1_channel2)
+      assert_equal chapters(:book2_chapter1), sub.current_chapter
+    end
+  end
+
+  ## 配信中（配信時間後）
+  test "current_chapter_after_delivery_time" do
+    travel_to(Time.zone.now.change(hour: 10)) do
+      sub = subscriptions(:user1_channel2)
+      assert_equal chapters(:book2_chapter2), sub.current_chapter
+    end
+  end
+
+
+  ########################################################################
+  # prev_chapter
+  ########################################################################
   test "prev_chapter" do
     # index > 1のとき
     # 2冊めのindex:1

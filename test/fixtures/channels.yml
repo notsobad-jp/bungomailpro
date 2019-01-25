@@ -15,22 +15,22 @@
 #  default           :boolean          default(FALSE), not null
 #
 
-empty:
+channel0:
   user: user1
   token: <%= SecureRandom.hex(10) %>
   title: '作ったばっかりのちゃんねる'
 
-with_books:
+channel1:
   user: user1
   token: <%= SecureRandom.hex(10) %>
   title: '本も登録してあるチャンネル'
 
-user2_1:
+channel2:
   user: user2
   token: <%= SecureRandom.hex(10) %>
   title: 'user2のチャンネル1'
 
-user2_2:
+channel3:
   user: user2
   token: <%= SecureRandom.hex(10) %>
   title: 'user2のチャンネル2'

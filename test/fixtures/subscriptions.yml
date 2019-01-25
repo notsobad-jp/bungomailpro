@@ -14,9 +14,29 @@
 #  token              :string           not null
 #
 
-user1_with_books:
+user1_channel1:
   user: user1
-  channel: with_books
-  current_book: book_1
+  channel: channel1
+  current_book: book1
+  delivery_hour: 8
   next_chapter_index: 1
   next_delivery_date: <%= Time.zone.tomorrow %>
+  token: <%= SecureRandom.hex(10) %>
+
+user1_channel2:
+  user: user1
+  channel: channel2
+  current_book: book2
+  delivery_hour: 8
+  next_chapter_index: 2
+  next_delivery_date: <%= Time.zone.tomorrow %>
+  token: <%= SecureRandom.hex(10) %>
+
+user2_channel1:
+  user: user2
+  channel: channel1
+  current_book: nil
+  delivery_hour: 8
+  next_chapter_index: nil
+  next_delivery_date: nil
+  token: <%= SecureRandom.hex(10) %>
