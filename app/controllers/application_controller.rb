@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   before_action :set_meta_tags
+  before_action :redirect_to_custom_domain
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
@@ -10,9 +12,15 @@ class ApplicationController < ActionController::Base
       flash[:warning] = "権限がありません。ログイン状態を確認してください。"
       redirect_to(request.referrer || pro_root_path)
     end
+
     def not_authenticated
       flash[:error] = 'ログインしてください'
       redirect_to login_path
+    end
+
+    # herokuapp.comドメインでアクセスが来たらカスタムドメインにリダイレクト
+    def redirect_to_custom_domain
+      redirect_to "https://bungomail.com"+request.path, status: 301  if request.host.include? "herokuapp.com"
     end
 
     # メタタグ設定
