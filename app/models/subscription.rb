@@ -58,9 +58,9 @@ class Subscription < ApplicationRecord
   # メール送信して、RSSフィードに追加して、配信情報を更新する
   ## TODO: メール配信でコケたらその後の処理も止まるけど、途中でコケるとメールだけ送られてしまう問題
   def deliver_and_update
-    return if !self.current_book_id  # 配信終了してるときはスキップ（2月で2回配信するときに配信終了状態で来る可能性がある）
+    return if !self.current_book_id  # もし配信終了してるときはスキップ（2月で2回配信するときに配信終了状態で来る可能性がある）
 
-    UserMailer.with(subscription: self).chapter_email.deliver_now   #deliver_nowはjobを使わないだけ。SendGrid側で予約配信するのでまだ送られない
+    UserMailer.with(subscription: self).chapter_email.deliver_now   #deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
     self.create_feed
     self.set_next_chapter
   end
@@ -69,6 +69,7 @@ class Subscription < ApplicationRecord
   def finished?
     !self.current_book_id
   end
+
 
   def finished_books
     self.channel.channel_books.where("index < ?", current_book_index).map(&:book)

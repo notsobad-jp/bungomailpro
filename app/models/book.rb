@@ -38,6 +38,7 @@ class Book < ApplicationRecord
     Book.aozora_file_path(author_id: self.author_id, book_id: self.id, file_id: self.file_id)
   end
 
+
   def aozora_file_url
     Book.aozora_file_url(author_id: self.author_id, book_id: self.id, file_id: self.file_id)
   end
@@ -129,57 +130,6 @@ class Book < ApplicationRecord
       file_path = file_id ? "#{book_id}_#{file_id}" : book_id
       "https://www.aozora.gr.jp/cards/#{sprintf('%06d', author_id)}/files/#{file_path}.html"
     end
-
-
-    def find_or_scrape(book_id:, author_id:)
-      # すでにDB登録済みならそれを返す
-      if book = Book.find_by(id: book_id)
-        return book
-      end
-
-      # まだなら図書カードURLをscrapeして、新規作成したbookを返す
-      aozora_card_url = self.aozora_card_url(book_id: book_id, author_id: author_id)
-      self.create_from_aozora_card(aozora_card_url)
-    end
-
-
-    # 図書カードURLをscrapeしてbookを作成する
-    def create_from_aozora_card(card_url)
-      match, author_id, book_id = card_url.match(/https?:\/\/www\.aozora\.gr\.jp\/cards\/(\d+)\/card(\d+).html/).to_a
-      return nil if !match
-
-      attributes = {
-        id: book_id.to_i,
-        author_id: author_id.to_i
-      }
-
-      charset = nil
-      html = open(card_url) do |f|
-        charset = f.charset
-        f.read
-      end
-      doc = Nokogiri::HTML.parse(html, nil, charset)
-
-      # 書籍データ取得
-      doc.css("table[summary=タイトルデータ] tr").each do |tr|
-        attributes[:title] = tr.css('td')[1].inner_text.strip if tr.css('td')[0].inner_text.strip == '作品名：'
-        attributes[:author] = tr.css('td')[1].inner_text.strip if tr.css('td')[0].inner_text.strip == '著者名：'
-      end
-
-      # XHTMLファイルのURL取得
-      doc.css("table.download tr").each do |tr|
-        next if tr.css('td:first-child').inner_text.match(/X?HTMLファイル/).nil?
-        href = tr.css('td a')[0][:href]
-
-        # URLが「作品ID」だけのときと「作品ID_ファイルID」のときがある
-        ## 作品IDだけのときは、file_idはnilで保存
-        match = href.match(/files\/\d+_(\d+)\.html/)
-        attributes[:file_id] = match.to_a[1] if match
-      end
-
-      Book.create!(attributes)
-    end
-
 
     def split_text(text, chars_per=700)
       count = text.length.quo(chars_per).ceil
