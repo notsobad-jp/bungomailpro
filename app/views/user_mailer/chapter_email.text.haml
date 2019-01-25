@@ -11,6 +11,7 @@
   = @notification.text
   \-------
 
+- today = Time.zone.today
 - if today.day == 30 && today.end_of_month.day == 31
   ブンゴウメールでは毎月31日はメールが配信されません。
   次回の配信は翌月1日となります。ご了承ください。

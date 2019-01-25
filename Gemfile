@@ -24,10 +24,6 @@ gem 'composite_primary_keys', '~> 11.0'
 gem 'kaminari'
 gem 'rails-i18n', '~> 5.1'
 
-group :production do
-  gem 'scout_apm'
-end
-
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
