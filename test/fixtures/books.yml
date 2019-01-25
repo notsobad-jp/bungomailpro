@@ -24,3 +24,9 @@ book2:
   author: 芥川さん
   author_id: 200
   footnote: ほげほげ
+
+book3:
+  title: もう走れないメロス
+  author: 夏目さん
+  author_id: 300
+  footnote: ふがふが

@@ -19,6 +19,7 @@ channel0:
   user: user1
   token: <%= SecureRandom.hex(10) %>
   title: '作ったばっかりのちゃんねる'
+  default: true
 
 channel1:
   user: user1
