@@ -45,14 +45,10 @@ class Subscription < ApplicationRecord
 
   def current_chapter
     return if !self.next_chapter  # 配信完了状態ではnilを返す
+    return self.next_chapter if self.not_started?   # 配信開始前は常にnext_chapterを返す
 
-    # 配信時間を過ぎてればnext_chapterを返す
-    if Time.current > Time.current.change(hour: self.delivery_hour)
-      self.next_chapter
-    # それ以前ならprev_chapter（配信予約中は存在しないので、next_chapterを返す）
-    else
-      self.prev_chapter || self.next_chapter
-    end
+    # 配信時間を過ぎてればnext_chapter、それ以前ならprev_chapterを返す
+    Time.current > Time.current.change(hour: self.delivery_hour) ? self.next_chapter : self.prev_chapter
   end
 
 
@@ -62,7 +58,7 @@ class Subscription < ApplicationRecord
     return if !self.current_book_id  # もし配信終了してるときはスキップ（2月で2回配信するときに配信終了状態で来る可能性がある）
     return if self.next_delivery_date != Time.zone.today  # 配信日が今日じゃなければスキップ（このあとの処理を実行する前に2回処理予約されると重複処理される可能性がある）
 
-    UserMailer.with(subscription: self).chapter_email.deliver_now   #deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
+    UserMailer.with(subscription: self).chapter_email.deliver_now   # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
     self.create_feed
     self.set_next_chapter
   end

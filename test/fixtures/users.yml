@@ -23,3 +23,7 @@ user1:
 user2:
   token: <%= SecureRandom.hex(10) %>
   email: 'sample2@example.com'
+
+user3:
+  token: <%= SecureRandom.hex(10) %>
+  email: 'sample3@example.com'

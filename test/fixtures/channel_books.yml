@@ -11,12 +11,32 @@
 #  updated_at :datetime         not null
 #
 
-with_books_book_1:
-  channel: with_books
+channel1_book1:
+  channel: channel1
   book: book1
   index: 1
 
-with_books_book_2:
-  channel: with_books
+channel1_book2:
+  channel: channel1
   book: book2
   index: 2
+
+channel2_book1:
+  channel: channel2
+  book: book2
+  index: 1
+
+channel2_book2:
+  channel: channel2
+  book: book1
+  index: 2
+
+channel3_book1:
+  channel: channel3
+  book: book1
+  index: 1
+
+channel4_book1:
+  channel: channel4
+  book: book1
+  index: 1

@@ -14,9 +14,52 @@
 #  token              :string           not null
 #
 
-user1_with_books:
+# 1冊目の最初のchapter
+user1_channel1:
   user: user1
-  channel: with_books
-  current_book: book_1
+  channel: channel1
+  current_book: book1
+  delivery_hour: 8
   next_chapter_index: 1
   next_delivery_date: <%= Time.zone.tomorrow %>
+  token: <%= SecureRandom.hex(10) %>
+
+# 1冊目の最後のchapter
+user1_channel2:
+  user: user1
+  channel: channel2
+  current_book: book2
+  delivery_hour: 8
+  next_chapter_index: 3
+  next_delivery_date: <%= Time.zone.tomorrow %>
+  token: <%= SecureRandom.hex(10) %>
+
+# 配信終了
+user2_channel1:
+  user: user2
+  channel: channel1
+  current_book_id: null
+  delivery_hour: 8
+  next_chapter_index: null
+  next_delivery_date: null
+  token: <%= SecureRandom.hex(10) %>
+
+# 2冊目の最初のchapter
+user2_channel2:
+  user: user2
+  channel: channel2
+  current_book: book1
+  delivery_hour: 8
+  next_chapter_index: 1
+  next_delivery_date: <%= Time.zone.tomorrow %>
+  token: <%= SecureRandom.hex(10) %>
+
+# 2冊目の最後のchapter
+user3_channel1:
+  user: user3
+  channel: channel1
+  current_book: book2
+  delivery_hour: 8
+  next_chapter_index: 3
+  next_delivery_date: <%= Time.zone.tomorrow %>
+  token: <%= SecureRandom.hex(10) %>
