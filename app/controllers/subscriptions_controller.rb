@@ -38,10 +38,14 @@ class SubscriptionsController < ApplicationController
 
   def create
     @channel = Channel.find_by(token: params[:channel_id])
-    current_user.subscribe(@channel)
-
-    flash[:success] = 'チャネルの配信を開始しました🎉 翌日からメール配信が始まります。'
-    redirect_to channel_path(@channel.token)
+    begin
+      current_user.subscribe(@channel)
+      flash[:success] = 'チャネルの配信を開始しました🎉 翌日からメール配信が始まります。'
+      redirect_to channel_path(@channel.token)
+    rescue
+      flash[:error] = '配信開始できませんでした😢 購読チャネル数の上限を超える場合は、他のチャネルを解除してからお試しください。'
+      redirect_to request.referrer || pro_root_path
+    end
   end
 
   def destroy

@@ -23,11 +23,11 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
   has_many :subscriptions, dependent: :destroy
   has_many :channels, dependent: :destroy
+  MAX_SUBSCRIPTIONS_COUNT = 3
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
-  validates :channels, length: { maximum: 3 }, on: :update
-  validates :subscriptions, length: { maximum: 3 }, on: :update
+  validates :subscriptions, length: { maximum: MAX_SUBSCRIPTIONS_COUNT }
 
   before_create do
     self.token = SecureRandom.hex(10)
@@ -67,5 +67,9 @@ class User < ApplicationRecord
       current_book_id: channel.channel_books.first.book_id,
       next_chapter_index: 1
     )
+  end
+
+  def subscriptionable?
+    self.subscriptions.where.not(next_delivery_date: nil).size < MAX_SUBSCRIPTIONS_COUNT
   end
 end

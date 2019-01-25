@@ -22,6 +22,7 @@ class Subscription < ApplicationRecord
   has_many :feeds, -> { order(delivered_at: :desc) },  dependent: :destroy
 
   validates :delivery_hour, presence: true
+  validates_associated :user
 
   before_create do
     self.token = SecureRandom.hex(10)
