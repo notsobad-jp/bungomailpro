@@ -30,3 +30,13 @@ channel2_book2:
   channel: channel2
   book: book1
   index: 2
+
+channel3_book1:
+  channel: channel3
+  book: book1
+  index: 1
+
+channel4_book1:
+  channel: channel4
+  book: book1
+  index: 1

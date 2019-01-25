@@ -60,12 +60,13 @@ class User < ApplicationRecord
   end
 
   def subscribe(channel)
-    self.subscriptions.create!(
+    self.subscriptions.create_with(
       user_id: self.id,
-      channel_id: channel.id,
       next_delivery_date: Time.zone.tomorrow, #TODO: 月初開始の場合分け
       current_book_id: channel.channel_books.first.book_id,
       next_chapter_index: 1
+    ).find_or_create_by!(
+      channel_id: channel.id
     )
   end
 

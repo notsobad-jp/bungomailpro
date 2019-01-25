@@ -35,3 +35,9 @@ channel3:
   user: user2
   token: <%= SecureRandom.hex(10) %>
   title: 'user2のチャンネル2'
+  public: true
+
+channel4:
+  user: user3
+  token: <%= SecureRandom.hex(10) %>
+  title: 'user3のチャンネル1'
