@@ -3,22 +3,10 @@
   "scripts": {
   },
   "env": {
-    "ALGOLIA_ID": {
-      "required": true
-    },
-    "ALGOLIA_KEY": {
-      "required": true
-    },
     "GOOGLE_TAG_MANAGER_ID": {
       "required": true
     },
     "LANG": {
-      "required": true
-    },
-    "MAILER_EMAIL": {
-      "required": true
-    },
-    "MAILER_PASSWORD": {
       "required": true
     },
     "PAPERTRAIL_API_TOKEN": {
