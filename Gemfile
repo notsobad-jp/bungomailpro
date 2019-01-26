@@ -36,4 +36,5 @@ group :development do
   gem 'erb2haml'
   gem 'annotate'
   gem 'letter_opener'
+  gem 'rack-mini-profiler', require: false
 end
