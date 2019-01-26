@@ -23,7 +23,10 @@ class UserMailer < ApplicationMailer
     @chapter = @subscription.next_chapter
     @book = @subscription.current_book
     @notification = Notification.find_by(date: Time.current)
-    send_at = Time.current.change(hour: @subscription.delivery_hour)
+    send_at = Time.zone.parse(@subscription.next_delivery_date.to_s).change(hour: @subscription.delivery_hour)
+
+    # 配信が今日じゃなかったら処理をスキップ
+    return if !send_at.between?(Time.zone.today.beginning_of_day, Time.zone.today.end_of_day)
 
     xsmtp_api_params = {
       send_at: send_at.to_i,
