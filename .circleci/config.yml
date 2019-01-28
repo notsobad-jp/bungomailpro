@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-       - image: circleci/ruby:2.4-node
+       - image: ruby:2.4.0-alpine
          environment:
            BUNDLE_JOBS: 3
            BUNDLE_RETRY: 3
