@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
     # herokuapp.comドメインでアクセスが来たらカスタムドメインにリダイレクト
     def redirect_to_custom_domain
-      redirect_to "https://bungomail.com"+request.path, status: 301  if request.host.include? "herokuapp.com"
+      redirect_to "https://bungomail.com"+request.path, status: 301  if request.host.include? "bungomail.herokuapp.com"
     end
 
     # メタタグ設定
