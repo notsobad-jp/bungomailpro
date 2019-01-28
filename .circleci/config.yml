@@ -7,17 +7,17 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-       - image: ruby:2.4.0-alpine
+       - image: circleci/ruby:2.6.0-node
          environment:
            BUNDLE_JOBS: 3
            BUNDLE_RETRY: 3
            BUNDLE_PATH: .bundle
            PGHOST: 127.0.0.1
-           PGUSER: circleci-demo-ruby
+           PGUSER: circleci
            RAILS_ENV: test
        - image: circleci/postgres:9.5-alpine
          environment:
-           POSTGRES_USER: circleci-demo-ruby
+           POSTGRES_USER: circleci
            POSTGRES_DB: bungomail_test
            POSTGRES_PASSWORD: ""
 
@@ -41,10 +41,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            gem install bundler -v "1.17.1"
+            gem install bundler -v "2.0.1"
             bundle update --bundler
-            apt-get install libxslt-dev libxml2-dev
-            bundle config build.nokogiri --use-system-libraries
             bundle install
 
       - save_cache:
