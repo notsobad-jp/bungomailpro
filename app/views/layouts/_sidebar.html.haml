@@ -25,7 +25,7 @@
   .ui.list
     - if current_user
       .item
-        = image_tag(current_user.profile_image_url, class: 'ui avatar bordered image')
+        = image_tag(current_user.profile_image_url, class: 'ui avatar bordered image', alt: current_user.display_name)
         .content
           .header
             = link_to current_user.display_name, user_path(current_user.token)
@@ -43,7 +43,7 @@
                   = link_to 'ログアウト', logout_path, method: :post
     - else
       .item
-        = image_tag('avatar.png', class: 'ui avatar bordered image')
+        = image_tag('avatar.png', class: 'ui avatar bordered image', alt: 'ゲストユーザー')
         .content
           .header ゲストユーザー
           .description
