@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-       - image: circleci/ruby:2.6.0-node
+       - image: ruby:2.4.0-alpine
          environment:
            BUNDLE_JOBS: 3
            BUNDLE_RETRY: 3
@@ -41,8 +41,10 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            gem install bundler -v "2.0.1"
+            gem install bundler -v "1.17.1"
             bundle update --bundler
+            apt-get install libxslt-dev libxml2-dev
+            bundle config build.nokogiri --use-system-libraries
             bundle install
 
       - save_cache:
