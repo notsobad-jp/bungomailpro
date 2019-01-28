@@ -43,6 +43,8 @@ jobs:
           command: |
             gem install bundler -v "1.17.1"
             bundle update --bundler
+            apt-get install libxslt-dev libxml2-dev
+            bundle config build.nokogiri --use-system-libraries
             bundle install
 
       - save_cache:
