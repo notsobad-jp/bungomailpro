@@ -21,8 +21,6 @@ jobs:
            POSTGRES_DB: bungomail_test
            POSTGRES_PASSWORD: ""
 
-
-
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
