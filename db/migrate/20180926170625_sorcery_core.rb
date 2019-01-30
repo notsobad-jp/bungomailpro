@@ -5,6 +5,7 @@ class SorceryCore < ActiveRecord::Migration[5.2]
       t.string :token,            :null => false
       t.string :crypted_password
       t.string :salt
+      t.string :stripe_customer_id
 
       t.timestamps                :null => false
     end

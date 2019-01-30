@@ -34,6 +34,14 @@
 #                           PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                           PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                           DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
+#                   charges GET    /charges(.:format)                                                                       charges#index
+#                           POST   /charges(.:format)                                                                       charges#create
+#                new_charge GET    /charges/new(.:format)                                                                   charges#new
+#               edit_charge GET    /charges/:id/edit(.:format)                                                              charges#edit
+#                    charge GET    /charges/:id(.:format)                                                                   charges#show
+#                           PATCH  /charges/:id(.:format)                                                                   charges#update
+#                           PUT    /charges/:id(.:format)                                                                   charges#update
+#                           DELETE /charges/:id(.:format)                                                                   charges#destroy
 #                      user GET    /users/:token(.:format)                                                                  users#show
 #                  pro_root GET    /pro(.:format)                                                                           pages#top
 #                     login GET    /login(.:format)                                                                         magic_tokens#new
@@ -53,6 +61,7 @@ Rails.application.routes.draw do
   resources :books
   resources :subscriptions
   resources :magic_tokens
+  resources :charges
 
   get 'users/:token' => 'users#show', as: :user
   get 'pro' => 'pages#top', as: :pro_root
