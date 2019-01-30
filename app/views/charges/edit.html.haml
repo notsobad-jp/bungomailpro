@@ -1,0 +1,16 @@
+%h1.ui.header
+  %i.icon.credit.card.outline
+  支払い方法を更新する
+
+.ui.secondary.center.aligned.segment
+  = form_for @charge, url: {action: 'update'} do
+    %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-email="#{current_user.email}"
+            data-key="#{Rails.configuration.stripe[:publishable_key]}"
+            data-image="#{asset_path('avatar.png')}"
+            data-name="ブンゴウメールPRO"
+            data-description="次回以降の支払い方法を変更します"
+            data-label="クレジットカード情報の更新"
+            data-panel-label="カード情報を更新する"
+            data-allow-remember-me="false"
+            data-locale="auto")
