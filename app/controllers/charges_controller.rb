@@ -8,18 +8,32 @@ class ChargesController < ApplicationController
 
 
   def create
-    # Stripe::Customerが登録されてなかったら新規登録、されてれば情報取得
+    # Stripe::Customerが登録されてなかったら新規登録、されてればクレカ情報更新（解約→再登録のケース）
     customer = Stripe::Customer.retrieve(current_user.charge.customer_id) if current_user.charge.present?
     if !customer
       customer = Stripe::Customer.create(
         email: params[:stripeEmail],
         source: params[:stripeToken]
       )
-      current_user.create_charge(customer_id: customer.id)
+    # customerが存在する（解約→再登録）場合は、クレカ情報更新
+    else
+      customer.source = params[:stripeToken]
+      customer.save
     end
 
+    # DBにcharge情報保存
+    card = customer.sources.first
+    charge = Charge.find_or_initialize_by(user_id: current_user.id)
+    charge.update_attributes(
+      customer_id: customer.id,
+      brand: card.brand,
+      exp_month: card.exp_month,
+      exp_year: card.exp_year,
+      last4: card.last4
+    )
+
     # すでに支払い中の場合は処理を中断
-    if %w(trialing active).include? current_user.charge.status
+    if %w(trialing active).include? charge.status
       flash[:warning] = 'すでに支払いが登録されているため、新たな支払いの登録をキャンセルしました。心当たりがない場合は運営までお問い合わせください。'
       return redirect_to user_path(current_user.token)
     end
@@ -35,7 +49,7 @@ class ChargesController < ApplicationController
       trial_end: trial_end.to_i,
       items: [{plan: ENV['STRIPE_PLAN_ID']}]
     )
-    current_user.charge.update!(
+    charge.update!(
       subscription_id: subscription.id,
       status: subscription.status,
       trial_end: trial_end
@@ -44,7 +58,8 @@ class ChargesController < ApplicationController
     flash[:success] = '決済登録が完了しました🎉 1ヶ月の無料トライアル期間のあとに、支払いが開始します'
     redirect_to user_path(current_user.token)
   rescue Stripe::CardError => e
-    flash[:error] = e.message
+    Logger.new(STDOUT).error "[STRIPE CREATE] user: #{current_user.id}, error: #{e}"
+    flash[:error] = '決済情報の登録に失敗しました...。カード情報を再度ご確認のうえ、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
     redirect_to new_charge_path
   end
 
@@ -58,6 +73,24 @@ class ChargesController < ApplicationController
 
   def update
     @charge = Charge.find(params[:id])
+    customer = Stripe::Customer.retrieve(@charge.customer_id)
+    customer.source = params[:stripeToken]
+    customer.save
+
+    card = customer.sources.first
+    @charge.update(
+      brand: card.brand,
+      exp_month: card.exp_month,
+      exp_year: card.exp_year,
+      last4: card.last4
+    )
+
+    flash[:success] = 'カード情報を更新しました🎉 次回の支払いから変更が適用されます。'
+    redirect_to user_path(current_user.token)
+  rescue Stripe::CardError => e
+    Logger.new(STDOUT).error "[STRIPE UPDATE] user: #{current_user.id}, error: #{e}"
+    flash[:error] = 'カード情報の更新に失敗しました...。カード情報を再度ご確認のうえ、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
+    redirect_to edit_charge_path(@charge)
   end
 
 
@@ -65,9 +98,13 @@ class ChargesController < ApplicationController
     @charge = Charge.find(params[:id])
     sub = Stripe::Subscription.retrieve(@charge.subscription_id)
     sub = sub.delete
-    @charge.update!(status: sub.status)
+    @charge.update(status: sub.status)
 
     flash[:info] = '登録を解除しました。これ以降の支払いは行われません。メール配信は翌日から停止します。ご利用ありがとうございました。'
+    redirect_to user_path(current_user.token)
+  rescue Stripe::CardError => e
+    Logger.new(STDOUT).error "[STRIPE DESTROY] user: #{current_user.id}, error: #{e}"
+    flash[:error] = '決済登録の解除に失敗しました...。画面をリロードして、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
     redirect_to user_path(current_user.token)
   end
 end

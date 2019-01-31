@@ -27,13 +27,11 @@
           .ui.fluid.input
             %input(type="text" value="#{@user.email}" disabled)
         .field
-          %label.label 登録日
-          = @user.created_at.strftime('%Y年%m月%d日')
-        .field
-          %label.label ステータス
+          %label.label 現在のプラン
           - case @user.charge.try(:status)
             - when 'trialing'
               %span.ui.orange.label 無料トライアル中
+              %small （#{@user.charge.trial_end.strftime("%m月%d日まで")}）
             - when 'active'
               %span.ui.orange.label PROプラン
             - when 'past_due'
@@ -42,12 +40,20 @@
               %span.ui.basic.label 解約済み
             - else
               %span.ui.orange.basic.label FREEプラン
-        .field
+          %br
           - if %w(trialing active past_due).include? @user.charge.try(:status)
-            = link_to '決済情報の変更', edit_charge_path(@user.charge), class: 'ui blue small basic button'
-            = link_to '支払いを停止する', charge_path(@user.charge), method: :delete, data: {confirm: 'これ以降の支払いをただちに停止し、メール配信も翌日から停止します。本当によろしいですか？'}, class: 'ui red small basic button'
+            %small= link_to '支払いを停止する', charge_path(@user.charge), method: :delete, data: {confirm: 'これ以降の支払いをただちに停止し、メール配信も翌日から停止します。本当によろしいですか？'}
           - else
+            %br
             = link_to '有料プランに変更する', new_charge_path, class: 'ui red small button'
+        - if %w(trialing active past_due).include? @user.charge.try(:status)
+          .field
+            %label.label 決済情報
+            %i.icon.big.cc{class: @user.charge.brand.downcase}
+            •••• #{@user.charge.last4}
+            %small （有効期限: #{@user.charge.exp_month}/#{@user.charge.exp_year}）
+            %br
+            %small= link_to '決済情報を変更する', edit_charge_path(@user.charge)
       %br
       .ui.divider
       = link_to  'https://ja.gravatar.com/',class: 'ui basic small black button', target: '_blank' do

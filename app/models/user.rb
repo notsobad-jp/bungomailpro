@@ -23,7 +23,7 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
   has_many :subscriptions, dependent: :destroy
   has_many :channels, dependent: :destroy
-  has_one :charge
+  has_one :charge, dependent: :destroy
   MAX_SUBSCRIPTIONS_COUNT = 3
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

@@ -71,9 +71,13 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   create_table "charges", id: :string, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "customer_id", null: false
+    t.string "brand", null: false, comment: "IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)"
+    t.integer "exp_month", null: false
+    t.integer "exp_year", null: false
+    t.string "last4", null: false
     t.string "subscription_id"
-    t.string "status"
     t.datetime "trial_end"
+    t.string "status", comment: "IN (trialing active past_due canceled unpaid)"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_charges_on_customer_id", unique: true
