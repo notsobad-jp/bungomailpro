@@ -107,4 +107,14 @@ class ChargesController < ApplicationController
     flash[:error] = '決済登録の解除に失敗しました...。画面をリロードして、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
     redirect_to user_path(current_user.token)
   end
+
+
+  # Stripe自動送信メール用の支払い情報更新リンク: charges#editにリダイレクトする
+  def update_payment
+    if charge = current_user.charge
+      redirect_to edit_charge_path(charge)
+    else
+      redirect_to user_path(current_user.token)
+    end
+  end
 end
