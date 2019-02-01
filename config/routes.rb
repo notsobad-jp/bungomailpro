@@ -67,7 +67,7 @@ Rails.application.routes.draw do
     get 'update_payment', on: :collection
   end
 
-  get 'webhooks/update_subscription'
+  post 'webhooks/update_subscription'
 
   get 'users/:token' => 'users#show', as: :user
   get 'pro' => 'pages#top', as: :pro_root

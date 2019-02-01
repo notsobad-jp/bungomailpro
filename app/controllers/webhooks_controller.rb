@@ -7,22 +7,22 @@ class WebhooksController < ApplicationController
   ## 3) 自動解約（past_due→canceled）
   def update_subscription
     event_json = JSON.parse(request.body.read)
-    sub_id = event_json['id']
 
     # statusが変更されてない場合はスキップ
     return head 200 if !event_json['data']['previous_attributes'].has_key?('status')
 
     # 不正対策のためにEventオブジェクトをStripeから取り直す
     begin
-      event = Stripe::Event.retrieve(sub_id)
+      event = Stripe::Event.retrieve(event_json['id'])
     rescue Stripe::InvalidRequestError => e
       logger.error "[STRIPE] Event not found: #{e}"
       return head 500
     end
 
     # DBに変更を反映
-    charge = Charge.find_by(subscription_id: sub_id)
-    charge.update(status: event.status)
+    sub = event.data.object
+    charge = Charge.find_by(subscription_id: sub.id)
+    charge.update(status: sub.status)
 
     return head 200
   end
