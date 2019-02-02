@@ -2,19 +2,19 @@
 #
 # Table name: charges
 #
-#  id              :string           not null, primary key
-#  user_id         :bigint(8)        not null
-#  customer_id     :string           not null
-#  brand           :string           not null
-#  exp_month       :integer          not null
-#  exp_year        :integer          not null
-#  last4           :string           not null
-#  subscription_id :string
-#  status          :string
-#  trial_end       :datetime
-#  cancel_at       :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                                                                                            :string           not null, primary key
+#  user_id                                                                                       :bigint(8)        not null
+#  customer_id                                                                                   :string           not null
+#  brand(IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)) :string           not null
+#  exp_month                                                                                     :integer          not null
+#  exp_year                                                                                      :integer          not null
+#  last4                                                                                         :string           not null
+#  subscription_id                                                                               :string
+#  status(IN (trialing active past_due canceled unpaid))                                         :string
+#  trial_end                                                                                     :datetime
+#  cancel_at                                                                                     :datetime
+#  created_at                                                                                    :datetime         not null
+#  updated_at                                                                                    :datetime         not null
 #
 
 class Charge < ApplicationRecord
@@ -28,6 +28,9 @@ class Charge < ApplicationRecord
 
 
   def activate
+    # すでに解約済み || 解約予約していない ときは例外発生
+    raise 'not cancel planned' if self.status == 'canceled' || self.cancel_at.nil?
+
     sub = Stripe::Subscription.retrieve(self.subscription_id)
     sub.cancel_at_period_end = false
     sub.save
@@ -74,16 +77,15 @@ class Charge < ApplicationRecord
       exp_year: card.exp_year,
       last4: card.last4
     )
-    customer
   end
 
 
-  def create_subscription(customer_id)
-    return if %w(trialing active past_due).include? self.status  # すでに支払い中の場合は処理を中断
+  def create_subscription
+    raise 'already subscribing' if %w(trialing active past_due).include? self.status  # すでに支払い中の場合は処理を中断
 
     # Stripeでsubscription作成
     subscription = Stripe::Subscription.create(
-      customer: customer_id,
+      customer: self.customer_id,
       billing_cycle_anchor: self.billing_cycle_anchor.to_i,
       trial_end: self.trial_end.to_i,
       items: [{plan: ENV['STRIPE_PLAN_ID']}]
@@ -95,7 +97,6 @@ class Charge < ApplicationRecord
       status: subscription.status,
       trial_end: self.trial_end
     )
-    subscription
   end
 
 

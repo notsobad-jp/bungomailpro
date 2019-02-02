@@ -4,6 +4,7 @@ class ChargesController < ApplicationController
   after_action :verify_authorized
 
   def new
+    # TODO: policyに権限制御を移動する（createにも同じのを追加）
     redirect_to user_path(current_user.token) if current_user.charge && current_user.charge.status != 'canceled'
 
     @breadcrumbs << {name: 'アカウント情報', url: user_path(current_user.token)}
@@ -14,10 +15,10 @@ class ChargesController < ApplicationController
   def create
     # Stripe::Customerが登録されてなかったら新規登録、されてればクレカ情報更新（解約→再登録のケース）
     charge = Charge.find_or_initialize_by(user_id: current_user.id)
-    customer = charge.create_or_update_customer(params)
+    charge.create_or_update_customer(params)
 
     # 定期課金開始
-    charge.create_subscription(customer.id)
+    charge.create_subscription
 
     flash[:success] = '決済登録が完了しました🎉 1ヶ月の無料トライアル期間のあとに、支払いが開始します'
     redirect_to user_path(current_user.token)
