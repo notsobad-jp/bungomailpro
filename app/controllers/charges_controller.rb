@@ -1,5 +1,7 @@
 class ChargesController < ApplicationController
   before_action :require_login
+  before_action :set_charge
+  after_action :verify_authorized
 
   def new
     @breadcrumbs << {name: 'アカウント情報', url: user_path(current_user.token)}
@@ -117,4 +119,15 @@ class ChargesController < ApplicationController
       redirect_to user_path(current_user.token)
     end
   end
+
+
+  private
+    def set_charge
+      if id = params[:id]
+        @charge = Charge.find(id)
+        authorize @charge
+      else
+        authorize Charge
+      end
+    end
 end
