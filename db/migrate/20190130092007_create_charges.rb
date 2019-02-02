@@ -9,8 +9,9 @@ class CreateCharges < ActiveRecord::Migration[5.2]
       t.integer :exp_year, null: false
       t.string :last4, null: false
       t.string :subscription_id, index: { unique: true }
-      t.datetime :trial_end
       t.string :status, comment: 'IN (trialing active past_due canceled unpaid)'
+      t.datetime :trial_end
+      t.datetime :cancel_at
 
       t.timestamps
     end

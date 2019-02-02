@@ -42,7 +42,7 @@ class ChargesController < ApplicationController
 
     # 定期課金開始
     next_payment_day = Time.current.next_month.beginning_of_month.change(day: 5)  # 翌月5日から課金サイクル開始
-    trial_end = 31.days.since(Time.current)  # トライアル: 31日間
+    trial_end = 31.days.since(Time.current.end_of_day)  # トライアル: 31日間
     next_payment_day = next_payment_day.next_month if trial_end > next_payment_day  # トライアル終了が31日以上後になる場合は、翌々月から課金サイクル開始
 
     subscription = Stripe::Subscription.create(
@@ -67,14 +67,12 @@ class ChargesController < ApplicationController
 
 
   def edit
-    @charge = Charge.find(params[:id])
     @breadcrumbs << {name: 'アカウント情報', url: user_path(current_user.token)}
     @breadcrumbs << {name: '決済情報の更新'}
   end
 
 
   def update
-    @charge = Charge.find(params[:id])
     customer = Stripe::Customer.retrieve(@charge.customer_id)
     customer.source = params[:stripeToken]
     customer.save
@@ -97,16 +95,28 @@ class ChargesController < ApplicationController
 
 
   def destroy
-    @charge = Charge.find(params[:id])
     sub = Stripe::Subscription.retrieve(@charge.subscription_id)
-    sub = sub.delete
-    @charge.update(status: sub.status)
+    sub.cancel_at_period_end = true
+    sub.save
+    @charge.update(cancel_at: Time.zone.at(sub.cancel_at))
 
-    flash[:info] = '登録を解除しました。これ以降の支払いは行われません。メール配信は翌日から停止します。ご利用ありがとうございました。'
+    flash[:info] = '解約を受け付けました。これ以降の支払いは一切行われません。メール配信は次回決済日の前日まで継続したあと、自動的に終了します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。ご利用ありがとうございました。'
     redirect_to user_path(current_user.token)
   rescue Stripe::CardError => e
     Logger.new(STDOUT).error "[STRIPE DESTROY] user: #{current_user.id}, error: #{e}"
     flash[:error] = '決済登録の解除に失敗しました...。画面をリロードして、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
+    redirect_to user_path(current_user.token)
+  end
+
+
+  # 解約予約したのを再度アクティベイト
+  def activate
+    sub = Stripe::Subscription.retrieve(@charge.subscription_id)
+    sub.cancel_at_period_end = false
+    sub.save
+    @charge.update(cancel_at: nil)
+
+    flash[:info] = '解約を取り消しました。次回決済日から通常どおり支払いが行われます。'
     redirect_to user_path(current_user.token)
   end
 

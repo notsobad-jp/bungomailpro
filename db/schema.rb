@@ -76,8 +76,9 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.integer "exp_year", null: false
     t.string "last4", null: false
     t.string "subscription_id"
-    t.datetime "trial_end"
     t.string "status", comment: "IN (trialing active past_due canceled unpaid)"
+    t.datetime "trial_end"
+    t.datetime "cancel_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_charges_on_customer_id", unique: true

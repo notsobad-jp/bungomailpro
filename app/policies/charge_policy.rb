@@ -1,5 +1,13 @@
 class ChargePolicy < ApplicationPolicy
+  def index?
+    false
+  end
+
   def show?
-    record.id == user.id
+    false
+  end
+
+  def activate?
+    update?
   end
 end

@@ -34,6 +34,7 @@
 #                              PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                              PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                              DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
+#              activate_charge POST   /charges/:id/activate(.:format)                                                          charges#activate
 #       update_payment_charges GET    /charges/update_payment(.:format)                                                        charges#update_payment
 #                      charges GET    /charges(.:format)                                                                       charges#index
 #                              POST   /charges(.:format)                                                                       charges#create
@@ -43,7 +44,7 @@
 #                              PATCH  /charges/:id(.:format)                                                                   charges#update
 #                              PUT    /charges/:id(.:format)                                                                   charges#update
 #                              DELETE /charges/:id(.:format)                                                                   charges#destroy
-# webhooks_update_subscription GET    /webhooks/update_subscription(.:format)                                                  webhooks#update_subscription
+# webhooks_update_subscription POST   /webhooks/update_subscription(.:format)                                                  webhooks#update_subscription
 #                         user GET    /users/:token(.:format)                                                                  users#show
 #                     pro_root GET    /pro(.:format)                                                                           pages#top
 #                        login GET    /login(.:format)                                                                         magic_tokens#new
@@ -64,6 +65,7 @@ Rails.application.routes.draw do
   resources :subscriptions
   resources :magic_tokens
   resources :charges do
+    post 'activate', on: :member
     get 'update_payment', on: :collection
   end
 

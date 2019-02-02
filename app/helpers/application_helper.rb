@@ -41,8 +41,10 @@ module ApplicationHelper
     text
   end
 
-  def payment_status_label(status)
-    case status
+  def payment_status_label(charge)
+    return content_tag(:span, '解約済み', class: 'ui basic label') if charge.cancel_at
+
+    case charge.try(:status)
       when 'trialing'
         content_tag(:span, '無料トライアル中', class: 'ui orange label')
       when 'active'
