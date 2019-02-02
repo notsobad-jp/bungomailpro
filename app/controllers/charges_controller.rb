@@ -4,6 +4,8 @@ class ChargesController < ApplicationController
   after_action :verify_authorized
 
   def new
+    redirect_to user_path(current_user.token) if current_user.charge
+
     @breadcrumbs << {name: 'アカウント情報', url: user_path(current_user.token)}
     @breadcrumbs << {name: '決済情報'}
   end
