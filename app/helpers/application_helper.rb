@@ -42,7 +42,7 @@ module ApplicationHelper
   end
 
   def payment_status_label(charge)
-    return content_tag(:span, '解約済み', class: 'ui basic label') if charge.try(:cancel_at)
+    return content_tag(:span, 'FREEプラン', class: 'ui basic label') if charge.try(:cancel_at)
 
     case charge.try(:status)
       when 'trialing'
@@ -52,7 +52,7 @@ module ApplicationHelper
       when 'past_due'
         content_tag(:span, '決済失敗', class: 'ui red basic label')
       when 'canceled'
-        content_tag(:span, '解約済み', class: 'ui basic label')
+        content_tag(:span, 'FREEプラン', class: 'ui basic label')
       else
         content_tag(:span, 'FREEプラン', class: 'ui basic label')
     end

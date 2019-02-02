@@ -43,3 +43,7 @@ group :development do
   gem 'letter_opener'
   gem 'rack-mini-profiler', require: false
 end
+
+group :test do
+  gem 'webmock'
+end
