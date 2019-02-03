@@ -37,10 +37,8 @@ class ChargeTest < ActiveSupport::TestCase
     stub_request(:any, /api\.stripe\.com/).to_return(status: 200, body: File.read("test/fixtures/files/test.json"))
     charge = charges(:charge_canceled)
 
-    e = assert_raises RuntimeError do
-      charge.activate
-    end
-    assert_equal 'not cancel planned', e.message
+    charge.activate
+    assert_nil charge.cancel_at
   end
 
 
@@ -48,10 +46,8 @@ class ChargeTest < ActiveSupport::TestCase
     stub_request(:any, /api\.stripe\.com/).to_return(status: 200, body: File.read("test/fixtures/files/test.json"))
     charge = charges(:charge_active)
 
-    e = assert_raises RuntimeError do
-      charge.activate
-    end
-    assert_equal 'not cancel planned', e.message
+    charge.activate
+    assert_nil charge.cancel_at
   end
 
 
@@ -112,5 +108,17 @@ class ChargeTest < ActiveSupport::TestCase
 
     assert_equal 'trialing', charge.status
     assert_equal 'sub_ESBxFR0KlYTQzy', charge.subscription_id
+  end
+
+
+
+  ########################################################################
+  # cancel_subscription
+  ########################################################################
+  test "test_cancel_subscriptin_when_active" do
+    stub_request(:any, /api\.stripe\.com\/v1\/subscriptions/).to_return(status: 200, body: File.read("test/fixtures/files/subscription_canceled.json"))
+    charge = charges(:charge_active)
+    charge.cancel_subscription
+    assert_equal Time.zone.at(1551797999), charge.cancel_at
   end
 end

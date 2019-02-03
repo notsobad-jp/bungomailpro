@@ -28,9 +28,6 @@ class Charge < ApplicationRecord
 
 
   def activate
-    # すでに解約済み || 解約予約していない ときは例外発生
-    raise 'not cancel planned' if self.status == 'canceled' || self.cancel_at.nil?
-
     sub = Stripe::Subscription.retrieve(self.subscription_id)
     sub.cancel_at_period_end = false
     sub.save
