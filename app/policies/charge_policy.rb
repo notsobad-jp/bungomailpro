@@ -8,7 +8,7 @@ class ChargePolicy < ApplicationPolicy
   end
 
   def create?
-    user && (!user.charge || user.charge.status == 'canceled')
+    user && (!user.charge || !%w(trialing active past_due).include?(user.charge.status))
   end
 
   def destroy?

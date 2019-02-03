@@ -19,8 +19,8 @@ class ChargesController < ApplicationController
 
     flash[:success] = '決済登録が完了しました🎉 1ヶ月の無料トライアル期間のあとに、支払いが開始します'
     redirect_to user_path(current_user.token)
-  rescue Stripe::CardError => e
-    logger.error "[STRIPE CREATE] user: #{current_user.id}, error: #{e}"
+  rescue Stripe::StripeError => e
+    logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"
     flash[:error] = '決済情報の登録に失敗しました...。カード情報を再度ご確認のうえ、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
     redirect_to new_charge_path
   end
@@ -37,8 +37,8 @@ class ChargesController < ApplicationController
 
     flash[:success] = 'カード情報を更新しました🎉 次回の支払いから変更が適用されます。'
     redirect_to user_path(current_user.token)
-  rescue Stripe::CardError => e
-    logger.error "[STRIPE UPDATE] user: #{current_user.id}, error: #{e}"
+  rescue Stripe::StripeError => e
+    logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"
     flash[:error] = 'カード情報の更新に失敗しました...。カード情報を再度ご確認のうえ、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
     redirect_to edit_charge_path(@charge)
   end
@@ -49,8 +49,8 @@ class ChargesController < ApplicationController
 
     flash[:info] = '解約を受け付けました。これ以降の支払いは一切行われません。メール配信は次回決済日の前日まで継続したあと、自動的に終了します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。ご利用ありがとうございました。'
     redirect_to user_path(current_user.token)
-  rescue Stripe::CardError => e
-    logger.error "[STRIPE DESTROY] user: #{current_user.id}, error: #{e}"
+  rescue Stripe::StripeError => e
+    logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"
     flash[:error] = '決済登録の解除に失敗しました...。画面をリロードして、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
     redirect_to user_path(current_user.token)
   end
@@ -61,6 +61,10 @@ class ChargesController < ApplicationController
     @charge.activate
 
     flash[:info] = '解約を取り消しました。次回決済日から通常どおり支払いが行われます。'
+    redirect_to user_path(current_user.token)
+  rescue Stripe::StripeError => e
+    logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"
+    flash[:error] = '解約の取り消しに失敗しました...。画面をリロードして、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
     redirect_to user_path(current_user.token)
   end
 
