@@ -76,6 +76,13 @@
         現在【FREEプラン】で利用しています。RSSフィードのみ配信され、実際にメールは配信されません。メールを受け取るには
         = link_to '【PROプラン】に登録', user_path(current_user.token)
         してください。
+    - if path == 'pages#top' && current_user.charge.try(:status) == 'past_due'
+      .ui.attached.error.message(style="margin-top:45px;margin-bottom:-45px;")
+        %i.icon.warning.circle
+        料金の支払いに失敗しました。。カードに問題がある場合は、
+        = link_to 'クレジットカード情報を更新', edit_charge_path(current_user.charge.id), data: {turbolinks: false}
+        してください。
+        しばらくしても決済が完了できない場合、自動的に解約されます。
 
     %div#main-content
       - if path == 'pages#top'

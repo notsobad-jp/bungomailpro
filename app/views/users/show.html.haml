@@ -41,7 +41,13 @@
             %small= link_to '解約する', charge_path(@charge), method: :delete, data: {confirm: 'これ以降の支払いをただちに停止しします。メール配信は、支払済み期間の終了まで継続したあと自動で停止します。本当によろしいですか？'}
           - else
             %br
-            = link_to '有料プランに変更する', new_charge_path, class: 'ui red small button'
+            = link_to '有料プランに変更する', new_charge_path, class: 'ui red small button', data: {turbolinks: false}
+
+          - if @charge.try(:status) == 'past_due'
+            .ui.error.small.visible.message
+              現在料金のお支払いに失敗しているため、数日ごとに何度か決済を再試行します。有効なカード情報を登録してお待ちください。
+              %br
+              再試行中もメール配信は継続します。何度か再試行しても決済に失敗する場合、自動的に契約が解除され配信も停止されます（新たに請求が届くことはありません）。
 
         - if @charge.try(:active?) && !@charge.try(:cancel_at)
           .field
@@ -50,7 +56,7 @@
             •••• #{@charge.last4}
             %small （有効期限: #{@charge.exp_month}/#{@charge.exp_year}）
             %br
-            %small= link_to '決済情報を変更する', edit_charge_path(@charge)
+            %small= link_to '決済情報を変更する', edit_charge_path(@charge), data: {turbolinks: false}
       %br
       .ui.divider
       = link_to  'https://ja.gravatar.com/',class: 'ui basic small black button', target: '_blank' do

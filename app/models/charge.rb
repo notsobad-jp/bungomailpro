@@ -48,12 +48,22 @@ class Charge < ApplicationRecord
   end
 
 
+  # 解約予約
   def cancel_subscription
     sub = Stripe::Subscription.retrieve(self.subscription_id)
     sub.cancel_at_period_end = true
     sub.save
 
     self.update(cancel_at: Time.zone.at(sub.cancel_at))
+  end
+
+
+  # 即時解約（支払い期日過ぎてるとき）
+  def cancel_subscription_now
+    sub = Stripe::Subscription.retrieve(self.subscription_id)
+    sub.delete
+
+    self.update(status: sub.status)
   end
 
 
@@ -89,8 +99,10 @@ class Charge < ApplicationRecord
     # Stripeでsubscription作成
     subscription = Stripe::Subscription.create(
       customer: self.customer_id,
-      billing_cycle_anchor: self.billing_cycle_anchor.to_i,
-      trial_end: self.trial_end.to_i,
+      # FIXME: テスト用に1分後でトライアル終了
+      # billing_cycle_anchor: self.billing_cycle_anchor.to_i,
+      # trial_end: self.trial_end.to_i,
+      trial_end: 1.minute.since(Time.current).to_i,
       items: [{plan: ENV['STRIPE_PLAN_ID']}]
     )
 
