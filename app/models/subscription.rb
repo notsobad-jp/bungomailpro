@@ -132,7 +132,7 @@ class Subscription < ApplicationRecord
         next_delivery_date: nil
       )
     end
-    Logger.new(STDOUT).info "[CHAPTER SET] sub:#{self.id}, from:#{current_chapter.book_id}-#{current_chapter.index}, to:#{next_chapter.try(:book_id)}-#{next_chapter.try(:index)}"
+    logger.info "[CHAPTER SET] sub:#{self.id}, from:#{current_chapter.book_id}-#{current_chapter.index}, to:#{next_chapter.try(:book_id)}-#{next_chapter.try(:index)}"
   end
 
 
