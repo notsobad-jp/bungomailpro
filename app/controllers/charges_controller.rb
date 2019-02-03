@@ -4,9 +4,6 @@ class ChargesController < ApplicationController
   after_action :verify_authorized
 
   def new
-    # TODO: policyに権限制御を移動する（createにも同じのを追加）
-    redirect_to user_path(current_user.token) if current_user.charge && current_user.charge.status != 'canceled'
-
     @breadcrumbs << {name: 'アカウント情報', url: user_path(current_user.token)}
     @breadcrumbs << {name: '決済情報'}
   end
