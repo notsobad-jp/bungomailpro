@@ -47,7 +47,7 @@ class ChargesController < ApplicationController
   def destroy
     @charge.cancel_subscription
 
-    flash[:info] = '解約を受け付けました。これ以降の支払いは一切行われません。メール配信は次回決済日の前日まで継続したあと、自動的に終了します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。ご利用ありがとうございました。'
+    flash[:info] = '解約を受け付けました。これ以降の支払いは一切行われません。メール配信は現在の期間終了まで継続したあと、自動的に停止します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。ご利用ありがとうございました。'
     redirect_to user_path(current_user.token)
   rescue Stripe::StripeError => e
     logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"

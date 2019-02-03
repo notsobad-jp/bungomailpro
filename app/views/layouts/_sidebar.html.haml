@@ -30,6 +30,14 @@
           .header
             = link_to current_user.display_name, user_path(current_user.token)
           .description= current_user.email
+
+          %br
+          = payment_status_label(current_user.charge)
+          - if current_user.charge.try(:cancel_at)
+            %small （#{current_user.charge.cancel_at.strftime("%m月%d日で配信停止")}）
+          - elsif current_user.charge.try(:status) == 'trialing'
+            %small （#{current_user.charge.trial_end.strftime("%m月%d日まで")}）
+
           .list
             .item
               %i.icon.setting
