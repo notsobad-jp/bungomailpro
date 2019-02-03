@@ -78,7 +78,7 @@ class Charge < ApplicationRecord
 
 
   def create_subscription
-    raise 'already subscribing' if %w(trialing active past_due).include? self.status  # すでに支払い中の場合は処理を中断
+    raise 'already subscribing' if self.active?  # すでに支払い中の場合は処理を中断
 
     # Stripeでsubscription作成
     subscription = Stripe::Subscription.create(
@@ -116,5 +116,10 @@ class Charge < ApplicationRecord
       exp_year: card.exp_year,
       last4: card.last4
     )
+  end
+
+
+  def active?
+    %w(trialing active past_due).include? self.status
   end
 end

@@ -33,15 +33,17 @@
             %small （#{@charge.cancel_at.strftime("%m月%d日で配信停止")}）
           - elsif @charge.try(:status) == 'trialing'
             %small （#{@charge.trial_end.strftime("%m月%d日まで")}）
+
           %br
           - if @charge.try(:cancel_at)
             %small= link_to '解約を取り消す', activate_charge_path(@charge), method: :post
-          - elsif %w(trialing active past_due).include? @charge.try(:status)
+          - elsif @charge.try(:active?)
             %small= link_to '解約する', charge_path(@charge), method: :delete, data: {confirm: 'これ以降の支払いをただちに停止しします。メール配信は、支払済み期間の終了まで継続したあと自動で停止します。本当によろしいですか？'}
           - else
             %br
             = link_to '有料プランに変更する', new_charge_path, class: 'ui red small button'
-        - if %w(trialing active past_due).include?(@charge.try(:status)) && !@charge.try(:cancel_at)
+
+        - if @charge.try(:active?) && !@charge.try(:cancel_at)
           .field
             %label.label 決済情報
             = creditcard_icon(@charge.brand)
