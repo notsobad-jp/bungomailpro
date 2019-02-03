@@ -27,6 +27,12 @@ class Charge < ApplicationRecord
   end
 
 
+
+  def active?
+    %w(trialing active past_due).include? self.status
+  end
+
+
   def activate
     sub = Stripe::Subscription.retrieve(self.subscription_id)
     sub.cancel_at_period_end = false
@@ -116,10 +122,5 @@ class Charge < ApplicationRecord
       exp_year: card.exp_year,
       last4: card.last4
     )
-  end
-
-
-  def active?
-    %w(trialing active past_due).include? self.status
   end
 end

@@ -47,6 +47,12 @@ class User < ApplicationRecord
     self.profile ? self.profile['displayName'] : self.token
   end
 
+  # TODO: ベータ版中は全員にメール送信。有料化したら購読ステータスで判断する
+  def pro?
+    true
+    # self.charge.try(:active?)
+  end
+
   def profile_image_url
     hash = Digest::MD5.hexdigest(self.email.downcase)
     "https://www.gravatar.com/avatar/#{hash}"
