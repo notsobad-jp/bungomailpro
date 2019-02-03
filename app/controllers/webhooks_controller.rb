@@ -11,26 +11,26 @@ class WebhooksController < ApplicationController
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
 
     # statusが変更されてない場合はスキップ
-    return head 200 if !JSON.parse(payload)['data']['previous_attributes'].try(:has_key?, 'status')
+    return head :ok if !JSON.parse(payload)['data']['previous_attributes'].try(:has_key?, 'status')
 
     # webhookのsignatureチェック
     begin
       event = Stripe::Webhook.construct_event( payload, sig_header, ENV['STRIPE_WEBHOOK_SIGNATURE'] )
     rescue JSON::ParserError => e
       # Invalid payload
-      status 400
-      return
+      logger.error "[STRIPE Webhook] #{e}"
+      return head :bad_request
     rescue Stripe::SignatureVerificationError => e
       # Invalid signature
-      status 400
-      return
+      logger.error "[STRIPE Webhook] #{e}"
+      return head :bad_request
     end
 
     # DBに変更を反映
     sub = event.data.object
-    charge = Charge.find_by(subscription_id: sub.id)
+    charge = Charge.find_by!(subscription_id: sub.id)
     charge.update(status: sub.status)
 
-    return head 200
+    return head :ok
   end
 end
