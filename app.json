@@ -6,6 +6,30 @@
     "GOOGLE_TAG_MANAGER_ID": {
       "required": true
     },
+    "STRIPE_PUBLISHABLE_KEY": {
+      "required": true
+    },
+    "STRIPE_SECRET_KEY": {
+      "required": true
+    },
+    "STRIPE_PLAN_ID": {
+      "required": true
+    },
+    "STRIPE_WEBHOOK_SIGNATURE": {
+      "required": true
+    },
+    "STRIPE_PUBLISHABLE_KEY_TEST": {
+      "required": true
+    },
+    "STRIPE_SECRET_KEY_TEST": {
+      "required": true
+    },
+    "STRIPE_PLAN_ID_TEST": {
+      "required": true
+    },
+    "STRIPE_WEBHOOK_SIGNATURE_TEST": {
+      "required": true
+    },
     "LANG": {
       "required": true
     },
@@ -49,10 +73,7 @@
     }
   },
   "addons": [
-    "papertrail",
     "heroku-postgresql",
-    "scheduler",
-    "scout",
     "sendgrid"
   ],
   "stack": "heroku-18",

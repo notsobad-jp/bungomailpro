@@ -9,13 +9,14 @@ class WebhooksController < ApplicationController
   def update_subscription
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+    webhook_signature = Rails.env.production? ? ENV['STRIPE_WEBHOOK_SIGNATURE'] : ENV['STRIPE_WEBHOOK_SIGNATURE_TEST']
 
     # statusが変更されてない場合はスキップ
     return head :ok if !JSON.parse(payload)['data']['previous_attributes'].try(:has_key?, 'status')
 
     # webhookのsignatureチェック
     begin
-      event = Stripe::Webhook.construct_event( payload, sig_header, ENV['STRIPE_WEBHOOK_SIGNATURE'] )
+      event = Stripe::Webhook.construct_event( payload, sig_header, webhook_signature)
     rescue JSON::ParserError => e
       # Invalid payload
       logger.error "[STRIPE Webhook] #{e}"

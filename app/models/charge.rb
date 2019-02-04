@@ -21,6 +21,7 @@ class Charge < ApplicationRecord
   belongs_to :user
   TRIAL_PERIOD_DAYS = 31  # 無料トライアル日数
   BILLING_DAY = 5  # 毎月の決済日
+  PLAN_ID = Rails.env.production? ? ENV['STRIPE_PLAN_ID'] : ENV['STRIPE_PLAN_ID_TEST']
 
   before_create do
     self.id = SecureRandom.hex(10)
@@ -99,11 +100,9 @@ class Charge < ApplicationRecord
     # Stripeでsubscription作成
     subscription = Stripe::Subscription.create(
       customer: self.customer_id,
-      # FIXME: テスト用に1分後でトライアル終了
-      # billing_cycle_anchor: self.billing_cycle_anchor.to_i,
-      # trial_end: self.trial_end.to_i,
-      trial_end: 1.minute.since(Time.current).to_i,
-      items: [{plan: ENV['STRIPE_PLAN_ID']}]
+      billing_cycle_anchor: self.billing_cycle_anchor.to_i,
+      trial_end: self.trial_end.to_i,
+      items: [{plan: PLAN_ID}]
     )
 
     # DBにsubscription情報を保存
