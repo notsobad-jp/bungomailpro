@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @breadcrumbs << {name: 'アカウント情報'}
+    @charge = @user.charge
   end
 
   private

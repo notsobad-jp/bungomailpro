@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_13_102801) do
+ActiveRecord::Schema.define(version: 2019_01_30_092007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,24 @@ ActiveRecord::Schema.define(version: 2019_01_13_102801) do
     t.index ["book_id", "index"], name: "index_chapters_on_book_id_and_index", unique: true
     t.index ["book_id"], name: "index_chapters_on_book_id"
     t.index ["index"], name: "index_chapters_on_index"
+  end
+
+  create_table "charges", id: :string, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "customer_id", null: false
+    t.string "brand", null: false, comment: "IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)"
+    t.integer "exp_month", null: false
+    t.integer "exp_year", null: false
+    t.string "last4", null: false
+    t.string "subscription_id"
+    t.string "status", comment: "IN (trialing active past_due canceled unpaid)"
+    t.datetime "trial_end"
+    t.datetime "cancel_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_charges_on_customer_id", unique: true
+    t.index ["subscription_id"], name: "index_charges_on_subscription_id", unique: true
+    t.index ["user_id"], name: "index_charges_on_user_id", unique: true
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -142,6 +160,7 @@ ActiveRecord::Schema.define(version: 2019_01_13_102801) do
   add_foreign_key "channel_books", "channels"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
+  add_foreign_key "charges", "users"
   add_foreign_key "feeds", "books"
   add_foreign_key "feeds", "subscriptions"
   add_foreign_key "subscriptions", "books", column: "current_book_id"

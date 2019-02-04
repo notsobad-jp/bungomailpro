@@ -23,6 +23,7 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
   has_many :subscriptions, dependent: :destroy
   has_many :channels, dependent: :destroy
+  has_one :charge, dependent: :destroy
   MAX_SUBSCRIPTIONS_COUNT = 3
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -44,6 +45,12 @@ class User < ApplicationRecord
 
   def display_name
     self.profile ? self.profile['displayName'] : self.token
+  end
+
+  # TODO: ベータ版中は全員にメール送信。有料化したら購読ステータスで判断する
+  def pro?
+    true
+    # self.charge.try(:active?)
   end
 
   def profile_image_url

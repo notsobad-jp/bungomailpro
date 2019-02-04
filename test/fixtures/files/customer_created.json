@@ -1,0 +1,65 @@
+{
+  "id": "cus_ESCEwmXhpJdfnC",
+  "object": "customer",
+  "account_balance": 0,
+  "created": 1549088341,
+  "currency": null,
+  "default_source": "card_1DzHq9HlQ4lxw7FZGYbp3sOo",
+  "delinquent": false,
+  "description": null,
+  "discount": null,
+  "email": "sample4@example.com",
+  "invoice_prefix": "871E201",
+  "invoice_settings": {
+    "custom_fields": null,
+    "footer": null
+  },
+  "livemode": false,
+  "metadata": {
+  },
+  "shipping": null,
+  "sources": {
+    "object": "list",
+    "data": [
+      {
+        "id": "card_1DzHq9HlQ4lxw7FZGYbp3sOo",
+        "object": "card",
+        "address_city": null,
+        "address_country": null,
+        "address_line1": null,
+        "address_line1_check": null,
+        "address_line2": null,
+        "address_state": null,
+        "address_zip": null,
+        "address_zip_check": null,
+        "brand": "Visa",
+        "country": "US",
+        "customer": "cus_ESCEwmXhpJdfnC",
+        "cvc_check": "pass",
+        "dynamic_last4": null,
+        "exp_month": 12,
+        "exp_year": 2100,
+        "fingerprint": "xDvEx6bRifNk7pxO",
+        "funding": "credit",
+        "last4": "4242",
+        "metadata": {
+        },
+        "name": "sample4@example.com",
+        "tokenization_method": null
+      }
+    ],
+    "has_more": false,
+    "total_count": 1,
+    "url": "/v1/customers/cus_ESCEwmXhpJdfnC/sources"
+  },
+  "subscriptions": {
+    "object": "list",
+    "data": [
+    ],
+    "has_more": false,
+    "total_count": 0,
+    "url": "/v1/customers/cus_ESCEwmXhpJdfnC/subscriptions"
+  },
+  "tax_info": null,
+  "tax_info_verification": null
+}

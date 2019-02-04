@@ -1,0 +1,78 @@
+# == Schema Information
+#
+# Table name: charges
+#
+#  id                                                                                            :string           not null, primary key
+#  user_id                                                                                       :bigint(8)        not null
+#  customer_id                                                                                   :string           not null
+#  brand(IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)) :string           not null
+#  exp_month                                                                                     :integer          not null
+#  exp_year                                                                                      :integer          not null
+#  last4                                                                                         :string           not null
+#  subscription_id                                                                               :string
+#  status(IN (trialing active past_due canceled unpaid))                                         :string
+#  trial_end                                                                                     :datetime
+#  cancel_at                                                                                     :datetime
+#  created_at                                                                                    :datetime         not null
+#  updated_at                                                                                    :datetime         not null
+#
+
+charge_active:
+  user: user1
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: Visa
+  exp_month: 10
+  exp_year: 2100
+  last4: 4242
+  subscription_id: "sub_ESczFoNBc38phk"  # payment_failed.jsonで使用
+  status: active
+
+charge_canceled:
+  user: user2
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: MasterCard
+  exp_month: 06
+  exp_year: 2100
+  last4: 4444
+  subscription_id: "sub_<%= SecureRandom.hex(14) %>"
+  status: canceled
+
+charge_cancel_planned:
+  user: user3
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: MasterCard
+  exp_month: 06
+  exp_year: 2100
+  last4: 4444
+  subscription_id: "sub_<%= SecureRandom.hex(14) %>"
+  status: active
+  cancel_at: <%= 1.month.since(Time.current) %>
+
+charge_without_subscription:
+  user: user5
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: Visa
+  exp_month: 03
+  exp_year: 2100
+  last4: 4242
+
+charge_past_due:
+  user: user6
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: MasterCard
+  exp_month: 06
+  exp_year: 2100
+  last4: 4444
+  subscription_id: "sub_ESbNPOSeko0Q52"  # payment_xxxx_after_failure.jsonで使用
+  status: past_due
+
+charge_trialing:
+  user: user7
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: MasterCard
+  exp_month: 06
+  exp_year: 2100
+  last4: 4444
+  subscription_id: "sub_ESwwZke6o4eyZA"   # trial_ended.jsonで使用
+  status: trialing
+  trial_end: <%= 10.minutes.since(Time.current) %>

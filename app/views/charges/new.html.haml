@@ -1,0 +1,18 @@
+%h1.ui.header
+  %i.icon.credit.card.outline
+  決済情報の登録
+
+.ui.secondary.center.aligned.segment
+  = form_tag charges_path do
+    %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-email="#{current_user.email}"
+            data-key="#{Rails.configuration.stripe[:publishable_key]}"
+            data-image="#{asset_path('avatar.png')}"
+            data-name="ブンゴウメールPRO"
+            data-description="1ヶ月間は無料トライアル"
+            data-currency="JPY"
+            data-amount="350"
+            data-label="クレジットカードで決済する"
+            data-panel-label="利用登録する（{{amount}}/月）"
+            data-allow-remember-me="false"
+            data-locale="auto")

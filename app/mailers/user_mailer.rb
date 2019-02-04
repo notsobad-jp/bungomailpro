@@ -13,7 +13,7 @@ class UserMailer < ApplicationMailer
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
     mail(to: @user.email, subject: "【ブンゴウメール】ログイン用URL")
-    Logger.new(STDOUT).info "[LOGIN] Login mail sent to #{@user.id}"
+    logger.info "[LOGIN] Login mail sent to #{@user.id}"
   end
 
 
@@ -40,6 +40,6 @@ class UserMailer < ApplicationMailer
       to: @subscription.user.email,
       subject: "#{@book.title}（#{@chapter.index}/#{@book.chapters_count}）【#{@channel.title}】"
     )
-    Logger.new(STDOUT).info "[SCHEDULED] channel:#{@channel.id}, chapter:#{@chapter.book_id}-#{@chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
+    logger.info "[SCHEDULED] channel:#{@channel.id}, chapter:#{@chapter.book_id}-#{@chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
   end
 end

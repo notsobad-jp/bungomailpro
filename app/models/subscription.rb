@@ -58,7 +58,10 @@ class Subscription < ApplicationRecord
     return if !self.current_book_id  # もし配信終了してるときはスキップ（2月で2回配信するときに配信終了状態で来る可能性がある）
     return if self.next_delivery_date != Time.zone.today  # 配信日が今日じゃなければスキップ（このあとの処理を実行する前に2回処理予約されると重複処理される可能性がある）
 
-    UserMailer.with(subscription: self).chapter_email.deliver_now   # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
+    # 有料ユーザーのみメール配信
+    UserMailer.with(subscription: self).chapter_email.deliver_now if self.user.pro?  # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
+
+    # RSSフィードと次の配信情報の更新（無料ユーザーも）
     self.create_feed
     self.set_next_chapter
   end
@@ -132,7 +135,7 @@ class Subscription < ApplicationRecord
         next_delivery_date: nil
       )
     end
-    Logger.new(STDOUT).info "[CHAPTER SET] sub:#{self.id}, from:#{current_chapter.book_id}-#{current_chapter.index}, to:#{next_chapter.try(:book_id)}-#{next_chapter.try(:index)}"
+    logger.info "[CHAPTER SET] sub:#{self.id}, from:#{current_chapter.book_id}-#{current_chapter.index}, to:#{next_chapter.try(:book_id)}-#{next_chapter.try(:index)}"
   end
 
 
