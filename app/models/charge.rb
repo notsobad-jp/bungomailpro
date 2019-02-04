@@ -49,22 +49,19 @@ class Charge < ApplicationRecord
   end
 
 
-  # 解約予約
   def cancel_subscription
-    sub = Stripe::Subscription.retrieve(self.subscription_id)
-    sub.cancel_at_period_end = true
-    sub.save
-
-    self.update(cancel_at: Time.zone.at(sub.cancel_at))
-  end
-
-
-  # 即時解約（支払い期日過ぎてるとき）
-  def cancel_subscription_now
-    sub = Stripe::Subscription.retrieve(self.subscription_id)
-    sub.delete
-
-    self.update(status: sub.status)
+    # 支払い失敗中の場合、すぐに解約する
+    if self.status == 'past_due'
+      sub = Stripe::Subscription.retrieve(self.subscription_id)
+      sub.delete
+      self.update(status: sub.status)
+    # それ以外の場合は、期間終了時に解約予約
+    else
+      sub = Stripe::Subscription.retrieve(self.subscription_id)
+      sub.cancel_at_period_end = true
+      sub.save
+      self.update(cancel_at: Time.zone.at(sub.cancel_at))
+    end
   end
 
 

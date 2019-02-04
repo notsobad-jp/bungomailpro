@@ -21,38 +21,6 @@ require 'test_helper'
 
 class ChargeTest < ActiveSupport::TestCase
   ########################################################################
-  # activate
-  ########################################################################
-  test "test_activate_when_cancel_planned" do
-    stub_request(:any, /api\.stripe\.com/).to_return(status: 200, body: File.read("test/fixtures/files/test.json"))
-    charge = charges(:charge_cancel_planned)
-    charge.activate
-
-    assert_equal 'active', charge.status
-    assert_nil charge.cancel_at
-  end
-
-
-  test "test_activate_when_already_canceled" do
-    stub_request(:any, /api\.stripe\.com/).to_return(status: 200, body: File.read("test/fixtures/files/test.json"))
-    charge = charges(:charge_canceled)
-
-    charge.activate
-    assert_nil charge.cancel_at
-  end
-
-
-  test "test_activate_when_still_active" do
-    stub_request(:any, /api\.stripe\.com/).to_return(status: 200, body: File.read("test/fixtures/files/test.json"))
-    charge = charges(:charge_active)
-
-    charge.activate
-    assert_nil charge.cancel_at
-  end
-
-
-
-  ########################################################################
   # create_or_update_customer
   ########################################################################
   test "test_create_or_update_customer_when_no_charge" do
@@ -119,6 +87,50 @@ class ChargeTest < ActiveSupport::TestCase
     stub_request(:any, /api\.stripe\.com\/v1\/subscriptions/).to_return(status: 200, body: File.read("test/fixtures/files/subscription_canceled.json"))
     charge = charges(:charge_active)
     charge.cancel_subscription
+
+    assert_equal 'active', charge.status
     assert_equal Time.zone.at(1551797999), charge.cancel_at
+  end
+
+
+  test "test_cancel_subscriptin_when_past_due" do
+    stub_request(:any, /api\.stripe\.com\/v1\/subscriptions/).to_return(status: 200, body: File.read("test/fixtures/files/subscription_deleted.json"))
+    charge = charges(:charge_past_due)
+    charge.cancel_subscription
+
+    assert_equal 'canceled', charge.status
+    assert_nil charge.cancel_at
+  end
+
+
+
+  ########################################################################
+  # activate
+  ########################################################################
+  test "test_activate_when_cancel_planned" do
+    stub_request(:any, /api\.stripe\.com/).to_return(status: 200, body: File.read("test/fixtures/files/test.json"))
+    charge = charges(:charge_cancel_planned)
+    charge.activate
+
+    assert_equal 'active', charge.status
+    assert_nil charge.cancel_at
+  end
+
+
+  test "test_activate_when_already_canceled" do
+    stub_request(:any, /api\.stripe\.com/).to_return(status: 200, body: File.read("test/fixtures/files/test.json"))
+    charge = charges(:charge_canceled)
+
+    charge.activate
+    assert_nil charge.cancel_at
+  end
+
+
+  test "test_activate_when_still_active" do
+    stub_request(:any, /api\.stripe\.com/).to_return(status: 200, body: File.read("test/fixtures/files/test.json"))
+    charge = charges(:charge_active)
+
+    charge.activate
+    assert_nil charge.cancel_at
   end
 end

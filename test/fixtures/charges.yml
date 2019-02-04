@@ -55,3 +55,13 @@ charge_without_subscription:
   exp_month: 03
   exp_year: 2100
   last4: 4242
+
+charge_past_due:
+  user: user6
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: MasterCard
+  exp_month: 06
+  exp_year: 2100
+  last4: 4444
+  subscription_id: "sub_<%= SecureRandom.hex(14) %>"
+  status: past_due

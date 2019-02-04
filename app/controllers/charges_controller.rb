@@ -45,15 +45,9 @@ class ChargesController < ApplicationController
 
 
   def destroy
-    # 決済失敗中なら即時解約
-    if @charge.status == 'past_due'
-      @charge.cancel_subscription_now
-      flash[:info] = '解約処理を完了しました。これ以降の支払いは一切行われません。ご利用ありがとうございました。'
-    # それ以外なら期間終了時に停止
-    else
-      @charge.cancel_subscription
-      flash[:info] = '解約を受け付けました。これ以降の支払いは一切行われません。メール配信は現在の期間終了まで継続したあと、自動的に停止します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。ご利用ありがとうございました。'
-    end
+    flash[:info] = '解約処理を完了しました。これ以降の支払いは一切行われません。ご利用ありがとうございました。'
+    flash[:info] += 'メール配信は現在の期間終了まで継続したあと、自動的に停止します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。'  if @charge.status != 'past_due'
+    @charge.cancel_subscription
     redirect_to user_path(current_user.token)
   rescue Stripe::StripeError => e
     logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"
