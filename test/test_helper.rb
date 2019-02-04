@@ -8,4 +8,11 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def stripe_signature(body)
+    timestamp = Time.current.to_i
+    signing_format = "#{timestamp}.#{body}"
+    signature = Stripe::Webhook::Signature.send(:compute_signature, signing_format, ENV['STRIPE_WEBHOOK_SIGNATURE'])
+    scheme = Stripe::Webhook::Signature::EXPECTED_SCHEME
+    "t=#{timestamp},#{scheme}=#{signature}"
+  end
 end

@@ -24,7 +24,7 @@ charge_active:
   exp_month: 10
   exp_year: 2100
   last4: 4242
-  subscription_id: "sub_<%= SecureRandom.hex(14) %>"
+  subscription_id: "sub_ESczFoNBc38phk"  # payment_failed.jsonで使用
   status: active
 
 charge_canceled:
@@ -63,5 +63,16 @@ charge_past_due:
   exp_month: 06
   exp_year: 2100
   last4: 4444
-  subscription_id: "sub_<%= SecureRandom.hex(14) %>"
+  subscription_id: "sub_ESbNPOSeko0Q52"  # payment_xxxx_after_failure.jsonで使用
   status: past_due
+
+charge_trialing:
+  user: user7
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: MasterCard
+  exp_month: 06
+  exp_year: 2100
+  last4: 4444
+  subscription_id: "sub_ESwwZke6o4eyZA"   # trial_ended.jsonで使用
+  status: trialing
+  trial_end: <%= 10.minutes.since(Time.current) %>
