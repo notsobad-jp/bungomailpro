@@ -111,4 +111,5 @@
                     #{subscription.delivery_hour}:00
             .extra.content
               = link_to '配信設定', edit_subscription_path(subscription.token), class: 'ui red basic small button'
-              = link_to '編集', edit_channel_path(channel.token), class: "ui primary basic small button"
+              - if channel.user_id == current_user.id
+                = link_to '編集', edit_channel_path(channel.token), class: "ui primary basic small button"
