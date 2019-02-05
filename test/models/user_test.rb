@@ -47,9 +47,9 @@ class UserTest < ActiveSupport::TestCase
   ########################################################################
   # 自分の非公開チャネル
   test "subscribe_own_private_channel" do
-    assert_equal 1, @user3.subscriptions.size
-    @user3.subscribe(channels(:channel3))
     assert_equal 2, @user3.subscriptions.size
+    @user3.subscribe(channels(:channel3))
+    assert_equal 3, @user3.subscriptions.size
   end
 
   # 他ユーザーの公開チャネル

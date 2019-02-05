@@ -36,10 +36,10 @@ class Channel < ApplicationRecord
 
 
   def add_book(book)
-    self.channel_books.create_with(index: self.last_index + 1).find_or_create_by(book_id: book.id)
+    self.channel_books.create_with(index: self.max_index + 1).find_or_create_by(book_id: book.id)
   end
 
-  def last_index
+  def max_index
     self.channel_books.maximum(:index) || 0
   end
 
