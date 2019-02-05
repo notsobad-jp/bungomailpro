@@ -45,7 +45,7 @@ class Channel < ApplicationRecord
 
   # いま一番進んでる配信で配信中のbook_index。これより前の本は編集しちゃだめ。
   def latest_index
-    sql = "SELECT MAX(channel_books.index) FROM subscriptions JOIN channel_books ON (subscriptions.channel_id = channel_books.channel_id AND subscriptions.current_book_id = channel_books.book_id) WHERE subscriptions.channel_id=#{self.index}"
-    ActiveRecord::Base.connection.select_value(sql)
+    sql = "SELECT MAX(channel_books.index) FROM subscriptions JOIN channel_books ON (subscriptions.channel_id = channel_books.channel_id AND subscriptions.current_book_id = channel_books.book_id) WHERE subscriptions.channel_id=#{self.id}"
+    ActiveRecord::Base.connection.select_value(sql) || 0   #購読者なしのときはnilが来るので代わりに0を返す
   end
 end
