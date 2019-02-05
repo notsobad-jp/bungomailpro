@@ -19,6 +19,7 @@
 user1:
   token: <%= SecureRandom.hex(10) %>
   email: 'sample@example.com'
+  magic_login_token: 'iWysyXTyzT57dh6fmT-r'
 
 user2:
   token: <%= SecureRandom.hex(10) %>

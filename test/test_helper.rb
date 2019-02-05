@@ -15,4 +15,10 @@ class ActiveSupport::TestCase
     scheme = Stripe::Webhook::Signature::EXPECTED_SCHEME
     "t=#{timestamp},#{scheme}=#{signature}"
   end
+
+  # Sorcery Login helper
+  def login_user(user)
+    get auth_path, params: { token: user.magic_login_token }
+    follow_redirect!
+  end
 end
