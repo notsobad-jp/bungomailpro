@@ -1,16 +1,8 @@
 require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
-    # TODO: テスト時のGravatarへのリクエストをmockする
-    stub_request(:get, "https://ja.gravatar.com/45e67126a4c44c6ae030279e21437c79.json").
-    with(
-      headers: {
-        'Accept'=>'*/*',
-        'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-        'Host'=>'ja.gravatar.com',
-        'User-Agent'=>'Ruby'
-        }).
-        to_return(status: 200, body: "", headers: {})
+    # Gravatarへのリクエストmock
+    stub_request(:get, /https:\/\/ja\.gravatar\.com\/.*\.json/).to_return(status: 200, body: File.read("test/fixtures/files/gravatar.json"))
   end
 
   test "access_show_when_guest" do
@@ -23,6 +15,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = users(:user1)
     login_user(user)
     get user_url(user.token)
-    assert_redirected_to login_path
+    assert_response :success
+  end
+
+  test "access_show_when_other" do
+    user1 = users(:user1)
+    user2 = users(:user2)
+    login_user(user2)
+    get user_url(user1.token)
+    assert_redirected_to pro_root_path
   end
 end
