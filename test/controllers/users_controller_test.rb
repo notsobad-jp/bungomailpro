@@ -5,6 +5,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     stub_request(:get, /https:\/\/ja\.gravatar\.com\/.*\.json/).to_return(status: 200, body: File.read("test/fixtures/files/gravatar.json"))
   end
 
+  ########################################################################
+  # show
+  ########################################################################
   test "access_show_when_guest" do
     user = users(:user1)
     get user_url(user.token)

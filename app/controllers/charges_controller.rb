@@ -70,12 +70,9 @@ class ChargesController < ApplicationController
 
 
   # Stripe自動送信メール用の支払い情報更新リンク: charges#editにリダイレクトする
+  ## chargeが存在しない場合はpolicyで弾かれる
   def update_payment
-    if charge = current_user.charge
-      redirect_to edit_charge_path(charge)
-    else
-      redirect_to user_path(current_user.token)
-    end
+    redirect_to edit_charge_path(current_user.charge)
   end
 
 
