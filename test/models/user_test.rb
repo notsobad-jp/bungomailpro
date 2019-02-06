@@ -28,39 +28,38 @@ class UserTest < ActiveSupport::TestCase
   # subscriptionable?
   ########################################################################
   # 購読チャネルが3未満のとき
-  test "subscriptionable?_when_true" do
+  test 'subscriptionable?_when_true' do
     assert_equal 2, @user1.subscriptions.size
     assert @user1.subscriptionable?
   end
 
   # 購読チャネルが3以上のとき
-  test "subscriptionable?_when_false" do
+  test 'subscriptionable?_when_false' do
     @user1.subscribe(channels(:channel3))
 
     assert_equal 3, @user1.subscriptions.size
-    assert !@user1.subscriptionable?
+    assert_not @user1.subscriptionable?
   end
-
 
   ########################################################################
   # subscribe
   ########################################################################
   # 自分の非公開チャネル
-  test "subscribe_own_private_channel" do
+  test 'subscribe_own_private_channel' do
     assert_equal 2, @user3.subscriptions.size
     @user3.subscribe(channels(:channel3))
     assert_equal 3, @user3.subscriptions.size
   end
 
   # 他ユーザーの公開チャネル
-  test "subscribe_others_public_channel" do
+  test 'subscribe_others_public_channel' do
     assert_equal 2, @user1.subscriptions.size
     @user1.subscribe(channels(:channel3))
     assert_equal 3, @user1.subscriptions.size
   end
 
   # 購読済みのチャネル
-  test "subscribe_duplicate_channel" do
+  test 'subscribe_duplicate_channel' do
     assert_equal 2, @user1.subscriptions.size
     @user1.subscribe(channels(:channel1))
     assert_equal 2, @user1.subscriptions.size

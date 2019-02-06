@@ -14,5 +14,5 @@
 class Feed < ApplicationRecord
   belongs_to :subscription
   belongs_to :book
-  belongs_to :chapter, foreign_key: [:book_id, :index]
+  belongs_to :chapter, foreign_key: %i[book_id index]
 end

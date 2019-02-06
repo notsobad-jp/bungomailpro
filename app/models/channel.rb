@@ -24,28 +24,27 @@ class Channel < ApplicationRecord
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true
-  validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: Proc.new { |c| c.public? }
+  validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: proc { |c| c.public? }
 
   before_create do
     self.token = SecureRandom.hex(10)
   end
 
   before_save do
-    self.user.channels.update_all(default: false) if self.default
+    user.channels.update_all(default: false) if default
   end
 
-
   def add_book(book)
-    self.channel_books.create_with(index: self.max_index + 1).find_or_create_by(book_id: book.id)
+    channel_books.create_with(index: max_index + 1).find_or_create_by(book_id: book.id)
   end
 
   def max_index
-    self.channel_books.maximum(:index) || 0
+    channel_books.maximum(:index) || 0
   end
 
   # いま一番進んでる配信で配信中のbook_index。これより前の本は編集しちゃだめ。
   def latest_index
-    sql = "SELECT MAX(channel_books.index) FROM subscriptions JOIN channel_books ON (subscriptions.channel_id = channel_books.channel_id AND subscriptions.current_book_id = channel_books.book_id) WHERE subscriptions.channel_id=#{self.id}"
-    ActiveRecord::Base.connection.select_value(sql) || 0   #購読者なしのときはnilが来るので代わりに0を返す
+    sql = "SELECT MAX(channel_books.index) FROM subscriptions JOIN channel_books ON (subscriptions.channel_id = channel_books.channel_id AND subscriptions.current_book_id = channel_books.book_id) WHERE subscriptions.channel_id=#{id}"
+    ActiveRecord::Base.connection.select_value(sql) || 0 # 購読者なしのときはnilが来るので代わりに0を返す
   end
 end

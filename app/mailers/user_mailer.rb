@@ -1,5 +1,4 @@
 class UserMailer < ApplicationMailer
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -12,10 +11,9 @@ class UserMailer < ApplicationMailer
     xsmtp_api_params = { category: 'login' }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    mail(to: @user.email, subject: "【ブンゴウメール】ログイン用URL")
+    mail(to: @user.email, subject: '【ブンゴウメール】ログイン用URL')
     logger.info "[LOGIN] Login mail sent to #{@user.id}"
   end
-
 
   def chapter_email
     @subscription = params[:subscription]
@@ -26,7 +24,7 @@ class UserMailer < ApplicationMailer
     send_at = Time.zone.parse(@subscription.next_delivery_date.to_s).change(hour: @subscription.delivery_hour)
 
     # 配信が今日じゃなかったら処理をスキップ
-    return if !send_at.between?(Time.zone.today.beginning_of_day, Time.zone.today.end_of_day)
+    return unless send_at.between?(Time.zone.today.beginning_of_day, Time.zone.today.end_of_day)
 
     xsmtp_api_params = {
       send_at: send_at.to_i,

@@ -19,54 +19,48 @@
 
 class Charge < ApplicationRecord
   belongs_to :user
-  TRIAL_PERIOD_DAYS = 31  # 無料トライアル日数
-  BILLING_DAY = 5  # 毎月の決済日
+  TRIAL_PERIOD_DAYS = 31 # 無料トライアル日数
+  BILLING_DAY = 5 # 毎月の決済日
 
   before_create do
     self.id = SecureRandom.hex(10)
   end
 
-
-
   def active?
-    %w(trialing active past_due).include? self.status
+    %w[trialing active past_due].include? status
   end
-
 
   def activate
-    sub = Stripe::Subscription.retrieve(self.subscription_id)
+    sub = Stripe::Subscription.retrieve(subscription_id)
     sub.cancel_at_period_end = false
     sub.save
-    self.update(cancel_at: nil)
+    update(cancel_at: nil)
   end
-
 
   # 課金開始日の指定
   def billing_cycle_anchor
-    next_payment_day = Time.current.next_month.beginning_of_month.change(day: BILLING_DAY)  # 基本は翌月5日から課金サイクル開始
-    (self.trial_end > next_payment_day) ? next_payment_day.next_month : next_payment_day  # トライアル終了がそれ以降になる場合は、翌々月から課金サイクル開始
+    next_payment_day = Time.current.next_month.beginning_of_month.change(day: BILLING_DAY) # 基本は翌月5日から課金サイクル開始
+    trial_end > next_payment_day ? next_payment_day.next_month : next_payment_day # トライアル終了がそれ以降になる場合は、翌々月から課金サイクル開始
   end
-
 
   def cancel_subscription
     # 支払い失敗中の場合、すぐに解約する
-    if self.status == 'past_due'
-      sub = Stripe::Subscription.retrieve(self.subscription_id)
+    if status == 'past_due'
+      sub = Stripe::Subscription.retrieve(subscription_id)
       sub.delete
-      self.update(status: sub.status)
+      update(status: sub.status)
     # それ以外の場合は、期間終了時に解約予約
     else
-      sub = Stripe::Subscription.retrieve(self.subscription_id)
+      sub = Stripe::Subscription.retrieve(subscription_id)
       sub.cancel_at_period_end = true
       sub.save
-      self.update(cancel_at: Time.zone.at(sub.cancel_at))
+      update(cancel_at: Time.zone.at(sub.cancel_at))
     end
   end
 
-
   def create_or_update_customer(params)
     # Stripe::Customerが登録されてなかったら新規登録、されてればクレカ情報更新（解約→再登録のケース）
-    customer = Stripe::Customer.retrieve(self.customer_id) if self.persisted?
+    customer = Stripe::Customer.retrieve(customer_id) if persisted?
     if !customer
       customer = Stripe::Customer.create(
         email: params[:stripeEmail],
@@ -80,7 +74,7 @@ class Charge < ApplicationRecord
 
     # DBにcharge情報保存
     card = customer.sources.first
-    self.update_attributes(
+    update(
       customer_id: customer.id,
       brand: card.brand,
       exp_month: card.exp_month,
@@ -89,41 +83,38 @@ class Charge < ApplicationRecord
     )
   end
 
-
   def create_subscription
-    raise 'already subscribing' if self.active?  # すでに支払い中の場合は処理を中断
+    raise 'already subscribing' if active? # すでに支払い中の場合は処理を中断
 
     # Stripeでsubscription作成
     subscription = Stripe::Subscription.create(
-      customer: self.customer_id,
-      billing_cycle_anchor: self.billing_cycle_anchor.to_i,
-      trial_end: self.trial_end.to_i,
-      items: [{plan: ENV['STRIPE_PLAN_ID']}]
+      customer: customer_id,
+      billing_cycle_anchor: billing_cycle_anchor.to_i,
+      trial_end: trial_end.to_i,
+      items: [{ plan: ENV['STRIPE_PLAN_ID'] }]
     )
 
     # DBにsubscription情報を保存
-    self.update!(
+    update!(
       subscription_id: subscription.id,
       status: subscription.status,
-      trial_end: self.trial_end
+      trial_end: trial_end
     )
   end
-
 
   def trial_end
     TRIAL_PERIOD_DAYS.days.since(Time.current.end_of_day)
   end
 
-
   def update_customer(params)
     # Stripeでsourceを更新
-    customer = Stripe::Customer.retrieve(self.customer_id)
+    customer = Stripe::Customer.retrieve(customer_id)
     customer.source = params[:stripeToken]
     customer.save
 
     # DBにも更新を保存
     card = customer.sources.first
-    self.update(
+    update(
       brand: card.brand,
       exp_month: card.exp_month,
       exp_year: card.exp_year,

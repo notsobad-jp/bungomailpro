@@ -20,6 +20,6 @@ class ChargePolicy < ApplicationPolicy
   end
 
   def update_payment?
-    user && user.charge
+    user&.charge
   end
 end
