@@ -40,7 +40,7 @@ class Book < ApplicationRecord
   end
 
   def create_chapters
-    text, footnote = get_text_from_aozora_file
+    text, footnote = aozora_file_text
 
     chapters = []
     Book.split_text(text).each.with_index(1) do |chapter, index|
@@ -54,13 +54,8 @@ class Book < ApplicationRecord
   end
 
   # scrape and parse Aozora File
-  def get_text_from_aozora_file
-    begin
-      html = File.open(aozora_file_path, &:read)
-    # ローカルにファイルが存在しない場合は青空文庫サイトに見に行く
-    rescue Errno::ENOENT
-      html = open(aozora_file_url, &:read)
-    end
+  def aozora_file_text
+    html = File.open(aozora_file_path, &:read)
 
     charset = 'CP932'
     doc = Nokogiri::HTML.parse(html, nil, charset)
@@ -130,7 +125,7 @@ class Book < ApplicationRecord
 
       contents = []
       text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
-        if index == 0
+        if index.zero?
           contents[index] = content.gsub(/^(\r\n|\r|\n|\s|\t)/, '') # 冒頭の改行を削除
           next
         end

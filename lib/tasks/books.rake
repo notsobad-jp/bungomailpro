@@ -13,7 +13,7 @@ namespace :books do
       author_id = fg[14].to_i unless match
 
       # 同じ作品が複数行ある（＝著者が複数）場合、2回目以降は著者を追記する
-      if book = Book.find_by(id: fg[0].to_i)
+      if (book = Book.find_by(id: fg[0].to_i))
         author = "#{book.author}, #{fg[15]} #{fg[16]}"
         book.update!(author: author)
         puts "[著者追加] #{fg[0]} #{fg[1]}: #{fg[15]} #{fg[16]}(#{fg[14]})"

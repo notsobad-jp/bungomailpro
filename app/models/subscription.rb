@@ -82,13 +82,12 @@ class Subscription < ApplicationRecord
     # 同じ本で前のchapterが存在すればそれを返す
     return next_chapter.prev if next_chapter_index > 1
 
-    # なければ前の本の最後のchapterを返す
-    if current_channel_book.index > 1
-      prev_channel_book = current_channel_book.prev
-      return prev_channel_book.book.chapters.last
-    end
+    # なければ前の本を見るけど、前の本もない場合（＝最初の本の最初の配信前）はnil
+    return if current_channel_book.index == 1
 
-    # 前の本もない場合（＝最初の本の最初の配信前）；prevなし
+    # 前の本があれば、その最後のchapterを返す
+    prev_channel_book = current_channel_book.prev
+    prev_channel_book.book.chapters.last
   end
 
   def scheduled_books
@@ -104,13 +103,13 @@ class Subscription < ApplicationRecord
     next_delivery_date = tomorrow.day == 31 ? tomorrow.tomorrow : tomorrow
 
     # 同じ本で次のchapterが存在すればそれをセット
-    if next_chapter = current_chapter.next
+    if (next_chapter = current_chapter.next)
       update!(
         next_chapter_index: next_chapter.index,
         next_delivery_date: next_delivery_date
       )
     # 次のchapterがなければ、次の本を探してindex:1でセット
-    elsif next_channel_book = current_channel_book.next
+    elsif (next_channel_book = current_channel_book.next)
       update!(
         next_chapter_index: 1,
         current_book_id: next_channel_book.book_id,

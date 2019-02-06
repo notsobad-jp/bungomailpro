@@ -72,7 +72,7 @@ class ChargesController < ApplicationController
   private
 
   def set_charge
-    if id = params[:id]
+    if (id = params[:id])
       @charge = Charge.find(id)
       authorize @charge
     else

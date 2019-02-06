@@ -75,7 +75,7 @@ class ChannelsController < ApplicationController
   end
 
   def set_channel
-    if token = params[:id]
+    if (token = params[:id])
       @channel = Channel.includes(channel_books: :book).find_by!(token: token)
       authorize @channel
     else

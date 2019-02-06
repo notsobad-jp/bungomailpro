@@ -32,3 +32,8 @@ Style/ClassAndModuleChildren:
 # Use only ascii symbols in comments. を無視
 Style/AsciiComments:
   Enabled: false
+
+# Block has too many lines. をlibでのみ無視
+Metrics/BlockLength:
+  Exclude:
+    - 'lib/**/*'
