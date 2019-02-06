@@ -73,3 +73,14 @@ user4_channel1:
   next_chapter_index: 3
   next_delivery_date: <%= Time.zone.today %>
   token: <%= SecureRandom.hex(10) %>
+
+
+# 自分しか購読してないチャネル
+user3_channel4:
+  user: user3
+  channel: channel4
+  current_book: book1
+  delivery_hour: 10
+  next_chapter_index: 2
+  next_delivery_date: <%= Time.zone.tomorrow %>
+  token: <%= SecureRandom.hex(10) %>

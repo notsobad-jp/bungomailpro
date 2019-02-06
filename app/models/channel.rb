@@ -36,10 +36,16 @@ class Channel < ApplicationRecord
 
 
   def add_book(book)
-    self.channel_books.create_with(index: self.last_index + 1).find_or_create_by(book_id: book.id)
+    self.channel_books.create_with(index: self.max_index + 1).find_or_create_by(book_id: book.id)
   end
 
-  def last_index
+  def max_index
     self.channel_books.maximum(:index) || 0
+  end
+
+  # いま一番進んでる配信で配信中のbook_index。これより前の本は編集しちゃだめ。
+  def latest_index
+    sql = "SELECT MAX(channel_books.index) FROM subscriptions JOIN channel_books ON (subscriptions.channel_id = channel_books.channel_id AND subscriptions.current_book_id = channel_books.book_id) WHERE subscriptions.channel_id=#{self.id}"
+    ActiveRecord::Base.connection.select_value(sql) || 0   #購読者なしのときはnilが来るので代わりに0を返す
   end
 end

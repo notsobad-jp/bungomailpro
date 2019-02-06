@@ -50,3 +50,7 @@ ja:
       title: 決済情報登録
       description: 有料プランの決済情報登録ページです。
       noindex: true
+    edit:
+      title: 決済情報更新
+      description: 有料プランの決済情報更新ページです。
+      noindex: true

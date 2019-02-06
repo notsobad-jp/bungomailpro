@@ -39,45 +39,9 @@
       = link_to '配信終了', subscriptions_path(q: 'finished'), class: 'item'
 
   .ui.stackable.grid
-    .ui.three.columns.row
-      - if !@finished
-        - @draft_channels.each do |channel|
-          .ui.column
-            .ui.fluid.card
-              .content
-                .header
-                  = link_to channel.title, channel_path(channel.token)
-                  - if !channel.public?
-                    %small(data-tooltip="非公開" data-inverted="true")
-                      %i.small.lock.icon
-                .description
-                  = channel.description.try(:truncate, 50)
-              .extra.content
-                - if channel.books_count == 0
-                  .ui.warning.small.message
-                    .content
-                      まだ本が登録されていないようです。「
-                      = link_to '作品検索', books_path
-                      」から本を追加して配信開始しましょう！
-                - else
-                  .ui.small.list
-                    .item
-                      %i.icon.book
-                      #{channel.books_count}冊
-              .extra.content
-                - if channel.books_count > 0 && current_user.subscriptionable?
-                  = link_to '配信開始', subscriptions_path(channel_id: channel.token), method: :post, class: "ui small red button"
-                - else
-                  %button.ui.small.red.disabled.button 配信開始
-                = link_to '編集', edit_channel_path(channel.token), class: "ui primary small basic button"
-
-      - if @finished && @subscriptions.blank?
-        .ui.column
-          チャネルがありません
-
-      - @subscriptions.each do |subscription|
-        .ui.column
-          - channel = subscription.channel
+    - if !@finished
+      - @draft_channels.each do |channel|
+        .ui.five.wide.column
           .ui.fluid.card
             .content
               .header
@@ -86,29 +50,65 @@
                   %small(data-tooltip="非公開" data-inverted="true")
                     %i.small.lock.icon
               .description
-                - if subscription.current_book_id
-                  %span.ui.orange.mini.label 配信中
-                - else
-                  %span.ui.mini.label 配信終了
                 = channel.description.try(:truncate, 50)
             .extra.content
               - if channel.books_count == 0
                 .ui.warning.small.message
                   .content
-                    まだ本が登録されていないようです。「編集」ボタンから本を追加して配信開始しましょう！
+                    まだ本が登録されていないようです。「
+                    = link_to '作品検索', books_path
+                    」から本を追加して配信開始しましょう！
               - else
                 .ui.small.list
                   .item
                     %i.icon.book
                     #{channel.books_count}冊
-                  .item
-                    %i.icon.podcast
-                    - if subscription.current_chapter
-                      = "#{subscription.current_book.author}『#{subscription.current_book.title}』"
-                      = "##{subscription.current_chapter.index}（全#{subscription.current_book.chapters_count}回）"
-                  .item
-                    %i.icon.clock.outline
-                    #{subscription.delivery_hour}:00
             .extra.content
-              = link_to '配信設定', edit_subscription_path(subscription.token), class: 'ui red basic small button'
+              - if channel.books_count > 0 && current_user.subscriptionable?
+                = link_to '配信開始', subscriptions_path(channel_id: channel.token), method: :post, class: "ui small red button"
+              - else
+                %button.ui.small.red.disabled.button 配信開始
+              = link_to '編集', edit_channel_path(channel.token), class: "ui primary small basic button", data: {turbolinks: false}
+
+    - if @finished && @subscriptions.blank?
+      .ui.column
+        チャネルがありません
+
+    - @subscriptions.each do |subscription|
+      .ui.five.wide.column
+        - channel = subscription.channel
+        .ui.fluid.card
+          .content
+            .header
+              = link_to channel.title, channel_path(channel.token)
+              - if !channel.public?
+                %small(data-tooltip="非公開" data-inverted="true")
+                  %i.small.lock.icon
+            .description
+              - if subscription.current_book_id
+                %span.ui.orange.mini.label 配信中
+              - else
+                %span.ui.mini.label 配信終了
+              = channel.description.try(:truncate, 50)
+          .extra.content
+            - if channel.books_count == 0
+              .ui.warning.small.message
+                .content
+                  まだ本が登録されていないようです。「編集」ボタンから本を追加して配信開始しましょう！
+            - else
+              .ui.small.list
+                .item
+                  %i.icon.book
+                  #{channel.books_count}冊
+                .item
+                  %i.icon.podcast
+                  - if subscription.current_chapter
+                    = "#{subscription.current_book.author}『#{subscription.current_book.title}』"
+                    = "##{subscription.current_chapter.index}（全#{subscription.current_book.chapters_count}回）"
+                .item
+                  %i.icon.clock.outline
+                  #{subscription.delivery_hour}:00
+          .extra.content
+            = link_to '配信設定', edit_subscription_path(subscription.token), class: 'ui red basic small button'
+            - if channel.user_id == current_user.id
               = link_to '編集', edit_channel_path(channel.token), class: "ui primary basic small button"
