@@ -36,7 +36,7 @@ class UserMailer < ApplicationMailer
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
     mail(
-      from: "#{@book.author}（ブンゴウメール） <bungomail@notsobad.jp>",
+      from: "#{@book.author.gsub(",", "、")}（ブンゴウメール） <bungomail@notsobad.jp>",
       to: @subscription.user.email,
       subject: "#{@book.title}（#{@chapter.index}/#{@book.chapters_count}）【#{@channel.title}】"
     )
