@@ -4,10 +4,9 @@ class ChargesController < ApplicationController
   after_action :verify_authorized
 
   def new
-    @breadcrumbs << {name: 'アカウント情報', url: user_path(current_user.token)}
-    @breadcrumbs << {name: '決済情報'}
+    @breadcrumbs << { name: 'アカウント情報', url: user_path(current_user.token) }
+    @breadcrumbs << { name: '決済情報' }
   end
-
 
   def create
     # Stripe::Customerが登録されてなかったら新規登録、されてればクレカ情報更新（解約→再登録のケース）
@@ -25,12 +24,10 @@ class ChargesController < ApplicationController
     redirect_to new_charge_path
   end
 
-
   def edit
-    @breadcrumbs << {name: 'アカウント情報', url: user_path(current_user.token)}
-    @breadcrumbs << {name: '決済情報の更新'}
+    @breadcrumbs << { name: 'アカウント情報', url: user_path(current_user.token) }
+    @breadcrumbs << { name: '決済情報の更新' }
   end
-
 
   def update
     @charge.update_customer(params)
@@ -43,10 +40,9 @@ class ChargesController < ApplicationController
     redirect_to edit_charge_path(@charge)
   end
 
-
   def destroy
     flash[:info] = '解約処理を完了しました。これ以降の支払いは一切行われません。ご利用ありがとうございました。'
-    flash[:info] += 'メール配信は現在の期間終了まで継続したあと、自動的に停止します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。'  if @charge.status != 'past_due'
+    flash[:info] += 'メール配信は現在の期間終了まで継続したあと、自動的に停止します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。' if @charge.status != 'past_due'
     @charge.cancel_subscription
     redirect_to user_path(current_user.token)
   rescue Stripe::StripeError => e
@@ -54,7 +50,6 @@ class ChargesController < ApplicationController
     flash[:error] = '決済登録の解除に失敗しました...。画面をリロードして、しばらく経ってからもう一度お試しください。どうしてもうまくいかない場合は運営までお問い合わせください。'
     redirect_to user_path(current_user.token)
   end
-
 
   # 解約予約したのを再度アクティベイト
   def activate
@@ -68,21 +63,20 @@ class ChargesController < ApplicationController
     redirect_to user_path(current_user.token)
   end
 
-
   # Stripe自動送信メール用の支払い情報更新リンク: charges#editにリダイレクトする
   ## chargeが存在しない場合はpolicyで弾かれる
   def update_payment
     redirect_to edit_charge_path(current_user.charge)
   end
 
-
   private
-    def set_charge
-      if id = params[:id]
-        @charge = Charge.find(id)
-        authorize @charge
-      else
-        authorize Charge
-      end
+
+  def set_charge
+    if (id = params[:id])
+      @charge = Charge.find(id)
+      authorize @charge
+    else
+      authorize Charge
     end
+  end
 end

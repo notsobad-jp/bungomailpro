@@ -14,10 +14,10 @@ class Chapter < ApplicationRecord
   belongs_to :book
 
   def next
-    Chapter.find_by(book_id: self.book_id, index: self.index + 1)
+    Chapter.find_by(book_id: book_id, index: index + 1)
   end
 
   def prev
-    Chapter.find_by(book_id: self.book_id, index: self.index - 1) if self.index > 1
+    Chapter.find_by(book_id: book_id, index: index - 1) if index > 1
   end
 end

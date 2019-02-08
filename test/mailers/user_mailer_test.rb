@@ -9,7 +9,7 @@ class UserMailerTest < ActiveSupport::TestCase
   # send_chapter_email
   ########################################################################
   # 通常ケース
-  test "send_chapter_email_for_today" do
+  test 'send_chapter_email_for_today' do
     sub = subscriptions(:user4_channel1)
     UserMailer.with(subscription: sub).chapter_email.deliver_now
     email = ActionMailer::Base.deliveries.last
@@ -21,7 +21,7 @@ class UserMailerTest < ActiveSupport::TestCase
   end
 
   # 配信日が明日なら送らない（間違って来た場合）
-  test "send_chapter_email_for_tomorrow" do
+  test 'send_chapter_email_for_tomorrow' do
     sub = subscriptions(:user3_channel1)
     email = UserMailer.with(subscription: sub).chapter_email
     email.deliver_now

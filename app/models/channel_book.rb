@@ -12,22 +12,21 @@
 #
 
 class ChannelBook < ApplicationRecord
-  belongs_to :channel, counter_cache: :books_count, required: false
+  belongs_to :channel, counter_cache: :books_count, optional: true
   belongs_to :book
 
   validates :index, presence: true
   validates :channel_id, uniqueness: { scope: [:book_id] }
 
-
   def editable?
-    self.index > self.channel.latest_index
+    index > channel.latest_index
   end
 
   def next
-    self.channel.channel_books.where("index > ?", self.index).first
+    channel.channel_books.where('index > ?', index).first
   end
 
   def prev
-    self.channel.channel_books.where("index < ?", self.index).last if self.index > 1
+    channel.channel_books.where('index < ?', index).last if index > 1
   end
 end

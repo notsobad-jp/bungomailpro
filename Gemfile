@@ -42,6 +42,7 @@ group :development do
   gem 'annotate'
   gem 'letter_opener'
   gem 'rack-mini-profiler', require: false
+  gem 'rubocop', require: false
 end
 
 group :test do

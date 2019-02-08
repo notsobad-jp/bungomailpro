@@ -12,7 +12,8 @@ class WebhooksController < ApplicationController
 
     begin
       # statusが変更されてない場合はスキップ
-      return head :ok if !JSON.parse(payload)['data']['previous_attributes'].try(:has_key?, 'status')
+      return head :ok unless JSON.parse(payload)['data']['previous_attributes'].try(:has_key?, 'status')
+
       # webhookのsignatureチェック
       event = Stripe::Webhook.construct_event(payload, sig_header, ENV['STRIPE_WEBHOOK_SIGNATURE'])
     rescue JSON::ParserError, Stripe::SignatureVerificationError => e
@@ -25,6 +26,6 @@ class WebhooksController < ApplicationController
     charge = Charge.find_by!(subscription_id: sub.id)
     charge.update(status: sub.status)
 
-    return head :ok
+    head :ok
   end
 end

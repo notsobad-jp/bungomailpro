@@ -1,16 +1,15 @@
 module ApplicationHelper
-  require "uri"
-
+  require 'uri'
 
   def creditcard_icon(brand)
     brand = brand.downcase
     case brand
-      when 'diners club', 'discover', 'jcb', 'mastercard', 'visa'
-        content_tag(:i, nil, class: "icon big cc #{brand}")
-      when 'american express'
-        content_tag(:i, nil, class: "icon big cc amex")
-      else
-        content_tag(:i, nil, class: "icon big credit card")
+    when 'diners club', 'discover', 'jcb', 'mastercard', 'visa'
+      content_tag(:i, nil, class: "icon big cc #{brand}")
+    when 'american express'
+      content_tag(:i, nil, class: 'icon big cc amex')
+    else
+      content_tag(:i, nil, class: 'icon big credit card')
     end
   end
 
@@ -32,10 +31,10 @@ module ApplicationHelper
     end
   end
 
-  def linknize text
-    URI.extract(text, ['http', 'https']).uniq.each do |url|
-      sub_text = ""
-      sub_text << "<a href=" << url << " target=\"_blank\">" << url << "</a>"
+  def linknize(text)
+    URI.extract(text, %w[http https]).uniq.each do |url|
+      sub_text = ''
+      sub_text << '<a href=' << url << ' target="_blank">' << url << '</a>'
       text.gsub!(url, sub_text)
     end
     text
@@ -45,16 +44,16 @@ module ApplicationHelper
     return content_tag(:span, 'FREEプラン', class: 'ui basic label') if charge.try(:cancel_at)
 
     case charge.try(:status)
-      when 'trialing'
-        content_tag(:span, '無料トライアル中', class: 'ui orange label')
-      when 'active'
-        content_tag(:span, 'PROプラン', class: 'ui orange label')
-      when 'past_due'
-        content_tag(:span, '決済失敗', class: 'ui red basic label')
-      when 'canceled'
-        content_tag(:span, 'FREEプラン', class: 'ui basic label')
-      else
-        content_tag(:span, 'FREEプラン', class: 'ui basic label')
+    when 'trialing'
+      content_tag(:span, '無料トライアル中', class: 'ui orange label')
+    when 'active'
+      content_tag(:span, 'PROプラン', class: 'ui orange label')
+    when 'past_due'
+      content_tag(:span, '決済失敗', class: 'ui red basic label')
+    when 'canceled'
+      content_tag(:span, 'FREEプラン', class: 'ui basic label')
+    else
+      content_tag(:span, 'FREEプラン', class: 'ui basic label')
     end
   end
 
@@ -62,12 +61,12 @@ module ApplicationHelper
     "#{controller.controller_name}##{controller.action_name}"
   end
 
-  def simple_format_with_link text
-    simple_format(sanitize(linknize(text), attributes: ["href", "target"]), {}, sanitize: false) if text
+  def simple_format_with_link(text)
+    simple_format(sanitize(linknize(text), attributes: %w[href target]), {}, sanitize: false) if text
   end
 
   def footer_hidden
-    return 'hidden' if controller_name == 'channels' && %w(new edit create update).include?(action_name)
+    return 'hidden' if controller_name == 'channels' && %w[new edit create update].include?(action_name)
   end
 
   def time_select

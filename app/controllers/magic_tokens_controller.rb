@@ -1,7 +1,7 @@
 class MagicTokensController < ApplicationController
   def new
     redirect_to subscriptions_path if current_user
-    @breadcrumbs << {name: 'ログイン'}
+    @breadcrumbs << { name: 'ログイン' }
   end
 
   def create

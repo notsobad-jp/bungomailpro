@@ -1,0 +1,51 @@
+inherit_from: .rubocop_todo.yml
+
+# 標準の規約 + Railsの規約
+Rails:
+  Enabled: true
+
+AllCops:
+  # Rubyのバージョンを指定
+  TargetRubyVersion: 2.6.0
+  # 除外するファイル
+  Exclude:
+    - vendor/bundle/**/*
+    - bin/*
+    - db/**/*
+    - config/**/*
+    - Gemfile
+    - test/**/*
+    - app/models/book.rb
+
+# Missing magic comment # frozen_string_literal: true. を無視
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Missing top-level class documentation comment. を無視
+Style/Documentation:
+  Enabled: false
+
+# Line is too long を無視
+Metrics/LineLength:
+  Enabled: false
+
+# Use nested module/class definitions instead of compact style. を無視
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Use only ascii symbols in comments. を無視
+Style/AsciiComments:
+  Enabled: false
+
+# Block has too many lines. をlibでのみ無視
+Metrics/BlockLength:
+  Exclude:
+    - 'lib/**/*'
+
+# Method length を 10 → 20 文字に
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 30

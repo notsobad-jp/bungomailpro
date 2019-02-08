@@ -504,11 +504,11 @@
                               %tr
                                 %td.mcnTextContent{:style => "padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;", :valign => "top"}
                                   %p
-                                    #{@channel.title}
+                                    #{@subscription.channel.title}
                                     %br
-                                    （#{@chapter.text.length}字。目安の読了時間：#{@chapter.text.length.quo(500).ceil}分）
+                                    （#{@subscription.next_chapter.text.length}字。目安の読了時間：#{@subscription.next_chapter.text.length.quo(500).ceil}分）
                                   %p
-                                    = simple_format(@chapter.text)
+                                    = simple_format(@subscription.next_chapter.text)
                           /[if mso]
                             </td>
                           /[if mso]

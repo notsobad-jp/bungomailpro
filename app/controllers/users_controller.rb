@@ -4,13 +4,14 @@ class UsersController < ApplicationController
   after_action :verify_authorized
 
   def show
-    @breadcrumbs << {name: 'アカウント情報'}
+    @breadcrumbs << { name: 'アカウント情報' }
     @charge = @user.charge
   end
 
   private
-    def set_user
-      @user = User.find_by_token(params[:token])
-      authorize @user
-    end
+
+  def set_user
+    @user = User.find_by(token: params[:token])
+    authorize @user
+  end
 end
