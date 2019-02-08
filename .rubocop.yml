@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 # 標準の規約 + Railsの規約
 Rails:
   Enabled: true
@@ -12,6 +14,8 @@ AllCops:
     - db/**/*
     - config/**/*
     - Gemfile
+    - test/**/*
+    - app/models/book.rb
 
 # Missing magic comment # frozen_string_literal: true. を無視
 Style/FrozenStringLiteralComment:
@@ -37,3 +41,11 @@ Style/AsciiComments:
 Metrics/BlockLength:
   Exclude:
     - 'lib/**/*'
+
+# Method length を 10 → 20 文字に
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 30

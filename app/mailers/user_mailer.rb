@@ -17,9 +17,6 @@ class UserMailer < ApplicationMailer
 
   def chapter_email
     @subscription = params[:subscription]
-    @channel = @subscription.channel
-    @chapter = @subscription.next_chapter
-    @book = @subscription.current_book
     @notification = Notification.find_by(date: Time.current)
     send_at = Time.zone.parse(@subscription.next_delivery_date.to_s).change(hour: @subscription.delivery_hour)
 
@@ -28,16 +25,16 @@ class UserMailer < ApplicationMailer
 
     xsmtp_api_params = {
       send_at: send_at.to_i,
-      # to: @channel.subscribers.pluck(:email),
+      # to: @subscription.channel.subscribers.pluck(:email),
       category: 'chapter'
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
     mail(
-      from: "#{@book.author.gsub(",", "、")}（ブンゴウメール） <bungomail@notsobad.jp>",
+      from: "#{@subscription.current_book.author.tr(',', '、')}（ブンゴウメール） <bungomail@notsobad.jp>",
       to: @subscription.user.email,
-      subject: "#{@book.title}（#{@chapter.index}/#{@book.chapters_count}）【#{@channel.title}】"
+      subject: "#{@subscription.current_book.title}（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}）【#{@subscription.channel.title}】"
     )
-    logger.info "[SCHEDULED] channel:#{@channel.id}, chapter:#{@chapter.book_id}-#{@chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
+    logger.info "[SCHEDULED] channel:#{@subscription.channel.id}, chapter:#{@subscription.next_chapter.book_id}-#{@subscription.next_chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
   end
 end

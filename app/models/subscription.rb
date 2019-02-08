@@ -19,7 +19,7 @@ class Subscription < ApplicationRecord
   belongs_to :channel, counter_cache: :subscribers_count
   belongs_to :current_book, class_name: 'Book', foreign_key: 'current_book_id', optional: true
   belongs_to :next_chapter, class_name: 'Chapter', foreign_key: %i[current_book_id next_chapter_index], optional: true
-  has_many :feeds, -> { order(delivered_at: :desc) }, dependent: :destroy
+  has_many :feeds, -> { order(delivered_at: :desc) }, dependent: :destroy, inverse_of: :subscription
 
   validates :delivery_hour, presence: true
   validates_associated :user
@@ -70,6 +70,18 @@ class Subscription < ApplicationRecord
     channel.channel_books.where('index < ?', current_book_index).map(&:book)
   end
 
+  # next_chapterを配信したあと、次に配信するchapter
+  def next_next_chapter
+    return unless next_chapter # そもそもnext_chapterがなければnil
+
+    # 同じ本で次のchapterがあればそれを返す。なければ、次の本の最初のchapterを返す
+    if next_chapter.next
+      next_chapter.next
+    elsif (next_channel_book = current_channel_book.next)
+      next_channel_book.book.chapters.first
+    end
+  end
+
   def next_deliver_at
     return unless next_delivery_date
 
@@ -95,35 +107,26 @@ class Subscription < ApplicationRecord
   end
 
   def set_next_chapter
-    current_chapter = next_chapter
-    return unless current_chapter
-
     # 次回配信は基本翌日。翌日が31日だった場合のみ飛ばしてその次の日(1日)をセット
     tomorrow = Time.zone.tomorrow
     next_delivery_date = tomorrow.day == 31 ? tomorrow.tomorrow : tomorrow
 
-    # 同じ本で次のchapterが存在すればそれをセット
-    if (next_chapter = current_chapter.next)
+    # next_next_chapterが存在すればそれをセット
+    if next_next_chapter
       update!(
-        next_chapter_index: next_chapter.index,
+        current_book_id: next_next_chapter.book_id,
+        next_chapter_index: next_next_chapter.index,
         next_delivery_date: next_delivery_date
       )
-    # 次のchapterがなければ、次の本を探してindex:1でセット
-    elsif (next_channel_book = current_channel_book.next)
-      update!(
-        next_chapter_index: 1,
-        current_book_id: next_channel_book.book_id,
-        next_delivery_date: next_delivery_date
-      )
-    # next_channel_bookもなければ配信停止状態にする
+    # next_next_chapterがなければ配信停止状態にする
     else
       update!(
-        next_chapter_index: nil,
         current_book_id: nil,
+        next_chapter_index: nil,
         next_delivery_date: nil
       )
     end
-    logger.info "[CHAPTER SET] sub:#{id}, from:#{current_chapter.book_id}-#{current_chapter.index}, to:#{next_chapter.try(:book_id)}-#{next_chapter.try(:index)}"
+    logger.info "[CHAPTER SET] sub:#{id}, #{next_chapter.try(:book_id)}-#{next_chapter.try(:index)}"
   end
 
   # 最初の本の最初のchapter配信前
