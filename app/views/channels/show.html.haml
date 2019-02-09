@@ -1,7 +1,7 @@
 %h1.ui.huge.header
   = @channel.title
 
-  - if @channel.status == 'private'
+  - if @channel.private?
     %small(data-tooltip="非公開" data-inverted="true")
       %i.mini.lock.icon
 

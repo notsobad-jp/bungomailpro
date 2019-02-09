@@ -24,7 +24,7 @@ class Channel < ApplicationRecord
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true
-  validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: proc { |c| c.status != 'private' }
+  validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: proc { |c| !c.private? }
 
   before_create do
     self.token = SecureRandom.hex(10)
@@ -46,5 +46,13 @@ class Channel < ApplicationRecord
   def latest_index
     sql = "SELECT MAX(channel_books.index) FROM subscriptions JOIN channel_books ON (subscriptions.channel_id = channel_books.channel_id AND subscriptions.current_book_id = channel_books.book_id) WHERE subscriptions.channel_id=#{id}"
     ActiveRecord::Base.connection.select_value(sql) || 0 # 購読者なしのときはnilが来るので代わりに0を返す
+  end
+
+
+  # statusの確認メソッドを動的に定義
+  %w[private public streaming].each do |value|
+    define_method("#{value}?") do
+      status == value
+    end
   end
 end

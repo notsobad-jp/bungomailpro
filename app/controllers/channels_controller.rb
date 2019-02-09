@@ -21,7 +21,7 @@ class ChannelsController < ApplicationController
     @meta_title = @channel.title
     @meta_description = @channel.description
     @meta_keywords = @channel.title
-    @meta_noindex = @channel.status == 'private'
+    @meta_noindex = @channel.private?
 
     @breadcrumbs << { name: '購読チャネル', url: subscriptions_path }
     @breadcrumbs << { name: @channel.title }

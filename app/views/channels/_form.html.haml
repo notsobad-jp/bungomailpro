@@ -21,7 +21,7 @@
     .ui.radio.checkbox
       = f.radio_button :status, 'public'
       %label(for="channel_status_public") 公開
-  - if @channel.status == 'streaming'
+  - if @channel.streaming?
     .field
       .ui.radio.checkbox
         = f.radio_button :status, 'streaming'
