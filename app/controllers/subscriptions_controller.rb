@@ -58,7 +58,7 @@ class SubscriptionsController < ApplicationController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:delivery_hour)
+    params.require(:subscription).permit(:delivery_hour, :next_delivery_date)
   end
 
   def set_subscription

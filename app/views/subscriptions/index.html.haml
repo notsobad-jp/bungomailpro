@@ -46,9 +46,7 @@
             .content
               .header
                 = link_to channel.title, channel_path(channel.token)
-                - if channel.status == 'private'
-                  %small(data-tooltip="非公開" data-inverted="true")
-                    %i.small.lock.icon
+                = channel_status_icon(channel.status)
               .description
                 = channel.description.try(:truncate, 50)
             .extra.content
