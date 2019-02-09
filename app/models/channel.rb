@@ -2,17 +2,17 @@
 #
 # Table name: channels
 #
-#  id                :bigint(8)        not null, primary key
-#  token             :string           not null
-#  user_id           :bigint(8)        not null
-#  title             :string           not null
-#  description       :text
-#  public            :boolean          default(FALSE), not null
-#  books_count       :integer          default(0), not null
-#  subscribers_count :integer          default(0), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  default           :boolean          default(FALSE), not null
+#  id                                    :bigint(8)        not null, primary key
+#  token                                 :string           not null
+#  user_id                               :bigint(8)        not null
+#  title                                 :string           not null
+#  description                           :text
+#  status(IN (private public streaming)) :string           default("private"), not null
+#  default                               :boolean          default(FALSE), not null
+#  books_count                           :integer          default(0), not null
+#  subscribers_count                     :integer          default(0), not null
+#  created_at                            :datetime         not null
+#  updated_at                            :datetime         not null
 #
 
 class Channel < ApplicationRecord
@@ -24,7 +24,7 @@ class Channel < ApplicationRecord
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true
-  validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: proc { |c| c.public? }
+  validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: proc { |c| c.status != 'private' }
 
   before_create do
     self.token = SecureRandom.hex(10)

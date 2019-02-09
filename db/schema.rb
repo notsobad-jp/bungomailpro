@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "books", id: :bigint, default: nil, force: :cascade do |t|
+  create_table "books", force: :cascade do |t|
     t.string "title", null: false
     t.string "author", null: false
     t.bigint "author_id", null: false
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.bigint "channel_id", null: false
     t.bigint "book_id", null: false
     t.integer "index", null: false
-    t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_channel_books_on_book_id"
@@ -45,13 +44,13 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.bigint "user_id", null: false
     t.string "title", null: false
     t.text "description"
-    t.boolean "public", default: false, null: false
+    t.string "status", default: "private", null: false, comment: "IN (private public streaming)"
+    t.boolean "default", default: false, null: false
     t.integer "books_count", default: 0, null: false
     t.integer "subscribers_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "default", default: false, null: false
-    t.index ["public"], name: "index_channels_on_public"
+    t.index ["status"], name: "index_channels_on_status"
     t.index ["token"], name: "index_channels_on_token", unique: true
     t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
     t.index ["user_id"], name: "index_channels_on_user_id"
@@ -122,6 +121,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
+    t.string "token", null: false
     t.bigint "user_id", null: false
     t.bigint "channel_id", null: false
     t.bigint "current_book_id"
@@ -130,7 +130,6 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.date "next_delivery_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "token", null: false
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
     t.index ["current_book_id"], name: "index_subscriptions_on_current_book_id"
     t.index ["token"], name: "index_subscriptions_on_token", unique: true

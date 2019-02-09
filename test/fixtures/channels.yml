@@ -2,17 +2,17 @@
 #
 # Table name: channels
 #
-#  id                :bigint(8)        not null, primary key
-#  token             :string           not null
-#  user_id           :bigint(8)        not null
-#  title             :string           not null
-#  description       :text
-#  public            :boolean          default(FALSE), not null
-#  books_count       :integer          default(0), not null
-#  subscribers_count :integer          default(0), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  default           :boolean          default(FALSE), not null
+#  id                                    :bigint(8)        not null, primary key
+#  token                                 :string           not null
+#  user_id                               :bigint(8)        not null
+#  title                                 :string           not null
+#  description                           :text
+#  status(IN (private public streaming)) :string           default("private"), not null
+#  default                               :boolean          default(FALSE), not null
+#  books_count                           :integer          default(0), not null
+#  subscribers_count                     :integer          default(0), not null
+#  created_at                            :datetime         not null
+#  updated_at                            :datetime         not null
 #
 
 channel0:
@@ -20,24 +20,28 @@ channel0:
   token: <%= SecureRandom.hex(10) %>
   title: '作ったばっかりのちゃんねる'
   default: true
+  status: private
 
 channel1:
   user: user1
   token: <%= SecureRandom.hex(10) %>
   title: '本も登録してあるチャンネル'
+  status: private
 
 channel2:
   user: user2
   token: <%= SecureRandom.hex(10) %>
   title: 'user2のチャンネル1'
+  status: private
 
 channel3:
   user: user2
   token: <%= SecureRandom.hex(10) %>
   title: 'user2のチャンネル2'
-  public: true
+  status: public
 
 channel4:
   user: user3
   token: <%= SecureRandom.hex(10) %>
   title: 'user3のチャンネル1'
+  status: private

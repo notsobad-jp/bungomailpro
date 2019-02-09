@@ -46,7 +46,7 @@
             .content
               .header
                 = link_to channel.title, channel_path(channel.token)
-                - if !channel.public?
+                - if channel.status == 'private'
                   %small(data-tooltip="非公開" data-inverted="true")
                     %i.small.lock.icon
               .description
@@ -81,7 +81,7 @@
           .content
             .header
               = link_to channel.title, channel_path(channel.token)
-              - if !channel.public?
+              - if channel.status == 'private'
                 %small(data-tooltip="非公開" data-inverted="true")
                   %i.small.lock.icon
             .description
@@ -94,7 +94,9 @@
             - if channel.books_count == 0
               .ui.warning.small.message
                 .content
-                  まだ本が登録されていないようです。「編集」ボタンから本を追加して配信開始しましょう！
+                  まだ本が登録されていないようです。「
+                  = link_to '作品検索', books_path
+                  」から本を追加して配信開始しましょう！
             - else
               .ui.small.list
                 .item
