@@ -1,13 +1,10 @@
 %h1.ui.huge.header
   = @channel.title
-
-  - if !@channel.public?
-    %small(data-tooltip="非公開" data-inverted="true")
-      %i.mini.lock.icon
+  = channel_status_icon(@channel.status)
 
 %div
   -# 購読管理
-  - if @subscription
+  - if @subscription && owned_channel?(@channel)
     = link_to '配信設定', edit_subscription_path(@subscription.token), class: 'ui red basic small button'
   - else
     - if @channel.books_count > 0 && current_user.try(:subscriptionable?)
@@ -16,15 +13,23 @@
       %button.ui.small.red.disabled.button 配信開始
 
   -# ownerの場合は管理メニュー表示
-  - if current_user && @channel.user_id == current_user.id
+  - if owned_channel?(@channel)
     = link_to 'チャネルの編集', edit_channel_path(@channel.token), class: 'ui primary basic small button', data: {turbolinks: false}
 
-- if current_user && !@subscription && !current_user.subscriptionable?
+- if !@subscription && !current_user.try(:subscriptionable?)
   .ui.warning.small.message
     .content
       %i.icon.warning.circle
       購読チャネル数の上限に達しています。新しく購読したい場合は他の配信中チャネルの購読を解除してください。
 %br
+
+- if @channel.streaming?
+  .ui.info.message
+    .header
+      %i.icon.rss
+      このチャネルは「ストリーミング配信」です
+    .content
+      購読者全員に同じペースで配信され、みんなで同時に読書を楽しむチャネルです。
 
 
 %div= simple_format_with_link @channel.description

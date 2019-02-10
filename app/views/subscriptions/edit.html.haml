@@ -14,6 +14,10 @@
     = f.label :delivery_hour, '配信時間'
     = f.select :delivery_hour, delivery_hours, {}, class: 'ui fluid dropdown'
 
+  .field
+    = f.label :next_delivery_date, '次回配信日'
+    = f.date_field :next_delivery_date, min: Date.current.tomorrow
+
   %button.ui.small.red.button(type="submit" value="draft") 保存する
   = link_to 'キャンセル', channel_path(@channel.token), class: 'item'
 

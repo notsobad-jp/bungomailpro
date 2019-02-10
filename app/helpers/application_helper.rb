@@ -1,6 +1,14 @@
 module ApplicationHelper
   require 'uri'
 
+  def channel_status_icon(status)
+    case status
+    when 'private'
+      icon_tag = content_tag(:i, nil, class: "icon small lock")
+      content_tag(:small, icon_tag, data: { tooltip: "非公開", inverted: true })
+    end
+  end
+
   def creditcard_icon(brand)
     brand = brand.downcase
     case brand
@@ -38,6 +46,10 @@ module ApplicationHelper
       text.gsub!(url, sub_text)
     end
     text
+  end
+
+  def owned_channel?(channel)
+    channel.user_id == current_user.try(:id)
   end
 
   def payment_status_label(charge)

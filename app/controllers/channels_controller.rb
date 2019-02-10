@@ -4,14 +4,20 @@ class ChannelsController < ApplicationController
   after_action :verify_authorized
 
   def index
-    @channels = Channel.where(public: true)
+    @channels = Channel.where(status: 'public')
     @breadcrumbs << { name: 'チャネル一覧' }
   end
 
   def show
-    @subscription = current_user.subscriptions.find_by(channel_id: @channel.id) if current_user
-    @finished = params[:books] == 'finished'
+    # streamingの場合は、オーナーのsubscriptionで共通の配信状況を見る
+    if @channel.streaming?
+      @subscription = @channel.subscriptions.find_by(user_id: @channel.user_id)
+    # それ以外はユーザーのsubscriptionを見る
+    elsif current_user
+      @subscription = current_user.subscriptions.find_by(channel_id: @channel.id)
+    end
 
+    @finished = params[:books] == 'finished'
     @books = if @subscription
                @finished ? @subscription.finished_books : @subscription.scheduled_books
              else
@@ -21,7 +27,7 @@ class ChannelsController < ApplicationController
     @meta_title = @channel.title
     @meta_description = @channel.description
     @meta_keywords = @channel.title
-    @meta_noindex = !@channel.public?
+    @meta_noindex = @channel.private?
 
     @breadcrumbs << { name: '購読チャネル', url: subscriptions_path }
     @breadcrumbs << { name: @channel.title }
@@ -71,7 +77,7 @@ class ChannelsController < ApplicationController
   private
 
   def channel_params
-    params.require(:channel).permit(:title, :description, :public, :default, channel_books_attributes: %i[id index book_id _destroy])
+    params.require(:channel).permit(:title, :description, :status, :default, channel_books_attributes: %i[id index book_id _destroy])
   end
 
   def set_channel
