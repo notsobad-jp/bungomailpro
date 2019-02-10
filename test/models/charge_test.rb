@@ -9,7 +9,7 @@
 #  exp_month                                                                                     :integer          not null
 #  exp_year                                                                                      :integer          not null
 #  last4                                                                                         :string           not null
-#  subscription_id                                                                               :uuid
+#  subscription_id                                                                               :string
 #  status(IN (trialing active past_due canceled unpaid))                                         :string
 #  trial_end                                                                                     :datetime
 #  cancel_at                                                                                     :datetime
