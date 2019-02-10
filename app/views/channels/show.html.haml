@@ -5,7 +5,7 @@
 %div
   -# 購読管理
   - if @subscription && owned_channel?(@channel)
-    = link_to '配信設定', edit_subscription_path(@subscription.token), class: 'ui red basic small button'
+    = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'
   - else
     - if @channel.books_count > 0 && current_user.try(:subscriptionable?)
       = link_to '配信開始', subscriptions_path(channel_id: @channel.token), method: :post, class: "ui small red button"
@@ -59,8 +59,8 @@
     .ui.hidden.divider
     %div
       %i.icon.rss
-      = link_to subscription_path(@subscription.token, format: :atom), target: '_blank' do
-        = subscription_url(@subscription.token, format: :atom)
+      = link_to subscription_path(@subscription, format: :atom), target: '_blank' do
+        = subscription_url(@subscription, format: :atom)
         &nbsp;
         %i.icon.small.external
 

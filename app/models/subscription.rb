@@ -2,7 +2,7 @@
 #
 # Table name: subscriptions
 #
-#  id                 :bigint(8)        not null, primary key
+#  id                 :uuid             not null, primary key
 #  user_id            :bigint(8)        not null
 #  channel_id         :bigint(8)        not null
 #  current_book_id    :bigint(8)
@@ -11,7 +11,6 @@
 #  next_delivery_date :date
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  token              :string           not null
 #
 
 class Subscription < ApplicationRecord
@@ -23,10 +22,6 @@ class Subscription < ApplicationRecord
 
   validates :delivery_hour, presence: true
   validates_associated :user
-
-  before_create do
-    self.token = SecureRandom.hex(10)
-  end
 
   def create_feed
     feeds.create!(

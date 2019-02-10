@@ -38,6 +38,7 @@ channel3:
   user: user2
   token: <%= SecureRandom.hex(10) %>
   title: 'user2のチャンネル2'
+  description: 'ほげほげ'
   status: public
 
 channel4:

@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2019_01_30_092007) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "books", force: :cascade do |t|
@@ -101,7 +102,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   end
 
   create_table "feeds", force: :cascade do |t|
-    t.bigint "subscription_id", null: false
+    t.uuid "subscription_id", null: false
     t.bigint "book_id", null: false
     t.integer "index", null: false
     t.datetime "delivered_at", null: false
@@ -120,8 +121,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.index ["date"], name: "index_notifications_on_date", unique: true
   end
 
-  create_table "subscriptions", force: :cascade do |t|
-    t.string "token", null: false
+  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "channel_id", null: false
     t.bigint "current_book_id"
@@ -132,7 +132,6 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.datetime "updated_at", null: false
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
     t.index ["current_book_id"], name: "index_subscriptions_on_current_book_id"
-    t.index ["token"], name: "index_subscriptions_on_token", unique: true
     t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end

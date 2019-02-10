@@ -3,7 +3,7 @@
 # Table name: feeds
 #
 #  id              :bigint(8)        not null, primary key
-#  subscription_id :bigint(8)        not null
+#  subscription_id :uuid             not null
 #  book_id         :bigint(8)        not null
 #  index           :integer          not null
 #  delivered_at    :datetime         not null
