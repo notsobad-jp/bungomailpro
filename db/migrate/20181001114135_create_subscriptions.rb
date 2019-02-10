@@ -1,7 +1,6 @@
 class CreateSubscriptions < ActiveRecord::Migration[5.2]
   def up
-    create_table :subscriptions do |t|
-      t.string :token, null: false
+    create_table :subscriptions, id: :uuid do |t|
       t.references :user, foreign_key: true, null: false
       t.references :channel, foreign_key: true, null: false
       t.references :current_book, foreign_key: { to_table: :books }
@@ -11,7 +10,6 @@ class CreateSubscriptions < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_index :subscriptions, :token, unique: true
     add_index :subscriptions, [:user_id, :channel_id], unique: true
 
     # current_book_idとnext_chapter_indexが、片方だけ入らないようにする

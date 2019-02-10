@@ -10,14 +10,14 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_edit_when_guest' do
     sub = subscriptions(:user1_channel1)
-    get edit_subscription_path(sub.token)
+    get edit_subscription_path(sub)
     assert_redirected_to login_path
   end
 
   test 'access_edit_when_owner' do
     sub = subscriptions(:user1_channel1)
     login_user(sub.user)
-    get edit_subscription_path(sub.token)
+    get edit_subscription_path(sub)
     assert_response :success
   end
 
@@ -25,7 +25,7 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     sub = subscriptions(:user1_channel1)
     user = users(:user2)
     login_user(user)
-    get edit_subscription_path(sub.token)
+    get edit_subscription_path(sub)
     assert_redirected_to pro_root_path
   end
 end
