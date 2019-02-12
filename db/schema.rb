@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   end
 
   create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.uuid "user_id", null: false
     t.string "title", null: false
     t.text "description"
     t.string "status", default: "private", null: false, comment: "IN (private public streaming)"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   end
 
   create_table "charges", id: :string, force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.uuid "user_id", null: false
     t.string "customer_id", null: false
     t.string "brand", null: false, comment: "IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)"
     t.integer "exp_month", null: false
@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   end
 
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.uuid "user_id", null: false
     t.uuid "channel_id", null: false
     t.bigint "current_book_id"
     t.integer "next_chapter_index"
@@ -134,9 +134,8 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
-    t.string "token", null: false
     t.string "crypted_password"
     t.string "salt"
     t.datetime "created_at", null: false
@@ -149,7 +148,6 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
-    t.index ["token"], name: "index_users_on_token", unique: true
   end
 
   add_foreign_key "channel_books", "books"

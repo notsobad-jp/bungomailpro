@@ -57,7 +57,7 @@
               %i.icon.search
               作品検索
             - if current_user
-              = link_to user_path(current_user.token), class: 'item' do
+              = link_to user_path(current_user), class: 'item' do
                 %i.icon.setting
                 アカウント情報
               = link_to logout_path, method: :post, class: 'item' do
@@ -74,7 +74,7 @@
       .ui.attached.warning.message(style="margin-top:45px;margin-bottom:-45px;")
         %i.icon.warning.circle
         現在【FREEプラン】で利用しています。RSSフィードのみ配信され、実際にメールは配信されません。メールを受け取るには
-        = link_to '【PROプラン】に登録', user_path(current_user.token)
+        = link_to '【PROプラン】に登録', user_path(current_user)
         してください。
     - if path == 'pages#top' && current_user && current_user.charge.try(:status) == 'past_due'
       .ui.attached.error.message(style="margin-top:45px;margin-bottom:-45px;")
