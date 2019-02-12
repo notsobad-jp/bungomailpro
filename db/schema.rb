@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   end
 
   create_table "channel_books", force: :cascade do |t|
-    t.bigint "channel_id", null: false
+    t.uuid "channel_id", null: false
     t.bigint "book_id", null: false
     t.integer "index", null: false
     t.datetime "created_at", null: false
@@ -40,8 +40,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.index ["index"], name: "index_channel_books_on_index"
   end
 
-  create_table "channels", force: :cascade do |t|
-    t.string "token", null: false
+  create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title", null: false
     t.text "description"
@@ -52,7 +51,6 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["status"], name: "index_channels_on_status"
-    t.index ["token"], name: "index_channels_on_token", unique: true
     t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
@@ -123,7 +121,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
 
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "channel_id", null: false
+    t.uuid "channel_id", null: false
     t.bigint "current_book_id"
     t.integer "next_chapter_index"
     t.integer "delivery_hour", default: 8, null: false

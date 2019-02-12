@@ -3,7 +3,7 @@
 # Table name: channel_books
 #
 #  id         :bigint(8)        not null, primary key
-#  channel_id :bigint(8)        not null
+#  channel_id :uuid             not null
 #  book_id    :bigint(8)        not null
 #  index      :integer          not null
 #  comment    :text

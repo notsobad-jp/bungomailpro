@@ -10,14 +10,14 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_show_when_guest' do
     channel = channels(:channel0)
-    get channel_path(channel.token)
+    get channel_path(channel)
     assert_redirected_to pro_root_path
   end
 
   test 'access_show_when_owner' do
     channel = channels(:channel0)
     login_user(channel.user)
-    get channel_path(channel.token)
+    get channel_path(channel)
     assert_response :success
   end
 
@@ -25,13 +25,13 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
     channel = channels(:channel0)
     user = users(:user2)
     login_user(user)
-    get channel_path(channel.token)
+    get channel_path(channel)
     assert_redirected_to pro_root_path
   end
 
   test 'access_public_show_when_guest' do
     channel = channels(:channel3)
-    get channel_path(channel.token)
+    get channel_path(channel)
     assert_response :success
   end
 
@@ -40,14 +40,14 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_edit_when_guest' do
     channel = channels(:channel0)
-    get edit_channel_path(channel.token)
+    get edit_channel_path(channel)
     assert_redirected_to login_path
   end
 
   test 'access_edit_when_owner' do
     channel = channels(:channel0)
     login_user(channel.user)
-    get edit_channel_path(channel.token)
+    get edit_channel_path(channel)
     assert_response :success
   end
 
@@ -55,7 +55,7 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
     channel = channels(:channel0)
     user = users(:user2)
     login_user(user)
-    get edit_channel_path(channel.token)
+    get edit_channel_path(channel)
     assert_redirected_to pro_root_path
   end
 end

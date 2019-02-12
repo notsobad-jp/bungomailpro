@@ -45,7 +45,7 @@
           .ui.fluid.card
             .content
               .header
-                = link_to channel.title, channel_path(channel.token)
+                = link_to channel.title, channel_path(channel)
                 = channel_status_icon(channel.status)
               .description
                 = channel.description.try(:truncate, 50)
@@ -63,10 +63,10 @@
                     #{channel.books_count}冊
             .extra.content
               - if channel.books_count > 0 && current_user.subscriptionable?
-                = link_to '配信開始', subscriptions_path(channel_id: channel.token), method: :post, class: "ui small red button"
+                = link_to '配信開始', subscriptions_path(channel_id: channel.id), method: :post, class: "ui small red button"
               - else
                 %button.ui.small.red.disabled.button 配信開始
-              = link_to '編集', edit_channel_path(channel.token), class: "ui primary small basic button", data: {turbolinks: false}
+              = link_to '編集', edit_channel_path(channel), class: "ui primary small basic button", data: {turbolinks: false}
 
     - if @finished && @subscriptions.blank?
       .ui.column
@@ -78,7 +78,7 @@
         .ui.fluid.card
           .content
             .header
-              = link_to channel.title, channel_path(channel.token)
+              = link_to channel.title, channel_path(channel)
               - if channel.status == 'private'
                 %small(data-tooltip="非公開" data-inverted="true")
                   %i.small.lock.icon
@@ -111,4 +111,4 @@
           .extra.content
             = link_to '配信設定', edit_subscription_path(subscription), class: 'ui red basic small button'
             - if channel.user_id == current_user.id
-              = link_to '編集', edit_channel_path(channel.token), class: "ui primary basic small button"
+              = link_to '編集', edit_channel_path(channel), class: "ui primary basic small button"

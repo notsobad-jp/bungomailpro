@@ -8,13 +8,13 @@
     = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'
   - else
     - if @channel.books_count > 0 && current_user.try(:subscriptionable?)
-      = link_to '配信開始', subscriptions_path(channel_id: @channel.token), method: :post, class: "ui small red button"
+      = link_to '配信開始', subscriptions_path(channel_id: @channel), method: :post, class: "ui small red button"
     - else
       %button.ui.small.red.disabled.button 配信開始
 
   -# ownerの場合は管理メニュー表示
   - if owned_channel?(@channel)
-    = link_to 'チャネルの編集', edit_channel_path(@channel.token), class: 'ui primary basic small button', data: {turbolinks: false}
+    = link_to 'チャネルの編集', edit_channel_path(@channel), class: 'ui primary basic small button', data: {turbolinks: false}
 
 - if !@subscription && !current_user.try(:subscriptionable?)
   .ui.warning.small.message
@@ -66,11 +66,11 @@
 
   .ui.secondary.pointing.menu
     - if @finished
-      = link_to '今後の配信予定', channel_path(@channel.token), class: 'item'
+      = link_to '今後の配信予定', channel_path(@channel), class: 'item'
       .active.item 過去の配信
     - else
       .active.item 今後の配信予定
-      = link_to '過去の配信', channel_path(@channel.token, books: 'finished'), class: 'item'
+      = link_to '過去の配信', channel_path(@channel, books: 'finished'), class: 'item'
 - else
   .ui.small.dividing.header
     %i.icon.book

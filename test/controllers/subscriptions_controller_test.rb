@@ -5,6 +5,22 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     stub_request(:get, %r{https://ja\.gravatar\.com/.*\.json}).to_return(status: 200, body: File.read('test/fixtures/files/gravatar.json'))
   end
 
+
+  ########################################################################
+  # index
+  ########################################################################
+  test 'access_index_when_guest' do
+    get subscriptions_path
+    assert_response :success
+  end
+
+  test 'access_index_when_login' do
+    login_user(users(:user1))
+    get subscriptions_path
+    assert_response :success
+  end
+
+
   ########################################################################
   # edit
   ########################################################################

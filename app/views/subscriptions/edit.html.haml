@@ -19,7 +19,7 @@
     = f.date_field :next_delivery_date, min: Date.current.tomorrow
 
   %button.ui.small.red.button(type="submit" value="draft") 保存する
-  = link_to 'キャンセル', channel_path(@channel.token), class: 'item'
+  = link_to 'キャンセル', channel_path(@channel), class: 'item'
 
 .ui.divider
 

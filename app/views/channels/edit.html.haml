@@ -3,7 +3,7 @@
   の編集
 - if @channel.persisted?
   .ui.basic.right.aligned.small.segment
-    = link_to channel_path(@channel.token), method: :delete, class: 'item', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
+    = link_to channel_path(@channel), method: :delete, class: 'item', data: {confirm: 'チャネルを削除します。本当によろしいですか？'} do
       %i.icon.trash
       チャネルを削除する
 

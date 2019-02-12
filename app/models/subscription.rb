@@ -4,7 +4,7 @@
 #
 #  id                 :uuid             not null, primary key
 #  user_id            :bigint(8)        not null
-#  channel_id         :bigint(8)        not null
+#  channel_id         :uuid             not null
 #  current_book_id    :bigint(8)
 #  next_chapter_index :integer
 #  delivery_hour      :integer          default(8), not null

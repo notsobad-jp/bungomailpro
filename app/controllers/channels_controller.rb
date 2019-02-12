@@ -42,7 +42,7 @@ class ChannelsController < ApplicationController
 
   def edit
     @breadcrumbs << { name: '購読チャネル', url: subscriptions_path }
-    @breadcrumbs << { name: @channel.title, url: channel_path(@channel.token) }
+    @breadcrumbs << { name: @channel.title, url: channel_path(@channel) }
     @breadcrumbs << { name: '編集' }
   end
 
@@ -81,8 +81,8 @@ class ChannelsController < ApplicationController
   end
 
   def set_channel
-    if (token = params[:id])
-      @channel = Channel.includes(channel_books: :book).find_by!(token: token)
+    if params[:id]
+      @channel = Channel.includes(channel_books: :book).find(params[:id])
       authorize @channel
     else
       authorize Channel

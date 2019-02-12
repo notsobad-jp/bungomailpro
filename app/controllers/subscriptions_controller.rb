@@ -17,7 +17,7 @@ class SubscriptionsController < ApplicationController
 
   def edit
     @breadcrumbs << { name: '購読チャネル', url: subscriptions_path }
-    @breadcrumbs << { name: @channel.title, url: channel_path(@channel.token) }
+    @breadcrumbs << { name: @channel.title, url: channel_path(@channel) }
     @breadcrumbs << { name: '配信設定' }
   end
 
@@ -30,18 +30,18 @@ class SubscriptionsController < ApplicationController
   def update
     if @subscription.update(subscription_params)
       flash[:success] = '変更を保存しました🎉 配信時間の変更は翌日の配信から反映されます。'
-      redirect_to channel_path(@channel.token)
+      redirect_to channel_path(@channel)
     else
       render :edit
     end
   end
 
   def create
-    @channel = Channel.find_by(token: params[:channel_id])
+    @channel = Channel.find(params[:channel_id])
     begin
       current_user.subscribe(@channel)
       flash[:success] = 'チャネルの配信を開始しました🎉 翌日からメール配信が始まります。'
-      redirect_to channel_path(@channel.token)
+      redirect_to channel_path(@channel)
     rescue StandardError
       flash[:error] = '配信開始できませんでした😢 購読チャネル数の上限を超える場合は、他のチャネルを解除してからお試しください。'
       redirect_to request.referer || pro_root_path
@@ -52,7 +52,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
     flash[:success] = '配信を解除しました。すでに配信予約済みのメールは翌日も届く場合があります。ご了承ください。'
 
-    redirect_to channel_path(@channel.token)
+    redirect_to channel_path(@channel)
   end
 
   private
