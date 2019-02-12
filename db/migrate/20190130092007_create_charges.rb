@@ -1,7 +1,6 @@
 class CreateCharges < ActiveRecord::Migration[5.2]
   def up
-    create_table :charges, id: false do |t|
-      t.string :id, null: false, primary_key: true
+    create_table :charges, id: :uuid do |t|
       t.references :user, type: :uuid, index: { unique: true }, foreign_key: true, null: false
       t.string :customer_id, index: { unique: true }, null: false
       t.string :brand, null: false, comment: 'IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)'

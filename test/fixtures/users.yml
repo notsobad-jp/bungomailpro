@@ -2,9 +2,8 @@
 #
 # Table name: users
 #
-#  id                           :bigint(8)        not null, primary key
+#  id                           :uuid             not null, primary key
 #  email                        :string           not null
-#  token                        :string           not null
 #  crypted_password             :string
 #  salt                         :string
 #  created_at                   :datetime         not null

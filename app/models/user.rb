@@ -2,9 +2,8 @@
 #
 # Table name: users
 #
-#  id                           :bigint(8)        not null, primary key
+#  id                           :uuid             not null, primary key
 #  email                        :string           not null
-#  token                        :string           not null
 #  crypted_password             :string
 #  salt                         :string
 #  created_at                   :datetime         not null
@@ -15,6 +14,7 @@
 #  remember_me_token            :string
 #  remember_me_token_expires_at :datetime
 #
+
 require 'net/http'
 require 'uri'
 require 'json'
@@ -39,7 +39,7 @@ class User < ApplicationRecord
   end
 
   def display_name
-    profile ? profile['displayName'] : token
+    profile ? profile['displayName'] : id
   end
 
   # TODO: ベータ版中は全員にメール送信。有料化したら購読ステータスで判断する
