@@ -1,7 +1,7 @@
 class CreateChannels < ActiveRecord::Migration[5.2]
   def up
     create_table :channels, id: :uuid do |t|
-      t.references :user, foreign_key: true, null: false
+      t.references :user, type: :uuid, foreign_key: true, null: false
       t.string :title, null: false
       t.text :description
       t.string :status, null: false, default: 'private', comment: 'IN (private public streaming)'

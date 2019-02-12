@@ -30,10 +30,6 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validates :subscriptions, length: { maximum: MAX_SUBSCRIPTIONS_COUNT }
 
-  before_create do
-    self.token = SecureRandom.hex(10)
-  end
-
   after_create do
     channels.create!(title: 'マイチャネル', default: true)
   end
