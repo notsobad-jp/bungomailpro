@@ -2,7 +2,7 @@ class CreateSubscriptions < ActiveRecord::Migration[5.2]
   def up
     create_table :subscriptions, id: :uuid do |t|
       t.references :user, foreign_key: true, null: false
-      t.references :channel, foreign_key: true, null: false
+      t.references :channel, type: :uuid, foreign_key: true, null: false
       t.references :current_book, foreign_key: { to_table: :books }
       t.integer :next_chapter_index
       t.integer :delivery_hour, default: 8, null: false

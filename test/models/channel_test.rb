@@ -2,17 +2,16 @@
 #
 # Table name: channels
 #
-#  id                                    :bigint(8)        not null, primary key
-#  token                                 :string           not null
+#  id                                    :uuid             not null, primary key
 #  user_id                               :bigint(8)        not null
 #  title                                 :string           not null
 #  description                           :text
 #  status(IN (private public streaming)) :string           default("private"), not null
-#  default                               :boolean          default(FALSE), not null
 #  books_count                           :integer          default(0), not null
 #  subscribers_count                     :integer          default(0), not null
 #  created_at                            :datetime         not null
 #  updated_at                            :datetime         not null
+#  default                               :boolean          default(FALSE), not null
 #
 
 require 'test_helper'

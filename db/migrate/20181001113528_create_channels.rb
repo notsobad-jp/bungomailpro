@@ -1,7 +1,6 @@
 class CreateChannels < ActiveRecord::Migration[5.2]
   def up
-    create_table :channels do |t|
-      t.string :token, null: false
+    create_table :channels, id: :uuid do |t|
       t.references :user, foreign_key: true, null: false
       t.string :title, null: false
       t.text :description
@@ -13,7 +12,6 @@ class CreateChannels < ActiveRecord::Migration[5.2]
       t.timestamps
     end
     add_index :channels, :status
-    add_index :channels, :token, unique: true
     add_index :channels, [:user_id, :default], where: '"default" = true', unique: true
 
     # statusの許可リスト

@@ -1,7 +1,7 @@
 class CreateChannelBooks < ActiveRecord::Migration[5.2]
   def up
     create_table :channel_books do |t|
-      t.references :channel, foreign_key: true, null: false
+      t.references :channel, type: :uuid, foreign_key: true, null: false
       t.references :book, foreign_key: true, null: false
       t.integer :index, null: false
 
