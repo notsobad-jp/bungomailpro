@@ -2,8 +2,8 @@
 #
 # Table name: charges
 #
-#  id                                                                                            :string           not null, primary key
-#  user_id                                                                                       :bigint(8)        not null
+#  id                                                                                            :uuid             not null, primary key
+#  user_id                                                                                       :uuid             not null
 #  customer_id                                                                                   :string           not null
 #  brand(IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)) :string           not null
 #  exp_month                                                                                     :integer          not null
@@ -22,9 +22,6 @@ class Charge < ApplicationRecord
   TRIAL_PERIOD_DAYS = 31 # 無料トライアル日数
   BILLING_DAY = 5 # 毎月の決済日
 
-  before_create do
-    self.id = SecureRandom.hex(10)
-  end
 
   def active?
     %w[trialing active past_due].include? status

@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:token])
+    @user = User.find(params[:id])
     authorize @user
   end
 end

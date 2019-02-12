@@ -2,8 +2,8 @@
 #
 # Table name: charges
 #
-#  id                                                                                            :string           not null, primary key
-#  user_id                                                                                       :bigint(8)        not null
+#  id                                                                                            :uuid             not null, primary key
+#  user_id                                                                                       :uuid             not null
 #  customer_id                                                                                   :string           not null
 #  brand(IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)) :string           not null
 #  exp_month                                                                                     :integer          not null

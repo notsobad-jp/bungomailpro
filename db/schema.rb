@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.index ["index"], name: "index_chapters_on_index"
   end
 
-  create_table "charges", id: :string, force: :cascade do |t|
+  create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.string "customer_id", null: false
     t.string "brand", null: false, comment: "IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)"

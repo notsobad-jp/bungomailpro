@@ -3,7 +3,7 @@
 # Table name: subscriptions
 #
 #  id                 :uuid             not null, primary key
-#  user_id            :bigint(8)        not null
+#  user_id            :uuid             not null
 #  channel_id         :uuid             not null
 #  current_book_id    :bigint(8)
 #  next_chapter_index :integer

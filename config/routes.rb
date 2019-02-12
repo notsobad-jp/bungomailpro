@@ -45,7 +45,7 @@
 #                              PUT    /charges/:id(.:format)                                                                   charges#update
 #                              DELETE /charges/:id(.:format)                                                                   charges#destroy
 # webhooks_update_subscription POST   /webhooks/update_subscription(.:format)                                                  webhooks#update_subscription
-#                         user GET    /users/:token(.:format)                                                                  users#show
+#                         user GET    /users/:id(.:format)                                                                     users#show
 #                     pro_root GET    /pro(.:format)                                                                           pages#top
 #                        login GET    /login(.:format)                                                                         magic_tokens#new
 #                         auth GET    /auth(.:format)                                                                          magic_tokens#auth
@@ -71,7 +71,7 @@ Rails.application.routes.draw do
 
   post 'webhooks/update_subscription'
 
-  get 'users/:token' => 'users#show', as: :user
+  get 'users/:id' => 'users#show', as: :user
   get 'pro' => 'pages#top', as: :pro_root
 
   get 'login' => 'magic_tokens#new', as: :login
