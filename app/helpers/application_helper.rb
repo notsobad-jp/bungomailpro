@@ -6,6 +6,8 @@ module ApplicationHelper
     when 'private'
       icon_tag = content_tag(:i, nil, class: "icon small lock")
       content_tag(:small, icon_tag, data: { tooltip: "非公開", inverted: true })
+    when 'streaming'
+      content_tag(:label, "ストリーミング配信", class: "ui blue small label", data: { tooltip: "このチャネルは全員に同じタイミングで配信されます", inverted: true })
     end
   end
 
