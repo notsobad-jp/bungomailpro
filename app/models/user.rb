@@ -24,8 +24,6 @@ class User < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :channels, dependent: :destroy
   has_one :charge, dependent: :destroy
-  has_many :subscription_users, dependent: :destroy
-  has_many :streaming_subscriptions, through: :subscription_users, source: :subscription
   MAX_SUBSCRIPTIONS_COUNT = 3
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
@@ -64,14 +62,17 @@ class User < ApplicationRecord
   end
 
   def subscribe(channel)
-    subscriptions.create_with(
-      user_id: id,
-      next_delivery_date: Time.zone.tomorrow, # TODO: 月初開始の場合分け
-      current_book_id: channel.channel_books.first.book_id,
-      next_chapter_index: 1
-    ).find_or_create_by!(
-      channel_id: channel.id
-    )
+    if channel.streaming?
+      params = { user_id: id }
+    else
+      params = {
+        user_id: id,
+        next_delivery_date: Time.zone.tomorrow,
+        current_book_id: channel.channel_books.first.book_id,
+        next_chapter_index: 1
+      }
+    end
+    subscriptions.create_with(params).find_or_create_by!(channel_id: channel.id)
   end
 
   def subscriptionable?

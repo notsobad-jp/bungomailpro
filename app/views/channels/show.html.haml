@@ -4,19 +4,24 @@
 
 -# 購読管理
 %div
+  -# ownerの場合は管理メニュー表示
+  - if @channel.user_id == current_user.try(:id)
+    = link_to 'チャネルの編集', edit_channel_path(@channel), class: 'ui primary basic small button', data: {turbolinks: false}
+
   - if @channel.streaming?
-    - if @subscription.subscribed_by?(current_user)
-      - if @subscription.not_started?
-        %button.ui.red.disabled.button
-          配信予約済み
-          %small （ #{@subscription.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
-        = link_to "購読解除する", subscription_user_path(@streaming_subscription), class: "ui black basic small button"
-      - else
-        %button.ui.red.disabled.button 配信中
+    - if @subscription
+      %button.ui.small.red.disabled.button
+        = @master_sub.not_started? ? "配信予約済み" : "配信中"
+        - if @master_sub.not_started?
+          %small （ #{@master_sub.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
+      %small
+        = link_to subscription_path(@subscription), method: :delete, data: {confirm: '配信を解除します。本当によろしいですか？'} do
+          %i.icon.trash
+          配信を解除する
     - else
-      = link_to subscription_users_path(subscription_id: @subscription.id), method: :post, class: "ui red button" do
-        配信予約
-        %small （ #{@subscription.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
+      = link_to subscriptions_path(channel_id: @channel), method: :post, class: "ui red small button" do
+        配信予約する
+        %small （ #{@master_sub.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
   - else
     - if @subscription
       = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'
@@ -25,10 +30,6 @@
         = link_to '配信開始', subscriptions_path(channel_id: @channel), method: :post, class: "ui small red button"
       - else
         %button.ui.small.red.disabled.button 配信開始
-
-  -# ownerの場合は管理メニュー表示
-  - if @channel.user_id == current_user.try(:id)
-    = link_to 'チャネルの編集', edit_channel_path(@channel), class: 'ui primary basic small button', data: {turbolinks: false}
 
 -# まだ購読してない && ユーザーが登録上限に達してるときはアラート表示
 - if !@subscription && !current_user.try(:subscriptionable?)
@@ -41,37 +42,40 @@
 %div= simple_format_with_link @channel.description
 
 
+- if @subscription.try(:finished?)
+  .ui.warning.small.message
+    %i.icon.warning.circle
+    このチャネルの配信は終了しました。もう一度購読したい場合は、「配信設定」から一度購読を解除し、再度購読し直してください。
+
+
+-# 配信中タイトル
+- if (sub = @channel.streaming? ? @master_sub : @subscription) && !sub.not_started?
+  .ui.small.header
+    %i.icon.podcast
+    配信中のタイトル
+  .ui.secondary.padded.segment
+    - if book = sub.current_chapter.try(:book)
+      .ui.small.header
+        #{book.author}『#{book.title}』
+        = link_to book.aozora_card_url do
+          %i.icon.mini.external
+      %span.ui.label 次の配信
+      第#{sub.current_chapter.index}回（全#{book.chapters_count}回）
+      %i.icon.clock.outline
+      = sub.next_deliver_at.strftime("%m月%d日 %H:%M")
+    - else
+      現在配信中のタイトルはありません
+    .ui.hidden.divider
+    %div
+      %i.icon.rss
+      = link_to subscription_path(sub, format: :atom), target: '_blank' do
+        = subscription_url(sub, format: :atom)
+        &nbsp;
+        %i.icon.small.external
+
+
+-# bookリストの見出し
 - if @subscription
-  - if @subscription.finished?
-    .ui.warning.small.message
-      %i.icon.warning.circle
-      このチャネルの配信は終了しました。もう一度購読したい場合は、「配信設定」から一度購読を解除し、再度購読し直してください。
-
-  // streaming && 配信前（=購読者募集中）のときは、配信中タイトルを見せない
-  - if !@channel.streaming? || !@subscription.try(:not_started?)
-    .ui.small.header
-      %i.icon.podcast
-      配信中のタイトル
-    .ui.secondary.padded.segment
-      - if book = @subscription.current_chapter.try(:book)
-        .ui.small.header
-          #{book.author}『#{book.title}』
-          = link_to book.aozora_card_url do
-            %i.icon.mini.external
-        %span.ui.label 次の配信
-        第#{@subscription.current_chapter.index}回（全#{book.chapters_count}回）
-        %i.icon.clock.outline
-        = @subscription.next_deliver_at.strftime("%m月%d日 %H:%M")
-      - else
-        現在配信中のタイトルはありません
-      .ui.hidden.divider
-      %div
-        %i.icon.rss
-        = link_to subscription_path(@subscription, format: :atom), target: '_blank' do
-          = subscription_url(@subscription, format: :atom)
-          &nbsp;
-          %i.icon.small.external
-
   .ui.secondary.pointing.menu
     - if @finished
       = link_to '今後の配信予定', channel_path(@channel), class: 'item'
@@ -84,6 +88,8 @@
     %i.icon.book
     配信タイトル
 
+
+-# bookリスト
 .ui.middle.alligned.relaxed.large.ordered.list
   - if @channel.streaming? && !@finished
     %small ストリーミング配信では、事前にどの本が配信されるか見ることはできません。配信をたのしみにお待ちください！

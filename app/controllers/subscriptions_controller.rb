@@ -39,8 +39,9 @@ class SubscriptionsController < ApplicationController
   def create
     @channel = Channel.find(params[:channel_id])
     begin
-      current_user.subscribe(@channel)
-      flash[:success] = 'チャネルの配信を開始しました🎉 翌日からメール配信が始まります。'
+      @subscription = current_user.subscribe(@channel)
+      next_delivery_date = @channel.streaming? ? @channel.master_subscription.next_delivery_date.strftime("%-m月%-d日") : "翌日"
+      flash[:success] = "チャネルの配信を開始しました🎉 #{ next_delivery_date }からメール配信が始まります。"
       redirect_to channel_path(@channel)
     rescue StandardError
       flash[:error] = '配信開始できませんでした😢 購読チャネル数の上限を超える場合は、他のチャネルを解除してからお試しください。'

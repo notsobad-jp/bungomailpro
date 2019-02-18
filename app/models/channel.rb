@@ -33,6 +33,11 @@ class Channel < ApplicationRecord
     channel_books.create_with(index: max_index + 1).find_or_create_by(book_id: book.id)
   end
 
+  # streamingのときは、ownerのsubscriptionで配信時間などを決定
+  def master_subscription
+    subscriptions.find_by(user_id: user_id) if streaming?
+  end
+
   def max_index
     channel_books.maximum(:index) || 0
   end

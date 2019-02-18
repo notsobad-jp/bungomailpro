@@ -7,7 +7,7 @@ module ApplicationHelper
       icon_tag = content_tag(:i, nil, class: "icon small lock")
       content_tag(:small, icon_tag, data: { tooltip: "非公開", inverted: true })
     when 'streaming'
-      content_tag(:label, "ストリーミング配信", class: "ui blue small label", data: { tooltip: "このチャネルは全員に同じタイミングで配信されます", inverted: true })
+      content_tag(:label, "ストリーミング配信", class: "ui blue small basic label", data: { tooltip: "このチャネルは全員に同じタイミングで配信されます", inverted: true })
     end
   end
 
@@ -73,6 +73,15 @@ module ApplicationHelper
 
   def simple_format_with_link(text)
     simple_format(sanitize(linknize(text), attributes: %w[href target]), {}, sanitize: false) if text
+  end
+
+  def streaming_subscribed_button(master_subscription)
+    if master_subscription.not_started?
+      small = content_tag(:small, "（ #{ @master_sub.next_delivery_date.strftime('%-m月%-d日') } 配信開始）")
+      content_tag(:button, "配信予約済み #{small}", class: 'ui red disabled button')
+    else
+      content_tag(:button, "配信中", class: 'ui red disabled button')
+    end
   end
 
   def footer_hidden

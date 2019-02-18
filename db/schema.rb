@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_16_100220) do
+ActiveRecord::Schema.define(version: 2019_01_30_092007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -119,16 +119,6 @@ ActiveRecord::Schema.define(version: 2019_02_16_100220) do
     t.index ["date"], name: "index_notifications_on_date", unique: true
   end
 
-  create_table "subscription_users", id: false, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "subscription_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["subscription_id"], name: "index_subscription_users_on_subscription_id"
-    t.index ["user_id", "subscription_id"], name: "index_subscription_users_on_user_id_and_subscription_id", unique: true
-    t.index ["user_id"], name: "index_subscription_users_on_user_id"
-  end
-
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "channel_id", null: false
@@ -167,8 +157,6 @@ ActiveRecord::Schema.define(version: 2019_02_16_100220) do
   add_foreign_key "charges", "users"
   add_foreign_key "feeds", "books"
   add_foreign_key "feeds", "subscriptions"
-  add_foreign_key "subscription_users", "subscriptions"
-  add_foreign_key "subscription_users", "users"
   add_foreign_key "subscriptions", "books", column: "current_book_id"
   add_foreign_key "subscriptions", "channels"
   add_foreign_key "subscriptions", "users"

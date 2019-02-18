@@ -25,14 +25,14 @@ class UserMailer < ApplicationMailer
 
     xsmtp_api_params = {
       send_at: send_at.to_i,
-      # to: @subscription.channel.subscribers.pluck(:email),
+      to: @subscription.channel.streaming? ? @subscription.channel.pro_subscribers.pluck(:email) : @subscription.user.email,
       category: 'chapter'
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
     mail(
       from: "#{@subscription.current_book.author.tr(',', '、')}（ブンゴウメール） <bungomail@notsobad.jp>",
-      to: @subscription.user.email,
+      to: 'info@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
       subject: "#{@subscription.current_book.title}（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}）【#{@subscription.channel.title}】"
     )
     logger.info "[SCHEDULED] channel:#{@subscription.channel.id}, chapter:#{@subscription.next_chapter.book_id}-#{@subscription.next_chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
