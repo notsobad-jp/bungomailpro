@@ -32,7 +32,7 @@
         %button.ui.small.red.disabled.button 配信開始
 
 -# まだ購読してない && ユーザーが登録上限に達してるときはアラート表示
-- if !@subscription && !current_user.try(:subscriptionable?)
+- if current_user && !current_user.subscriptionable? && !@subscription
   .ui.warning.small.message
     .content
       %i.icon.warning.circle
