@@ -19,9 +19,15 @@ class Subscription < ApplicationRecord
   belongs_to :current_book, class_name: 'Book', foreign_key: 'current_book_id', optional: true
   belongs_to :next_chapter, class_name: 'Chapter', foreign_key: %i[current_book_id next_chapter_index], optional: true
   has_many :feeds, -> { order(delivered_at: :desc) }, dependent: :destroy, inverse_of: :subscription
+  has_many :subscription_users, dependent: :destroy, inverse_of: :subscription
 
   validates :delivery_hour, presence: true
   validates_associated :user
+
+
+  def add_user(user)
+    subscription_users.find_or_create_by(user_id: user.id)
+  end
 
   def create_feed
     feeds.create!(

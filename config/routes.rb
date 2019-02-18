@@ -1,6 +1,22 @@
 # == Route Map
 #
 #                       Prefix Verb   URI Pattern                                                                              Controller#Action
+#                        books GET    /books(.:format)                                                                         books#index
+#                              POST   /books(.:format)                                                                         books#create
+#                     new_book GET    /books/new(.:format)                                                                     books#new
+#                    edit_book GET    /books/:id/edit(.:format)                                                                books#edit
+#                         book GET    /books/:id(.:format)                                                                     books#show
+#                              PATCH  /books/:id(.:format)                                                                     books#update
+#                              PUT    /books/:id(.:format)                                                                     books#update
+#                              DELETE /books/:id(.:format)                                                                     books#destroy
+#                 magic_tokens GET    /magic_tokens(.:format)                                                                  magic_tokens#index
+#                              POST   /magic_tokens(.:format)                                                                  magic_tokens#create
+#              new_magic_token GET    /magic_tokens/new(.:format)                                                              magic_tokens#new
+#             edit_magic_token GET    /magic_tokens/:id/edit(.:format)                                                         magic_tokens#edit
+#                  magic_token GET    /magic_tokens/:id(.:format)                                                              magic_tokens#show
+#                              PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
+#                              PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
+#                              DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
 #                books_channel POST   /channels/:id/books(.:format)                                                            channel_books#create
 #                     channels GET    /channels(.:format)                                                                      channels#index
 #                              POST   /channels(.:format)                                                                      channels#create
@@ -10,14 +26,7 @@
 #                              PATCH  /channels/:id(.:format)                                                                  channels#update
 #                              PUT    /channels/:id(.:format)                                                                  channels#update
 #                              DELETE /channels/:id(.:format)                                                                  channels#destroy
-#                        books GET    /books(.:format)                                                                         books#index
-#                              POST   /books(.:format)                                                                         books#create
-#                     new_book GET    /books/new(.:format)                                                                     books#new
-#                    edit_book GET    /books/:id/edit(.:format)                                                                books#edit
-#                         book GET    /books/:id(.:format)                                                                     books#show
-#                              PATCH  /books/:id(.:format)                                                                     books#update
-#                              PUT    /books/:id(.:format)                                                                     books#update
-#                              DELETE /books/:id(.:format)                                                                     books#destroy
+#         members_subscription POST   /subscriptions/:id/members(.:format)                                                     subscription_users#create
 #                subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
 #                              POST   /subscriptions(.:format)                                                                 subscriptions#create
 #             new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new
@@ -26,14 +35,6 @@
 #                              PATCH  /subscriptions/:id(.:format)                                                             subscriptions#update
 #                              PUT    /subscriptions/:id(.:format)                                                             subscriptions#update
 #                              DELETE /subscriptions/:id(.:format)                                                             subscriptions#destroy
-#                 magic_tokens GET    /magic_tokens(.:format)                                                                  magic_tokens#index
-#                              POST   /magic_tokens(.:format)                                                                  magic_tokens#create
-#              new_magic_token GET    /magic_tokens/new(.:format)                                                              magic_tokens#new
-#             edit_magic_token GET    /magic_tokens/:id/edit(.:format)                                                         magic_tokens#edit
-#                  magic_token GET    /magic_tokens/:id(.:format)                                                              magic_tokens#show
-#                              PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
-#                              PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
-#                              DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
 #              activate_charge POST   /charges/:id/activate(.:format)                                                          charges#activate
 #       update_payment_charges GET    /charges/update_payment(.:format)                                                        charges#update_payment
 #                      charges GET    /charges(.:format)                                                                       charges#index
@@ -58,12 +59,14 @@
 #         rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
 
 Rails.application.routes.draw do
+  resources :books
+  resources :magic_tokens
   resources :channels do
     post 'books' => 'channel_books#create', on: :member
   end
-  resources :books
-  resources :subscriptions
-  resources :magic_tokens
+  resources :subscriptions do
+    post 'members' => 'subscription_users#create', on: :member
+  end
   resources :charges do
     post 'activate', on: :member
     get 'update_payment', on: :collection

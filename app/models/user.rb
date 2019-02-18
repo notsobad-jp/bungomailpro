@@ -24,6 +24,8 @@ class User < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :channels, dependent: :destroy
   has_one :charge, dependent: :destroy
+  has_many :subscription_users, dependent: :destroy
+  has_many :streaming_subscriptions, through: :subscription_users, source: :subscription
   MAX_SUBSCRIPTIONS_COUNT = 3
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
