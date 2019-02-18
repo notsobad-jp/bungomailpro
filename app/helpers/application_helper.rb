@@ -50,10 +50,6 @@ module ApplicationHelper
     text
   end
 
-  def owned_channel?(channel)
-    channel.user_id == current_user.try(:id)
-  end
-
   def payment_status_label(charge)
     return content_tag(:span, 'FREEプラン', class: 'ui basic label') if charge.try(:cancel_at)
 

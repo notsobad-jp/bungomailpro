@@ -2,25 +2,35 @@
   = @channel.title
   = channel_status_icon(@channel.status)
 
+-# 購読管理
 %div
-  -# 購読管理
-  - if @subscription && owned_channel?(@channel)
-    = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'
-  - else
-    - if @channel.books_count > 0 && current_user.try(:subscriptionable?)
-      - if @channel.streaming?
-        = link_to members_subscription_path(@subscription), method: :post, class: "ui red button" do
-          配信予約
+  - if @channel.streaming?
+    - if @subscription.subscribed_by?(current_user)
+      - if @subscription.not_started?
+        %button.ui.red.disabled.button
+          配信予約済み
           %small （ #{@subscription.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
+        = link_to "購読解除する", subscription_user_path(@streaming_subscription), class: "ui black basic small button"
       - else
-        = link_to '配信開始', subscriptions_path(channel_id: @channel), method: :post, class: "ui small red button"
+        %button.ui.red.disabled.button 配信中
     - else
-      %button.ui.small.red.disabled.button 配信開始
+      = link_to subscription_users_path(subscription_id: @subscription.id), method: :post, class: "ui red button" do
+        配信予約
+        %small （ #{@subscription.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
+  - else
+    - if @subscription
+      = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'
+    - else
+      - if @channel.books_count > 0 && current_user.try(:subscriptionable?)
+        = link_to '配信開始', subscriptions_path(channel_id: @channel), method: :post, class: "ui small red button"
+      - else
+        %button.ui.small.red.disabled.button 配信開始
 
   -# ownerの場合は管理メニュー表示
-  - if owned_channel?(@channel)
+  - if @channel.user_id == current_user.try(:id)
     = link_to 'チャネルの編集', edit_channel_path(@channel), class: 'ui primary basic small button', data: {turbolinks: false}
 
+-# まだ購読してない && ユーザーが登録上限に達してるときはアラート表示
 - if !@subscription && !current_user.try(:subscriptionable?)
   .ui.warning.small.message
     .content

@@ -9,6 +9,7 @@
 #
 
 class SubscriptionUser < ApplicationRecord
+  self.primary_keys = :subscription_id, :user_id
   belongs_to :user
   belongs_to :subscription
 end

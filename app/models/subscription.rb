@@ -135,6 +135,11 @@ class Subscription < ApplicationRecord
     next_chapter_index == 1 && current_channel_book.index == 1
   end
 
+  def subscribed_by?(user)
+    !!subscription_users.find_by(user_id: user.try(:id))
+  end
+
+
   private
 
   # 配信終了（current_channel_bookがnil）の場合は最大値を返す

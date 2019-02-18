@@ -17,6 +17,22 @@
 #                              PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                              PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                              DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
+#                subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
+#                              POST   /subscriptions(.:format)                                                                 subscriptions#create
+#             new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new
+#            edit_subscription GET    /subscriptions/:id/edit(.:format)                                                        subscriptions#edit
+#                 subscription GET    /subscriptions/:id(.:format)                                                             subscriptions#show
+#                              PATCH  /subscriptions/:id(.:format)                                                             subscriptions#update
+#                              PUT    /subscriptions/:id(.:format)                                                             subscriptions#update
+#                              DELETE /subscriptions/:id(.:format)                                                             subscriptions#destroy
+#           subscription_users GET    /subscription_users(.:format)                                                            subscription_users#index
+#                              POST   /subscription_users(.:format)                                                            subscription_users#create
+#        new_subscription_user GET    /subscription_users/new(.:format)                                                        subscription_users#new
+#       edit_subscription_user GET    /subscription_users/:id/edit(.:format)                                                   subscription_users#edit
+#            subscription_user GET    /subscription_users/:id(.:format)                                                        subscription_users#show
+#                              PATCH  /subscription_users/:id(.:format)                                                        subscription_users#update
+#                              PUT    /subscription_users/:id(.:format)                                                        subscription_users#update
+#                              DELETE /subscription_users/:id(.:format)                                                        subscription_users#destroy
 #                books_channel POST   /channels/:id/books(.:format)                                                            channel_books#create
 #                     channels GET    /channels(.:format)                                                                      channels#index
 #                              POST   /channels(.:format)                                                                      channels#create
@@ -26,15 +42,6 @@
 #                              PATCH  /channels/:id(.:format)                                                                  channels#update
 #                              PUT    /channels/:id(.:format)                                                                  channels#update
 #                              DELETE /channels/:id(.:format)                                                                  channels#destroy
-#         members_subscription POST   /subscriptions/:id/members(.:format)                                                     subscription_users#create
-#                subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
-#                              POST   /subscriptions(.:format)                                                                 subscriptions#create
-#             new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new
-#            edit_subscription GET    /subscriptions/:id/edit(.:format)                                                        subscriptions#edit
-#                 subscription GET    /subscriptions/:id(.:format)                                                             subscriptions#show
-#                              PATCH  /subscriptions/:id(.:format)                                                             subscriptions#update
-#                              PUT    /subscriptions/:id(.:format)                                                             subscriptions#update
-#                              DELETE /subscriptions/:id(.:format)                                                             subscriptions#destroy
 #              activate_charge POST   /charges/:id/activate(.:format)                                                          charges#activate
 #       update_payment_charges GET    /charges/update_payment(.:format)                                                        charges#update_payment
 #                      charges GET    /charges(.:format)                                                                       charges#index
@@ -61,11 +68,10 @@
 Rails.application.routes.draw do
   resources :books
   resources :magic_tokens
+  resources :subscriptions
+  resources :subscription_users
   resources :channels do
     post 'books' => 'channel_books#create', on: :member
-  end
-  resources :subscriptions do
-    post 'members' => 'subscription_users#create', on: :member
   end
   resources :charges do
     post 'activate', on: :member
