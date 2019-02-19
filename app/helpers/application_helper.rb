@@ -4,10 +4,10 @@ module ApplicationHelper
   def channel_status_icon(status)
     case status
     when 'private'
-      icon_tag = content_tag(:i, nil, class: "icon small lock")
-      content_tag(:small, icon_tag, data: { tooltip: "非公開", inverted: true })
+      icon_tag = content_tag(:i, nil, class: 'icon small lock')
+      content_tag(:small, icon_tag, data: { tooltip: '非公開', inverted: true })
     when 'streaming'
-      content_tag(:label, "ストリーミング配信", class: "ui blue small basic label", data: { tooltip: "このチャネルは全員に同じタイミングで配信されます", inverted: true })
+      content_tag(:label, 'ストリーミング配信', class: 'ui blue small basic label', data: { tooltip: 'このチャネルは全員に同じタイミングで配信されます', inverted: true })
     end
   end
 
@@ -77,10 +77,10 @@ module ApplicationHelper
 
   def streaming_subscribed_button(master_subscription)
     if master_subscription.not_started?
-      small = content_tag(:small, "（ #{ @master_sub.next_delivery_date.strftime('%-m月%-d日') } 配信開始）")
+      small = content_tag(:small, "（ #{@master_sub.next_delivery_date.strftime('%-m月%-d日')} 配信開始）")
       content_tag(:button, "配信予約済み #{small}", class: 'ui red disabled button')
     else
-      content_tag(:button, "配信中", class: 'ui red disabled button')
+      content_tag(:button, '配信中', class: 'ui red disabled button')
     end
   end
 

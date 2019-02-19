@@ -23,7 +23,6 @@ class Subscription < ApplicationRecord
   validates :delivery_hour, presence: true
   validates_associated :user
 
-
   def create_feed
     feeds.create!(
       book_id: current_book_id,

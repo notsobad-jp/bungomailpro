@@ -48,7 +48,6 @@ class Channel < ApplicationRecord
     ActiveRecord::Base.connection.select_value(sql) || 0 # 購読者なしのときはnilが来るので代わりに0を返す
   end
 
-
   # statusの確認メソッドを動的に定義
   %w[private public streaming].each do |value|
     define_method("#{value}?") do

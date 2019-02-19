@@ -62,16 +62,16 @@ class User < ApplicationRecord
   end
 
   def subscribe(channel)
-    if channel.streaming?
-      params = { user_id: id }
-    else
-      params = {
-        user_id: id,
-        next_delivery_date: Time.zone.tomorrow,
-        current_book_id: channel.channel_books.first.book_id,
-        next_chapter_index: 1
-      }
-    end
+    params = if channel.streaming?
+               { user_id: id }
+             else
+               {
+                 user_id: id,
+                 next_delivery_date: Time.zone.tomorrow,
+                 current_book_id: channel.channel_books.first.book_id,
+                 next_chapter_index: 1
+               }
+             end
     subscriptions.create_with(params).find_or_create_by!(channel_id: channel.id)
   end
 

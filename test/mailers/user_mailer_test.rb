@@ -14,6 +14,7 @@ class UserMailerTest < ActiveSupport::TestCase
     UserMailer.with(subscription: sub).chapter_email.deliver_now
     email = ActionMailer::Base.deliveries.last
 
+    byebug
     assert_equal ['sample4@example.com'], email.to
     assert email.header['from'].value.include? '太宰さん'
     assert email.subject.include? '走れメロス'
