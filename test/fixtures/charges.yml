@@ -76,3 +76,14 @@ charge_trialing:
   subscription_id: "sub_ESwwZke6o4eyZA"   # trial_ended.jsonで使用
   status: trialing
   trial_end: <%= 10.minutes.since(Time.current) %>
+
+user8_active:
+  user: user8
+  customer_id: "cus_<%= SecureRandom.hex(14) %>"
+  brand: MasterCard
+  exp_month: 06
+  exp_year: 2100
+  last4: 4444
+  subscription_id: "<%= SecureRandom.hex(14) %>"
+  status: active
+  trial_end: <%= 10.minutes.ago(Time.current) %>

@@ -40,3 +40,9 @@ channel4:
   user: user3
   title: 'user3のチャンネル1'
   status: private
+
+streaming:
+  user: user7
+  title: Streamingチャネル
+  description: 'ふがふが'
+  status: streaming

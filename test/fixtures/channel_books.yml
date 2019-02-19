@@ -40,3 +40,8 @@ channel4_book1:
   channel: channel4
   book: book1
   index: 1
+
+streaming_book1:
+  channel: streaming
+  book: book2
+  index: 1

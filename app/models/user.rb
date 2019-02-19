@@ -42,10 +42,9 @@ class User < ApplicationRecord
     profile ? profile['displayName'] : id
   end
 
-  # TODO: ベータ版中は全員にメール送信。有料化したら購読ステータスで判断する
   def pro?
-    true
-    # self.charge.try(:active?)
+    # TODO: 2019年2月末まではベータ版で全員PRO扱い。それ以降は購読ステータスで判断する
+    Time.current < Time.zone.parse('2019-03-01') || self.charge.try(:active?)
   end
 
   def profile_image_url

@@ -19,7 +19,7 @@ class Channel < ApplicationRecord
   has_many :channel_books, -> { order(:index) }, dependent: :destroy, inverse_of: :channel
   has_many :books, through: :channel_books
   has_many :subscriptions, dependent: :destroy
-  has_many :subscribers, through: :subscriptions, source: :user, inverse_of: :channel
+  has_many :subscribers, through: :subscriptions, source: :user
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true

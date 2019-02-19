@@ -57,6 +57,12 @@ class Subscription < ApplicationRecord
     set_next_chapter
   end
 
+  # 実際にメール配信する宛先のリスト（=有料プラン契約済みのメールアドレス一覧）
+  def deliverable_emails
+    subscribers = channel.streaming? ? channel.subscribers : Array(user)  # streamingじゃないときはownerだけだけど、returnを揃えられるようArrayに統一
+    subscribers.select(&:pro?).pluck(:email)
+  end
+
   # current_bookがなければ配信停止状態と判断
   ## ただしstreamingのときは配信情報がもともと空なので対象から除外する
   def finished?
