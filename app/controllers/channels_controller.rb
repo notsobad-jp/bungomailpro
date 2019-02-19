@@ -10,16 +10,13 @@ class ChannelsController < ApplicationController
 
   def show
     # streamingの場合は、オーナーのsubscriptionで共通の配信状況を見る
-    if @channel.streaming?
-      @subscription = @channel.subscriptions.find_by(user_id: @channel.user_id)
-    # それ以外はユーザーのsubscriptionを見る
-    elsif current_user
-      @subscription = current_user.subscriptions.find_by(channel_id: @channel.id)
-    end
+    @subscription = current_user.subscriptions.find_by(channel_id: @channel.id) if current_user
+    @master_sub = @channel.master_subscription
 
     @finished = params[:books] == 'finished'
-    @books = if @subscription
-               @finished ? @subscription.finished_books : @subscription.scheduled_books
+    sub = @channel.streaming? ? @channel.master_subscription : @subscription
+    @books = if sub
+               @finished ? sub.finished_books : sub.scheduled_books
              else
                @channel.channel_books.map(&:book)
              end

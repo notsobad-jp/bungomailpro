@@ -42,10 +42,9 @@ class User < ApplicationRecord
     profile ? profile['displayName'] : id
   end
 
-  # TODO: ベータ版中は全員にメール送信。有料化したら購読ステータスで判断する
   def pro?
-    true
-    # self.charge.try(:active?)
+    # TODO: 2019年2月末まではベータ版で全員PRO扱い。それ以降は購読ステータスで判断する
+    Time.current < Time.zone.parse('2019-03-01') || self.charge.try(:active?)
   end
 
   def profile_image_url
@@ -62,14 +61,17 @@ class User < ApplicationRecord
   end
 
   def subscribe(channel)
-    subscriptions.create_with(
-      user_id: id,
-      next_delivery_date: Time.zone.tomorrow, # TODO: 月初開始の場合分け
-      current_book_id: channel.channel_books.first.book_id,
-      next_chapter_index: 1
-    ).find_or_create_by!(
-      channel_id: channel.id
-    )
+    params = if channel.streaming?
+               { user_id: id }
+             else
+               {
+                 user_id: id,
+                 next_delivery_date: Time.zone.tomorrow,
+                 current_book_id: channel.channel_books.first.book_id,
+                 next_chapter_index: 1
+               }
+             end
+    subscriptions.create_with(params).find_or_create_by!(channel_id: channel.id)
   end
 
   def subscriptionable?

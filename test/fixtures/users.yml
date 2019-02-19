@@ -42,3 +42,7 @@ user6:
 user7:
   email: 'sample7@example.com'
   magic_login_token: <%= SecureRandom.hex(10) %>
+
+user8:
+  email: 'sample8@example.com'
+  magic_login_token: <%= SecureRandom.hex(10) %>

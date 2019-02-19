@@ -13,14 +13,14 @@
 #  updated_at         :datetime         not null
 #
 
-# 1冊目の最初のchapter
+# 1冊目の最初のchapter（今日配信）
 user1_channel1:
   user: user1
   channel: channel1
   current_book: book1
   delivery_hour: 8
   next_chapter_index: 1
-  next_delivery_date: <%= Time.zone.tomorrow %>
+  next_delivery_date: <%= Time.zone.today %>
 
 # 1冊目の最後のchapter
 user1_channel2:
@@ -76,3 +76,20 @@ user3_channel4:
   delivery_hour: 10
   next_chapter_index: 2
   next_delivery_date: <%= Time.zone.tomorrow %>
+
+# streamingチャネルのmaster subscription
+streaming_master:
+  user: user7
+  channel: streaming
+  current_book: book2
+  delivery_hour: 9
+  next_chapter_index: 2
+  next_delivery_date: <%= Time.zone.today %>
+
+streaming_active:
+  user: user8
+  channel: streaming
+
+streaming_non_pro:
+  user: user4
+  channel: streaming

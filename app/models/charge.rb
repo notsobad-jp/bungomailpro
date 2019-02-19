@@ -22,7 +22,6 @@ class Charge < ApplicationRecord
   TRIAL_PERIOD_DAYS = 31 # 無料トライアル日数
   BILLING_DAY = 5 # 毎月の決済日
 
-
   def active?
     %w[trialing active past_due].include? status
   end

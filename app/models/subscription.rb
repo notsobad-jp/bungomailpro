@@ -57,8 +57,16 @@ class Subscription < ApplicationRecord
     set_next_chapter
   end
 
+  # 実際にメール配信する宛先のリスト（=有料プラン契約済みのメールアドレス一覧）
+  def deliverable_emails
+    subscribers = channel.streaming? ? channel.subscribers : Array(user)  # streamingじゃないときはownerだけだけど、returnを揃えられるようArrayに統一
+    subscribers.select(&:pro?).pluck(:email)
+  end
+
+  # current_bookがなければ配信停止状態と判断
+  ## ただしstreamingのときは配信情報がもともと空なので対象から除外する
   def finished?
-    !current_book_id
+    !current_book_id && !channel.streaming?
   end
 
   def finished_books
@@ -81,6 +89,11 @@ class Subscription < ApplicationRecord
     return unless next_delivery_date
 
     Time.zone.parse(next_delivery_date.to_s).change(hour: delivery_hour)
+  end
+
+  # 最初の本の最初のchapter配信前
+  def not_started?
+    next_chapter_index == 1 && current_channel_book.index == 1
   end
 
   def prev_chapter
@@ -122,11 +135,6 @@ class Subscription < ApplicationRecord
       )
     end
     logger.info "[CHAPTER SET] sub:#{id}, #{next_chapter.try(:book_id)}-#{next_chapter.try(:index)}"
-  end
-
-  # 最初の本の最初のchapter配信前
-  def not_started?
-    next_chapter_index == 1 && current_channel_book.index == 1
   end
 
   private

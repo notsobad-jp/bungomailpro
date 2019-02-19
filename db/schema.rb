@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "books", force: :cascade do |t|
+  create_table "books", id: :bigint, default: nil, force: :cascade do |t|
     t.string "title", null: false
     t.string "author", null: false
     t.bigint "author_id", null: false
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.uuid "channel_id", null: false
     t.bigint "book_id", null: false
     t.integer "index", null: false
+    t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_channel_books_on_book_id"
@@ -45,12 +46,11 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.string "title", null: false
     t.text "description"
     t.string "status", default: "private", null: false, comment: "IN (private public streaming)"
-    t.boolean "default", default: false, null: false
     t.integer "books_count", default: 0, null: false
     t.integer "subscribers_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["status"], name: "index_channels_on_status"
+    t.boolean "default", default: false, null: false
     t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
     t.index ["user_id"], name: "index_channels_on_user_id"
   end

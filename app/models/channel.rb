@@ -19,7 +19,7 @@ class Channel < ApplicationRecord
   has_many :channel_books, -> { order(:index) }, dependent: :destroy, inverse_of: :channel
   has_many :books, through: :channel_books
   has_many :subscriptions, dependent: :destroy
-  has_many :subscribers, through: :subscriptions, source: :user, inverse_of: :channel
+  has_many :subscribers, through: :subscriptions, source: :user
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   validates :title, presence: true
@@ -33,6 +33,11 @@ class Channel < ApplicationRecord
     channel_books.create_with(index: max_index + 1).find_or_create_by(book_id: book.id)
   end
 
+  # streamingのときは、ownerのsubscriptionで配信時間などを決定
+  def master_subscription
+    subscriptions.find_by(user_id: user_id) if streaming?
+  end
+
   def max_index
     channel_books.maximum(:index) || 0
   end
@@ -42,7 +47,6 @@ class Channel < ApplicationRecord
     sql = "SELECT MAX(channel_books.index) FROM subscriptions JOIN channel_books ON (subscriptions.channel_id = channel_books.channel_id AND subscriptions.current_book_id = channel_books.book_id) WHERE subscriptions.channel_id='#{id}'"
     ActiveRecord::Base.connection.select_value(sql) || 0 # 購読者なしのときはnilが来るので代わりに0を返す
   end
-
 
   # statusの確認メソッドを動的に定義
   %w[private public streaming].each do |value|
