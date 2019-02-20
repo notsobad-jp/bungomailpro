@@ -9,9 +9,9 @@ class SubscriptionsController < ApplicationController
     if current_user
       query = current_user.subscriptions.includes(:channel, :next_chapter, :current_book)
       @subscriptions = if (@finished = params[:q] == 'finished')
-                         query.select{ |sub| sub.current_book_id.nil? && !sub.channel.streaming? }
+                         query.select { |sub| sub.current_book_id.nil? && !sub.channel.streaming? }
                        else
-                         query.select{ |sub| sub.current_book_id || sub.channel.streaming? }
+                         query.select { |sub| sub.current_book_id || sub.channel.streaming? }
                        end
       @draft_channels = current_user.channels.where(subscribers_count: 0) unless @finished
     end
@@ -43,7 +43,7 @@ class SubscriptionsController < ApplicationController
     @channel = Channel.find(params[:channel_id])
     begin
       @subscription = current_user.subscribe(@channel)
-      next_delivery_date = (@channel.streaming? && @channel.master_subscription.not_started?) ? @channel.master_subscription.next_delivery_date.strftime('%-m月%-d日') : '翌日'
+      next_delivery_date = @channel.streaming? && @channel.master_subscription.not_started? ? @channel.master_subscription.next_delivery_date.strftime('%-m月%-d日') : '翌日'
       flash[:success] = "チャネルを購読しました🎉 #{next_delivery_date}からメール配信を開始します。"
       redirect_to channel_path(@channel)
     rescue StandardError
