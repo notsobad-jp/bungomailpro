@@ -50,7 +50,7 @@ class Subscription < ApplicationRecord
     return if next_delivery_date != Time.zone.today # 配信日が今日じゃなければスキップ（このあとの処理を実行する前に2回処理予約されると重複処理される可能性がある）
 
     # 有料ユーザーのみメール配信
-    UserMailer.with(subscription: self).chapter_email.deliver_now if user.pro? # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
+    UserMailer.with(subscription: self).chapter_email.deliver_now # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
 
     # RSSフィードと次の配信情報の更新（無料ユーザーも）
     create_feed
