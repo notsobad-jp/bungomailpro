@@ -1,0 +1,42 @@
+- channel = subscription.channel
+- if channel.streaming?
+  - user_subscription = subscription
+  - subscription = channel.master_subscription
+
+.ui.fluid.card
+  .content
+    .header
+      = link_to channel.title, channel_path(channel)
+    .description
+      = subscription_status_label(subscription)
+      = channel_status_icon(channel.status)
+      %br
+      = channel.description.try(:truncate, 50)
+  .extra.content
+    - if channel.books_count == 0
+      .ui.warning.small.message
+        .content
+          まだ本が登録されていないようです。「
+          = link_to '作品検索', books_path
+          」から本を追加して配信開始しましょう！
+    - else
+      .ui.small.list
+        .item
+          %i.icon.book
+          #{channel.books_count}冊
+        - if !subscription.not_started?
+          .item
+            %i.icon.podcast
+            = "#{subscription.current_book.author}『#{subscription.current_book.title}』"
+            = "##{subscription.current_chapter.index}（全#{subscription.current_book.chapters_count}回）"
+        .item
+          %i.icon.clock.outline
+          #{subscription.delivery_hour}:00
+  .extra.content
+    - if channel.streaming?
+      = link_to '配信解除', subscription_path(user_subscription), method: :delete, class: 'ui black basic small button', data: {confirm: '配信を解除します。本当によろしいですか？'}
+    - else
+      = link_to '配信設定', edit_subscription_path(subscription), class: 'ui red basic small button'
+
+    - if channel.user_id == current_user.id
+      = link_to '編集', edit_channel_path(channel), class: "ui primary basic small button"

@@ -7,7 +7,7 @@ module ApplicationHelper
       icon_tag = content_tag(:i, nil, class: 'icon small lock')
       content_tag(:small, icon_tag, data: { tooltip: '非公開', inverted: true })
     when 'streaming'
-      content_tag(:label, 'ストリーミング配信', class: 'ui blue small basic label', data: { tooltip: 'このチャネルは全員に同じタイミングで配信されます', inverted: true })
+      content_tag(:label, 'ストリーミング配信', class: 'ui blue mini basic label', data: { tooltip: 'このチャネルは全員に同じタイミングで配信されます', inverted: true })
     end
   end
 
@@ -81,6 +81,16 @@ module ApplicationHelper
       content_tag(:button, "配信予約済み #{small}", class: 'ui red disabled button')
     else
       content_tag(:button, '配信中', class: 'ui red disabled button')
+    end
+  end
+
+  def subscription_status_label(subscription)
+    if subscription.not_started?
+      content_tag(:span, '配信予約中', class: 'ui blue mini label')
+    elsif subscription.current_book_id
+      content_tag(:span, '配信中', class: 'ui orange mini label')
+    else
+      content_tag(:span, '配信終了', class: 'ui mini label')
     end
   end
 

@@ -20,8 +20,12 @@
           配信を解除する
     - else
       = link_to subscriptions_path(channel_id: @channel), method: :post, class: "ui red small button" do
-        配信予約する
-        %small （ #{@master_sub.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
+        - if @master_sub.not_started?
+          配信予約する
+          %small （ #{@master_sub.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
+        - else
+          購読する
+          %small （すでに配信は開始しています）
   - else
     - if @subscription
       = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'

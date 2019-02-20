@@ -7,9 +7,12 @@ class SubscriptionsController < ApplicationController
 
   def index
     if current_user
-      @finished = params[:q] == 'finished'
       query = current_user.subscriptions.includes(:channel, :next_chapter, :current_book)
-      @subscriptions = @finished ? query.where(current_book_id: nil) : query.where.not(current_book_id: nil)
+      @subscriptions = if (@finished = params[:q] == 'finished')
+                         query.select { |sub| sub.current_book_id.nil? && !sub.channel.streaming? }
+                       else
+                         query.select { |sub| sub.current_book_id || sub.channel.streaming? }
+                       end
       @draft_channels = current_user.channels.where(subscribers_count: 0) unless @finished
     end
     @breadcrumbs << { name: '購読チャネル' }
@@ -40,11 +43,11 @@ class SubscriptionsController < ApplicationController
     @channel = Channel.find(params[:channel_id])
     begin
       @subscription = current_user.subscribe(@channel)
-      next_delivery_date = @channel.streaming? ? @channel.master_subscription.next_delivery_date.strftime('%-m月%-d日') : '翌日'
-      flash[:success] = "チャネルの配信を開始しました🎉 #{next_delivery_date}からメール配信が始まります。"
+      next_delivery_date = @channel.streaming? && @channel.master_subscription.not_started? ? @channel.master_subscription.next_delivery_date.strftime('%-m月%-d日') : '翌日'
+      flash[:success] = "チャネルを購読しました🎉 #{next_delivery_date}からメール配信を開始します。"
       redirect_to channel_path(@channel)
     rescue StandardError
-      flash[:error] = '配信開始できませんでした😢 購読チャネル数の上限を超える場合は、他のチャネルを解除してからお試しください。'
+      flash[:error] = 'チャネル購読できませんでした😢 購読チャネル数の上限を超える場合は、他のチャネルを解除してからお試しください。'
       redirect_to request.referer || pro_root_path
     end
   end
