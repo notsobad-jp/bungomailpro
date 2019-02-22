@@ -3,6 +3,8 @@
   決済情報の登録
 
 .ui.secondary.center.aligned.segment
+  %h3.ui.small.header PROプラン 月額350円(税込)
+  %p 14日間のトライアル期間中に解約した場合、一切料金は発生しません。
   = form_tag charges_path do
     %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button"
             data-email="#{current_user.email}"
@@ -16,3 +18,10 @@
             data-panel-label="利用登録する（{{amount}}/月）"
             data-allow-remember-me="false"
             data-locale="auto")
+
+%h5.ui.small.header
+  %i.icon.info.circle
+  購入前にご確認ください
+.ui.bulleted.list
+  .item ほげ
+  .item ほげ
