@@ -74,6 +74,7 @@ Rails.application.routes.draw do
   get 'users/:id' => 'users#show', as: :user
   get 'pro' => 'pages#top', as: :pro_root
   get 'terms' => 'pages#terms', as: :terms
+  get 'privacy' => 'pages#privacy', as: :privacy
 
   get 'login' => 'magic_tokens#new', as: :login
   get 'auth' => 'magic_tokens#auth', as: :auth
