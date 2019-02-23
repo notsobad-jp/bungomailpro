@@ -9,4 +9,16 @@ class PagesController < ApplicationController
     ]
     @popular_books = ChannelBook.includes(:book).order(created_at: :desc).map(&:book).uniq.take(12)
   end
+
+  def terms
+    @breadcrumbs << { name: '利用規約' }
+  end
+
+  def privacy
+    @breadcrumbs << { name: 'プライバシーポリシー' }
+  end
+
+  def tokushoho
+    @breadcrumbs << { name: '特商法' }
+  end
 end

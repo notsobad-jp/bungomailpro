@@ -47,6 +47,9 @@
 # webhooks_update_subscription POST   /webhooks/update_subscription(.:format)                                                  webhooks#update_subscription
 #                         user GET    /users/:id(.:format)                                                                     users#show
 #                     pro_root GET    /pro(.:format)                                                                           pages#top
+#                        terms GET    /terms(.:format)                                                                         pages#terms
+#                      privacy GET    /privacy(.:format)                                                                       pages#privacy
+#                    tokushoho GET    /tokushoho(.:format)                                                                     pages#tokushoho
 #                        login GET    /login(.:format)                                                                         magic_tokens#new
 #                         auth GET    /auth(.:format)                                                                          magic_tokens#auth
 #                       logout POST   /logout(.:format)                                                                        magic_tokens#destroy
@@ -75,6 +78,7 @@ Rails.application.routes.draw do
   get 'pro' => 'pages#top', as: :pro_root
   get 'terms' => 'pages#terms', as: :terms
   get 'privacy' => 'pages#privacy', as: :privacy
+  get 'tokushoho' => 'pages#tokushoho', as: :tokushoho
 
   get 'login' => 'magic_tokens#new', as: :login
   get 'auth' => 'magic_tokens#auth', as: :auth

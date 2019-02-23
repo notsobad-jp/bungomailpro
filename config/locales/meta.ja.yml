@@ -9,6 +9,9 @@ ja:
     privacy:
       title: プライバシーポリシー
       description: ブンゴウメールのプライバシーポリシーです。
+    tokushoho:
+      title: 特定商取引法に基づく表記
+      description: ブンゴウメールの特定商取引法に基づく表記です。
   books:
     index:
       title: 青空文庫の作品検索
