@@ -43,8 +43,8 @@ class User < ApplicationRecord
   end
 
   def pro?
-    # TODO: 2019年2月末まではベータ版で全員PRO扱い。それ以降は購読ステータスで判断する
-    Time.current < Time.zone.parse('2019-03-01') || charge.try(:active?)
+    # TODO: 2019年3月10日まではベータ版で全員PRO扱い。それ以降は購読ステータスで判断する
+    Time.current < Time.zone.parse('2019-03-11') || charge.try(:active?)
   end
 
   def profile_image_url

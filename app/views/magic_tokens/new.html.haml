@@ -10,4 +10,12 @@
       %i.send.icon
 
 .ui.basic.segment
-  %small 入力したメールアドレスに、ログイン用URLが届きます。
+  .ui.bulleted.list
+    %small.item
+      入力したメールアドレスに、ログイン用URLが届きます。
+    %small.item
+      ログインすることで、
+      = link_to '利用規約', terms_path, class: 'item'
+      および
+      = link_to 'プライバシーポリシー', privacy_path, class: 'item'
+      に同意したものとみなします。

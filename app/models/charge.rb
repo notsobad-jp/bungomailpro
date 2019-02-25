@@ -19,7 +19,7 @@
 
 class Charge < ApplicationRecord
   belongs_to :user
-  TRIAL_PERIOD_DAYS = 31 # 無料トライアル日数
+  TRIAL_PERIOD_DAYS = 14 # 無料トライアル日数
   BILLING_DAY = 5 # 毎月の決済日
 
   def active?

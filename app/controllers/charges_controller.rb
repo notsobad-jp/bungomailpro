@@ -16,7 +16,7 @@ class ChargesController < ApplicationController
     # 定期課金開始
     charge.create_subscription
 
-    flash[:success] = '決済登録が完了しました🎉 1ヶ月の無料トライアル期間のあとに、支払いが開始します'
+    flash[:success] = '決済登録が完了しました🎉 無料トライアル期間のあとに、支払いが開始します'
     redirect_to user_path(current_user)
   rescue Stripe::StripeError => e
     logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"

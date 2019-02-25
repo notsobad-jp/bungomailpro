@@ -4,12 +4,12 @@
     %span.ui.red.small.label PRO
   %br
   .ui.horizontal.list
-    %a.item{:href => "https://twitter.com/bungomail", :target => "_blank"} 公式Twitter
-    -# %a.item{:href => "https://notsobad.jp", :target => "_blank"} 利用規約
-    -# %a.item{:href => "https://notsobad.jp", :target => "_blank"} プライバシーポリシー
-    -# %a.item{:href => "https://notsobad.jp", :target => "_blank"} 特商法
-    %a.item{:href => "https://goo.gl/forms/jE387feQLYysiv5m2", :target => "_blank"} お問い合わせ
-    %a.item{:href => "https://notsobad.jp", :target => "_blank"} 運営
+    = link_to '運営会社', 'https://notsobad.jp', target: '_blank', class: 'item'
+    = link_to '利用規約', terms_path, class: 'item'
+    = link_to 'プライバシーポリシー', privacy_path, class: 'item'
+    = link_to '特商法', tokushoho_path, class: 'item'
+    = link_to 'お問い合わせ', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'
+    = link_to '公式Twitter', 'https://twitter.com/bungomail', target: '_blank', class: 'item'
   %br/
   %br/
   %br/
