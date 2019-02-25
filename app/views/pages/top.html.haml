@@ -1,15 +1,17 @@
-.ui.warning.message
+.ui.success.message
   .content
     .header
-      %i.icon.warning.circle
-      現在オープンBETA版として提供しています
-    一部の機能がまだ実装されていません。またバグや不具合が出る可能性もあります。お気づきのことや改善要望などあれば、
-    = link_to '問い合わせフォーム', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank'
-    または info@notsobad.jp までぜひご連絡ください。
-    今後の開発ロードマップは
-    = link_to 'こちら', 'https://trello.com/b/3V3wAp6S/', target: '_blank'
-    で公開しています。
-
+      %i.icon.info.circle
+      2019年3月10日から正式版として提供を開始します！
+    3月10日以降、メール配信を受け取るには
+    = link_to '決済情報の登録', new_charge_path
+    が必要になります。
+    .ui.bulleted.list
+      .item 決済情報登録後、14日間は無料トライアル期間となります。この期間中に解約した場合は一切料金は発生しません。
+      .item 正式版開始後も、RSS配信はこれまでどおり無料で受信することが可能です。
+    詳しくは
+    = link_to '公式ブログの記事', root_path, target: '_blank'
+    をご確認ください。
 
 %h3.ui.small.dividing.header
   %i.icon.question.circle
