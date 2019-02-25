@@ -46,9 +46,28 @@
       .description チャネルを配信開始すると、翌日からメールが届き始めます。
 
 
+- if @streaming_channels.present?
+  %h3.ui.small.dividing.header
+    %i.icon.podcast
+    ストリーミング配信チャネル
+    %span.ui.orange.mini.label New!
+  %p みんなで同時に同じ作品の配信を楽しむチャネルです。
+  .ui.three.doubling.cards
+    - @streaming_channels.each do |channel|
+      = link_to channel_path(channel), class: 'ui card' do
+        .content
+          .header= channel.title
+          .meta
+          .description
+            = channel.description.try(:truncate, 50)
+        .ui.fluid.bottom.attached.button
+          %i.icon.search
+          詳細を見る
+  %br
+
 - if @popular_channels.present?
   %h3.ui.small.dividing.header
-    %i.icon.rss
+    %i.icon.globe
     公開チャネル
   .ui.three.doubling.cards
     - @popular_channels.each do |channel|
@@ -61,6 +80,8 @@
         .ui.fluid.bottom.attached.button
           %i.icon.search
           詳細を見る
+  %br
+
 
 %h3.ui.small.dividing.header
   %i.icon.child

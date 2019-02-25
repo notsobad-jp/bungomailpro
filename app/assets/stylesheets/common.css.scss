@@ -24,6 +24,8 @@ section, footer { padding: 50px 10px !important; }
 
 .red { color: #db2828; }
 
+.ui.header > .icon { display: inline-block !important; }
+
 footer.ui.segment {
   color: rgba(255,255,255,.6);
   margin-bottom: 0;

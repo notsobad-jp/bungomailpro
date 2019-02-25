@@ -76,6 +76,15 @@
         = subscription_url(sub, format: :atom)
         &nbsp;
         %i.icon.small.external
+-# ストリーミング && 配信前のときは、RSSフィードURLのみ表示
+- if @channel.streaming? && @master_sub.not_started?
+  .ui.secondary.padded.segment
+    .ui.small.header
+      %i.icon.rss
+      RSSフィード
+    %div
+      = link_to subscription_path(sub, format: :atom), target: '_blank' do
+        = subscription_url(sub, format: :atom)
 
 
 -# bookリストの見出し
