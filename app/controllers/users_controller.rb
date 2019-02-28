@@ -6,6 +6,10 @@ class UsersController < ApplicationController
   def show
     @breadcrumbs << { name: 'アカウント情報' }
     @charge = @user.charge
+    if @charge.try(:status) == "trialing"
+      sub = Stripe::Subscription.retrieve(@charge.subscription_id)
+      @trial_end = Time.zone.at(sub.trial_end)
+    end
   end
 
   private

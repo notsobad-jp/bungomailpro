@@ -20,6 +20,16 @@
   %br
   %p 14日間の無料トライアル期間中に解約した場合、一切料金は発生いたしません
 
+-# TODO: ベータ版ユーザー限定特典
+- if current_user.created_at < Time.zone.parse("2019-02-27")
+  .ui.info.message
+    .header
+      %i.icon.gift
+      ベータ版ユーザー限定特典
+    ベータ期間中にご登録いただいたユーザーに限り、有料版登録日に関わらず
+    %b.red 無料トライアル期間を【3月31日】 まで延長
+    いたします。この機会にぜひご利用ください。
+
 %h5.ui.small.header
   %i.icon.info.circle
   ご利用の流れ

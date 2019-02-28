@@ -37,7 +37,7 @@
           - if current_user.charge.try(:active?) && current_user.charge.try(:cancel_at)
             %small （#{current_user.charge.cancel_at.strftime("%m月%d日で配信停止")}）
           - elsif current_user.charge.try(:status) == 'trialing'
-            %small （#{current_user.charge.trial_end.strftime("%m月%d日まで")}）
+            -# %small （#{current_user.charge.trial_end.strftime("%m月%d日まで")}）
 
           .list
             .item
