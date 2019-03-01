@@ -75,6 +75,6 @@ class User < ApplicationRecord
   end
 
   def subscriptionable?
-    subscriptions.where.not(next_delivery_date: nil).size < MAX_SUBSCRIPTIONS_COUNT
+    subscriptions.size < MAX_SUBSCRIPTIONS_COUNT
   end
 end

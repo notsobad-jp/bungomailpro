@@ -32,8 +32,7 @@
           - if @charge.try(:active?) && @charge.try(:cancel_at)
             %small （#{@charge.cancel_at.strftime("%m月%d日で配信停止")}）
           - elsif @charge.try(:status) == 'trialing'
-            -# %small （#{@charge.trial_end.strftime("%m月%d日まで")}）
-            %small （#{@trial_end.strftime("%m月%d日まで")}）
+            %small （#{Time.zone.at(@stripe_sub.trial_end).strftime("%m月%d日まで")}）
 
           %br
           - if @charge.try(:active?)

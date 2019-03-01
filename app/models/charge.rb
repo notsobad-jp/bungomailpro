@@ -100,8 +100,8 @@ class Charge < ApplicationRecord
 
   def trial_end
     # TODO: ベータ版ユーザー限定で３月末までトライアル
-    if user.created_at < Time.zone.parse("2019-02-27")
-      Time.zone.parse("2019-03-31").end_of_day
+    if user.created_at < Time.zone.parse('2019-02-27')
+      Time.zone.parse('2019-03-31').end_of_day
     else
       TRIAL_PERIOD_DAYS.days.since(Time.current.end_of_day)
     end
