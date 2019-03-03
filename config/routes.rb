@@ -63,7 +63,9 @@
 Rails.application.routes.draw do
   resources :books
   resources :magic_tokens
-  resources :subscriptions
+  resources :subscriptions do
+    resources :comments
+  end
   resources :channels do
     post 'books' => 'channel_books#create', on: :member
   end
