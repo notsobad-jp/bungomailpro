@@ -25,7 +25,8 @@ class CommentsController < ApplicationController
 
     @breadcrumbs << { name: '購読チャネル', url: subscriptions_path }
     @breadcrumbs << { name: @subscription.channel.title, url: channel_path(@subscription.channel) }
-    @breadcrumbs << { name: 'コメント' }
+    @breadcrumbs << { name: 'コメント一覧', url: subscription_comments_path(@subscription) }
+    @breadcrumbs << { name: '新規作成' }
   end
 
   def create
@@ -41,7 +42,10 @@ class CommentsController < ApplicationController
   def edit
     @breadcrumbs << { name: '購読チャネル', url: subscriptions_path }
     @breadcrumbs << { name: @subscription.channel.title, url: channel_path(@subscription.channel) }
-    @breadcrumbs << { name: 'コメント' }
+    @breadcrumbs << { name: 'コメント一覧', url: subscription_comments_path(@subscription) }
+    @breadcrumbs << { name: '編集' }
+
+    render action: :new
   end
 
   def update
@@ -49,7 +53,7 @@ class CommentsController < ApplicationController
       flash[:success] = 'コメントを保存しました🎉'
       redirect_to subscription_comments_path(@subscription)
     else
-      render :edit
+      render :new
     end
   end
 

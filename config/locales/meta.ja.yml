@@ -22,44 +22,45 @@ ja:
       description: ブンゴウメールで公開されているチャネル一覧です。誰でも購読することができます。
     new:
       title: 新規チャネル作成
-      description: 新規チャネルを作成します。
       noindex: true
     show:
       title: (チャネル名)
       description: (チャネル)の説明文
     edit:
       title: チャネルの編集
-      description: チャネルを編集します。
       noindex: true
   magic_tokens:
     new:
       title: ログイン
-      description: ログイン画面です。
       noindex: true
   subscriptions:
     index:
       title: 購読中のチャネル
-      description: 現在購読中のチャネル一覧です。
       noindex: true
     show:
       title: 配信設定
-      description: 配信設定の詳細です。
       noindex: true
     edit:
       title: 配信設定の編集
-      description: 配信設定を編集します。
       noindex: true
   users:
     show:
       title: アカウント詳細
-      description: アカウント詳細ページです。
       noindex: true
   charges:
     new:
       title: 決済情報登録
-      description: 有料プランの決済情報登録ページです。
       noindex: true
     edit:
       title: 決済情報更新
-      description: 有料プランの決済情報更新ページです。
+      noindex: true
+  comments:
+    index:
+      title: コメント一覧
+      noindex: true
+    new:
+      title: コメント
+      noindex: true
+    edit:
+      title: コメント
       noindex: true
