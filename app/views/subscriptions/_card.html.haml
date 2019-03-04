@@ -24,7 +24,8 @@
         .item
           %i.icon.book
           #{channel.books_count}冊
-        - if !subscription.not_started?
+        -# 配信中のみ現在の配信タイトルを表示。配信前と配信終了後は見せない
+        - if !subscription.not_started? && subscription.current_book_id?
           .item
             %i.icon.podcast
             = "#{subscription.current_book.author}『#{subscription.current_book.title}』"
