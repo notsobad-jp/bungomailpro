@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_080920) do
     t.uuid "subscription_id", null: false
     t.bigint "book_id", null: false
     t.integer "index", null: false
-    t.text "comment"
+    t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_comments_on_book_id"

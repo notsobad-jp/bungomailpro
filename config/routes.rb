@@ -17,6 +17,14 @@
 #                              PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                              PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                              DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
+#        subscription_comments GET    /subscriptions/:subscription_id/comments(.:format)                                       comments#index
+#                              POST   /subscriptions/:subscription_id/comments(.:format)                                       comments#create
+#     new_subscription_comment GET    /subscriptions/:subscription_id/comments/new(.:format)                                   comments#new
+#    edit_subscription_comment GET    /subscriptions/:subscription_id/comments/:id/edit(.:format)                              comments#edit
+#         subscription_comment GET    /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#show
+#                              PATCH  /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#update
+#                              PUT    /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#update
+#                              DELETE /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#destroy
 #                subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
 #                              POST   /subscriptions(.:format)                                                                 subscriptions#create
 #             new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new

@@ -4,7 +4,7 @@ class CreateComments < ActiveRecord::Migration[5.2]
       t.references :subscription, type: :uuid, foreign_key: true, null: false
       t.references :book, foreign_key: true, null: false
       t.integer :index, null: false
-      t.text :comment
+      t.text :text
 
       t.timestamps
     end

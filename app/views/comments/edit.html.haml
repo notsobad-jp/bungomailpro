@@ -1,0 +1,22 @@
+%h1
+  『#{@comment.book.title}』（#{@comment.index}/#{@comment.book.chapters_count}）のコメント
+
+= form_for @comment, url: {action: 'update'}, html: {class: 'ui form'} do |f|
+  - if @comment.errors.any?
+    .ui.error.visible.message
+      .header データの保存に失敗しました
+      .list
+        - @comment.errors.full_messages.each do |e|
+          %li= e
+
+  .field
+    = f.label :text, 'コメント'
+    = f.text_area :text
+
+  %button.ui.small.red.button(type="submit" value="draft") 保存する
+  = link_to 'キャンセル', subscription_comments_path(@subscription), class: 'item'
+
+.ui.divider
+
+%h3.ui.small.header （配信内容）
+%small= @comment.chapter.text
