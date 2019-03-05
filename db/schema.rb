@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_30_092007) do
+ActiveRecord::Schema.define(version: 2019_03_03_080920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -84,6 +84,18 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
     t.index ["user_id"], name: "index_charges_on_user_id", unique: true
   end
 
+  create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "subscription_id", null: false
+    t.bigint "book_id", null: false
+    t.integer "index", null: false
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_comments_on_book_id"
+    t.index ["subscription_id", "book_id", "index"], name: "index_comments_on_subscription_id_and_book_id_and_index", unique: true
+    t.index ["subscription_id"], name: "index_comments_on_subscription_id"
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -155,6 +167,8 @@ ActiveRecord::Schema.define(version: 2019_01_30_092007) do
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "books"
   add_foreign_key "charges", "users"
+  add_foreign_key "comments", "books"
+  add_foreign_key "comments", "subscriptions"
   add_foreign_key "feeds", "books"
   add_foreign_key "feeds", "subscriptions"
   add_foreign_key "subscriptions", "books", column: "current_book_id"

@@ -17,6 +17,14 @@
 #                              PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                              PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update
 #                              DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy
+#        subscription_comments GET    /subscriptions/:subscription_id/comments(.:format)                                       comments#index
+#                              POST   /subscriptions/:subscription_id/comments(.:format)                                       comments#create
+#     new_subscription_comment GET    /subscriptions/:subscription_id/comments/new(.:format)                                   comments#new
+#    edit_subscription_comment GET    /subscriptions/:subscription_id/comments/:id/edit(.:format)                              comments#edit
+#         subscription_comment GET    /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#show
+#                              PATCH  /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#update
+#                              PUT    /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#update
+#                              DELETE /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#destroy
 #                subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index
 #                              POST   /subscriptions(.:format)                                                                 subscriptions#create
 #             new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new
@@ -35,7 +43,6 @@
 #                              PUT    /channels/:id(.:format)                                                                  channels#update
 #                              DELETE /channels/:id(.:format)                                                                  channels#destroy
 #              activate_charge POST   /charges/:id/activate(.:format)                                                          charges#activate
-#       update_payment_charges GET    /charges/update_payment(.:format)                                                        charges#update_payment
 #                      charges GET    /charges(.:format)                                                                       charges#index
 #                              POST   /charges(.:format)                                                                       charges#create
 #                   new_charge GET    /charges/new(.:format)                                                                   charges#new
@@ -44,6 +51,7 @@
 #                              PATCH  /charges/:id(.:format)                                                                   charges#update
 #                              PUT    /charges/:id(.:format)                                                                   charges#update
 #                              DELETE /charges/:id(.:format)                                                                   charges#destroy
+#               update_payment GET    /update_payment(.:format)                                                                charges#update_payment
 # webhooks_update_subscription POST   /webhooks/update_subscription(.:format)                                                  webhooks#update_subscription
 #                         user GET    /users/:id(.:format)                                                                     users#show
 #                     pro_root GET    /pro(.:format)                                                                           pages#top
@@ -63,7 +71,9 @@
 Rails.application.routes.draw do
   resources :books
   resources :magic_tokens
-  resources :subscriptions
+  resources :subscriptions do
+    resources :comments
+  end
   resources :channels do
     post 'books' => 'channel_books#create', on: :member
   end

@@ -1,0 +1,36 @@
+%h1.ui.header
+  「#{@subscription.channel.title}」のコメント登録
+
+.ui.small.info.message
+  %i.icon.info.circle
+  次回の配信から1ヶ月先までのコメントを登録できます。
+
+
+%table.ui.fixed.striped.table
+  %thead
+    %tr
+      %th.one.wide 配信予定日
+      %th.ten.wide 配信テキスト
+      %th.five.wide コメント
+  %tbody
+    - @comments.each_with_index do |comment, i|
+      - book = comment.chapter.book
+      %tr
+        %td
+          - delivery_date = @subscription.next_delivery_date.since(i.day)
+          - delivery_date = delivery_date.tomorrow if delivery_date.day == 31
+          = delivery_date.strftime("%-m/%-d")
+        %td
+          %span.ui.small.header
+            『#{book.title}』
+          （#{comment.chapter.index}/#{book.chapters_count}）
+          %br
+          %small= comment.chapter.text
+        %td
+          - if comment.persisted?
+            %small= simple_format_with_link comment.text
+            %br
+            %br
+            = link_to '編集', edit_subscription_comment_path(subscription_id: @subscription.id, id: comment.id), class: 'ui primary basic small button'
+          - else
+            = link_to 'コメント作成', new_subscription_comment_path(subscription_id: @subscription.id, book_id: book.id, index: comment.chapter.index), class: 'ui primary small button'
