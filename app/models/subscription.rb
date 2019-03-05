@@ -37,18 +37,23 @@ class Subscription < ApplicationRecord
   end
 
   def current_chapter
-    return unless next_chapter # 配信完了状態ではnilを返す
+    return unless next_chapter_index # 配信完了状態ではnilを返す
     return next_chapter if not_started? # 配信開始前は常にnext_chapterを返す
 
     # 配信時間を過ぎてればnext_chapter、それ以前ならprev_chapterを返す
     Time.current > Time.current.change(hour: delivery_hour) ? next_chapter : prev_chapter
   end
 
+  def current_comment
+    return unless next_chapter_index # 配信完了状態ではnilを返す
+    comments.find_by(book_id: current_book_id, index: next_chapter_index)
+  end
+
   # メール送信して、RSSフィードに追加して、配信情報を更新する
   ## TODO: メール配信でコケたらその後の処理も止まるけど、途中でコケるとメールだけ送られてしまう問題
   def deliver_and_update
     return unless current_book_id # もし配信終了してるときはスキップ（2月で2回配信するときに配信終了状態で来る可能性がある）
-    return if next_delivery_date != Time.zone.today # 配信日が今日じゃなければスキップ（このあとの処理を実行する前に2回処理予約されると重複処理される可能性がある）
+    return if next_delivery_date != Time.zone.today # 配信日が今日じゃなければスキップ（TODO: 配信後日付を更新する前に2回処理予約されると、ここを通過して重複処理されてしまう可能性がある）
 
     # 有料ユーザーのみメール配信
     UserMailer.with(subscription: self).chapter_email.deliver_now # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
