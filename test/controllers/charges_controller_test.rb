@@ -76,21 +76,21 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
   # update_payment
   ########################################################################
   test 'access_update_payment_when_guest' do
-    get update_payment_charges_path
+    get update_payment_path
     assert_redirected_to login_path
   end
 
   test 'access_update_payment_when_no_charge' do
     user = users(:user4)
     login_user(user)
-    get update_payment_charges_path
+    get update_payment_path
     assert_redirected_to pro_root_path
   end
 
   test 'access_update_payment_when_charge_exist' do
     user = users(:user1)
     login_user(user)
-    get update_payment_charges_path
+    get update_payment_path
     assert_redirected_to edit_charge_path(user.charge)
   end
 end

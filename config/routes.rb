@@ -43,7 +43,6 @@
 #                              PUT    /channels/:id(.:format)                                                                  channels#update
 #                              DELETE /channels/:id(.:format)                                                                  channels#destroy
 #              activate_charge POST   /charges/:id/activate(.:format)                                                          charges#activate
-#       update_payment_charges GET    /charges/update_payment(.:format)                                                        charges#update_payment
 #                      charges GET    /charges(.:format)                                                                       charges#index
 #                              POST   /charges(.:format)                                                                       charges#create
 #                   new_charge GET    /charges/new(.:format)                                                                   charges#new
@@ -52,6 +51,7 @@
 #                              PATCH  /charges/:id(.:format)                                                                   charges#update
 #                              PUT    /charges/:id(.:format)                                                                   charges#update
 #                              DELETE /charges/:id(.:format)                                                                   charges#destroy
+#               update_payment GET    /update_payment(.:format)                                                                charges#update_payment
 # webhooks_update_subscription POST   /webhooks/update_subscription(.:format)                                                  webhooks#update_subscription
 #                         user GET    /users/:id(.:format)                                                                     users#show
 #                     pro_root GET    /pro(.:format)                                                                           pages#top
