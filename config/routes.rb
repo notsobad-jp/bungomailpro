@@ -69,9 +69,9 @@ Rails.application.routes.draw do
   end
   resources :charges do
     post 'activate', on: :member
-    get 'update_payment', on: :collection
   end
 
+  get 'update_payment' => 'charges#update_payment'
   post 'webhooks/update_subscription'
 
   get 'users/:id' => 'users#show', as: :user
