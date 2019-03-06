@@ -11,6 +11,7 @@
 #  next_delivery_date :date
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  footer             :text
 #
 
 class Subscription < ApplicationRecord
@@ -46,6 +47,7 @@ class Subscription < ApplicationRecord
 
   def current_comment
     return unless next_chapter_index # 配信完了状態ではnilを返す
+
     comments.find_by(book_id: current_book_id, index: next_chapter_index)
   end
 

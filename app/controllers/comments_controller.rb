@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
   def index
     book = @subscription.current_book
     index = @subscription.next_chapter_index
-    range = index .. [index+31, book.chapters_count].min
+    range = index..[index + 31, book.chapters_count].min
     @comments = []
     range.each do |i|
       @comments << @subscription.comments.find_or_initialize_by(book_id: book.id, index: i)
@@ -17,8 +17,7 @@ class CommentsController < ApplicationController
     @breadcrumbs << { name: 'コメント一覧' }
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @comment = @subscription.comments.new(book_id: params[:book_id], index: params[:index])
@@ -57,8 +56,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  def destroy
-  end
+  def destroy; end
 
   private
 
@@ -70,8 +68,8 @@ class CommentsController < ApplicationController
     @subscription = Subscription.find(params[:subscription_id])
     authorize @subscription, :update?
 
-    if params[:id]
-      @comment = Comment.includes(chapter: :book).find(params[:id])
+    if (id = params[:id])
+      @comment = Comment.includes(chapter: :book).find(id)
       authorize @comment
     end
   end

@@ -7,6 +7,7 @@ class CreateSubscriptions < ActiveRecord::Migration[5.2]
       t.integer :next_chapter_index
       t.integer :delivery_hour, default: 8, null: false
       t.date :next_delivery_date
+      t.text :footer
 
       t.timestamps
     end

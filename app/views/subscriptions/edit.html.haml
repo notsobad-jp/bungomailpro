@@ -18,6 +18,12 @@
     = f.label :next_delivery_date, '次回配信日'
     = f.date_field :next_delivery_date, min: Date.current.tomorrow
 
+  -# ストリーミングのときのみ、固定フッターを表示
+  - if @channel.streaming?
+    .field
+      = f.label :footer, '固定フッター'
+      = f.text_area :footer
+
   %button.ui.small.red.button(type="submit" value="draft") 保存する
   = link_to 'キャンセル', channel_path(@channel), class: 'item'
 
