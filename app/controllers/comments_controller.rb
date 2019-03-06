@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :require_login
   before_action :set_comment
-  # after_action :verify_authorized
+  after_action :verify_authorized
 
   def index
     book = @subscription.current_book
