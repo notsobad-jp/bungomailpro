@@ -1,3 +1,7 @@
+- if @channel.streaming?
+  .ui.inverted.attached.segment.channel-cover
+    = image_tag("channels/#{@channel.id}.jpg", class: 'ui centered image')
+
 %h1.ui.huge.header
   = @channel.title
   = channel_status_icon(@channel.status)
@@ -127,6 +131,6 @@
           .meta
             %small= book.author
 
-- if @books.blank?
+- if @books.blank? && !@channel.streaming?
   - message = @finished ? 'まだ配信済みの本がないようです。' : '配信予定の本がありません。'
   %small= message
