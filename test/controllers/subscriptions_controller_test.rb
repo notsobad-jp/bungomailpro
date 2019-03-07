@@ -44,4 +44,82 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     get edit_subscription_path(sub)
     assert_redirected_to pro_root_path
   end
+
+  test 'access_edit_when_streaming_user' do
+    sub = subscriptions(:streaming_master)
+    login_user(users(:user8))
+    get edit_subscription_path(sub)
+    assert_redirected_to pro_root_path
+  end
+
+  test 'access_edit_when_streaming_user_owned' do
+    sub = subscriptions(:streaming_active)
+    login_user(sub.user)
+    get edit_subscription_path(sub)
+    assert_redirected_to pro_root_path
+  end
+
+  test 'access_edit_when_streaming_owner' do
+    sub = subscriptions(:streaming_master)
+    login_user(users(:user7))
+    get edit_subscription_path(sub)
+    assert_response :success
+  end
+
+
+  ########################################################################
+  # update
+  ########################################################################
+  test 'access_update_when_streaming_user_owned' do
+    sub = subscriptions(:streaming_active)
+    login_user(sub.user)
+    put subscription_path(id: sub.id), params: { subscription: { delivery_hour: 13 } }
+    sub = Subscription.find(sub.id)
+    refute_equal 13, sub.delivery_hour
+  end
+
+  test 'access_update_when_streaming_user_master' do
+    sub = subscriptions(:streaming_master)
+    login_user(users(:user8))
+    put subscription_path(id: sub.id), params: { subscription: { delivery_hour: 13 } }
+    sub = Subscription.find(sub.id)
+    refute_equal 13, sub.delivery_hour
+  end
+
+  test 'access_update_when_streaming_master' do
+    sub = subscriptions(:streaming_master)
+    login_user(users(:user7))
+    put subscription_path(id: sub.id), params: { subscription: { delivery_hour: 13 } }
+    sub = Subscription.find(sub.id)
+    assert_equal 13, sub.delivery_hour
+  end
+
+
+  ########################################################################
+  # destroy
+  ########################################################################
+  test 'access_destroy_when_user' do
+    sub = subscriptions(:user1_channel1)
+    login_user(sub.user)
+    delete subscription_path(id: sub.id)
+    sub = Subscription.find_by(id: sub.id)
+    assert_nil sub
+  end
+
+  test 'access_destroy_when_streaming_user_onwed' do
+    sub = subscriptions(:streaming_active)
+    login_user(sub.user)
+    delete subscription_path(id: sub.id)
+    sub = Subscription.find_by(id: sub.id)
+    assert_nil sub
+  end
+
+  test 'access_destroy_when_streaming_master' do
+    sub = subscriptions(:streaming_master)
+    login_user(sub.user)
+    delete subscription_path(id: sub.id)
+    sub = Subscription.find_by(id: sub.id)
+    refute_nil sub
+    assert_redirected_to pro_root_path
+  end
 end
