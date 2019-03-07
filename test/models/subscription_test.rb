@@ -11,6 +11,7 @@
 #  next_delivery_date :date
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  footer             :text
 #
 
 require 'test_helper'
@@ -59,6 +60,21 @@ class SubscriptionTest < ActiveSupport::TestCase
       assert_equal chapters(:book2_chapter3), sub.current_chapter
     end
   end
+
+
+  ########################################################################
+  # current_comment
+  ########################################################################
+  test 'current_comment_when_exists' do
+    sub = subscriptions(:user1_channel1)
+    assert_equal comments(:for_next_chapter), sub.current_comment
+  end
+
+  test 'current_comment_when_not_exists' do
+    sub = subscriptions(:user1_channel2)
+    assert_nil sub.current_comment
+  end
+
 
   ########################################################################
   # prev_chapter

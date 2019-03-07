@@ -18,6 +18,16 @@
     = f.label :next_delivery_date, '次回配信日'
     = f.date_field :next_delivery_date, min: Date.current.tomorrow
 
+  -# ストリーミングのときのみ、固定のフッターを表示
+  - if @channel.streaming?
+    .field
+      = f.label :footer, 'フッター'
+      = f.text_area :footer, rows: '3', placeholder: '改行が使えます。URLは自動でリンクに変換されます。'
+    %small ※フッターに登録した文章は、配信メールの末尾に毎日掲載されます。
+    %br
+    %br
+
+
   %button.ui.small.red.button(type="submit" value="draft") 保存する
   = link_to 'キャンセル', channel_path(@channel), class: 'item'
 

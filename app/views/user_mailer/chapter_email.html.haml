@@ -610,6 +610,12 @@
                                             %div{:style => "text-align: left;"}
                                               = simple_format_with_link(@comment.text)
                                               \----------
+                                      - if (footer = @subscription.footer.presence)
+                                        %tr
+                                          %td.mcnTextContent{:style => "padding: 9px 18px;color: #333333;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: center;", :valign => "top"}
+                                            %div{:style => "text-align: left;"}
+                                              = simple_format_with_link(footer)
+                                              \----------
                                       - if @notification
                                         %tr
                                           %td.mcnTextContent{:style => "padding: 9px 18px;color: #333333;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: center;", :valign => "top"}

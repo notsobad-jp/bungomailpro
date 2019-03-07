@@ -10,15 +10,16 @@
 
   - if @channel.streaming?
     - if @subscription
-      %button.ui.small.red.disabled.button
-        = @master_sub.not_started? ? "配信予約済み" : "配信中"
-        - if @master_sub.not_started?
-          %small （ #{@master_sub.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
-      %small
-        -# ストリーミングのownerは配信解除させない（かわりにコメント機能を提供）
-        - if @channel.user_id == current_user.try(:id)
-          = link_to 'コメント登録', subscription_comments_path(@subscription), class: 'ui black basic small button'
-        - else
+      -# ストリーミングのownerは配信解除させない（かわりにコメント機能を提供）
+      - if @channel.user_id == current_user.try(:id)
+        = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'
+        = link_to 'コメント登録', subscription_comments_path(@subscription), class: 'ui black basic small button'
+      - else
+        %button.ui.small.red.disabled.button
+          = @master_sub.not_started? ? "配信予約済み" : "配信中"
+          - if @master_sub.not_started?
+            %small （ #{@master_sub.next_delivery_date.strftime("%-m月%-d日")} 配信開始）
+        %small
           = link_to subscription_path(@subscription), method: :delete, data: {confirm: '配信を解除します。本当によろしいですか？'} do
             %i.icon.trash
             配信を解除する

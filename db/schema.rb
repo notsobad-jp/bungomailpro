@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_080920) do
     t.date "next_delivery_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "footer"
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
     t.index ["current_book_id"], name: "index_subscriptions_on_current_book_id"
     t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true

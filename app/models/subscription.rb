@@ -11,6 +11,7 @@
 #  next_delivery_date :date
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  footer             :text
 #
 
 class Subscription < ApplicationRecord
@@ -46,6 +47,7 @@ class Subscription < ApplicationRecord
 
   def current_comment
     return unless next_chapter_index # 配信完了状態ではnilを返す
+
     comments.find_by(book_id: current_book_id, index: next_chapter_index)
   end
 
@@ -57,6 +59,7 @@ class Subscription < ApplicationRecord
 
     # 有料ユーザーのみメール配信
     UserMailer.with(subscription: self).chapter_email.deliver_now # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
+    self.footer = ActionController::Base.helpers.strip_tags(self.footer)  # なぜかURLがaタグ化して保存されてしまうのを回避
 
     # RSSフィードと次の配信情報の更新（無料ユーザーも）
     create_feed

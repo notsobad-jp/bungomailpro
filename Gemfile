@@ -42,6 +42,7 @@ group :development do
   gem 'letter_opener'
   gem 'rack-mini-profiler', require: false
   gem 'rubocop', require: false
+  gem "rack-dev-mark"
 end
 
 group :test do

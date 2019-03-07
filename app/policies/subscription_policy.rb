@@ -5,7 +5,8 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   # destroyは streamingでも通常通り可能（デフォルトでupdate?と一緒なので上書きされないように再定義）
+  ## streaming && owner のときは誤操作防止のためdestroyを禁止する（必要なときは手動対応）
   def destroy?
-    user && user.id == record.user_id
+    (user && user.id == record.user_id) && (!record.channel.streaming? || record != record.channel.master_subscription)
   end
 end
