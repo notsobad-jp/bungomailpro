@@ -9,41 +9,39 @@
     .ui.bulleted.list
       .item 決済情報登録後、14日間は無料トライアル期間となります。この期間中に解約した場合は一切料金は発生しません。
       .item 正式版開始後も、RSS配信は無料で受信することが可能です。
-    -# 詳しくは
-    -# = link_to '公式ブログの記事', root_path, target: '_blank'
-    -# をご確認ください。
 
-%h3.ui.small.dividing.header
-  %i.icon.question.circle
-  使い方
-.ui.three.steps
-  .step
-    %i.icon.rss
-    .content
-      .title 配信チャネルを作成
-      .description
-        自分の「チャネル」に追加した本が順番に配信されます。
-        %br
-        %br
-        = link_to subscriptions_path, class: 'ui basic small fluid black button' do
-          %i.icon.rss
-          購読中のチャネル
-  .step
-    %i.icon.search
-    .content
-      .title 本を検索して追加
-      .description
-        青空文庫の本を検索して、チャネルに追加できます。
-        %br
-        %br
-        = link_to books_path, class: 'ui basic small fluid black button' do
-          %i.icon.search
-          作品検索
-  .step
-    %i.icon.mail
-    .content
-      .title 配信開始！
-      .description チャネルを配信開始すると、翌日からメールが届き始めます。
+- if !current_user
+  %h3.ui.small.dividing.header
+    %i.icon.question.circle
+    使い方
+  .ui.three.steps
+    .step
+      %i.icon.rss
+      .content
+        .title 配信チャネルを作成
+        .description
+          自分の「チャネル」に追加した本が順番に配信されます。
+          %br
+          %br
+          = link_to subscriptions_path, class: 'ui basic small fluid black button' do
+            %i.icon.rss
+            購読中のチャネル
+    .step
+      %i.icon.search
+      .content
+        .title 本を検索して追加
+        .description
+          青空文庫の本を検索して、チャネルに追加できます。
+          %br
+          %br
+          = link_to books_path, class: 'ui basic small fluid black button' do
+            %i.icon.search
+            作品検索
+    .step
+      %i.icon.mail
+      .content
+        .title 配信開始！
+        .description チャネルを配信開始すると、翌日からメールが届き始めます。
 
 
 - if @streaming_channels.present?
@@ -52,9 +50,12 @@
     ストリーミング配信チャネル
     %span.ui.orange.mini.label New!
   %p みんなで同時に同じ作品の配信を楽しむチャネルです。
-  .ui.three.doubling.cards
+  %br
+  .ui.three.stackable.cards
     - @streaming_channels.each do |channel|
       = link_to channel_path(channel), class: 'ui card' do
+        .image
+          = image_tag("/assets/images/channels/#{channel.id}.jpg")
         .content
           .header= channel.title
           .meta
