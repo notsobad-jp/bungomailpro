@@ -1,6 +1,6 @@
 - if @channel.streaming?
   .ui.inverted.attached.segment.channel-cover
-    = image_tag("channels/#{@channel.id}.jpg", class: 'ui centered image')
+    = image_tag("#{@meta_image}", class: 'ui centered image')
 
 %h1.ui.huge.header
   = @channel.title
@@ -38,6 +38,14 @@
             %small （すでに配信は開始しています）
       - else
         %button.ui.small.red.disabled.button 購読する
+        %small
+          - if current_user
+            ※購読上限に達しています。他のチャネルを解約してから購読してください。
+          - else
+            ※購読には
+            = link_to 'ログイン', login_path
+            が必要です
+
   - else
     - if @subscription
       = link_to '配信設定', edit_subscription_path(@subscription), class: 'ui red basic small button'
@@ -46,14 +54,13 @@
         = link_to '配信開始', subscriptions_path(channel_id: @channel), method: :post, class: "ui small red button"
       - else
         %button.ui.small.red.disabled.button 配信開始
-
-
--# まだ購読してない && ユーザーが登録上限に達してるときはアラート表示
-- if current_user && !current_user.subscriptionable? && !@subscription
-  .ui.warning.small.message
-    .content
-      %i.icon.warning.circle
-      購読チャネル数の上限に達しています。新しく購読したい場合は他の配信中チャネルの購読を解除してください。
+        %small
+          - if current_user
+            ※購読上限に達しています。他のチャネルを解約してから購読してください。
+          - else
+            ※購読には
+            = link_to 'ログイン', login_path
+            が必要です
 %br
 
 %div= simple_format_with_link @channel.description

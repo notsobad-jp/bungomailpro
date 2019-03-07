@@ -1,4 +1,6 @@
 class ChannelsController < ApplicationController
+  include ActionView::Helpers::AssetUrlHelper
+
   before_action :require_login, except: %i[index show]
   before_action :set_channel
   after_action :verify_authorized
@@ -25,6 +27,7 @@ class ChannelsController < ApplicationController
     @meta_description = @channel.description
     @meta_keywords = @channel.title
     @meta_noindex = @channel.private?
+    @meta_image = image_url("/assets/images/channels/#{@channel.id}.jpg") if @channel.streaming?
 
     @breadcrumbs << { name: '購読チャネル', url: subscriptions_path }
     @breadcrumbs << { name: @channel.title }
