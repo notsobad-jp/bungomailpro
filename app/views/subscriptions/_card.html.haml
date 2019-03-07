@@ -34,7 +34,7 @@
           %i.icon.clock.outline
           #{subscription.delivery_hour}:00
   .extra.content
-    - if channel.streaming?
+    - if channel.streaming? && (user_subscription != subscription)
       = link_to '配信解除', subscription_path(user_subscription), method: :delete, class: 'ui black basic small button', data: {confirm: '配信を解除します。本当によろしいですか？'}
     - else
       = link_to '配信設定', edit_subscription_path(subscription), class: 'ui red basic small button'
