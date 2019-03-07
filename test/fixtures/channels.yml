@@ -2,16 +2,16 @@
 #
 # Table name: channels
 #
-#  id                :uuid             not null, primary key
-#  user_id           :uuid             not null
-#  title             :string           not null
-#  description       :text
-#  status            :string           default("private"), not null
-#  books_count       :integer          default(0), not null
-#  subscribers_count :integer          default(0), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  default           :boolean          default(FALSE), not null
+#  id                                    :uuid             not null, primary key
+#  user_id                               :uuid             not null
+#  title                                 :string           not null
+#  description                           :text
+#  status(IN (private public streaming)) :string           default("private"), not null
+#  books_count                           :integer          default(0), not null
+#  subscribers_count                     :integer          default(0), not null
+#  created_at                            :datetime         not null
+#  updated_at                            :datetime         not null
+#  default                               :boolean          default(FALSE), not null
 #
 
 channel0:
