@@ -24,7 +24,7 @@ class ChannelsController < ApplicationController
              end
 
     @meta_title = @channel.title
-    @meta_description = @channel.description.truncate(300)
+    @meta_description = @channel.description.try(:truncate, 300)
     @meta_keywords = @channel.title
     @meta_noindex = @channel.private?
     @meta_image = image_url("/assets/images/channels/#{@channel.id}.jpg") if @channel.streaming?
