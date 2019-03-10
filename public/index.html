@@ -16,7 +16,7 @@
 
     <meta name="description" content="青空文庫の作品を小分けにして、毎朝メールで配信。気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。"/>
     <meta name="keywords" content="ブンゴウメール,文豪メール,青空文庫,メール,短編,毎日,毎朝,読書,3分,会社,仕事中"/>
-    <meta property="og:title" content="ブンゴウメール | 文豪から毎朝メールが届く、新感覚の読書体験📕"/>
+    <meta property="og:title" content="ブンゴウメール | 1日3分のメールでムリせず毎月本が読める、忙しいあなたのための読書サポートサービス"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="https://bungomail.com/"/>
     <meta id="og-image" property="og:image" content="https://bungomail.com/assets/images/ogp.png" />
@@ -41,11 +41,8 @@
         padding-top: 30px !important;
         background: url('./images/seigaiha.png');
       }
-      #header .huge.header {
-        font-size: 3em;
-        line-height: 1.5em;
-      }
       .sub.header { margin-top: 15px !important; }
+      #header-logo img { max-width: 80%; }
 
       .ui.mini.divider {
         width: 50px;
@@ -62,8 +59,10 @@
       footer a { color: #fff !important; }
 
       @media only screen and (max-width: 767px) {
-        #header .huge.header { font-size: 3em; }
         .computer.only { display: none; }
+        #header-logo { padding-bottom: 0 !important;  }
+        #header-catch { padding-top: 0 !important;  }
+        .ui.red.large.button { width: 100%; }
       }
     </style>
   </head>
@@ -84,33 +83,49 @@
     }(document, 'script', 'facebook-jssdk'));</script>
 
     <!-- Header -->
-    <section id="header" class="ui centered stackable grid gray-flat">
+    <section id="header" class="ui centered stackable seigaiha grid">
       <div class="ui row">
-        <div class="ten wide center aligned column">
-          <h1 class="ui left aligned header">
+        <div class="column">
+          <h1 class="ui left aligned medium header">
             ブンゴウメール
             <span class="ui mini label orange">BETA</span>
           </h1>
-          <br><br>
-          <div class="">
-            <img class="ui medium centered image" src="./images/logo.png" alt="ブンゴウメール">
-          </div>
+        </div>
+      </div>
+      <div class="ui row">
+        <div id="header-logo" class="six wide right aligned column">
+          <br class="computer only">
+          <h1><img src="./images/logo.png" alt="ブンゴウメール" class="ui medium centered image"></h1>
           <br>
+        </div>
+        <div id="header-catch" class="six wide left aligned column">
+          <br class="computer only">
           <div class="ui huge header">
-            1日3分のメールで、<br class="computer only">ムリせず毎月本が読める
+            １日３分のメールで、
+            <br class="computer only">
+            ムリせず毎月本が読める。
             <div class="sub header">
               青空文庫の作品を小分けにして、毎朝メールで配信。
               <br class="computer only">
               気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。
             </div>
           </div>
-          <br><br>
-          <a class="ui gray-accent inverted button" href="https://goo.gl/forms/oOWiGUaqMckVXgBk2" target="_blank">
+          <br>
+          <br>
+          <a class="ui red large button" href="https://goo.gl/forms/oOWiGUaqMckVXgBk2" target="_blank">
             メールアドレス登録（無料）
           </a>
         </div>
       </div>
     </section>
+
+
+    <div class="ui info attached message">
+      無料の通常版に加えて、月額350円の有料版「
+      <a href="https://bungomail.com/pro" target="_blank">ブンゴウメールPRO</a>
+      」をリリースしました！好きな作品の配信ができる他、テーマ別・作家別の配信チャネルを購読できます。ぜひお試しください。
+    </div>
+
 
 
     <section class="ui centered stackable grid">
@@ -514,7 +529,7 @@
             </p>
           </h2>
           <br>
-          <a class="ui gray-accent inverted button" href="https://goo.gl/forms/oOWiGUaqMckVXgBk2" target="_blank">
+          <a class="ui red large button" href="https://goo.gl/forms/oOWiGUaqMckVXgBk2" target="_blank">
             メールアドレス登録（無料）
           </a>
         </div>
@@ -533,6 +548,7 @@
       </div>
       <br>
       <div class="ui horizontal list">
+        <a href="https://bungomail.com/pro" class="item" target="_blank">ブンゴウメールPRO</a>
         <a href="https://twitter.com/bungomail" class="item" target="_blank">公式Twitter</a>
         <a href="https://bungomail.hatenablog.com/" class="item" target="_blank">公式ブログ</a>
         <a href="https://notsobad.jp" class="item" target="_blank">運営</a>
