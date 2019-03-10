@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   def top
-    @streaming_channels = Channel.where(status: 'streaming').order(created_at: :desc).take(3)
+    # @streaming_channels = Channel.where(status: 'streaming').order(created_at: :desc).take(3)
+    @streaming_channels = Channel.where(status: 'streaming').order(created_at: :asc).take(1)
     @popular_channels = Channel.where(status: 'public').order(created_at: :desc).take(3)
     @popular_authors = [
       { id: 148, name: '夏目漱石' },
