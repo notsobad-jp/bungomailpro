@@ -1,15 +1,3 @@
-.ui.success.message
-  .content
-    .header
-      %i.icon.info.circle
-      2019年3月10日から正式版として提供を開始します！
-    3月10日以降、メール配信を受け取るには
-    = link_to '決済情報の登録', new_charge_path
-    が必要になります。
-    .ui.bulleted.list
-      .item 決済情報登録後、14日間は無料トライアル期間となります。この期間中に解約した場合は一切料金は発生しません。
-      .item 正式版開始後も、RSS配信は無料で受信することが可能です。
-
 - if !current_user
   %h3.ui.small.dividing.header
     %i.icon.question.circle
