@@ -70,10 +70,10 @@
             = link_to 'https://goo.gl/forms/jE387feQLYysiv5m2', class: 'item', target: '_blank' do
               %i.icon.question
               お問い合わせ
-    - if path == 'pages#top' && current_user && !current_user.pro?
+    - if current_user && !current_user.pro?
       .ui.attached.warning.message(style="margin-top:45px;margin-bottom:-45px;")
         %i.icon.warning.circle
-        現在【FREEプラン】で利用しています。RSSフィードのみ配信され、実際にメールは配信されません。メールを受け取るには
+        現在【FREEプラン】で利用しています。メール配信を受け取るには
         = link_to '【PROプラン】に登録', user_path(current_user)
         してください。
     - if path == 'pages#top' && current_user && current_user.charge.try(:status) == 'past_due'
@@ -107,18 +107,19 @@
                     好きな作家をずっと配信したり、おまかせで中長編の配信を楽しんだり。
                     %br.computer.only/
                     ブンゴウメールPROは、もっと読書を楽しみたいあなたのためのサービスです。
-                %br/
+                %p
+                  = link_to  page_path(:about) do
+                    %i.icon.chevron.right
+                    ブンゴウメールとは？
                 %br/
                 - if current_user
-                  = link_to subscriptions_path, class: 'ui large primary left labeled icon button' do
+                  = link_to subscriptions_path, class: 'ui large primary left labeled icon responsive button' do
                     %i.icon.rss
                     購読中のチャネルを見る
                 - else
-                  = link_to login_path, class: 'ui large red left labeled icon button' do
+                  = link_to login_path, class: 'ui large red left labeled icon responsive button' do
                     %i.icon.sign.in
                     アカウント登録 / ログイン
-                  %br
-                  %small ※まだ料金は発生しません。
         %br
         %br
         %br

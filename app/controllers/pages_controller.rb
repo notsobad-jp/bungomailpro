@@ -12,15 +12,21 @@ class PagesController < ApplicationController
     @popular_books = ChannelBook.includes(:book).order(created_at: :desc).map(&:book).uniq.take(12)
   end
 
-  def terms
-    @breadcrumbs << { name: '利用規約' }
-  end
+  def show
+    page_titles = {
+      about: 'ブンゴウメールとは？',
+      faq: 'よくある質問',
+      terms: '利用規約',
+      privacy: 'プライバシーポリシー',
+      tokushoho: '特定商取引法に基づく表示',
+    }
+    @page_title = page_titles[params[:page].to_sym] || params[:page]
 
-  def privacy
-    @breadcrumbs << { name: 'プライバシーポリシー' }
-  end
+    @meta_title = @page_title
+    @meta_description = "#{@page_title}のページです。"
+    @meta_keywords = @page_title
+    @breadcrumbs << { name: @page_title }
 
-  def tokushoho
-    @breadcrumbs << { name: '特商法' }
+    render params[:page]
   end
 end

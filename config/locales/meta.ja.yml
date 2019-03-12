@@ -12,6 +12,9 @@ ja:
     tokushoho:
       title: 特定商取引法に基づく表記
       description: ブンゴウメールの特定商取引法に基づく表記です。
+    show:
+      title: (ページ名)
+      description: (ページ名)のページです。
   books:
     index:
       title: 青空文庫の作品検索

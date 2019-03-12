@@ -4,10 +4,12 @@
     %span.ui.red.small.label PRO
   %br
   .ui.horizontal.list
+    = link_to 'このサイトについて', page_path(:about), class: 'item'
     = link_to '運営会社', 'https://notsobad.jp', target: '_blank', class: 'item'
-    = link_to '利用規約', terms_path, class: 'item'
-    = link_to 'プライバシーポリシー', privacy_path, class: 'item'
-    = link_to '特商法', tokushoho_path, class: 'item'
+    = link_to '利用規約', page_path(:terms), class: 'item'
+    = link_to 'プライバシーポリシー', page_path(:privacy), class: 'item'
+    = link_to '特商法', page_path(:tokushoho), class: 'item'
+    = link_to 'よくある質問', page_path(:faq), class: 'item'
     = link_to 'お問い合わせ', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'
     = link_to '公式Twitter', 'https://twitter.com/bungomail', target: '_blank', class: 'item'
   %br/
