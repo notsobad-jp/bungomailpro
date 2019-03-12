@@ -85,14 +85,12 @@ Rails.application.routes.draw do
   post 'webhooks/update_subscription'
 
   get 'users/:id' => 'users#show', as: :user
-  get 'pro' => 'pages#top', as: :pro_root
-  get 'terms' => 'pages#terms', as: :terms
-  get 'privacy' => 'pages#privacy', as: :privacy
-  get 'tokushoho' => 'pages#tokushoho', as: :tokushoho
 
   get 'login' => 'magic_tokens#new', as: :login
   get 'auth' => 'magic_tokens#auth', as: :auth
   post 'logout' => 'magic_tokens#destroy', as: :logout
 
+  get 'pro' => 'pages#top', as: :pro_root
+  get '/:page' => "pages#show", as: :page
   root to: 'pages#top'
 end
