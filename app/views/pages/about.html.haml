@@ -1,0 +1,64 @@
+%h1.ui.header
+  ブンゴウメールとは？
+= image_tag('/assets/images/ogp.png', class: 'ui large image')
+
+.ui.basic.segment
+  %p
+    『ブンゴウメール』は、青空文庫で公開されているパブリックドメインの名作小説を毎月1冊ピックアップし、1ヶ月で読み切れるように毎日小分けにしてメールで配信してくれるサービスです。
+  %p
+    忙しくて読書から遠ざかってしまった方やこれまで文学作品にあまり接点がなかった方などを中心に、リリース直後から大きな反響をいただき、2018年5月のベータ版開始から累計1万人近くのユーザーに登録いただいています。
+
+.ui.divider
+
+%h3.ui.header ブンゴウメールPROについて
+.ui.basic.segment
+  %p
+    また無料の通常版とは別に、好きな作品の配信や作家別・テーマ別の配信チャネルの購読が可能な有料版「ブンゴウメールPRO」も提供しています。
+  %p
+    無料版との違いについては以下をご覧ください。
+  %br
+
+  .ui.two.stackable.cards
+    .ui.card
+      .ui.secondary.center.aligned.attached.segment
+        %h3.ui.small.header FREEプラン
+      .content
+        .description
+          .ui.huge.center.aligned.red.header
+            無料
+            .sub.header 毎月1冊、おまかせ読書
+          .ui.divider
+          .ui.small.header
+            %i.icon.green.check
+            編集部が毎月1冊の短編をセレクトして配信します。
+          .ui.small.header
+            %i.icon.green.check
+            月の途中で登録した場合、作品の途中から届き始めます。
+          .ui.small.header
+            %i.icon.green.check
+            メール内に広告が掲載されたり、広告メールが配信されたりします。
+      = link_to root_path, class: 'ui bottom attached primary button', target: '_blank' do
+        %i.icon.mail
+        FREEプランを見る（無料）
+    %br/
+    .ui.card
+      .ui.secondary.center.aligned.attached.segment
+        %h3.ui.small.header PROプラン
+      .content
+        .description
+          .ui.huge.center.aligned.red.header
+            ￥350/月
+            .sub.header 14日間は無料トライアル
+          .ui.divider
+          .ui.small.header
+            %i.icon.green.check
+            無料版では配信できない中長編の名作が読めます。
+          .ui.small.header
+            %i.icon.green.check
+            好きな作家の作品だけ、SF小説だけ、など好きなコースを複数同時に購読できます。
+          .ui.small.header
+            %i.icon.green.check
+            自分の読みたい作品を好きなペースで配信することも可能です。
+      = link_to login_path, class: 'ui bottom attached red button' do
+        %i.icon.mail
+        PROプランに登録する（14日間無料）

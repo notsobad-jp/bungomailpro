@@ -14,12 +14,13 @@ class PagesController < ApplicationController
 
   def show
     page_titles = {
+      about: 'ブンゴウメールとは？',
       faq: 'よくある質問',
       terms: '利用規約',
       privacy: 'プライバシーポリシー',
       tokushoho: '特定商取引法に基づく表示',
     }
-    @page_title = page_titles[params[:page].to_sym]
+    @page_title = page_titles[params[:page].to_sym] || params[:page]
 
     @meta_title = @page_title
     @meta_description = "#{@page_title}のページです。"
