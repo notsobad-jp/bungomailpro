@@ -15,7 +15,7 @@
       入力したメールアドレスに、ログイン用URLが届きます。
     %small.item
       ログインすることで、
-      = link_to '利用規約', terms_path, class: 'item'
+      = link_to '利用規約', page_path(:terms), class: 'item'
       および
-      = link_to 'プライバシーポリシー', privacy_path, class: 'item'
+      = link_to 'プライバシーポリシー', page_path(:privacy), class: 'item'
       に同意したものとみなします。
