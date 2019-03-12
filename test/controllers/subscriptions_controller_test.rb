@@ -27,7 +27,7 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
   test 'access_edit_when_guest' do
     sub = subscriptions(:user1_channel1)
     get edit_subscription_path(sub)
-    assert_redirected_to login_path
+    assert_response 401
   end
 
   test 'access_edit_when_owner' do
@@ -42,21 +42,21 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     user = users(:user2)
     login_user(user)
     get edit_subscription_path(sub)
-    assert_redirected_to pro_root_path
+    assert_response 403
   end
 
   test 'access_edit_when_streaming_user' do
     sub = subscriptions(:streaming_master)
     login_user(users(:user8))
     get edit_subscription_path(sub)
-    assert_redirected_to pro_root_path
+    assert_response 403
   end
 
   test 'access_edit_when_streaming_user_owned' do
     sub = subscriptions(:streaming_active)
     login_user(sub.user)
     get edit_subscription_path(sub)
-    assert_redirected_to pro_root_path
+    assert_response 403
   end
 
   test 'access_edit_when_streaming_owner' do
@@ -120,6 +120,6 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     delete subscription_path(id: sub.id)
     sub = Subscription.find_by(id: sub.id)
     refute_nil sub
-    assert_redirected_to pro_root_path
+    assert_response 403
   end
 end

@@ -6,22 +6,31 @@ class ApplicationController < ActionController::Base
   before_action :redirect_to_custom_domain
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from ActionController::RoutingError, with: :not_found
+
 
   private
 
   def user_not_authorized
-    flash[:warning] = '権限がありません。ログイン状態を確認してください。'
-    redirect_to(request.referer || pro_root_path)
+    flash[:error] = '権限がありません。ログイン状態を確認してください。'
+    redirect_to request.referer || pro_root_path, status: 403
   end
 
   def not_authenticated
     flash[:error] = 'ログインしてください'
-    redirect_to login_path
+    redirect_to login_path, status: 401
+  end
+
+  def not_found
+    flash[:error] = 'ページが見つかりませんでした'
+    logger.warn "[NOT FOUND] #{request.url}"
+    redirect_to pro_root_path, status: 404
   end
 
   # herokuapp.comドメインでアクセスが来たらカスタムドメインにリダイレクト
   def redirect_to_custom_domain
-    redirect_to 'https://bungomail.com' + request.path, status: :moved_permanently if request.host.include? 'bungomail.herokuapp.com'
+    redirect_to 'https://bungomail.com' + request.path, status: 301 if request.host.include? 'bungomail.herokuapp.com'
   end
 
   # メタタグ設定

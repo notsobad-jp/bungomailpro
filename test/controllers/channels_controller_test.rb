@@ -11,7 +11,7 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
   test 'access_show_when_guest' do
     channel = channels(:channel0)
     get channel_path(channel)
-    assert_redirected_to pro_root_path
+    assert_response 403
   end
 
   test 'access_show_when_owner' do
@@ -26,7 +26,7 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
     user = users(:user2)
     login_user(user)
     get channel_path(channel)
-    assert_redirected_to pro_root_path
+    assert_response 403
   end
 
   test 'access_public_show_when_guest' do
@@ -41,7 +41,7 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
   test 'access_edit_when_guest' do
     channel = channels(:channel0)
     get edit_channel_path(channel)
-    assert_redirected_to login_path
+    assert_response 401
   end
 
   test 'access_edit_when_owner' do
@@ -56,6 +56,6 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
     user = users(:user2)
     login_user(user)
     get edit_channel_path(channel)
-    assert_redirected_to pro_root_path
+    assert_response 403
   end
 end
