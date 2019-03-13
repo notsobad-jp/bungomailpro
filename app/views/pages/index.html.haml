@@ -1,0 +1,9 @@
+%h1.ui.header
+  ドキュメント
+%br
+.ui.very.relaxed.divided.list
+  - @pages.each do |id, title|
+    = link_to page_path(id), class: 'item' do
+      = title
+      .right.floated.content
+        %i.icon.chevron.right

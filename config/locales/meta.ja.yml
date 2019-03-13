@@ -3,15 +3,9 @@ ja:
     top:
       title: ブンゴウメールPRO | 1日3分のメールで、もっと読書を楽しみたいあなたへ
       description: ブンゴウメールのパワーアップ有料版です。好きな作品の配信や、作家別・テーマ別で配信されるチャネルの購読ができます。
-    terms:
-      title: 利用規約
-      description: ブンゴウメールの利用規約です。
-    privacy:
-      title: プライバシーポリシー
-      description: ブンゴウメールのプライバシーポリシーです。
-    tokushoho:
-      title: 特定商取引法に基づく表記
-      description: ブンゴウメールの特定商取引法に基づく表記です。
+    index:
+      title: ドキュメント
+      noindex: true
     show:
       title: (ページ名)
       description: (ページ名)のページです。

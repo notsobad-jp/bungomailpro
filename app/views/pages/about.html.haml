@@ -11,21 +11,19 @@
     開発者によるリリース記事
     &nbsp;
     %i.icon.external.small
+%br
 
-.ui.divider
-
-%h3.ui.header ブンゴウメールPROについて
+%h3.ui.dividing.header ブンゴウメールPROについて
 .ui.basic.segment
   %p
     また無料の通常版とは別に、好きな作品の配信や作家別・テーマ別の配信チャネルの購読が可能な有料版「ブンゴウメールPRO」も提供しています。
   %p
     無料版との違いについては「料金プラン」をご覧ください。
 
-  = link_to 'ブンゴウメールの料金プラン', page_path(:plan), class: 'ui blue basic small button'
+  = link_to 'ブンゴウメールの料金プラン', page_path(:plan), class: 'ui blue basic small responsive button'
+%br
 
-.ui.divider
-
-%h3.ui.header メディア掲載等
+%h3.ui.dividing.header メディア掲載等
 .ui.basic.segment
   .ui.horizontal.list
     = link_to 'https://gigazine.net/news/20180531-bungomail/', class: 'item', target: '_blank' do
@@ -38,3 +36,16 @@
       = image_tag('/images/lamire.png', alt: 'lamire', class: 'ui small image', style: 'height:70px;width:auto;')
     = link_to 'https://irorio.jp/nagasawamaki/20180912/492864/', class: 'item', target: '_blank' do
       = image_tag('/images/irorio.jpg', alt: 'IRORIO', class: 'ui small image')
+%br
+
+%h3.ui.dividing.header お問い合わせ
+.ui.basic.segment
+  %p
+    運営元：ブンゴウメール編集部（合同会社NOT SO BAD）
+  %p
+    サービスに関するご意見・お問い合わせは、以下のフォームからお気軽にご連絡ください。
+    また事業提携やコラボ企画に関するご提案もこちらで承っています。
+  = link_to 'https://goo.gl/forms/jE387feQLYysiv5m2', class: 'ui primary basic responsive button', target: '_blank' do
+    お問い合わせフォーム
+    &nbsp;
+    %i.icon.external.small
