@@ -1,0 +1,54 @@
+.ui.basic.segment
+  %h1.ui.header
+    料金プラン
+
+.ui.basic.segment
+  %p
+    ブンゴウメールには、無料でご利用いただける「通常版」と月額会員登録が必要な「PRO版」があります。
+    %br
+    （現在ご覧いただいているのは「PRO版」です）
+
+  .ui.info.message
+    .header
+      %i.icon.gift
+      RSSフィードは無料で利用可能
+    ブンゴウメールPROでメールを受信するには月額会員登録が必要ですが、RSSフィードは無料でも受信可能です。
+    詳細は「
+    = link_to 'RSSフィードの受信方法', page_path(:faq)
+    」をご覧ください。
+  %br
+
+  = render partial: 'price_table'
+
+.ui.divider
+
+.ui.basic.segment
+  %h5.ui.small.header
+    %i.icon.info.circle
+    ご利用の流れ
+  .ui.bulleted.list
+    .item
+      決済情報の登録から、
+      %b.red 14日間は無料トライアル
+      期間としてすべての機能をご利用いただけます。
+    .item
+      トライアル期間終了後、初回は
+      %b.red 翌5日までの日割り料金
+      が請求されます。
+    .item
+      その後は
+      %b.red 毎月5日
+      に当月分の料金が請求されます。
+  %h5.ui.small.header
+    %i.icon.exclamation.triangle
+    その他注意事項
+  .ui.bulleted.list
+    .item
+      プランの解約はいつでも可能です。ただしすでにお支払いいただいた分の返金は致しかねますので、あらかじめご了承ください。
+    .item
+      決済に失敗した場合はメールでお知らせしますので、必要に応じて登録カード情報をご修正ください。数日経っても決済に失敗する場合、自動的に契約を解除させていただきます。
+    .item
+      一度解約してから再度PROプランを契約した場合、無料トライアルは付与されません。ご了承ください。
+    .item
+      利用可能なクレジットカードは、以下のブランドです。
+      VISA, MasterCard, AmericanExpress, JCB, DinersClub, Discover

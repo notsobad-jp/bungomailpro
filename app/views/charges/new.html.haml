@@ -2,6 +2,11 @@
   %i.icon.credit.card.outline
   決済情報の登録
 
+%small
+  = link_to page_path(:plan) do
+    %i.icon.chevron.right
+    料金プランを確認する
+
 .ui.secondary.center.aligned.segment
   %h3.ui.small.header PROプラン 月額350円(税込)
   = form_tag charges_path do

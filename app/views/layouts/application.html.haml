@@ -73,8 +73,8 @@
     - if current_user && !current_user.pro?
       .ui.attached.warning.message(style="margin-top:45px;margin-bottom:-45px;")
         %i.icon.warning.circle
-        現在【FREEプラン】で利用しています。メール配信を受け取るには
-        = link_to '【PROプラン】に登録', user_path(current_user)
+        決済情報が登録されていません。メールを受信するには
+        = link_to '月額会員に登録', new_charge_path
         してください。
     - if path == 'pages#top' && current_user && current_user.charge.try(:status) == 'past_due'
       .ui.attached.error.message(style="margin-top:45px;margin-bottom:-45px;")

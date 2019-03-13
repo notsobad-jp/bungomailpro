@@ -15,6 +15,7 @@ class PagesController < ApplicationController
   def show
     page_titles = {
       about: 'ブンゴウメールとは？',
+      plan: '料金プラン',
       faq: 'よくある質問',
       terms: '利用規約',
       privacy: 'プライバシーポリシー',
