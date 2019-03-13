@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_action :redirect_to_custom_domain
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound,     with: :render_404
+  rescue_from ActionController::RoutingError,   with: :render_404
 
   private
 
@@ -22,6 +24,11 @@ class ApplicationController < ActionController::Base
   # herokuapp.comドメインでアクセスが来たらカスタムドメインにリダイレクト
   def redirect_to_custom_domain
     redirect_to 'https://bungomail.com' + request.path, status: :moved_permanently if request.host.include? 'bungomail.herokuapp.com'
+  end
+
+  def render_404(e = nil)
+    logger.info "[404] Rendering 404 with exception: #{e.message}" if e
+    render file: "#{Rails.root}/public/404.html", layout: false, status: 404
   end
 
   # メタタグ設定
