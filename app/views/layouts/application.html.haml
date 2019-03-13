@@ -73,7 +73,7 @@
     - if current_user && !current_user.pro?
       .ui.attached.warning.message(style="margin-top:45px;margin-bottom:-45px;")
         %i.icon.warning.circle
-        決済情報が登録されていません。メールを受信するには
+        決済情報が未登録のため、メールは配信されません。メールを受信するには
         = link_to '月額会員に登録', new_charge_path
         してください。
     - if path == 'pages#top' && current_user && current_user.charge.try(:status) == 'past_due'
