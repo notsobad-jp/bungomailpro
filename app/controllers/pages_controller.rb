@@ -20,8 +20,7 @@ class PagesController < ApplicationController
       privacy: 'プライバシーポリシー',
       tokushoho: '特定商取引法に基づく表示',
     }
-    @page_title = page_titles[params[:page].to_sym]
-    raise ActionController::RoutingError.new('Not Found') unless @page_title
+    @page_title = page_titles[params[:page].to_sym] || params[:page]
 
     @meta_title = @page_title
     @meta_description = "#{@page_title}のページです。"

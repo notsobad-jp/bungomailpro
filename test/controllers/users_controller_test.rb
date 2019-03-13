@@ -11,7 +11,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'access_show_when_guest' do
     user = users(:user1)
     get user_url(user)
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_show_when_owner' do
@@ -26,6 +26,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user2 = users(:user2)
     login_user(user2)
     get user_url(user1)
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 end

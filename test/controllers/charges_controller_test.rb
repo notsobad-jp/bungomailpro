@@ -10,7 +10,7 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_new_when_guest' do
     get new_charge_path
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_new_when_no_charge' do
@@ -24,14 +24,14 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
     user = users(:user1)
     login_user(user)
     get new_charge_path
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 
   test 'access_new_when_charge_cancel_planned' do
     user = users(:user3)
     login_user(user)
     get new_charge_path
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 
   test 'access_new_when_charge_canceled' do
@@ -54,7 +54,7 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
   test 'access_edit_when_guest' do
     user = users(:user1)
     get edit_charge_path(user.charge)
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_edit_when_other' do
@@ -62,7 +62,7 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
     user2 = users(:user2)
     login_user(user2)
     get edit_charge_path(user1.charge)
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 
   test 'access_edit_when_owner' do
@@ -77,14 +77,14 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_update_payment_when_guest' do
     get update_payment_path
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_update_payment_when_no_charge' do
     user = users(:user4)
     login_user(user)
     get update_payment_path
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 
   test 'access_update_payment_when_charge_exist' do

@@ -11,7 +11,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'access_index_when_guest' do
     sub = subscriptions(:user1_channel1)
     get subscription_comments_path(sub)
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_index_when_owner' do
@@ -25,7 +25,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     sub = subscriptions(:user1_channel1)
     login_user(users(:user2))
     get subscription_comments_path(sub)
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 
 
@@ -35,7 +35,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'access_new_when_guest' do
     sub = subscriptions(:user1_channel1)
     get new_subscription_comment_path(sub, book_id: books(:book1).id, index: 3)
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_new_when_owner' do
@@ -49,7 +49,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     sub = subscriptions(:user1_channel1)
     login_user(users(:user2))
     get new_subscription_comment_path(sub, book_id: books(:book1).id, index: 3)
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 
 
@@ -61,7 +61,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     post subscription_comments_path(sub, comment: {book_id: books(:book1).id, index: 3, text: 'コメント追加'})
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 3)
     assert_nil comment
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_create_when_owner' do
@@ -101,7 +101,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_nil comment
     assert_equal before_comment_count, after_comment_count
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 
 
@@ -111,7 +111,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'access_edit_when_guest' do
     comment = comments(:for_next_chapter)
     get edit_subscription_comment_path(comment.id, subscription_id: comment.subscription.id)
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_edit_when_owner' do
@@ -125,7 +125,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     comment = comments(:for_next_chapter)
     login_user(users(:user2))
     get edit_subscription_comment_path(comment.id, subscription_id: comment.subscription.id)
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 
 
@@ -139,7 +139,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
 
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 1)
     refute_equal 'コメント修正', comment.text
-    assert_response 401
+    assert_redirected_to login_path
   end
 
   test 'access_update_when_owner' do
@@ -160,6 +160,6 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 1)
 
     refute_equal 'コメント修正', comment.text
-    assert_response 403
+    assert_redirected_to pro_root_path
   end
 end
