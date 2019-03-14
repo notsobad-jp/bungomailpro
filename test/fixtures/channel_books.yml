@@ -45,3 +45,8 @@ streaming_book1:
   channel: streaming
   book: book2
   index: 1
+
+alterego_book1:
+  channel: alterego
+  book: book1
+  index: 1

@@ -94,3 +94,11 @@ streaming_active:
 streaming_non_pro:
   user: user4
   channel: streaming
+
+alterego_master:
+  user_id: 'bb378768-e59a-47d8-bd18-f25bb116340b'
+  channel_id: '15ed0c75-553b-4b97-a142-9fb58f890883'
+  current_book: book1
+  delivery_hour: 22
+  next_chapter_index: 1
+  next_delivery_date: <%= Time.zone.today %>

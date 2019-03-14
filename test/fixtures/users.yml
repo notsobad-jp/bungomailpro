@@ -46,3 +46,8 @@ user7:
 user8:
   email: 'sample8@example.com'
   magic_login_token: <%= SecureRandom.hex(10) %>
+
+alterego:
+  id: 'bb378768-e59a-47d8-bd18-f25bb116340b'
+  email: 'alterego@bungomail.com'
+  magic_login_token: <%= SecureRandom.hex(10) %>
