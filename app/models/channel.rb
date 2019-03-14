@@ -22,6 +22,8 @@ class Channel < ApplicationRecord
   has_many :subscribers, through: :subscriptions, source: :user
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
+  ALTEREGO_ID = '15ed0c75-553b-4b97-a142-9fb58f890883'
+
   validates :title, presence: true
   validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: proc { |c| !c.private? }
 
