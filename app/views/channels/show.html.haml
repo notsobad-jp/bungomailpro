@@ -6,6 +6,13 @@
   = @channel.title
   = channel_status_icon(@channel.status)
 
+- if @channel.streaming?
+  .ui.middle.aligned.small.list
+    .item
+      = image_tag(@channel.user.profile_image_url, class: 'ui avatar bordered image', alt: @channel.user.display_name)
+      .content
+        .description= @channel.user.display_name
+
 -# 購読管理
 %div
   -# ownerの場合は管理メニュー表示
@@ -101,7 +108,7 @@
   .ui.secondary.padded.segment
     .ui.small.header
       %i.icon.rss
-      RSSフィード
+      RSSフィード（無料）
     %div
       = link_to subscription_path(sub, format: :atom), target: '_blank' do
         = subscription_url(sub, format: :atom)
