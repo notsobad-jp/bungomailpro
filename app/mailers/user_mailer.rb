@@ -35,10 +35,21 @@ class UserMailer < ApplicationMailer
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
+    #HACK: ALTER EGOチャネルのみ独自の配信元表記。そのうち汎用化する
+    if @subscription.channel.id == Channel::ALTEREGO_ID
+      from_name = 'エス（ALTER EGO）'
+      from_email = 'alterego@notsobad.jp'
+      subject = "#{@subscription.current_book.author.tr(',', '、')}『#{@subscription.current_book.title}』（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}） - #{@subscription.channel.title}"
+    else
+      from_name = "#{@subscription.current_book.author.tr(',', '、')}（ブンゴウメール）"
+      from_email = 'bungomail@notsobad.jp'
+      subject = "#{@subscription.current_book.title}（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}） - #{@subscription.channel.title}"
+    end
     mail(
-      from: "#{@subscription.current_book.author.tr(',', '、')}（ブンゴウメール） <bungomail@notsobad.jp>",
-      to: 'noreplya@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
-      subject: "#{@subscription.current_book.title}（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}）【#{@subscription.channel.title}】"
+      from: "#{from_name} <#{from_email}>",
+      to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
+      subject: subject,
+      reply_to: "info@notsobad.jp"
     )
     logger.info "[SCHEDULED] channel:#{@subscription.channel.id}, chapter:#{@subscription.next_chapter.book_id}-#{@subscription.next_chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
   end

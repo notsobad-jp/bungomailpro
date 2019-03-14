@@ -46,3 +46,10 @@ streaming:
   title: Streamingチャネル
   description: 'ふがふが'
   status: streaming
+
+alterego:
+  id: '15ed0c75-553b-4b97-a142-9fb58f890883'
+  user_id: 'bb378768-e59a-47d8-bd18-f25bb116340b'
+  title: '【公式】ALTER EGOチャネル'
+  description: 'ほげほげ'
+  status: streaming
