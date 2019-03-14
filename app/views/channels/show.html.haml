@@ -9,7 +9,7 @@
 - if @channel.streaming?
   .ui.middle.aligned.small.list
     .item
-      = image_tag(@channel.user.profile_image_url, class: 'ui avatar bordered image', alt: @channel.user.display_name)
+      = image_tag(@channel.user.profile_image_url, class: 'ui avatar bordered medium image', alt: @channel.user.display_name)
       .content
         .description= @channel.user.display_name
 
