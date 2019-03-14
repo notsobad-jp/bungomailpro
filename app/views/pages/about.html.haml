@@ -7,58 +7,46 @@
     『ブンゴウメール』は、青空文庫で公開されているパブリックドメインの名作小説を毎月1冊ピックアップし、1ヶ月で読み切れるように毎日小分けにしてメールで配信してくれるサービスです。
   %p
     忙しくて読書から遠ざかってしまった方やこれまで文学作品にあまり接点がなかった方などを中心に、リリース直後から大きな反響をいただき、2018年5月のベータ版開始から累計1万人近くのユーザーに登録いただいています。
+  = link_to 'https://blog.notsobad.jp/entry/2018/04/25/160259', class: 'ui blue basic small responsive button', target: '_blank' do
+    開発者によるリリース記事
+    &nbsp;
+    %i.icon.external.small
+%br
 
-.ui.divider
-
-%h3.ui.header ブンゴウメールPROについて
+%h3.ui.dividing.header ブンゴウメールPROについて
 .ui.basic.segment
   %p
-    また無料の通常版とは別に、好きな作品の配信や作家別・テーマ別の配信チャネルの購読が可能な有料版「ブンゴウメールPRO」も提供しています。
+    また無料の通常版とは別に、好きな作品の配信や作家別・テーマ別の配信チャネルの購読が可能な有料版「ブンゴウメールPRO」を提供しています
+    （現在ご覧いただいているのは「PRO」です）。
   %p
-    無料版との違いについては以下をご覧ください。
-  %br
+    無料版との違いについては「料金プラン」をご覧ください。
 
-  .ui.two.stackable.cards
-    .ui.card
-      .ui.secondary.center.aligned.attached.segment
-        %h3.ui.small.header FREEプラン
-      .content
-        .description
-          .ui.huge.center.aligned.red.header
-            無料
-            .sub.header 毎月1冊、おまかせ読書
-          .ui.divider
-          .ui.small.header
-            %i.icon.green.check
-            編集部が毎月1冊の短編をセレクトして配信します。
-          .ui.small.header
-            %i.icon.green.check
-            月の途中で登録した場合、作品の途中から届き始めます。
-          .ui.small.header
-            %i.icon.green.check
-            メール内に広告が掲載されたり、広告メールが配信されたりします。
-      = link_to root_path, class: 'ui bottom attached primary button', target: '_blank' do
-        %i.icon.mail
-        FREEプランを見る（無料）
-    %br/
-    .ui.card
-      .ui.secondary.center.aligned.attached.segment
-        %h3.ui.small.header PROプラン
-      .content
-        .description
-          .ui.huge.center.aligned.red.header
-            ￥350/月
-            .sub.header 14日間は無料トライアル
-          .ui.divider
-          .ui.small.header
-            %i.icon.green.check
-            無料版では配信できない中長編の名作が読めます。
-          .ui.small.header
-            %i.icon.green.check
-            好きな作家の作品だけ、SF小説だけ、など好きなコースを複数同時に購読できます。
-          .ui.small.header
-            %i.icon.green.check
-            自分の読みたい作品を好きなペースで配信することも可能です。
-      = link_to login_path, class: 'ui bottom attached red button' do
-        %i.icon.mail
-        PROプランに登録する（14日間無料）
+  = link_to 'ブンゴウメールの料金プラン', page_path(:plan), class: 'ui blue basic small responsive button'
+%br
+
+%h3.ui.dividing.header メディア掲載等
+.ui.basic.segment
+  .ui.horizontal.list
+    = link_to 'https://gigazine.net/news/20180531-bungomail/', class: 'item', target: '_blank' do
+      = image_tag('/images/gigazine.png', alt: 'GIGAZINE', class: 'ui small image')
+    = link_to 'http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html', class: 'item', target: '_blank' do
+      = image_tag('/images/nlab.png', alt: 'ねとらぼ', class: 'ui small image')
+    = link_to 'https://woman.excite.co.jp/article/lifestyle/rid_XzDays_148287/', class: 'item', target: '_blank' do
+      = image_tag('/images/woman_excite.gif', alt: 'Woman Excite', class: 'ui small image')
+    = link_to 'https://lamire.jp/148287', class: 'item', target: '_blank' do
+      = image_tag('/images/lamire.png', alt: 'lamire', class: 'ui small image', style: 'height:70px;width:auto;')
+    = link_to 'https://irorio.jp/nagasawamaki/20180912/492864/', class: 'item', target: '_blank' do
+      = image_tag('/images/irorio.jpg', alt: 'IRORIO', class: 'ui small image')
+%br
+
+%h3.ui.dividing.header お問い合わせ
+.ui.basic.segment
+  %p
+    運営元：ブンゴウメール編集部（合同会社NOT SO BAD）
+  %p
+    サービスに関するご意見・お問い合わせは、以下のフォームからお気軽にご連絡ください。
+    また事業提携やコラボ企画に関するご提案もこちらで承っています。
+  = link_to 'https://goo.gl/forms/jE387feQLYysiv5m2', class: 'ui primary basic responsive button', target: '_blank' do
+    お問い合わせフォーム
+    &nbsp;
+    %i.icon.external.small

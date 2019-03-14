@@ -1,0 +1,42 @@
+.ui.two.stackable.cards
+  .ui.card
+    .ui.secondary.center.aligned.attached.segment
+      %h3.ui.small.header ブンゴウメール（通常版）
+    .content
+      .description
+        .ui.huge.center.aligned.red.header
+          無料
+          .sub.header 毎月1冊、おまかせ読書
+        .ui.divider
+        .ui.small.header
+          %i.icon.green.check
+          編集部が毎月1冊の短編をセレクトして配信します。
+        .ui.small.header
+          %i.icon.green.check
+          月の途中で登録した場合、作品の途中から届き始めます。
+        .ui.small.header
+          %i.icon.green.check
+          メール内に広告が掲載されたり、広告メールが配信されたりします。
+    = link_to root_path, class: 'ui bottom attached primary button', target: '_blank' do
+      通常版を見る（無料）
+  %br/
+  .ui.card
+    .ui.secondary.center.aligned.attached.segment
+      %h3.ui.small.header ブンゴウメールPRO
+    .content
+      .description
+        .ui.huge.center.aligned.red.header
+          ￥350/月
+          .sub.header もっと読書を楽しみたいあなたに
+        .ui.divider
+        .ui.small.header
+          %i.icon.green.check
+          無料版では配信できない中長編の名作が読めます。
+        .ui.small.header
+          %i.icon.green.check
+          好きな作家の作品だけ、SF小説だけ、など好きなコースを複数同時に購読できます。
+        .ui.small.header
+          %i.icon.green.check
+          自分の読みたい作品を好きなペースで配信することも可能です。
+    = link_to new_charge_path, class: 'ui bottom attached red button' do
+      PRO版に登録する（14日間無料）
