@@ -1,6 +1,6 @@
 = simple_format_with_link(feed.chapter.text)
 
-- if (comment = feed.comment.text).present?
+- if (comment = feed.comment.try(:text)).present?
   %hr
   = simple_format_with_link(comment)
 
