@@ -25,6 +25,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def show
+    @feeds = @subscription.feeds.where('delivered_at < ?', Time.current)
     respond_to do |format|
       format.atom
     end

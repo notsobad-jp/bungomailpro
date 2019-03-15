@@ -1,7 +1,6 @@
 class PagesController < ApplicationController
   def top
     @streaming_channels = Channel.where(status: 'streaming').order(created_at: :desc).take(2)
-    @streaming_channels.delete_at(0) if Time.current < Time.zone.parse('2019-03-15 07:00:00') # TODO: プレス公開まで非表示。公開後に削除
     # @popular_channels = Channel.where(status: 'public').order(created_at: :desc).take(3)
     @popular_authors = [
       { id: 148, name: '夏目漱石' },
@@ -39,7 +38,7 @@ class PagesController < ApplicationController
       faq: 'よくある質問',
       terms: '利用規約',
       privacy: 'プライバシーポリシー',
-      tokushoho: '特定商取引法に基づく表示',
+      tokushoho: '特定商取引法に基づく表示'
     }
   end
 end

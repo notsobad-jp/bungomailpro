@@ -39,15 +39,6 @@ class UserMailerTest < ActiveSupport::TestCase
     assert_equal ['sample7@example.com', 'sample8@example.com'], to
   end
 
-  # 配信日が明日なら送らない（間違って送信処理まで来ちゃった場合）
-  test 'send_chapter_email_for_tomorrow' do
-    sub = subscriptions(:user3_channel1)
-    UserMailer.with(subscription: sub).chapter_email.deliver_now
-    email = ActionMailer::Base.deliveries.last
-    assert_nil email
-  end
-
-
   # ALTER EGOチャネルでは送信元をカスタマイズ
   test 'send_chapter_email_for_alterego' do
     sub = subscriptions(:alterego_master)

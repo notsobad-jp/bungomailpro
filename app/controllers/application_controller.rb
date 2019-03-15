@@ -26,9 +26,9 @@ class ApplicationController < ActionController::Base
     redirect_to 'https://bungomail.com' + request.path, status: :moved_permanently if request.host.include? 'bungomail.herokuapp.com'
   end
 
-  def render_404(e = nil)
-    logger.info "[404] Rendering 404 with exception: #{e.message}" if e
-    render file: "#{Rails.root}/public/404.html", layout: false, status: 404
+  def render_404(error = nil)
+    logger.info "[404] Rendering 404 with exception: #{error.message}" if error
+    render file: Rails.root.join("public", "404.html"), layout: false, status: :not_found
   end
 
   # メタタグ設定

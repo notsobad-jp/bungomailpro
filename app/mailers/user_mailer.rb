@@ -23,8 +23,6 @@ class UserMailer < ApplicationMailer
     @comment = @subscription.current_comment
     send_at = Time.zone.parse(@subscription.next_delivery_date.to_s).change(hour: @subscription.delivery_hour)
 
-    # 配信が明日以降なら処理をスキップ（過去日時指定は許可。その場合SendGridの仕様で即時配信される）
-    return if send_at > Time.zone.today.end_of_day
     # 実際の配信先（PROプランのユーザー）がいない場合は処理をスキップ
     return if (deliverable_emails = @subscription.deliverable_emails).blank?
 
@@ -35,7 +33,7 @@ class UserMailer < ApplicationMailer
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    #HACK: ALTER EGOチャネルのみ独自の配信元表記。そのうち汎用化する
+    # HACK: ALTER EGOチャネルのみ独自の配信元表記。そのうち汎用化する
     if @subscription.channel.id == Channel::ALTEREGO_ID
       from_name = 'エス（ALTER EGO）'
       from_email = 'alterego@notsobad.jp'
@@ -49,7 +47,7 @@ class UserMailer < ApplicationMailer
       from: "#{from_name} <#{from_email}>",
       to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
       subject: subject,
-      reply_to: "info@notsobad.jp"
+      reply_to: 'info@notsobad.jp'
     )
     logger.info "[SCHEDULED] channel:#{@subscription.channel.id}, chapter:#{@subscription.next_chapter.book_id}-#{@subscription.next_chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
   end
