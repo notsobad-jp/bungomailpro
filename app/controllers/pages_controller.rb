@@ -38,7 +38,7 @@ class PagesController < ApplicationController
       faq: 'よくある質問',
       terms: '利用規約',
       privacy: 'プライバシーポリシー',
-      tokushoho: '特定商取引法に基づく表示',
+      tokushoho: '特定商取引法に基づく表示'
     }
   end
 end
