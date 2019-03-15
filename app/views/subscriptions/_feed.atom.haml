@@ -1,0 +1,9 @@
+= simple_format_with_link(feed.chapter.text)
+
+- if (comment = feed.comment.text).present?
+  %hr
+  = simple_format_with_link(comment)
+
+- if (footer = feed.subscription.footer).present?
+  %hr
+  = simple_format_with_link(footer)

@@ -15,4 +15,8 @@ class Feed < ApplicationRecord
   belongs_to :subscription
   belongs_to :book
   belongs_to :chapter, foreign_key: %i[book_id index]
+
+  def comment
+    subscription.comments.find_by(book_id: book_id, index: index)
+  end
 end
