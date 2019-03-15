@@ -23,8 +23,6 @@ class UserMailer < ApplicationMailer
     @comment = @subscription.current_comment
     send_at = Time.zone.parse(@subscription.next_delivery_date.to_s).change(hour: @subscription.delivery_hour)
 
-    # 配信が明日以降なら処理をスキップ（過去日時指定は許可。その場合SendGridの仕様で即時配信される）
-    return if send_at > Time.zone.today.end_of_day
     # 実際の配信先（PROプランのユーザー）がいない場合は処理をスキップ
     return if (deliverable_emails = @subscription.deliverable_emails).blank?
 
