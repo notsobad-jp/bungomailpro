@@ -6,7 +6,7 @@ class MagicTokensController < ApplicationController
 
   def create
     @user = User.find_or_create_by(email: params[:email])
-    if @user.try(:persisted?)
+    if @user.try(:persisted?) && @user.try(:email) != 'bungomail-text@notsobad.jp'
       @user.deliver_magic_login_instructions!
       flash[:success] = 'ログインURLをメールで送信しました！（届くまで数分程度かかる場合があります）'
       redirect_to pro_root_path
