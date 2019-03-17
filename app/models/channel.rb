@@ -23,6 +23,7 @@ class Channel < ApplicationRecord
   accepts_nested_attributes_for :channel_books, allow_destroy: true
 
   ALTEREGO_ID = '15ed0c75-553b-4b97-a142-9fb58f890883'.freeze
+  URABANGUMI_ID = 'c0425db7-4991-4ba5-9322-3561691977f1'.freeze
   BUNGOMAIL_ID = 'a15dfd5a-ce85-4418-9c7a-3383015c69ab'.freeze
 
   validates :title, presence: true
