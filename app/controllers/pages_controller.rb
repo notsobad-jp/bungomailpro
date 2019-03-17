@@ -1,7 +1,6 @@
 class PagesController < ApplicationController
   def top
-    @streaming_channels = Channel.where(status: 'streaming').order(created_at: :desc).take(2)
-    # @popular_channels = Channel.where(status: 'public').order(created_at: :desc).take(3)
+    @streaming_channels = Channel.find([Channel::ALTEREGO_ID, Channel::URABANGUMI_ID])
     @popular_authors = [
       { id: 148, name: '夏目漱石' },
       { id: 879, name: '芥川竜之介' },
