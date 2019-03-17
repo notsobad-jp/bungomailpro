@@ -43,9 +43,7 @@ class User < ApplicationRecord
   end
 
   def pro?
-    # TODO: 2019年3月10日まではベータ版で全員PRO扱い。それ以降は購読ステータスで判断する
-    # TODO: ストリーミング配信者をPRO扱い
-    charge.try(:active?) || Time.current < Time.zone.parse('2019-03-11') || id == 'bb378768-e59a-47d8-bd18-f25bb116340b'
+    charge.try(:active?) || %w(admin partner).include?(category)
   end
 
   def profile_image_url
