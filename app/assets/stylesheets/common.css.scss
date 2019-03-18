@@ -18,6 +18,8 @@ section, footer { padding: 50px 10px !important; }
 
 .ui.horizontal.divider:before { background-color: transparent; }
 
+.ui.form .inline.fields { line-height: 2em; }
+
 .seigaiha {
   background-image: image-url('seigaiha.png') !important;
 }
