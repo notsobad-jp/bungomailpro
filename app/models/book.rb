@@ -103,6 +103,21 @@ class Book < ApplicationRecord
     [text, footnote]
   end
 
+  def twitter_share_url
+    long_url = CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{Time.current.month}月は%20%23#{author.delete(' ')}%20%23#{title}%20を配信中！")
+
+    uri = URI.parse("https://api-ssl.bitly.com/v3/shorten?access_token=#{ENV['BITLY_ACCESS_TOKEN']}&longUrl=#{long_url}")
+    https = Net::HTTP.new(uri.host, uri.port)
+    https.use_ssl = true
+    https.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+    res = https.start {
+      https.get(uri.request_uri)
+    }
+    JSON.parse(res.body)['data']['url']
+  end
+
+
   class << self
     def aozora_card_url(author_id:, book_id:)
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/card#{book_id}.html"
