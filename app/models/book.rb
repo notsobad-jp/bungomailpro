@@ -11,6 +11,7 @@
 #  chapters_count :integer          default(0), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  words_count    :integer
 #
 
 class Book < ApplicationRecord
@@ -116,6 +117,11 @@ class Book < ApplicationRecord
     }
     JSON.parse(res.body)['data']['url']
   end
+
+  def words_count
+    aozora_file_text[0].delete("\r\n").length
+  end
+
 
 
   class << self

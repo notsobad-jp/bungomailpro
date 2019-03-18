@@ -31,11 +31,25 @@ namespace :books do
     end
   end
 
+
   desc 'filesからchaptersを作成する'
   task create_chapters: :environment do |_task, _args|
     Book.where(chapters_count: 0).find_each do |book|
       book.create_chapters
       p "[#{book.id}] #{book.title}"
+    rescue StandardError => e
+      p '---------'
+      p "[#{book.id}] #{e}"
+      p '---------'
+    end
+  end
+
+
+  desc 'filesから文字数カウント'
+  task count_words: :environment do |_task, _args|
+    Book.where(words_count: nil).find_each do |book|
+      book.update!(words_count: book.words_count)
+      p "[#{book.id}] #{book.title} - #{book.words_count}"
     rescue StandardError => e
       p '---------'
       p "[#{book.id}] #{e}"
