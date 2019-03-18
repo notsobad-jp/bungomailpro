@@ -2,17 +2,18 @@
 #
 # Table name: users
 #
-#  id                           :uuid             not null, primary key
-#  email                        :string           not null
-#  crypted_password             :string
-#  salt                         :string
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
-#  magic_login_token            :string
-#  magic_login_token_expires_at :datetime
-#  magic_login_email_sent_at    :datetime
-#  remember_me_token            :string
-#  remember_me_token_expires_at :datetime
+#  id                             :uuid             not null, primary key
+#  email                          :string           not null
+#  crypted_password               :string
+#  salt                           :string
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#  magic_login_token              :string
+#  magic_login_token_expires_at   :datetime
+#  magic_login_email_sent_at      :datetime
+#  remember_me_token              :string
+#  remember_me_token_expires_at   :datetime
+#  category(IN (admin partner))   :string
 #
 
 require 'test_helper'
