@@ -2,17 +2,15 @@ class Search::CategoriesController < ApplicationController
   layout 'search/application'
 
   def index
-    @category = params[:category]
-    case @category
-    when 'shortshort'
-      @books = Book.where("chapters_count < ?", 30)
-    when 'short'
-      @books = Book.where(chapters_count: 30)
-    when 'novelette'
-      @books = Book.where(chapters_count: 60)
-    when 'novel'
-      @books = Book.where("chapters_count > ?", 60)
-    end
-    p @books.count
+    @categories = Category.all.order(:range_from)
+    @breadcrumbs << { name: 'カテゴリ' }
+  end
+
+  def show
+    @category = Category.find(params[:id])
+    @books = Book.where(words_count: (@category.range_from..@category.range_to)).page params[:page]
+
+    @breadcrumbs << { name: 'カテゴリ', url: search_categories_path }
+    @breadcrumbs << { name: @category.name }
   end
 end

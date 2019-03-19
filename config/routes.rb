@@ -119,7 +119,6 @@ Rails.application.routes.draw do
 
   # ZORA SEARCH
   namespace :search do
-    get '/categories/:category' => 'categories#index'
     resources :authors, :categories, :books
   end
 
