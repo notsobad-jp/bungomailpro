@@ -3,17 +3,23 @@
 # Table name: users
 #
 #  id                             :uuid             not null, primary key
-#  email                          :string           not null
+#  category(IN (admin partner))   :string
 #  crypted_password               :string
+#  email                          :string           not null
+#  magic_login_email_sent_at      :datetime
+#  magic_login_token              :string
+#  magic_login_token_expires_at   :datetime
+#  remember_me_token              :string
+#  remember_me_token_expires_at   :datetime
 #  salt                           :string
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
-#  magic_login_token              :string
-#  magic_login_token_expires_at   :datetime
-#  magic_login_email_sent_at      :datetime
-#  remember_me_token              :string
-#  remember_me_token_expires_at   :datetime
-#  category(IN (admin partner))   :string
+#
+# Indexes
+#
+#  index_users_on_email              (email) UNIQUE
+#  index_users_on_magic_login_token  (magic_login_token)
+#  index_users_on_remember_me_token  (remember_me_token)
 #
 
 require 'test_helper'

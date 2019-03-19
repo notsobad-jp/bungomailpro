@@ -3,14 +3,16 @@
 # Table name: books
 #
 #  id             :bigint(8)        not null, primary key
-#  title          :string           not null
 #  author         :string           not null
-#  author_id      :bigint(8)        not null
-#  file_id        :bigint(8)
-#  footnote       :text
+#  beginning      :string
 #  chapters_count :integer          default(0), not null
+#  footnote       :text
+#  title          :string           not null
+#  words_count    :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  author_id      :bigint(8)        not null
+#  file_id        :bigint(8)
 #
 
 class Book < ApplicationRecord
@@ -116,6 +118,7 @@ class Book < ApplicationRecord
     }
     JSON.parse(res.body)['data']['url']
   end
+
 
 
   class << self

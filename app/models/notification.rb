@@ -8,6 +8,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_notifications_on_date  (date) UNIQUE
+#
 
 class Notification < ApplicationRecord
 end

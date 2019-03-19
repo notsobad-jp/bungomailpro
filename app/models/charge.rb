@@ -3,18 +3,28 @@
 # Table name: charges
 #
 #  id                                                                                            :uuid             not null, primary key
-#  user_id                                                                                       :uuid             not null
-#  customer_id                                                                                   :string           not null
 #  brand(IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)) :string           not null
+#  cancel_at                                                                                     :datetime
 #  exp_month                                                                                     :integer          not null
 #  exp_year                                                                                      :integer          not null
 #  last4                                                                                         :string           not null
-#  subscription_id                                                                               :string
 #  status(IN (trialing active past_due canceled unpaid))                                         :string
 #  trial_end                                                                                     :datetime
-#  cancel_at                                                                                     :datetime
 #  created_at                                                                                    :datetime         not null
 #  updated_at                                                                                    :datetime         not null
+#  customer_id                                                                                   :string           not null
+#  subscription_id                                                                               :string
+#  user_id                                                                                       :uuid             not null
+#
+# Indexes
+#
+#  index_charges_on_customer_id      (customer_id) UNIQUE
+#  index_charges_on_subscription_id  (subscription_id) UNIQUE
+#  index_charges_on_user_id          (user_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 
 class Charge < ApplicationRecord

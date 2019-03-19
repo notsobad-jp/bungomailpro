@@ -3,15 +3,24 @@
 # Table name: channels
 #
 #  id                                    :uuid             not null, primary key
-#  user_id                               :uuid             not null
-#  title                                 :string           not null
+#  books_count                           :integer          default(0), not null
+#  default                               :boolean          default(FALSE), not null
 #  description                           :text
 #  status(IN (private public streaming)) :string           default("private"), not null
-#  books_count                           :integer          default(0), not null
 #  subscribers_count                     :integer          default(0), not null
+#  title                                 :string           not null
 #  created_at                            :datetime         not null
 #  updated_at                            :datetime         not null
-#  default                               :boolean          default(FALSE), not null
+#  user_id                               :uuid             not null
+#
+# Indexes
+#
+#  index_channels_on_user_id              (user_id)
+#  index_channels_on_user_id_and_default  (user_id,default) UNIQUE WHERE ("default" = true)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 
 require 'test_helper'

@@ -31,10 +31,29 @@ namespace :books do
     end
   end
 
+
   desc 'filesからchaptersを作成する'
   task create_chapters: :environment do |_task, _args|
     Book.where(chapters_count: 0).find_each do |book|
       book.create_chapters
+      p "[#{book.id}] #{book.title}"
+    rescue StandardError => e
+      p '---------'
+      p "[#{book.id}] #{e}"
+      p '---------'
+    end
+  end
+
+
+  desc 'filesから文字数カウントと書き出しを保存'
+  task add_words_count_and_beginning: :environment do |_task, _args|
+    Book.where.not(chapters_count: 0).find_each do |book|
+      text = book.aozora_file_text[0]
+      beginning = (text.split("。")[0] + "。").truncate(250).gsub(/(一|1|１|（一）|序)(\r\n|　|\s)/, "").delete("\r\n　")  # 書き出しに段落番号とかが入るのを防ぐ
+      book.update!(
+        words_count: text.length,
+        beginning: beginning
+      )
       p "[#{book.id}] #{book.title}"
     rescue StandardError => e
       p '---------'
