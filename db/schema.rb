@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2019_03_18_121616) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "words_count"
+    t.string "beginning"
   end
 
   create_table "channel_books", force: :cascade do |t|

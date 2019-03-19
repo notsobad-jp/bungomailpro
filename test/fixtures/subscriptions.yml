@@ -3,15 +3,28 @@
 # Table name: subscriptions
 #
 #  id                 :uuid             not null, primary key
-#  user_id            :uuid             not null
-#  channel_id         :uuid             not null
-#  current_book_id    :bigint(8)
-#  next_chapter_index :integer
 #  delivery_hour      :integer          default(8), not null
+#  footer             :text
+#  next_chapter_index :integer
 #  next_delivery_date :date
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  footer             :text
+#  channel_id         :uuid             not null
+#  current_book_id    :bigint(8)
+#  user_id            :uuid             not null
+#
+# Indexes
+#
+#  index_subscriptions_on_channel_id              (channel_id)
+#  index_subscriptions_on_current_book_id         (current_book_id)
+#  index_subscriptions_on_user_id                 (user_id)
+#  index_subscriptions_on_user_id_and_channel_id  (user_id,channel_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (channel_id => channels.id)
+#  fk_rails_...  (current_book_id => books.id)
+#  fk_rails_...  (user_id => users.id)
 #
 
 # 1冊目の最初のchapter（今日配信）

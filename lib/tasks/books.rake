@@ -45,10 +45,15 @@ namespace :books do
   end
 
 
-  desc 'filesから文字数カウント'
-  task count_words: :environment do |_task, _args|
-    Book.where(words_count: nil).find_each do |book|
-      book.update!(words_count: book.words_count)
+  desc 'filesから文字数カウントと書き出しを保存'
+  task add_words_count_and_beginning: :environment do |_task, _args|
+    Book.where.not(chapters_count: 0).where(words_count: nil).find_each do |book|
+      text = book.aozora_file_text[0].delete("\r\n　")
+      beginning = (text.split("。")[0] + "。").truncate(250)
+      book.update!(
+        words_count: text.length,
+        beginning: beginning
+      )
       p "[#{book.id}] #{book.title}"
     rescue StandardError => e
       p '---------'
