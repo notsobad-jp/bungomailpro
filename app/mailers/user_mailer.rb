@@ -34,7 +34,8 @@ class UserMailer < ApplicationMailer
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
     # HACK: ALTER EGOチャネルのみ独自の配信元表記。そのうち汎用化する
-    if @subscription.channel.id == Channel::ALTEREGO_ID
+    # TODO: 検証用にブンゴウメールチャネルの配信元を一時変更
+    if @subscription.channel.user_id == User::ALTEREGO_ID || @subscription.channel_id == Channel::BUNGOMAIL_ID
       from_name = 'エス（ALTER EGO）'
       from_email = 'alterego@notsobad.jp'
       subject = "#{@subscription.current_book.author.tr(',', '、')}『#{@subscription.current_book.title}』（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}） - #{@subscription.channel.title}"

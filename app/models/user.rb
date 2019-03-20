@@ -33,6 +33,8 @@ class User < ApplicationRecord
   has_one :charge, dependent: :destroy
   MAX_SUBSCRIPTIONS_COUNT = 3
 
+  ALTEREGO_ID = 'bb378768-e59a-47d8-bd18-f25bb116340b'.freeze
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validates :subscriptions, length: { maximum: MAX_SUBSCRIPTIONS_COUNT }
