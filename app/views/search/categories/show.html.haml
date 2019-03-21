@@ -1,31 +1,34 @@
 %h1.ui.header
-  %i.icon.folder.open
   「#{@category.name}」の作品一覧
   （#{@books.total_count}作品）
 %p
   青空文庫の作品の中で、「#{@category.name}」に該当する作品一覧を表示しています。
   %br
   （ゾラサーチで「#{@category.name}」は、#{@category.range_from}〜#{@category.range_to}文字の作品を対象としています）
+%br
 
-.ui.divider
-
-.ui.middle.alligned.divided.relaxed.large.link.list
-  - @books.each do |book|
-    = link_to book.aozora_card_url, class: 'item', target: '_blank' do
-      .right.floated.content
-        %i.icon.chevron.right
-      .content
-        .header
+%table.ui.single.line.table
+  %thead
+    %tr
+      %th 作品名
+      %th 著者
+      %th 文字数
+      %th 書き出し
+  %tbody
+    - @books.each do |book|
+      %tr
+        %td
           = book.title
-          %small
-            （#{book.author}）
-          .ui.small.label
-            = book.words_count
-            文字
-        .meta
-          %small
-            = book.beginning.truncate(30)
+          = link_to book.aozora_card_url, target: '_blank' do
+            %i.icon.small.external
+        %td
+          = link_to search_author_path(book.author_id) do
+            = book.author
+        %td
+          = book.words_count.to_s(:delimited)
+          %small 文字
+        %td
+          %small= book.beginning.truncate(30)
 
-.ui.divider
 .ui.basic.centered.segment
   = paginate @books, window: 2
