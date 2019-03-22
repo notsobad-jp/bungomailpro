@@ -3,16 +3,22 @@
 # Table name: books
 #
 #  id             :bigint(8)        not null, primary key
+#  access_count   :integer          default(0)
 #  author         :string           not null
 #  beginning      :string
 #  chapters_count :integer          default(0), not null
 #  footnote       :text
 #  title          :string           not null
-#  words_count    :integer
+#  words_count    :integer          default(0)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  author_id      :bigint(8)        not null
 #  file_id        :bigint(8)
+#
+# Indexes
+#
+#  index_books_on_access_count  (access_count)
+#  index_books_on_words_count   (words_count)
 #
 
 class Book < ApplicationRecord
