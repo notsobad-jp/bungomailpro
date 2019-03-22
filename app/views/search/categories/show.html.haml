@@ -7,28 +7,7 @@
   （ゾラサーチで「#{@category.name}」は、#{@category.range_from}〜#{@category.range_to}文字の作品を対象としています）
 %br
 
-%table.ui.single.line.table
-  %thead
-    %tr
-      %th 作品名
-      %th 著者
-      %th 文字数
-      %th 書き出し
-  %tbody
-    - @books.each do |book|
-      %tr
-        %td
-          = book.title
-          = link_to book.aozora_card_url, target: '_blank' do
-            %i.icon.small.external
-        %td
-          = link_to search_author_path(book.author_id) do
-            = book.author
-        %td
-          = book.words_count.to_s(:delimited)
-          %small 文字
-        %td
-          %small= book.beginning.truncate(30)
+= render partial: 'table', locals: { books: @books }
 
 .ui.basic.centered.segment
   = paginate @books, window: 2

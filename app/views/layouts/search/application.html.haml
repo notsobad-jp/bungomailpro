@@ -29,10 +29,16 @@
     %noscript
       %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
-    %div#main-content
+    .ui.top.fixed.borderless.menu
+      .header.item ゾラサーチ
+      .item
+        %small by ブンゴウメール
+      .item ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
+
+    %div(style="margin-top: 45px;")
       - if path == 'pages#top'
       - else
-        = render partial: 'layouts/breadcrumb'
+        = render partial: 'layouts/search/breadcrumb'
       .ui.container
         .ui.stackable.grid
           .ui.fourteen.wide.column

@@ -9,7 +9,7 @@ class Search::AuthorsController < ApplicationController
     @category = Category.find_by(id: params[:category_id])
     query = Book.where(author_id: params[:id])
     query = query.where(words_count: (@category.range_from..@category.range_to)) if @category
-    @books = query.order(:words_count).page params[:page]
+    @books = query.order(access_count: :desc).order(:words_count).page params[:page]
     @author = { id: @books.first.author_id, name: @books.first.author }
 
     if @category
