@@ -1,9 +1,12 @@
 = simple_format_with_link(feed.chapter.text)
+%br
 
 - if (comment = feed.comment.try(:text)).present?
-  %hr
+  \----------
   = simple_format_with_link(comment)
+  %br
 
 - if (footer = feed.subscription.footer).present?
-  %hr
+  \----------
   = simple_format_with_link(footer)
+  %br
