@@ -7,6 +7,7 @@ class Search::CategoriesController < ApplicationController
   end
 
   def show
+    @categories = Category.all.order(:range_from)
     @category = Category.find(params[:id])
     @books = Book.where(words_count: (@category.range_from..@category.range_to)).order(access_count: :desc).order(:words_count).page params[:page]
 

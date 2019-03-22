@@ -5,7 +5,13 @@
   青空文庫の作品の中で、「#{@category.name}」に該当する作品一覧を表示しています。
   %br
   （ゾラサーチで「#{@category.name}」は、#{@category.range_from}〜#{@category.range_to}文字の作品を対象としています）
-%br
+
+.ui.basic.segment
+  .ui.secondary.pointing.menu
+    = link_to '全作品', search_categories_path, class: "item #{ 'active' unless @category }"
+    - @categories.each do |category|
+      = link_to search_category_path(category.id), class: "item #{ 'active' if @category == category }" do
+        = category.name
 
 = render partial: 'table', locals: { books: @books }
 
