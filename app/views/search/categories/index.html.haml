@@ -13,9 +13,9 @@
         .header
           = category.name
           &nbsp;
-          %span.ui.mini.label
-            100
+          %span.ui.small.label
+            = category.books_count.to_s(:delimited)
             %small 作品
         .meta
           %small
-            作品の文字数：#{category.range_from}〜#{category.range_to}文字
+            = characters_range(category)

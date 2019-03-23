@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_22_121616) do
+ActiveRecord::Schema.define(version: 2019_03_23_121616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2019_03_22_121616) do
     t.string "name", null: false
     t.integer "range_from"
     t.integer "range_to"
+    t.integer "books_count", default: 0
     t.index ["range_from"], name: "index_categories_on_range_from"
   end
 
