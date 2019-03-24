@@ -38,7 +38,9 @@
     %div
       .ui.container
         .ui.stackable.grid
-          .ui.fourteen.wide.column
+          .ui.thirteen.wide.column
             = render partial: 'layouts/search/breadcrumb'
             = yield
+          .ui.three.wide.column
+            = render partial: 'layouts/search/sidebar'
     = render partial: 'layouts/search/footer'

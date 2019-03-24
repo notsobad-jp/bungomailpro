@@ -1,0 +1,11 @@
+%br
+%br
+%h3.ui.header
+  %i.icon.folder.open.outline
+  カテゴリ
+.ui.segment
+  .ui.divided.very.relaxed.link.list
+    - @categories.each do |category|
+      = link_to books_search_author_path(id: 'all', category_id: category.id), class: 'item' do
+        = category.name
+        %small （#{category.books_count.to_s(:delimited)}）
