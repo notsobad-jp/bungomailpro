@@ -46,6 +46,13 @@ categories = [
     id: 'novel',
     name: '長編',
     range_from: 30000,
+    range_to: 9999999,
+  },
+  {
+    id: 'all',
+    name: 'すべての作品',
+    range_from: 0,
+    range_to: 9999999,
   }
 ]
 categories.each do |category|

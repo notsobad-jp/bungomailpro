@@ -3,7 +3,7 @@ require 'csv'
 namespace :books do
   desc 'CSVファイルからbookデータをimport'
   task import: :environment do |_task, _args|
-    CSV.foreach('tmp/books.csv') do |fg|
+    CSV.foreach('tGkmp/books.csv') do |fg|
       next if $INPUT_LINE_NUMBER == 1 # 見出し行をスキップ
       next if fg[10] == 'あり'  # 作品著作権の存続コンテンツはスキップ
       next if fg[23] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
@@ -59,6 +59,39 @@ namespace :books do
       p '---------'
       p "[#{book.id}] #{e}"
       p '---------'
+    end
+  end
+
+
+  desc 'filesからアクセス数ランキングをDBに保存'
+  task save_access_ranking: :environment do |_task, _args|
+    (2009..2018).each do |year|
+      (1..12).each do |month|
+        file_path = "tmp/aozorabunko/access_ranking/#{year}_#{"%#02d" % month}_xhtml.html"
+        html = File.open(file_path, &:read)
+
+        charset = 'UTF-8'
+        doc = Nokogiri::HTML.parse(html, nil, charset)
+        doc.search('tr').each_with_index do |tr, index|
+          next if index == 0
+          url = tr.at('td:nth-child(2)').css('a').attribute('href').value
+          id = /https:\/\/www\.aozora\.gr\.jp\/cards\/\d{6}\/card(\d+)\.html/.match(url)[1]
+          access = tr.at('td:nth-child(4)').inner_text.to_i
+
+          book = Book.find(id)
+          book.update(access_count: book.access_count + access)
+        end
+      rescue StandardError => e
+        p e
+      end
+    end
+  end
+
+
+  desc 'カテゴリ別の冊数をカウントして保存'
+  task count_category_books: :environment do |_task, _args|
+    Category.all.each do |category|
+      category.update(books_count: category.books.count)
     end
   end
 end

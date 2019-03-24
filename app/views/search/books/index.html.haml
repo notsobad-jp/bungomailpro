@@ -1,56 +1,30 @@
-- content_for :breadcrumb do
-  - if @keyword
-    .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
-      = link_to books_path, itemprop: 'item' do
-        %span(itemprop="name") 作品検索
-    %i.icon.right.angle.divider
-    .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
-      %div(itemprop='item')
-        %span(itemprop="name")= @keyword
-  - else
-    .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
-      %div(itemprop='item')
-        %span(itemprop="name") 作品検索
-
-
 %h1.ui.header
-  %i.icon.search
-  作品検索
+  - title_author_name = @author[:id] == 'all' ? '青空文庫' : @author[:name]
+  = (@category.id == 'all') ? "#{title_author_name}の全作品一覧" : "#{title_author_name}の#{@category.name}作品一覧"
+  %small （#{@books.total_count.to_s(:delimited)}作品）
+- if @category.id == 'all'
+  %p
+    青空文庫で公開されている#{@author[:name]}の全作品一覧です。
+- else
+  %p
+    青空文庫で公開されている#{@author[:name]}の作品の中で、「#{@category.name}」に該当する#{@books.total_count.to_s(:delimited)}作品の一覧です。
+    （#{characters_range(@category)}の作品を対象としています）
 
-= render partial: 'form', locals: {keyword: @keyword}
 
-%br
+.ui.secondary.segment
+  = form_tag(search_books_path, class: 'ui form') do
+    .three.fields
+      .field
+        - author_name = @author[:name] unless @author[:id] == 'all'
+        = text_field_tag :author_name, author_name, autocomplete: 'on', list: 'authors', placeholder: '著者名'
+        = render partial: 'authors_list'
+      .field
+        = select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, @category.id), class: 'ui dropdown'
+      .field
+        = submit_tag '検索', class: 'ui red responsive button'
 
-- if @results.present?
-  %h3.ui.small.dividing.header
-    %i.icon.history
-    検索結果
-  .ui.middle.alligned.divided.relaxed.large.list
-    - @results.each do |book|
-      .item
-        .right.floated.content
-          - if current_user.try(:default_channel)
-            .ui.basic.buttons
-              = link_to 'チャネルに追加', books_channel_path(current_user.default_channel, book_id: book.id, redirect_to: request.fullpath), method: :post, class: 'ui button'
-              .ui.simple.dropdown.icon.button
-                %i.icon.dropdown
-                .menu
-                  - @channels.each do |channel|
-                    = link_to channel.title, books_channel_path(channel, book_id: book.id, redirect_to: request.fullpath), method: 'post', class: 'item'
-          - else
-            .ui.basic.buttons
-              .ui.disabled.button チャネルに追加
-              .ui.simple.dropdown.icon.disabled.button
-                %i.icon.dropdown
-        .content
-          .header
-            = book.title
-            = link_to book.aozora_card_url, target: '_blank' do
-              %i.icon.mini.external
-            = delivery_period_label(book.chapters_count)
-          .meta
-            %small
-              = book.author
-  .ui.divider
-  .ui.basic.centered.segment
-    = paginate @results, window: 2
+
+= render partial: 'table', locals: { books: @books }
+
+.ui.basic.center.aligned.segment
+  = paginate @books, window: 2

@@ -1,0 +1,17 @@
+#breadcrumb.ui.basic.segment
+  .ui.small.breadcrumb(itemscope itemtype="http://schema.org/BreadcrumbList")
+    .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
+      = link_to books_search_author_path(id: 'all', category_id: 'all'), itemprop: 'item' do
+        %span(itemprop="name") HOME
+      %meta(itemprop="position" content="1")
+    %i.icon.right.angle.divider
+    - @breadcrumbs.each do |item|
+      .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
+        - if item[:url]
+          = link_to item[:url], itemprop: 'item' do
+            %span(itemprop="name")= item[:name]
+          %i.icon.right.angle.divider
+        - else
+          .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
+            %div(itemprop='item')
+              %span(itemprop="name")= item[:name]

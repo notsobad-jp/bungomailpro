@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_19_075151) do
+ActiveRecord::Schema.define(version: 2019_03_23_121616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -25,14 +25,18 @@ ActiveRecord::Schema.define(version: 2019_03_19_075151) do
     t.integer "chapters_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "words_count"
+    t.integer "words_count", default: 0
     t.string "beginning"
+    t.integer "access_count", default: 0
+    t.index ["access_count"], name: "index_books_on_access_count"
+    t.index ["words_count"], name: "index_books_on_words_count"
   end
 
   create_table "categories", id: :string, force: :cascade do |t|
     t.string "name", null: false
     t.integer "range_from"
     t.integer "range_to"
+    t.integer "books_count", default: 0
     t.index ["range_from"], name: "index_categories_on_range_from"
   end
 

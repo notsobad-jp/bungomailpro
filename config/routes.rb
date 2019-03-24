@@ -60,6 +60,9 @@
 #                     pro_root GET    /pro(.:format)                                                                           pages#top
 #                        pages GET    /pages(.:format)                                                                         pages#index
 #                         page GET    /:page(.:format)                                                                         pages#show
+#                 search_books GET    /search/books(.:format)                                                                  search/books#search
+#          books_search_author GET    /search/authors/:id/categories/:category_id(.:format)                                    search/books#index
+#           book_search_author GET    /search/authors/:id/books/:book_id(.:format)                                             search/books#show
 #               search_authors GET    /search/authors(.:format)                                                                search/authors#index
 #                              POST   /search/authors(.:format)                                                                search/authors#create
 #            new_search_author GET    /search/authors/new(.:format)                                                            search/authors#new
@@ -68,22 +71,6 @@
 #                              PATCH  /search/authors/:id(.:format)                                                            search/authors#update
 #                              PUT    /search/authors/:id(.:format)                                                            search/authors#update
 #                              DELETE /search/authors/:id(.:format)                                                            search/authors#destroy
-#            search_categories GET    /search/categories(.:format)                                                             search/categories#index
-#                              POST   /search/categories(.:format)                                                             search/categories#create
-#          new_search_category GET    /search/categories/new(.:format)                                                         search/categories#new
-#         edit_search_category GET    /search/categories/:id/edit(.:format)                                                    search/categories#edit
-#              search_category GET    /search/categories/:id(.:format)                                                         search/categories#show
-#                              PATCH  /search/categories/:id(.:format)                                                         search/categories#update
-#                              PUT    /search/categories/:id(.:format)                                                         search/categories#update
-#                              DELETE /search/categories/:id(.:format)                                                         search/categories#destroy
-#                 search_books GET    /search/books(.:format)                                                                  search/books#index
-#                              POST   /search/books(.:format)                                                                  search/books#create
-#              new_search_book GET    /search/books/new(.:format)                                                              search/books#new
-#             edit_search_book GET    /search/books/:id/edit(.:format)                                                         search/books#edit
-#                  search_book GET    /search/books/:id(.:format)                                                              search/books#show
-#                              PATCH  /search/books/:id(.:format)                                                              search/books#update
-#                              PUT    /search/books/:id(.:format)                                                              search/books#update
-#                              DELETE /search/books/:id(.:format)                                                              search/books#destroy
 #                         root GET    /                                                                                        pages#top
 #           rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 #    rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
@@ -119,7 +106,11 @@ Rails.application.routes.draw do
 
   # ZORA SEARCH
   namespace :search do
-    resources :authors, :categories, :books
+    post 'books' => 'books#search', as: :books
+    resources :authors do
+      get 'categories/:category_id' => 'books#index', on: :member, as: :books
+      get 'books/:book_id' => 'books#show', on: :member, as: :book
+    end
   end
 
   root to: 'pages#top'
