@@ -1,5 +1,6 @@
 %h1.ui.header
-  = (@category.id == 'all') ? "#{@author[:name]}の全作品一覧" : "#{@author[:name]}の#{@category.name}作品一覧"
+  - title_author_name = @author[:id] == 'all' ? '青空文庫' : @author[:name]
+  = (@category.id == 'all') ? "#{title_author_name}の全作品一覧" : "#{title_author_name}の#{@category.name}作品一覧"
   %small （#{@books.total_count.to_s(:delimited)}作品）
 - if @category.id == 'all'
   %p
@@ -14,7 +15,8 @@
   = form_tag(search_books_path, class: 'ui form') do
     .three.fields
       .field
-        = text_field_tag :author_id, @author[:name], placeholder: '著者名'
+        - author_name = @author[:name] unless @author[:id] == 'all'
+        = text_field_tag :author_name, author_name, placeholder: '著者名'
       .field
         = select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, @category.id), class: 'ui dropdown'
       .field
