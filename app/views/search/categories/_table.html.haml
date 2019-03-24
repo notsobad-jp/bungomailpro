@@ -1,24 +1,27 @@
-%table.ui.single.line.table
+%table.ui.single.line.fixed.table
   %thead
     %tr
-      %th 作品名
-      %th 著者
-      %th 文字数
-      %th 人気
-      %th 書き出し
+      %th.three.wide 作品名
+      %th.three.wide 著者
+      %th.three.wide 文字数
+      %th.two.wide 人気
+      %th.five.wide 書き出し
   %tbody
     - books.each do |book|
       %tr
         %td
-          = book.title
-          = link_to book.aozora_card_url, target: '_blank' do
-            %i.icon.small.external
+          = link_to book.title, search_book_path(book.id)
+          -# = link_to book.aozora_card_url, target: '_blank' do
+          -#   %i.icon.small.external
         %td
           = link_to search_author_path(book.author_id) do
             = book.author
         %td
           = book.words_count.to_s(:delimited)
           %small 文字
+          &nbsp;
+          = link_to search_category_path(book.category) do
+            = category_label(book.category)
         %td
           = access_count_stars(book.access_count)
         %td

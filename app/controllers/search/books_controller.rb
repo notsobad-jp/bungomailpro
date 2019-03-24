@@ -1,6 +1,7 @@
 class Search::BooksController < ApplicationController
   layout 'search/application'
 
-  def index
+  def show
+    @book = Book.find(params[:id])
   end
 end

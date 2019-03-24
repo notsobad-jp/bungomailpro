@@ -47,6 +47,10 @@ class Book < ApplicationRecord
     Book.aozora_file_url(author_id: author_id, book_id: id, file_id: file_id)
   end
 
+  def category
+    Category.where.not(id: 'all').where("range_from < ?", words_count).where("range_to > ?", words_count).first
+  end
+
   def create_chapters
     text, footnote = aozora_file_text
 
