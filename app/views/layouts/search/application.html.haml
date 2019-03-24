@@ -36,11 +36,9 @@
       .item ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
 
     %div
-      - if path == 'pages#top'
-      - else
-        = render partial: 'layouts/search/breadcrumb'
       .ui.container
         .ui.stackable.grid
           .ui.fourteen.wide.column
+            = render partial: 'layouts/search/breadcrumb'
             = yield
     = render partial: 'layouts/search/footer'

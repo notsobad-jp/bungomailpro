@@ -48,7 +48,7 @@ class Book < ApplicationRecord
   end
 
   def category
-    Category.where.not(id: 'all').where("range_from < ?", words_count).where("range_to > ?", words_count).first
+    Category.where.not(id: 'all').where("range_from <= ?", words_count).where("range_to > ?", words_count).first
   end
 
   def create_chapters

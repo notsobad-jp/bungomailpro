@@ -1,10 +1,13 @@
 %h1.ui.header
-  「#{@category.name}」の作品一覧
-  （#{@books.total_count}作品）
-%p
-  青空文庫の作品の中で、「#{@category.name}」に該当する作品一覧を表示しています。
-  %br
-  （ゾラサーチで「#{@category.name}」は、#{@category.range_from}〜#{@category.range_to}文字の作品を対象としています）
+  = (@category.id == 'all') ? '青空文庫の全作品一覧' : "#{@category.name}の作品一覧"
+  %small （#{@books.total_count.to_s(:delimited)}作品）
+- if @category.id == 'all'
+  %p
+    青空文庫で公開されている全作品一覧です。
+- else
+  %p
+    青空文庫で公開されている作品の中で、「#{@category.name}」に該当する#{@books.total_count.to_s(:delimited)}作品の一覧です。
+    （#{characters_range(@category)}の作品を対象としています）
 
 .ui.basic.segment
   .ui.secondary.pointing.scrolling.menu

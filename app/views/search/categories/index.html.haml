@@ -18,4 +18,4 @@
             %small 作品
         .meta
           %small
-            = characters_range(category)
+            = category.id == 'all' ? '文字数指定なし' : characters_range(category)
