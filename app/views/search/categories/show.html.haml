@@ -7,7 +7,7 @@
   （ゾラサーチで「#{@category.name}」は、#{@category.range_from}〜#{@category.range_to}文字の作品を対象としています）
 
 .ui.basic.segment
-  .ui.secondary.pointing.menu
+  .ui.secondary.pointing.scrolling.menu
     - @categories.each do |category|
       = link_to search_category_path(category.id), class: "item #{ 'active' if @category == category || (!@category && category.id == 'all') }" do
         = category.name

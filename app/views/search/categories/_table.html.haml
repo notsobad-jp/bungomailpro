@@ -1,3 +1,6 @@
+%small
+  #{books.offset_value + 1}〜#{books.offset_value + books.length }件
+  \/ 全#{books.total_count.to_s(:delimited)}件
 %table.ui.single.line.fixed.table
   %thead
     %tr
@@ -11,8 +14,6 @@
       %tr
         %td
           = link_to book.title, search_book_path(book.id)
-          -# = link_to book.aozora_card_url, target: '_blank' do
-          -#   %i.icon.small.external
         %td
           = link_to search_author_path(book.author_id) do
             = book.author

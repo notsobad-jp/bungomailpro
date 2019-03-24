@@ -50,6 +50,9 @@ footer a { color: #fff !important; }
     -webkit-overflow-scrolling: touch !important;
     overflow-scrolling: touch !important;
   }
+  .scrolling::-webkit-scrollbar {
+    display: none;
+  }
   .scrolling > .ui.card {
     flex: 0 0 60% !important;
   }
