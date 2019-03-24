@@ -15,6 +15,7 @@ class Search::BooksController < ApplicationController
 
     book = Book.find_by(author_id: params[:id])
     @author = { id: book.try(:author_id) || 'all', name: book.try(:author) || 'すべての著者' }
+    @authors = Book.group(:author).pluck(:author)
 
     query = Book.where(words_count: (@category.range_from..@category.range_to))
     query = query.where(author_id: @author[:id]) if @author[:id] != 'all'

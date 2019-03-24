@@ -16,7 +16,8 @@
     .three.fields
       .field
         - author_name = @author[:name] unless @author[:id] == 'all'
-        = text_field_tag :author_name, author_name, placeholder: '著者名'
+        = text_field_tag :author_name, author_name, autocomplete: 'on', list: 'authors', placeholder: '著者名'
+        = render partial: 'authors_list'
       .field
         = select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, @category.id), class: 'ui dropdown'
       .field
