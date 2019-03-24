@@ -50,7 +50,7 @@ categories = [
   },
   {
     id: 'all',
-    name: 'すべて',
+    name: 'すべての作品',
     range_from: 0,
     range_to: 9999999,
   }

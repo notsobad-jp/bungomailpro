@@ -11,24 +11,17 @@
 
 
 .ui.secondary.segment
-  = form_tag(pro_root_path, method: :get, class: 'ui form') do
+  = form_tag(search_books_path, class: 'ui form') do
     .three.fields
       .field
-        = text_field_tag :author, @author[:name], placeholder: '太宰治'
+        = text_field_tag :author_id, @author[:name], placeholder: '著者名'
       .field
-        = select_tag :category, options_from_collection_for_select(@categories, :id, :name, @category.id), class: 'ui dropdown'
+        = select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, @category.id), class: 'ui dropdown'
       .field
         = submit_tag '検索', class: 'ui red responsive button'
 
 
-
-.ui.basic.segment
-  .ui.secondary.pointing.scrolling.menu
-    - @categories.each do |category|
-      = link_to category_search_author_path(@author[:id], category.id), class: "item #{ 'active' if @category == category || (!@category && category.id == 'all') }" do
-        = category.name
-
-= render partial: 'search/categories/table', locals: { books: @books }
+= render partial: 'table', locals: { books: @books }
 
 .ui.basic.center.aligned.segment
   = paginate @books, window: 2

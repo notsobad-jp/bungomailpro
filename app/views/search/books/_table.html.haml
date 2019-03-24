@@ -13,15 +13,15 @@
     - books.each do |book|
       %tr
         %td
-          = link_to book.title, search_book_path(book.id)
+          = link_to book.title, book_search_author_path(id: book.author_id, book_id: book.id)
         %td
-          = link_to search_author_path(book.author_id) do
+          = link_to books_search_author_path(book.author_id) do
             = book.author
         %td
           = book.words_count.to_s(:delimited)
           %small 文字
           &nbsp;
-          = link_to search_category_path(book.category) do
+          = link_to books_search_author_path(id: 'all', category_id: book.category.try(:id)) do
             = category_label(book.category)
         %td
           = access_count_stars(book.access_count)

@@ -1,7 +1,7 @@
 #breadcrumb.ui.basic.segment
   .ui.small.breadcrumb(itemscope itemtype="http://schema.org/BreadcrumbList")
     .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
-      = link_to search_categories_path, itemprop: 'item' do
+      = link_to books_search_author_path(id: 'all', category_id: 'all'), itemprop: 'item' do
         %span(itemprop="name") HOME
       %meta(itemprop="position" content="1")
     %i.icon.right.angle.divider

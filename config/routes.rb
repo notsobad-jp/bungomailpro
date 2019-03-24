@@ -60,23 +60,9 @@
 #                     pro_root GET    /pro(.:format)                                                                           pages#top
 #                        pages GET    /pages(.:format)                                                                         pages#index
 #                         page GET    /:page(.:format)                                                                         pages#show
-#            search_categories GET    /search/categories(.:format)                                                             search/categories#index
-#                              POST   /search/categories(.:format)                                                             search/categories#create
-#          new_search_category GET    /search/categories/new(.:format)                                                         search/categories#new
-#         edit_search_category GET    /search/categories/:id/edit(.:format)                                                    search/categories#edit
-#              search_category GET    /search/categories/:id(.:format)                                                         search/categories#show
-#                              PATCH  /search/categories/:id(.:format)                                                         search/categories#update
-#                              PUT    /search/categories/:id(.:format)                                                         search/categories#update
-#                              DELETE /search/categories/:id(.:format)                                                         search/categories#destroy
-#                 search_books GET    /search/books(.:format)                                                                  search/books#index
-#                              POST   /search/books(.:format)                                                                  search/books#create
-#              new_search_book GET    /search/books/new(.:format)                                                              search/books#new
-#             edit_search_book GET    /search/books/:id/edit(.:format)                                                         search/books#edit
-#                  search_book GET    /search/books/:id(.:format)                                                              search/books#show
-#                              PATCH  /search/books/:id(.:format)                                                              search/books#update
-#                              PUT    /search/books/:id(.:format)                                                              search/books#update
-#                              DELETE /search/books/:id(.:format)                                                              search/books#destroy
-#       category_search_author GET    /search/authors/:id/:category(.:format)                                                  search/authors#show
+#                 search_books GET    /search/books(.:format)                                                                  search/books#search
+#          books_search_author GET    /search/authors/:id/categories/:category_id(.:format)                                    search/books#index
+#           book_search_author GET    /search/authors/:id/books/:book_id(.:format)                                             search/books#show
 #               search_authors GET    /search/authors(.:format)                                                                search/authors#index
 #                              POST   /search/authors(.:format)                                                                search/authors#create
 #            new_search_author GET    /search/authors/new(.:format)                                                            search/authors#new
@@ -120,9 +106,10 @@ Rails.application.routes.draw do
 
   # ZORA SEARCH
   namespace :search do
-    resources :categories, :books
+    post 'books' => 'books#search', as: :books
     resources :authors do
-      get ':category_id' => "authors#show", on: :member, as: :category
+      get 'categories/:category_id' => 'books#index', on: :member, as: :books
+      get 'books/:book_id' => 'books#show', on: :member, as: :book
     end
   end
 
