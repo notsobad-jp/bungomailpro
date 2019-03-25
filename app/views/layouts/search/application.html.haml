@@ -39,7 +39,10 @@
       .ui.container
         .ui.stackable.grid
           .ui.thirteen.wide.column
-            = render partial: 'layouts/search/breadcrumb'
+            - unless @author[:id] == 'all' && @category.id == 'all'
+              = render partial: 'layouts/search/breadcrumb'
+            - else
+              %br
             - %w(warning error success info).each do |status|
               - if flash[status]
                 .ui.row

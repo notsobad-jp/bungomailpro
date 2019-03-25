@@ -32,7 +32,8 @@ class Search::BooksController < ApplicationController
     @category = Category.find_by(id: params[:category_id])
 
     book = Book.find_by(author_id: params[:id])
-    @author = { id: book.try(:author_id) || 'all', name: book.try(:author) || 'すべての著者' }
+    author_name = book ? book.author.split(',').first : 'すべての著者'
+    @author = { id: book.try(:author_id) || 'all', name: author_name }
     @authors = Book.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
 
     query = Book.where(words_count: (@category.range_from..@category.range_to))
