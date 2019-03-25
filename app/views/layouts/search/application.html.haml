@@ -40,6 +40,12 @@
         .ui.stackable.grid
           .ui.thirteen.wide.column
             = render partial: 'layouts/search/breadcrumb'
+            - %w(warning error success info).each do |status|
+              - if flash[status]
+                .ui.row
+                  .column
+                    .ui.message(class="#{status}")
+                      = sanitize flash[status]
             = yield
           .ui.three.wide.column
             = render partial: 'layouts/search/sidebar'
