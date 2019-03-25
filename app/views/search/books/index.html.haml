@@ -10,20 +10,6 @@
     青空文庫で公開されている#{@author[:name]}の作品の中で、「#{@category.name}」に該当する#{@books.total_count.to_s(:delimited)}作品の一覧です。
     （#{characters_range(@category)}の作品を対象としています）
 
-
-.ui.secondary.segment
-  = form_tag(search_books_path, class: 'ui form') do
-    .three.fields
-      .field
-        - author_name = @author[:name] unless @author[:id] == 'all'
-        = text_field_tag :author_name, author_name, autocomplete: 'on', list: 'authors', placeholder: '著者名'
-        = render partial: 'authors_list'
-      .field
-        = select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, @category.id), class: 'ui dropdown'
-      .field
-        = submit_tag '検索', class: 'ui red responsive button'
-
-
 = render partial: 'table', locals: { books: @books }
 
 .ui.basic.center.aligned.segment

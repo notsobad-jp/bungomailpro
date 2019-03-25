@@ -10,22 +10,22 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_index_when_guest' do
     sub = subscriptions(:user1_channel1)
-    get subscription_comments_path(sub)
-    assert_redirected_to login_path
+    get subscription_comments_url(sub)
+    assert_redirected_to login_url
   end
 
   test 'access_index_when_owner' do
     sub = subscriptions(:user1_channel1)
     login_user(sub.user)
-    get subscription_comments_path(sub)
+    get subscription_comments_url(sub)
     assert_response :success
   end
 
   test 'access_index_when_other' do
     sub = subscriptions(:user1_channel1)
     login_user(users(:user2))
-    get subscription_comments_path(sub)
-    assert_redirected_to pro_root_path
+    get subscription_comments_url(sub)
+    assert_redirected_to pro_root_url
   end
 
 
@@ -34,22 +34,22 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_new_when_guest' do
     sub = subscriptions(:user1_channel1)
-    get new_subscription_comment_path(sub, book_id: books(:book1).id, index: 3)
-    assert_redirected_to login_path
+    get new_subscription_comment_url(sub, book_id: books(:book1).id, index: 3)
+    assert_redirected_to login_url
   end
 
   test 'access_new_when_owner' do
     sub = subscriptions(:user1_channel1)
     login_user(sub.user)
-    get new_subscription_comment_path(sub, book_id: books(:book1).id, index: 3)
+    get new_subscription_comment_url(sub, book_id: books(:book1).id, index: 3)
     assert_response :success
   end
 
   test 'access_new_when_other' do
     sub = subscriptions(:user1_channel1)
     login_user(users(:user2))
-    get new_subscription_comment_path(sub, book_id: books(:book1).id, index: 3)
-    assert_redirected_to pro_root_path
+    get new_subscription_comment_url(sub, book_id: books(:book1).id, index: 3)
+    assert_redirected_to pro_root_url
   end
 
 
@@ -58,17 +58,17 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_create_when_guest' do
     sub = subscriptions(:user1_channel1)
-    post subscription_comments_path(sub, comment: {book_id: books(:book1).id, index: 3, text: 'コメント追加'})
+    post subscription_comments_url(sub, comment: {book_id: books(:book1).id, index: 3, text: 'コメント追加'})
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 3)
     assert_nil comment
-    assert_redirected_to login_path
+    assert_redirected_to login_url
   end
 
   test 'access_create_when_owner' do
     sub = subscriptions(:user1_channel1)
     login_user(sub.user)
     before_comment_count = Comment.all.count
-    post subscription_comments_path(sub, comment: {book_id: books(:book1).id, index: 3, text: '重複コメント'})
+    post subscription_comments_url(sub, comment: {book_id: books(:book1).id, index: 3, text: '重複コメント'})
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 3)
     after_comment_count = Comment.all.count
 
@@ -76,7 +76,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     comment.destroy
 
     assert_equal before_comment_count + 1, after_comment_count
-    assert_redirected_to subscription_comments_path(sub)
+    assert_redirected_to subscription_comments_url(sub)
   end
 
   test 'access_create_when_owner_with_duplicate_keys' do
@@ -84,7 +84,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     login_user(sub.user)
     before_comment_count = Comment.all.count
     e = assert_raises ActiveRecord::RecordNotUnique do
-      post subscription_comments_path(sub, comment: {book_id: books(:book1).id, index: 1, text: '重複コメント'})
+      post subscription_comments_url(sub, comment: {book_id: books(:book1).id, index: 1, text: '重複コメント'})
     end
     assert e.message.include?("duplicate key value")
     after_comment_count = Comment.all.count
@@ -95,13 +95,13 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     sub = subscriptions(:user1_channel1)
     login_user(users(:user2))
     before_comment_count = Comment.all.count
-    post subscription_comments_path(sub, comment: {book_id: books(:book1).id, index: 1, text: '重複コメント'})
+    post subscription_comments_url(sub, comment: {book_id: books(:book1).id, index: 1, text: '重複コメント'})
     after_comment_count = Comment.all.count
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 3)
 
     assert_nil comment
     assert_equal before_comment_count, after_comment_count
-    assert_redirected_to pro_root_path
+    assert_redirected_to pro_root_url
   end
 
 
@@ -110,22 +110,22 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   ########################################################################
   test 'access_edit_when_guest' do
     comment = comments(:for_next_chapter)
-    get edit_subscription_comment_path(comment.id, subscription_id: comment.subscription.id)
-    assert_redirected_to login_path
+    get edit_subscription_comment_url(comment.id, subscription_id: comment.subscription.id)
+    assert_redirected_to login_url
   end
 
   test 'access_edit_when_owner' do
     comment = comments(:for_next_chapter)
     login_user(comment.subscription.user)
-    get edit_subscription_comment_path(comment.id, subscription_id: comment.subscription.id)
+    get edit_subscription_comment_url(comment.id, subscription_id: comment.subscription.id)
     assert_response :success
   end
 
   test 'access_edit_when_other' do
     comment = comments(:for_next_chapter)
     login_user(users(:user2))
-    get edit_subscription_comment_path(comment.id, subscription_id: comment.subscription.id)
-    assert_redirected_to pro_root_path
+    get edit_subscription_comment_url(comment.id, subscription_id: comment.subscription.id)
+    assert_redirected_to pro_root_url
   end
 
 
@@ -135,18 +135,18 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'access_update_when_guest' do
     sub = subscriptions(:user1_channel1)
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 1)
-    put subscription_comment_path(id: comment.id, subscription_id: sub.id), params: { comment: { text: 'コメント修正' } }
+    put subscription_comment_url(id: comment.id, subscription_id: sub.id), params: { comment: { text: 'コメント修正' } }
 
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 1)
     refute_equal 'コメント修正', comment.text
-    assert_redirected_to login_path
+    assert_redirected_to login_url
   end
 
   test 'access_update_when_owner' do
     sub = subscriptions(:user1_channel1)
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 1)
     login_user(sub.user)
-    put subscription_comment_path(id: comment.id, subscription_id: sub.id), params: { comment: { text: 'コメント修正' } }
+    put subscription_comment_url(id: comment.id, subscription_id: sub.id), params: { comment: { text: 'コメント修正' } }
 
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 1)
     assert_equal 'コメント修正', comment.text
@@ -156,10 +156,10 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     sub = subscriptions(:user1_channel1)
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 1)
     login_user(users(:user2))
-    put subscription_comment_path(id: comment.id, subscription_id: sub.id), params: { comment: { text: 'コメント修正' } }
+    put subscription_comment_url(id: comment.id, subscription_id: sub.id), params: { comment: { text: 'コメント修正' } }
     comment = Comment.find_by(subscription_id: sub.id, book_id: books(:book1).id, index: 1)
 
     refute_equal 'コメント修正', comment.text
-    assert_redirected_to pro_root_path
+    assert_redirected_to pro_root_url
   end
 end

@@ -1,26 +1,20 @@
 %footer.ui.basic.center.aligned.inverted.segment{class: footer_hidden}
   %h5.ui.header
-    ブンゴウメール
-    %span.ui.red.small.label PRO
+    ゾラサーチ
+    &nbsp;
+    %small by ブンゴウメール
   %br
   .ui.horizontal.list
-    = link_to 'ブンゴウメールとは', page_path(:about), class: 'item'
-    = link_to 'よくある質問', page_path(:faq), class: 'item'
-    = link_to '料金プラン', page_path(:plan), class: 'item'
-    = link_to '利用規約', page_path(:terms), class: 'item'
-    = link_to 'プライバシーポリシー', page_path(:privacy), class: 'item'
-    = link_to '特商法', page_path(:tokushoho), class: 'item'
-  %br
-  .ui.horizontal.list
+    = link_to 'ブンゴウメールとは', page_url(:about, subdomain: ''), class: 'item', target: '_blank'
+    = link_to '利用規約', page_url(:terms, subdomain: ''), class: 'item'
+    = link_to 'プライバシーポリシー', page_url(:privacy, subdomain: ''), class: 'item'
     = link_to 'お問い合わせ', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'
-    = link_to '開発ロードマップ', 'https://trello.com/b/3V3wAp6S', target: '_blank', class: 'item'
     = link_to '運営会社', 'https://notsobad.jp', target: '_blank', class: 'item'
-    = link_to '公式Twitter', 'https://twitter.com/bungomail', target: '_blank', class: 'item'
   %br/
   %br/
   %br/
   %div
-    %small Copyright ブンゴウメール 2018 All rights reserved.
+    %small Copyright ゾラサーチ by ブンゴウメール 2019 All rights reserved.
     %small
       Powered by
       %a{:href => "https://notsobad.jp", :target => "_blank"} NOT SO BAD, LLC.

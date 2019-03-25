@@ -1,13 +1,45 @@
 %br
 %br
-%h3.ui.header
+%h4.ui.header
   %i.icon.folder.open.outline
   カテゴリ
 .ui.segment
   .ui.divided.very.relaxed.link.list
     - @categories.each do |category|
-      = link_to books_search_author_path(id: 'all', category_id: category.id), class: 'item' do
+      = link_to author_category_books_path(author_id: 'all', category_id: category.id), class: 'item' do
         = category.name
         %small （#{category.books_count.to_s(:delimited)}）
+%br
+
+-# %h4.ui.header
+-#   %i.icon.star.outline
+-#   人気
+-# .ui.segment
+-#   .ui.divided.very.relaxed.link.list
+-#     .item
+-#       %i.icon.yellow.star
+-#       %i.icon.yellow.star
+-#       %i.icon.yellow.star
+-#     .item
+-#       %i.icon.yellow.star
+-#       %i.icon.yellow.star
+-#       %i.icon.star
+-#     .item
+-#       %i.icon.yellow.star
+-#       %i.icon.star
+-#       %i.icon.star
+-#     .item
+-#       %i.icon.star
+-#       %i.icon.star
+-#       %i.icon.star
+-# %br
+
+%h4.ui.header
+  %i.icon.user.outline
+  文豪
+.ui.segment
+  .ui.divided.very.relaxed.link.list
+    - @authors.take(15).each do |author, sum_access_count|
+      = link_to author[0].split(',').first, author_category_books_path(author_id: author[1], category_id: 'all'), class: 'item'
 %br
 %br
