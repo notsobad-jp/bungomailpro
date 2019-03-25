@@ -5,9 +5,9 @@
     %small by ブンゴウメール
   %br
   .ui.horizontal.list
-    = link_to 'ブンゴウメールとは', page_path(:about), class: 'item', target: '_blank'
-    = link_to '利用規約', page_path(:terms), class: 'item'
-    = link_to 'プライバシーポリシー', page_path(:privacy), class: 'item'
+    = link_to 'ブンゴウメールとは', page_url(:about, subdomain: ''), class: 'item', target: '_blank'
+    = link_to '利用規約', page_url(:terms, subdomain: ''), class: 'item'
+    = link_to 'プライバシーポリシー', page_url(:privacy, subdomain: ''), class: 'item'
     = link_to 'お問い合わせ', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'
     = link_to '運営会社', 'https://notsobad.jp', target: '_blank', class: 'item'
   %br/

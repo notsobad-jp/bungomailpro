@@ -30,7 +30,7 @@
       %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
     .ui.attached.borderless.menu
-      .header.item ゾラサーチ
+      = link_to 'ゾラサーチ', root_path, class: 'header item'
       .item
         %small by ブンゴウメール
       .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。

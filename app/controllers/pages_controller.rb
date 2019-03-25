@@ -10,6 +10,10 @@ class PagesController < ApplicationController
     @popular_books = ChannelBook.includes(:book).order(created_at: :desc).map(&:book).uniq.take(12)
   end
 
+  def lp
+    render layout: false
+  end
+
   def index
     @pages = page_titles
     @breadcrumbs << { name: 'ドキュメント' }

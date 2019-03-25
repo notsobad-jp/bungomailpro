@@ -6,7 +6,7 @@
 .ui.segment
   .ui.divided.very.relaxed.link.list
     - @categories.each do |category|
-      = link_to books_search_author_path(id: 'all', category_id: category.id), class: 'item' do
+      = link_to author_category_books_path(author_id: 'all', category_id: category.id), class: 'item' do
         = category.name
         %small （#{category.books_count.to_s(:delimited)}）
 %br
@@ -40,6 +40,6 @@
 .ui.segment
   .ui.divided.very.relaxed.link.list
     - @authors.take(15).each do |author, sum_access_count|
-      = link_to author[0].split(',').first, books_search_author_path(author[1]), class: 'item'
+      = link_to author[0].split(',').first, author_category_books_path(author_id: author[1], category_id: 'all'), class: 'item'
 %br
 %br
