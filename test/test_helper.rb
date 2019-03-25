@@ -18,7 +18,7 @@ class ActiveSupport::TestCase
 
   # Sorcery Login helper
   def login_user(user)
-    get auth_path, params: { token: user.magic_login_token }
+    get auth_url, params: { token: user.magic_login_token }
     follow_redirect!
   end
 end
