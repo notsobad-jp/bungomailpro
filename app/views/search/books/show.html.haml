@@ -2,3 +2,35 @@
   = @book.title
   .sub.header
     = @book.author
+
+%table.ui.definition.fixed.unstackable.table
+  %tbody
+    %tr
+      %td.three.wide
+        %small 文字数
+      %td.thirteen.wide
+        = category_label(@book.category)
+        &nbsp;
+        = @book.words_count.to_s(:delimited)
+        %small 文字
+    %tr
+      %td
+        %small 人気
+      %td
+        = access_count_stars(@book.access_count)
+        &nbsp;
+        = (@book.access_count > 0 ) ? @book.access_count.to_s(:delimited) : '--'
+        %small PV
+    %tr
+      %td
+        %small 書き出し
+      %td
+        = @book.beginning
+%small ※「人気」は青空文庫の過去10年分のアクセスランキングを集計した累計アクセス数から算出しています。
+%br
+%br
+
+= link_to  @book.aozora_file_url, class: 'ui blue basic button', target: '_blank' do
+  青空文庫で読む
+  &nbsp;
+  %i.icon.small.external

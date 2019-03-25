@@ -9,7 +9,7 @@ module SearchHelper
       i = 1
     end
 
-    content_tag(:div) do
+    content_tag(:span) do
       i.times do |j|
         concat content_tag(:i, '', class: 'icon yellow star')
       end

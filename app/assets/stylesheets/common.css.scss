@@ -58,3 +58,14 @@ footer a { color: #fff !important; }
   }
   .ui.responsive.button { width: 100%; }
 }
+
+
+@media only screen and (min-width: 768px) {
+  body { height: auto; }
+  .sticking {
+    z-index: 1000;
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0px !important;
+  }
+}

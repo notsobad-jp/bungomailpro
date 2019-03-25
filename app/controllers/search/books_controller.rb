@@ -1,5 +1,6 @@
 class Search::BooksController < ApplicationController
   layout 'search/application'
+  before_action :set_author_and_category, except: :search
 
 
   def search
@@ -18,7 +19,7 @@ class Search::BooksController < ApplicationController
           "<li>#{author_link}</li>"
         end
         authors_list << "<li>...</li>" if authors.count > 10
-        flash[:warning] = "#{authors.count}件の著者が該当しました。検索条件を変えて絞り込んでください。<ul>#{authors_list.join('')}</ul>"
+        flash[:warning] = "#{authors.count}件の著者が該当しました。お探しの著者でなかった場合は、キーワードを変えて絞り込んでください。<ul>#{authors_list.join('')}</ul>"
       end
     else
       author_id = 'all'
@@ -27,7 +28,29 @@ class Search::BooksController < ApplicationController
     redirect_to author_category_books_path(author_id: author_id, category_id: category_id)
   end
 
+
   def index
+    query = Book.where(words_count: (@category.range_from..@category.range_to))
+    query = query.where(author_id: @author[:id]) if @author[:id] != 'all'
+    @books = query.order(access_count: :desc).order(:words_count).page(params[:page]).per(50)
+
+    @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
+    @breadcrumbs << { name: @category.name }
+  end
+
+
+  def show
+    @book = Book.find(params[:id])
+
+    @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
+    @breadcrumbs << { name: @category.name, url: author_category_books_path(author_id: @author[:id], category_id: @category.id) }
+    @breadcrumbs << { name: @book.title }
+  end
+
+
+  private
+
+  def set_author_and_category
     @categories = Category.all.order(:range_from)
     @category = Category.find_by(id: params[:category_id]) || Category.find('all')
 
@@ -37,16 +60,5 @@ class Search::BooksController < ApplicationController
       { id: 'all', name: 'すべての著者' }
     end
     @authors = Book.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
-
-    query = Book.where(words_count: (@category.range_from..@category.range_to))
-    query = query.where(author_id: @author[:id]) if @author[:id] != 'all'
-    @books = query.order(access_count: :desc).order(:words_count).page(params[:page]).per(50)
-
-    @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
-    @breadcrumbs << { name: @category.name }
-  end
-
-  def show
-    @book = Book.find(params[:book_id])
   end
 end
