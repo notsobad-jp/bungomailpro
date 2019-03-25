@@ -35,21 +35,22 @@
         %small by ブンゴウメール
       .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
 
-    %div
-      .ui.container
-        .ui.stackable.grid
-          .ui.thirteen.wide.column
-            - unless @author[:id] == 'all' && @category.id == 'all'
-              = render partial: 'layouts/search/breadcrumb'
-            - else
-              %br
-            - %w(warning error success info).each do |status|
-              - if flash[status]
-                .ui.row
-                  .column
-                    .ui.message(class="#{status}")
-                      = sanitize flash[status]
-            = yield
-          .ui.three.wide.column
-            = render partial: 'layouts/search/sidebar'
+    = render partial: 'layouts/search/search'
+
+    .ui.container
+      .ui.stackable.grid
+        .ui.thirteen.wide.column
+          - unless @author[:id] == 'all' && @category.id == 'all'
+            = render partial: 'layouts/search/breadcrumb'
+          - else
+            %br
+          - %w(warning error success info).each do |status|
+            - if flash[status]
+              .ui.row
+                .column
+                  .ui.message(class="#{status}")
+                    = sanitize flash[status]
+          = yield
+        .ui.three.wide.column
+          = render partial: 'layouts/search/sidebar'
     = render partial: 'layouts/search/footer'
