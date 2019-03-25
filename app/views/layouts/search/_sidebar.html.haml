@@ -11,34 +11,35 @@
         %small （#{category.books_count.to_s(:delimited)}）
 %br
 
-%h4.ui.header
-  %i.icon.star.outline
-  人気
-.ui.segment
-  .ui.divided.very.relaxed.link.list
-    .item
-      %i.icon.yellow.star
-      %i.icon.yellow.star
-      %i.icon.yellow.star
-    .item
-      %i.icon.yellow.star
-      %i.icon.yellow.star
-      %i.icon.star
-    .item
-      %i.icon.yellow.star
-      %i.icon.star
-      %i.icon.star
-    .item
-      %i.icon.star
-      %i.icon.star
-      %i.icon.star
-%br
+-# %h4.ui.header
+-#   %i.icon.star.outline
+-#   人気
+-# .ui.segment
+-#   .ui.divided.very.relaxed.link.list
+-#     .item
+-#       %i.icon.yellow.star
+-#       %i.icon.yellow.star
+-#       %i.icon.yellow.star
+-#     .item
+-#       %i.icon.yellow.star
+-#       %i.icon.yellow.star
+-#       %i.icon.star
+-#     .item
+-#       %i.icon.yellow.star
+-#       %i.icon.star
+-#       %i.icon.star
+-#     .item
+-#       %i.icon.star
+-#       %i.icon.star
+-#       %i.icon.star
+-# %br
 
 %h4.ui.header
   %i.icon.user.outline
   文豪
 .ui.segment
   .ui.divided.very.relaxed.link.list
-    .item 夏目漱石
-    .item 芥川龍之介
-    .item 太宰治
+    - @authors.take(15).each do |author, sum_access_count|
+      = link_to author[0].split(',').first, books_search_author_path(author[1]), class: 'item'
+%br
+%br

@@ -1,3 +1,3 @@
 %datalist#authors
-  - @authors.each do |author|
-    %option(value="#{author}")
+  - @authors.each do |author, sum_access_count|
+    %option(value="#{author[0]}")
