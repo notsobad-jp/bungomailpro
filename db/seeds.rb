@@ -21,7 +21,7 @@ categories = [
   {
     id: 'flash',
     name: '掌編',
-    range_from: 0,
+    range_from: 1,
     range_to: 1000
   },
   {
