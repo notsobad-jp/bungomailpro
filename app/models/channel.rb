@@ -6,6 +6,9 @@
 #  books_count                           :integer          default(0), not null
 #  default                               :boolean          default(FALSE), not null
 #  description                           :text
+#  from_email                            :string
+#  from_name                             :string
+#  hashtag                               :string
 #  status(IN (private public streaming)) :string           default("private"), not null
 #  subscribers_count                     :integer          default(0), not null
 #  title                                 :string           not null
