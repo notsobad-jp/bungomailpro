@@ -41,6 +41,8 @@ class Search::BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
+    @author_books = Book.where(author_id: @author[:id]).order(access_count: :desc).take(4)
+    @category_books = Book.where(words_count: @category.range_from..@category.range_to).order(access_count: :desc).take(4)
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
     @breadcrumbs << { name: @category.name, url: author_category_books_path(author_id: @author[:id], category_id: @category.id) }
