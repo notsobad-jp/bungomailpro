@@ -84,6 +84,15 @@
     %i.icon.warning.circle
     このチャネルの配信は終了しました。もう一度購読したい場合は、「配信設定」から一度購読を解除し、再度購読し直してください。
 
+- if @channel.from_email.present?
+  .ui.info.small.message
+    %i.icon.info.circle
+    このチャネルは「
+    %b= @channel.from_email
+    」から配信されます。
+    = link_to 'メーラーの受信設定など', 'https://bungomail.hatenablog.com/entry/2018/05/21/172542', target: '_blank'
+    を事前にご確認ください。
+
 
 -# 配信中タイトル
 - if (sub = @channel.streaming? ? @master_sub : @subscription) && !sub.not_started?
