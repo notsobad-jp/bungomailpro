@@ -41,6 +41,24 @@ module ApplicationHelper
     end
   end
 
+  def facebook_share_link(channel)
+    url = channel.private? ? pro_root_url : channel_url(channel)
+    "http://www.facebook.com/sharer/sharer.php?u=#{CGI.escape(url)}"
+  end
+
+  def twitter_share_link(channel)
+    if channel.private?
+      url =  pro_root_url
+      title = ""
+      hashtags = "#ブンゴウメールPRO"
+    else
+      url = channel_url(channel)
+      title = channel.title
+      hashtags = "##{channel.hashtag} #ブンゴウメールPRO"
+    end
+    "http://twitter.com/intent/tweet?text=#{CGI.escape(title + ' ' + hashtags)} #{CGI.escape(url)}"
+  end
+
   def linknize(text)
     URI.extract(text, %w[http https]).uniq.each do |url|
       sub_text = ''

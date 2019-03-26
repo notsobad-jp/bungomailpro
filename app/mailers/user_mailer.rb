@@ -33,18 +33,14 @@ class UserMailer < ApplicationMailer
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    # HACK: ALTER EGOチャネルのみ独自の配信元表記。そのうち汎用化する
-    # TODO: 検証用にブンゴウメールチャネルの配信元を一時変更
-    if @subscription.channel.user_id == User::ALTEREGO_ID || @subscription.channel_id == Channel::BUNGOMAIL_ID
-      from_name = 'エス（ALTER EGO）'
-      from_email = 'alterego@notsobad.jp'
+    # チャネルに送信元アドレス・送信者名が設定されていればそっちを適用する
+    if (from_name = @subscription.channel.from_name)
       subject = "#{@subscription.current_book.author.tr(',', '、')}『#{@subscription.current_book.title}』（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}） - #{@subscription.channel.title}"
     else
       from_name = "#{@subscription.current_book.author.tr(',', '、')}（ブンゴウメール）"
-      from_email = 'bungomail@notsobad.jp'
       subject = "#{@subscription.current_book.title}（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}） - #{@subscription.channel.title}"
     end
-
+    from_email = @subscription.channel.from_email || 'bungomail@notsobad.jp'
 
     mail(
       from: "#{from_name} <#{from_email}>",
@@ -53,7 +49,7 @@ class UserMailer < ApplicationMailer
       reply_to: 'info@notsobad.jp'
     ) do |format|
       format.text
-      format.html if @subscription.channel.id != Channel::BUNGOMAIL_ID # 旧ブンゴウメール公式チャネルはGoogleGroupsへの配信なので、テキストメールのみ
+      format.html unless @subscription.channel.id == Channel::BUNGOMAIL_ID # 旧ブンゴウメール公式チャネルはGoogleGroupsへの配信なので、テキストメールのみ
     end
     logger.info "[SCHEDULED] channel:#{@subscription.channel.id}, chapter:#{@subscription.next_chapter.book_id}-#{@subscription.next_chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
   end
