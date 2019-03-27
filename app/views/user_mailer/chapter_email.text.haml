@@ -3,6 +3,12 @@
 （#{@subscription.next_chapter.text.length}字。目安の読了時間：#{@subscription.next_chapter.text.length.quo(500).ceil}分）
 \
 \
+- if (image_url = @subscription.next_chapter.image_url)
+  ※画像はこちら
+  \
+  = image_url
+  \
+  \
 = @subscription.next_chapter.text
 \
 \

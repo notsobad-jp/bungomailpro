@@ -2,6 +2,7 @@
 #
 # Table name: chapters
 #
+#  image_url  :string
 #  index      :integer          not null, primary key
 #  text       :text
 #  created_at :datetime         not null
