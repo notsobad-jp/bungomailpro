@@ -58,8 +58,7 @@
 %br
 
 %h3.ui.header
-  = @book.category.name
-  の人気作品
+  「#{@book.category.name}」で読める人気作品
 .ui.four.doubling.cards
   - @category_books.each do |book|
     = link_to author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), class: 'ui card' do
@@ -69,5 +68,5 @@
         .description= book.beginning.truncate(15)
       .extra.content
         .right.floated
-          = category_label(@book.category)
-        = access_count_stars(@book.access_count)
+          = category_label(book.category)
+        = access_count_stars(book.access_count)
