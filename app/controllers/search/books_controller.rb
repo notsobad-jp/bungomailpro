@@ -38,8 +38,9 @@ class Search::BooksController < ApplicationController
     @meta_description = "#{@meta_title}です。" unless @author[:id] == 'all' && @category.id == 'all'
     @meta_keywords = "#{@author[:name]},#{@category.name}で読める,#{view_context.category_title(@category)}"
 
-    @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
-    @breadcrumbs << { name: @category.name }
+    @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
+    category_name = @category.id == 'all' ? '全作品' : "#{view_context.category_title(@category)}（#{@category.name}）"
+    @breadcrumbs << { name: category_name }
   end
 
 
@@ -49,7 +50,9 @@ class Search::BooksController < ApplicationController
     @category_books = Book.where(words_count: @category.range_from..@category.range_to).order(access_count: :desc).take(4)
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
-    @breadcrumbs << { name: @category.name, url: author_category_books_path(author_id: @author[:id], category_id: @category.id) }
+
+    category_name = "#{view_context.category_title(@category)}（#{@category.name}）"
+    @breadcrumbs << { name: category_name, url: author_category_books_path(author_id: @author[:id], category_id: @category.id) }
     @breadcrumbs << { name: @book.title }
   end
 
