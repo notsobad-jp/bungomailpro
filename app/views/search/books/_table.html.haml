@@ -15,16 +15,15 @@
     - books.each do |book|
       %tr
         %td
-          -# TODO: category_idをちゃんと入れる
           = link_to book.title, author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id)
         %td
-          = link_to author_category_books_path(author_id: book.author_id, category_id: 'all') do
+          = link_to author_category_books_path(author_id: book.author_id, category_id: category.id) do
             = book.author
         %td
           = book.words_count.to_s(:delimited)
           %small 文字
           &nbsp;
-          = link_to author_category_books_path(author_id: 'all', category_id: book.category.id) do
+          = link_to author_category_books_path(author_id: author[:id], category_id: book.category.id) do
             = category_label(book.category)
         %td
           = access_count_stars(book.access_count)

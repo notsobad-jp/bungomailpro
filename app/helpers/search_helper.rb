@@ -35,17 +35,37 @@ module SearchHelper
   def category_label(category)
     color = case category.id
       when 'flash'
-        'grey'
-      when 'shortshort'
         'orange'
+      when 'shortshort'
+        'pink'
       when 'short'
         'blue'
       when 'novelette'
         'green'
       when 'novel'
-        'pink'
+        ''
     end
 
     content_tag(:div, category.name, class: "ui basic #{color} small label")
+  end
+
+  def category_title(category)
+    case category.id
+      when 'flash', 'shortshort', 'short'
+        '短編'
+      when 'novelette'
+        '中編'
+      when 'novel'
+        '長編'
+    end
+  end
+
+  def search_page_title(author:, category:)
+    author_name = author[:id] == 'all' ? '青空文庫' : author[:name]
+    if category.id == 'all'
+      "#{author_name}の全作品"
+    else
+      "#{category.name}で読める#{author_name}の#{category_title(category)}作品"
+    end
   end
 end

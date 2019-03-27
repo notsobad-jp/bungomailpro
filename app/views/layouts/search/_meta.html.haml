@@ -4,10 +4,9 @@
 %link(rel="apple-touch-icon" sizes="128x128" href="/apple-touch-icon.png")
 %link(rel="apple-touch-icon-precomposed" sizes="128x128" href="/apple-touch-icon-precomposed.png")
 
-- @meta_title = "#{@meta_title} | ゾラサーチ" if !current_page?(pro_root_path)
-%title= @meta_title
+%title= current_page?(root_path) ? "ゾラサーチ by ブンゴウメール | 青空文庫の作品を読了時間で検索できるサービス" : "#{@meta_title} | ゾラサーチ"
 %meta(name="description" content="#{@meta_description}")
-%meta(name="keywords" content="#{@meta_keywords},ブンゴウメール,文豪,読書,青空文庫,無料,文学,古典,小説,毎日,毎月,継続,メール")
+%meta(name="keywords" content="#{@meta_keywords},ゾラサーチ,読了時間,検索,青空文庫,無料,文学,古典,小説,ブンゴウメール,文豪,読書,毎日,毎月,継続,メール")
 
 - canonical_url = url_for(only_path: false)
 %link(rel="canonical" href="#{canonical_url}")

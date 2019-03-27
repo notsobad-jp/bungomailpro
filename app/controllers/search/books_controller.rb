@@ -34,6 +34,10 @@ class Search::BooksController < ApplicationController
     query = query.where(author_id: @author[:id]) if @author[:id] != 'all'
     @books = query.order(access_count: :desc).order(:words_count).page(params[:page]).per(50)
 
+    @meta_title = view_context.search_page_title(author: @author, category: @category)
+    @meta_description = "#{@meta_title}です。" unless @author[:id] == 'all' && @category.id == 'all'
+    @meta_keywords = "#{@author[:name]},#{@category.name}で読める,#{view_context.category_title(@category)}"
+
     @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
     @breadcrumbs << { name: @category.name }
   end

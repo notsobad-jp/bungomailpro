@@ -20,31 +20,31 @@
 categories = [
   {
     id: 'flash',
-    name: '掌編',
+    name: '5分以内',
     range_from: 1,
     range_to: 1000
   },
   {
     id: 'shortshort',
-    name: 'ショートショート',
+    name: '10分以内',
     range_from: 1000,
     range_to: 5000
   },
   {
     id: 'short',
-    name: '短編',
+    name: '30分以内',
     range_from: 5000,
     range_to: 15000
   },
   {
     id: 'novelette',
-    name: '中編',
+    name: '1時間以内',
     range_from: 15000,
     range_to: 30000
   },
   {
     id: 'novel',
-    name: '長編',
+    name: '2時間〜',
     range_from: 30000,
     range_to: 9999999,
   },
