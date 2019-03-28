@@ -49,8 +49,11 @@ class Search::BooksController < ApplicationController
     @author_books = Book.where(author_id: @author[:id]).order(access_count: :desc).take(4)
     @category_books = Book.where(words_count: @category.range_from..@category.range_to).order(access_count: :desc).take(4)
 
-    @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
+    @meta_title = "#{@author[:name]}『#{@book.title}』 - #{@category.name}で読める#{view_context.category_title(@category)}"
+    @meta_description = "『#{@book.title}』は#{@author[:name]}の#{view_context.category_title(@category)}作品。#{@book.words_count.to_s(:delimited)}文字で、おおよそ#{@category.name}で読むことができます。"
+    @meta_keywords = [@book.title, @author[:name], view_context.category_title(@category), @category.name].join(",")
 
+    @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')}
     category_name = "#{view_context.category_title(@category)}（#{@category.name}）"
     @breadcrumbs << { name: category_name, url: author_category_books_path(author_id: @author[:id], category_id: @category.id) }
     @breadcrumbs << { name: @book.title }
