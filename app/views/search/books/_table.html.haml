@@ -6,32 +6,43 @@
     %tr.computer.only
       %th.five.wide 作品名
       %th.four.wide 著者
-      %th.four.wide 文字数
+      %th.four.wide 読了時間
       %th.two.wide
         人気
         %i.icon.small.caret.down
       %th.five.wide.computer.only 書き出し
+
     %tr.mobile.only
-      %th.four.wide 作品名
-      %th.four.wide 著者
-      %th.four.wide 読了時間
-      %th.four.wide 人気
+      %th.six.wide 作品名
+      %th.six.wide 著者
+      %th.nine.wide 読了時間
   %tbody
     - books.each do |book|
-      %tr
+      %tr.computer.only
         %td
           = link_to book.title, author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id)
         %td
           = link_to author_category_books_path(author_id: book.author_id, category_id: category.id) do
             = book.author
         %td
-          %span.computer.only
-            = book.words_count.to_s(:delimited)
-            %small 文字
-            &nbsp;
           = link_to author_category_books_path(author_id: author[:id], category_id: book.category.id) do
             = category_label(book.category)
+          &nbsp;
+          = book.words_count.to_s(:delimited)
+          %small 文字
         %td
-          %small= access_count_stars(book.access_count)
-        %td.computer.only
+          = access_count_stars(book.access_count)
+        %td
           %small= book.beginning.truncate(30)
+
+      %tr.mobile.only
+        %td
+          = link_to book.title, author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id)
+        %td
+          = link_to author_category_books_path(author_id: book.author_id, category_id: category.id) do
+            = book.author
+        %td
+          = link_to author_category_books_path(author_id: author[:id], category_id: book.category.id) do
+            = category_label(book.category)
+          &nbsp;
+          %small= access_count_stars(book.access_count)
