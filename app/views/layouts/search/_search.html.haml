@@ -1,12 +1,19 @@
+= render partial: 'authors_list'
+
 .ui.secondary.attached.sticking.segment
   = form_tag(search_authors_path, class: 'ui form') do
-    .ui.container
+    .mobile.only.ui.action.fluid.input
+      - author_name = @author[:name] unless @author[:id] == 'all'
+      = text_field_tag :author_name, author_name, autocomplete: 'on', list: 'authors', placeholder: '著者名'
+      %button.ui.red.icon.button(type="submit")
+        %i.icon.search
+
+    .ui.computer.only.container
       .ui.stackable.grid
         .six.wide.column
           .field
             - author_name = @author[:name] unless @author[:id] == 'all'
             = text_field_tag :author_name, author_name, autocomplete: 'on', list: 'authors', placeholder: '著者名'
-            = render partial: 'authors_list'
         .six.wide.column
           .field
             = select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, @category.id), class: 'ui dropdown'

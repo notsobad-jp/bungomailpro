@@ -1,6 +1,6 @@
 %h1.ui.header
   = @meta_title
-  %small （#{@books.total_count.to_s(:delimited)}作品）
+  .sub.header #{@books.total_count.to_s(:delimited)}作品
 
 %p
   - if @category.id == 'all'
@@ -9,6 +9,13 @@
     青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category.name}」の#{category_title(@category)}#{@books.total_count.to_s(:delimited)}作品です。
     %br
     （#{characters_range(@category)}の作品を対象としています）
+
+.ui.divider
+.ui.secondary.scrolling.menu
+  - @categories.each do |category|
+    - active = 'active' if @category == category
+    = link_to category.name, author_category_books_path(author_id: @author[:id], category_id: category.id), class: "item #{active}"
+.ui.divider
 
 = render partial: 'table', locals: { books: @books, author: @author, category: @category }
 

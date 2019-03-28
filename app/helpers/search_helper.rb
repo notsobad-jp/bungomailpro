@@ -46,7 +46,7 @@ module SearchHelper
         ''
     end
 
-    content_tag(:div, category.name, class: "ui basic #{color} small label")
+    content_tag(:div, category.name.delete('以内').sub(/〜/, '-'), class: "ui basic #{color} mini label")
   end
 
   def category_title(category)

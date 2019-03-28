@@ -2,8 +2,8 @@
 #breadcrumb
   .ui.small.breadcrumb(itemscope itemtype="http://schema.org/BreadcrumbList")
     .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
-      = link_to author_category_books_path(author_id: 'all', category_id: 'all'), itemprop: 'item' do
-        %span(itemprop="name") HOME
+      = link_to root_path, itemprop: 'item' do
+        %span(itemprop="name") TOP
       %meta(itemprop="position" content="1")
     %i.icon.right.angle.divider
     - @breadcrumbs.each do |item|

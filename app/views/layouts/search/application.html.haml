@@ -35,7 +35,8 @@
         %small by ブンゴウメール
       .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
 
-    = render partial: 'layouts/search/search'
+    - if current_page?(root_path)
+      .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
 
     .ui.container
       .ui.stackable.grid
