@@ -8,31 +8,9 @@
     - @categories.each do |category|
       = link_to author_category_books_path(author_id: 'all', category_id: category.id), class: 'item' do
         = category.name
-        %small （#{category.books_count.to_s(:delimited)}）
+        .right.floated.content
+          %small #{category.books_count.to_s(:delimited)}件
 %br
-
--# %h4.ui.header
--#   %i.icon.star.outline
--#   人気
--# .ui.segment
--#   .ui.divided.very.relaxed.link.list
--#     .item
--#       %i.icon.yellow.star
--#       %i.icon.yellow.star
--#       %i.icon.yellow.star
--#     .item
--#       %i.icon.yellow.star
--#       %i.icon.yellow.star
--#       %i.icon.star
--#     .item
--#       %i.icon.yellow.star
--#       %i.icon.star
--#       %i.icon.star
--#     .item
--#       %i.icon.star
--#       %i.icon.star
--#       %i.icon.star
--# %br
 
 %h4.ui.header
   %i.icon.user.outline
