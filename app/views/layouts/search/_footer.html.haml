@@ -3,9 +3,13 @@
     ゾラサーチ
     &nbsp;
     %small by ブンゴウメール
+  %p
+    = link_to page_path(:about) do
+      %i.icon.question.circle
+      このサイトについて
   %br
   .ui.horizontal.list
-    = link_to 'ブンゴウメールとは', page_url(:about, subdomain: ''), class: 'item', target: '_blank'
+    = link_to 'ブンゴウメール', page_url(:about, subdomain: ''), class: 'item', target: '_blank'
     = link_to '利用規約', page_url(:terms, subdomain: ''), class: 'item'
     = link_to 'プライバシーポリシー', page_url(:privacy, subdomain: ''), class: 'item'
     = link_to 'お問い合わせ', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'
