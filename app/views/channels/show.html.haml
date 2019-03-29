@@ -95,7 +95,8 @@
 
 
 -# 配信中タイトル
-- if (sub = @channel.streaming? ? @master_sub : @subscription) && !sub.not_started?
+- sub = @channel.streaming? ? @master_sub : @subscription
+- if !(@channel.streaming? && sub.next_chapter_index == 1)
   .ui.small.header
     %i.icon.podcast
     配信中のタイトル
@@ -118,8 +119,8 @@
         = subscription_url(sub, format: :atom)
         &nbsp;
         %i.icon.small.external
--# ストリーミング && 配信前のときは、RSSフィードURLのみ表示
-- if @channel.streaming? && @master_sub.not_started?
+- else
+  -# ストリーミング && 新しい本のときは、RSSフィードURLのみ表示
   .ui.secondary.padded.segment
     .ui.small.header
       %i.icon.rss
