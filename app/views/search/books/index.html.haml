@@ -16,6 +16,22 @@
     - active = 'active' if @category == category
     = link_to category.name, author_category_books_path(author_id: @author[:id], category_id: category.id), class: "item #{active}"
 .ui.divider
+= render partial: 'authors_list'
+= form_tag(search_authors_path, class: 'ui form') do
+  .ui.transparent.fluid.left.icon.input
+    %i.icon.outline.user
+    - author_name = @author[:name] unless @author[:id] == 'all'
+    = text_field_tag :author_name, author_name, autocomplete: 'on', list: 'authors', placeholder: '著者名'
+    = hidden_field_tag :category_id, @category.id
+    - if @author[:id] != 'all'
+      = link_to author_category_books_path(author_id: 'all', category_id: @category.id) do
+        .ui.basic.icon.transparent.button
+          %i.icon.close
+    %button.ui.basic.icon.button(type="submit")
+      %i.icon.search
+      %span.computer.only 検索
+.ui.divider
+%br
 
 = render partial: 'table', locals: { books: @books, author: @author, category: @category }
 

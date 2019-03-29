@@ -8,7 +8,7 @@
 %meta(name="description" content="#{@meta_description}")
 %meta(name="keywords" content="#{@meta_keywords},ゾラサーチ,読了時間,検索,青空文庫,無料,文学,古典,小説,ブンゴウメール,文豪,読書,毎日,毎月,継続,メール")
 
-- canonical_url = url_for(only_path: false)
+- canonical_url = @meta_canonical_url || url_for(only_path: false)
 %link(rel="canonical" href="#{canonical_url}")
 
 - if @meta_noindex

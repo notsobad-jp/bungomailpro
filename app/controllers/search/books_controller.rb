@@ -37,6 +37,7 @@ class Search::BooksController < ApplicationController
     @meta_title = view_context.search_page_title(author: @author, category: @category)
     @meta_description = "#{@meta_title}です。" unless @author[:id] == 'all' && @category.id == 'all'
     @meta_keywords = "#{@author[:name]},#{@category.name}で読める,#{view_context.category_title(@category)}"
+    @meta_canonical_url = root_path if @author[:id] == 'all' && @category.id == 'all'
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_path(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
     category_name = @category.id == 'all' ? '全作品' : "#{view_context.category_title(@category)}（#{@category.name}）"
