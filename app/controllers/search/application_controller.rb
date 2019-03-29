@@ -5,7 +5,7 @@ class Search::ApplicationController < ApplicationController
   private
 
   def set_author_and_category
-    @categories = Category.all.order(:range_from)
+    @categories = Category.all.order(:range_from, :id)
     @category = Category.find_by(id: params[:category_id]) || Category.find('all')
 
     @author = if (book = Book.find_by(author_id: params[:author_id]))
