@@ -3,19 +3,19 @@ class Search::BooksController < Search::ApplicationController
     category_id = Category.find_by(id: params[:category_id]).try(:id) || 'all'
 
     if params[:author_name].present?
-      authors = Book.group(:author, :author_id).where("REPLACE(author, ' ', '') LIKE ?", "%#{params[:author_name].delete(' ')}%").count
-      author_id = (authors.count > 0) ? authors.first[0][1] : 'all'
+      authors = Book.where("REPLACE(author, ' ', '') LIKE ?", "%#{params[:author_name].delete(' ')}%").pluck(:author_id, :author).to_h
+      author_id = (authors.count > 0) ? authors.first[0] : 'all'
 
       if authors.count == 0
         aozora_link = view_context.link_to '青空文庫', 'https://www.aozora.gr.jp/index_pages/person_all.html', target: '_blank'
         flash[:warning] = "著者が見つかりませんでした…。著者名の表記は#{aozora_link}に準拠していますので、漢字などの表記違いがないかご確認ください。また現在ゾラサーチでは、著作権が存続している著者は取り扱っておりません。"
       elsif authors.count > 1
-        authors_list = authors.take(10).map do |author_data, count|
-          author_link = view_context.link_to author_data[0], author_category_books_path(author_id: author_data[1], category_id: category_id)
+        authors_list = authors.take(10).map do |id, name|
+          author_link = view_context.link_to name, author_category_books_path(author_id: id, category_id: category_id)
           "<li>#{author_link}</li>"
         end
         authors_list << "<li>...</li>" if authors.count > 10
-        flash[:warning] = "#{authors.count}件の著者が該当しました。お探しの著者でなかった場合は、キーワードを変えて絞り込んでください。<ul>#{authors_list.join('')}</ul>"
+        flash[:warning] = "#{authors.count}件の著者が該当しました。以下の候補から選択するか、キーワードを変えて絞り込んでください。<ul>#{authors_list.join('')}</ul>"
       end
     else
       author_id = 'all'
