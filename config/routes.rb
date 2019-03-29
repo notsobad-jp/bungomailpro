@@ -133,6 +133,7 @@ Rails.application.routes.draw do
           resources :books
         end
       end
+      get '/:page' => "pages#show"
       root to: 'books#index'
     end
   end

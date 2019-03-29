@@ -31,9 +31,13 @@
 
     .ui.attached.borderless.menu
       = link_to 'ゾラサーチ', root_path, class: 'header item'
-      .item
+      .item.computer.only
         %small by ブンゴウメール
       .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
+      .right.floated.menu
+        = link_to page_path(:about), class: 'item' do
+          %i.icon.circle.question
+          このサイトについて
 
     - if current_page?(root_path)
       .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
@@ -41,10 +45,10 @@
     .ui.container
       .ui.stackable.grid
         .ui.thirteen.wide.column
-          - unless @author[:id] == 'all' && @category.id == 'all'
-            = render partial: 'layouts/search/breadcrumb'
-          - else
+          - if controller_name == 'books' && (@author[:id] == 'all' && @category.id == 'all')
             %br
+          - else
+            = render partial: 'layouts/search/breadcrumb'
           - %w(warning error success info).each do |status|
             - if flash[status]
               .ui.row

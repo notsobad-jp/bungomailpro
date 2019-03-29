@@ -1,11 +1,11 @@
 module SearchHelper
   def access_count_stars(access_count)
     i = 0
-    if access_count > 10000
+    if access_count >= 10000
       i = 3
-    elsif access_count > 500
+    elsif access_count >= 500
       i = 2
-    elsif access_count > 1
+    elsif access_count >= 1
       i = 1
     end
 
