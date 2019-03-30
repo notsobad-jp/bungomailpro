@@ -13,6 +13,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  author_id      :bigint(8)        not null
+#  category_id    :string
 #  file_id        :bigint(8)
 #
 # Indexes
@@ -20,11 +21,16 @@
 #  index_books_on_access_count  (access_count)
 #  index_books_on_words_count   (words_count)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (category_id => categories.id)
+#
 
 class Book < ApplicationRecord
   has_many :channel_books, dependent: :nullify
   has_many :channels, through: :channel_books
   has_many :chapters, -> { order(:index) }, dependent: :destroy, inverse_of: :book
+  belongs_to :category, counter_cache: true
   self.primary_key = 'id'
 
   validates :title, presence: true
@@ -45,10 +51,6 @@ class Book < ApplicationRecord
 
   def aozora_file_url
     Book.aozora_file_url(author_id: author_id, book_id: id, file_id: file_id)
-  end
-
-  def category
-    Category.where.not(id: 'all').where("range_from <= ?", words_count).where("range_to > ?", words_count).first
   end
 
   def create_chapters

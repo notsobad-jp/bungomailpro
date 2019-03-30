@@ -15,8 +15,5 @@
 
 class Category < ApplicationRecord
   self.primary_key = :id
-
-  def books
-    Book.where(words_count: (range_from..range_to))
-  end
+  has_many :books, dependent: :nullify
 end

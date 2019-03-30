@@ -94,4 +94,13 @@ namespace :books do
       category.update(books_count: category.books.count)
     end
   end
+
+
+  desc '各bookをカテゴリに分類'
+  task assign_category_to_books: :environment do |_task, _args|
+    Book.all.find_each do |book|
+      category = Category.where.not(id: 'all').where("range_from <= ?", book.words_count).where("range_to > ?", book.words_count).first
+      book.update(category_id: category.id) if category
+    end
+  end
 end

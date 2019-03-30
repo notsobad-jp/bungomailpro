@@ -26,9 +26,9 @@ class Search::BooksController < Search::ApplicationController
 
 
   def index
-    query = Book.where(words_count: (@category.range_from..@category.range_to))
-    query = query.where(author_id: @author[:id]) if @author[:id] != 'all'
-    @books = query.order(access_count: :desc).order(:words_count).page(params[:page]).per(50)
+    books = @category.id == 'all' ? Book.includes(:category).all : @category.books
+    books = books.where(author_id: @author[:id]) if @author[:id] != 'all'
+    @books = books.where.not(words_count: 0).order(access_count: :desc).order(:words_count).page(params[:page]).per(50)
 
     @meta_title = view_context.search_page_title(author: @author, category: @category)
     @meta_description = "#{@meta_title}です。" unless @author[:id] == 'all' && @category.id == 'all'
@@ -42,9 +42,9 @@ class Search::BooksController < Search::ApplicationController
 
 
   def show
-    @book = Book.find(params[:id])
-    @author_books = Book.where(author_id: @author[:id]).order(access_count: :desc).take(4)
-    @category_books = Book.where(words_count: @category.range_from..@category.range_to).order(access_count: :desc).take(4)
+    @book = Book.includes(:category).find(params[:id])
+    @author_books = Book.includes(:category).where(author_id: @author[:id]).order(access_count: :desc).take(4)
+    @category_books = @category.books.order(access_count: :desc).take(4)
 
     @meta_title = "#{@author[:name]}『#{@book.title}』 - #{@category.name}で読める#{view_context.category_title(@category)}"
     @meta_description = "『#{@book.title}』は#{@author[:name]}の#{view_context.category_title(@category)}作品。#{@book.words_count.to_s(:delimited)}文字で、おおよそ#{@category.name}で読むことができます。"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_27_052247) do
+ActiveRecord::Schema.define(version: 2019_03_30_043040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_052247) do
     t.integer "words_count", default: 0
     t.string "beginning"
     t.integer "access_count", default: 0
+    t.string "category_id"
     t.index ["access_count"], name: "index_books_on_access_count"
     t.index ["words_count"], name: "index_books_on_words_count"
   end
@@ -181,6 +182,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_052247) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
+  add_foreign_key "books", "categories"
   add_foreign_key "channel_books", "books"
   add_foreign_key "channel_books", "channels"
   add_foreign_key "channels", "users"
