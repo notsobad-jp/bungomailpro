@@ -60,7 +60,7 @@
 %br
 
 %h3.ui.header
-  #{category_title(@book.category)}（#{@book.category.name}）の人気作品
+  #{@book.category.title}（#{@book.category.name}）の人気作品
 .ui.four.scrolling.cards
   - @category_books.each do |book|
     = link_to author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), class: 'ui card' do

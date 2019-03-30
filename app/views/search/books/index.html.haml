@@ -6,7 +6,7 @@
   - if @category.id == 'all'
     青空文庫で公開されている#{@author[:name]}の全作品一覧です。
   - else
-    青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category.name}」の#{category_title(@category)}#{@books.total_count.to_s(:delimited)}作品です。
+    青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category.name}」の#{@category.title}#{@books.total_count.to_s(:delimited)}作品です。
     %br
     （#{characters_range(@category)}の作品を対象としています）
 

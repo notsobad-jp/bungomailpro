@@ -16,4 +16,15 @@
 class Category < ApplicationRecord
   self.primary_key = :id
   has_many :books, dependent: :nullify
+
+  def title
+    case id
+      when 'flash', 'shortshort', 'short'
+        '短編'
+      when 'novelette'
+        '中編'
+      when 'novel'
+        '長編'
+    end
+  end
 end
