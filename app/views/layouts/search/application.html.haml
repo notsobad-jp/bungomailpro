@@ -30,14 +30,17 @@
       %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
     .ui.attached.borderless.menu
-      = link_to 'ゾラサーチ', root_path, class: 'header item'
+      = link_to root_path, class: 'header item' do
+        = image_tag('logo_search', class: 'ui small image')
       .item.computer.only
-        %small by ブンゴウメール
+        %small
+          = link_to 'by ブンゴウメール', root_url(subdomain: ''), target: '_blank'
       .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
       .right.floated.menu
         = link_to page_path(:about), class: 'item' do
-          %i.icon.circle.question
-          このサイトについて
+          %small
+            %i.icon.circle.question
+            このサイトについて
 
     - if current_page?(root_path)
       .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
