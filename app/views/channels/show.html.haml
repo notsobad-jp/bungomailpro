@@ -96,7 +96,7 @@
 
 -# 配信中タイトル
 - sub = @channel.streaming? ? @master_sub : @subscription
-- if !(@channel.streaming? && sub.next_chapter_index == 1) && sub.try(:current_chapter)
+- if !@channel.streaming? && sub.try(:current_chapter)
   .ui.small.header
     %i.icon.podcast
     配信中のタイトル
