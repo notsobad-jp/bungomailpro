@@ -13,6 +13,8 @@
 
 .ui.divider
 .ui.secondary.scrolling.menu
+  .item(style="padding:0;")
+    %i.icon.clock.outline.grey
   - @categories.each do |category|
     - active = 'active' if @category == category
     = link_to category.name, author_category_books_path(author_id: @author[:id], category_id: category.id), class: "item #{active}"
