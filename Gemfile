@@ -43,6 +43,7 @@ group :development do
   gem 'rack-mini-profiler', require: false
   gem 'rubocop', require: false
   gem "rack-dev-mark"
+  gem 'sitemap_generator'
 end
 
 group :test do

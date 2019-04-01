@@ -227,6 +227,8 @@ GEM
       tilt (>= 1.1, < 3)
     scout_apm (2.4.21)
     sexp_processor (4.11.0)
+    sitemap_generator (6.0.2)
+      builder (~> 3.0)
     sorcery (0.13.0)
       bcrypt (~> 3.1)
       oauth (~> 0.4, >= 0.4.4)
@@ -300,6 +302,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   scout_apm
+  sitemap_generator
   sorcery
   spring
   spring-watcher-listen (~> 2.0.0)
