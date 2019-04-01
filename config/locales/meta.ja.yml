@@ -65,5 +65,8 @@ ja:
   search:
     books:
       index:
-        title: 作品検索
-        description: ゾラサーチは青空文庫の作品を目安の読了時間で検索できるサービスです。
+        title: （作品検索）
+    authors:
+      index:
+        title: （検索結果）
+        noindex: true

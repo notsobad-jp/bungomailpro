@@ -1,0 +1,30 @@
+.ui.warning.message
+  - if @results.count > 1
+    複数の著者がヒットしました。以下の候補から選択するか、キーワードを変えて再度検索してみてください。
+  - if @results.count == 0
+    著者が見つかりませんでした…。
+    著者名の表記は
+    = link_to 'https://www.aozora.gr.jp/index_pages/person_all.html', target: '_blank' do
+      青空文庫
+    に準拠していますので、漢字などの表記違いがないかご確認ください。また現在ゾラサーチでは、著作権が存続している著者は取り扱っておりません。
+
+%h1.ui.header
+  = @meta_title
+  .sub.header #{@results.count.to_s(:delimited)}件
+
+.ui.secondary.segment
+  = form_tag(authors_path, method: :get, class: 'ui form') do
+    .ui.fluid.action.input
+      = text_field_tag :author_name, '', placeholder: '著者名'
+      = hidden_field_tag :category_id, @category.id
+      %button.ui.primary.icon.button(type="submit")
+        %i.icon.search
+        %span.computer.only 検索
+
+.ui.divider
+.ui.divided.very.relaxed.link.list
+  - @results.each do |id, name|
+    = link_to author_category_books_path(author_id: id, category_id: @category.id), class: 'item' do
+      = name
+      .right.floated.content
+        %i.icon.chevron.right

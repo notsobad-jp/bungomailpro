@@ -19,7 +19,7 @@
     - active = 'active' if @category == category
     = link_to category.name, author_category_books_path(author_id: @author[:id], category_id: category.id), class: "item #{active}"
 .ui.divider
-= form_tag(search_authors_path, class: 'ui form') do
+= form_tag(authors_path, method: :get, class: 'ui form') do
   .ui.transparent.fluid.left.icon.input
     %i.icon.outline.user
     - author_name = @author[:name] unless @author[:id] == 'all'

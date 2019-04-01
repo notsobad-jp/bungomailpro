@@ -61,7 +61,7 @@
 #                        pages GET    /pages(.:format)                                                                         pages#index {:subdomain=>""}
 #                         page GET    /:page(.:format)                                                                         pages#show {:subdomain=>""}
 #                         root GET    /                                                                                        pages#lp {:subdomain=>""}
-#               search_authors POST   /authors/search(.:format)                                                                search/books#search {:subdomain=>"search"}
+#               search_authors POST   /authors/search(.:format)                                                                search/authors#search {:subdomain=>"search"}
 #        author_category_books GET    /authors/:author_id/categories/:category_id/books(.:format)                              search/books#index {:subdomain=>"search"}
 #                              POST   /authors/:author_id/categories/:category_id/books(.:format)                              search/books#create {:subdomain=>"search"}
 #     new_author_category_book GET    /authors/:author_id/categories/:category_id/books/new(.:format)                          search/books#new {:subdomain=>"search"}
@@ -86,6 +86,7 @@
 #                              PATCH  /authors/:id(.:format)                                                                   search/authors#update {:subdomain=>"search"}
 #                              PUT    /authors/:id(.:format)                                                                   search/authors#update {:subdomain=>"search"}
 #                              DELETE /authors/:id(.:format)                                                                   search/authors#destroy {:subdomain=>"search"}
+#                              GET    /:page(.:format)                                                                         search/pages#show {:subdomain=>"search"}
 #                              GET    /                                                                                        search/books#index {:subdomain=>"search"}
 #           rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 #    rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
@@ -128,7 +129,6 @@ Rails.application.routes.draw do
   constraints subdomain: 'search' do
     scope module: :search do
       resources :authors do
-        post 'search' => 'books#search', on: :collection, as: :search
         resources :categories do
           resources :books
         end
