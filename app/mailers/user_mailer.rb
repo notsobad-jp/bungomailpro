@@ -37,7 +37,7 @@ class UserMailer < ApplicationMailer
     if (from_name = @subscription.channel.from_name)
       subject = "#{@subscription.current_book.author.tr(',', '、')}『#{@subscription.current_book.title}』（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}） - #{@subscription.channel.title}"
     else
-      from_name = "#{@subscription.current_book.author.tr(',', '、')}（ブンゴウメール）"
+      from_name = "#{@subscription.current_book.author.delete(' ').tr(',', '、')}（ブンゴウメール）"
       subject = "#{@subscription.current_book.title}（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}） - #{@subscription.channel.title}"
     end
     from_email = @subscription.channel.from_email || 'bungomail@notsobad.jp'
