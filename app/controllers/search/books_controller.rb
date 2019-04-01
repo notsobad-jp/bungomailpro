@@ -1,5 +1,7 @@
 class Search::BooksController < Search::ApplicationController
   def search
+    expires_now
+
     category_id = Category.find_by(id: params[:category_id]).try(:id) || 'all'
 
     if params[:author_name].present?

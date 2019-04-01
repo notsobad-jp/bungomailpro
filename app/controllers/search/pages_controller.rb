@@ -6,7 +6,6 @@ class Search::PagesController < Search::ApplicationController
     @meta_title = @page_title
     @meta_description = "#{@page_title}のページです。"
     @meta_keywords = @page_title
-    # @breadcrumbs << { name: 'ドキュメント', url: pages_path }
     @breadcrumbs << { name: @page_title }
 
     render params[:page]

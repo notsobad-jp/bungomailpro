@@ -1,6 +1,7 @@
 class Search::ApplicationController < ApplicationController
   layout 'search/application'
   before_action :set_author_and_category
+  before_action :set_cache_control
 
   private
 
@@ -14,5 +15,9 @@ class Search::ApplicationController < ApplicationController
       { id: 'all', name: 'すべての著者' }
     end
     @authors = Book.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
+  end
+
+  def set_cache_control
+    expires_in 1.month, public: true, must_revalidate: false
   end
 end
