@@ -4,8 +4,8 @@ class Search::BooksController < Search::ApplicationController
     books = books.where(author_id: @author[:id]) if @author[:id] != 'all'
     @books = books.where.not(words_count: 0).order(access_count: :desc).order(:words_count).page(params[:page]).per(50)
 
-    @meta_title = search_page_title(author: @author, category: @category)
-    @meta_description = "#{@meta_title}です。" unless @author[:id] == 'all' && @category.id == 'all'
+    @meta_title = search_page_title
+    @meta_description = search_page_description
     @meta_keywords = "#{@author[:name]},#{@category.name}で読める,#{@category.title}"
     @meta_canonical_url = root_path if @author[:id] == 'all' && @category.id == 'all'
 
@@ -32,12 +32,22 @@ class Search::BooksController < Search::ApplicationController
 
   private
 
-  def search_page_title(author:, category:)
-    author_name = author[:id] == 'all' ? '青空文庫' : author[:name]
-    if category.id == 'all'
+  def search_page_title
+    author_name = @author[:id] == 'all' ? '青空文庫' : @author[:name]
+    if @category.id == 'all'
       "#{author_name}の全作品"
     else
-      "#{category.name}で読める#{author_name}の#{category.title}作品"
+      "#{@category.name}で読める#{author_name}の#{@category.title}作品"
+    end
+  end
+
+  def search_page_description
+    return "ゾラサーチは、青空文庫の作品を目安の読了時間で検索できるサービスです。" if view_context.current_page?(root_path)
+
+    if @category.id == 'all'
+      "青空文庫で公開されている#{@author[:name]}の全作品一覧です。"
+    else
+      "青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category.name}」の#{@category.title}#{@books.total_count.to_s(:delimited)}作品です。"
     end
   end
 end

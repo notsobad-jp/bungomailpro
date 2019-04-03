@@ -10,8 +10,9 @@ module SearchHelper
     end
 
     content_tag(:span) do
-      i.times do |j|
-        concat content_tag(:i, '', class: 'icon yellow star')
+      3.times do |j|
+        outline = 'outline' if j >= i
+        concat content_tag(:i, '', class: "icon yellow #{outline} star")
       end
     end
   end

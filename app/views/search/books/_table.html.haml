@@ -25,7 +25,7 @@
           = link_to book.title, author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id)
         %td
           = link_to author_category_books_path(author_id: book.author_id, category_id: category.id) do
-            = book.author
+            = book.author.split(',').first
         %td
           = link_to author_category_books_path(author_id: author[:id], category_id: book.category.id) do
             = category_label(book.category)
@@ -42,7 +42,7 @@
           = link_to book.title, author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id)
         %td
           = link_to author_category_books_path(author_id: book.author_id, category_id: category.id) do
-            = book.author
+            = book.author.split(',').first
         %td
           = link_to author_category_books_path(author_id: author[:id], category_id: book.category.id) do
             = category_label(book.category)

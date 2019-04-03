@@ -65,7 +65,8 @@ ja:
   search:
     books:
       index:
-        title: （作品検索）
+        title: （ゾラサーチ）
+        description: （青空文庫の作品を読了時間で検索できるサービスです）
     authors:
       index:
         title: （検索結果）

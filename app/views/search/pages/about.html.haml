@@ -1,4 +1,4 @@
-%h1.ui.header
+%h1.ui.large.header
   ゾラサーチとは
 
 = image_tag('/assets/images/ogp_search.png', class: 'ui large image')
@@ -70,7 +70,7 @@
         %td= access_count_stars(1)
         %td 〜500PV
       %tr
-        %td （星なし）
+        %td= access_count_stars(0)
         %td ランキング入りなし
   %p
     各検索結果は、デフォルトでこの人気順（累計アクセス数順）に並んでいます。
