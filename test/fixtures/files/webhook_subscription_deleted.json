@@ -1,39 +1,43 @@
 {
-  "id": "evt_1E013BHlQ4lxw7FZp3YwKfNs",
+  "created": 1326853478,
+  "livemode": false,
+  "id": "customer.subscription.deleted_00000000000000",
+  "type": "customer.subscription.deleted",
   "object": "event",
+  "request": null,
+  "pending_webhooks": 1,
   "api_version": "2018-11-08",
-  "created": 1549264311,
   "data": {
     "object": {
-      "id": "sub_ESwwZke6o4eyZA",
+      "id": "sub_ESczFoNBc38phk",
       "object": "subscription",
       "application_fee_percent": null,
       "billing": "charge_automatically",
-      "billing_cycle_anchor": 1549262124,
+      "billing_cycle_anchor": 1548823031,
       "billing_thresholds": null,
       "cancel_at": null,
       "cancel_at_period_end": false,
-      "canceled_at": null,
-      "created": 1549262061,
-      "current_period_end": 1551681324,
-      "current_period_start": 1549262124,
-      "customer": "cus_ESwwZc8qCe6a3B",
+      "canceled_at": 1548823113,
+      "created": 1548823031,
+      "current_period_end": 1551328631,
+      "current_period_start": 1548823031,
+      "customer": "cus_00000000000000",
       "days_until_due": null,
       "default_source": null,
       "discount": null,
-      "ended_at": null,
+      "ended_at": 1554270592,
       "items": {
         "object": "list",
         "data": [
           {
-            "id": "si_ESwwWm01RTuez6",
+            "id": "si_00000000000000",
             "object": "subscription_item",
             "billing_thresholds": null,
-            "created": 1549262062,
+            "created": 1548823032,
             "metadata": {
             },
             "plan": {
-              "id": "plan_EQjv185SooNzUa",
+              "id": "plan_00000000000000",
               "object": "plan",
               "active": true,
               "aggregate_usage": null,
@@ -47,7 +51,7 @@
               "metadata": {
               },
               "nickname": "ブンゴウメールPRO",
-              "product": "prod_EQju7h2aOakmVF",
+              "product": "prod_00000000000000",
               "tiers": null,
               "tiers_mode": null,
               "transform_usage": null,
@@ -55,18 +59,19 @@
               "usage_type": "licensed"
             },
             "quantity": 1,
-            "subscription": "sub_ESwwZke6o4eyZA"
+            "subscription": "sub_00000000000000"
           }
         ],
         "has_more": false,
         "total_count": 1,
-        "url": "/v1/subscription_items?subscription=sub_ESwwZke6o4eyZA"
+        "url": "/v1/subscription_items?subscription=sub_ER2ugTHAWJ1m1P"
       },
+      "latest_invoice": null,
       "livemode": false,
       "metadata": {
       },
       "plan": {
-        "id": "plan_EQjv185SooNzUa",
+        "id": "plan_00000000000000",
         "object": "plan",
         "active": true,
         "aggregate_usage": null,
@@ -80,7 +85,7 @@
         "metadata": {
         },
         "nickname": "ブンゴウメールPRO",
-        "product": "prod_EQju7h2aOakmVF",
+        "product": "prod_00000000000000",
         "tiers": null,
         "tiers_mode": null,
         "transform_usage": null,
@@ -89,25 +94,11 @@
       },
       "quantity": 1,
       "schedule": null,
-      "start": 1549262124,
-      "status": "trialing",
+      "start": 1548823031,
+      "status": "canceled",
       "tax_percent": null,
-      "trial_end": 1549262123,
-      "trial_start": 1549262061
-    },
-    "previous_attributes": {
-      "billing_cycle_anchor": 1554390000,
-      "current_period_end": 1551970799,
-      "current_period_start": 1549262061,
-      "start": 1549262061,
-      "trial_end": 1551970799
+      "trial_end": null,
+      "trial_start": null
     }
-  },
-  "livemode": false,
-  "pending_webhooks": 1,
-  "request": {
-    "id": "req_dd7VV6ITL1zGRS",
-    "idempotency_key": null
-  },
-  "type": "customer.subscription.updated"
+  }
 }

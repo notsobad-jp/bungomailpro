@@ -80,4 +80,17 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     charge = Charge.find(charge.id)
     assert_equal 'canceled', charge.status
   end
+
+  test 'webhook_when_subscription_canceled' do
+    charge = charges(:charge_active)
+    assert_equal 'active', charge.status
+
+    body = File.read('test/fixtures/files/webhook_subscription_deleted.json')
+    sig_header = stripe_signature(body)
+    post webhooks_update_subscription_url, params: body, headers: { 'CONTENT_TYPE' => 'application/json', 'HTTP_STRIPE_SIGNATURE' => sig_header }
+
+    assert_response :success
+    charge = Charge.find(charge.id)
+    assert_equal 'canceled', charge.status
+  end
 end
