@@ -16,6 +16,7 @@ class ChargesController < ApplicationController
     # 定期課金開始
     charge.create_subscription
 
+    logger.info "[Charge] CREATED charge:#{charge.id}, user:#{current_user.id}, trial_end:#{charge.trial_end}"
     flash[:success] = '決済登録が完了しました🎉 無料トライアル期間のあとに、支払いが開始します'
     redirect_to user_path(current_user)
   rescue Stripe::StripeError => e
@@ -32,6 +33,7 @@ class ChargesController < ApplicationController
   def update
     @charge.update_customer(params)
 
+    logger.info "[Charge] UPDATED charge:#{@charge.id}"
     flash[:success] = 'カード情報を更新しました🎉 次回の支払いから変更が適用されます。'
     redirect_to user_path(current_user)
   rescue Stripe::StripeError => e
@@ -41,9 +43,11 @@ class ChargesController < ApplicationController
   end
 
   def destroy
+    @charge.cancel_subscription
+
+    logger.info "[Charge] CANCELED charge:#{@charge.id}, cancel_at: #{@charge.cancel_at}"
     flash[:info] = '解約処理を完了しました。これ以降の支払いは一切行われません。ご利用ありがとうございました。'
     flash[:info] += 'メール配信は現在の期間終了まで継続したあと、自動的に停止します。すぐに配信も停止したい場合は、チャネルの購読を解除してください。' if @charge.status != 'past_due'
-    @charge.cancel_subscription
     redirect_to user_path(current_user)
   rescue Stripe::StripeError => e
     logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"

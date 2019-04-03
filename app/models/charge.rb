@@ -46,7 +46,7 @@ class Charge < ApplicationRecord
   # 課金開始日の指定
   def billing_cycle_anchor
     next_payment_day = Time.current.next_month.beginning_of_month.change(day: BILLING_DAY) # 基本は翌月5日から課金サイクル開始
-    trial_end > next_payment_day ? next_payment_day.next_month : next_payment_day # トライアル終了がそれ以降になる場合は、翌々月から課金サイクル開始
+    trial_end_at > next_payment_day ? next_payment_day.next_month : next_payment_day # トライアル終了がそれ以降になる場合は、翌々月から課金サイクル開始
   end
 
   def cancel_subscription
@@ -96,7 +96,7 @@ class Charge < ApplicationRecord
     subscription = Stripe::Subscription.create(
       customer: customer_id,
       billing_cycle_anchor: billing_cycle_anchor.to_i,
-      trial_end: trial_end.to_i,
+      trial_end: trial_end_at.to_i,
       items: [{ plan: ENV['STRIPE_PLAN_ID'] }]
     )
 
@@ -104,11 +104,11 @@ class Charge < ApplicationRecord
     update!(
       subscription_id: subscription.id,
       status: subscription.status,
-      trial_end: trial_end
+      trial_end: trial_end_at
     )
   end
 
-  def trial_end
+  def trial_end_at
     TRIAL_PERIOD_DAYS.days.since(Time.current.end_of_day)
   end
 

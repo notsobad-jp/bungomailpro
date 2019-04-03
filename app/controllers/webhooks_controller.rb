@@ -23,6 +23,7 @@ class WebhooksController < ApplicationController
     sub = event.data.object
     charge = Charge.find_by!(subscription_id: sub.id)
     charge.update(status: sub.status)
+    logger.info "[Webhook] UPDATED charge:#{charge.id}, SET status: #{sub.status}"
 
     head :ok
   end
