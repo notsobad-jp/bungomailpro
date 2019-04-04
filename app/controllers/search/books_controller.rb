@@ -42,8 +42,6 @@ class Search::BooksController < Search::ApplicationController
   end
 
   def search_page_description
-    return "ゾラサーチは、青空文庫の作品を目安の読了時間で検索できるサービスです。" if view_context.current_page?(root_path)
-
     if @category.id == 'all'
       "青空文庫で公開されている#{@author[:name]}の全作品一覧です。"
     else
