@@ -24,10 +24,6 @@ gem 'kaminari'
 gem 'rails-i18n', '~> 5.1'
 gem 'stripe'
 
-group :production do
-  gem 'scout_apm'
-end
-
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
@@ -44,6 +40,7 @@ group :development do
   gem 'rubocop', require: false
   gem "rack-dev-mark"
   gem 'sitemap_generator'
+  gem 'derailed_benchmarks'
 end
 
 group :test do
