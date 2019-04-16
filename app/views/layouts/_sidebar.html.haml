@@ -1,4 +1,18 @@
 %h5.ui.small.dividing.header
+  %i.icon.clock.outline
+  ゾラサーチで検索
+  %span.ui.tiny.orange.label New!
+= link_to root_url(subdomain: 'search'), target: '_blank' do
+  = image_tag('/assets/images/ogp_search.png', class: 'ui large image')
+  = root_url(subdomain: 'search')
+%div
+  青空文庫の作品を
+  %b 読了時間
+  と
+  %b 人気順
+  で検索できる、ブンゴウメールの姉妹サービスです。
+
+%h5.ui.small.dividing.header
   %i.icon.question.circle
   お問い合わせ・フィードバック
 .ui.secondary.segment
