@@ -74,15 +74,18 @@
             ※購読には
             = link_to 'ログイン', login_path
             が必要です
-%br
 
-%div= simple_format_with_link @channel.description
+.ui.divider
 
+- if @channel.description.present?
+  %div= simple_format_with_link @channel.description
+  .ui.divider
 
 - if @subscription.try(:finished?)
   .ui.warning.small.message
     %i.icon.warning.circle
     このチャネルの配信は終了しました。もう一度購読したい場合は、「配信設定」から一度購読を解除し、再度購読し直してください。
+  .ui.hidden.divider
 
 - if @channel.from_email.present?
   .ui.info.small.message
@@ -92,65 +95,61 @@
     」から配信されます。
     = link_to 'メーラーの受信設定など', 'https://bungomail.hatenablog.com/entry/2018/05/21/172542', target: '_blank'
     を事前にご確認ください。
+  .ui.hidden.divider
 
 
--# 配信中タイトル
+
+-# streamingのときはシェアボタン表示、それ以外ではbookリストの表示
 - sub = @channel.streaming? ? @master_sub : @subscription
-- if !@channel.streaming? && sub.try(:current_chapter)
-  .ui.small.header
-    %i.icon.podcast
-    配信中のタイトル
-  .ui.secondary.padded.segment
-    - if book = sub.current_chapter.try(:book)
-      .ui.small.header
-        #{book.author}『#{book.title}』
-        = link_to book.aozora_card_url do
-          %i.icon.mini.external
-      %span.ui.label 次の配信
-      第#{sub.current_chapter.index}回（全#{book.chapters_count}回）
-      %i.icon.clock.outline
-      = sub.next_deliver_at.strftime("%m月%d日 %H:%M")
-    - else
-      現在配信中のタイトルはありません
-    .ui.hidden.divider
-    %div
-      %i.icon.rss
-      = link_to subscription_path(sub, format: :atom), target: '_blank' do
-        = subscription_url(sub, format: :atom)
-        &nbsp;
-        %i.icon.small.external
+.ui.horizontal.list
+  - if sub.present?
+    .item
+      = link_to subscription_path(sub, format: :atom), target: '_blank', class: 'ui small green left labeled icon button' do
+        %i.icon.rss
+        RSSフィード
+  .item
+    = link_to "https://twitter.com/intent/tweet?#{URI.encode_www_form(hashtags: 'ブンゴウメールPRO')}&original_referer=https%3A%2F%2Fbungomail.com%2Fpro%2F&ref_src=twsrc%5Etfw&#{URI.encode_www_form(text: @channel.title)}&#{URI.encode_www_form(url: channel_url(@channel))}", target: '_blank', class: 'ui small twitter icon button' do
+      %i.icon.twitter
+  .item
+    = link_to "https://www.facebook.com/sharer/sharer.php?#{URI.encode_www_form(u: channel_url(@channel))}&display=popup&ref=plugin&src=like&kid_directed_site=0&app_id=139414576217599", target: '_blank', class: 'ui small facebook icon button' do
+      %i.icon.facebook.f
 
-- if @channel.streaming?
-  -# ストリーミング && 新しい本のときは、RSSフィードURLのみ表示
-  .ui.secondary.padded.segment
+
+- if !@channel.streaming?
+  -# 配信中タイトル
+  - if sub.try(:current_chapter)
     .ui.small.header
-      %i.icon.rss
-      RSSフィード（無料）
-    %div
-      = link_to subscription_path(sub, format: :atom), target: '_blank' do
-        = subscription_url(sub, format: :atom)
+      %i.icon.podcast
+      配信中のタイトル
+    .ui.secondary.padded.segment
+      - if book = sub.current_chapter.try(:book)
+        .ui.small.header
+          #{book.author}『#{book.title}』
+          = link_to book.aozora_card_url do
+            %i.icon.mini.external
+        %span.ui.label 次の配信
+        第#{sub.current_chapter.index}回（全#{book.chapters_count}回）
+        %i.icon.clock.outline
+        = sub.next_deliver_at.strftime("%m月%d日 %H:%M")
+      - else
+        現在配信中のタイトルはありません
 
-
--# bookリストの見出し
-- if @subscription
-  .ui.secondary.pointing.menu
-    - if @finished
-      = link_to '今後の配信予定', channel_path(@channel), class: 'item'
-      .active.item 過去の配信
-    - else
-      .active.item 今後の配信予定
-      = link_to '過去の配信', channel_path(@channel, books: 'finished'), class: 'item'
-- else
-  .ui.small.dividing.header
-    %i.icon.book
-    配信タイトル
-
-
--# bookリスト
-.ui.middle.alligned.relaxed.large.ordered.list
-  - if @channel.streaming? && !@finished
-    %small ストリーミング配信では、事前にどの本が配信されるか見ることはできません。配信をたのしみにお待ちください！
+  -# 見出し
+  - if @subscription
+    .ui.secondary.pointing.menu
+      - if @finished
+        = link_to '今後の配信予定', channel_path(@channel), class: 'item'
+        .active.item 過去の配信
+      - else
+        .active.item 今後の配信予定
+        = link_to '過去の配信', channel_path(@channel, books: 'finished'), class: 'item'
   - else
+    .ui.small.dividing.header
+      %i.icon.book
+      配信タイトル
+
+  -# bookリスト
+  .ui.middle.alligned.relaxed.large.ordered.list
     - @books.each do |book|
       .item
         .content
@@ -162,6 +161,6 @@
           .meta
             %small= book.author
 
-- if @books.blank? && !@channel.streaming?
-  - message = @finished ? 'まだ配信済みの本がないようです。' : '配信予定の本がありません。'
-  %small= message
+  - if @books.blank?
+    - message = @finished ? 'まだ配信済みの本がないようです。' : '配信予定の本がありません。'
+    %small= message
