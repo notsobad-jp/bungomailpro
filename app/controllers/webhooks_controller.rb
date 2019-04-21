@@ -27,4 +27,14 @@ class WebhooksController < ApplicationController
 
     head :ok
   end
+
+  # sendgridのopenイベントを拾ってpixelaに投げる
+  def email_opened
+    data = JSON.parse(request.body.read).first
+    user = User.find_by(email: data["email"])
+    return head :bad_request if !user
+
+    res = Pixela.increment(user)
+    logger.info "[PIXELA] Incremented user: #{user.id}, #{res}, event_id: #{data['sg_event_id']}"
+  end
 end

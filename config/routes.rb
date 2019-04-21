@@ -110,6 +110,7 @@ Rails.application.routes.draw do
 
     get 'update_payment' => 'charges#update_payment'
     post 'webhooks/update_subscription'
+    post 'webhooks/email_opened'
 
     get 'users/:id' => 'users#show', as: :user
 
