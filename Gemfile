@@ -46,3 +46,7 @@ end
 group :test do
   gem 'webmock'
 end
+
+group :production do
+  gem 'scout_apm'
+end
