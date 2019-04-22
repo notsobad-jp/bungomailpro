@@ -33,17 +33,20 @@ class UserTest < ActiveSupport::TestCase
   ########################################################################
   # subscriptionable?
   ########################################################################
-  # 購読チャネルが3未満のとき
+  # 購読チャネルが5未満のとき
   test 'subscriptionable?_when_true' do
-    assert_equal 2, @user1.subscriptions.size
+    @user1.subscribe(channels(:channel3))
+    assert_equal 3, @user1.subscriptions.size
     assert @user1.subscriptionable?
   end
 
-  # 購読チャネルが3以上のとき
+  # 購読チャネルが5以上のとき
   test 'subscriptionable?_when_false' do
+    @user1.subscribe(channels(:channel0))
     @user1.subscribe(channels(:channel3))
+    @user1.subscribe(channels(:channel4))
 
-    assert_equal 3, @user1.subscriptions.size
+    assert_equal 5, @user1.subscriptions.size
     assert_not @user1.subscriptionable?
   end
 
