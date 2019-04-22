@@ -5,12 +5,6 @@
 .ui.secondary.pointing.menu
   .active.item プロフィール
 
-.ui.warning.small.message
-  ニックネーム・プロフィール画像は、「
-  = link_to 'Gravatar', 'https://ja.gravatar.com/', target: '_blank'
-  」というプロフィール管理サービスに登録したものが使用されます。
-  メールアドレスの変更や退会希望はinfo@notsobad.jpまで直接ご連絡ください。
-
 %br
 .ui.stackable.grid
   .row
@@ -19,15 +13,19 @@
     .thirteen.wide.column
       .ui.form
         .field
-          %label.label ニックネーム
-          .ui.fluid.input
-            %input(type="text" value="#{@user.display_name}" disabled)
+          %label.label
+            %i.icon.user.outline
+            ニックネーム
+          = @user.display_name
         .field
-          %label.label メールアドレス
-          .ui.fluid.input
-            %input(type="text" value="#{@user.email}" disabled)
+          %label.label
+            %i.icon.mail.outline
+            メールアドレス
+          = @user.email
         .field
-          %label.label 現在のプラン
+          %label.label
+            %i.icon.credit.card.outline
+            現在のプラン
           = payment_status_label(@charge)
           - if @charge.try(:active?) && @charge.try(:cancel_at)
             %small （#{@charge.cancel_at.strftime("%m月%d日で配信停止")}）
@@ -66,3 +64,30 @@
         %i.icon.small.external
       %br
       %small ※ブンゴウメールで登録したものと同じメールアドレスで登録してください。
+
+      .ui.warning.small.message
+        ニックネーム・プロフィール画像は、「
+        = link_to 'Gravatar', 'https://ja.gravatar.com/', target: '_blank'
+        」というプロフィール管理サービスに登録したものが使用されます。
+        メールアドレスの変更や退会希望はinfo@notsobad.jpまで直接ご連絡ください。
+
+
+- if @user.id == User::NOTSOBAD_ID
+  %br
+  %br
+
+  .ui.secondary.pointing.menu
+    .active.item
+      読書ログ
+  %div
+    %small メール開封状況をもとに自動で読書ログを記録します。詳しくはブログ記事をご覧ください。
+  %br
+  %div
+    = link_to "#{@user.pixela_url}.html", target: '_blank' do
+      = image_tag(@user.pixela_url.to_s, class: 'ui image')
+  %br
+  %div
+    = link_to "#{@user.pixela_url}.html", target: '_blank', class: 'ui black basic small button' do
+      詳細な読書ログを確認する
+      &nbsp;
+      %i.icon.external.small

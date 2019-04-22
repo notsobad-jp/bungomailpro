@@ -34,6 +34,7 @@ class User < ApplicationRecord
   MAX_SUBSCRIPTIONS_COUNT = 5
 
   ALTEREGO_ID = 'bb378768-e59a-47d8-bd18-f25bb116340b'.freeze
+  NOTSOBAD_ID = 'be7a3676-004e-4b0d-b428-e62315798e22'.freeze
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
@@ -58,6 +59,10 @@ class User < ApplicationRecord
 
   def pixela_id
     "b#{id[0..14]}"
+  end
+
+  def pixela_url
+    "#{Pixela::PIXELA_BASE_URL}/#{pixela_id}"
   end
 
   def pro?
