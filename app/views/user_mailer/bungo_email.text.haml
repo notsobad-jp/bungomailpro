@@ -1,0 +1,70 @@
+#{@subscription.channel.title}
+\
+（#{@subscription.next_chapter.text.length}字。目安の読了時間：#{@subscription.next_chapter.text.length.quo(500).ceil}分）
+\
+\
+- if (image_url = @subscription.next_chapter.image_url)
+  ※画像はこちら
+  \
+  = image_url
+  \
+  \
+= @subscription.next_chapter.text
+\
+\
+\=========================
+\
+- if @comment
+  = strip_tags(@comment.text)
+  \
+  \-------
+  \
+
+- if (footer = @subscription.footer.presence)
+  = strip_tags(footer)
+  \
+  \-------
+  \
+
+- if @notification
+  【お知らせ】
+  = strip_tags(@notification.text)
+  \
+  \-------
+  \
+
+- today = Time.zone.today
+- if today.day == 30 && today.end_of_month.day == 31
+  ブンゴウメールでは毎月31日はメールが配信されません。
+  次回の配信は翌月1日となります。ご了承ください。
+  \
+  \-------
+  \
+
+ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　
+= @subscription.current_book.twitter_share_url
+\
+■Twitterでみんなの感想を見る：https://goo.gl/rgfoDv
+\
+■ブンゴウメール公式サイト：https://bungomail.com
+\
+■次に読みたい作品を教えてください！：http://blog.notsobad.jp/entry/2018/05/03/145404
+\
+■青空文庫でこの作品を読む：#{@subscription.current_book.aozora_file_url}
+\
+■運営へのご支援はこちら： https://www.buymeacoffee.com/bungomail
+\
+\
+メール配信の停止はこちら：https://goo.gl/forms/kVz3fE9HdDq5iuA03
+\
+\-------
+\
+
+配信元: ブンゴウメール編集部
+\
+NOT SO BAD, LLC.
+\
+Web: https://bungomail.com
+\
+Mail: info@notsobad.jp
+\

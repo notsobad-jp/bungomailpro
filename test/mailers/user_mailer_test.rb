@@ -3,6 +3,7 @@ require 'test_helper'
 class UserMailerTest < ActiveSupport::TestCase
   def setup
     ActionMailer::Base.deliveries.clear
+    stub_request(:get, %r{https://api-ssl.bitly.com/.*}).to_return(status: 200, body: '{"data":{"url":"https://hogehoge.com"}}')
   end
 
   ########################################################################
@@ -50,5 +51,22 @@ class UserMailerTest < ActiveSupport::TestCase
     assert email.header['from'].value.include? 'エス'
     assert email.header['from'].value.include? 'alterego@notsobad.jp'
     assert email.subject.include? '太宰さん'
+  end
+
+
+  # bungomailチャネルは個別配信とグループ配信を分ける
+  test 'send_chapter_email_for_bungomail' do
+    sub = subscriptions(:bungomail_master)
+    sub.deliver_and_update
+
+    assert_equal 2, ActionMailer::Base.deliveries.count
+
+    email_users = ActionMailer::Base.deliveries.first
+    to = JSON.parse(email_users.header["X-SMTPAPI"].value)["to"]
+    assert_equal ['sample9@example.com', 'info@notsobad.jp'], to
+
+    email_group = ActionMailer::Base.deliveries.last
+    to = JSON.parse(email_group.header["X-SMTPAPI"].value)["to"]
+    assert_equal 'bungomail-text@notsobad.jp', to
   end
 end

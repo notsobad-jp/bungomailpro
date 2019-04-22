@@ -47,10 +47,34 @@ class UserMailer < ApplicationMailer
       to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
       subject: subject,
       reply_to: 'info@notsobad.jp'
-    ) do |format|
-      format.text
-      format.html unless @subscription.channel.id == Channel::BUNGOMAIL_ID # 旧ブンゴウメール公式チャネルはGoogleGroupsへの配信なので、テキストメールのみ
-    end
+    )
     logger.info "[SCHEDULED] channel:#{@subscription.channel.id}, chapter:#{@subscription.next_chapter.book_id}-#{@subscription.next_chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
+  end
+
+
+  def bungo_email
+    @subscription = params[:subscription]
+    @notification = Notification.find_by(date: Time.current)
+    @comment = @subscription.current_comment
+    send_at = Time.zone.parse(@subscription.next_delivery_date.to_s).change(hour: @subscription.delivery_hour)
+
+    xsmtp_api_params = {
+      send_at: send_at.to_i,
+      to: 'bungomail-text@notsobad.jp', # 公式グループアドレスに配信
+      category: 'chapter'
+    }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
+    from_name = "#{@subscription.current_book.author.delete(' ').tr(',', '、')}（ブンゴウメール）"
+    subject = "#{@subscription.current_book.title}（#{@subscription.next_chapter.index}/#{@subscription.current_book.chapters_count}） - #{@subscription.channel.title}"
+    from_email = 'bungomail@notsobad.jp'
+
+    mail(
+      from: "#{from_name} <#{from_email}>",
+      to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
+      subject: subject,
+      reply_to: 'info@notsobad.jp'
+    )
+    logger.info "[SCHEDULED][GROUP] channel:#{@subscription.channel.id}, chapter:#{@subscription.next_chapter.book_id}-#{@subscription.next_chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
   end
 end

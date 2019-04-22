@@ -115,3 +115,19 @@ alterego_master:
   delivery_hour: 22
   next_chapter_index: 1
   next_delivery_date: <%= Time.zone.today %>
+
+bungomail_master:
+  user_id: be7a3676-004e-4b0d-b428-e62315798e22
+  channel_id: 1418479c-d5a7-4d29-a174-c5133ca484b6
+  current_book: book2
+  delivery_hour: 7
+  next_chapter_index: 1
+  next_delivery_date: <%= Time.zone.today %>
+
+bungomail_group:
+  user: bungomail_group
+  channel_id: 1418479c-d5a7-4d29-a174-c5133ca484b6
+
+bungomail_user9:
+  user: user9
+  channel_id: 1418479c-d5a7-4d29-a174-c5133ca484b6

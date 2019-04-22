@@ -67,3 +67,10 @@ alterego:
   status: streaming
   from_name: 'エス（ALTER EGO）'
   from_email: 'alterego@notsobad.jp'
+
+bungomail:
+  id: 1418479c-d5a7-4d29-a174-c5133ca484b6
+  user_id: be7a3676-004e-4b0d-b428-e62315798e22
+  title: 'ブンゴウメール'
+  description: 'ほげほげ'
+  status: streaming

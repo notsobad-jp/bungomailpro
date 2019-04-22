@@ -202,4 +202,14 @@ class SubscriptionTest < ActiveSupport::TestCase
     sub.create_feed
     assert_equal 1, sub.feeds.count
   end
+
+
+  ########################################################################
+  # deliverable_emails
+  ########################################################################
+  test 'deliverable_emails_exclude_group_address' do
+    sub = subscriptions(:bungomail_master)
+    assert_not sub.deliverable_emails.include? 'bungomail-text@notsobad.jp'
+    assert_equal 2, sub.deliverable_emails.count
+  end
 end

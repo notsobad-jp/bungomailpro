@@ -49,14 +49,13 @@ module ApplicationHelper
   def twitter_share_link(channel)
     if channel.private?
       url =  pro_root_url
-      title = ""
-      hashtags = "#ブンゴウメールPRO"
+      text = "#ブンゴウメールPRO"
     else
       url = channel_url(channel)
-      title = channel.title
-      hashtags = "##{channel.hashtag} #ブンゴウメールPRO"
+      text = "#{channel.title} #ブンゴウメールPRO "
+      text += "##{channel.hashtag}" if channel.hashtag
     end
-    "http://twitter.com/intent/tweet?text=#{CGI.escape(title + ' ' + hashtags)} #{CGI.escape(url)}"
+    "http://twitter.com/intent/tweet?text=#{CGI.escape(text)} #{CGI.escape(url)}"
   end
 
   def linknize(text)

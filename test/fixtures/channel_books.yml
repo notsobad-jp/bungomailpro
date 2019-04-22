@@ -63,3 +63,8 @@ alterego_book1:
   channel: alterego
   book: book1
   index: 1
+
+bungomail_book1:
+  channel: bungomail
+  book: book2
+  index: 1

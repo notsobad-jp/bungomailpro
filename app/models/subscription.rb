@@ -72,6 +72,7 @@ class Subscription < ApplicationRecord
 
     # 有料ユーザーのみメール配信
     UserMailer.with(subscription: self).chapter_email.deliver_now # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
+    UserMailer.with(subscription: self).bungo_email.deliver_now if self.channel_id == Channel::BUNGOMAIL_ID # ブンゴウメール公式チャネルのみ、グループアドレスにtextメールを追加配信
     self.footer = ActionController::Base.helpers.strip_tags(footer) # なぜかURLがaタグ化して保存されてしまうのを回避
 
     # RSSフィードと次の配信情報の更新（無料ユーザーも）
@@ -82,7 +83,7 @@ class Subscription < ApplicationRecord
   # 実際にメール配信する宛先のリスト（=有料プラン契約済みのメールアドレス一覧）
   def deliverable_emails
     subscribers = channel.streaming? ? channel.subscribers : Array(user) # streamingじゃないときはownerだけだけど、returnを揃えられるようArrayに統一
-    subscribers.select(&:pro?).pluck(:email)
+    subscribers.select(&:pro?).reject{|s| s.email == 'bungomail-text@notsobad.jp' }.pluck(:email)
   end
 
   # current_bookがなければ配信停止状態と判断
