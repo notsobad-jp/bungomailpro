@@ -42,9 +42,9 @@ class UserTest < ActiveSupport::TestCase
 
   # 購読チャネルが5以上のとき
   test 'subscriptionable?_when_false' do
-    @user1.subscribe(channels(:channel0))
     @user1.subscribe(channels(:channel3))
     @user1.subscribe(channels(:channel4))
+    @user1.subscribe(channels(:streaming))
 
     assert_equal 5, @user1.subscriptions.size
     assert_not @user1.subscriptionable?
