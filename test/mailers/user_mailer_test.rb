@@ -67,6 +67,6 @@ class UserMailerTest < ActiveSupport::TestCase
 
     email_group = ActionMailer::Base.deliveries.last
     to = JSON.parse(email_group.header["X-SMTPAPI"].value)["to"]
-    assert_equal 'bungomail-text@notsobad.jp', to
+    assert_equal ['bungomail-text@notsobad.jp', 'lkxhb1yn0m.6fnhsbevhylj4@blog.hatena.ne.jp'], to
   end
 end

@@ -60,7 +60,7 @@ class UserMailer < ApplicationMailer
 
     xsmtp_api_params = {
       send_at: send_at.to_i,
-      to: 'bungomail-text@notsobad.jp', # 公式グループアドレスに配信
+      to: ['bungomail-text@notsobad.jp', 'lkxhb1yn0m.6fnhsbevhylj4@blog.hatena.ne.jp'], # 公式グループアドレスと公式ブログに配信
       category: 'chapter'
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
