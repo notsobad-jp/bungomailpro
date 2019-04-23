@@ -4,6 +4,7 @@ class UserMailerTest < ActiveSupport::TestCase
   def setup
     ActionMailer::Base.deliveries.clear
     stub_request(:get, %r{https://api-ssl.bitly.com/.*}).to_return(status: 200, body: '{"data":{"url":"https://hogehoge.com"}}')
+    stub_request(:post, %r{https://api.line.me/.*}).to_return(status: 200, body: '')
   end
 
   ########################################################################

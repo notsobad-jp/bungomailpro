@@ -12,4 +12,12 @@ namespace :mailer do
   task clear_feeds: :environment do |_task, _args|
     Feed.where('delivered_at < ?', 10.days.ago).delete_all
   end
+
+  task line: :environment do |_task, _args|
+    @client ||= Line::Bot::Client.new { |config|
+      config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
+      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+    }
+    byebug
+  end
 end
