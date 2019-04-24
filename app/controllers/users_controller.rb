@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       flash[:success] = '読書ログを有効化しました🎉'
     else
       @user.update(pixela_logging: false)
-      flash[:flash] = '読書ログを停止しました。'
+      flash[:success] = '読書ログを停止しました'
     end
     redirect_to user_path(@user)
   end
