@@ -72,22 +72,21 @@
         メールアドレスの変更や退会希望はinfo@notsobad.jpまで直接ご連絡ください。
 
 
-- if @user.id == User::NOTSOBAD_ID
-  %br
-  %br
+%br
+%br
 
-  .ui.secondary.pointing.menu
-    .active.item
-      読書ログ
-  %div
-    %small メール開封状況をもとに自動で読書ログを記録します。詳しくはブログ記事をご覧ください。
-  %br
-  %div
-    = link_to "#{@user.pixela_url}.html", target: '_blank' do
-      = image_tag(@user.pixela_url.to_s, class: 'ui image')
-  %br
-  %div
-    = link_to "#{@user.pixela_url}.html", target: '_blank', class: 'ui black basic small button' do
-      詳細な読書ログを確認する
-      &nbsp;
-      %i.icon.external.small
+.ui.secondary.pointing.menu
+  .active.item
+    読書ログ
+%div
+  %small メール開封状況をもとに自動で読書ログを記録します。詳しくはブログ記事をご覧ください。
+%br
+%div
+  = link_to "#{@user.pixela_url}.html", target: '_blank' do
+    = image_tag(@user.pixela_url.to_s, class: 'ui image')
+%br
+%div
+  = link_to "#{@user.pixela_url}.html", target: '_blank', class: 'ui black basic small button' do
+    詳細な読書ログを確認する
+    &nbsp;
+    %i.icon.external.small
