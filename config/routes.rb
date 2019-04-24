@@ -53,7 +53,9 @@
 #                              DELETE /charges/:id(.:format)                                                                   charges#destroy {:subdomain=>""}
 #               update_payment GET    /update_payment(.:format)                                                                charges#update_payment {:subdomain=>""}
 # webhooks_update_subscription POST   /webhooks/update_subscription(.:format)                                                  webhooks#update_subscription {:subdomain=>""}
+#        webhooks_email_opened POST   /webhooks/email_opened(.:format)                                                         webhooks#email_opened {:subdomain=>""}
 #                         user GET    /users/:id(.:format)                                                                     users#show {:subdomain=>""}
+#                  pixela_user POST   /users/:id/pixela(.:format)                                                              users#pixela {:subdomain=>""}
 #                        login GET    /login(.:format)                                                                         magic_tokens#new {:subdomain=>""}
 #                         auth GET    /auth(.:format)                                                                          magic_tokens#auth {:subdomain=>""}
 #                       logout POST   /logout(.:format)                                                                        magic_tokens#destroy {:subdomain=>""}
@@ -61,7 +63,6 @@
 #                        pages GET    /pages(.:format)                                                                         pages#index {:subdomain=>""}
 #                         page GET    /:page(.:format)                                                                         pages#show {:subdomain=>""}
 #                         root GET    /                                                                                        pages#lp {:subdomain=>""}
-#               search_authors POST   /authors/search(.:format)                                                                search/authors#search {:subdomain=>"search"}
 #        author_category_books GET    /authors/:author_id/categories/:category_id/books(.:format)                              search/books#index {:subdomain=>"search"}
 #                              POST   /authors/:author_id/categories/:category_id/books(.:format)                              search/books#create {:subdomain=>"search"}
 #     new_author_category_book GET    /authors/:author_id/categories/:category_id/books/new(.:format)                          search/books#new {:subdomain=>"search"}
@@ -113,6 +114,7 @@ Rails.application.routes.draw do
     post 'webhooks/email_opened'
 
     get 'users/:id' => 'users#show', as: :user
+    post 'users/:id/pixela' => 'users#pixela', as: :pixela_user
 
     get 'login' => 'magic_tokens#new', as: :login
     get 'auth' => 'magic_tokens#auth', as: :auth

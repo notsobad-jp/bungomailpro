@@ -9,6 +9,7 @@
 #  magic_login_email_sent_at      :datetime
 #  magic_login_token              :string
 #  magic_login_token_expires_at   :datetime
+#  pixela_logging                 :boolean          default(FALSE)
 #  remember_me_token              :string
 #  remember_me_token_expires_at   :datetime
 #  salt                           :string

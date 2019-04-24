@@ -79,14 +79,37 @@
   .active.item
     読書ログ
 %div
-  %small メール開封状況をもとに自動で読書ログを記録します。詳しくはブログ記事をご覧ください。
+  %small
+    メール開封状況をもとに自動で読書ログを記録します。詳しくは
+    = link_to '公式ブログの記事', 'https://bungomail.hatenablog.com/entry/2019/04/24/190742', target: '_blank'
+    をご覧ください。
 %br
-%div
-  = link_to "#{@user.pixela_url}.html", target: '_blank' do
-    = image_tag(@user.pixela_url.to_s, class: 'ui image')
-%br
-%div
-  = link_to "#{@user.pixela_url}.html", target: '_blank', class: 'ui black basic small button' do
-    詳細な読書ログを確認する
-    &nbsp;
-    %i.icon.external.small
+- if @user.pixela_logging?
+  %div
+    = link_to "#{@user.pixela_url}.html", target: '_blank' do
+      = image_tag(@user.pixela_url.to_s, class: 'ui image')
+  %br
+  %div
+    = link_to "#{@user.pixela_url}.html", target: '_blank', class: 'ui black basic small button' do
+      詳細な読書ログを確認する
+      &nbsp;
+      %i.icon.external.small
+  %br
+  %div
+    %small
+      = link_to '読書ログの記録を停止する',pixela_user_path(@user, logging: false), method: :post
+- else
+  .ui.secondary.center.aligned.padded.segment
+    = link_to pixela_user_path(@user, logging: true), method: :post, class: 'ui red responsive button' do
+      読書ログの記録を有効化する
+    %br
+    %br
+    %div
+      %small
+        この機能は
+        = link_to 'Pixela', 'https://pixe.la/', target: '_blank'
+        という外部のAPIサービスを利用します。
+        %br
+        利用にあたっては、
+        = link_to 'Pixelaの利用規約', 'https://github.com/a-know/Pixela/wiki/%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84%EF%BC%88Terms-of-Service-Japanese-Version%EF%BC%89', target: '_blank'
+        をご確認いただき、同意の上で利用を開始してください。

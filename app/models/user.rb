@@ -9,6 +9,7 @@
 #  magic_login_email_sent_at      :datetime
 #  magic_login_token              :string
 #  magic_login_token_expires_at   :datetime
+#  pixela_logging                 :boolean          default(FALSE)
 #  remember_me_token              :string
 #  remember_me_token_expires_at   :datetime
 #  salt                           :string
@@ -42,11 +43,6 @@ class User < ApplicationRecord
 
   after_create do
     channels.create!(title: 'マイチャネル', default: true)
-
-    if Rails.env.production?
-      res = Pixela.create_graph(self)
-      logger.info "[PIXELA] Created graph for #{id}, #{res}"
-    end
   end
 
   def default_channel
@@ -58,7 +54,7 @@ class User < ApplicationRecord
   end
 
   def pixela_id
-    "b#{id[0..14]}"
+    "a#{id[0..14]}"
   end
 
   def pixela_url
