@@ -1,16 +1,17 @@
 #breadcrumb(style="margin: 1rem 0 !important;")
-  .ui.small.breadcrumb
-    .section
-      = link_to root_path do
-        %span TOP
+  .ui.small.breadcrumb(itemscope itemtype="http://schema.org/BreadcrumbList")
+    .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
+      = link_to root_path, itemprop: 'item' do
+        %span(itemprop="name") TOP
+      %meta(itemprop="position" content="1")
     %i.icon.right.angle.divider
-    - @breadcrumbs.each do |item|
-      .section
+    - @breadcrumbs.each.with_index(2) do |item, index|
+      .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
         - if item[:url]
-          = link_to item[:url] do
-            %span= item[:name]
+          = link_to item[:name], item[:url]
           %i.icon.right.angle.divider
         - else
-          .section
-            %div
-              %span= item[:name]
+          %div= item[:name]
+        %meta(itemprop="name" content="#{item[:name]}")
+        %meta(itemprop="item" content="#{item[:url] || url_for(:only_path => false) }")
+        %meta(itemprop="position" content="#{index}")
