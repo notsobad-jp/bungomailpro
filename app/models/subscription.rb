@@ -73,11 +73,8 @@ class Subscription < ApplicationRecord
     # 有料ユーザーのみメール配信
     UserMailer.with(subscription: self).chapter_email.deliver_now # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
 
-    # ブンゴウメール公式チャネルのみ、グループアドレスにtextメールを追加配信して LINEにも配信
-    if self.channel_id == Channel::BUNGOMAIL_ID
-      UserMailer.with(subscription: self).bungo_email.deliver_now
-      Line.broadcast(self)
-    end
+    # ブンゴウメール公式チャネルのみ、グループアドレスにtextメールを追加配信
+    UserMailer.with(subscription: self).bungo_email.deliver_now if self.channel_id == Channel::BUNGOMAIL_ID
 
     self.footer = ActionController::Base.helpers.strip_tags(footer) # なぜかURLがaタグ化して保存されてしまうのを回避
 

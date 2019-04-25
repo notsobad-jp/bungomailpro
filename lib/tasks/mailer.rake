@@ -13,11 +13,10 @@ namespace :mailer do
     Feed.where('delivered_at < ?', 10.days.ago).delete_all
   end
 
+  desc 'LINE配信(メール配信してnext_chapter更新後にLINE配信するので、1つ前のchapterを配信する)'
   task line: :environment do |_task, _args|
-    @client ||= Line::Bot::Client.new { |config|
-      config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
-      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
-    }
-    byebug
+    sub = Channel.find(Channel::BUNGOMAIL_ID).master_subscription
+    return if !(prev_chapter = sub.prev_chapter)
+    Line.broadcast(prev_chapter)
   end
 end
