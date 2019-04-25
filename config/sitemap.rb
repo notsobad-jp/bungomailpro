@@ -28,7 +28,7 @@ SitemapGenerator::Sitemap.create do
   # 著者指定なしのカテゴリ別一覧
   Category.all.each do |category|
     priority = 1.0
-    add author_category_books_path(author_id: 'all', category_id: category.id), priority: priority, changefreq: 'monthly'
+    add author_category_books_path(author_id: 'all', category_id: category.id), priority: priority, changefreq: 'weekly'
   end
 
   # 著者別・カテゴリ別一覧
@@ -46,7 +46,7 @@ SitemapGenerator::Sitemap.create do
     end
 
     Category.all.each do |category|
-      add author_category_books_path(author_id: author_id, category_id: category.id), priority: priority, changefreq: 'monthly'
+      add author_category_books_path(author_id: author_id, category_id: category.id), priority: priority, changefreq: 'weekly'
     end
   end
 
@@ -65,6 +65,6 @@ SitemapGenerator::Sitemap.create do
       priority = 0.3
     end
 
-    add author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), priority: priority, changefreq: 'monthly'
+    add author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), priority: priority, changefreq: 'weekly'
   end
 end
