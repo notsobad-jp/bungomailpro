@@ -12,6 +12,15 @@ class CommentsController < ApplicationController
       @comments << @subscription.comments.find_or_initialize_by(book_id: book.id, index: i)
     end
 
+    if @comments.count <= 31
+      book = @subscription.current_channel_book.next.try(:book)
+      index = 1
+      range = index..[31 - @comments.count, book.chapters_count].min
+      range.each do |i|
+        @comments << @subscription.comments.find_or_initialize_by(book_id: book.id, index: i)
+      end
+    end
+
     @breadcrumbs << { name: '購読チャネル', url: subscriptions_path }
     @breadcrumbs << { name: @subscription.channel.title, url: channel_path(@subscription.channel) }
     @breadcrumbs << { name: 'コメント一覧' }

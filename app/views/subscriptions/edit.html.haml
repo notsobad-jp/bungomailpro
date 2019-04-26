@@ -16,7 +16,8 @@
 
   .field
     = f.label :next_delivery_date, '次回配信日'
-    = f.date_field :next_delivery_date, min: Date.current.tomorrow
+    - disabled = @subscription.next_chapter_index.blank?
+    = f.date_field :next_delivery_date, min: Date.current.tomorrow, disabled: disabled
 
   -# ストリーミングのときのみ、固定のフッターを表示
   - if @channel.streaming?
