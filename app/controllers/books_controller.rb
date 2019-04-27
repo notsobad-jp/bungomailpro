@@ -11,7 +11,7 @@ class BooksController < ApplicationController
       query = []
       query << "replace(title, ' ', '') LIKE :q" if @target[:work]
       query << "replace(author, ' ', '') LIKE :q" if @target[:author]
-      @results = Book.where(query.join(' OR '), q: "%#{@keyword.delete(' ')}%")
+      @results = Book.where(group: nil).where(query.join(' OR '), q: "%#{@keyword.delete(' ')}%")
 
       # 配信期間検索
       query = []

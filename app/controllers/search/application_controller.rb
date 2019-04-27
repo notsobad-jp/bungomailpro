@@ -9,7 +9,7 @@ class Search::ApplicationController < ApplicationController
     @categories = Category.all.order(:range_from, :id)
     @category = Category.find_by(id: params[:category_id]) || Category.find('all')
 
-    @author = if (book = Book.find_by(author_id: params[:author_id]))
+    @author = if ( params[:author_id] && book = Book.find_by(author_id: params[:author_id]))
       { id: book.author_id, name: book.author.split(',').first.delete(' ') }
     else
       { id: 'all', name: 'すべての著者' }

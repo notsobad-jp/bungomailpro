@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_24_104105) do
+ActiveRecord::Schema.define(version: 2019_04_27_043206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_104105) do
   create_table "books", id: :bigint, default: nil, force: :cascade do |t|
     t.string "title", null: false
     t.string "author", null: false
-    t.bigint "author_id", null: false
+    t.bigint "author_id"
     t.bigint "file_id"
     t.text "footnote"
     t.integer "chapters_count", default: 0, null: false
@@ -29,7 +29,9 @@ ActiveRecord::Schema.define(version: 2019_04_24_104105) do
     t.string "beginning"
     t.integer "access_count", default: 0
     t.string "category_id"
+    t.string "group"
     t.index ["access_count"], name: "index_books_on_access_count"
+    t.index ["group"], name: "index_books_on_group"
     t.index ["words_count"], name: "index_books_on_words_count"
   end
 
