@@ -39,7 +39,7 @@ class User < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
-  validates :subscriptions, length: { maximum: MAX_SUBSCRIPTIONS_COUNT }
+  validate :subscriptions_count, on: :update
 
   after_create do
     channels.create!(title: 'マイチャネル', default: true)
@@ -51,6 +51,10 @@ class User < ApplicationRecord
 
   def display_name
     profile ? profile['displayName'] : id
+  end
+
+  def max_subscriptions_count
+    pro? ? MAX_SUBSCRIPTIONS_COUNT : 1
   end
 
   def pixela_id
@@ -93,6 +97,12 @@ class User < ApplicationRecord
   end
 
   def subscriptionable?
-    subscriptions.size < MAX_SUBSCRIPTIONS_COUNT
+    subscriptions.size < max_subscriptions_count
+  end
+
+  private
+
+  def subscriptions_count
+    errors.add(:subscriptions, "is too long") unless self.subscriptions.count <= max_subscriptions_count
   end
 end
