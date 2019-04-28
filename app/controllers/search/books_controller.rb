@@ -1,6 +1,6 @@
 class Search::BooksController < Search::ApplicationController
   def index
-    books = @category.id == 'all' ? Book.includes(:category).all : @category.books
+    books = @category.id == 'all' ? Book.where(group: nil).includes(:category).all : @category.books
     books = books.where(author_id: @author[:id]) if @author[:id] != 'all'
     @books = books.where.not(words_count: 0).order(access_count: :desc).order(:words_count).page(params[:page]).per(50)
 

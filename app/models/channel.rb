@@ -37,6 +37,7 @@ class Channel < ApplicationRecord
   ALTEREGO_ID = '15ed0c75-553b-4b97-a142-9fb58f890883'.freeze
   URABANGUMI_ID = 'c0425db7-4991-4ba5-9322-3561691977f1'.freeze
   BUNGOMAIL_ID = '1418479c-d5a7-4d29-a174-c5133ca484b6'.freeze
+  BUSINESSMODEL_ID = 'f99b2ad1-a4ed-4246-a805-eb181a4196c7'.freeze
 
   validates :title, presence: true
   validates :description, presence: { message: '：チャネルを公開する場合は「チャネルの説明」の入力も必須です' }, if: proc { |c| !c.private? }

@@ -13,13 +13,13 @@
       %th.ten.wide 配信テキスト
       %th.five.wide コメント
   %tbody
-    - @comments.each_with_index do |comment, i|
+    - delivery_date = @subscription.next_delivery_date
+    - @comments.each do |comment|
       - book = comment.chapter.book
       %tr
         %td
-          - delivery_date = @subscription.next_delivery_date.since(i.day)
-          - delivery_date = delivery_date.tomorrow if delivery_date.day == 31
           = delivery_date.strftime("%-m/%-d")
+          - delivery_date = (delivery_date.tomorrow.day == 31) ? delivery_date.tomorrow.tomorrow : delivery_date.tomorrow
         %td
           %span.ui.small.header
             『#{book.title}』

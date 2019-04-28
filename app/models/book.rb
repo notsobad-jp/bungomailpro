@@ -8,17 +8,19 @@
 #  beginning      :string
 #  chapters_count :integer          default(0), not null
 #  footnote       :text
+#  group          :string
 #  title          :string           not null
 #  words_count    :integer          default(0)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  author_id      :bigint(8)        not null
+#  author_id      :bigint(8)
 #  category_id    :string
 #  file_id        :bigint(8)
 #
 # Indexes
 #
 #  index_books_on_access_count  (access_count)
+#  index_books_on_group         (group)
 #  index_books_on_words_count   (words_count)
 #
 # Foreign Keys

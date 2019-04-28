@@ -12,10 +12,10 @@ class CommentsController < ApplicationController
       @comments << @subscription.comments.find_or_initialize_by(book_id: book.id, index: i)
     end
 
-    if @comments.count <= 31
+    if @comments.count <= 62
       book = @subscription.current_channel_book.next.try(:book)
       index = 1
-      range = index..[31 - @comments.count, book.chapters_count].min
+      range = index..[62 - @comments.count, book.chapters_count].min
       range.each do |i|
         @comments << @subscription.comments.find_or_initialize_by(book_id: book.id, index: i)
       end
