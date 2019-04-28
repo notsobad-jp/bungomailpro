@@ -1,9 +1,10 @@
 require 'csv'
+include ActionView::Helpers::TextHelper
 
 namespace :books do
   desc 'CSVファイルからbookデータをimport'
   task import: :environment do |_task, _args|
-    CSV.foreach('tGkmp/books.csv') do |fg|
+    CSV.foreach('tmp/books.csv') do |fg|
       next if $INPUT_LINE_NUMBER == 1 # 見出し行をスキップ
       next if fg[10] == 'あり'  # 作品著作権の存続コンテンツはスキップ
       next if fg[23] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
@@ -101,6 +102,37 @@ namespace :books do
     Book.all.find_each do |book|
       category = Category.where.not(id: 'all').where("range_from <= ?", book.words_count).where("range_to > ?", book.words_count).first
       book.update(category_id: category.id) if category
+    end
+  end
+
+
+  desc 'ビジモ図鑑のHTMLファイルparse'
+  task import_busimo: :environment do |_task, _args|
+    html = File.open('tmp/business_model.html', &:read)
+
+    charset = 'UTF-8'
+    doc = Nokogiri::HTML.parse(html, nil, charset)
+
+    BUSIMO_ID = '4046023619'
+    chapter_index = 1
+    doc.search('p').each_with_index do |p, index|
+      chapter = Chapter.find_or_create_by(book_id: BUSIMO_ID, index: chapter_index)
+      case index % 3
+      when 0
+        text = strip_tags(p.inner_html.gsub(/\s/, "").gsub(/<br>/, "\r\n")).strip
+        chapter.update(text: text)
+      when 1
+        chapter.update(image_url: p.css('img').attr('src').value)
+      when 2
+        text = p.inner_html.gsub(/\s/, "")
+                            .gsub(/<br>/, "\r\n")
+                            .gsub(/(。)(?=[^（]*）|[^「]*」)/, '★★★') # （）と「」内の文末句点を★★★に一時変更
+                            .gsub(/(。)/, '\1' + "\r\n") # その他の句点に改行追加
+                            .gsub(/★★★/, '。') # ★を句点に戻す
+        chapter.update(text: chapter.text + "\r\n\r\n\r\n" + strip_tags(text).strip)
+        p "Finished: #{chapter_index}"
+        chapter_index += 1
+      end
     end
   end
 end
