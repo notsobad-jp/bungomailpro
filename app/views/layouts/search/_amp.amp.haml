@@ -25,5 +25,40 @@
       %style{"amp-boilerplate" => ""}
         :cdata
           body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}
+    %style{"amp-custom" => ""}
+      = File.read "#{Rails.root}/public/assets/stylesheets/chota.min.css"
+      = File.read "#{Rails.root}/public/assets/stylesheets/amp.css"
+
   %body
-    %h1 Welcome to the mobile web
+    .ui.attached.borderless.menu
+      = link_to root_path, class: 'header item' do
+        = image_tag('logo_search.png', class: 'ui small image')
+      = link_to root_url(subdomain: ''), target: '_blank', class: 'item computer only' do
+        %small by ブンゴウメール
+      .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
+      .right.floated.menu
+        = link_to page_path(:about), class: 'item' do
+          %small
+            %i.icon.circle.question
+            このサイトについて
+
+    - if current_page?(root_path)
+      .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
+
+    .ui.container
+      .ui.stackable.grid
+        .ui.thirteen.wide.column
+          - if controller_name == 'books' && (@author[:id] == 'all' && @category.id == 'all')
+            %br.computer.only
+          - else
+            = render partial: 'layouts/search/breadcrumb'
+          - %w(warning error success info).each do |status|
+            - if flash[status]
+              .ui.row
+                .column
+                  .ui.message(class="#{status}")
+                    = sanitize flash[status]
+          = yield
+        .ui.three.wide.column
+          = render partial: 'layouts/search/sidebar'
+    = render partial: 'layouts/search/footer'

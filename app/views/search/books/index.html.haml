@@ -25,10 +25,11 @@
     = hidden_field_tag :category_id, @category.id
     - if @author[:id] != 'all'
       = link_to author_category_books_path(author_id: 'all', category_id: @category.id) do
-        .ui.basic.icon.transparent.button
+        .ui.basic.icon.transparent.button.non-amp.only
           %i.icon.close
     %button.ui.basic.icon.button(type="submit")
       %i.icon.search
+      %span.amp.mobile.only 検索
       %span.computer.only 検索
 .ui.divider
 %br

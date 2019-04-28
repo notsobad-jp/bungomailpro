@@ -14,6 +14,9 @@ module SearchHelper
         outline = 'outline' if j >= i
         concat content_tag(:i, '', class: "icon yellow #{outline} star")
       end
+      i.times do |num|
+        concat content_tag(:span, '★', class: "amp only")
+      end
     end
   end
 

@@ -1,0 +1,45 @@
+/* 共通 */
+@media only screen and (max-width: 767px) {
+  .computer.only { display: none !important; }
+  .ui.responsive.button { width: 100%; }
+}
+@media only screen and (min-width: 768px) {
+  .mobile.only { display: none !important; }
+}
+.only.non-amp { display: none !important; }
+%i.icon { display: none; }
+
+
+/* ヘッダー */
+.ui.attached.borderless.menu { padding: 10px; }
+.right.floated.menu { display: inline-block; }
+.ui.attached.borderless.menu .computer.only {
+  font-size: smaller;
+  margin: 0 15px;
+  display: inline-block;
+}
+.small.image { width: 150px; }
+
+
+/* パンくず */
+.breadcrumb {
+  display: flex;
+  font-size: small;
+}
+
+
+/* 検索 */
+.ui.secondary.scrolling.menu { padding: 10px 0; }
+.ui.secondary.scrolling.menu .item { padding-right: 10px; }
+
+
+/* 検索結果テーブル */
+table .mobile.only .six.wide { width: 40%; }
+table .mobile.only .nine.wide { width: 30%; }
+
+
+/* 詳細ページ */
+.sub.header { font-size: 1.5rem; }
+table.definition.table .three.wide { width: 15%; }
+table.definition.table .thirteen.wide { width: 85%; }
+table.definition.table tr { border-bottom: 1px solid #ddd; }
