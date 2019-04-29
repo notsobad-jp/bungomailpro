@@ -1,12 +1,12 @@
 /* 共通 */
 @media only screen and (max-width: 767px) {
-  .computer.only { display: none !important; }
+  .computer.only { display: none; }
   .ui.responsive.button { width: 100%; }
 }
 @media only screen and (min-width: 768px) {
-  .mobile.only { display: none !important; }
+  .mobile.only { display: none; }
 }
-.only.non-amp { display: none !important; }
+.only.non-amp { display: none; }
 %i.icon { display: none; }
 
 
@@ -18,7 +18,6 @@
   margin: 0 15px;
   display: inline-block;
 }
-.small.image { width: 150px; }
 
 
 /* パンくず */
