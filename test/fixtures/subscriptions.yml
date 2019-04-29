@@ -131,3 +131,12 @@ bungomail_group:
 bungomail_user9:
   user: user9
   channel_id: 1418479c-d5a7-4d29-a174-c5133ca484b6
+
+# 配信終了
+user8_channel1:
+  user: user8
+  channel: channel1
+  current_book_id: null
+  delivery_hour: 8
+  next_chapter_index: null
+  next_delivery_date: null

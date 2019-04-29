@@ -23,24 +23,6 @@ class UserMailerTest < ActiveSupport::TestCase
     assert_equal Time.current.change(hour: 8).to_i, JSON.parse(email.header['X-SMTPAPI'].value)['send_at']
   end
 
-  # 非PROユーザーにはメール送信しない
-  test 'send_chapter_email_for_non_pro' do
-    sub = subscriptions(:user4_channel1)
-    UserMailer.with(subscription: sub).chapter_email.deliver_now
-    email = ActionMailer::Base.deliveries.last
-    assert_nil email
-  end
-
-  # streamingチャネルでは、PROユーザーにのみメール送信する
-  test 'send_chapter_email_for_streaming' do
-    sub = subscriptions(:streaming_master)
-    UserMailer.with(subscription: sub).chapter_email.deliver_now
-    email = ActionMailer::Base.deliveries.last
-    to = JSON.parse(email.header["X-SMTPAPI"].value)["to"]
-
-    assert_equal ['sample7@example.com', 'sample8@example.com'], to
-  end
-
   # ALTER EGOチャネルでは送信元をカスタマイズ
   test 'send_chapter_email_for_alterego' do
     sub = subscriptions(:alterego_master)

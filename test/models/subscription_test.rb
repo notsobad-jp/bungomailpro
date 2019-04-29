@@ -158,7 +158,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   # すでに配信停止の状態なら処理をスキップ
   test 'set_next_chapter_when_already_finished' do
     travel_to(Time.zone.now.change(day: 1)) do
-      sub = subscriptions(:user2_channel1)
+      sub = subscriptions(:user8_channel1)
       sub.set_next_chapter
 
       assert_nil sub.next_chapter_index

@@ -22,12 +22,22 @@
   = link_to new_channel_path, class: 'ui red small basic button' do
     %i.icon.plus
     新規チャネルを作成する
+  &nbsp;
+  .ui.small.header
+    購読チャネル数:
+    = current_user.subscriptions.count
+    \/
+    = current_user.max_subscriptions_count
 
   - if !current_user.subscriptionable?
     .ui.warning.small.message
       .content
         %i.icon.warning.circle
         購読チャネル数の上限に達しています。新しく購読したい場合は他の配信中チャネルの購読を解除してください。
+        - if !current_user.pro?
+          または
+          = link_to '有料プランに登録', new_charge_path
+          することで#{User::MAX_SUBSCRIPTIONS_COUNT}つまで同時に購読可能になります。
 
   .ui.secondary.pointing.menu
     - if @finished
