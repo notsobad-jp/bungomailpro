@@ -39,7 +39,7 @@
     %span.ui.orange.mini.label New!
   %p みんなで同時に同じ作品の配信を楽しむチャネルです。
   %br
-  .ui.two.stackable.cards
+  .ui.three.stackable.cards
     - @streaming_channels.each do |channel|
       = link_to channel_path(channel), class: 'ui card' do
         .image
