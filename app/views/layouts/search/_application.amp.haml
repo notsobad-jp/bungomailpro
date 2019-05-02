@@ -15,9 +15,14 @@
         = Rails.application.assets["amp"].to_s.html_safe
       - else
         = File.read "#{Rails.root}/public#{stylesheet_path("amp", host: nil)}"
+    %script(async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js")
 
 
   %body
+    %amp-analytics(type="gtag" data-credentials="include")
+      %script(type="application/json")
+        { "vars" : { "gtag_id": "UA-30867542-26", "config" : { "UA-30867542-26": { "groups": "default" } } } }
+
     .ui.attached.borderless.menu
       = link_to root_path, class: 'header item' do
         %amp-img(alt="ゾラサーチ" src="/assets/images/logo_search.png" width="150" height="25")
