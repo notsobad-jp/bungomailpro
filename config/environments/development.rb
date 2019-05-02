@@ -67,5 +67,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # config.rack_dev_mark.enable = true
-  config.rack_dev_mark.enable = false
+  config.rack_dev_mark.enable = true
 end
