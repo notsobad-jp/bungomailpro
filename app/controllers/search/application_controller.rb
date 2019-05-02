@@ -20,7 +20,4 @@ class Search::ApplicationController < ApplicationController
   def set_cache_control
     expires_in 1.month, public: true, must_revalidate: false
   end
-
-  def render_amp
-  end
 end

@@ -20,6 +20,22 @@ module SearchHelper
     end
   end
 
+  def amp_url
+    # root_urlのときは.ampだとうまくいかないので/authors/all/categories/all/booksをamp_urlにする
+    uri = (request.url == root_url(subdomain: 'search')) ? author_category_books_url(author_id: 'all', category_id: 'all') : request.url
+    amp_uri = URI.parse(uri)
+    amp_uri.path = "#{amp_uri.path}.amp"
+    amp_uri.to_s.html_safe
+  end
+
+  def amp_canonical_url
+    if (url = request.url.gsub(".amp", "")) == author_category_books_url(author_id: 'all', category_id: 'all')
+      root_url(subdomain: 'search')
+    else
+      url
+    end
+  end
+
   def characters_range(category)
     range_from = category.range_from.to_s(:delimited)
     range_to = category.range_to.to_s(:delimited)
