@@ -1,63 +1,66 @@
-!!!
-%html(lang="ja")
-  %head
-    = render partial: 'layouts/search/meta'
-    = csrf_meta_tags
-    = csp_meta_tag
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload', async: true
+- if request.format ==  :amp
+  = render 'layouts/search/application' #application.amp.haml
+- else
+  !!!
+  %html(lang="ja")
+    %head
+      = render partial: 'layouts/search/meta'
+      = csrf_meta_tags
+      = csp_meta_tag
+      = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+      = javascript_include_tag 'application', 'data-turbolinks-track': 'reload', async: true
 
-    -# Google Tag Manager
-    - if Rails.env.production?
-      :javascript
-        document.addEventListener('turbolinks:load', function(event) {
-          var url = event.data.url;
-          dataLayer.push({
-            'event':'pageView',
-            'virtualUrl': url
+      -# Google Tag Manager
+      - if Rails.env.production?
+        :javascript
+          document.addEventListener('turbolinks:load', function(event) {
+            var url = event.data.url;
+            dataLayer.push({
+              'event':'pageView',
+              'virtualUrl': url
+            });
           });
-        });
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer', "#{ENV['GOOGLE_TAG_MANAGER_ID']}");
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer', "#{ENV['GOOGLE_TAG_MANAGER_ID']}");
 
 
-  %body(data-path="#{controller_name}##{action_name}" data-controller="#{controller_name}" data-action="#{action_name}")
-    -# Google Tag Manager
-    %noscript
-      %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
+    %body#search
+      -# Google Tag Manager
+      %noscript
+        %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
-    .ui.attached.borderless.menu
-      = link_to root_path, class: 'header item' do
-        = image_tag('logo_search.png', class: 'ui small image')
-      = link_to root_url(subdomain: ''), target: '_blank', class: 'item computer only' do
-        %small by ブンゴウメール
-      .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
-      .right.floated.menu
-        = link_to page_path(:about), class: 'item' do
-          %small
-            %i.icon.circle.question
-            このサイトについて
+      .ui.attached.borderless.menu
+        = link_to root_path, class: 'header item' do
+          = image_tag('logo_search.png', class: 'ui small image')
+        = link_to root_url(subdomain: ''), target: '_blank', class: 'item computer only' do
+          %small by ブンゴウメール
+        .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
+        .right.floated.menu
+          = link_to page_path(:about), class: 'item' do
+            %small
+              %i.icon.circle.question
+              このサイトについて
 
-    - if current_page?(root_path)
-      .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
+      - if current_page?(root_path)
+        .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
 
-    .ui.container
-      .ui.stackable.grid
-        .ui.thirteen.wide.column
-          - if controller_name == 'books' && (@author[:id] == 'all' && @category.id == 'all')
-            %br.computer.only
-          - else
-            = render partial: 'layouts/search/breadcrumb'
-          - %w(warning error success info).each do |status|
-            - if flash[status]
-              .ui.row
-                .column
-                  .ui.message(class="#{status}")
-                    = sanitize flash[status]
-          = yield
-        .ui.three.wide.column
-          = render partial: 'layouts/search/sidebar'
-    = render partial: 'layouts/search/footer'
+      .ui.container
+        .ui.stackable.grid
+          .ui.thirteen.wide.column
+            - if controller_name == 'books' && (@author[:id] == 'all' && @category.id == 'all')
+              %br.computer.only
+            - else
+              = render partial: 'layouts/search/breadcrumb'
+            - %w(warning error success info).each do |status|
+              - if flash[status]
+                .ui.row
+                  .column
+                    .ui.message(class="#{status}")
+                      = sanitize flash[status]
+            = yield
+          .ui.three.wide.column
+            = render partial: 'layouts/search/sidebar'
+      = render partial: 'layouts/search/footer'

@@ -14,6 +14,25 @@ module SearchHelper
         outline = 'outline' if j >= i
         concat content_tag(:i, '', class: "icon yellow #{outline} star")
       end
+      i.times do |num|
+        concat content_tag(:span, '★', class: "amp only")
+      end
+    end
+  end
+
+  def amp_url
+    # root_urlのときは.ampだとうまくいかないので/authors/all/categories/all/booksをamp_urlにする
+    uri = (request.url == root_url(subdomain: 'search')) ? author_category_books_url(author_id: 'all', category_id: 'all') : request.url
+    amp_uri = URI.parse(uri)
+    amp_uri.path = "#{amp_uri.path}.amp"
+    amp_uri.to_s.html_safe
+  end
+
+  def amp_canonical_url
+    if (url = request.url.gsub(".amp", "")) == author_category_books_url(author_id: 'all', category_id: 'all')
+      root_url(subdomain: 'search')
+    else
+      url
     end
   end
 

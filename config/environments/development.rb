@@ -66,5 +66,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # config.rack_dev_mark.enable = true
   config.rack_dev_mark.enable = true
 end

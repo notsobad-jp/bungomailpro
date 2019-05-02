@@ -40,6 +40,11 @@ footer a { color: #fff !important; }
 
 .right.floated { float: right; }
 
+.only.amp { display: none; }
+
+/* Zorasearch */
+#search #breadcrumb { margin: 1rem 0 !important; }
+
 
 @media only screen and (max-width: 767px) {
   .computer.only { display: none !important; }

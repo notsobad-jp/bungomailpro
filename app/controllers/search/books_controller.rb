@@ -1,4 +1,6 @@
 class Search::BooksController < Search::ApplicationController
+  before_action :set_amp_ready
+
   def index
     books = @category.id == 'all' ? Book.where(group: nil).includes(:category).all : @category.books
     books = books.where(author_id: @author[:id]) if @author[:id] != 'all'
@@ -12,6 +14,14 @@ class Search::BooksController < Search::ApplicationController
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
     category_name = @category.id == 'all' ? '全作品' : "#{@category.title}（#{@category.name}）"
     @breadcrumbs << { name: category_name }
+
+    respond_to do |format|
+      format.html
+      format.amp do
+        lookup_context.formats = [:amp, :html] # .htmlのテンプレートも検索する
+        render
+      end
+    end
   end
 
 
@@ -28,6 +38,14 @@ class Search::BooksController < Search::ApplicationController
     category_name = "#{@category.title}（#{@category.name}）"
     @breadcrumbs << { name: category_name, url: author_category_books_url(author_id: @author[:id], category_id: @category.id) }
     @breadcrumbs << { name: @book.title }
+
+    respond_to do |format|
+      format.html
+      format.amp do
+        lookup_context.formats = [:amp, :html] # .htmlのテンプレートも検索する
+        render
+      end
+    end
   end
 
   private
@@ -49,5 +67,9 @@ class Search::BooksController < Search::ApplicationController
     else
       "青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category.name}」の#{@category.title}#{@books.total_count.to_s(:delimited)}作品を、おすすめ人気順に表示しています。"
     end
+  end
+
+  def set_amp_ready
+    @amp_ready = true
   end
 end

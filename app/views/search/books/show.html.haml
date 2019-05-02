@@ -41,34 +41,35 @@
 
 .ui.divider
 
-%h3.ui.header
-  = @book.author
-  の人気作品
-.ui.four.scrolling.cards
-  - @author_books.each do |book|
-    = link_to author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), class: 'ui card' do
-      .content
-        .header= book.title
-        .meta= book.author
-        .description= book.beginning.truncate(15)
-      .extra.content
-        .right.floated
-          = category_label(book.category)
-        = access_count_stars(book.access_count)
+%div.non-amp.only
+  %h3.ui.header
+    = @book.author
+    の人気作品
+  .ui.four.scrolling.cards
+    - @author_books.each do |book|
+      = link_to author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), class: 'ui card' do
+        .content
+          .header= book.title
+          .meta= book.author
+          .description= book.beginning.truncate(15)
+        .extra.content
+          .right.floated
+            = category_label(book.category)
+          = access_count_stars(book.access_count)
 
-%br
-%br
+  %br
+  %br
 
-%h3.ui.header
-  #{@book.category.title}（#{@book.category.name}）の人気作品
-.ui.four.scrolling.cards
-  - @category_books.each do |book|
-    = link_to author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), class: 'ui card' do
-      .content
-        .header= book.title
-        .meta= book.author
-        .description= book.beginning.truncate(15)
-      .extra.content
-        .right.floated
-          = category_label(book.category)
-        = access_count_stars(book.access_count)
+  %h3.ui.header
+    #{@book.category.title}（#{@book.category.name}）の人気作品
+  .ui.four.scrolling.cards
+    - @category_books.each do |book|
+      = link_to author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), class: 'ui card' do
+        .content
+          .header= book.title
+          .meta= book.author
+          .description= book.beginning.truncate(15)
+        .extra.content
+          .right.floated
+            = category_label(book.category)
+          = access_count_stars(book.access_count)
