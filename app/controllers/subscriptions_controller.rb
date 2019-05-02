@@ -25,7 +25,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def show
-    @feeds = @subscription.feeds.where('delivered_at < ?', Time.current)
+    @feeds = @subscription.feeds.includes(:chapter).where('delivered_at < ?', Time.current).limit(10)
     respond_to do |format|
       format.atom
     end

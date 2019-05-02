@@ -1,28 +1,25 @@
 .ui.two.stackable.cards
   .ui.card
     .ui.secondary.center.aligned.attached.segment
-      %h3.ui.small.header ブンゴウメール（通常版）
+      %h3.ui.small.header FREEプラン
     .content
       .description
         .ui.huge.center.aligned.red.header
           無料
-          .sub.header 毎月1冊、おまかせ読書
+          .sub.header 1チャネルだけならずっと無料
         .ui.divider
         .ui.small.header
           %i.icon.green.check
-          編集部が毎月1冊の短編をセレクトして配信します。
-        .ui.small.header
-          %i.icon.green.check
-          月の途中で登録した場合、作品の途中から届き始めます。
+          購読可能チャネル数：1
         .ui.small.header
           %i.icon.green.check
           メール内に広告が掲載されたり、広告メールが配信されたりします。
-    = link_to root_path, class: 'ui bottom attached primary button', target: '_blank' do
-      通常版を見る（無料）
+    = link_to login_path, class: 'ui bottom attached primary button' do
+      ユーザー登録する（無料）
   %br/
   .ui.card
     .ui.secondary.center.aligned.attached.segment
-      %h3.ui.small.header ブンゴウメールPRO
+      %h3.ui.small.header PROプラン
     .content
       .description
         .ui.huge.center.aligned.red.header
@@ -31,12 +28,9 @@
         .ui.divider
         .ui.small.header
           %i.icon.green.check
-          無料版では配信できない中長編の名作が読めます。
+          購読可能チャネル数： 5
         .ui.small.header
           %i.icon.green.check
-          好きな作家の作品だけ、SF小説だけ、など好きなコースを複数同時に購読できます。
-        .ui.small.header
-          %i.icon.green.check
-          自分の読みたい作品を好きなペースで配信することも可能です。
+          好きな作家の作品だけ、SF小説だけ、など好きなチャネルを複数同時に購読できます。
     = link_to new_charge_path, class: 'ui bottom attached red button' do
-      PRO版に登録する（14日間無料）
+      PROプランに登録する（14日間無料）
