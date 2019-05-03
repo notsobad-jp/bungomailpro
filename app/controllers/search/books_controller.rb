@@ -27,7 +27,7 @@ class Search::BooksController < Search::ApplicationController
 
   def show
     @book = Book.includes(:category).find(params[:id])
-    @author_books = Book.includes(:category).where(author_id: @author[:id]).order(access_count: :desc).take(4)
+    @author_books = Book.includes(:category).where.not(words_count: 0).where(author_id: @author[:id]).order(access_count: :desc).take(4)
     @category_books = @category.books.order(access_count: :desc).take(4)
 
     @meta_title = "#{@author[:name]}『#{@book.title}』 - #{@category.name}で読める#{@category.title}"

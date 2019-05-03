@@ -20,6 +20,9 @@
         %br.amp.only
         %small.right.floated 人気
   %tbody
+    - if books.blank?
+      %tr
+        %td （作品がありません）
     - books.each do |book|
       %tr.computer.only
         %td
