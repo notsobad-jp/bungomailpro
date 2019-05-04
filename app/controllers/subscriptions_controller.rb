@@ -7,13 +7,8 @@ class SubscriptionsController < ApplicationController
 
   def index
     if current_user
-      query = current_user.subscriptions.includes(:channel, :next_chapter, :current_book)
-      @subscriptions = if (@finished = params[:q] == 'finished')
-                         query.select { |sub| sub.current_book_id.nil? && !sub.channel.streaming? }
-                       else
-                         query.select { |sub| sub.current_book_id || sub.channel.streaming? }
-                       end
-      @draft_channels = current_user.channels.where(subscribers_count: 0) unless @finished
+      @subscriptions = current_user.subscriptions.includes(:channel, :next_chapter, :current_book)
+      @draft_channels = current_user.channels.where(subscribers_count: 0)
     end
     @breadcrumbs << { name: '購読チャネル' }
   end

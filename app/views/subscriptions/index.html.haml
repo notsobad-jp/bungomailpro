@@ -19,15 +19,10 @@
           = link_to 'チャネルを作成する', new_channel_path, class: 'ui primary small button'
 
 - else
-  = link_to new_channel_path, class: 'ui red small basic button' do
-    %i.icon.plus
-    新規チャネルを作成する
-  &nbsp;
-  .ui.small.header
-    購読チャネル数:
-    = current_user.subscriptions.count
-    \/
-    = current_user.max_subscriptions_count
+  - if current_user.pro?
+    = link_to new_channel_path, class: 'ui red small basic button' do
+      %i.icon.plus
+      新規チャネルを作成する
 
   - if !current_user.subscriptionable?
     .ui.warning.small.message
@@ -40,15 +35,31 @@
           することで#{User::MAX_SUBSCRIPTIONS_COUNT}つまで同時に購読可能になります。
 
   .ui.secondary.pointing.menu
-    - if @finished
-      = link_to '配信中', subscriptions_path, class: 'item'
-      .active.item 配信終了
-    - else
-      .active.item 配信中
-      = link_to '配信終了', subscriptions_path(q: 'finished'), class: 'item'
+    .active.item 購読中のチャネル
+    .item
+      （上限：
+      = current_user.subscriptions.count
+      \/
+      = current_user.max_subscriptions_count
+      ）
 
   .ui.stackable.grid
-    - if !@finished
+    - if @subscriptions.blank?
+      .ui.column チャネルがありません
+    - else
+      - @subscriptions.each do |subscription|
+        .ui.five.wide.column
+          = render partial: 'card', locals: { subscription: subscription }
+
+  %br
+
+  .ui.secondary.pointing.menu
+    .active.item 未配信のチャネル
+
+  .ui.stackable.grid
+    - if @draft_channels.blank?
+      .ui.column チャネルがありません
+    - else
       - @draft_channels.each do |channel|
         .ui.five.wide.column
           .ui.fluid.card
@@ -76,11 +87,3 @@
               - else
                 %button.ui.small.red.disabled.button 配信開始
               = link_to '編集', edit_channel_path(channel), class: "ui primary small basic button", data: {turbolinks: false}
-
-    - if @finished && @subscriptions.blank?
-      .ui.column
-        チャネルがありません
-
-    - @subscriptions.each do |subscription|
-      .ui.five.wide.column
-        = render partial: 'card', locals: { subscription: subscription }
