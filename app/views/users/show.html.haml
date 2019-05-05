@@ -2,112 +2,140 @@
   %i.icon.setting
   アカウント情報
 
-.ui.secondary.pointing.menu
-  .active.item プロフィール
-
-%br
-.ui.stackable.grid
-  .row
-    .three.wide.column
-      = image_tag(@user.profile_image_url, class: 'ui circular small image', style: 'max-width: 100px;')
-    .thirteen.wide.column
-      .ui.form
-        .field
-          %label.label
-            %i.icon.user.outline
-            ニックネーム
-          = @user.display_name
-        .field
-          %label.label
-            %i.icon.mail.outline
-            メールアドレス
-          = @user.email
-        .field
-          %label.label
-            %i.icon.credit.card.outline
-            現在のプラン
-          = payment_status_label(@charge)
-          - if @charge.try(:status) == 'trialing'
-            %small （#{Time.zone.at(@stripe_sub.trial_end).strftime("%m月%d日まで")}）
-
-          %br
-          - if @charge.try(:active?)
-            - if @charge.try(:cancel_at)
-              %small= link_to '解約を取り消す', activate_charge_path(@charge), method: :post
-            - else
-              %small= link_to '解約する', charge_path(@charge), method: :delete, data: {confirm: 'これ以降の支払いをただちに停止し、無料プランに切り替えます。本当によろしいですか？'}
-          - else
-            %br
-            = link_to '有料プランに変更する', new_charge_path, class: 'ui red small button', data: {turbolinks: false}
-
-          - if @charge.try(:status) == 'past_due'
-            .ui.error.small.visible.message
-              現在料金のお支払いに失敗しているため、数日ごとに何度か決済を再試行します。有効なカード情報を登録してお待ちください。
-              %br
-              再試行中もメール配信は継続します。何度か再試行しても決済に失敗する場合、自動的に契約が解除され配信も停止されます（新たに請求が届くことはありません）。
-
-        - if @charge.try(:active?) && !@charge.try(:cancel_at)
-          .field
-            %label.label 決済情報
-            = creditcard_icon(@charge.brand)
-            •••• #{@charge.last4}
-            %small （有効期限: #{@charge.exp_month}/#{@charge.exp_year}）
-            %br
-            %small= link_to '決済情報を変更する', edit_charge_path(@charge), data: {turbolinks: false}
-      %br
-      .ui.divider
-      = link_to  'https://ja.gravatar.com/',class: 'ui basic small black button', target: '_blank' do
-        Gravatarでプロフィールを編集する
-        &nbsp;
-        %i.icon.small.external
-      %br
-      %small ※ブンゴウメールで登録したものと同じメールアドレスで登録してください。
-
-      .ui.warning.small.message
-        ニックネーム・プロフィール画像は、「
-        = link_to 'Gravatar', 'https://ja.gravatar.com/', target: '_blank'
-        」というプロフィール管理サービスに登録したものが使用されます。
-        メールアドレスの変更や退会希望はinfo@notsobad.jpまで直接ご連絡ください。
-
-
-%br
-%br
-
-.ui.secondary.pointing.menu
-  .active.item
-    読書ログ
 %div
-  %small
-    メール開封状況をもとに自動で読書ログを記録します。詳しくは
-    = link_to '公式ブログの記事', 'https://bungomail.hatenablog.com/entry/2019/04/24/190742', target: '_blank'
-    をご覧ください。
-%br
-- if @user.pixela_logging?
+  .ui.secondary.pointing.menu
+    .active.item プロフィール
+
+  %br
+  .ui.stackable.grid
+    .row
+      .three.wide.column
+        = image_tag(@user.profile_image_url, class: 'ui circular small image', style: 'max-width: 100px;')
+      .thirteen.wide.column
+        .ui.form
+          .field
+            %label.label
+              %i.icon.user.outline
+              ニックネーム
+            = @user.display_name
+          .field
+            %label.label
+              %i.icon.mail.outline
+              メールアドレス
+            = @user.email
+          .field
+            %label.label
+              %i.icon.credit.card.outline
+              現在のプラン
+            = payment_status_label(@charge)
+            - if @charge.try(:status) == 'trialing'
+              %small （#{Time.zone.at(@stripe_sub.trial_end).strftime("%m月%d日まで")}）
+
+            %br
+            - if @charge.try(:active?)
+              - if @charge.try(:cancel_at)
+                %small= link_to '解約を取り消す', activate_charge_path(@charge), method: :post
+              - else
+                %small= link_to '解約する', charge_path(@charge), method: :delete, data: {confirm: 'これ以降の支払いをただちに停止し、無料プランに切り替えます。本当によろしいですか？'}
+            - else
+              %br
+              = link_to 'PROプランに登録する(14日間無料)', new_charge_path, class: 'ui red responsive button', data: {turbolinks: false}
+
+            - if @charge.try(:status) == 'past_due'
+              .ui.error.small.visible.message
+                現在料金のお支払いに失敗しているため、数日ごとに何度か決済を再試行します。有効なカード情報を登録してお待ちください。
+                %br
+                再試行中もメール配信は継続します。何度か再試行しても決済に失敗する場合、自動的に契約が解除され配信も停止されます（新たに請求が届くことはありません）。
+
+          - if @charge.try(:active?) && !@charge.try(:cancel_at)
+            .field
+              %label.label 決済情報
+              = creditcard_icon(@charge.brand)
+              •••• #{@charge.last4}
+              %small （有効期限: #{@charge.exp_month}/#{@charge.exp_year}）
+              %br
+              %small= link_to '決済情報を変更する', edit_charge_path(@charge), data: {turbolinks: false}
+        %br
+        .ui.divider
+        = link_to  'https://ja.gravatar.com/',class: 'ui basic small black button', target: '_blank' do
+          Gravatarでプロフィールを編集する
+          &nbsp;
+          %i.icon.small.external
+        %br
+        %small ※ブンゴウメールで登録したものと同じメールアドレスで登録してください。
+
+        .ui.warning.small.message
+          ニックネーム・プロフィール画像は、「
+          = link_to 'Gravatar', 'https://ja.gravatar.com/', target: '_blank'
+          」というプロフィール管理サービスに登録したものが使用されます。
+          メールアドレスの変更や退会希望はinfo@notsobad.jpまで直接ご連絡ください。
+  %br
+  %br
+
+
+%div
+  .ui.secondary.pointing.menu
+    .active.item
+      LINE配信機能
   %div
-    = link_to "#{@user.pixela_url}.html", target: '_blank' do
-      = image_tag(@user.pixela_url.to_s, class: 'ui image')
+    ブンゴウメール公式チャネルの配信をLINEで受け取れる機能です。
+    利用を希望される場合は以下のフォームからお申し込みください。
   %br
   %div
-    = link_to "#{@user.pixela_url}.html", target: '_blank', class: 'ui black basic small button' do
-      詳細な読書ログを確認する
-      &nbsp;
-      %i.icon.external.small
+    - if current_user.pro?
+      = link_to 'https://forms.gle/fzGd9dv7HqBbh4Wp7', target: '_blank', class: 'ui green responsive button' do
+        %i.icon.chat
+        LINE配信申し込みフォーム
+    - else
+      %button.ui.green.responsive.disabled.button
+        %i.icon.chat
+        LINE配信申し込みフォーム
   %br
   %div
     %small
-      = link_to '読書ログの記録を停止する',pixela_user_path(@user, logging: false), method: :post
-- else
-  .ui.secondary.center.aligned.padded.segment
-    = link_to pixela_user_path(@user, logging: true), method: :post, class: 'ui red responsive button' do
-      読書ログの記録を有効化する
+      ※LINE配信機能の利用には
+      = link_to 'PROプランへの登録', new_charge_path
+      が必要です。
+  %br
+  %br
+
+
+%div
+  .ui.secondary.pointing.menu
+    .active.item
+      読書ログ
+  %div
+    %small
+      メール開封状況をもとに自動で読書ログを記録します。詳しくは
+      = link_to '公式ブログの記事', 'https://bungomail.hatenablog.com/entry/2019/04/24/190742', target: '_blank'
+      をご覧ください。
+  %br
+  - if @user.pixela_logging?
+    %div
+      = link_to "#{@user.pixela_url}.html", target: '_blank' do
+        = image_tag(@user.pixela_url.to_s, class: 'ui image')
     %br
+    %div
+      = link_to "#{@user.pixela_url}.html", target: '_blank', class: 'ui black basic small button' do
+        詳細な読書ログを確認する
+        &nbsp;
+        %i.icon.external.small
     %br
     %div
       %small
-        この機能は
-        = link_to 'Pixela', 'https://pixe.la/', target: '_blank'
-        という外部のAPIサービスを利用します。
-        %br
-        利用にあたっては、
-        = link_to 'Pixelaの利用規約', 'https://github.com/a-know/Pixela/wiki/%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84%EF%BC%88Terms-of-Service-Japanese-Version%EF%BC%89', target: '_blank'
-        をご確認いただき、同意の上で利用を開始してください。
+        = link_to '読書ログの記録を停止する',pixela_user_path(@user, logging: false), method: :post
+  - else
+    .ui.secondary.center.aligned.padded.segment
+      = link_to pixela_user_path(@user, logging: true), method: :post, class: 'ui blue responsive button' do
+        読書ログの記録を有効化する
+      %br
+      %br
+      %div
+        %small
+          この機能は
+          = link_to 'Pixela', 'https://pixe.la/', target: '_blank'
+          という外部のAPIサービスを利用します。
+          %br
+          利用にあたっては、
+          = link_to 'Pixelaの利用規約', 'https://github.com/a-know/Pixela/wiki/%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84%EF%BC%88Terms-of-Service-Japanese-Version%EF%BC%89', target: '_blank'
+          をご確認いただき、同意の上で利用を開始してください。
