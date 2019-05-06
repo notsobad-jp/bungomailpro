@@ -19,7 +19,9 @@ class Line
     text += chapter.text
     contents = text.each_char.each_slice(500).map(&:join)
     contents.each_with_index do |content, index|
-      contents[index] = index==0 ? content + '…' : '…' + content
+      next if index+1 == contents.length
+      contents[index] = content[0, content.rindex("。")+1] # 最後の。までで切る
+      contents[index + 1].insert(0, content[content.rindex("。")+1, content.length]) # 切った分を次のcontentの先頭に追加
     end if contents.count > 1
 
     req.body = {
