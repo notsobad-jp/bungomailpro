@@ -75,4 +75,28 @@ class UserMailer < ApplicationMailer
     )
     logger.info "[SCHEDULED][GROUP] channel:#{@subscription.channel.id}, chapter:#{@subscription.next_chapter.book_id}-#{@subscription.next_chapter.index}, send_at:#{send_at}, to:#{@subscription.user_id}"
   end
+
+
+  def notification_email
+    @notification = params[:notification]
+    send_at = params[:target_date]
+
+    xsmtp_api_params = {
+      send_at: send_at.to_i,
+      to: ['bungomail-text@notsobad.jp', 'lkxhb1yn0m.6fnhsbevhylj4@blog.hatena.ne.jp'], # 公式グループアドレスと公式ブログに配信
+      category: 'notification'
+    }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
+    from_name = "ブンゴウメール編集部"
+    from_email = 'bungomail@notsobad.jp'
+
+    mail(
+      from: "#{from_name} <#{from_email}>",
+      to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
+      subject: @notification.title,
+      reply_to: 'info@notsobad.jp'
+    )
+    logger.info "[NOTIFICATION] notification: #{@notification.id}, send_at: #{send_at}"
+  end
 end

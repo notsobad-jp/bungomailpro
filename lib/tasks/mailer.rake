@@ -19,4 +19,11 @@ namespace :mailer do
     return if !(prev_chapter = sub.prev_chapter)
     Line.broadcast(prev_chapter)
   end
+
+  desc 'お知らせメールの配信'
+  task notification: :environment do |_task, _args|
+    target_date = Time.zone.parse(ENV['TARGET_DATE'])
+    notification = Notification.find(ENV['NOTIFICATION_ID'])
+    UserMailer.with(notification: notification, target_date: target_date).notification_email.deliver_now # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
+  end
 end
