@@ -41,10 +41,6 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validate :subscriptions_count, on: :update
 
-  after_create do
-    channels.create!(title: 'マイチャネル', default: true)
-  end
-
   def default_channel
     channels.find_by(default: true) || channels.first
   end

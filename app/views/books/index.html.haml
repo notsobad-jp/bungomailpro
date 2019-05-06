@@ -12,6 +12,12 @@
       %div(itemprop='item')
         %span(itemprop="name") 作品検索
 
+- if !current_user.try(:pro?)
+  .ui.warning.message
+    %i.icon.warning.circle
+    好きな作品を配信する機能は
+    = link_to 'PROプラン', new_charge_path
+    登録後に利用可能です。
 
 %h1.ui.header
   %i.icon.search
