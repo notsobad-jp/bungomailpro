@@ -26,13 +26,6 @@
   \-------
   \
 
-- if @notification
-  【お知らせ】
-  = strip_tags(@notification.text)
-  \
-  \-------
-  \
-
 - today = Time.zone.today
 - if today.day == 30 && today.end_of_month.day == 31
   ブンゴウメールでは毎月31日はメールが配信されません。

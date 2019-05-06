@@ -19,7 +19,6 @@ class UserMailer < ApplicationMailer
 
   def chapter_email
     @subscription = params[:subscription]
-    @notification = Notification.find_by(date: Time.current)
     @comment = @subscription.current_comment
     send_at = Time.zone.parse(@subscription.next_delivery_date.to_s).change(hour: @subscription.delivery_hour)
 
@@ -54,7 +53,6 @@ class UserMailer < ApplicationMailer
 
   def bungo_email
     @subscription = params[:subscription]
-    @notification = Notification.find_by(date: Time.current)
     @comment = @subscription.current_comment
     send_at = Time.zone.parse(@subscription.next_delivery_date.to_s).change(hour: @subscription.delivery_hour)
 
