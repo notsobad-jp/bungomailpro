@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def top
-    @streaming_channels = Channel.find([Channel::ALTEREGO_ID, Channel::URABANGUMI_ID, Channel::BUNGOMAIL_ID])
+    @streaming_channels = Channel.find([Channel::BUSINESSMODEL_ID, Channel::ALTEREGO_ID, Channel::URABANGUMI_ID])
     @popular_authors = [
       { id: 148, name: '夏目漱石' },
       { id: 879, name: '芥川竜之介' },
