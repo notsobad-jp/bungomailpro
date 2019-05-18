@@ -20,10 +20,15 @@ namespace :mailer do
     Line.broadcast(prev_chapter)
   end
 
+  # Usage:
+  ## 1) All Users: > bundle exec mailer:notification DATE="YYYY-MM-DD HH:ii" NOTIFICATION_ID=XX
+  ## 2) Email: > bundle exec mailer:notification DATE="YYYY-MM-DD HH:ii" NOTIFICATION_ID=XX TARGET="bungomail-text@notsobad.jp,lkxhb1yn0m.6fnhsbevhylj4@blog.hatena.ne.jp"
   desc 'お知らせメールの配信'
   task notification: :environment do |_task, _args|
-    target_date = Time.zone.parse(ENV['TARGET_DATE'])
+    date = Time.zone.parse(ENV['DATE'])
     notification = Notification.find(ENV['NOTIFICATION_ID'])
-    UserMailer.with(notification: notification, target_date: target_date).notification_email.deliver_now # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
+    target = ENV['TARGET'].try(:split, ",") || User.all.pluck(:email)
+
+    UserMailer.with(notification: notification, date: date, target: target).notification_email.deliver_now # deliver_nowだけどSendGrid側で予約配信するのでまだ送られない
   end
 end

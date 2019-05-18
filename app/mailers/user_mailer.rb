@@ -79,11 +79,11 @@ class UserMailer < ApplicationMailer
 
   def notification_email
     @notification = params[:notification]
-    send_at = params[:target_date]
+    send_at = params[:date]
 
     xsmtp_api_params = {
       send_at: send_at.to_i,
-      to: ['bungomail-text@notsobad.jp', 'lkxhb1yn0m.6fnhsbevhylj4@blog.hatena.ne.jp'], # 公式グループアドレスと公式ブログに配信
+      to: params[:target],
       category: 'notification'
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
