@@ -1,14 +1,18 @@
 module SearchHelper
-  def access_count_stars(access_count)
-    i = 0
+  def access_count_rating(access_count)
     if access_count >= 10000
-      i = 3
+      3
     elsif access_count >= 500
-      i = 2
+      2
     elsif access_count >= 1
-      i = 1
+      1
+    else
+      0
     end
+  end
 
+  def access_count_stars(access_count)
+    i = access_count_rating(access_count)
     content_tag(:span) do
       3.times do |j|
         outline = 'outline' if j >= i
