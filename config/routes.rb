@@ -137,6 +137,7 @@ Rails.application.routes.draw do
         end
       end
       get '/:page' => "pages#show"
+      get '/.amp' => 'books#index'
       root to: 'books#index'
     end
   end
