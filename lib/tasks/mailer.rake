@@ -16,7 +16,7 @@ namespace :mailer do
   desc 'LINE配信(メール配信してnext_chapter更新後にLINE配信するので、1つ前のchapterを配信する)'
   task line: :environment do |_task, _args|
     sub = Channel.find(Channel::BUNGOMAIL_ID).master_subscription
-    return if !(prev_chapter = sub.prev_chapter)
+    return if !(prev_chapter = sub.prev_chapter) || Time.zone.today.day == 31
     Line.broadcast(prev_chapter)
   end
 
