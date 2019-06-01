@@ -1,3 +1,6 @@
+- if feed.chapter.image_url.present?
+  = image_tag(feed.chapter.image_url)
+  %br
 = simple_format_with_link(feed.chapter.text)
 %br
 
