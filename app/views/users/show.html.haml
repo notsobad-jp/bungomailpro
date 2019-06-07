@@ -58,17 +58,16 @@
       LINE配信機能
   %div
     ブンゴウメール公式チャネルの配信をLINEで受け取れる機能です。
-    利用を希望される場合は以下のフォームからお申し込みください。
+    利用を希望される場合は以下のボタンから、ブンゴウメール公式アカウントを友だちに追加してください。
   %br
   %div
     - if current_user.pro?
-      = link_to 'https://forms.gle/fzGd9dv7HqBbh4Wp7', target: '_blank', class: 'ui green responsive button' do
-        %i.icon.chat
-        LINE配信申し込みフォーム
+      = link_to 'http://nav.cx/fEbnPiT', target: '_blank' do
+        = image_tag('https://scdn.line-apps.com/n/line_add_friends/btn/ja.png', alt: "友だち追加", height: 36, border: 0)
     - else
       %button.ui.green.responsive.disabled.button
         %i.icon.chat
-        LINE配信申し込みフォーム
+        LINE友だち追加
   %br
   %div
     %small
