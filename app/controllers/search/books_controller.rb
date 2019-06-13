@@ -12,6 +12,15 @@ class Search::BooksController < Search::ApplicationController
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
     category_name = @category.id == 'all' ? '全作品' : "#{@category.title}（#{@category.name}）"
     @breadcrumbs << { name: category_name }
+
+    # TODO: .ampへのアクセスがなくなったら消す
+    respond_to do |format|
+      format.html
+      format.amp do
+        lookup_context.formats = [:amp, :html] # .htmlのテンプレートも検索する
+        render
+      end
+    end
   end
 
 
@@ -28,6 +37,15 @@ class Search::BooksController < Search::ApplicationController
     category_name = "#{@category.title}（#{@category.name}）"
     @breadcrumbs << { name: category_name, url: author_category_books_url(author_id: @author[:id], category_id: @category.id) }
     @breadcrumbs << { name: @book.title }
+
+    # TODO: .ampへのアクセスがなくなったら消す
+    respond_to do |format|
+      format.html
+      format.amp do
+        lookup_context.formats = [:amp, :html] # .htmlのテンプレートも検索する
+        render
+      end
+    end
   end
 
   private
