@@ -13,6 +13,7 @@ class Search::BooksController < Search::ApplicationController
     category_name = @category.id == 'all' ? '全作品' : "#{@category.title}（#{@category.name}）"
     @breadcrumbs << { name: category_name }
 
+    # TODO: .ampへのアクセスがなくなったら消す
     respond_to do |format|
       format.html
       format.amp do
@@ -37,6 +38,7 @@ class Search::BooksController < Search::ApplicationController
     @breadcrumbs << { name: category_name, url: author_category_books_url(author_id: @author[:id], category_id: @category.id) }
     @breadcrumbs << { name: @book.title }
 
+    # TODO: .ampへのアクセスがなくなったら消す
     respond_to do |format|
       format.html
       format.amp do

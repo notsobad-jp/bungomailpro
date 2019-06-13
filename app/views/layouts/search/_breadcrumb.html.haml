@@ -5,13 +5,11 @@
         %span(itemprop="name") TOP
       %meta(itemprop="position" content="1")
     %i.icon.right.angle.divider
-    %span.amp.only ＞
     - @breadcrumbs.each.with_index(2) do |item, index|
       .section(itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem")
         - if item[:url]
           = link_to item[:name], item[:url]
           %i.icon.right.angle.divider
-          %span.amp.only ＞
         - else
           %div= item[:name]
         %meta(itemprop="name" content="#{item[:name]}")
