@@ -1,6 +1,4 @@
 class Search::BooksController < Search::ApplicationController
-  before_action :set_amp_ready
-
   def index
     books = @category.id == 'all' ? Book.where(group: nil).includes(:category).all : @category.books
     books = books.where(author_id: @author[:id]) if @author[:id] != 'all'
@@ -67,9 +65,5 @@ class Search::BooksController < Search::ApplicationController
     else
       "青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category.name}」の#{@category.title}#{@books.total_count.to_s(:delimited)}作品を、おすすめ人気順に表示しています。"
     end
-  end
-
-  def set_amp_ready
-    @amp_ready = true
   end
 end
