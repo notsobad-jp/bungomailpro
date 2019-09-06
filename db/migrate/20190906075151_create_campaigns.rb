@@ -2,14 +2,12 @@ class CreateCampaigns < ActiveRecord::Migration[5.2]
   def change
     create_table :campaigns do |t|
       t.integer :sendgrid_id
+      t.references :user, type: :uuid, foreign_key: true, null: false
       t.string :title, null: false
-      t.string :subject, null: false
-      t.text :html_content
-      t.text :plain_content
-      t.integer :sender_id
-      t.integer :list_id
-      t.string :custom_unsubscribe_url
+      t.text :plain_content, null: false
+      t.datetime :send_at, null: false
+      t.timestamps
     end
-    add_index :campaigns, :sendgrid_id
+    add_index :campaigns, :sendgrid_id, unique: true
   end
 end

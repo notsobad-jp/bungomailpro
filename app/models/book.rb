@@ -55,24 +55,6 @@ class Book < ApplicationRecord
     Book.aozora_file_url(author_id: author_id, book_id: id, file_id: file_id)
   end
 
-  def create_campaigns(count=nil)
-    campaigns = []
-    text, footnote = self.aozora_file_text
-    contents = Book.split_text(text: text)
-    contents.each.with_index(1) do |content, index|
-      title = "#{self.title}（#{index}/#{contents.count}） - ブンゴウメール"
-      campaigns << Campaign.new(
-        title: title,
-        subject: title,
-        plain_content: content,
-        sender_id: 611140,
-        list_id: 9399756,
-        custom_unsubscribe_url: "https://notsobad.jp"
-      )
-    end
-    Campaign.import campaigns
-  end
-
   def create_chapters
     text, footnote = aozora_file_text
 
