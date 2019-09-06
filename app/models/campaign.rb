@@ -1,13 +1,24 @@
-class Sendgrid
-  attr_accessor :title, :subject, :html_content, :plain_content, :sender_id, :list_ids, :custom_unsubscribe_url, :id
+# == Schema Information
+#
+# Table name: campaigns
+#
+#  id                     :bigint(8)        not null, primary key
+#  custom_unsubscribe_url :string
+#  html_content           :text
+#  plain_content          :text
+#  subject                :string           not null
+#  title                  :string           not null
+#  list_id                :integer
+#  sender_id              :integer
+#  sendgrid_id            :integer
+#
+# Indexes
+#
+#  index_campaigns_on_sendgrid_id  (sendgrid_id)
+#
 
+class Campaign < ApplicationRecord
   API_BASE_URL = 'https://api.sendgrid.com/v3/'
-
-  def initialize(args)
-    args.each do |key, value|
-      self.instance_variable_set("@#{key}", value)
-    end
-  end
 
   # 汎用APIcall
   def self.call(method: :post, path: "", params: nil)
@@ -26,7 +37,7 @@ class Sendgrid
   end
 
   # campaign作成
-  def create
+  def create_draft
     self.class.call(path: "campaigns", params: JSON.parse(self.to_json))
   end
 
@@ -34,7 +45,7 @@ class Sendgrid
     self.class.call(path: "campaigns/#{self.id}/schedules", params: { send_at: Time.zone.parse(send_at).to_i })
   end
 
-  def send
+  def deliver
     self.class.call(path: "campaigns/#{self.id}/schedules/now")
   end
 
@@ -42,7 +53,7 @@ class Sendgrid
     self.class.call(method: :delete, path: "campaigns/#{self.id}/schedules")
   end
 
-  def delete
+  def delete_campaign
     self.class.call(method: :delete, path: "campaigns/#{self.id}")
   end
 end

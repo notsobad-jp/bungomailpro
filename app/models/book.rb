@@ -55,6 +55,24 @@ class Book < ApplicationRecord
     Book.aozora_file_url(author_id: author_id, book_id: id, file_id: file_id)
   end
 
+  def create_campaigns(count=nil)
+    campaigns = []
+    text, footnote = self.aozora_file_text
+    contents = Book.split_text(text: text)
+    contents.each.with_index(1) do |content, index|
+      title = "#{self.title}（#{index}/#{contents.count}） - ブンゴウメール"
+      campaigns << Campaign.new(
+        title: title,
+        subject: title,
+        plain_content: content,
+        sender_id: 611140,
+        list_id: 9399756,
+        custom_unsubscribe_url: "https://notsobad.jp"
+      )
+    end
+    Campaign.import campaigns
+  end
+
   def create_chapters
     text, footnote = aozora_file_text
 
@@ -150,9 +168,12 @@ class Book < ApplicationRecord
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
     end
 
-    def split_text(text, chars_per = 700)
-      count = text.length.quo(chars_per).ceil
-      count = count.quo(30).ceil * 30 if text.length > 12_000 # 12000字以上の場合は、30日単位で割り切れるように調整
+    def split_text(text:, chars_per: 700, count: nil)
+      # 日数指定があればその数で分割、なければ文字数ベースでいい感じに分割
+      if !count
+        count = text.length.quo(chars_per).ceil
+        count = count.quo(30).ceil * 30 if text.length > 12_000 # 12000字以上の場合は、30日単位で割り切れるように調整
+      end
       chars_per = text.length.quo(count).ceil
 
       contents = []

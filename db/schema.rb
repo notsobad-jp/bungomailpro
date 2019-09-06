@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_06_080658) do
+ActiveRecord::Schema.define(version: 2019_09_06_075151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -33,6 +33,18 @@ ActiveRecord::Schema.define(version: 2019_05_06_080658) do
     t.index ["access_count"], name: "index_books_on_access_count"
     t.index ["group"], name: "index_books_on_group"
     t.index ["words_count"], name: "index_books_on_words_count"
+  end
+
+  create_table "campaigns", force: :cascade do |t|
+    t.integer "sendgrid_id"
+    t.string "title", null: false
+    t.string "subject", null: false
+    t.text "html_content"
+    t.text "plain_content"
+    t.integer "sender_id"
+    t.integer "list_id"
+    t.string "custom_unsubscribe_url"
+    t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id"
   end
 
   create_table "categories", id: :string, force: :cascade do |t|
