@@ -70,8 +70,8 @@ class Book < ApplicationRecord
   end
 
   # scrape and parse Aozora File
-  def aozora_file_text
-    html = File.open(aozora_file_path, &:read)
+  def aozora_file_text(html=nil)
+    html = File.open(aozora_file_path, &:read) if !html
 
     charset = 'CP932'
     doc = Nokogiri::HTML.parse(html, nil, charset)
