@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                             :uuid             not null, primary key
+#  admin                          :boolean          default(FALSE)
 #  category(IN (admin partner))   :string
 #  crypted_password               :string
 #  email                          :string           not null
@@ -15,9 +16,11 @@
 #  salt                           :string
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
+#  list_id                        :integer
 #
 # Indexes
 #
+#  index_users_on_admin              (admin)
 #  index_users_on_email              (email) UNIQUE
 #  index_users_on_magic_login_token  (magic_login_token)
 #  index_users_on_remember_me_token  (remember_me_token)
@@ -32,6 +35,7 @@ class User < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :channels, dependent: :destroy
   has_one :charge, dependent: :destroy
+  has_many :campaigns, dependent: :destroy
   MAX_SUBSCRIPTIONS_COUNT = 5
 
   ALTEREGO_ID = 'bb378768-e59a-47d8-bd18-f25bb116340b'.freeze

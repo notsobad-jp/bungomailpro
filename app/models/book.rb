@@ -70,8 +70,8 @@ class Book < ApplicationRecord
   end
 
   # scrape and parse Aozora File
-  def aozora_file_text
-    html = File.open(aozora_file_path, &:read)
+  def aozora_file_text(html=nil)
+    html = File.open(aozora_file_path, &:read) if !html
 
     charset = 'CP932'
     doc = Nokogiri::HTML.parse(html, nil, charset)
@@ -150,9 +150,12 @@ class Book < ApplicationRecord
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
     end
 
-    def split_text(text, chars_per = 700)
-      count = text.length.quo(chars_per).ceil
-      count = count.quo(30).ceil * 30 if text.length > 12_000 # 12000字以上の場合は、30日単位で割り切れるように調整
+    def split_text(text:, chars_per: 700, count: nil)
+      # 日数指定があればその数で分割、なければ文字数ベースでいい感じに分割
+      if !count
+        count = text.length.quo(chars_per).ceil
+        count = count.quo(30).ceil * 30 if text.length > 12_000 # 12000字以上の場合は、30日単位で割り切れるように調整
+      end
       chars_per = text.length.quo(count).ceil
 
       contents = []
