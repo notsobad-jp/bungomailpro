@@ -45,10 +45,6 @@
             = link_to user_path(current_user) do
               = current_user.email
 
-          %br
-          = link_to user_path(current_user) do
-            = payment_status_label(current_user.charge)
-
           .list
             .item
               %i.icon.setting
