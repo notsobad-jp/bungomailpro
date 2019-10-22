@@ -14,6 +14,10 @@ class PagesController < ApplicationController
     render layout: false
   end
 
+  def lp_en
+    render layout: false
+  end
+
   def index
     @pages = page_titles
     @breadcrumbs << { name: 'ドキュメント' }
