@@ -32,6 +32,7 @@ class Book < ApplicationRecord
   has_many :channel_books, dependent: :nullify
   has_many :channels, through: :channel_books
   has_many :chapters, -> { order(:index) }, dependent: :destroy, inverse_of: :book
+  has_many :campaigns
   belongs_to :category, counter_cache: true
   self.primary_key = 'id'
 

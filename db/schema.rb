@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_06_115037) do
+ActiveRecord::Schema.define(version: 2019_10_31_195037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -37,14 +37,14 @@ ActiveRecord::Schema.define(version: 2019_09_06_115037) do
 
   create_table "campaigns", force: :cascade do |t|
     t.integer "sendgrid_id"
-    t.uuid "user_id", null: false
     t.string "title", null: false
-    t.text "plain_content", null: false
+    t.text "content", null: false
     t.datetime "send_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "book_id", null: false
+    t.index ["book_id"], name: "index_campaigns_on_book_id"
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
-    t.index ["user_id"], name: "index_campaigns_on_user_id"
   end
 
   create_table "categories", id: :string, force: :cascade do |t|
@@ -192,7 +192,6 @@ ActiveRecord::Schema.define(version: 2019_09_06_115037) do
     t.string "category", comment: "IN (admin partner)"
     t.boolean "pixela_logging", default: false
     t.boolean "admin", default: false
-    t.integer "list_id"
     t.index ["admin"], name: "index_users_on_admin"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
@@ -200,7 +199,7 @@ ActiveRecord::Schema.define(version: 2019_09_06_115037) do
   end
 
   add_foreign_key "books", "categories"
-  add_foreign_key "campaigns", "users"
+  add_foreign_key "campaigns", "books"
   add_foreign_key "channel_books", "books"
   add_foreign_key "channel_books", "channels"
   add_foreign_key "channels", "users"
