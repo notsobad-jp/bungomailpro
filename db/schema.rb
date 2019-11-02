@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_31_195037) do
+ActiveRecord::Schema.define(version: 2019_11_02_075451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -153,6 +153,17 @@ ActiveRecord::Schema.define(version: 2019_10_31_195037) do
     t.index ["book_id"], name: "index_feeds_on_book_id"
     t.index ["delivered_at"], name: "index_feeds_on_delivered_at"
     t.index ["subscription_id"], name: "index_feeds_on_subscription_id"
+  end
+
+  create_table "guten_books", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "author", null: false
+    t.string "rights"
+    t.string "language"
+    t.bigint "file_id"
+    t.integer "words_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notifications", force: :cascade do |t|
