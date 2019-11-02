@@ -22,9 +22,11 @@ namespace :campaigns do
     res = Campaign.import campaigns
 
     Campaign.find(res.ids).each do |campaign|
+      next if campaign.send_at < Time.zone.now
+
       campaign.create_draft
-      # campaign.schedule
-      campaign.deliver # TODO
+      campaign.schedule
+      # campaign.deliver
       p "Scheduled #{campaign.title}"
       sleep 1
     end
