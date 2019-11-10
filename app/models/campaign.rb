@@ -51,7 +51,7 @@ class Campaign < ApplicationRecord
     self.delete
   end
 
-  private
+  # private
 
   def plain_content
     word_count = content.gsub(" ", "").length
@@ -68,15 +68,23 @@ class Campaign < ApplicationRecord
       ■ブンゴウメール公式サイト：https://bungomail.com
       ■青空文庫でこの作品を読む：#{book.aozora_file_url}
       ■運営へのご支援はこちら： https://www.buymeacoffee.com/bungomail
-
-      メール配信の停止はこちら： [unsubscribe]
+      ■メール配信の停止はこちら： https://goo.gl/forms/kVz3fE9HdDq5iuA03
 
       -------
       配信元: ブンゴウメール編集部
       NOT SO BAD, LLC.
       Web: https://bungomail.com
       Mail: info@notsobad.jp
+      配信停止：[unsubscribe]
     EOS
+  end
+
+  def html_content
+    text = plain_content
+    URI.extract(text, ["http", "https"]).uniq.each do |url|
+      text.gsub!(url, "<a target='_blank' href='#{url}'>#{url}</a>")
+    end
+    text.gsub!(/(\r\n|\r|\n)/, "<br />")
   end
 
   def sendgrid_params
@@ -86,7 +94,7 @@ class Campaign < ApplicationRecord
       sender_id: DEFAULT_SENDER_ID,
       list_ids: [ DEFAULT_LIST_ID ],
       custom_unsubscribe_url: unsubscribe_url,
-      html_content: plain_content.gsub(/(\r\n|\r|\n)/, "<br />"),
+      html_content: html_content,
       plain_content: plain_content
     }
   end
