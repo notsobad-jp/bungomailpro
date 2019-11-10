@@ -6,7 +6,7 @@ class CreateGutenBooks < ActiveRecord::Migration[5.2]
       t.string :author, null: false
       t.string :rights
       t.string :language
-      t.integer :file_id, limit: 8
+      t.integer :downloads, limit: 8
       t.integer :words_count, null: false, default: 0
       t.timestamps
     end
