@@ -4,4 +4,10 @@ namespace :guten_books do
       GutenBook.import_rdf(id)
     end
   end
+
+  task count: :environment do |_task, _args|
+    GutenBook.all.find_each do |guten_book|
+      guten_book.count_words
+    end
+  end
 end
