@@ -82,19 +82,32 @@
         <div id="header-catch" class="six wide center aligned column">
           <br class="computer only">
           <div class="ui huge header">
-            Only 3 minutes email everyday,
+            Just 3 minutes a day.
             <br class="computer only">
-            Read a whole book every month.
+            Finish a book every month.
             <div class="sub header">
-              We split the literature masterpiece into small pieces, and send them every morning via email.
+              Receive a short excerpt to a literary masterpiece every morning via email.
               <br class="computer only">
-              Get back the fun of reading to your life again :)
+              Get the fun of reading back into your life :)
             </div>
           </div>
 
-          <a class="ui blue large fluid button" href="https://forms.gle/VcgLQsvncyqNFxUD9" target="_blank">
+          <!-- <a class="ui blue large fluid button" href="https://forms.gle/VcgLQsvncyqNFxUD9" target="_blank">
             Pre-Registration
-          </a>
+          </a> -->
+
+          <!-- Load Stripe.js on your website. -->
+          <script src="https://js.stripe.com/v3"></script>
+
+          <!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
+          <button class="ui red large fluid button checkout-button" role="link">
+            Register Now!
+          </button>
+          <p>（FREE for 14 days）</p>
+
+          <div id="error-message"></div>
+
+
           <p>
             <small>The service will start soon! We will notify you when the service is ready.</small>
           </p>
@@ -112,8 +125,8 @@
             No time to read books?
           </h3>
           <p>
-            Every email is maximum of 3 minutes length.
-            You can read it easily while checking emails :)
+            Each email will be no longer than 3 minutes.
+            You can read them easily while checking emails :)
           </p>
         </div>
         <div class="four wide center aligned column">
@@ -122,8 +135,8 @@
             Good use of small pockets of time.
           </h3>
           <p>
-            What do you do on small pockets of time?
-            Read books, instead of checking social media.
+            What do you do when you have small pockets of time?
+            Read books instead of checking social media.
           </p>
         </div>
         <div class="four wide center aligned column">
@@ -132,8 +145,8 @@
             Read masterpieces.
           </h3>
           <p>
-            We are too busy to read classic masterpieces.
-            Don't worry, we send them and you can read them without any husstle.
+            Read classic masterpieces that you never had time for,
+            hassle-free and delivered right to you.
           </p>
         </div>
     </section>
@@ -182,10 +195,9 @@
                   </div>
                 </div>
               </div>
-              <a class="ui bottom attached primary button" href="https://forms.gle/VcgLQsvncyqNFxUD9" target="_blank">
-                <i class="icon mail"></i>
-                Pre-Registration
-              </a>
+              <button class="ui bottom attached red button checkout-button" role="link">
+                Register Now!
+              </button>
             </div>
           </div>
         </div>
@@ -203,5 +215,39 @@
         </small>
       </div>
     </footer>
+
+
+    <script>
+    (function() {
+      var stripe = Stripe('pk_test_V7Nik8ipk3RXR8x7xaHnJPPv');
+
+      var checkoutButtons = document.getElementsByClassName('checkout-button');
+      for(let i = 0; i < checkoutButtons.length; i++){
+        checkoutButtons[i].addEventListener('click', function () {
+          // When the customer clicks on the button, redirect
+          // them to Checkout.
+          stripe.redirectToCheckout({
+            items: [{plan: 'plan_GC0VcuZ6XjAfjD', quantity: 1}],
+
+            // Do not rely on the redirect to the successUrl for fulfilling
+            // purchases, customers may not always reach the success_url after
+            // a successful payment.
+            // Instead use one of the strategies described in
+            // https://stripe.com/docs/payments/checkout/fulfillment
+            successUrl: 'https://bungomail.com/success',
+            cancelUrl: 'https://bungomail.com/canceled',
+          })
+          .then(function (result) {
+            if (result.error) {
+              // If `redirectToCheckout` fails due to a browser or network
+              // error, display the localized error message to your customer.
+              var displayError = document.getElementById('error-message');
+              displayError.textContent = result.error.message;
+            }
+          });
+        });
+      }
+    })();
+    </script>
   </body>
 </html>
