@@ -115,7 +115,8 @@ class Book < ApplicationRecord
                     .gsub(/(。)(?=[^（]*）|[^「]*」)/, '★★★') # （）と「」内の文末句点を★★★に一時変更
                     .gsub(/(。)/, '\1' + "\r\n") # その他の句点に改行追加
                     .gsub(/★★★/, '。') # ★を句点に戻す
-    footnote = doc.css('.bibliographical_information').inner_text
+                    .strip
+    footnote = doc.css('.bibliographical_information').inner_text.strip
 
     [text, footnote]
   end

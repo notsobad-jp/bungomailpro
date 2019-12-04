@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_31_195037) do
+ActiveRecord::Schema.define(version: 2019_11_10_052113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -155,11 +155,36 @@ ActiveRecord::Schema.define(version: 2019_10_31_195037) do
     t.index ["subscription_id"], name: "index_feeds_on_subscription_id"
   end
 
+  create_table "guten_books", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "author", null: false
+    t.string "rights"
+    t.string "language"
+    t.bigint "downloads"
+    t.integer "words_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "guten_books_subjects", id: false, force: :cascade do |t|
+    t.bigint "guten_book_id"
+    t.string "subject_id"
+    t.index ["guten_book_id", "subject_id"], name: "index_guten_books_subjects_on_guten_book_id_and_subject_id", unique: true
+    t.index ["guten_book_id"], name: "index_guten_books_subjects_on_guten_book_id"
+    t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+  end
+
+  create_table "subjects", id: :string, force: :cascade do |t|
+    t.integer "books_count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -209,6 +234,8 @@ ActiveRecord::Schema.define(version: 2019_10_31_195037) do
   add_foreign_key "comments", "subscriptions"
   add_foreign_key "feeds", "books"
   add_foreign_key "feeds", "subscriptions"
+  add_foreign_key "guten_books_subjects", "guten_books"
+  add_foreign_key "guten_books_subjects", "subjects"
   add_foreign_key "subscriptions", "books", column: "current_book_id"
   add_foreign_key "subscriptions", "channels"
   add_foreign_key "subscriptions", "users"
