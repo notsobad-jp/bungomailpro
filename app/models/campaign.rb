@@ -51,7 +51,7 @@ class Campaign < ApplicationRecord
     self.delete
   end
 
-  # private
+  private
 
   def plain_content
     word_count = content.gsub(" ", "").length
