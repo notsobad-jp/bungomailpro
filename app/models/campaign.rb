@@ -2,32 +2,28 @@
 #
 # Table name: campaigns
 #
-#  id          :bigint(8)        not null, primary key
-#  content     :text             not null
-#  send_at     :datetime         not null
-#  title       :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  book_id     :bigint(8)        not null
-#  sendgrid_id :integer
+#  id                :bigint(8)        not null, primary key
+#  content           :text             not null
+#  send_at           :datetime         not null
+#  title             :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  campaign_group_id :bigint(8)        default(1), not null
+#  sendgrid_id       :integer
 #
 # Indexes
 #
-#  index_campaigns_on_book_id      (book_id)
-#  index_campaigns_on_sendgrid_id  (sendgrid_id) UNIQUE
+#  index_campaigns_on_campaign_group_id  (campaign_group_id)
+#  index_campaigns_on_sendgrid_id        (sendgrid_id) UNIQUE
 #
 # Foreign Keys
 #
-#  fk_rails_...  (book_id => books.id)
+#  fk_rails_...  (campaign_group_id => campaign_groups.id)
 #
 
 class Campaign < ApplicationRecord
-  belongs_to :book
+  belongs_to :campaign_group
   include Sendgrid
-
-  DEFAULT_SENDER_ID = 611140
-  DEFAULT_LIST_ID = 9399756
-
 
   def create_draft
     res = self.call(path: "campaigns", params: sendgrid_params)
@@ -66,7 +62,7 @@ class Campaign < ApplicationRecord
 
       ■Twitterでみんなの感想を見る：https://goo.gl/rgfoDv
       ■ブンゴウメール公式サイト：https://bungomail.com
-      ■青空文庫でこの作品を読む：#{book.aozora_file_url}
+      ■青空文庫でこの作品を読む：#{campaign_group.book.aozora_file_url}
       ■運営へのご支援はこちら： https://www.buymeacoffee.com/bungomail
       ■メール配信の停止はこちら： https://goo.gl/forms/kVz3fE9HdDq5iuA03
 
@@ -91,8 +87,8 @@ class Campaign < ApplicationRecord
     {
       title: title,
       subject: title,
-      sender_id: DEFAULT_SENDER_ID,
-      list_ids: [ DEFAULT_LIST_ID ],
+      sender_id: self.campaign_group.sender_id,
+      list_ids: [ self.campaign_group.list_id ],
       custom_unsubscribe_url: unsubscribe_url,
       html_content: html_content,
       plain_content: plain_content
@@ -100,7 +96,7 @@ class Campaign < ApplicationRecord
   end
 
   def twitter_share_url
-    long_url = CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{send_at.month}月は%20%23#{book.author.delete(' ')}%20%23#{book.title}%20を配信中！")
+    long_url = CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{send_at.month}月は%20%23#{campaign_group.book.author.delete(' ')}%20%23#{campaign_group.book.title}%20を配信中！")
 
     uri = URI.parse("https://api-ssl.bitly.com/v3/shorten?access_token=#{ENV['BITLY_ACCESS_TOKEN']}&longUrl=#{long_url}")
     https = Net::HTTP.new(uri.host, uri.port)
@@ -114,6 +110,11 @@ class Campaign < ApplicationRecord
   end
 
   def unsubscribe_url
-    "https://goo.gl/forms/kVz3fE9HdDq5iuA03"
+    case self.campaign_group.list_id
+    when 9399756 # ブンゴウメール配信リスト
+      "https://goo.gl/forms/kVz3fE9HdDq5iuA03"
+    when 10315463 # ドグラ・マグラ配信リスト
+      "https://goo.gl/forms/XXX" # FIXME
+    end
   end
 end
