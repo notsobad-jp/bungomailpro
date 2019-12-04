@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_10_052113) do
+ActiveRecord::Schema.define(version: 2019_12_04_175037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -35,6 +35,17 @@ ActiveRecord::Schema.define(version: 2019_11_10_052113) do
     t.index ["words_count"], name: "index_books_on_words_count"
   end
 
+  create_table "campaign_groups", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.integer "count", null: false
+    t.datetime "start_at", null: false
+    t.integer "list_id", null: false
+    t.integer "sender_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_campaign_groups_on_book_id"
+  end
+
   create_table "campaigns", force: :cascade do |t|
     t.integer "sendgrid_id"
     t.string "title", null: false
@@ -42,8 +53,8 @@ ActiveRecord::Schema.define(version: 2019_11_10_052113) do
     t.datetime "send_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "book_id", null: false
-    t.index ["book_id"], name: "index_campaigns_on_book_id"
+    t.bigint "campaign_group_id", default: 1, null: false
+    t.index ["campaign_group_id"], name: "index_campaigns_on_campaign_group_id"
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
   end
 
@@ -164,6 +175,7 @@ ActiveRecord::Schema.define(version: 2019_11_10_052113) do
     t.integer "words_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "chars_count", default: 0, null: false
   end
 
   create_table "guten_books_subjects", id: false, force: :cascade do |t|
@@ -224,7 +236,8 @@ ActiveRecord::Schema.define(version: 2019_11_10_052113) do
   end
 
   add_foreign_key "books", "categories"
-  add_foreign_key "campaigns", "books"
+  add_foreign_key "campaign_groups", "books"
+  add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "channel_books", "books"
   add_foreign_key "channel_books", "channels"
   add_foreign_key "channels", "users"
