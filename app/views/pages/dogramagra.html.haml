@@ -1,5 +1,26 @@
+-# facebook
+#fb-root
+:javascript
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v3.0&appId=139414576217599&autoLogAppEvents=1';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
 %h1
   = image_tag('/assets/images/campaigns/dogramagra.png', class: 'ui image')
+
+.ui.basic.segment
+  .fb-like(data-href="https://bungomail.com/campaigns/dogramagra" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true")
+  &nbsp;&nbsp;
+  %a(href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="ドグラ・マグラ365日配信チャレンジ" data-url="https://bungomail.com/campaigns/dogramagra" data-hashtags="ブンゴウメール" data-show-count="false") Tweet
+  %script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+  &nbsp;&nbsp;
+  %a(href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加")
+    %img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;")
+  %script(type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async")
 
 .ui.basic.segment
   %p
@@ -75,3 +96,14 @@
   ブンゴウメール編集部
   %br
   info@notsobad.jp
+
+  
+.ui.basic.segment
+  .fb-like(data-href="https://bungomail.com/campaigns/dogramagra" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true")
+  &nbsp;&nbsp;
+  %a(href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="ドグラ・マグラ365日配信チャレンジ" data-url="https://bungomail.com/campaigns/dogramagra" data-hashtags="ブンゴウメール" data-show-count="false") Tweet
+  %script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+  &nbsp;&nbsp;
+  %a(href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加")
+    %img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;")
+  %script(type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async")
