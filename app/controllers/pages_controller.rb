@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  include ActionView::Helpers::AssetUrlHelper
+
   def top
     @streaming_channels = Channel.find([Channel::BUSINESSMODEL_ID, Channel::ALTEREGO_ID, Channel::URABANGUMI_ID])
     @popular_authors = [
@@ -18,6 +20,16 @@ class PagesController < ApplicationController
     render layout: false
   end
 
+  def dogramagra
+    @page_title = "ドグラ・マグラ365日配信チャレンジ"
+
+    @meta_title = @page_title
+    @meta_description = "夢野久作『ドグラ・マグラ』を、365日かけて毎日メールで少しずつ配信します。"
+    @meta_keywords = @page_title
+    @breadcrumbs << { name: @page_title }
+    @meta_image = image_url("/assets/images/campaigns/dogramagra.png")
+  end
+
   def index
     @pages = page_titles
     @breadcrumbs << { name: 'ドキュメント' }
@@ -30,7 +42,6 @@ class PagesController < ApplicationController
     @meta_title = @page_title
     @meta_description = "#{@page_title}のページです。"
     @meta_keywords = @page_title
-    @breadcrumbs << { name: 'ドキュメント', url: pages_path }
     @breadcrumbs << { name: @page_title }
 
     render params[:page]

@@ -1,7 +1,6 @@
 %h5.ui.small.dividing.header
-  %i.icon.clock.outline
-  ゾラサーチで検索
-  %span.ui.tiny.orange.label New!
+  %i.icon.search
+  姉妹サービス「ゾラサーチ」
 = link_to root_url(subdomain: 'search'), target: '_blank' do
   = image_tag('/assets/images/ogp_search.png', class: 'ui large image')
   = root_url(subdomain: 'search')
@@ -20,51 +19,3 @@
   = link_to 'https://goo.gl/forms/jE387feQLYysiv5m2', class: 'ui large fluid primary button', target: '_blank' do
     お問い合わせフォーム
   %small （匿名で投稿できます）
-
-%h5.ui.small.dividing.header
-  %i.icon.search
-  作品検索
-.ui.secondary.segment
-  = form_tag books_path, method: :get do
-    .ui.action.fluid.input
-      = text_field_tag :keyword, nil, placeholder: 'キーワード'
-      = button_tag type: :submit, class: 'ui primary button' do
-        %i.search.icon
-        検索
-
-%h5.ui.small.dividing.header
-  %i.icon.user
-  アカウント
-.ui.segment
-  .ui.list
-    - if current_user
-      .item
-        .content
-          .description
-            %i.icon.user.outline
-            = link_to user_path(current_user) do
-              = current_user.email
-
-          .list
-            .item
-              %i.icon.setting
-              .content
-                .description
-                  = link_to 'アカウント情報', user_path(current_user)
-            .item
-              %i.icon.sign.in
-              .content
-                .description
-                  = link_to 'ログアウト', logout_path, method: :post
-    - else
-      .item
-        = image_tag('avatar.png', class: 'ui avatar bordered image', alt: 'ゲストユーザー')
-        .content
-          .header ゲストユーザー
-          .description
-          .list
-            .item
-              %i.icon.sign.in
-              .content
-                .description
-                  = link_to 'ログイン', login_path

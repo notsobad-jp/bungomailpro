@@ -33,91 +33,11 @@
       .ui.text.loader Loading..
 
     .ui.top.fixed.borderless.seigaiha.menu
-      = link_to(pro_root_path, class: 'header item') do
+      = link_to(root_path, class: 'header item') do
         ブンゴウメール
-      = link_to subscriptions_path, class: 'computer only item' do
-        %i.icon.rss
-        購読中のチャネル
-      = link_to books_path, class: 'computer only item' do
-        %i.icon.search
-        作品検索
-
-      .right.menu
-        .ui.simple.dropdown.item
-          %i.content.icon
-          .menu
-            = link_to pro_root_path, class: 'item' do
-              %i.icon.home
-              ホーム
-            = link_to subscriptions_path, class: 'item' do
-              %i.icon.rss
-              購読中のチャネル
-            = link_to books_path, class: 'item' do
-              %i.icon.search
-              作品検索
-            - if current_user
-              = link_to user_path(current_user), class: 'item' do
-                %i.icon.setting
-                アカウント情報
-              = link_to logout_path, method: :post, class: 'item' do
-                %i.icon.sign.out
-                ログアウト
-            - else
-              = link_to login_path, class: 'item' do
-                %i.icon.sign.in
-                ログイン
-            = link_to 'https://goo.gl/forms/jE387feQLYysiv5m2', class: 'item', target: '_blank' do
-              %i.icon.question
-              お問い合わせ
-    - if path == 'pages#top' && current_user && current_user.charge.try(:status) == 'past_due'
-      .ui.attached.error.message(style="margin-top:45px;margin-bottom:-45px;")
-        %i.icon.warning.circle
-        料金の支払いに失敗しました。。カードに問題がある場合は、
-        = link_to 'クレジットカード情報を更新', edit_charge_path(current_user.charge.id), data: {turbolinks: false}
-        してください。
-        しばらくしても決済が完了できない場合、自動的に解約されます。
 
     %div#main-content
-      - if path == 'pages#top'
-        %section#header.ui.centered.stackable.seigaiha.grid
-          - %w(warning error success info).each do |status|
-            - if flash[status]
-              .ui.row
-                .column
-                  .ui.message(class="#{status}")
-                    = sanitize flash[status]
-          .ui.row
-            %br
-              .six.wide.right.aligned.column
-                %br/
-                %h1
-                  = image_tag('logo.png', id: 'logo', class: 'ui medium centered image', alt: 'ブンゴウメール')
-                %br/
-              #header-catch.six.wide.left.aligned.column.mt-30
-                .ui.large.header
-                  もっと読書をたのしもう。
-                  .sub.header
-                    好きな作家をずっと配信したり、おまかせで中長編の配信を楽しんだり。
-                    %br.computer.only/
-                    ブンゴウメールPROは、もっと読書を楽しみたいあなたのためのサービスです。
-                %p
-                  = link_to  page_path(:about) do
-                    %i.icon.chevron.right
-                    ブンゴウメールとは？
-                %br/
-                - if current_user
-                  = link_to subscriptions_path, class: 'ui large primary left labeled icon responsive button' do
-                    %i.icon.rss
-                    購読中のチャネルを見る
-                - else
-                  = link_to login_path, class: 'ui large red left labeled icon responsive button' do
-                    %i.icon.sign.in
-                    アカウント登録 / ログイン
-        %br
-        %br
-        %br
-      - else
-        = render partial: 'layouts/breadcrumb'
+      = render partial: 'layouts/breadcrumb'
       .ui.container
         .ui.stackable.grid
           .ui.twelve.wide.column

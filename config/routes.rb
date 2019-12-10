@@ -123,6 +123,7 @@ Rails.application.routes.draw do
     get 'pro' => 'pages#top', as: :pro_root
     get 'pages' => "pages#index"
     get 'en' => "pages#lp_en", as: :en_root
+    get '/campaigns/dogramagra' => "pages#dogramagra"
     get '/:page' => "pages#show", as: :page
 
 
