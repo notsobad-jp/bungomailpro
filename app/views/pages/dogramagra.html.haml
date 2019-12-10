@@ -10,7 +10,7 @@
     一度は読んでみたかったけど手を出せていなかった人、途中まで読んだけどチャカポコで挫折した人、無事に読了したけど久しぶりに再読してみたい人、どなたでも大歓迎です。
     無料なのでぜひこの機会にチャレンジしてみてください。
   %p
-  = link_to 'メールアドレス登録（無料）', root_path, class: 'ui red responsive button'
+  = link_to 'メールアドレス登録（無料）', "https://forms.gle/Ueuh7ysWZG4aSdMb7", class: 'ui red responsive button', target: '_blank'
 
 %h3.ui.dividing.header キャンペーン概要
 .ui.basic.segment
@@ -37,11 +37,19 @@
 .ui.basic.segment
   %p 以下のリンクから受信を希望するメールアドレスを登録してください。配信は最後まで無料です。
   %p
-    = link_to 'メールアドレス登録（無料）', root_path, class: 'ui red responsive button'
+    = link_to 'メールアドレス登録（無料）', "https://forms.gle/Ueuh7ysWZG4aSdMb7", class: 'ui red responsive button', target: '_blank'
   %div
     %small ※通常のブンゴウメール本編とは別に配信されます。本編に登録している方も、ドグラ・マグラの受信を希望する場合は改めてこちらで登録してください。
   %div
     %small ※万が一登録が増えすぎた場合は有料化させていただくかもしれませんが、その場合は事前にご連絡いたします。申し訳ありませんがあらかじめご了承ください。
+
+%h3.ui.dividing.header 解約方法
+.ui.basic.segment
+  %p 配信が不要になった場合、いつでも解約することができます。解約を希望するメールアドレスから、以下のアドレスまで空メールを送信してください。
+  %p bungomail-dogramagra+unsubscribe@notsobad.jp
+  %div
+    %small ※解約後でも、すでに配信が予約されている分については配信される場合があります。もし解約後も配信が続く場合はinfo@notsobad.jpまでその旨ご連絡ください。
+
 
 %h3.ui.dividing.header 注意や参考情報
 .ui.basic.segment

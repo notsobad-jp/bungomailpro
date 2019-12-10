@@ -114,7 +114,7 @@ class Campaign < ApplicationRecord
     when 9399756 # ブンゴウメール配信リスト
       "https://goo.gl/forms/kVz3fE9HdDq5iuA03"
     when 10315463 # ドグラ・マグラ配信リスト
-      "https://goo.gl/forms/XXX" # FIXME
+      "https://bungomail.com/campaigns/dogramagra"
     end
   end
 end
