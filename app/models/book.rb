@@ -93,7 +93,6 @@ class Book < ApplicationRecord
         rb = ruby.css('rb').inner_text
         # 常用漢字なし：ルビを残す
         if (rb.split('') & USUAL_KANJIS).empty?
-          ruby.replace(rb.encode('Shift_JIS', invalid: :replace, undef: :replace))
           ruby.replace("#{rb}（#{ruby.css('rt').inner_text}）".encode('Shift_JIS', invalid: :replace, undef: :replace))
         # 常用漢字あり：ルビを削除
         else
