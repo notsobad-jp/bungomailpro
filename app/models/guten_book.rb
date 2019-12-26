@@ -53,12 +53,12 @@ class GutenBook < ApplicationRecord
   def count_words
     file_path = "tmp/guten_books/#{id}/pg#{id}.txt.utf8.gzip"
     file = Zlib::GzipReader.open(file_path)
-    splited_text = file.read.split(/\*\*\* (START|END) OF THIS PROJECT GUTENBERG EBOOK .* \*\*\*/)
-    return if splited_text.size != 5
+    splited_text = file.read.split(/\*\*\*\s?(START|END) OF (THIS|THE) PROJECT GUTENBERG EBOOK [^*]+\s?\*\*\*/)
+    return if splited_text.size != 7
 
     self.update(
-      words_count: splited_text[2].split.size,
-      chars_count: splited_text[2].gsub(/\s/, "").size
+      words_count: splited_text[3].split.size,
+      chars_count: splited_text[3].gsub(/\s/, "").size
     )
     p "Counted [#{id}] #{title}"
   rescue => e

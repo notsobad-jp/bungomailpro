@@ -6,7 +6,7 @@ namespace :guten_books do
   end
 
   task count: :environment do |_task, _args|
-    GutenBook.all.find_each do |guten_book|
+    GutenBook.where(words_count: 0).find_each do |guten_book|
       guten_book.count_words
     end
   end
