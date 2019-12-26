@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_04_175037) do
+ActiveRecord::Schema.define(version: 2019_12_26_050748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -66,49 +66,6 @@ ActiveRecord::Schema.define(version: 2019_12_04_175037) do
     t.index ["range_from"], name: "index_categories_on_range_from"
   end
 
-  create_table "channel_books", force: :cascade do |t|
-    t.uuid "channel_id", null: false
-    t.bigint "book_id", null: false
-    t.integer "index", null: false
-    t.text "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_channel_books_on_book_id"
-    t.index ["channel_id", "book_id"], name: "index_channel_books_on_channel_id_and_book_id", unique: true
-    t.index ["channel_id", "index"], name: "index_channel_books_on_channel_id_and_index", unique: true
-    t.index ["channel_id"], name: "index_channel_books_on_channel_id"
-    t.index ["index"], name: "index_channel_books_on_index"
-  end
-
-  create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.string "title", null: false
-    t.text "description"
-    t.string "status", default: "private", null: false, comment: "IN (private public streaming)"
-    t.integer "books_count", default: 0, null: false
-    t.integer "subscribers_count", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "default", default: false, null: false
-    t.string "hashtag"
-    t.string "from_name"
-    t.string "from_email"
-    t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
-    t.index ["user_id"], name: "index_channels_on_user_id"
-  end
-
-  create_table "chapters", id: false, force: :cascade do |t|
-    t.bigint "book_id", null: false
-    t.integer "index", null: false
-    t.text "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "image_url"
-    t.index ["book_id", "index"], name: "index_chapters_on_book_id_and_index", unique: true
-    t.index ["book_id"], name: "index_chapters_on_book_id"
-    t.index ["index"], name: "index_chapters_on_index"
-  end
-
   create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.string "customer_id", null: false
@@ -127,18 +84,6 @@ ActiveRecord::Schema.define(version: 2019_12_04_175037) do
     t.index ["user_id"], name: "index_charges_on_user_id", unique: true
   end
 
-  create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "subscription_id", null: false
-    t.bigint "book_id", null: false
-    t.integer "index", null: false
-    t.text "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_comments_on_book_id"
-    t.index ["subscription_id", "book_id", "index"], name: "index_comments_on_subscription_id_and_book_id_and_index", unique: true
-    t.index ["subscription_id"], name: "index_comments_on_subscription_id"
-  end
-
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -152,18 +97,6 @@ ActiveRecord::Schema.define(version: 2019_12_04_175037) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
-
-  create_table "feeds", force: :cascade do |t|
-    t.uuid "subscription_id", null: false
-    t.bigint "book_id", null: false
-    t.integer "index", null: false
-    t.datetime "delivered_at", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_feeds_on_book_id"
-    t.index ["delivered_at"], name: "index_feeds_on_delivered_at"
-    t.index ["subscription_id"], name: "index_feeds_on_subscription_id"
   end
 
   create_table "guten_books", force: :cascade do |t|
@@ -186,33 +119,10 @@ ActiveRecord::Schema.define(version: 2019_12_04_175037) do
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.text "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "title"
-  end
-
   create_table "subjects", id: :string, force: :cascade do |t|
     t.integer "books_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "channel_id", null: false
-    t.bigint "current_book_id"
-    t.integer "next_chapter_index"
-    t.integer "delivery_hour", default: 8, null: false
-    t.date "next_delivery_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "footer"
-    t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
-    t.index ["current_book_id"], name: "index_subscriptions_on_current_book_id"
-    t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
-    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -238,18 +148,7 @@ ActiveRecord::Schema.define(version: 2019_12_04_175037) do
   add_foreign_key "books", "categories"
   add_foreign_key "campaign_groups", "books"
   add_foreign_key "campaigns", "campaign_groups"
-  add_foreign_key "channel_books", "books"
-  add_foreign_key "channel_books", "channels"
-  add_foreign_key "channels", "users"
-  add_foreign_key "chapters", "books"
   add_foreign_key "charges", "users"
-  add_foreign_key "comments", "books"
-  add_foreign_key "comments", "subscriptions"
-  add_foreign_key "feeds", "books"
-  add_foreign_key "feeds", "subscriptions"
   add_foreign_key "guten_books_subjects", "guten_books"
   add_foreign_key "guten_books_subjects", "subjects"
-  add_foreign_key "subscriptions", "books", column: "current_book_id"
-  add_foreign_key "subscriptions", "channels"
-  add_foreign_key "subscriptions", "users"
 end

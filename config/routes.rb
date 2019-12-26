@@ -97,35 +97,20 @@
 
 Rails.application.routes.draw do
   constraints subdomain: '' do
-    resources :books
     resources :magic_tokens
-    resources :subscriptions do
-      resources :comments
-    end
-    resources :channels do
-      post 'books' => 'channel_books#create', on: :member
-    end
     resources :charges do
       post 'activate', on: :member
     end
-
     get 'update_payment' => 'charges#update_payment'
     post 'webhooks/update_subscription'
-    post 'webhooks/email_opened'
-
-    get 'users/:id' => 'users#show', as: :user
-    post 'users/:id/pixela' => 'users#pixela', as: :pixela_user
 
     get 'login' => 'magic_tokens#new', as: :login
     get 'auth' => 'magic_tokens#auth', as: :auth
     post 'logout' => 'magic_tokens#destroy', as: :logout
 
-    get 'pro' => 'pages#top', as: :pro_root
-    get 'pages' => "pages#index"
     get 'en' => "pages#lp_en", as: :en_root
     get '/campaigns/dogramagra' => "pages#dogramagra"
     get '/:page' => "pages#show", as: :page
-
 
     root to: 'pages#lp'
   end
