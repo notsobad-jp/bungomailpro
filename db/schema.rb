@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_26_050748) do
+ActiveRecord::Schema.define(version: 2020_01_08_045154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -99,6 +99,20 @@ ActiveRecord::Schema.define(version: 2019_12_26_050748) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "feeds", force: :cascade do |t|
+    t.bigint "guten_book_id", null: false
+    t.uuid "user_id", null: false
+    t.integer "index", default: 1, null: false
+    t.string "title"
+    t.text "content"
+    t.date "send_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guten_book_id", "user_id", "index"], name: "index_feeds_on_guten_book_id_and_user_id_and_index", unique: true
+    t.index ["guten_book_id"], name: "index_feeds_on_guten_book_id"
+    t.index ["user_id"], name: "index_feeds_on_user_id"
+  end
+
   create_table "guten_books", force: :cascade do |t|
     t.string "title", null: false
     t.string "author", null: false
@@ -149,6 +163,8 @@ ActiveRecord::Schema.define(version: 2019_12_26_050748) do
   add_foreign_key "campaign_groups", "books"
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "charges", "users"
+  add_foreign_key "feeds", "guten_books"
+  add_foreign_key "feeds", "users"
   add_foreign_key "guten_books_subjects", "guten_books"
   add_foreign_key "guten_books_subjects", "subjects"
 end
