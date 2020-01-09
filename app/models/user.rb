@@ -31,9 +31,8 @@ require 'json'
 
 class User < ApplicationRecord
   authenticates_with_sorcery!
-  has_many :subscriptions, dependent: :destroy
-  has_many :channels, dependent: :destroy
   has_one :charge, dependent: :destroy
+  has_many :feeds, dependent: :destroy
   MAX_SUBSCRIPTIONS_COUNT = 5
 
   ALTEREGO_ID = 'bb378768-e59a-47d8-bd18-f25bb116340b'.freeze

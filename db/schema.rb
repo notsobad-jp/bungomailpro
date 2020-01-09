@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2020_01_08_045154) do
     t.string "title"
     t.text "content"
     t.date "send_at"
+    t.boolean "scheduled", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["guten_book_id", "user_id", "index"], name: "index_feeds_on_guten_book_id_and_user_id_and_index", unique: true

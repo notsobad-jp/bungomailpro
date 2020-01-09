@@ -7,6 +7,7 @@ class RecreateFeeds < ActiveRecord::Migration[5.2]
       t.string :title
       t.text :content
       t.date :send_at
+      t.boolean :scheduled, default: false
 
       t.timestamps
     end
