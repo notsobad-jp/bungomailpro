@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_08_045154) do
+ActiveRecord::Schema.define(version: 2020_01_13_084033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -151,10 +151,6 @@ ActiveRecord::Schema.define(version: 2020_01_08_045154) do
     t.datetime "magic_login_email_sent_at"
     t.string "remember_me_token"
     t.datetime "remember_me_token_expires_at"
-    t.string "category", comment: "IN (admin partner)"
-    t.boolean "pixela_logging", default: false
-    t.boolean "admin", default: false
-    t.index ["admin"], name: "index_users_on_admin"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"

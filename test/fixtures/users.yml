@@ -2,24 +2,20 @@
 #
 # Table name: users
 #
-#  id                             :uuid             not null, primary key
-#  admin                          :boolean          default(FALSE)
-#  category(IN (admin partner))   :string
-#  crypted_password               :string
-#  email                          :string           not null
-#  magic_login_email_sent_at      :datetime
-#  magic_login_token              :string
-#  magic_login_token_expires_at   :datetime
-#  pixela_logging                 :boolean          default(FALSE)
-#  remember_me_token              :string
-#  remember_me_token_expires_at   :datetime
-#  salt                           :string
-#  created_at                     :datetime         not null
-#  updated_at                     :datetime         not null
+#  id                           :uuid             not null, primary key
+#  crypted_password             :string
+#  email                        :string           not null
+#  magic_login_email_sent_at    :datetime
+#  magic_login_token            :string
+#  magic_login_token_expires_at :datetime
+#  remember_me_token            :string
+#  remember_me_token_expires_at :datetime
+#  salt                         :string
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
 #
 # Indexes
 #
-#  index_users_on_admin              (admin)
 #  index_users_on_email              (email) UNIQUE
 #  index_users_on_magic_login_token  (magic_login_token)
 #  index_users_on_remember_me_token  (remember_me_token)
@@ -60,21 +56,17 @@ user8:
 user9:
   email: 'sample9@example.com'
   magic_login_token: <%= SecureRandom.hex(10) %>
-  category: partner
 
 alterego:
   id: 'bb378768-e59a-47d8-bd18-f25bb116340b'
   email: 'alterego@bungomail.com'
   magic_login_token: <%= SecureRandom.hex(10) %>
-  category: 'partner'
 
 notsobad:
   id: be7a3676-004e-4b0d-b428-e62315798e22
   email: info@notsobad.jp
   magic_login_token: <%= SecureRandom.hex(10) %>
-  category: admin
 
 bungomail_group:
   email: bungomail-text@notsobad.jp
   magic_login_token: <%= SecureRandom.hex(10) %>
-  category: partner
