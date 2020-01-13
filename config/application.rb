@@ -27,10 +27,10 @@ module Bungomail
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    # 表示時のタイムゾーンをJSTに設定
-    config.time_zone = 'Asia/Tokyo'
-    # DB保存時のタイムゾーンをJSTに設定
-    config.active_record.default_timezone = :local
+    # 表示時のタイムゾーンをUTCに設定
+    config.time_zone = 'UTC'
+    # DB保存時のタイムゾーンをUTCに設定
+    config.active_record.default_timezone = :utc
 
     # i18n設定
     config.i18n.default_locale = :ja
