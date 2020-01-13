@@ -30,6 +30,6 @@ class Feed < ApplicationRecord
   belongs_to :guten_book
 
   def schedule_email
-    UserMailer.feed_email(self.id).deliver
+    UserMailer.feed_email(self).deliver
   end
 end

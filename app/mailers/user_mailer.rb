@@ -12,9 +12,9 @@ class UserMailer < ApplicationMailer
     logger.info "[LOGIN] Login mail sent to #{@user.id}"
   end
 
-  def feed_email(feed_id)
-    @feed = Feed.find(feed_id)
-    send_at = Time.zone.parse(@feed.send_at.to_s).change(hour: 19)
+  def feed_email(feed)
+    @feed = feed
+    send_at = Time.zone.parse(@feed.send_at.to_s).change(hour: 7)
 
     # TODO: 課金ユーザーじゃない場合はスキップ
     # return if (deliverable_emails = @subscription.deliverable_emails).blank?
