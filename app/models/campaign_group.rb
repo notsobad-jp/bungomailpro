@@ -22,7 +22,7 @@
 
 class CampaignGroup < ApplicationRecord
   belongs_to :book
-  has_many :campaigns
+  has_many :campaigns, -> { order(:send_at) }
 
   def import_campaigns
     campaigns = []

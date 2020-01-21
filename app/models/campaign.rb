@@ -52,7 +52,7 @@ class Campaign < ApplicationRecord
   def plain_content
     word_count = content.gsub(" ", "").length
     <<-EOS
-      （#{word_count}字。目安の読了時間：#{word_count.quo(500).ceil}分）
+      （#{word_count.to_s(:delimited)}字。目安の読了時間：#{word_count.quo(500).ceil}分）
 
       #{content}
 
@@ -64,13 +64,12 @@ class Campaign < ApplicationRecord
       ■ブンゴウメール公式サイト：https://bungomail.com
       ■青空文庫でこの作品を読む：#{campaign_group.book.aozora_file_url}
       ■運営へのご支援はこちら： https://www.buymeacoffee.com/bungomail
-      ■メール配信の停止はこちら： https://goo.gl/forms/kVz3fE9HdDq5iuA03
+      ■月末まで一時的に配信を停止： https://forms.gle/d2gZZBtbeAEdXySW9
 
       -------
       配信元: ブンゴウメール編集部
       NOT SO BAD, LLC.
       Web: https://bungomail.com
-      Mail: info@notsobad.jp
       配信停止：[unsubscribe]
     EOS
   end

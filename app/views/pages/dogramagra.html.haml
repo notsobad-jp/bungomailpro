@@ -56,6 +56,12 @@
 
 %h3.ui.dividing.header 登録方法
 .ui.basic.segment
+  .ui.warning.message
+    %i.icon.warning.circle
+    ご利用の環境によっては、メールがフィルタされたり迷惑メールなどに振り分けられる場合があります。
+    = link_to '公式ブログの記事', 'https://bungomail.hatenablog.com/entry/2018/05/21/172542', target: '_blank'
+    などを参考に設定をご確認ください。
+    大変申し訳ありませんが見逃した過去配信分の再送などはできません。
   %p 以下のリンクから受信を希望するメールアドレスを登録してください。配信は最後まで無料です。
   %p
     = link_to 'メールアドレス登録（無料）', "https://forms.gle/Ueuh7ysWZG4aSdMb7", class: 'ui red responsive button', target: '_blank'
