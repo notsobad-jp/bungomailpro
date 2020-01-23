@@ -63,7 +63,11 @@ class GutenBook < ApplicationRecord
   end
 
   def split_text(words_per: 500)
-    sentences = self.text.gsub(/([\r\n]+)/, '\1[[TMP]]').gsub(". ", ".[[TMP]]").split("[[TMP]]")
+    # センテンスに分割
+    ## 基本は「ピリオド＋空白＋非空白文字」
+    ## Mr.などの特殊例を除外: (?<!)が否定の後読み
+    sentences = self.text.gsub(/(?<!Mr|Mrs|Ms|Mme|Sta|Sr|Sra|Dr|U\.S\.A)([\.\?\!]) (\S)/, '\1[[TMP]]\2').split("[[TMP]]")
+    # sentences = self.text.gsub(/([\r\n]+)/, '\1[[TMP]]').gsub(". ", ".[[TMP]]").split("[[TMP]]")
 
     contents = [""]
     contents_index = 0
