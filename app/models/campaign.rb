@@ -95,7 +95,7 @@ class Campaign < ApplicationRecord
   end
 
   def twitter_share_url
-    long_url = CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{send_at.month}月は%20%23#{campaign_group.book.author.delete(' ')}%20%23#{campaign_group.book.title}%20を配信中！")
+    long_url = CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{send_at.in_time_zone("Tokyo").month}月は%20%23#{campaign_group.book.author.delete(' ')}%20%23#{campaign_group.book.title}%20を配信中！")
 
     uri = URI.parse("https://api-ssl.bitly.com/v3/shorten?access_token=#{ENV['BITLY_ACCESS_TOKEN']}&longUrl=#{long_url}")
     https = Net::HTTP.new(uri.host, uri.port)
