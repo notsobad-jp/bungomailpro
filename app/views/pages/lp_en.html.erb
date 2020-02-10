@@ -110,6 +110,7 @@
             Register Now!
           </button>
           <p>（FREE for 14 days）</p>
+          <div id="error-message"></div>
         </div>
       </div>
     </section>
@@ -223,15 +224,15 @@
           // When the customer clicks on the button, redirect
           // them to Checkout.
           stripe.redirectToCheckout({
-            items: [{plan: 'plan_GC0VcuZ6XjAfjD', quantity: 1}],
+            items: [{plan: "<%= ENV['STRIPE_PLAN_ID'] %>", quantity: 1}],
 
             // Do not rely on the redirect to the successUrl for fulfilling
             // purchases, customers may not always reach the success_url after
             // a successful payment.
             // Instead use one of the strategies described in
             // https://stripe.com/docs/payments/checkout/fulfillment
-            successUrl: 'https://bungomail.com/en?success=true',
-            cancelUrl: 'https://bungomail.com/en',
+            successUrl: "<%= en_root_url(success: true) %>",
+            cancelUrl: "<%= en_root_url %>"
           })
           .then(function (result) {
             if (result.error) {
