@@ -74,6 +74,12 @@
         </div>
       </div>
       <div class="ui row">
+        <% if flash[:success].present? %>
+          <div class="ui success message">
+            <i class="icon info circle"></i>
+            <%= flash[:success] %>
+          </div>
+        <% end %>
         <div id="header-logo" class="six wide right aligned column">
           <br class="computer only">
           <h1><img src="./images/logo.png" alt="BungoMail" class="ui medium centered image"></h1>
@@ -104,14 +110,6 @@
             Register Now!
           </button>
           <p>（FREE for 14 days）</p>
-
-          <div id="error-message"></div>
-
-
-          <p>
-            <small>The service will start soon! We will notify you when the service is ready.</small>
-          </p>
-
         </div>
       </div>
     </section>
@@ -159,8 +157,6 @@
           <h2 class="ui huge header">
             Plans
             <p class="sub header">
-              Regular Plan will be available soon.
-              <br class="computer only">
               Cheaper than buying a book, and in this way you can make sure that you finish reading.
             </p>
           </h2>
@@ -219,7 +215,7 @@
 
     <script>
     (function() {
-      var stripe = Stripe('pk_test_V7Nik8ipk3RXR8x7xaHnJPPv');
+      var stripe = Stripe("<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>");
 
       var checkoutButtons = document.getElementsByClassName('checkout-button');
       for(let i = 0; i < checkoutButtons.length; i++){
@@ -234,8 +230,8 @@
             // a successful payment.
             // Instead use one of the strategies described in
             // https://stripe.com/docs/payments/checkout/fulfillment
-            successUrl: 'https://bungomail.com/success',
-            cancelUrl: 'https://bungomail.com/canceled',
+            successUrl: 'https://bungomail.com/en?success=true',
+            cancelUrl: 'https://bungomail.com/en',
           })
           .then(function (result) {
             if (result.error) {
