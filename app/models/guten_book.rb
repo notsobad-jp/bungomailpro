@@ -63,11 +63,8 @@ class GutenBook < ApplicationRecord
   end
 
   def split_text(words_per: 500)
-    # センテンスに分割
-    ## 基本は「ピリオド＋空白＋非空白文字」
-    ## Mr.などの特殊例を除外: (?<!)が否定の後読み
-    sentences = self.text.gsub(/(?<!Mr|Mrs|Ms|Mme|Sta|Sr|Sra|Dr|U\.S\.A)([\.\?\!]) (\S)/, '\1[[TMP]]\2').split("[[TMP]]")
-    # sentences = self.text.gsub(/([\r\n]+)/, '\1[[TMP]]').gsub(". ", ".[[TMP]]").split("[[TMP]]")
+    # センテンスに分割（Stringクラス拡張）
+    sentences = self.text.sentences
 
     contents = [""]
     contents_index = 0
@@ -80,13 +77,13 @@ class GutenBook < ApplicationRecord
       if word_count > words_per
         contents_index += 1
         word_count = 0
-        contents[contents_index] = ""  # TODO:次の配信の最初に、前回の最後の一文を追加
+        contents[contents_index] = sentence.sub(/(\r\n|\r|\n)/," ") # 前回最後の一文を冒頭に追加（最初の改行文字はずれることが多いのでスペースに置き換え）
       end
     end
 
     # 最後が短すぎるときは、一つ前のにマージして最終回を削除
     if contents.last.word_count < 200
-      contents[-2] += contents[-1]
+      contents[-2] += contents[-1].split(".", 2).dig(1)
       contents.pop
     end
 
