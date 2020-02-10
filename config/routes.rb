@@ -1,14 +1,6 @@
 # == Route Map
 #
 #                       Prefix Verb   URI Pattern                                                                              Controller#Action
-#                        books GET    /books(.:format)                                                                         books#index {:subdomain=>""}
-#                              POST   /books(.:format)                                                                         books#create {:subdomain=>""}
-#                     new_book GET    /books/new(.:format)                                                                     books#new {:subdomain=>""}
-#                    edit_book GET    /books/:id/edit(.:format)                                                                books#edit {:subdomain=>""}
-#                         book GET    /books/:id(.:format)                                                                     books#show {:subdomain=>""}
-#                              PATCH  /books/:id(.:format)                                                                     books#update {:subdomain=>""}
-#                              PUT    /books/:id(.:format)                                                                     books#update {:subdomain=>""}
-#                              DELETE /books/:id(.:format)                                                                     books#destroy {:subdomain=>""}
 #                 magic_tokens GET    /magic_tokens(.:format)                                                                  magic_tokens#index {:subdomain=>""}
 #                              POST   /magic_tokens(.:format)                                                                  magic_tokens#create {:subdomain=>""}
 #              new_magic_token GET    /magic_tokens/new(.:format)                                                              magic_tokens#new {:subdomain=>""}
@@ -17,31 +9,6 @@
 #                              PATCH  /magic_tokens/:id(.:format)                                                              magic_tokens#update {:subdomain=>""}
 #                              PUT    /magic_tokens/:id(.:format)                                                              magic_tokens#update {:subdomain=>""}
 #                              DELETE /magic_tokens/:id(.:format)                                                              magic_tokens#destroy {:subdomain=>""}
-#        subscription_comments GET    /subscriptions/:subscription_id/comments(.:format)                                       comments#index {:subdomain=>""}
-#                              POST   /subscriptions/:subscription_id/comments(.:format)                                       comments#create {:subdomain=>""}
-#     new_subscription_comment GET    /subscriptions/:subscription_id/comments/new(.:format)                                   comments#new {:subdomain=>""}
-#    edit_subscription_comment GET    /subscriptions/:subscription_id/comments/:id/edit(.:format)                              comments#edit {:subdomain=>""}
-#         subscription_comment GET    /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#show {:subdomain=>""}
-#                              PATCH  /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#update {:subdomain=>""}
-#                              PUT    /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#update {:subdomain=>""}
-#                              DELETE /subscriptions/:subscription_id/comments/:id(.:format)                                   comments#destroy {:subdomain=>""}
-#                subscriptions GET    /subscriptions(.:format)                                                                 subscriptions#index {:subdomain=>""}
-#                              POST   /subscriptions(.:format)                                                                 subscriptions#create {:subdomain=>""}
-#             new_subscription GET    /subscriptions/new(.:format)                                                             subscriptions#new {:subdomain=>""}
-#            edit_subscription GET    /subscriptions/:id/edit(.:format)                                                        subscriptions#edit {:subdomain=>""}
-#                 subscription GET    /subscriptions/:id(.:format)                                                             subscriptions#show {:subdomain=>""}
-#                              PATCH  /subscriptions/:id(.:format)                                                             subscriptions#update {:subdomain=>""}
-#                              PUT    /subscriptions/:id(.:format)                                                             subscriptions#update {:subdomain=>""}
-#                              DELETE /subscriptions/:id(.:format)                                                             subscriptions#destroy {:subdomain=>""}
-#                books_channel POST   /channels/:id/books(.:format)                                                            channel_books#create {:subdomain=>""}
-#                     channels GET    /channels(.:format)                                                                      channels#index {:subdomain=>""}
-#                              POST   /channels(.:format)                                                                      channels#create {:subdomain=>""}
-#                  new_channel GET    /channels/new(.:format)                                                                  channels#new {:subdomain=>""}
-#                 edit_channel GET    /channels/:id/edit(.:format)                                                             channels#edit {:subdomain=>""}
-#                      channel GET    /channels/:id(.:format)                                                                  channels#show {:subdomain=>""}
-#                              PATCH  /channels/:id(.:format)                                                                  channels#update {:subdomain=>""}
-#                              PUT    /channels/:id(.:format)                                                                  channels#update {:subdomain=>""}
-#                              DELETE /channels/:id(.:format)                                                                  channels#destroy {:subdomain=>""}
 #              activate_charge POST   /charges/:id/activate(.:format)                                                          charges#activate {:subdomain=>""}
 #                      charges GET    /charges(.:format)                                                                       charges#index {:subdomain=>""}
 #                              POST   /charges(.:format)                                                                       charges#create {:subdomain=>""}
@@ -53,14 +20,11 @@
 #                              DELETE /charges/:id(.:format)                                                                   charges#destroy {:subdomain=>""}
 #               update_payment GET    /update_payment(.:format)                                                                charges#update_payment {:subdomain=>""}
 # webhooks_update_subscription POST   /webhooks/update_subscription(.:format)                                                  webhooks#update_subscription {:subdomain=>""}
-#        webhooks_email_opened POST   /webhooks/email_opened(.:format)                                                         webhooks#email_opened {:subdomain=>""}
-#                         user GET    /users/:id(.:format)                                                                     users#show {:subdomain=>""}
-#                  pixela_user POST   /users/:id/pixela(.:format)                                                              users#pixela {:subdomain=>""}
 #                        login GET    /login(.:format)                                                                         magic_tokens#new {:subdomain=>""}
 #                         auth GET    /auth(.:format)                                                                          magic_tokens#auth {:subdomain=>""}
 #                       logout POST   /logout(.:format)                                                                        magic_tokens#destroy {:subdomain=>""}
-#                     pro_root GET    /pro(.:format)                                                                           pages#top {:subdomain=>""}
-#                        pages GET    /pages(.:format)                                                                         pages#index {:subdomain=>""}
+#                      en_root GET    /en(.:format)                                                                            pages#lp_en {:subdomain=>""}
+#         campaigns_dogramagra GET    /campaigns/dogramagra(.:format)                                                          pages#dogramagra {:subdomain=>""}
 #                         page GET    /:page(.:format)                                                                         pages#show {:subdomain=>""}
 #                         root GET    /                                                                                        pages#lp {:subdomain=>""}
 #        author_category_books GET    /authors/:author_id/categories/:category_id/books(.:format)                              search/books#index {:subdomain=>"search"}
@@ -88,6 +52,7 @@
 #                              PUT    /authors/:id(.:format)                                                                   search/authors#update {:subdomain=>"search"}
 #                              DELETE /authors/:id(.:format)                                                                   search/authors#destroy {:subdomain=>"search"}
 #                              GET    /:page(.:format)                                                                         search/pages#show {:subdomain=>"search"}
+#                              GET    /.amp(.:format)                                                                          search/books#index {:subdomain=>"search"}
 #                              GET    /                                                                                        search/books#index {:subdomain=>"search"}
 #           rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 #    rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
