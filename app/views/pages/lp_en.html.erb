@@ -74,13 +74,18 @@
         </div>
       </div>
 
-      <% if flash[:success].present? %>
-        <div class="ui row">
-          <div class="ui success message">
-            <i class="icon info circle"></i>
-            <%= flash[:success] %>
+      <% %i(success error).each do |status| %>
+        <% if flash[status].present? %>
+          <div class="ui row">
+            <div class="column">
+              <div class="ui <%= status %> message">
+                <% icon = (status == :success) ? 'info' : 'warning' %>
+                <i class="icon <%= icon %> circle"></i>
+                <%= flash[status] %>
+              </div>
+            </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
 
       <div class="ui row">
@@ -102,19 +107,13 @@
             </div>
           </div>
 
-          <!-- <a class="ui blue large fluid button" href="https://forms.gle/VcgLQsvncyqNFxUD9" target="_blank">
-            Pre-Registration
-          </a> -->
-
-          <!-- Load Stripe.js on your website. -->
-          <script src="https://js.stripe.com/v3"></script>
-
-          <!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
-          <button class="ui red large fluid button checkout-button" role="link">
-            Register Now!
-          </button>
+          <%= form_with model: User do |form| %>
+            <div class="ui action fluid input">
+              <%= form.email_field :email, placeholder: "Your Email Address" %>
+              <button class="ui red button">Register</button>
+            </div>
+          <% end %>
           <p>（FREE for 14 days）</p>
-          <div id="error-message"></div>
         </div>
       </div>
     </section>
@@ -196,12 +195,21 @@
                   </div>
                 </div>
               </div>
-              <button class="ui bottom attached red button checkout-button" role="link">
-                Register Now!
-              </button>
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="ui row">
+        <div class="six wide center aligned column">
+          <%= form_with model: User do |form| %>
+            <div class="ui action fluid input">
+              <%= form.email_field :email, placeholder: "Your Email Address" %>
+              <button class="ui red button">Register</button>
+            </div>
+          <% end %>
+          <p>（FREE for 14 days）</p>
+      </div>
       </div>
     </section>
 
@@ -216,39 +224,5 @@
         </small>
       </div>
     </footer>
-
-
-    <script>
-    (function() {
-      var stripe = Stripe("<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>");
-
-      var checkoutButtons = document.getElementsByClassName('checkout-button');
-      for(let i = 0; i < checkoutButtons.length; i++){
-        checkoutButtons[i].addEventListener('click', function () {
-          // When the customer clicks on the button, redirect
-          // them to Checkout.
-          stripe.redirectToCheckout({
-            items: [{plan: "<%= ENV['STRIPE_PLAN_ID'] %>", quantity: 1}],
-
-            // Do not rely on the redirect to the successUrl for fulfilling
-            // purchases, customers may not always reach the success_url after
-            // a successful payment.
-            // Instead use one of the strategies described in
-            // https://stripe.com/docs/payments/checkout/fulfillment
-            successUrl: "<%= en_root_url(success: true) %>",
-            cancelUrl: "<%= en_root_url %>"
-          })
-          .then(function (result) {
-            if (result.error) {
-              // If `redirectToCheckout` fails due to a browser or network
-              // error, display the localized error message to your customer.
-              var displayError = document.getElementById('error-message');
-              displayError.textContent = result.error.message;
-            }
-          });
-        });
-      }
-    })();
-    </script>
   </body>
 </html>
