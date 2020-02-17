@@ -4,6 +4,7 @@ class UsersController < ApplicationController
     return redirect_to en_root_path, flash: { error: 'This email address is already registered.' } if @user.persisted?
 
     if @user.save
+      @user.guten_book_users
       book = GutenBook.pick
       feeds = book.set_feeds(@user.id)
       first_feed = Feed.find(feeds.ids.min)
