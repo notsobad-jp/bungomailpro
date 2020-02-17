@@ -4,11 +4,8 @@ class UsersController < ApplicationController
     return redirect_to en_root_path, flash: { error: 'This email address is already registered.' } if @user.persisted?
 
     if @user.save
-      @user.guten_book_users
-      book = GutenBook.pick
-      feeds = book.set_feeds(@user.id)
-      first_feed = Feed.find(feeds.ids.min)
-      UserMailer.feed_email(first_feed).deliver_now
+      # 本を選んでfeedsをセット。最初のfeedはすぐに配信する
+      @user.delay.assign_book_and_deliver_first_feed
       flash[:success] = 'Account registered! Please check the first email we send you in a minute :)'
     else
       flash[:error] = 'Sorry something seems to be wrong with your email address. Please check and try again.'

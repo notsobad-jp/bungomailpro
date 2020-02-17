@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_073509) do
   create_table "assigned_books", force: :cascade do |t|
     t.bigint "guten_book_id", null: false
     t.uuid "user_id", null: false
-    t.string "status", comment: "IN (active finished skipped canceled)"
+    t.string "status", default: "active", comment: "IN (active finished skipped canceled)"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["guten_book_id"], name: "index_assigned_books_on_guten_book_id"

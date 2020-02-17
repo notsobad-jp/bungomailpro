@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: guten_book_users
+# Table name: assigned_books
 #
 #  id                                            :bigint(8)        not null, primary key
 #  status(IN (active finished skipped canceled)) :string
@@ -11,9 +11,9 @@
 #
 # Indexes
 #
-#  index_guten_book_users_on_guten_book_id  (guten_book_id)
-#  index_guten_book_users_on_status         (status)
-#  index_guten_book_users_on_user_id        (user_id)
+#  index_assigned_books_on_guten_book_id  (guten_book_id)
+#  index_assigned_books_on_status         (status)
+#  index_assigned_books_on_user_id        (user_id)
 #
 # Foreign Keys
 #
@@ -25,4 +25,23 @@ class AssignedBook < ApplicationRecord
   belongs_to :user
   belongs_to :guten_book
   has_many :feeds, dependent: :destroy
+
+  def set_feeds
+    feeds = []
+    contents = self.guten_book.split_text
+    send_at = Time.zone.today
+
+    contents.each.with_index(1) do |content, index|
+      title = "#{self.guten_book.title}（#{index}/#{contents.count}）"
+      feeds << Feed.new(
+        assigned_book_id: self.id,
+        index: index,
+        title: title,
+        content: content,
+        send_at: send_at
+      )
+      send_at += 1.day
+    end
+    Feed.import feeds
+  end
 end
