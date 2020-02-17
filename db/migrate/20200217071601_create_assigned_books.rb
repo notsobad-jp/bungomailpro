@@ -1,6 +1,6 @@
 class CreateAssignedBooks < ActiveRecord::Migration[5.2]
   def up
-    create_table :assigned_books do |t|
+    create_table :assigned_books, id: :uuid do |t|
       t.references :guten_book, foreign_key: true, null: false
       t.references :user, type: :uuid, foreign_key: true, null: false
       t.string :status, comment: 'IN (active finished skipped canceled)', default: 'active'

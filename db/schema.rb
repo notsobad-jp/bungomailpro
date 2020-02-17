@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_073509) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "assigned_books", force: :cascade do |t|
+  create_table "assigned_books", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "guten_book_id", null: false
     t.uuid "user_id", null: false
     t.string "status", default: "active", comment: "IN (active finished skipped canceled)"
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_073509) do
     t.boolean "scheduled", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "assigned_book_id", null: false
+    t.uuid "assigned_book_id", null: false
     t.index ["assigned_book_id"], name: "index_feeds_on_assigned_book_id"
   end
 

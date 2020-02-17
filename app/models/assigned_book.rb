@@ -2,8 +2,8 @@
 #
 # Table name: assigned_books
 #
-#  id                                            :bigint(8)        not null, primary key
-#  status(IN (active finished skipped canceled)) :string
+#  id                                            :uuid             not null, primary key
+#  status(IN (active finished skipped canceled)) :string           default("active")
 #  created_at                                    :datetime         not null
 #  updated_at                                    :datetime         not null
 #  guten_book_id                                 :bigint(8)        not null
@@ -32,7 +32,7 @@ class AssignedBook < ApplicationRecord
     send_at = Time.zone.today
 
     contents.each.with_index(1) do |content, index|
-      title = "#{self.guten_book.title}（#{index}/#{contents.count}）"
+      title = "#{self.guten_book.title}（#{index} of #{contents.count}）"
       feeds << Feed.new(
         assigned_book_id: self.id,
         index: index,

@@ -10,7 +10,7 @@
 #  title            :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  assigned_book_id :bigint(8)        not null
+#  assigned_book_id :uuid             not null
 #
 # Indexes
 #
