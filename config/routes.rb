@@ -63,6 +63,7 @@
 Rails.application.routes.draw do
   constraints subdomain: '' do
     resources :magic_tokens
+    resources :users
     resources :charges do
       post 'activate', on: :member
     end

@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_13_084033) do
+ActiveRecord::Schema.define(version: 2020_02_17_073509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "assigned_books", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "guten_book_id", null: false
+    t.uuid "user_id", null: false
+    t.string "status", default: "active", comment: "IN (active finished skipped canceled)"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guten_book_id"], name: "index_assigned_books_on_guten_book_id"
+    t.index ["status"], name: "index_assigned_books_on_status"
+    t.index ["user_id"], name: "index_assigned_books_on_user_id"
+  end
 
   create_table "books", id: :bigint, default: nil, force: :cascade do |t|
     t.string "title", null: false
@@ -100,8 +111,6 @@ ActiveRecord::Schema.define(version: 2020_01_13_084033) do
   end
 
   create_table "feeds", force: :cascade do |t|
-    t.bigint "guten_book_id", null: false
-    t.uuid "user_id", null: false
     t.integer "index", default: 1, null: false
     t.string "title"
     t.text "content"
@@ -109,9 +118,8 @@ ActiveRecord::Schema.define(version: 2020_01_13_084033) do
     t.boolean "scheduled", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["guten_book_id", "user_id", "index"], name: "index_feeds_on_guten_book_id_and_user_id_and_index", unique: true
-    t.index ["guten_book_id"], name: "index_feeds_on_guten_book_id"
-    t.index ["user_id"], name: "index_feeds_on_user_id"
+    t.uuid "assigned_book_id", null: false
+    t.index ["assigned_book_id"], name: "index_feeds_on_assigned_book_id"
   end
 
   create_table "guten_books", force: :cascade do |t|
@@ -156,12 +164,13 @@ ActiveRecord::Schema.define(version: 2020_01_13_084033) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
+  add_foreign_key "assigned_books", "guten_books"
+  add_foreign_key "assigned_books", "users"
   add_foreign_key "books", "categories"
   add_foreign_key "campaign_groups", "books"
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "charges", "users"
-  add_foreign_key "feeds", "guten_books"
-  add_foreign_key "feeds", "users"
+  add_foreign_key "feeds", "assigned_books"
   add_foreign_key "guten_books_subjects", "guten_books"
   add_foreign_key "guten_books_subjects", "subjects"
 end

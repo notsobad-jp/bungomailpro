@@ -18,6 +18,7 @@ require 'open-uri'
 class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
 
+  DELIVERY_HOUR = 7
 
   def count_words
     return if (text = self.text).nil?
@@ -42,27 +43,7 @@ class GutenBook < ApplicationRecord
     nil
   end
 
-  def set_feeds(user_id)
-    feeds = []
-    contents = self.split_text
-    send_at = Time.zone.tomorrow
-
-    contents.each.with_index(1) do |content, index|
-      title = "#{self.title}（#{index}/#{contents.count}）"
-      feeds << Feed.new(
-        guten_book_id: self.id,
-        user_id: user_id,
-        index: index,
-        title: title,
-        content: content,
-        send_at: send_at
-      )
-      send_at += 1.day
-    end
-    Feed.import feeds
-  end
-
-  def split_text(words_per: 500)
+  def split_text(words_per: 400)
     # センテンスに分割（Stringクラス拡張）
     sentences = self.text.sentences
 
@@ -92,11 +73,6 @@ class GutenBook < ApplicationRecord
 
 
   class << self
-    def pick
-      ids = ActiveRecord::Base.connection.select_values("select guten_book_id from guten_books_subjects where subject_id IN (select id from subjects where LOWER(id) LIKE '%fiction%')")
-      self.where(id: ids, language: 'en', rights: 'Public domain in the USA.', words_count: 3000..30000).where("downloads > ?", 30).order(Arel.sql("RANDOM()")).first
-    end
-
     def import_rdf(id)
       file_path = "tmp/gutenberg/#{id}/pg#{id}.rdf"
       xml = File.open(file_path, &:read)
