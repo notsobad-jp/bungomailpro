@@ -8,8 +8,8 @@ class MagicTokensController < ApplicationController
     @user = User.find_or_create_by(email: params[:email])
     if @user.try(:persisted?) && @user.try(:email) != 'bungomail-text@notsobad.jp'
       @user.deliver_magic_login_instructions!
-      flash[:success] = 'ログインURLをメールで送信しました！（届くまで数分程度かかる場合があります）'
-      redirect_to pro_root_path
+      flash[:success] = 'We sent you an email with signin URL.'
+      redirect_to en_root_path
     else
       flash[:error] = 'メールアドレスが正しくないようです…😢もう一度ご確認ください。'
       redirect_to login_path
@@ -28,14 +28,14 @@ class MagicTokensController < ApplicationController
       auto_login(@user)
       remember_me!
       @user.clear_magic_login_token!
-      flash[:success] = 'ログインしました！'
-      redirect_to pro_root_path
+      flash[:success] = 'Signin successful!'
+      redirect_to en_root_path
     end
   end
 
   def destroy
     logout
-    flash[:info] = 'ログアウトしました！'
-    redirect_to pro_root_path
+    flash[:info] = 'Signed out successfully.'
+    redirect_to en_root_path
   end
 end
