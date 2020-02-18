@@ -21,10 +21,6 @@
 #  index_users_on_remember_me_token  (remember_me_token)
 #
 
-require 'net/http'
-require 'uri'
-require 'json'
-
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_one :charge, dependent: :destroy
