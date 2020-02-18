@@ -22,7 +22,7 @@ class UserMailer < ApplicationMailer
     xsmtp_api_params = {
       send_at: send_at.to_i,
       to: @feed.assigned_book.user.email,
-      category: 'gutenberg'
+      category: ['gutenberg']
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
