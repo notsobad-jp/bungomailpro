@@ -39,4 +39,27 @@ class UserMailer < ApplicationMailer
     @feed.update(scheduled: true)
     logger.info "[SCHEDULED] feed:#{@feed.id}"
   end
+
+  def notification_email(notification)
+    @notification = notification
+
+    xsmtp_api_params = {
+      send_at: @notification.send_at.to_i,
+      to: User.all.pluck(:email),  # paramは配列
+      category: ['notification']
+    }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
+    from_email = 'bungomail@notsobad.jp'
+    from_name = "BungoMail"
+    subject = @notification.title
+
+    mail(
+      from: "#{from_name} <#{from_email}>",
+      to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
+      subject: subject,
+      reply_to: 'info@notsobad.jp'
+    )
+    logger.info "[SCHEDULED] notification:#{@notification.id}"
+  end
 end

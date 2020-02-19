@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_073509) do
+ActiveRecord::Schema.define(version: 2020_02_19_072353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -52,8 +52,8 @@ ActiveRecord::Schema.define(version: 2020_02_17_073509) do
     t.datetime "start_at", null: false
     t.integer "list_id", null: false
     t.integer "sender_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
     t.index ["book_id"], name: "index_campaign_groups_on_book_id"
   end
 
@@ -142,6 +142,14 @@ ActiveRecord::Schema.define(version: 2020_02_17_073509) do
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
   end
 
+  create_table "notifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.datetime "send_at"
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
+  end
+
   create_table "subjects", id: :string, force: :cascade do |t|
     t.integer "books_count", default: 0
     t.datetime "created_at", null: false
@@ -152,8 +160,8 @@ ActiveRecord::Schema.define(version: 2020_02_17_073509) do
     t.string "email", null: false
     t.string "crypted_password"
     t.string "salt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
     t.string "magic_login_token"
     t.datetime "magic_login_token_expires_at"
     t.datetime "magic_login_email_sent_at"
