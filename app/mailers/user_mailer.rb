@@ -46,7 +46,7 @@ class UserMailer < ApplicationMailer
     xsmtp_api_params = {
       send_at: @notification.send_at.to_i,
       # to: User.all.pluck(:email),  # paramは配列
-      to: User.order(:id).take(20), #TMP: とりあえず前半20人に送信
+      to: User.order(id: :desc).take(21),
       category: ['notification']
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)

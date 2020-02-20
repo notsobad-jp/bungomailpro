@@ -37,7 +37,8 @@ class User < ApplicationRecord
     GutenBook.where(id: ids, language: 'en', rights: 'Public domain in the USA.', words_count: 5000..40000).where("downloads > ?", 100).order(Arel.sql("RANDOM()")).first
   end
 
-  def assign_book_and_deliver_first_feed
+  # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される
+  def assign_book_and_set_first_feed
     book = self.assign_book
     assigned_book = self.assigned_books.create(guten_book_id: book.id)
     feeds = assigned_book.set_feeds
