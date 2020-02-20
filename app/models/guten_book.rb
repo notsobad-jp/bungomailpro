@@ -50,22 +50,32 @@ class GutenBook < ApplicationRecord
     contents = [""]
     contents_index = 0
     word_count = 0
+    last_sentences = []
 
     sentences.each do |sentence|
       contents[contents_index] += sentence
       word_count += sentence.word_count
 
+      # 文字数が設定を超えたら次に回す（最後の回はここを通ったり通らなかったりする）
       if word_count > words_per
         contents_index += 1
         word_count = 0
-        contents[contents_index] = sentence.sub(/(\r\n|\r|\n)/," ") # 前回最後の一文を冒頭に追加（最初の改行文字はずれることが多いのでスペースに置き換え）
+        contents[contents_index] = ""
+        last_sentences << sentence.sub(/(\r\n|\r|\n)/," ") # 前回最後の一文を配列に保存しておく（最初の改行文字はずれることが多いのでスペースに置き換え）
+        # byebug
       end
     end
 
     # 最後が短すぎるときは、一つ前のにマージして最終回を削除
     if contents.last.word_count < 200
-      contents[-2] += contents[-1].split(".", 2).dig(1)
+      contents[-2] += contents[-1]
       contents.pop
+    end
+
+    # 各回最後の一文を次回の冒頭に追加
+    contents.each_with_index do |content, index|
+      next if index == 0
+      contents[index] = last_sentences[index - 1] + content
     end
 
     contents
