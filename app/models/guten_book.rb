@@ -62,7 +62,6 @@ class GutenBook < ApplicationRecord
         word_count = 0
         contents[contents_index] = ""
         last_sentences << sentence.sub(/(\r\n|\r|\n)/," ") # 前回最後の一文を配列に保存しておく（最初の改行文字はずれることが多いのでスペースに置き換え）
-        # byebug
       end
     end
 
@@ -75,7 +74,9 @@ class GutenBook < ApplicationRecord
     # 各回最後の一文を次回の冒頭に追加
     contents.each_with_index do |content, index|
       next if index == 0
-      contents[index] = last_sentences[index - 1] + content
+      last_sentence = last_sentences[index - 1]
+      last_sentence = '…' + last_sentence.slice(-150..-1) if last_sentence.length > 150
+      contents[index] = last_sentence + content
     end
 
     contents
