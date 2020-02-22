@@ -56,20 +56,6 @@ class Book < ApplicationRecord
     Book.aozora_file_url(author_id: author_id, book_id: id, file_id: file_id)
   end
 
-  def create_chapters
-    text, footnote = aozora_file_text
-
-    chapters = []
-    Book.split_text(text).each.with_index(1) do |chapter, index|
-      chapters << Chapter.new(book_id: id, index: index, text: chapter)
-    end
-
-    ActiveRecord::Base.transaction do
-      Chapter.import! chapters
-      update!(chapters_count: chapters.count, footnote: footnote)
-    end
-  end
-
   # scrape and parse Aozora File
   def aozora_file_text(html=nil)
     html = File.open(aozora_file_path, &:read) if !html
@@ -119,21 +105,6 @@ class Book < ApplicationRecord
 
     [text, footnote]
   end
-
-  def twitter_share_url
-    long_url = CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{Time.current.month}月は%20%23#{author.delete(' ')}%20%23#{title}%20を配信中！")
-
-    uri = URI.parse("https://api-ssl.bitly.com/v3/shorten?access_token=#{ENV['BITLY_ACCESS_TOKEN']}&longUrl=#{long_url}")
-    https = Net::HTTP.new(uri.host, uri.port)
-    https.use_ssl = true
-    https.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    res = https.start {
-      https.get(uri.request_uri)
-    }
-    JSON.parse(res.body)['data']['url']
-  end
-
 
 
   class << self
