@@ -3,7 +3,7 @@
 # Table name: assigned_books
 #
 #  id                                            :uuid             not null, primary key
-#  feeds_count                                   :integer
+#  feeds_count                                   :integer          default(0)
 #  status(IN (active finished skipped canceled)) :string           default("active")
 #  created_at                                    :datetime         not null
 #  updated_at                                    :datetime         not null
@@ -44,5 +44,7 @@ class AssignedBook < ApplicationRecord
       send_at += 1.day
     end
     Feed.import feeds
+
+    self.update(feeds_count: feeds.count)
   end
 end

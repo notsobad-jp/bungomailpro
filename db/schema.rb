@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2020_02_22_023232) do
     t.string "status", default: "active", comment: "IN (active finished skipped canceled)"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "feeds_count"
+    t.integer "feeds_count", default: 0
     t.index ["guten_book_id"], name: "index_assigned_books_on_guten_book_id"
     t.index ["status"], name: "index_assigned_books_on_status"
     t.index ["user_id"], name: "index_assigned_books_on_user_id"

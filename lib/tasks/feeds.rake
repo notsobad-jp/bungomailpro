@@ -4,6 +4,7 @@ namespace :feeds do
       begin
         UserMailer.feed_email(feed).deliver
         # 最後のfeedだったらstatus更新して次の配信をセット
+        byebug
         if feed.index == feed.assigned_book.feeds_count
           feed.assigned_book.update(status: "finished")
           feed.assigned_book.user.delay.assign_book_and_set_feeds
