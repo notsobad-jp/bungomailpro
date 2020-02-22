@@ -23,8 +23,4 @@
 
 class Feed < ApplicationRecord
   belongs_to :assigned_book
-
-  def schedule_email
-    UserMailer.feed_email(self).deliver
-  end
 end

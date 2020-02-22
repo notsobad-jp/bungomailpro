@@ -3,6 +3,7 @@
 # Table name: assigned_books
 #
 #  id                                            :uuid             not null, primary key
+#  feeds_count                                   :integer
 #  status(IN (active finished skipped canceled)) :string           default("active")
 #  created_at                                    :datetime         not null
 #  updated_at                                    :datetime         not null
@@ -24,7 +25,7 @@
 class AssignedBook < ApplicationRecord
   belongs_to :user
   belongs_to :guten_book
-  has_many :feeds, dependent: :destroy
+  has_many :feeds, -> { order(:index) }, dependent: :destroy
 
   def set_feeds
     feeds = []

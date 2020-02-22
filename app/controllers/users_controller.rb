@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
     if @user.save
       # 本を選んでfeedsをセット。最初のfeedはすぐに配信する
-      @user.delay.assign_book_and_deliver_first_feed
+      @user.delay.assign_book_and_set_feeds(deliver_now: true)
       flash[:success] = 'Account registered! Please check the first email we send you in a minute :)'
     else
       flash[:error] = 'Sorry something seems to be wrong with your email address. Please check and try again.'

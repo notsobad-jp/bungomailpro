@@ -30,19 +30,19 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
 
 
-  def assign_book
+  def select_book
     # LIKE > 30 : 1094冊
     # LIKE > 100 : 245冊（最初はおもしろそうなやつを）
     ids = ActiveRecord::Base.connection.select_values("select guten_book_id from guten_books_subjects where subject_id IN (select id from subjects where LOWER(id) LIKE '%fiction%')")
     GutenBook.where(id: ids, language: 'en', rights: 'Public domain in the USA.', words_count: 5000..40000).where("downloads > ?", 100).order(Arel.sql("RANDOM()")).first
   end
 
-  # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される
-  def assign_book_and_set_first_feed
-    book = self.assign_book
+  def assign_book_and_set_feeds(deliver_now: false)
+    book = self.select_book
     assigned_book = self.assigned_books.create(guten_book_id: book.id)
-    feeds = assigned_book.set_feeds
-    first_feed = Feed.find(feeds.ids.min)
-    UserMailer.feed_email(first_feed).deliver
+    assigned_book.set_feeds
+
+    # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される
+    UserMailer.feed_email(assigned_book.feeds.first).deliver if deliver_now
   end
 end

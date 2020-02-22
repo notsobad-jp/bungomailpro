@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_072353) do
+ActiveRecord::Schema.define(version: 2020_02_22_023232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_072353) do
     t.string "status", default: "active", comment: "IN (active finished skipped canceled)"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "feeds_count"
     t.index ["guten_book_id"], name: "index_assigned_books_on_guten_book_id"
     t.index ["status"], name: "index_assigned_books_on_status"
     t.index ["user_id"], name: "index_assigned_books_on_user_id"

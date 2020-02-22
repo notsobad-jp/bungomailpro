@@ -11,7 +11,4 @@
 #
 
 class Notification < ApplicationRecord
-  def schedule_email
-    UserMailer.notification_email(self).deliver
-  end
 end
