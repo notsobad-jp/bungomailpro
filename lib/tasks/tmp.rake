@@ -5,4 +5,11 @@ namespace :tmp do
       p "Counted: #{assigned_book.id}"
     end
   end
+
+  task generate_magic_tokens: :environment do |_task, _args|
+    User.all.each do |user|
+      user.generate_magic_login_token!
+      p "Generated for #{user.email}: #{user.magic_login_token}"
+    end
+  end
 end

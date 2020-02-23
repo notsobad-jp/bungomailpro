@@ -408,13 +408,13 @@ Rails.application.config.sorcery.configure do |config|
     # manually handle how and when email is sent
     # Default: `true`
     #
-    user.magic_login_mailer_disabled = false
+    # user.magic_login_mailer_disabled =
 
 
     # how many seconds before the request expires. nil for never expires.
     # Default: `nil`
     #
-    # user.magic_login_expiration_period =
+    user.magic_login_expiration_period = nil
 
 
     # hammering protection, how long in seconds to wait before allowing another email to be sent.

@@ -13,6 +13,9 @@ class UsersController < ApplicationController
     redirect_to en_root_path
   end
 
+  def mypage
+  end
+
   private
 
   def user_params

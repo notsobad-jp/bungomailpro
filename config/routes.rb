@@ -62,7 +62,6 @@
 
 Rails.application.routes.draw do
   constraints subdomain: '' do
-    resources :magic_tokens
     resources :users
     resources :charges do
       post 'activate', on: :member
@@ -75,6 +74,8 @@ Rails.application.routes.draw do
     post 'logout' => 'magic_tokens#destroy', as: :logout
 
     get 'en' => "pages#lp_en", as: :en_root
+    get 'mypage' => "users#mypage", as: :mypage
+
     get '/campaigns/dogramagra' => "pages#dogramagra"
     get '/:page' => "pages#show", as: :page
 

@@ -29,6 +29,10 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
 
+  # ユーザー作成時にmagic_login_tokenも発行しておく
+  after_create do
+    self.generate_magic_login_token!
+  end
 
   def select_book
     # LIKE > 30 : 1094冊

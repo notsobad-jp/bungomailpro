@@ -1,7 +1,7 @@
 class MagicTokensController < ApplicationController
   def new
     redirect_to subscriptions_path if current_user
-    @breadcrumbs << { name: 'ログイン' }
+    @breadcrumbs << { name: 'Signin' }
   end
 
   def create
@@ -22,12 +22,11 @@ class MagicTokensController < ApplicationController
 
     if @user.blank?
       not_authenticated
-      flash[:error] = 'ログインに失敗しました…😢'
-      return
+      flash[:error] = 'Sorry failed to signin…'
+      redirect_to en_root_path
     else
       auto_login(@user)
       remember_me!
-      @user.clear_magic_login_token!
       flash[:success] = 'Signin successful!'
       redirect_to en_root_path
     end

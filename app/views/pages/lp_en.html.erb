@@ -65,13 +65,14 @@
 
     <!-- Header -->
     <section id="header" class="ui centered stackable seigaiha grid">
-      <div class="ui row">
-        <div class="column">
-          <h1 class="ui left aligned medium header">
+      <div class="ui text fluid menu">
+        <div class="ui item">
+          <h1 class="ui medium header">
             Bungo Mail
             <span class="ui mini label orange">BETA</span>
           </h1>
         </div>
+        <%= link_to 'Mypage', en_root_path, class: 'ui right item' %>
       </div>
 
       <% %i(success error).each do |status| %>
@@ -112,6 +113,10 @@
               <%= form.email_field :email, placeholder: "Your Email Address" %>
               <button class="ui red button">Register</button>
             </div>
+            <small>
+              Already user? Go to
+              <%= link_to 'Mypage.', en_root_path %>
+            </small>
           <% end %>
           <p>（FREE for 14 days）</p>
         </div>
