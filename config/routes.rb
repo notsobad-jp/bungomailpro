@@ -73,13 +73,28 @@ Rails.application.routes.draw do
     get 'auth' => 'magic_tokens#auth', as: :auth
     post 'logout' => 'magic_tokens#destroy', as: :logout
 
-    get 'en' => "pages#lp_en", as: :en_root
-    get 'mypage' => "users#mypage", as: :mypage
+    #TMP: 海外版旧URL（サブディレクトリ）から新URL（サブドメイン）にリダイレクト
+    get  "/en" => redirect(subdomain: :en, path: '/')
 
     get '/campaigns/dogramagra' => "pages#dogramagra"
     get '/:page' => "pages#show", as: :page
 
     root to: 'pages#lp'
+  end
+
+
+  # English ver.
+  constraints subdomain: 'en' do
+    scope module: :en do
+      resources :users
+
+      get 'login' => 'magic_tokens#new'
+      get 'auth' => 'magic_tokens#auth'
+      post 'logout' => 'magic_tokens#destroy'
+      get 'mypage' => "users#mypage", as: :mypage
+
+      root to: 'pages#lp'
+    end
   end
 
 
