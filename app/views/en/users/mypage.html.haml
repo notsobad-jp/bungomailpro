@@ -1,1 +1,58 @@
-hoge
+.ui.basic.segment
+  %h5.ui.small.header
+    %i.icon.user.outline
+    User Profile
+  %table.ui.fixed.definition.table
+    %tr
+      %td Email
+      %td= current_user.email
+    %tr
+      %td Timezone
+      %td UTC(+00:00)
+
+  %h5.ui.small.header
+    %i.icon.envelope.outline
+    Deliery Settings
+  %table.ui.fixed.definition.table
+    %tr
+      %td Delivery Time
+      %td 7:00
+    %tr
+      %td Sentence Length
+      %td 400 words/day
+
+  %h5.ui.small.header
+    %i.icon.newspaper.outline
+    Current Book
+  %table.ui.fixed.definition.table
+    - if @assigned_book
+      %tr
+        %td Title
+        %td= @assigned_book.guten_book.title
+      %tr
+        %td Author
+        %td= @assigned_book.guten_book.author
+      %tr
+        %td Delivery Status
+        %td= "Delivered #{@assigned_book.feeds.where(scheduled: true).count} of #{@assigned_book.feeds.count}"
+      %tr
+        %td URL
+        %td
+          - url = @assigned_book.guten_book.gutenberg_book_url
+          = link_to url, target: :blank do
+            = url
+            %i.icon.small.external
+    - else
+      %tr
+        %td(colspan="2") No book is scheduled now.
+
+  %h5.ui.small.header
+    %i.icon.credit.card.outline
+    Payment
+  %table.ui.fixed.definition.table
+    %tr
+      %td Status
+      %td Active
+    %tr
+      %td Card Number
+      %td

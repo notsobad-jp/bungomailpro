@@ -32,9 +32,16 @@ class GutenBook < ApplicationRecord
     p e
   end
 
+  def gutenberg_book_url
+    "https://www.gutenberg.org/ebooks/#{id}"
+  end
+
+  def gutenberg_text_url
+    "https://www.gutenberg.org/cache/epub/#{id}/pg#{id}.txt"
+  end
+
   def text
-    url = "http://www.gutenberg.org/cache/epub/#{id}/pg#{id}.txt"
-    file = open(url)
+    file = open(gutenberg_text_url)
     splited_text = file.read.split(/\*\*\*\s?(START|END) OF (THIS|THE) PROJECT GUTENBERG EBOOK [^*]+\s?\*\*\*/)
     return if splited_text.size != 7
     splited_text[3].strip

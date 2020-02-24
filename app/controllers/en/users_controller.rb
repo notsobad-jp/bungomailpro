@@ -1,6 +1,6 @@
 class En::UsersController < En::ApplicationController
   skip_before_action :require_login, only: [:create]
-  
+
   def create
     @user = User.find_or_initialize_by(email: user_params[:email])
     return redirect_to root_path, flash: { error: 'This email address is already registered.' } if @user.persisted?
@@ -16,6 +16,7 @@ class En::UsersController < En::ApplicationController
   end
 
   def mypage
+    @assigned_book = AssignedBook.includes(:guten_book, :feeds).where(user_id: current_user.id, status: 'active').first
     @breadcrumbs << { name: 'Mypage' }
   end
 
