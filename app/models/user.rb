@@ -41,10 +41,10 @@ class User < ApplicationRecord
     GutenBook.where(id: ids, language: 'en', rights: 'Public domain in the USA.', words_count: 5000..40000).where("downloads > ?", 100).order(Arel.sql("RANDOM()")).first
   end
 
-  def assign_book_and_set_feeds(deliver_now: false)
+  def assign_book_and_set_feeds(start_from: Time.zone.today, deliver_now: false)
     book = self.select_book
     assigned_book = self.assigned_books.create(guten_book_id: book.id)
-    assigned_book.set_feeds
+    assigned_book.set_feeds(start_from: start_from)
 
     # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される
     UserMailer.feed_email(assigned_book.feeds.first).deliver if deliver_now

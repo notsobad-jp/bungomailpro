@@ -72,7 +72,9 @@
             <span class="ui mini label orange">BETA</span>
           </h1>
         </div>
-        <%= link_to 'Mypage', mypage_path, class: 'ui right item' %>
+        <div class="ui right item">
+          <%= link_to 'Sign in', mypage_path, class: 'ui black basic button' %>
+        </div>
       </div>
 
       <% %i(success error).each do |status| %>
@@ -114,8 +116,9 @@
               <button class="ui red button">Register</button>
             </div>
             <small>
-              Already user? Go to
-              <%= link_to 'Mypage.', mypage_path %>
+              Already user?
+              <%= link_to 'Sign in', mypage_path %>
+              from here.
             </small>
           <% end %>
           <p>（FREE for 14 days）</p>

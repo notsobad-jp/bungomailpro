@@ -68,6 +68,9 @@ Rails.application.routes.draw do
     scope module: :en do
       resources :users
       resources :magic_tokens
+      resources :assigned_books do
+        post 'skip', on: :member
+      end
 
       get 'login' => 'magic_tokens#new'
       post 'logout' => 'magic_tokens#destroy'

@@ -27,10 +27,10 @@ class AssignedBook < ApplicationRecord
   belongs_to :guten_book
   has_many :feeds, -> { order(:index) }, dependent: :destroy
 
-  def set_feeds
+  def set_feeds(start_from: Time.zone.today)
     feeds = []
     contents = self.guten_book.split_text
-    send_at = Time.zone.today
+    send_at = start_from
 
     contents.each.with_index(1) do |content, index|
       title = "#{self.guten_book.title}（#{index} of #{contents.count}）"
