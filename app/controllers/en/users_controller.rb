@@ -1,4 +1,6 @@
 class En::UsersController < En::ApplicationController
+  skip_before_action :require_login, only: [:create]
+  
   def create
     @user = User.find_or_initialize_by(email: user_params[:email])
     return redirect_to root_path, flash: { error: 'This email address is already registered.' } if @user.persisted?

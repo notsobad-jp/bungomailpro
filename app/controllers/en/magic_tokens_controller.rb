@@ -1,4 +1,6 @@
 class En::MagicTokensController < En::ApplicationController
+  skip_before_action :require_login, except: [:destroy]
+
   def new
     redirect_to mypage_path if current_user
     @breadcrumbs << { name: 'Signin' }

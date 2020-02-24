@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_authenticated
-    flash[:error] = 'Faled to authenticate. Please check your login status.'
+    flash[:warning] = 'Not authorized. Please signin to see the content.'
     redirect_to login_path
   end
 
