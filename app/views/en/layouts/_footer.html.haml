@@ -1,0 +1,23 @@
+%footer.ui.basic.center.aligned.inverted.segment
+  %h5.ui.header
+    = link_to root_path do
+      ブンゴウメール
+      %span.ui.orange.mini.label BETA
+  %br
+  .ui.horizontal.list
+    = link_to '利用規約', page_path(:terms), class: 'item'
+    = link_to 'プライバシーポリシー', page_path(:privacy), class: 'item'
+    = link_to 'お問い合わせ', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'
+    = link_to '運営会社', 'https://notsobad.jp', target: '_blank', class: 'item'
+    = link_to '公式Twitter', 'https://twitter.com/bungomail', target: '_blank', class: 'item'
+  %br/
+  %br/
+  %br/
+  %div
+    %small
+      Copyright
+      = link_to 'ブンゴウメール', root_path
+      2018 All rights reserved.
+    %small
+      Powered by
+      %a{:href => "https://notsobad.jp", :target => "_blank"} NOT SO BAD, LLC.

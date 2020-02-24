@@ -72,7 +72,7 @@
             <span class="ui mini label orange">BETA</span>
           </h1>
         </div>
-        <%= link_to 'Mypage', root_path, class: 'ui right item' %>
+        <%= link_to 'Mypage', mypage_path, class: 'ui right item' %>
       </div>
 
       <% %i(success error).each do |status| %>
@@ -115,7 +115,7 @@
             </div>
             <small>
               Already user? Go to
-              <%= link_to 'Mypage.', root_path %>
+              <%= link_to 'Mypage.', mypage_path %>
             </small>
           <% end %>
           <p>（FREE for 14 days）</p>

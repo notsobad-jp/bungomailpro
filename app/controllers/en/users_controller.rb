@@ -14,6 +14,7 @@ class En::UsersController < En::ApplicationController
   end
 
   def mypage
+    @breadcrumbs << { name: 'Mypage' }
   end
 
   private

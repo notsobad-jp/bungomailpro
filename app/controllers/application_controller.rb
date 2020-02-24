@@ -13,11 +13,11 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:warning] = 'Not authorized. Please check your login status.'
-    redirect_to(request.referer || en_root_path)
+    redirect_to(request.referer || root_path)
   end
 
   def not_authenticated
-    flash[:error] = 'Please signin to proceed.'
+    flash[:error] = 'Faled to authenticate. Please check your login status.'
     redirect_to login_path
   end
 

@@ -2,13 +2,13 @@ class UserMailer < ApplicationMailer
   add_template_helper(ApplicationHelper)
 
   def magic_login_email(user)
-    @user = User.find user.id
-    @url  = URI.join(root_url, "auth?token=#{@user.magic_login_token}")
+    @user = user
+    @url  = URI.join(root_url(subdomain: :en), "auth?token=#{@user.magic_login_token}")
 
     xsmtp_api_params = { category: 'login' }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    mail(to: @user.email, subject: '【ブンゴウメール】ログイン用URL')
+    mail(to: @user.email, subject: '[BungoMail] Signin URL')
     logger.info "[LOGIN] Login mail sent to #{@user.id}"
   end
 
