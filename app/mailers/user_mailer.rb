@@ -26,7 +26,7 @@ class UserMailer < ApplicationMailer
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    from_email = 'bungomail@notsobad.jp'
+    from_email = 'noreply@bungomail.com'
     from_name = "#{@feed.assigned_book.guten_book.author} (BungoMail)"
     subject = @feed.title
 
@@ -50,7 +50,7 @@ class UserMailer < ApplicationMailer
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    from_email = 'bungomail@notsobad.jp'
+    from_email = 'noreply@bungomail.com'
     from_name = "BungoMail"
     subject = @notification.title
 
