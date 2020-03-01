@@ -7,15 +7,12 @@ class En::MagicTokensController < En::ApplicationController
   end
 
   def create
-    @user = User.find_or_create_by(email: params[:email])
-    if @user.try(:persisted?)
-      UserMailer.magic_login_email(@user).deliver
-      flash[:success] = 'We sent you an email with signin URL.'
-      redirect_to root_path
-    else
-      flash[:error] = 'Sorry something is wrong with your email address. Please check and try again.'
-      redirect_to login_path
-    end
+    @user = User.find_by(email: params[:email])
+    return redirect_to login_path, flash: { error: 'This email address is not registered. Please register first or try another address.' } unless @user
+
+    UserMailer.magic_login_email(@user).deliver
+    flash[:success] = 'We sent you an email with signin URL.'
+    redirect_to root_path
   end
 
   def auth
