@@ -77,12 +77,12 @@
         </div>
       </div>
 
-      <% %i(success error).each do |status| %>
+      <% %i(warning success error info).each do |status| %>
         <% if flash[status].present? %>
           <div class="ui row">
             <div class="column">
               <div class="ui <%= status %> message">
-                <% icon = (status == :success) ? 'info' : 'warning' %>
+                <% icon = %i(success info).include?(status) ? 'info' : 'warning' %>
                 <i class="icon <%= icon %> circle"></i>
                 <%= flash[status] %>
               </div>
@@ -112,7 +112,7 @@
 
           <%= form_with model: User do |form| %>
             <div class="ui action fluid input">
-              <%= form.email_field :email, placeholder: "Your Email Address" %>
+              <%= form.email_field :email, placeholder: "Your Email Address", required: true %>
               <button class="ui red button">Register</button>
             </div>
             <small>
@@ -212,7 +212,7 @@
         <div class="six wide center aligned column">
           <%= form_with model: User do |form| %>
             <div class="ui action fluid input">
-              <%= form.email_field :email, placeholder: "Your Email Address" %>
+              <%= form.email_field :email, placeholder: "Your Email Address", required: true %>
               <button class="ui red button">Register</button>
             </div>
           <% end %>
