@@ -48,9 +48,11 @@
         .ui.stackable.grid
           .ui.twelve.wide.column
             - %w(warning error success info).each do |status|
-              - if flash[status] && path != 'pages#top'
-                .ui.message(class="#{status}")
-                  = sanitize flash[status]
+              - next unless flash[status]
+              .ui.message(class="#{status}")
+                - icon_class = %i(success info).include?(status) ? 'info' : 'warning'
+                %i.icon.circle{class: icon_class}
+                = sanitize flash[status]
             = yield
           #sidebar.ui.four.wide.column
             = render partial: 'en/layouts/sidebar'

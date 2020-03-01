@@ -3,7 +3,11 @@ class En::UsersController < En::ApplicationController
 
   def create
     @user = User.find_or_initialize_by(email: user_params[:email])
-    return redirect_to root_path, flash: { error: 'This email address is already registered.' } if @user.persisted?
+    if @user.persisted?
+      UserMailer.magic_login_email(@user).deliver
+      flash[:info] = 'This email address is already registered. We sent you a sign-in email.'
+      return redirect_to root_path
+    end
 
     if @user.save
       # 本を選んでfeedsをセット。最初のfeedはすぐに配信する
