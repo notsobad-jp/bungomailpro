@@ -23,4 +23,18 @@
 
 class Feed < ApplicationRecord
   belongs_to :assigned_book
+
+  # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
+  def offset
+    user = self.assigned_book.user
+    # UTC00:00から配信時間までの分数（必ずプラス）
+    ## "08:10" => [8, 10] => [480, 10] => +490(minutes)
+    delivery_offset = user.delivery_time.split(":").map(&:to_i).zip([60, 1]).map{|a,b| a*b }.sum
+
+    # UTCとユーザーTimezoneの差分（プラスマイナスどちらもありえる）
+    timezone_offset = ActiveSupport::TimeZone.new(user.timezone).utc_offset
+
+    # offsetの結果、前日や翌日に日がまたぐ場合もいい感じに調整する（e.g. -01:00 => 23:00, 27:00 => 03:00）
+    (delivery_offset - timezone_offset) % (24 * 60)
+  end
 end
