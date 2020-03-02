@@ -24,9 +24,25 @@ class En::UsersController < En::ApplicationController
     @breadcrumbs << { name: 'Mypage' }
   end
 
+  def edit
+    @breadcrumbs << { name: 'Mypage', url: mypage_path }
+    @breadcrumbs << { name: 'Delivery Settings' }
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      flash[:success] = 'Your data is saved successfully!'
+      redirect_to mypage_path
+    else
+      flash[:error] = 'Sorry we failed to save your data. Please check the input again.'
+      render :edit
+    end
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:email)
+    params.require(:user).permit(:email, :timezone, :delivery_time, :words_per_day)
   end
 end

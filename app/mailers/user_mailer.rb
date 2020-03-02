@@ -14,7 +14,7 @@ class UserMailer < ApplicationMailer
 
   def feed_email(feed)
     @feed = feed
-    send_at = Time.zone.parse(@feed.send_at.to_s).change(hour: 7)
+    send_at = Time.zone.parse(feed.send_at.to_s).since(@feed.offset.minutes)
 
     # TODO: 課金ユーザーじゃない場合はスキップ
     # return if (deliverable_emails = @subscription.deliverable_emails).blank?
@@ -50,14 +50,9 @@ class UserMailer < ApplicationMailer
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    from_email = 'noreply@bungomail.com'
-    from_name = "BungoMail"
-    subject = @notification.title
-
     mail(
-      from: "#{from_name} <#{from_email}>",
       to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
-      subject: subject,
+      subject: @notification.title,
       reply_to: 'info@notsobad.jp'
     )
     logger.info "[SCHEDULED] notification:#{@notification.id}"

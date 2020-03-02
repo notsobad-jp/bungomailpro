@@ -4,6 +4,7 @@
 #
 #  id                           :uuid             not null, primary key
 #  crypted_password             :string
+#  delivery_time                :string           default("07:00")
 #  email                        :string           not null
 #  magic_login_email_sent_at    :datetime
 #  magic_login_token            :string
@@ -11,6 +12,8 @@
 #  remember_me_token            :string
 #  remember_me_token_expires_at :datetime
 #  salt                         :string
+#  timezone                     :string           default("UTC")
+#  words_per_day                :integer          default(400)
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #
