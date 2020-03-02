@@ -29,7 +29,7 @@ class AssignedBook < ApplicationRecord
 
   def set_feeds(start_from: Time.zone.today)
     feeds = []
-    contents = self.guten_book.split_text
+    contents = self.guten_book.split_text(words_per: self.user.words_per_day)
     send_at = start_from
 
     contents.each.with_index(1) do |content, index|

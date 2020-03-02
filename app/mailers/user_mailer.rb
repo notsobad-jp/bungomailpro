@@ -14,7 +14,7 @@ class UserMailer < ApplicationMailer
 
   def feed_email(feed)
     @feed = feed
-    send_at = Time.zone.parse(feed.send_at.to_s).since(@feed.offset.minutes)
+    send_at = Time.zone.parse(@feed.send_at.to_s).since(@feed.utc_offset.minutes)
 
     # TODO: 課金ユーザーじゃない場合はスキップ
     # return if (deliverable_emails = @subscription.deliverable_emails).blank?

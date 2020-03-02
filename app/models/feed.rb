@@ -25,7 +25,7 @@ class Feed < ApplicationRecord
   belongs_to :assigned_book
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
-  def offset
+  def utc_offset
     user = self.assigned_book.user
     # UTC00:00から配信時間までの分数（必ずプラス）
     ## "08:10" => [8, 10] => [480, 10] => +490(minutes)
