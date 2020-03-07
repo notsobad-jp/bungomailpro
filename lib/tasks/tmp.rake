@@ -12,4 +12,12 @@ namespace :tmp do
       p "Generated for #{user.email}: #{user.magic_login_token}"
     end
   end
+
+  task add_scheduled_at_to_feeds: :environment do |_task, _args|
+    Feed.where(scheduled: true).each do |feed|
+      send_at = Time.zone.parse(feed.send_at.to_s).since(feed.user.utc_offset.minutes)
+      feed.update(scheduled_at: send_at)
+      p "Updated feed:#{feed.id}, at: #{send_at}"
+    end
+  end
 end

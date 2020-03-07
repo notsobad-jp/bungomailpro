@@ -47,4 +47,8 @@ class AssignedBook < ApplicationRecord
 
     self.update(feeds_count: feeds.count)
   end
+
+  def next_feed
+    self.feeds.where(scheduled_at: nil).first
+  end
 end

@@ -37,12 +37,6 @@ class User < ApplicationRecord
     self.generate_magic_login_token!
   end
 
-  def select_book
-    # LIKE > 30 : 1094冊
-    # LIKE > 100 : 245冊（最初はおもしろそうなやつを）
-    ids = ActiveRecord::Base.connection.select_values("select guten_book_id from guten_books_subjects where subject_id IN (select id from subjects where LOWER(id) LIKE '%fiction%')")
-    GutenBook.where(id: ids, language: 'en', rights: 'Public domain in the USA.', words_count: 5000..40000).where("downloads > ?", 100).order(Arel.sql("RANDOM()")).first
-  end
 
   def assign_book_and_set_feeds(start_from: Time.zone.today, deliver_now: false)
     book = self.select_book
@@ -51,5 +45,25 @@ class User < ApplicationRecord
 
     # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される
     UserMailer.feed_email(assigned_book.feeds.first).deliver if deliver_now
+  end
+
+  def select_book
+    # LIKE > 30 : 1094冊
+    # LIKE > 100 : 245冊（最初はおもしろそうなやつを）
+    ids = ActiveRecord::Base.connection.select_values("select guten_book_id from guten_books_subjects where subject_id IN (select id from subjects where LOWER(id) LIKE '%fiction%')")
+    GutenBook.where(id: ids, language: 'en', rights: 'Public domain in the USA.', words_count: 5000..40000).where("downloads > ?", 100).order(Arel.sql("RANDOM()")).first
+  end
+
+  # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
+  def utc_offset
+    # UTC00:00から配信時間までの分数（必ずプラス）
+    ## "08:10" => [8, 10] => [480, 10] => +490(minutes)
+    delivery_offset = self.delivery_time.split(":").map(&:to_i).zip([60, 1]).map{|a,b| a*b }.sum
+
+    # UTCとユーザーTimezoneの差分（プラスマイナスどちらもありえる）
+    timezone_offset = ActiveSupport::TimeZone.new(self.timezone).utc_offset
+
+    # offsetの結果、前日や翌日に日がまたぐ場合もいい感じに調整する（e.g. -01:00 => 23:00, 27:00 => 03:00）
+    (delivery_offset - timezone_offset) % (24 * 60)
   end
 end

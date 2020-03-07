@@ -14,14 +14,14 @@ class UserMailer < ApplicationMailer
 
   def feed_email(feed)
     @feed = feed
-    send_at = Time.zone.parse(@feed.send_at.to_s).since(@feed.utc_offset.minutes)
+    send_at = Time.current.beginning_of_day.since(@feed.user.utc_offset.minutes)
 
     # TODO: 課金ユーザーじゃない場合はスキップ
     # return if (deliverable_emails = @subscription.deliverable_emails).blank?
 
     xsmtp_api_params = {
       send_at: send_at.to_i,
-      to: [@feed.assigned_book.user.email],
+      to: [@feed.user.email],
       category: ['gutenberg']
     }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
