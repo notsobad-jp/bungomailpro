@@ -5,9 +5,7 @@
 #  id               :bigint(8)        not null, primary key
 #  content          :text
 #  index            :integer          default(1), not null
-#  scheduled        :boolean          default(FALSE)
 #  scheduled_at     :datetime
-#  send_at          :date
 #  title            :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

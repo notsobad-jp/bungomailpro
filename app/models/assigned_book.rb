@@ -27,10 +27,9 @@ class AssignedBook < ApplicationRecord
   belongs_to :guten_book
   has_many :feeds, -> { order(:index) }, dependent: :destroy
 
-  def set_feeds(start_from: Time.zone.today)
+  def set_feeds
     feeds = []
     contents = self.guten_book.split_text(words_per: self.user.words_per_day)
-    send_at = start_from
 
     contents.each.with_index(1) do |content, index|
       title = "#{self.guten_book.title}（#{index} of #{contents.count}）"
@@ -38,10 +37,8 @@ class AssignedBook < ApplicationRecord
         assigned_book_id: self.id,
         index: index,
         title: title,
-        content: content,
-        send_at: send_at
+        content: content
       )
-      send_at += 1.day
     end
     Feed.import feeds
 

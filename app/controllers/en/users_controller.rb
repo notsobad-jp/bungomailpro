@@ -20,7 +20,7 @@ class En::UsersController < En::ApplicationController
   end
 
   def mypage
-    @assigned_book = AssignedBook.includes(:guten_book, :feeds).where(user_id: current_user.id, status: 'active').first
+    @assigned_book = current_user.current_assigned_book
     @breadcrumbs << { name: 'Mypage' }
   end
 

@@ -38,13 +38,17 @@ class User < ApplicationRecord
   end
 
 
-  def assign_book_and_set_feeds(start_from: Time.zone.today, deliver_now: false)
+  def assign_book_and_set_feeds(deliver_now: false)
     book = self.select_book
     assigned_book = self.assigned_books.create(guten_book_id: book.id)
     assigned_book.set_feeds(start_from: start_from)
 
     # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される
-    UserMailer.feed_email(assigned_book.feeds.first).deliver if deliver_now
+    UserMailer.feed_email(assigned_book.next_feed).deliver if deliver_now
+  end
+
+  def current_assigned_book
+    self.assigned_books.includes(:guten_book, :feeds).find_by(status: 'active')
   end
 
   def select_book
