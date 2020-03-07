@@ -36,7 +36,7 @@ class UserMailer < ApplicationMailer
       subject: subject,
       reply_to: 'info@notsobad.jp'
     )
-    @feed.update(scheduled: true)
+    @feed.update(scheduled_at: send_at)
     logger.info "[SCHEDULED] feed:#{@feed.id}"
   end
 

@@ -2,13 +2,13 @@
 #
 # Table name: assigned_books
 #
-#  id                                            :uuid             not null, primary key
-#  feeds_count                                   :integer          default(0)
-#  status(IN (active finished skipped canceled)) :string           default("active")
-#  created_at                                    :datetime         not null
-#  updated_at                                    :datetime         not null
-#  guten_book_id                                 :bigint(8)        not null
-#  user_id                                       :uuid             not null
+#  id            :uuid             not null, primary key
+#  feeds_count   :integer          default(0)
+#  status        :integer          default(0), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  guten_book_id :bigint(8)        not null
+#  user_id       :uuid             not null
 #
 # Indexes
 #
@@ -26,6 +26,8 @@ class AssignedBook < ApplicationRecord
   belongs_to :user
   belongs_to :guten_book
   has_many :feeds, -> { order(:index) }, dependent: :destroy
+
+  enum status: { stocked: 0, active: 1, finished: 2, skipped: 3, canceled: 4 }
 
   def set_feeds
     feeds = []

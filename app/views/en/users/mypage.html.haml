@@ -46,7 +46,7 @@
         %td= @assigned_book.guten_book.author
       %tr
         %td Delivery Status
-        %td= "Delivered #{@assigned_book.feeds.where(scheduled: true).count} of #{@assigned_book.feeds.count}"
+        %td= "Delivered #{@assigned_book.feeds.where.not(scheduled_at: nil).count} of #{@assigned_book.feeds.count}"
       %tr
         %td URL
         %td
