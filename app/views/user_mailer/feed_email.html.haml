@@ -598,15 +598,12 @@
                                       %tr
                                         %td.mcnTextContent{:style => "padding: 9px 18px;color: #333333;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: center;", :valign => "top"}
                                           %div{:style => "text-align: left;"}
-                                            %div
-                                              We launched a new feature "Skip and deliver next book"🎉 Try this out now ;)
                                             %ul
                                               %li
-                                                [NEW!] Skip and deliver next book:
+                                                Skip and deliver next book:
                                                 %br
                                                 - url = auth_url(token: @feed.book_assignment.user.magic_login_token, subdomain: :en)
                                                 %a(href="#{url}" target="_blank")= url
-                                            %ul
                                               %li
                                                 Give us your feedback:
                                                 %a(href="https://forms.gle/MFpUGvm68DLCmWDQ9" target="_blank") https://forms.gle/MFpUGvm68DLCmWDQ9
