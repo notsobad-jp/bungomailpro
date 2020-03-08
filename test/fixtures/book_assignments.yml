@@ -24,22 +24,12 @@
 #  index_users_on_remember_me_token  (remember_me_token)
 #
 
-user1:
-  email: sample@example.com
-  magic_login_token: <%= SecureRandom.hex(10) %>
-  timezone: Tokyo  #+09:00
-  delivery_time: 09:00
+current:
+  guten_book: guten_book1
+  user: user1
+  status: 1
 
-user2:
-  email: sample2@example.com
-  magic_login_token: <%= SecureRandom.hex(10) %>
-  timezone: Tokyo  #+09:00
-  delivery_time: 09:00
-
-user3:
-  email: sample3@example.com
-  magic_login_token: <%= SecureRandom.hex(10) %>
-
-user4:
-  email: sample4@example.com
-  magic_login_token: <%= SecureRandom.hex(10) %>
+stocked:
+  guten_book: guten_book2
+  user: user1
+  status: 0

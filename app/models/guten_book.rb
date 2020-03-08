@@ -18,8 +18,6 @@ require 'open-uri'
 class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
 
-  DELIVERY_HOUR = 7
-
   def count_words
     return if (text = self.text).nil?
     words_count = text.delete("\r\n").scan(/[\w.\/:;'-]+/).length

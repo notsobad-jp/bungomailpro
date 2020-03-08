@@ -1,0 +1,47 @@
+# == Schema Information
+#
+# Table name: books
+#
+#  id             :bigint(8)        not null, primary key
+#  access_count   :integer          default(0)
+#  author         :string           not null
+#  beginning      :string
+#  chapters_count :integer          default(0), not null
+#  footnote       :text
+#  group          :string
+#  title          :string           not null
+#  words_count    :integer          default(0)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  author_id      :bigint(8)
+#  category_id    :string
+#  file_id        :bigint(8)
+#
+# Indexes
+#
+#  index_books_on_access_count  (access_count)
+#  index_books_on_group         (group)
+#  index_books_on_words_count   (words_count)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (category_id => categories.id)
+#
+
+guten_book1:
+  title: 走れメロス
+  author: 太宰さん
+  rights: Public domain in the USA.
+  language: en
+
+guten_book2:
+  title: 走り終わっためろす
+  author: 芥川さん
+  rights: Public domain in the USA.
+  language: en
+
+guten_book3:
+  title: もう走れないメロス
+  author: 夏目さん
+  rights: Public domain in the USA.
+  language: en

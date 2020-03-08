@@ -65,7 +65,7 @@ class User < ApplicationRecord
     delivery_offset = self.delivery_time.split(":").map(&:to_i).zip([60, 1]).map{|a,b| a*b }.sum
 
     # UTCとユーザーTimezoneの差分（プラスマイナスどちらもありえる）
-    timezone_offset = ActiveSupport::TimeZone.new(self.timezone).utc_offset
+    timezone_offset = ActiveSupport::TimeZone.new(self.timezone).utc_offset / 60
 
     # offsetの結果、前日や翌日に日がまたぐ場合もいい感じに調整する（e.g. -01:00 => 23:00, 27:00 => 03:00）
     (delivery_offset - timezone_offset) % (24 * 60)
