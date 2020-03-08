@@ -604,7 +604,7 @@
                                               %li
                                                 [NEW!] Skip and deliver next book:
                                                 %br
-                                                - url = auth_url(token: @feed.assigned_book.user.magic_login_token, subdomain: :en)
+                                                - url = auth_url(token: @feed.book_assignment.user.magic_login_token, subdomain: :en)
                                                 %a(href="#{url}" target="_blank")= url
                                             %ul
                                               %li

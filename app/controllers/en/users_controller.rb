@@ -12,7 +12,7 @@ class En::UsersController < En::ApplicationController
     if @user.save
       # 本を選んでfeedsをセット。最初のfeedはすぐに配信する
       @user.delay.assign_book_and_set_feeds(deliver_now: true)
-      flash[:success] = 'Account registered! Please check the first email we send you in a minute :)'
+      flash[:success] = "Account registered! You'll start receiving the email from today :)"
     else
       flash[:error] = 'Sorry something seems to be wrong with your email address. Please check and try again.'
     end
@@ -20,7 +20,7 @@ class En::UsersController < En::ApplicationController
   end
 
   def mypage
-    @assigned_book = current_user.current_assigned_book
+    @book_assignment = current_user.current_book_assignment
     @breadcrumbs << { name: 'Mypage' }
   end
 

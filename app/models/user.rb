@@ -27,7 +27,7 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_one :charge, dependent: :destroy
-  has_many :assigned_books, dependent: :destroy
+  has_many :book_assignments, dependent: :destroy
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
@@ -40,15 +40,15 @@ class User < ApplicationRecord
 
   def assign_book_and_set_feeds(deliver_now: false)
     book = self.select_book
-    assigned_book = self.assigned_books.create(guten_book_id: book.id, status: :active)
-    assigned_book.set_feeds
+    book_assignment = self.book_assignments.create(guten_book_id: book.id, status: :active)
+    book_assignment.set_feeds
 
     # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される
-    UserMailer.feed_email(assigned_book.next_feed).deliver if deliver_now
+    UserMailer.feed_email(book_assignment.next_feed).deliver if deliver_now
   end
 
-  def current_assigned_book
-    self.assigned_books.includes(:guten_book, :feeds).find_by(status: :active)
+  def current_book_assignment
+    self.book_assignments.includes(:guten_book, :feeds).find_by(status: :active)
   end
 
   def select_book
