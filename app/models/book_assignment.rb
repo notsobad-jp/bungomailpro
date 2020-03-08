@@ -1,10 +1,10 @@
 # == Schema Information
 #
-# Table name: assigned_books
+# Table name: book_assignments
 #
 #  id            :uuid             not null, primary key
 #  feeds_count   :integer          default(0)
-#  status        :integer          default(0), not null
+#  status        :integer          default("stocked"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  guten_book_id :bigint(8)        not null
@@ -12,9 +12,9 @@
 #
 # Indexes
 #
-#  index_assigned_books_on_guten_book_id  (guten_book_id)
-#  index_assigned_books_on_status         (status)
-#  index_assigned_books_on_user_id        (user_id)
+#  index_book_assignments_on_guten_book_id  (guten_book_id)
+#  index_book_assignments_on_status         (status)
+#  index_book_assignments_on_user_id        (user_id)
 #
 # Foreign Keys
 #
@@ -22,7 +22,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-class AssignedBook < ApplicationRecord
+class BookAssignment < ApplicationRecord
   belongs_to :user
   belongs_to :guten_book
   has_many :feeds, -> { order(:index) }, dependent: :destroy
@@ -36,7 +36,7 @@ class AssignedBook < ApplicationRecord
     contents.each.with_index(1) do |content, index|
       title = "#{self.guten_book.title}（#{index} of #{contents.count}）"
       feeds << Feed.new(
-        assigned_book_id: self.id,
+        book_assignment_id: self.id,
         index: index,
         title: title,
         content: content

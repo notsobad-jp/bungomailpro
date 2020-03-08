@@ -27,7 +27,7 @@ class UserMailer < ApplicationMailer
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
     from_email = 'noreply@bungomail.com'
-    from_name = "#{@feed.assigned_book.guten_book.author} (BungoMail)"
+    from_name = "#{@feed.book_assignment.guten_book.author} (BungoMail)"
     subject = @feed.title
 
     mail(
@@ -36,7 +36,7 @@ class UserMailer < ApplicationMailer
       subject: subject,
       reply_to: 'info@notsobad.jp'
     )
-    @feed.update(scheduled_at: send_at)
+    @feed.update(scheduled_at: [send_at, Time.current].max) # 過去時間の場合、すぐ配信されるので現在時間で記録する
     logger.info "[SCHEDULED] feed:#{@feed.id}"
   end
 

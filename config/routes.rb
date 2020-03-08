@@ -68,7 +68,7 @@ Rails.application.routes.draw do
     scope module: :en do
       resources :users
       resources :magic_tokens
-      resources :assigned_books do
+      resources :book_assignments do
         post 'skip', on: :member
       end
 

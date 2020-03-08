@@ -10,22 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_07_071534) do
+ActiveRecord::Schema.define(version: 2020_03_08_091353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "assigned_books", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "book_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "guten_book_id", null: false
     t.uuid "user_id", null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "feeds_count", default: 0
-    t.index ["guten_book_id"], name: "index_assigned_books_on_guten_book_id"
-    t.index ["status"], name: "index_assigned_books_on_status"
-    t.index ["user_id"], name: "index_assigned_books_on_user_id"
+    t.index ["guten_book_id"], name: "index_book_assignments_on_guten_book_id"
+    t.index ["status"], name: "index_book_assignments_on_status"
+    t.index ["user_id"], name: "index_book_assignments_on_user_id"
   end
 
   create_table "books", id: :bigint, default: nil, force: :cascade do |t|
@@ -117,9 +117,9 @@ ActiveRecord::Schema.define(version: 2020_03_07_071534) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "assigned_book_id", null: false
+    t.uuid "book_assignment_id", null: false
     t.datetime "scheduled_at"
-    t.index ["assigned_book_id"], name: "index_feeds_on_assigned_book_id"
+    t.index ["book_assignment_id"], name: "index_feeds_on_book_assignment_id"
     t.index ["scheduled_at"], name: "index_feeds_on_scheduled_at"
   end
 
@@ -176,13 +176,13 @@ ActiveRecord::Schema.define(version: 2020_03_07_071534) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
-  add_foreign_key "assigned_books", "guten_books"
-  add_foreign_key "assigned_books", "users"
+  add_foreign_key "book_assignments", "guten_books"
+  add_foreign_key "book_assignments", "users"
   add_foreign_key "books", "categories"
   add_foreign_key "campaign_groups", "books"
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "charges", "users"
-  add_foreign_key "feeds", "assigned_books"
+  add_foreign_key "feeds", "book_assignments"
   add_foreign_key "guten_books_subjects", "guten_books"
   add_foreign_key "guten_books_subjects", "subjects"
 end

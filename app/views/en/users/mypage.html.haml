@@ -33,28 +33,28 @@
   %h5.ui.small.horizontal.divider.header
     %i.icon.newspaper.outline
     Current Book
-  - if @assigned_book.blank?
+  - if @book_assignment.blank?
     %p No book is scheduled now.
     %small *It takes a few minutes to set a new book after skipping. Please reload the page later if you've just skipped.
   - else
     %table.ui.fixed.definition.table
       %tr
         %td Title
-        %td= @assigned_book.guten_book.title
+        %td= @book_assignment.guten_book.title
       %tr
         %td Author
-        %td= @assigned_book.guten_book.author
+        %td= @book_assignment.guten_book.author
       %tr
         %td Delivery Status
-        %td= "Delivered #{@assigned_book.feeds.where.not(scheduled_at: nil).count} of #{@assigned_book.feeds.count}"
+        %td= "Delivered #{@book_assignment.feeds.where.not(scheduled_at: nil).count} of #{@book_assignment.feeds.count}"
       %tr
         %td URL
         %td
-          - url = @assigned_book.guten_book.gutenberg_book_url
+          - url = @book_assignment.guten_book.gutenberg_book_url
           = link_to url, target: :blank do
             = url
             %i.icon.small.external
-    = link_to 'Skip this book', skip_assigned_book_path(@assigned_book), method: :post, class: 'ui red small responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
+    = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
     %small *We offer infinite skip during BETA, but it will be restricted after the official launch.
   %br
 
