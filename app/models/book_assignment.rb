@@ -31,7 +31,7 @@ class BookAssignment < ApplicationRecord
 
   def set_feeds
     feeds = []
-    contents = self.guten_book.split_text(words_per: self.user.words_per_day)
+    contents = self.guten_book.contents(words_per: self.user.words_per_day)
 
     contents.each.with_index(1) do |content, index|
       title = "#{self.guten_book.title}（#{index} of #{contents.count}）"

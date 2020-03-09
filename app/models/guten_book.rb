@@ -18,18 +18,6 @@ require 'open-uri'
 class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
 
-  def count_words
-    return if (text = self.text).nil?
-    words_count = text.delete("\r\n").scan(/[\w.\/:;'-]+/).length
-    self.update(
-      words_count: words_count,
-      chars_count: text.gsub(/\s/, "").length
-    )
-    p "Counted [#{id}] #{title}"
-  rescue => e
-    p e
-  end
-
   def gutenberg_book_url
     "https://www.gutenberg.org/ebooks/#{id}"
   end
@@ -38,9 +26,19 @@ class GutenBook < ApplicationRecord
     "https://www.gutenberg.org/cache/epub/#{id}/pg#{id}.txt"
   end
 
+  # 加工前のテキストファイル。本番はGutenbergから、それ以外ではローカルのtmpファイルから返す
+  def raw_text
+    if Rails.env.production?
+      open(gutenberg_text_url).read
+    else
+      file = open("tmp/gutenberg/text/#{id}/pg#{id}.txt.utf8.gzip")
+      Zlib::GzipReader.new(file).read
+    end
+  end
+
+  # 不要な部分を除去したテキストファイル本文
   def text
-    file = open(gutenberg_text_url)
-    splited_text = file.read.split(/\*\*\*\s?(START|END) OF (THIS|THE) PROJECT GUTENBERG EBOOK [^*]+\s?\*\*\*/)
+    splited_text = raw_text.split(/\*\*\*\s?(START|END) OF (THIS|THE) PROJECT GUTENBERG EBOOK [^*]+\s?\*\*\*/)
     return if splited_text.size != 7
     splited_text[3].strip
   rescue => e
@@ -48,7 +46,8 @@ class GutenBook < ApplicationRecord
     nil
   end
 
-  def split_text(words_per: 400)
+  # 各回が指定文字数でいい感じに配信されるように分割する
+  def contents(words_per: 400)
     # センテンスに分割（Stringクラス拡張）
     sentences = self.text.sentences
 
@@ -90,7 +89,7 @@ class GutenBook < ApplicationRecord
 
   class << self
     def import_rdf(id)
-      file_path = "tmp/gutenberg/#{id}/pg#{id}.rdf"
+      file_path = "tmp/gutenberg/rdf/#{id}/pg#{id}.rdf"
       xml = File.open(file_path, &:read)
 
       charset = 'UTF-8'
