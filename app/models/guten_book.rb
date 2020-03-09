@@ -28,11 +28,11 @@ class GutenBook < ApplicationRecord
 
   # 加工前のテキストファイル。本番はGutenbergから、それ以外ではローカルのtmpファイルから返す
   def raw_text
-    if Rails.env.production?
-      open(gutenberg_text_url).read
+    local_file = "tmp/gutenberg/text/#{id}/pg#{id}.txt.utf8.gzip"
+    if File.exist?(local_file)
+      Zlib::GzipReader.new(open(local_file)).read
     else
-      file = open("tmp/gutenberg/text/#{id}/pg#{id}.txt.utf8.gzip")
-      Zlib::GzipReader.new(file).read
+      open(gutenberg_text_url).read
     end
   end
 
