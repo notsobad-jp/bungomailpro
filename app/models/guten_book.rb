@@ -59,7 +59,7 @@ class GutenBook < ApplicationRecord
 
     sentences.each do |sentence|
       contents[contents_index] += sentence
-      word_count += sentence.word_count
+      word_count += sentence.words.length
 
       # 文字数が設定を超えたら次に回す（最後の回はここを通ったり通らなかったりする）
       if word_count > words_per
@@ -71,7 +71,7 @@ class GutenBook < ApplicationRecord
     end
 
     # 最後が短すぎるときは、一つ前のにマージして最終回を削除
-    if contents.last.word_count < 200
+    if contents.last.words.length < 200
       contents[-2] += contents[-1]
       contents.pop
     end
