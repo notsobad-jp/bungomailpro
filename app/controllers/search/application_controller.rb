@@ -1,5 +1,5 @@
 class Search::ApplicationController < ApplicationController
-  layout 'search/application'
+  layout 'search/layouts/application'
   before_action :set_author_and_category
   before_action :set_cache_control
 
