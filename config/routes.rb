@@ -77,7 +77,8 @@ Rails.application.routes.draw do
       get 'auth' => 'magic_tokens#auth'
       get 'mypage' => "users#mypage", as: :mypage
 
-      root to: 'pages#lp'
+      get '/' => 'pages#lp', as: :en_root
+      # root to: 'pages#lp'
     end
   end
 
@@ -91,7 +92,9 @@ Rails.application.routes.draw do
       end
       get '/:page' => "pages#show"
       get '/.amp' => 'books#index'
-      root to: 'books#index'
+      
+      get '/' => 'books#index', as: :search_root
+      # root to: 'books#index'
     end
   end
 end

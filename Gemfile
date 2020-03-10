@@ -3,12 +3,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.0'
 
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 6.0'
 gem 'pg', '>= 0.18', '< 2.0'
 gem "puma", ">= 3.12.2"
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'haml-rails'
+gem "haml-rails", "~> 2.0"
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -19,9 +19,8 @@ gem 'pundit'
 gem 'rack', '>= 2.0.6'
 gem 'loofah', '>= 2.2.3'
 gem 'activerecord-import'
-gem 'composite_primary_keys', '~> 11.0'
 gem 'kaminari'
-gem 'rails-i18n', '~> 5.1'
+gem 'rails-i18n'
 gem 'stripe'
 
 group :development, :test do
@@ -39,7 +38,6 @@ group :development do
   gem 'rubocop', require: false
   gem "rack-dev-mark"
   gem 'sitemap_generator'
-  gem 'derailed_benchmarks'
 end
 
 group :test do

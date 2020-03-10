@@ -52,5 +52,8 @@ module Bungomail
 
     # Set 403 for Pundit NotAuthorized Error
     config.action_dispatch.rescue_responses["Pundit::NotAuthorizedError"] = :forbidden
+
+    # Allow subdomain
+    config.hosts = nil
   end
 end
