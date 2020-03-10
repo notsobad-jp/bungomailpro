@@ -62,10 +62,11 @@ class Search::BooksController < Search::ApplicationController
   end
 
   def search_page_description
+    book_count = @books.total_count.to_s(:delimited)
     if @category.id == 'all'
-      "青空文庫で公開されている#{@author[:name]}の全作品を、おすすめ人気順で表示しています。"
+      "青空文庫で公開されている#{@author[:name]}の全作品#{book_count}篇を、おすすめ人気順で表示しています。"
     else
-      "青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category.name}」の#{@category.title}#{@books.total_count.to_s(:delimited)}作品を、おすすめ人気順に表示しています。"
+      "青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category.name}」の#{@category.title}#{book_count}作品を、おすすめ人気順に表示しています。"
     end
   end
 end

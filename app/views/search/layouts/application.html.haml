@@ -1,11 +1,7 @@
 !!!
-%html(lang="ja")
+%html(amp lang="ja")
   %head
     = render partial: 'search/layouts/meta'
-    = csrf_meta_tags
-    = csp_meta_tag
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload', async: true
 
     -# Google Tag Manager
     - if Rails.env.production?
@@ -38,7 +34,7 @@
       .right.floated.menu
         = link_to page_path(:about), class: 'item' do
           %small
-            %i.icon.circle.question
+            %i.fas.fa-question-circle
             このサイトについて
 
     - if current_page?(root_path)

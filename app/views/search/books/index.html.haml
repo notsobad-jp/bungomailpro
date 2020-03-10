@@ -12,23 +12,23 @@
 .ui.divider
 .ui.secondary.scrolling.menu
   .item(style="padding:0;")
-    %i.icon.clock.outline.grey
+    %i.far.fa-clock.gray
   - @categories.each do |category|
     - active = 'active' if @category == category
     = link_to category.name, author_category_books_path(author_id: @author[:id], category_id: category.id), class: "item #{active}"
 .ui.divider
 = form_tag(authors_path, method: :get, class: 'ui form') do
   .ui.transparent.fluid.left.icon.input
-    %i.icon.outline.user
+    %i.far.fa-user.gray
     - author_name = @author[:name] unless @author[:id] == 'all'
     = text_field_tag :author_name, author_name, placeholder: '著者名'
     = hidden_field_tag :category_id, @category.id
     - if @author[:id] != 'all'
       = link_to author_category_books_path(author_id: 'all', category_id: @category.id) do
         .ui.basic.icon.transparent.button
-          %i.icon.close
+          %i.fas.fa-times.gray
     %button.ui.basic.icon.button(type="submit")
-      %i.icon.search
+      %i.fas.fa-search.gray
       %span.computer.only 検索
 .ui.divider
 %br

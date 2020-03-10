@@ -15,8 +15,8 @@ module SearchHelper
     i = access_count_rating(access_count)
     content_tag(:span) do
       3.times do |j|
-        outline = 'outline' if j >= i
-        concat content_tag(:i, '', class: "icon yellow #{outline} star")
+        outline = (j >= i) ? 'far' : 'fas' # farがoutline
+        concat content_tag(:i, '', class: "fa-star yellow #{outline}")
       end
     end
   end
