@@ -1,5 +1,7 @@
 {
   "name": "bungomail",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "purgecss": "^2.1.0"
+  }
 }
