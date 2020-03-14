@@ -27,7 +27,7 @@
 
     .ui.attached.borderless.menu
       = link_to root_path, class: 'header item' do
-        = image_tag('logo_search.png', class: 'ui small image')
+        %amp-img(src="/assets/images/logo_search.png" width="130" height="22")
       = link_to root_url(subdomain: ''), target: '_blank', class: 'item computer only' do
         %small by ブンゴウメール
       .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。

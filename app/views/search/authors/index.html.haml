@@ -13,7 +13,7 @@
   .sub.header #{@results.count.to_s(:delimited)}件
 
 .ui.secondary.segment
-  = form_tag(authors_path, method: :get, class: 'ui form') do
+  = form_tag(authors_path, method: :get, target: '_top', class: 'ui form') do
     .ui.fluid.action.input
       = text_field_tag :author_name, '', placeholder: '著者名'
       = hidden_field_tag :category_id, @category.id

@@ -1,7 +1,7 @@
 %h1.ui.large.header
   ゾラサーチとは
 
-= image_tag('/assets/images/ogp_search.png', class: 'ui large image')
+%amp-img(src="/assets/images/ogp_search.png" width="480" height="240")
 
 .ui.basic.segment
   %p
@@ -13,7 +13,7 @@
 %br
 
 %h3.ui.dividing.header
-  %i.icon.clock.outline
+  %i.far.fa-clock
   読了時間について
 .ui.basic.segment
   %p
@@ -43,7 +43,7 @@
 %br
 
 %h3.ui.dividing.header
-  %i.icon.star.outline
+  %i.far.fa-star
   人気度について
 .ui.basic.segment
   %p サイト内で各作品の「人気度」は、青空文庫で公開されている過去10年分のアクセスランキングを集計した累計アクセス数を基に算出しています。
@@ -79,31 +79,15 @@
 %br
 
 %h3.ui.dividing.header
-  %i.icon.user.outline
-  掲載作品について
-.ui.basic.segment
-  %p
-    現在ゾラサーチでは、青空文庫で公開されている作品のうち、著作権が切れたパブリックドメインの作品のみを取り扱っています。
-    %br
-    青空文庫に掲載されているのにゾラサーチで見つからない場合、おそらく著作権が存続している作品です。青空文庫上で著作権の表記をご確認ください。
-  %p
-    なおこれはわざと制限しているわけではなく、一時的な制約です。
-    ゾラサーチではあくまで検索機能と書き出し部分の引用のみを提供しており、著作権法上の「引用」の範疇であると認識しています。
-    そのため将来的には青空文庫上のすべてのタイトルを検索できるようにしたいと考えています（が、いつになるかは未定です）。
-  %p
-    また青空文庫では日々作品が追加されていますが、その追加にリアルタイムに追従しているわけではありません。
-    たぶん年1回くらいのペースでアップデートしようと思っていますので、お気に入りの作品を早く追加してほしいときは運営を急かすとよいかと思います。
-%br
-
-%h3.ui.dividing.header
-  %i.icon.mail.outline
+  %i.far.fa-envelope
   ブンゴウメールについて
-= image_tag('/assets/images/ogp.png', class: 'ui large image')
+%amp-img(src="/assets/images/ogp.png" width="480" height="240")
 .ui.basic.segment
   = link_to root_url(subdomain: ''), target: '_blank', class: 'ui basic responsive button' do
     ブンゴウメール公式サイト
     &nbsp;
-    %i.icon.external.small
+    %small
+      %i.fas.fa-external-link-alt
 
 .ui.basic.segment
   %p
@@ -120,7 +104,8 @@
     = link_to 'https://blog.notsobad.jp', class: 'ui basic responsive button', target: '_blank' do
       開発者ブログ
       &nbsp;
-      %i.icon.external.small
+      %small
+        %i.fas.fa-external-link-alt
 
 %br
 %br
