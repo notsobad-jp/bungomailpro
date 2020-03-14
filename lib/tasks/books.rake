@@ -6,7 +6,6 @@ namespace :books do
   task import: :environment do |_task, _args|
     CSV.foreach('tmp/books.csv') do |fg|
       next if $INPUT_LINE_NUMBER == 1 # 見出し行をスキップ
-      next if fg[10] == 'あり'  # 作品著作権の存続コンテンツはスキップ
       next if fg[23] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
 
       # ファイルID（古い作品では存在しない場合もあるので、そのときはnil）
@@ -25,7 +24,8 @@ namespace :books do
           title: fg[1],
           author: "#{fg[15]} #{fg[16]}",
           author_id: author_id,
-          file_id: file_id
+          file_id: file_id,
+          rights_reserved: fg[10] == 'あり'
         )
         puts "[#{fg[0]}] #{fg[10]}, #{fg[23]}, #{fg[1]}: #{fg[15]} #{fg[16]}(#{fg[14]}), #{file_id}"
       end
@@ -33,27 +33,15 @@ namespace :books do
   end
 
 
-  desc 'filesからchaptersを作成する'
-  task create_chapters: :environment do |_task, _args|
-    Book.where(chapters_count: 0).find_each do |book|
-      book.create_chapters
-      p "[#{book.id}] #{book.title}"
-    rescue StandardError => e
-      p '---------'
-      p "[#{book.id}] #{e}"
-      p '---------'
-    end
-  end
-
-
   desc 'filesから文字数カウントと書き出しを保存'
   task add_words_count_and_beginning: :environment do |_task, _args|
     Book.where.not(chapters_count: 0).find_each do |book|
-      text = book.aozora_file_text[0]
+      text, footnote = book.aozora_file_text
       beginning = (text.split("。")[0] + "。").truncate(250).gsub(/(一|1|１|（一）|序)(\r\n|　|\s)/, "").delete("\r\n　")  # 書き出しに段落番号とかが入るのを防ぐ
       book.update!(
         words_count: text.length,
-        beginning: beginning
+        beginning: beginning,
+        footnote: footnote
       )
       p "[#{book.id}] #{book.title}"
     rescue StandardError => e
@@ -90,49 +78,12 @@ namespace :books do
 
 
   desc 'カテゴリ別の冊数をカウントして保存'
-  task count_category_books: :environment do |_task, _args|
-    Category.all.each do |category|
-      category.update(books_count: category.books.count)
+  task categorize_books: :environment do |_task, _args|
+    Category.where.not(id: 'all').each do |category|
+      books = Book.where(words_count: [category.range_from..category.range_to])
+      books.update_all(category_id: category.id)
+      category.update(books_count: books.count)
     end
-  end
-
-
-  desc '各bookをカテゴリに分類'
-  task assign_category_to_books: :environment do |_task, _args|
-    Book.all.find_each do |book|
-      category = Category.where.not(id: 'all').where("range_from <= ?", book.words_count).where("range_to > ?", book.words_count).first
-      book.update(category_id: category.id) if category
-    end
-  end
-
-
-  desc 'ビジモ図鑑のHTMLファイルparse'
-  task import_busimo: :environment do |_task, _args|
-    html = File.open('tmp/business_model.html', &:read)
-
-    charset = 'UTF-8'
-    doc = Nokogiri::HTML.parse(html, nil, charset)
-
-    BUSIMO_ID = '4046023619'
-    chapter_index = 1
-    doc.search('p').each_with_index do |p, index|
-      chapter = Chapter.find_or_create_by(book_id: BUSIMO_ID, index: chapter_index)
-      case index % 3
-      when 0
-        text = strip_tags(p.inner_html.gsub(/\s/, "").gsub(/<br>/, "\r\n")).strip
-        chapter.update(text: text)
-      when 1
-        chapter.update(image_url: p.css('img').attr('src').value)
-      when 2
-        text = p.inner_html.gsub(/\s/, "")
-                            .gsub(/<br>/, "\r\n")
-                            .gsub(/(。)(?=[^（]*）|[^「]*」)/, '★★★') # （）と「」内の文末句点を★★★に一時変更
-                            .gsub(/(。)/, '\1' + "\r\n") # その他の句点に改行追加
-                            .gsub(/★★★/, '。') # ★を句点に戻す
-        chapter.update(text: chapter.text + "\r\n\r\n\r\n" + strip_tags(text).strip)
-        p "Finished: #{chapter_index}"
-        chapter_index += 1
-      end
-    end
+    Category.find('all').update(books_count: Book.all.count)
   end
 end

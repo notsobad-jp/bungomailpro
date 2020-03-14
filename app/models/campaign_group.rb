@@ -22,11 +22,11 @@
 
 class CampaignGroup < ApplicationRecord
   belongs_to :book
-  has_many :campaigns, -> { order(:send_at) }
+  has_many :campaigns, -> { order(:send_at) }, dependent: :destroy
 
   def import_campaigns
     campaigns = []
-    text, footnote = self.book.aozora_file_text
+    text = self.book.aozora_file_text[0]
     contents = Book.split_text(text: text, count: self.count)
     send_at = self.start_at
 
