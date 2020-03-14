@@ -26,8 +26,7 @@ class CampaignGroup < ApplicationRecord
 
   def import_campaigns
     campaigns = []
-    text = self.book.aozora_file_text[0]
-    contents = Book.split_text(text: text, count: self.count)
+    contents = self.book.contents(count: self.count)
     send_at = self.start_at
 
     contents.each.with_index(1) do |content, index|

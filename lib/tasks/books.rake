@@ -37,10 +37,9 @@ namespace :books do
   task add_words_count_and_beginning: :environment do |_task, _args|
     Book.where.not(chapters_count: 0).find_each do |book|
       text, footnote = book.aozora_file_text
-      beginning = (text.split("。")[0] + "。").truncate(250).gsub(/(一|1|１|（一）|序)(\r\n|　|\s)/, "").delete("\r\n　")  # 書き出しに段落番号とかが入るのを防ぐ
       book.update!(
         words_count: text.length,
-        beginning: beginning,
+        beginning: book.beginning,
         footnote: footnote
       )
       p "[#{book.id}] #{book.title}"
