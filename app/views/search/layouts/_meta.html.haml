@@ -45,5 +45,9 @@
     body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}
 
 %link(href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet")
-%style(amp-custom)
-  = File.read "public/assets/stylesheets/search.css"
+
+- if Rails.env.production?
+  %style(amp-custom)
+    = File.read(asset_url("search.css")).html_safe
+- else
+  = stylesheet_link_tag 'search', media: 'all', 'data-turbolinks-track': 'reload'
