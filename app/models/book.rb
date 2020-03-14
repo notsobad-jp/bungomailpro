@@ -99,6 +99,53 @@ class Book < ApplicationRecord
     [text, footnote]
   end
 
+  def beginning
+    (self.aozora_file_text[0].split("。")[0] + "。").truncate(250).gsub(/(一|1|１|（一）|序)(\r\n|　|\s)/, "").delete("\r\n　")  # 書き出しに段落番号とかが入るのを防ぐ
+  end
+
+  def contents(chars_per: 700, count: nil)
+    text = self.aozora_file_text[0]
+    # 日数指定があればその数で分割、なければ文字数ベースでいい感じに分割
+    if !count
+      count = text.length.quo(chars_per).ceil
+      count = count.quo(30).ceil * 30 if text.length > 12_000 # 12000字以上の場合は、30日単位で割り切れるように調整
+    end
+    chars_per = text.length.quo(count).ceil
+
+    contents = []
+    text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
+      if index.zero?
+        contents[index] = content.gsub(/^(\r\n|\r|\n|\s|\t)/, '') # 冒頭の改行を削除
+        next
+      end
+
+      # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
+      ## 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
+      splits = content.sub(/([。！？][」）]|[。！？!?.])/, '\1' + '[[TMP]]').split('[[TMP]]', 2)
+
+      ## 句点がなくて区切れない場合は、やむをえず読点で区切る
+      unless splits[1]
+        splits = content.sub(/(、)/, '\1' + '[[TMP]]').split('[[TMP]]', 2)
+        no_period = true
+      end
+
+      ## 読点すらない場合は前回への追加はスキップ
+      splits = ['', content] unless splits[1]
+
+      contents[index - 1] += splits[0]
+
+      # 前日の最後の１文を再掲する
+      ## 句点がなかった場合は読点で区切る
+      ## 句点すらなかった場合はlast_sentenceに全文入るけど、最後に文字数でスライスするのでOK
+      regex = no_period ? /(、)/ : /([。！？][」）]|[。！？!?.])/
+      last_sentence = contents[index - 1].gsub(regex, '\1' + '[[TMP]]').split('[[TMP]]')[-1]
+      last_sentence = '…' + last_sentence.slice(-150..-1) if last_sentence.length > 150
+
+      contents[index] = (last_sentence + splits[1]).gsub(/^(\r\n|\r|\n|\s|\t)/, '') # 冒頭の改行を削除
+    end
+    contents
+  end
+
 
   class << self
     def aozora_card_url(author_id:, book_id:)
@@ -113,48 +160,6 @@ class Book < ApplicationRecord
     def aozora_file_url(author_id:, book_id:, file_id:)
       file_path = file_id ? "#{book_id}_#{file_id}" : book_id
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
-    end
-
-    def split_text(text:, chars_per: 700, count: nil)
-      # 日数指定があればその数で分割、なければ文字数ベースでいい感じに分割
-      if !count
-        count = text.length.quo(chars_per).ceil
-        count = count.quo(30).ceil * 30 if text.length > 12_000 # 12000字以上の場合は、30日単位で割り切れるように調整
-      end
-      chars_per = text.length.quo(count).ceil
-
-      contents = []
-      text.each_char.each_slice(chars_per).map(&:join).each_with_index do |content, index|
-        if index.zero?
-          contents[index] = content.gsub(/^(\r\n|\r|\n|\s|\t)/, '') # 冒頭の改行を削除
-          next
-        end
-
-        # 最初の「。」で分割して、そこまでは前の回のコンテンツに所属させる。
-        ## 会話文などの場合は、後ろ括弧までを区切りの対象にする：「ほげ。」[[TMP]]
-        splits = content.sub(/([。！？][」）]|[。！？!?.])/, '\1' + '[[TMP]]').split('[[TMP]]', 2)
-
-        ## 句点がなくて区切れない場合は、やむをえず読点で区切る
-        unless splits[1]
-          splits = content.sub(/(、)/, '\1' + '[[TMP]]').split('[[TMP]]', 2)
-          no_period = true
-        end
-
-        ## 読点すらない場合は前回への追加はスキップ
-        splits = ['', content] unless splits[1]
-
-        contents[index - 1] += splits[0]
-
-        # 前日の最後の１文を再掲する
-        ## 句点がなかった場合は読点で区切る
-        ## 句点すらなかった場合はlast_sentenceに全文入るけど、最後に文字数でスライスするのでOK
-        regex = no_period ? /(、)/ : /([。！？][」）]|[。！？!?.])/
-        last_sentence = contents[index - 1].gsub(regex, '\1' + '[[TMP]]').split('[[TMP]]')[-1]
-        last_sentence = '…' + last_sentence.slice(-150..-1) if last_sentence.length > 150
-
-        contents[index] = (last_sentence + splits[1]).gsub(/^(\r\n|\r|\n|\s|\t)/, '') # 冒頭の改行を削除
-      end
-      contents
     end
   end
 end
