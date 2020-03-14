@@ -1,10 +1,11 @@
 #breadcrumb
   .ui.small.breadcrumb
-    = link_to 'TOP', root_path, class: 'section'
-    %i.fas.fa-angle-right.divider
     - @breadcrumbs.each do |item|
       - if item[:url]
         = link_to item[:name], item[:url], class: 'section'
         %i.fas.fa-angle-right.divider
       - else
         %div.section= item[:name]
+
+%script(type="application/ld+json")
+  = jsonld_breadcrumb(@breadcrumbs).html_safe

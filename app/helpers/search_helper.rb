@@ -1,13 +1,11 @@
 module SearchHelper
   def access_count_rating(access_count)
     if access_count >= 10000
-      3
+      5
     elsif access_count >= 500
-      2
-    elsif access_count >= 1
-      1
+      4
     else
-      0
+      3
     end
   end
 
@@ -52,5 +50,23 @@ module SearchHelper
     end
 
     content_tag(:div, category.name, class: "ui basic #{color} mini label")
+  end
+
+  def jsonld_breadcrumb(breadcrumbs)
+    items = []
+    @breadcrumbs.each.with_index(1) do |bread, index|
+      items << {
+        "@type": "ListItem",
+        "position": index,
+        "name": bread[:name],
+        "item": bread[:url] || url_for(only_path: false)
+      }
+    end
+
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": items
+    }.to_json
   end
 end
