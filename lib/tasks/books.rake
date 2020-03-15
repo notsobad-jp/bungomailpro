@@ -19,7 +19,7 @@ namespace :books do
         puts "[著者追加] #{fg[0]} #{fg[1]}: #{fg[15]} #{fg[16]}(#{fg[14]})"
       # 未登録の作品ならレコード作成
       else
-        book = Book.create!(
+        Book.create!(
           id: fg[0].to_i,
           title: fg[1],
           author: "#{fg[15]} #{fg[16]}",
