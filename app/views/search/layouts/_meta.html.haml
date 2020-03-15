@@ -47,5 +47,4 @@
 %link(href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet")
 
 %style(amp-custom)
-  - base_path = Rails.env.production? ? 'https://search.bungomail.com' : Rails.root.join("public")
-  = File.read(File.join(base_path, "assets", "stylesheets", "search.css")).html_safe
+  = File.read(File.join(Rails.public_path, "assets", "stylesheets", "search.css")).html_safe
