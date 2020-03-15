@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_14_072744) do
+ActiveRecord::Schema.define(version: 2020_03_15_041231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2020_03_14_072744) do
     t.string "category_id"
     t.boolean "rights_reserved", default: false
     t.index ["access_count"], name: "index_books_on_access_count"
+    t.index ["category_id"], name: "index_books_on_category_id"
     t.index ["words_count"], name: "index_books_on_words_count"
   end
 
@@ -177,7 +178,7 @@ ActiveRecord::Schema.define(version: 2020_03_14_072744) do
   add_foreign_key "book_assignments", "guten_books"
   add_foreign_key "book_assignments", "users"
   add_foreign_key "books", "categories"
-  add_foreign_key "campaign_groups", "books"
+  add_foreign_key "campaign_groups", "books", on_update: :nullify, on_delete: :nullify
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "charges", "users"
   add_foreign_key "feeds", "book_assignments"

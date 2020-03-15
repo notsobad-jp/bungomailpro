@@ -39,7 +39,7 @@ namespace :books do
       text, footnote = book.aozora_file_text
       book.update!(
         words_count: text.length,
-        beginning: book.beginning,
+        beginning: book.beginning_from_file,
         footnote: footnote
       )
       p "[#{book.id}] #{book.title}"
@@ -54,7 +54,9 @@ namespace :books do
   desc 'filesからアクセス数ランキングをDBに保存'
   task save_access_ranking: :environment do |_task, _args|
     (2009..2020).each do |year|
+      p "Year: #{year}"
       (1..12).each do |month|
+        p "- Month: #{month}"
         file_path = "tmp/aozorabunko/access_ranking/#{year}_#{"%#02d" % month}_xhtml.html"
         html = File.open(file_path, &:read)
 
@@ -82,6 +84,7 @@ namespace :books do
       books = Book.where(words_count: [category.range_from..category.range_to])
       books.update_all(category_id: category.id)
       category.update(books_count: books.count)
+      p "Finished #{category.id}: #{category.books_count} books"
     end
     Category.find('all').update(books_count: Book.all.count)
   end
