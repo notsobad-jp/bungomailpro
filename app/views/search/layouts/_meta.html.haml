@@ -48,4 +48,4 @@
 
 %style(amp-custom)
   - base_path = Rails.env.production? ? 'https://search.bungomail.com' : Rails.root.join("public")
-  = File.read(base_path.join("assets", "stylesheets", "search.css")).html_safe
+  = File.read(File.join(base_path, "assets", "stylesheets", "search.css")).html_safe
