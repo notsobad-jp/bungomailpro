@@ -91,8 +91,7 @@ Rails.application.routes.draw do
         end
       end
       get '/:page' => "pages#show"
-      get '/.amp' => 'books#index'
-      
+
       get '/' => 'books#index', as: :search_root
       # root to: 'books#index'
     end
