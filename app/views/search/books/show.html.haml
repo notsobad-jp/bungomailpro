@@ -3,6 +3,14 @@
   .sub.header
     = @book.author
 
+- if @book.rights_reserved?
+  .ui.warning.message
+    %i.fas.fa-exclamation-triangle
+    この作品は著作権が存続しています。
+    詳細は
+    = link_to '青空文庫公式サイトの取り扱い基準', 'https://www.aozora.gr.jp/guide/kijyunn.html', target: :blank
+    をご確認のうえ、取り扱いの際は十分注意してください。
+
 %p= @meta_description
 
 %table.ui.definition.fixed.unstackable.table
@@ -19,7 +27,7 @@
       %td
         %small 人気
       %td
-        = access_count_stars(@book.access_count)
+        = access_count_stars(@book.access_rating(:stars))
         &nbsp;
         = (@book.access_count > 0 ) ? @book.access_count.to_s(:delimited) : '--'
         %small PV
@@ -56,7 +64,7 @@
         .extra.content
           .right.floated
             = category_label(book.category)
-          = access_count_stars(book.access_count)
+          = access_count_stars(book.access_rating(:stars))
 
   %br
   %br
@@ -73,7 +81,7 @@
         .extra.content
           .right.floated
             = category_label(book.category)
-          = access_count_stars(book.access_count)
+          = access_count_stars(book.access_rating(:stars))
 
 
 %script(type="application/ld+json")
@@ -111,7 +119,7 @@
       }],
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "#{ access_count_rating(@book.access_count) }",
+        "ratingValue": "#{ @book.access_rating }",
         "bestRating": "5",
         "ratingCount": "#{ @book.access_count }"
       }

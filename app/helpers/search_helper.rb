@@ -1,19 +1,8 @@
 module SearchHelper
-  def access_count_rating(access_count)
-    if access_count >= 10000
-      5
-    elsif access_count >= 500
-      4
-    else
-      3
-    end
-  end
-
-  def access_count_stars(access_count)
-    i = access_count_rating(access_count)
+  def access_count_stars(star_count)
     content_tag(:span) do
       3.times do |j|
-        outline = (j >= i) ? 'far' : 'fas' # farがoutline
+        outline = (j >= star_count) ? 'far' : 'fas' # farがoutline
         concat content_tag(:i, '', class: "fa-star yellow #{outline}")
       end
     end

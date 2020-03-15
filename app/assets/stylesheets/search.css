@@ -391,6 +391,16 @@ footer .ui.list>a.item { color: #fff; }
 .ui.dividing.header { padding-bottom: .21428571rem; border-bottom: 1px solid rgba(34,36,38,0.15); }
 h3.ui.header { font-size: 1.28571429rem; }
 
+.ui.table tr.mobile.only.main td { padding-bottom: 0; }
+.ui.table tr.mobile.only.sub td {
+  border-top: none;
+  padding-top: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.ui.table tr.mobile.only.sub td small { font-size: 60%; }
+
 @media only screen and (max-width: 767px) {
   .scrolling.ui.cards { flex-wrap: nowrap; overflow-x: scroll; -webkit-overflow-scrolling: touch; overflow-scrolling: touch; }
   .scrolling>.ui.card { flex: 0 0 60%; }
