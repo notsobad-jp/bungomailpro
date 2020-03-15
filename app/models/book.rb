@@ -30,7 +30,7 @@
 
 class Book < ApplicationRecord
   has_many :campaign_group, dependent: :destroy
-  belongs_to :category
+  belongs_to :category, required: false
   self.primary_key = :id
 
   USUAL_KANJIS = %w[
