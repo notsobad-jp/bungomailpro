@@ -37,8 +37,9 @@
           = link_to author_category_books_path(author_id: author[:id], category_id: book.category.id) do
             = category_label(book.category)
           &nbsp;
-          = book.words_count.to_s(:delimited)
-          %small 文字
+          %small
+            = book.words_count.to_s(:delimited)
+            文字
         %td
           = access_count_stars(book.access_rating(:stars))
         %td
