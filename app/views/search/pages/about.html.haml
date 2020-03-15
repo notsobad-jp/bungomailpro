@@ -1,7 +1,8 @@
 %h1.ui.large.header
   ゾラサーチとは
 
-%amp-img(src="/assets/images/ogp_search.png" width="480" height="240")
+%amp-img.mobile.only(src="/assets/images/ogp_search.png" width="480" height="240" layout="responsive")
+%amp-img.computer.only(src="/assets/images/ogp_search.png" width="480" height="240")
 
 .ui.basic.segment
   %p
@@ -81,7 +82,8 @@
 %h3.ui.dividing.header
   %i.far.fa-envelope
   ブンゴウメールについて
-%amp-img(src="/assets/images/ogp.png" width="480" height="240")
+%amp-img.mobile.only(src="/assets/images/ogp.png" width="480" height="240" layout="responsive")
+%amp-img.computer.only(src="/assets/images/ogp.png" width="480" height="240")
 .ui.basic.segment
   = link_to root_url(subdomain: ''), target: '_blank', class: 'ui basic responsive button' do
     ブンゴウメール公式サイト
