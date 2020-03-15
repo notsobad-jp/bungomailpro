@@ -19,7 +19,7 @@ namespace :books do
         puts "[著者追加] #{fg[0]} #{fg[1]}: #{fg[15]} #{fg[16]}(#{fg[14]})"
       # 未登録の作品ならレコード作成
       else
-        Book.create(
+        book = Book.create!(
           id: fg[0].to_i,
           title: fg[1],
           author: "#{fg[15]} #{fg[16]}",
@@ -35,7 +35,7 @@ namespace :books do
 
   desc 'filesから文字数カウントと書き出しを保存'
   task add_words_count_and_beginning: :environment do |_task, _args|
-    Book.where.not(chapters_count: 0).find_each do |book|
+    Book.where(words_count: 0).find_each do |book|
       text, footnote = book.aozora_file_text
       book.update!(
         words_count: text.length,
@@ -53,7 +53,7 @@ namespace :books do
 
   desc 'filesからアクセス数ランキングをDBに保存'
   task save_access_ranking: :environment do |_task, _args|
-    (2009..2018).each do |year|
+    (2009..2020).each do |year|
       (1..12).each do |month|
         file_path = "tmp/aozorabunko/access_ranking/#{year}_#{"%#02d" % month}_xhtml.html"
         html = File.open(file_path, &:read)
