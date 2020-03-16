@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_15_041231) do
+ActiveRecord::Schema.define(version: 2020_03_16_041657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -124,14 +124,16 @@ ActiveRecord::Schema.define(version: 2020_03_15_041231) do
 
   create_table "guten_books", force: :cascade do |t|
     t.string "title", null: false
-    t.string "author", null: false
-    t.string "rights"
+    t.string "author"
+    t.boolean "rights_reserved", default: false
     t.string "language"
     t.bigint "downloads"
     t.integer "words_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "chars_count", default: 0, null: false
+    t.integer "author_id"
+    t.index ["author_id"], name: "index_guten_books_on_author_id"
   end
 
   create_table "guten_books_subjects", id: false, force: :cascade do |t|

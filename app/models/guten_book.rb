@@ -96,6 +96,7 @@ class GutenBook < ApplicationRecord
       doc = Nokogiri::XML.parse(xml, nil, charset)
       title = doc.xpath('//dcterms:title').first.try(:text)
       author = doc.xpath('//dcterms:creator/pgterms:agent/pgterms:name').first.try(:text)
+      author_id = doc.xpath('//dcterms:creator/pgterms:agent').first&.attributes&.dig("about")&.value&.split("/")&.last
       rights = doc.xpath('//dcterms:rights').first.try(:text)
       language = doc.xpath('//dcterms:language/rdf:Description/rdf:value').first.try(:text)
       downloads = doc.xpath('//pgterms:downloads').first.try(:text)
@@ -106,11 +107,13 @@ class GutenBook < ApplicationRecord
         subjects <<  Subject.find_or_initialize_by(id: name)
       end
 
+      return unless title
       book = GutenBook.find_or_initialize_by(id: id)
       book.update(
         title: title,
         author: author,
-        rights: rights,
+        author_id: author_id,
+        rights_reserved: rights != 'Public domain in the USA.',
         language: language,
         downloads: downloads,
         subjects: subjects,
