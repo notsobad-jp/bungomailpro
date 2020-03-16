@@ -84,7 +84,7 @@ namespace :books do
       next if category_id == 'all'
       books = Book.where(words_count: [category[:range_from]..category[:range_to]])
       books.update_all(category_id: category[:id])
-      p "Finished #{category[:id}: #{books.count} books"
+      p "Finished #{category[:id]}: #{books.count} books"
     end
   end
 end
