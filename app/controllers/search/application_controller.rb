@@ -1,19 +1,19 @@
 class Search::ApplicationController < ApplicationController
   layout 'search/layouts/application'
-  before_action :set_author_and_category, :set_cache_control, :set_meta_tags
+  before_action :set_locale, :set_author_and_category, :set_cache_control, :set_meta_tags
 
   private
 
   def set_author_and_category
-    @categories = AozoraBook::CATEGORIES
+    @categories = Book::CATEGORIES
     @category = @categories[params[:category_id]&.to_sym || :all]
 
-    @author = if ( params[:author_id] && book = AozoraBook.find_by(author_id: params[:author_id]))
+    @author = if ( params[:author_id] && book = Book.find_by(author_id: params[:author_id]))
       { id: book.author_id, name: book.author.split(',').first.delete(' ') }
     else
       { id: 'all', name: 'すべての著者' }
     end
-    @authors = AozoraBook.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
+    @authors = Book.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
   end
 
   def set_cache_control
@@ -23,5 +23,11 @@ class Search::ApplicationController < ApplicationController
   def set_meta_tags
     super
     @breadcrumbs << { name: 'TOP', url: root_url }
+  end
+
+  def set_locale
+    I18n.locale = :en if request.subdomain.include? "en"
+    # enのときはBookでGutenBook、それ以外はAozoraBookを返す
+    Object.const_set "Book", Class.new(I18n.locale==:en ? GutenBook : AozoraBook)
   end
 end
