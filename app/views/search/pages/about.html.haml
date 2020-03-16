@@ -30,9 +30,9 @@
         %th 作品の文字数
     %tbody
       - @categories.each do |category|
-        - next if category.id == 'all'
+        - next if category[:id] == 'all'
         %tr
-          %td= category.name
+          %td= category[:name]
           %td= characters_range(category)
 
   %p

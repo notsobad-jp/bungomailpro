@@ -25,16 +25,16 @@
     - books.each do |book|
       %tr.computer.only
         %td
-          = link_to author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id) do
+          = link_to author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id) do
             = book.title
             - if book.rights_reserved?
               %small
                 %i.far.fa-copyright
         %td
-          = link_to author_category_books_path(author_id: book.author_id, category_id: category.id) do
+          = link_to author_category_books_path(author_id: book.author_id, category_id: category[:id]) do
             = book.author.split(',').first
         %td
-          = link_to author_category_books_path(author_id: author[:id], category_id: book.category.id) do
+          = link_to author_category_books_path(author_id: author[:id], category_id: book.category_id) do
             = category_label(book.category)
           &nbsp;
           %small
@@ -47,16 +47,16 @@
 
       %tr.mobile.only.main
         %td
-          = link_to author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id) do
+          = link_to author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id) do
             = book.title
             - if book.rights_reserved?
               %small
                 %i.far.fa-copyright
         %td
-          = link_to author_category_books_path(author_id: book.author_id, category_id: category.id) do
+          = link_to author_category_books_path(author_id: book.author_id, category_id: category[:id]) do
             = book.author.split(',').first
         %td
-          = link_to author_category_books_path(author_id: author[:id], category_id: book.category.id) do
+          = link_to author_category_books_path(author_id: author[:id], category_id: book.category_id) do
             = category_label(book.category)
           %small.right.floated= access_count_stars(book.access_rating(:stars))
       %tr.mobile.only.sub

@@ -80,12 +80,11 @@ namespace :books do
 
   desc 'カテゴリ別の冊数をカウントして保存'
   task categorize_books: :environment do |_task, _args|
-    Category.where.not(id: 'all').each do |category|
-      books = Book.where(words_count: [category.range_from..category.range_to])
-      books.update_all(category_id: category.id)
-      category.update(books_count: books.count)
-      p "Finished #{category.id}: #{category.books_count} books"
+    Book::CATEGORIES.each do |category_id, category|
+      next if category_id == 'all'
+      books = Book.where(words_count: [category[:range_from]..category[:range_to]])
+      books.update_all(category_id: category[:id])
+      p "Finished #{category[:id}: #{books.count} books"
     end
-    Category.find('all').update(books_count: Book.all.count)
   end
 end

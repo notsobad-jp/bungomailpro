@@ -5,11 +5,11 @@
   読了時間
 .ui.segment
   .ui.divided.very.relaxed.link.list
-    - @categories.each do |category|
-      = link_to author_category_books_path(author_id: 'all', category_id: category.id), class: 'item' do
-        = category.name
+    - @categories.each do |category_id, category|
+      = link_to author_category_books_path(author_id: 'all', category_id: category[:id]), class: 'item' do
+        = category[:name]
         .right.floated.content
-          %small #{category.books_count.to_s(:delimited)}件
+          %small #{category[:books_count].to_s(:delimited)}件
 %br
 
 %h4.ui.header

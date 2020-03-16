@@ -9,10 +9,10 @@ module SearchHelper
   end
 
   def characters_range(category)
-    range_from = category.range_from.to_s(:delimited)
-    range_to = category.range_to.to_s(:delimited)
+    range_from = category[:range_from].to_s(:delimited)
+    range_to = category[:range_to].to_s(:delimited)
 
-    case category.id
+    case category[:id]
     when 'all'
       ""
     when 'flash'
@@ -25,7 +25,7 @@ module SearchHelper
   end
 
   def category_label(category)
-    color = case category.id
+    color = case category[:id]
       when 'flash'
         'orange'
       when 'shortshort'
@@ -38,7 +38,7 @@ module SearchHelper
         ''
     end
 
-    content_tag(:div, category.name, class: "ui basic #{color} mini label")
+    content_tag(:div, category[:name], class: "ui basic #{color} mini label")
   end
 
   def jsonld_breadcrumb(breadcrumbs)

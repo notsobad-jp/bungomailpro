@@ -3,7 +3,7 @@
 
 %p
   = @meta_description
-  - if @category.id != 'all'
+  - if @category[:id] != 'all'
     %br
     %small
       （#{characters_range(@category)}の作品を対象としています。
@@ -13,18 +13,18 @@
 .ui.secondary.scrolling.menu
   .item(style="padding:0;")
     %i.far.fa-clock.gray
-  - @categories.each do |category|
+  - @categories.each do |category_id, category|
     - active = 'active' if @category == category
-    = link_to category.name, author_category_books_path(author_id: @author[:id], category_id: category.id), class: "item #{active}"
+    = link_to category[:name], author_category_books_path(author_id: @author[:id], category_id: category[:id]), class: "item #{active}"
 .ui.divider
 = form_tag(authors_path, method: :get, target: '_top', class: 'ui form') do
   .ui.transparent.fluid.left.icon.input
     %i.far.fa-user.gray
     - author_name = @author[:name] unless @author[:id] == 'all'
     = text_field_tag :author_name, author_name, placeholder: '著者名'
-    = hidden_field_tag :category_id, @category.id
+    = hidden_field_tag :category_id, @category[:id]
     - if @author[:id] != 'all'
-      = link_to author_category_books_path(author_id: 'all', category_id: @category.id) do
+      = link_to author_category_books_path(author_id: 'all', category_id: @category[:id]) do
         .ui.basic.icon.transparent.button
           %i.fas.fa-times.gray
     %button.ui.basic.icon.button(type="submit")

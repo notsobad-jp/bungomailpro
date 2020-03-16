@@ -30,28 +30,65 @@
 
 class Book < ApplicationRecord
   has_many :campaign_group, dependent: :destroy
-  belongs_to :category, required: false
   self.primary_key = :id
 
   # アクセス数に対する評価
   ## ratingは JSON-LDで表示するメタ評価
   ## starsはサイト上で表示する星の数
   ACCESS_RATINGS = {
-    10000 => {
-      rating: 5,
-      stars: 3
+    10000 => { rating: 5,   stars: 3 },
+    500 =>   { rating: 4.5, stars: 2 },
+    1 =>     { rating: 4,   stars: 1 },
+    0 =>     { rating: 3,   stars: 0 }
+  }.freeze
+
+  CATEGORIES = {
+    all: {
+      id: 'all',
+      name: 'すべて',
+      range_from: 1,
+      range_to: 9999999,
+      books_count: 15862
     },
-    500 => {
-      rating: 4.5,
-      stars: 2
+    flash: {
+      id: 'flash',
+      name: '5分以内',
+      title: '短編',
+      range_from: 1,
+      range_to: 2000,
+      books_count: 4525
     },
-    1 => {
-      rating: 4,
-      stars: 1
+    shortshort: {
+      id: 'shortshort',
+      name: '10分以内',
+      title: '短編',
+      range_from: 2001,
+      range_to: 4000,
+      books_count: 2573
     },
-    0 => {
-      rating: 3,
-      stars: 0
+    short: {
+      id: 'short',
+      name: '30分以内',
+      title: '短編',
+      range_from: 4001,
+      range_to: 12000,
+      books_count: 4373
+    },
+    novelette: {
+      id: 'novelette',
+      name: '60分以内',
+      title: '中編',
+      range_from: 12001,
+      range_to: 24000,
+      books_count: 2387
+    },
+    novel: {
+      id: 'novel',
+      name: '1時間〜',
+      title: '長編',
+      range_from: 24001,
+      range_to: 9999999,
+      books_count: 1840
     }
   }.freeze
 
@@ -128,6 +165,10 @@ class Book < ApplicationRecord
 
   def beginning_from_file
     (self.aozora_file_text[0].split("。")[0] + "。").truncate(250).gsub(/(一|1|１|（一）|序)(\r\n|　|\s)/, "").delete("\r\n　")  # 書き出しに段落番号とかが入るのを防ぐ
+  end
+
+  def category
+    CATEGORIES.dig(self.category_id&.to_sym)
   end
 
   def contents(chars_per: 700, count: nil)

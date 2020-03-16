@@ -83,7 +83,7 @@ Rails.application.routes.draw do
   end
 
   # ZORA SEARCH
-  constraints subdomain: 'search' do
+  constraints subdomain: ['search', 'en.search'] do
     scope module: :search do
       resources :authors do
         resources :categories do

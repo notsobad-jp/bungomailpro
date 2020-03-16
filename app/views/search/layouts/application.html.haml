@@ -43,7 +43,7 @@
     .ui.container
       .ui.stackable.grid
         .ui.thirteen.wide.column
-          - if controller_name == 'books' && (@author[:id] == 'all' && @category.id == 'all')
+          - if controller_name == 'books' && (@author[:id] == 'all' && @category[:id] == 'all')
             %br.computer.only
           - else
             = render partial: 'search/layouts/breadcrumb'
