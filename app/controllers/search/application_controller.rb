@@ -1,6 +1,7 @@
 class Search::ApplicationController < ApplicationController
   layout 'search/layouts/application'
-  before_action :set_locale, :set_author_and_category, :set_cache_control, :set_meta_tags
+  around_action :switch_locale
+  before_action :set_author_and_category, :set_cache_control, :set_meta_tags
 
   private
 
@@ -25,9 +26,9 @@ class Search::ApplicationController < ApplicationController
     @breadcrumbs << { name: 'TOP', url: root_url }
   end
 
-  def set_locale
-    I18n.locale = request.subdomain.include?("en") ? :en : :ja
-    # enのときはBookでGutenBook、それ以外はAozoraBookを返す
-    Object.const_set "Book", Class.new(I18n.locale==:en ? GutenBook : AozoraBook)
+  def switch_locale(&action)
+    locale = request.subdomains.first == "en" ? :en : :ja
+    Object.const_set "Book", Class.new(locale==:en ? GutenBook : AozoraBook)
+    I18n.with_locale(locale, &action)
   end
 end
