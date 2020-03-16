@@ -32,7 +32,9 @@ class AozoraBook < ApplicationRecord
   has_many :campaign_group, dependent: :destroy
   self.primary_key = :id
 
-  # アクセス数に対する評価
+  scope :sorted, -> { order(access_count: :desc) }
+
+  # アクセス数に対する評価(PV数)
   ## ratingは JSON-LDで表示するメタ評価
   ## starsはサイト上で表示する星の数
   ACCESS_RATINGS = {
@@ -214,6 +216,14 @@ class AozoraBook < ApplicationRecord
     contents
   end
 
+  def original_file_url
+    self.aozora_file_url
+  end
+
+  def popularity
+    self.access_count
+  end
+
 
   class << self
     def aozora_card_url(author_id:, book_id:)
@@ -228,6 +238,10 @@ class AozoraBook < ApplicationRecord
     def aozora_file_url(author_id:, book_id:, file_id:)
       file_path = file_id ? "#{book_id}_#{file_id}" : book_id
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
+    end
+
+    def popular_authors
+      self.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
     end
   end
 end

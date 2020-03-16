@@ -13,7 +13,7 @@ class Search::ApplicationController < ApplicationController
     else
       { id: 'all', name: 'すべての著者' }
     end
-    @authors = Book.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
+    @authors = Book.popular_authors
   end
 
   def set_cache_control
@@ -26,7 +26,7 @@ class Search::ApplicationController < ApplicationController
   end
 
   def set_locale
-    I18n.locale = :en if request.subdomain.include? "en"
+    I18n.locale = request.subdomain.include?("en") ? :en : :ja
     # enのときはBookでGutenBook、それ以外はAozoraBookを返す
     Object.const_set "Book", Class.new(I18n.locale==:en ? GutenBook : AozoraBook)
   end

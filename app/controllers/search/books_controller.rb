@@ -2,7 +2,7 @@ class Search::BooksController < Search::ApplicationController
   def index
     books = @category[:id] == 'all' ? Book.all : Book.where(category_id: @category[:id])
     books = books.where(author_id: @author[:id]) if @author[:id] != 'all'
-    @books = books.where.not(words_count: 0).order(access_count: :desc).order(:words_count).page(params[:page]).per(50)
+    @books = books.where.not(words_count: 0).sorted.order(:words_count).page(params[:page]).per(50)
 
     @meta_title = search_page_title
     @meta_description = search_page_description
@@ -17,8 +17,8 @@ class Search::BooksController < Search::ApplicationController
 
   def show
     @book = Book.find(params[:id])
-    @author_books = Book.where.not(words_count: 0).where(author_id: @author[:id]).order(access_count: :desc).take(4)
-    @category_books = Book.where(category_id: @category[:id]).order(access_count: :desc).take(4)
+    @author_books = Book.where.not(words_count: 0).where(author_id: @author[:id]).sorted.take(4)
+    @category_books = Book.where(category_id: @category[:id]).sorted.take(4)
 
     @meta_title = "#{@author[:name]}『#{@book.title}』 - #{@category[:name]}で読める#{@category[:title]}"
     @meta_description = "『#{@book.title}』は青空文庫で公開されている#{@author[:name]}の#{@category[:title]}作品。#{@book.words_count.to_s(:delimited)}文字で、おおよそ#{@category[:name]}で読むことができます。"

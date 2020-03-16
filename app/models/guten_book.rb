@@ -18,6 +18,79 @@ require 'open-uri'
 class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
 
+  scope :sorted, -> { order(downloads: :desc) }
+
+  # アクセス数に対する評価(download数)
+  ## ratingは JSON-LDで表示するメタ評価
+  ## starsはサイト上で表示する星の数
+  ACCESS_RATINGS = {
+    50 => { rating: 5,   stars: 3 },
+    15 =>   { rating: 4.5, stars: 2 },
+    1 =>     { rating: 4,   stars: 1 },
+    0 =>     { rating: 3,   stars: 0 }
+  }.freeze
+
+  WORDS_PER_MINUTES = 500
+  CATEGORIES = {
+    all: {
+      id: 'all',
+      name: 'all',
+      range_from: 1,
+      range_to: 9999999,
+      books_count: 42446
+    },
+    flash: {
+      id: 'flash',
+      name: '5min',
+      title: 'flash',
+      range_from: 1,
+      range_to: WORDS_PER_MINUTES * 5,
+      books_count: 1038
+    },
+    shortshort: {
+      id: 'shortshort',
+      name: '10min',
+      title: 'shortshort',
+      range_from: WORDS_PER_MINUTES * 5 + 1,
+      range_to: WORDS_PER_MINUTES * 10,
+      books_count: 1653
+    },
+    short: {
+      id: 'short',
+      name: '30min',
+      title: 'short',
+      range_from: WORDS_PER_MINUTES * 10 + 1,
+      range_to: WORDS_PER_MINUTES * 30,
+      books_count: 6401
+    },
+    novelette: {
+      id: 'novelette',
+      name: '60min',
+      title: 'novelette',
+      range_from: WORDS_PER_MINUTES * 30 + 1,
+      range_to: WORDS_PER_MINUTES * 60,
+      books_count: 6831
+    },
+    novel: {
+      id: 'novel',
+      name: 'over 1h',
+      title: 'novel',
+      range_from: WORDS_PER_MINUTES * 60 + 1,
+      range_to: 9999999,
+      books_count: 26523
+    }
+  }.freeze
+
+
+  def access_rating(type = :rating)
+    ACCESS_RATINGS.find{|k,v| self.downloads >= k }.dig(1, type)
+  end
+
+  # TODO:
+  def beginning
+    ""
+  end
+
   def gutenberg_book_url
     "https://www.gutenberg.org/ebooks/#{id}"
   end
@@ -86,6 +159,19 @@ class GutenBook < ApplicationRecord
     contents
   end
 
+  def category
+    CATEGORIES.dig(self.category_id&.to_sym)
+  end
+
+  def popularity
+    self.downloads
+  end
+
+  # Gutenbergはファイル直リンクを禁止してるので、 詳細ページに飛ばす
+  def original_file_url
+    self.gutenberg_book_url
+  end
+
 
   class << self
     def import_rdf(id)
@@ -121,6 +207,10 @@ class GutenBook < ApplicationRecord
       p "Imported: [#{id}] #{title}"
     rescue => e
       p e
+    end
+
+    def popular_authors
+      self.limit(100).where.not(author: nil).order('sum_downloads desc').group(:author, :author_id).sum(:downloads)
     end
   end
 end
