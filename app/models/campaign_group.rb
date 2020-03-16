@@ -21,7 +21,7 @@
 #
 
 class CampaignGroup < ApplicationRecord
-  belongs_to :book
+  belongs_to :book, class_name: 'AozoraBook'
   has_many :campaigns, -> { order(:send_at) }, dependent: :destroy
 
   def import_campaigns

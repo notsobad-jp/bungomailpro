@@ -16,7 +16,7 @@
   = form_tag(authors_path, method: :get, target: '_top', class: 'ui form') do
     .ui.fluid.action.input
       = text_field_tag :author_name, '', placeholder: '著者名'
-      = hidden_field_tag :category_id, @category.id
+      = hidden_field_tag :category_id, @category[:id]
       %button.ui.primary.icon.button(type="submit")
         %i.icon.search
         %span.computer.only 検索
@@ -24,7 +24,7 @@
 .ui.divider
 .ui.divided.very.relaxed.link.list
   - @results.each do |id, name|
-    = link_to author_category_books_path(author_id: id, category_id: @category.id), class: 'item' do
+    = link_to author_category_books_path(author_id: id, category_id: @category[:id]), class: 'item' do
       = name
       .right.floated.content
         %i.icon.chevron.right

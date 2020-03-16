@@ -28,7 +28,7 @@
 #  fk_rails_...  (category_id => categories.id)
 #
 
-class Book < ApplicationRecord
+class AozoraBook < ApplicationRecord
   has_many :campaign_group, dependent: :destroy
   self.primary_key = :id
 
@@ -102,15 +102,15 @@ class Book < ApplicationRecord
   end
 
   def aozora_card_url
-    Book.aozora_card_url(author_id: author_id, book_id: id)
+    AozoraBook.aozora_card_url(author_id: author_id, book_id: id)
   end
 
   def aozora_file_path
-    Book.aozora_file_path(author_id: author_id, book_id: id, file_id: file_id)
+    AozoraBook.aozora_file_path(author_id: author_id, book_id: id, file_id: file_id)
   end
 
   def aozora_file_url
-    Book.aozora_file_url(author_id: author_id, book_id: id, file_id: file_id)
+    AozoraBook.aozora_file_url(author_id: author_id, book_id: id, file_id: file_id)
   end
 
   # scrape and parse Aozora File

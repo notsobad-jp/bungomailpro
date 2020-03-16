@@ -29,7 +29,7 @@
         %th 読了時間
         %th 作品の文字数
     %tbody
-      - @categories.each do |category|
+      - @categories.each do |id, category|
         - next if category[:id] == 'all'
         %tr
           %td= category[:name]

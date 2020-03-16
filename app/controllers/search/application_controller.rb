@@ -5,15 +5,15 @@ class Search::ApplicationController < ApplicationController
   private
 
   def set_author_and_category
-    @categories = Book::CATEGORIES
+    @categories = AozoraBook::CATEGORIES
     @category = @categories[params[:category_id]&.to_sym || :all]
 
-    @author = if ( params[:author_id] && book = Book.find_by(author_id: params[:author_id]))
+    @author = if ( params[:author_id] && book = AozoraBook.find_by(author_id: params[:author_id]))
       { id: book.author_id, name: book.author.split(',').first.delete(' ') }
     else
       { id: 'all', name: 'すべての著者' }
     end
-    @authors = Book.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
+    @authors = AozoraBook.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
   end
 
   def set_cache_control

@@ -10,25 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_16_041657) do
+ActiveRecord::Schema.define(version: 2020_03_16_065959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "book_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "guten_book_id", null: false
-    t.uuid "user_id", null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "feeds_count", default: 0
-    t.index ["guten_book_id"], name: "index_book_assignments_on_guten_book_id"
-    t.index ["status"], name: "index_book_assignments_on_status"
-    t.index ["user_id"], name: "index_book_assignments_on_user_id"
-  end
-
-  create_table "books", id: :bigint, default: nil, force: :cascade do |t|
+  create_table "aozora_books", id: :bigint, default: nil, force: :cascade do |t|
     t.string "title", null: false
     t.string "author", null: false
     t.bigint "author_id"
@@ -41,9 +29,21 @@ ActiveRecord::Schema.define(version: 2020_03_16_041657) do
     t.integer "access_count", default: 0
     t.string "category_id"
     t.boolean "rights_reserved", default: false
-    t.index ["access_count"], name: "index_books_on_access_count"
-    t.index ["category_id"], name: "index_books_on_category_id"
-    t.index ["words_count"], name: "index_books_on_words_count"
+    t.index ["access_count"], name: "index_aozora_books_on_access_count"
+    t.index ["category_id"], name: "index_aozora_books_on_category_id"
+    t.index ["words_count"], name: "index_aozora_books_on_words_count"
+  end
+
+  create_table "book_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "guten_book_id", null: false
+    t.uuid "user_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "feeds_count", default: 0
+    t.index ["guten_book_id"], name: "index_book_assignments_on_guten_book_id"
+    t.index ["status"], name: "index_book_assignments_on_status"
+    t.index ["user_id"], name: "index_book_assignments_on_user_id"
   end
 
   create_table "campaign_groups", force: :cascade do |t|
@@ -177,10 +177,10 @@ ActiveRecord::Schema.define(version: 2020_03_16_041657) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
+  add_foreign_key "aozora_books", "categories"
   add_foreign_key "book_assignments", "guten_books"
   add_foreign_key "book_assignments", "users"
-  add_foreign_key "books", "categories"
-  add_foreign_key "campaign_groups", "books", on_update: :nullify, on_delete: :nullify
+  add_foreign_key "campaign_groups", "aozora_books", column: "book_id", on_update: :nullify, on_delete: :nullify
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "charges", "users"
   add_foreign_key "feeds", "book_assignments"

@@ -26,14 +26,14 @@ SitemapGenerator::Sitemap.create do
   #   end
 
   # 著者指定なしのカテゴリ別一覧
-  Category.all.each do |category|
+  AozoraBook::CATEGORIES.each do |id, category|
     priority = 1.0
-    add author_category_books_path(author_id: 'all', category_id: category.id), priority: priority, changefreq: 'weekly'
+    add author_category_books_path(author_id: 'all', category_id: category[:id]), priority: priority, changefreq: 'weekly'
   end
 
   # 著者別・カテゴリ別一覧
-  @popular_authors = Book.limit(150).order('sum_access_count desc').group(:author_id).sum(:access_count)
-  Book.pluck(:author_id).uniq.each do |author_id|
+  @popular_authors = AozoraBook.limit(150).order('sum_access_count desc').group(:author_id).sum(:access_count)
+  AozoraBook.pluck(:author_id).uniq.each do |author_id|
     case @popular_authors[author_id] || 0
     when 300000 .. Float::INFINITY
       priority = 1.0
@@ -45,14 +45,14 @@ SitemapGenerator::Sitemap.create do
       priority = 0.4
     end
 
-    Category.all.each do |category|
-      add author_category_books_path(author_id: author_id, category_id: category.id), priority: priority, changefreq: 'weekly'
+    AozoraBook::CATEGORIES.each do |id, category|
+      add author_category_books_path(author_id: author_id, category_id: category[:id]), priority: priority, changefreq: 'weekly'
     end
   end
 
   # 作品詳細
-  Book.includes(:category).all.find_each do |book|
-    next unless book.category
+  AozoraBook.all.find_each do |book|
+    next unless book.category_id
 
     case book.access_count
     when 300000 .. Float::INFINITY
@@ -65,6 +65,6 @@ SitemapGenerator::Sitemap.create do
       priority = 0.3
     end
 
-    add author_category_book_path(author_id: book.author_id, category_id: book.category.id, id: book.id), priority: priority, changefreq: 'weekly'
+    add author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id), priority: priority, changefreq: 'weekly'
   end
 end
