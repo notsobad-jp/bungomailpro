@@ -52,10 +52,8 @@ class User < ApplicationRecord
   end
 
   def select_book
-    # LIKE > 30 : 1094冊
-    # LIKE > 100 : 245冊（最初はおもしろそうなやつを）
     ids = ActiveRecord::Base.connection.select_values("select guten_book_id from guten_books_subjects where subject_id IN (select id from subjects where LOWER(id) LIKE '%fiction%')")
-    GutenBook.where(id: ids, language: 'en', rights: 'Public domain in the USA.', words_count: 5000..40000).where("downloads > ?", 100).order(Arel.sql("RANDOM()")).first
+    GutenBook.where(id: ids, language: 'en', rights_reserved: false, words_count: 2000..15000).where("downloads > ?", 50).order(Arel.sql("RANDOM()")).first
   end
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
