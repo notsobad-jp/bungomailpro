@@ -1,0 +1,18 @@
+ja:
+  search:
+    layouts:
+      application:
+        tagline: ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
+        tagline_sp: 青空文庫の作品を読了時間で検索できるサービス
+        about_this_site: このサイトについて
+      sidebar:
+        popular_authors: 人気の文豪
+        minutes_to_read: 読了時間
+        items: 件
+    books:
+      show:
+        popularity_unit: PV
+        read_at_original: 青空文庫で読む
+    authors:
+      index:
+        noindex: true

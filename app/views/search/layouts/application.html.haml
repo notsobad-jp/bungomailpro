@@ -29,13 +29,15 @@
       = link_to root_path, class: 'header item' do
         %amp-img(src="/assets/images/logo_search.png" width="130" height="22")
       = link_to root_url(subdomain: ''), target: '_blank', class: 'item computer only' do
-        %small by ブンゴウメール
-      .item.computer.only ゾラサーチは、青空文庫の作品を読了時間で検索できるサービスです。
+        %small
+          by
+          = t :bungo_mail, scope: [:search, :defaults]
+      .item.computer.only= t '.tagline'
       .right.floated.menu
         = link_to page_path(:about), class: 'item' do
           %small
             %i.fas.fa-question-circle
-            このサイトについて
+            = t '.about_this_site'
 
     - if current_page?(root_path)
       .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス

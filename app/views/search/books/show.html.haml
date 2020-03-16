@@ -17,23 +17,23 @@
   %tbody
     %tr
       %td.three.wide
-        %small 文字数
+        %small= t :words_count, scope: [:search, :defaults]
       %td.thirteen.wide
         = category_label(@book.category)
         &nbsp;
         = @book.words_count.to_s(:delimited)
-        %small 文字
+        %small= t :words, scope: [:search, :defaults]
     %tr
       %td
-        %small 人気
+        %small= t :popularity, scope: [:search, :defaults]
       %td
         = access_count_stars(@book.access_rating(:stars))
         &nbsp;
         = (@book.popularity > 0 ) ? @book.popularity.to_s(:delimited) : '--'
-        %small PV
+        %small= t('.popularity_unit')
     %tr
       %td
-        %small 書き出し
+        %small= t :beginning, scope: [:search, :defaults]
       %td
         = @book.beginning
 %small ※「人気」は青空文庫の過去10年分のアクセスランキングを集計した累計アクセス数から算出しています。
@@ -41,7 +41,7 @@
 %br
 
 = link_to  @book.original_file_url, class: 'ui blue basic button', target: '_blank' do
-  青空文庫で読む
+  = t '.read_at_original'
   &nbsp;
   %small
     %i.fas.fa-external-link-alt

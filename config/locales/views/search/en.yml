@@ -1,0 +1,13 @@
+en:
+  search:
+    layouts:
+      application:
+        tagline: Search free books on Project Gutenberg by Minutes-to-Read.
+        tagline_sp: Search free books on Project Gutenberg
+    books:
+      show:
+        popularity_unit: Downloads
+        read_at_original: Read at Project Gutenberg
+    authors:
+      index:
+        noindex: true

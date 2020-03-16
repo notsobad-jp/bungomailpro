@@ -1,0 +1,26 @@
+ja:
+  pages:
+    top:
+      title: ブンゴウメールPRO | 1日3分のメールで、もっと読書を楽しみたいあなたへ
+      description: ブンゴウメールのパワーアップ有料版です。好きな作品の配信や、作家別・テーマ別で配信されるチャネルの購読ができます。
+    index:
+      title: ドキュメント
+      noindex: true
+    show:
+      title: (ページ名)
+      description: (ページ名)のページです。
+  magic_tokens:
+    new:
+      title: ログイン
+      noindex: true
+  users:
+    show:
+      title: アカウント詳細
+      noindex: true
+  charges:
+    new:
+      title: 決済情報登録
+      noindex: true
+    edit:
+      title: 決済情報更新
+      noindex: true
