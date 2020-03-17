@@ -32,3 +32,8 @@ en:
     authors:
       index:
         noindex: true
+        author_name: Author Name
+        multiple_authors_found: Multiple authors found. Select from the list below or try searching with other keywords.
+        no_authors_found:
+          html:
+            No authors found. Please check the keyword and try searching again.

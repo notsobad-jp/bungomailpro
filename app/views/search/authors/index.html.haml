@@ -1,25 +1,25 @@
 .ui.warning.message
   - if @results.count > 1
-    複数の著者がヒットしました。以下の候補から選択するか、キーワードを変えて再度検索してみてください。
+    = t '.multiple_authors_found'
   - if @results.count == 0
-    著者が見つかりませんでした…。
-    著者名の表記は
-    = link_to 'https://www.aozora.gr.jp/index_pages/person_all.html', target: '_blank' do
-      青空文庫
-    に準拠していますので、漢字などの表記違いがないかご確認ください。
+    = t '.no_authors_found.html'
 
 %h1.ui.large.header
   = @meta_title
-  .sub.header #{@results.count.to_s(:delimited)}件
+  .sub.header
+    = @results.count.to_s(:delimited)
+    = t :items, scope: [:search, :defaults]
 
 .ui.secondary.segment
   = form_tag(authors_path, method: :get, target: '_top', class: 'ui form') do
     .ui.fluid.action.input
-      = text_field_tag :author_name, '', placeholder: '著者名'
+      = text_field_tag :author_name, '', placeholder: t('.author_name')
       = hidden_field_tag :category_id, @category[:id]
       %button.ui.primary.icon.button(type="submit")
-        %i.icon.search
-        %span.computer.only 検索
+        %i.fas.fa-search
+        %span.computer.only
+          &nbsp;
+          = t :search, scope: [:search, :defaults]
 
 .ui.divider
 .ui.divided.very.relaxed.link.list
