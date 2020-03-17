@@ -21,7 +21,7 @@
   .ui.transparent.fluid.left.icon.input
     %i.far.fa-user.gray
     - author_name = @author[:name] unless @author[:id] == 'all'
-    = text_field_tag :author_name, author_name, placeholder: '著者名'
+    = text_field_tag :author_name, author_name, placeholder: t('.author_name')
     = hidden_field_tag :category_id, @category[:id]
     - if @author[:id] != 'all'
       = link_to author_category_books_path(author_id: 'all', category_id: @category[:id]) do
@@ -29,7 +29,7 @@
           %i.fas.fa-times.gray
     %button.ui.basic.icon.button(type="submit")
       %i.fas.fa-search.gray
-      %span.computer.only 検索
+      %span.computer.only= t :search, scope: [:search, :defaults]
 .ui.divider
 %br
 

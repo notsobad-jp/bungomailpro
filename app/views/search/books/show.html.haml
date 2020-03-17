@@ -5,11 +5,7 @@
 
 - if @book.rights_reserved?
   .ui.warning.message
-    %i.fas.fa-exclamation-triangle
-    この作品は著作権が存続しています。
-    詳細は
-    = link_to '青空文庫公式サイトの取り扱い基準', 'https://www.aozora.gr.jp/guide/kijyunn.html', target: :blank
-    をご確認のうえ、取り扱いの際は十分注意してください。
+    = t '.copyright_reserved.html'
 
 %p= @meta_description
 
@@ -36,7 +32,8 @@
         %small= t :beginning, scope: [:search, :defaults]
       %td
         = @book.beginning
-%small ※「人気」は青空文庫の過去10年分のアクセスランキングを集計した累計アクセス数から算出しています。
+%small
+  = t '.popularity_calculation_logic'
 %br
 %br
 
@@ -52,8 +49,7 @@
 
 %div
   %h3.ui.header
-    = @book.author
-    の人気作品
+    = t '.author_popular_books', author: @book.author
   .ui.four.scrolling.cards
     - @author_books.each do |book|
       = link_to author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id), class: 'ui card' do
@@ -70,7 +66,7 @@
   %br
 
   %h3.ui.header
-    #{@book.category[:title]}（#{@book.category[:name]}）の人気作品
+    = t '.category_popular_books', category: @book.category[:title], category_name: @book.category[:name]
   .ui.four.scrolling.cards
     - @category_books.each do |book|
       = link_to author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id), class: 'ui card' do

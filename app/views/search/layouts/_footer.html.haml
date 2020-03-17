@@ -1,12 +1,14 @@
 %footer.ui.basic.center.aligned.inverted.segment
   %h5.ui.header
-    ゾラサーチ
+    = t :bungo_search, scope: [:search, :defaults]
     &nbsp;
-    %small by ブンゴウメール
+    %small
+      by
+      = t :bungo_mail, scope: [:search, :defaults]
   %p
     = link_to page_path(:about) do
       %i.fas.fa-question-circle
-      このサイトについて
+      = t :about_this_site, scope: [:search, :defaults]
   .ui.horizontal.list
     .item
       = link_to 'https://twitter.com/intent/tweet?hashtags=%E3%82%BE%E3%83%A9%E3%82%B5%E3%83%BC%E3%83%81&original_referer=https%3A%2F%2Fsearch.bungomail.com%2F&ref_src=twsrc%5Etfw&text=%E3%82%BE%E3%83%A9%E3%82%B5%E3%83%BC%E3%83%81%20by%20%E3%83%96%E3%83%B3%E3%82%B4%E3%82%A6%E3%83%A1%E3%83%BC%E3%83%AB%20-%20%E9%9D%92%E7%A9%BA%E6%96%87%E5%BA%AB%E3%81%AE%E4%BD%9C%E5%93%81%E3%82%92%E7%9B%AE%E5%AE%89%E3%81%AE%E8%AA%AD%E4%BA%86%E6%99%82%E9%96%93%E3%81%A7%E6%A4%9C%E7%B4%A2%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9&url=https%3A%2F%2Fsearch.bungomail.com', target: '_blank', class: 'ui circular twitter icon button' do
@@ -17,16 +19,21 @@
   %br
   %br
   .ui.horizontal.list
-    = link_to 'ブンゴウメール', page_url(:about, subdomain: ''), class: 'item', target: '_blank'
-    = link_to '利用規約', page_url(:terms, subdomain: ''), class: 'item'
-    = link_to 'プライバシーポリシー', page_url(:privacy, subdomain: ''), class: 'item'
-    = link_to 'お問い合わせ', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'
-    = link_to '運営会社', 'https://notsobad.jp', target: '_blank', class: 'item'
+    = link_to t(:bungo_search, scope: [:search, :defaults]), page_url(:about, subdomain: ''), class: 'item', target: '_blank'
+    = link_to t('.terms'), page_url(:terms, subdomain: ''), class: 'item'
+    = link_to t('.privacy_policy'), page_url(:privacy, subdomain: ''), class: 'item'
+    = link_to t('.contacts'), 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'
+    = link_to t('.company'), 'https://notsobad.jp', target: '_blank', class: 'item'
   %br/
   %br/
   %br/
   %div
-    %small Copyright ゾラサーチ by ブンゴウメール 2019 All rights reserved.
+    %small
+      Copyright
+      = t :bungo_search, scope: [:search, :defaults]
+      by
+      = t :bungo_mail, scope: [:search, :defaults]
+      2019 All rights reserved.
     %br
     %small
       Powered by

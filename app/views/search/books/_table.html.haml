@@ -1,27 +1,26 @@
 %small
-  #{books.offset_value + 1}〜#{books.offset_value + books.length }件
-  \/ 全#{books.total_count.to_s(:delimited)}件
+  = t('.search_offset', from: books.offset_value + 1, to: books.offset_value + books.length, count: books.total_count.to_s(:delimited))
 %table.ui.fixed.unstackable.table
   %thead
     %tr.computer.only
-      %th.five.wide 作品名
-      %th.four.wide 著者
-      %th.four.wide 読了時間
-      %th.two.wide 人気
-      %th.five.wide.computer.only 書き出し
+      %th.five.wide= t :title, scope: [:search, :defaults]
+      %th.four.wide= t :author, scope: [:search, :defaults]
+      %th.four.wide= t :minutes_to_read, scope: [:search, :defaults]
+      %th.two.wide= t :popularity, scope: [:search, :defaults]
+      %th.five.wide.computer.only= t :beginning, scope: [:search, :defaults]
 
     %tr.mobile.only
       %th.six.wide
-        %small 作品名
+        %small= t :title, scope: [:search, :defaults]
       %th.six.wide
-        %small 著者
+        %small= t :author, scope: [:search, :defaults]
       %th.nine.wide
-        %small 読了時間
-        %small.right.floated 人気
+        %small= t :minutes_to_read, scope: [:search, :defaults]
+        %small.right.floated= t :popularity, scope: [:search, :defaults]
   %tbody
     - if books.blank?
       %tr
-        %td （作品がありません）
+        %td(colspan="3")= t '.no_results'
     - books.each do |book|
       %tr.computer.only
         %td
@@ -39,7 +38,7 @@
           &nbsp;
           %small
             = book.words_count.to_s(:delimited)
-            文字
+            = t :words, scope: [:search, :defaults]
         %td
           = access_count_stars(book.access_rating(:stars))
         %td
@@ -64,9 +63,4 @@
           %small= book.beginning
 
 %small
-  ※
-  %i.far.fa-copyright
-  マークのついた作品は著作権が存続しています。
-  詳細は
-  = link_to '青空文庫公式サイトの取り扱い基準', 'https://www.aozora.gr.jp/guide/kijyunn.html', target: :blank
-  をご確認のうえ、取り扱いの際は十分注意してください。
+  = t '.copyright_reserved.html'

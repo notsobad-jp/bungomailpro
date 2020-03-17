@@ -37,10 +37,10 @@
         = link_to page_path(:about), class: 'item' do
           %small
             %i.fas.fa-question-circle
-            = t '.about_this_site'
+            = t :about_this_site, scope: [:search, :defaults]
 
     - if current_page?(root_path)
-      .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
+      .ui.attached.mobile.only.segment= t '.tagline_sp'
 
     .ui.container
       .ui.stackable.grid

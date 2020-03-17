@@ -2,12 +2,33 @@ en:
   search:
     layouts:
       application:
-        tagline: Search free books on Project Gutenberg by Minutes-to-Read.
-        tagline_sp: Search free books on Project Gutenberg
+        tagline: Search free e-books by Minutes-to-Read from Project Gutenberg.
+        tagline_sp: Search free e-books by Minutes-to-Read
     books:
+      index:
+        author_name: Author Name
       show:
         popularity_unit: Downloads
         read_at_original: Read at Project Gutenberg
+        popularity_calculation_logic: "* Popularity is calculated based on the downloads count on Project Gutenberg."
+        copyright_reserved:
+          html:
+            <i class="fas fa-exclamation-triangle"></i>
+            The copyright remains for this book.
+            Please see details at
+            <a href="https://www.gutenberg.org/wiki/Gutenberg:Copyright_How-To" target="_blank">Project Gutenberg</a>.
+        author_popular_books: "Popular books from Author: %{author}"
+        category_popular_books: "Popular books from Category: %{category} (%{category_name})"
+      table:
+        search_offset: "Showing %{from} - %{to} of %{count} items"
+        no_results: (No results)
+        copyright_reserved:
+          html:
+            The copyright remains for the books with
+            <i class="far fa-copyright"></i>
+            mark.
+            Please see details at
+            <a href="https://www.gutenberg.org/wiki/Gutenberg:Copyright_How-To" target="_blank">Project Gutenberg</a>.
     authors:
       index:
         noindex: true
