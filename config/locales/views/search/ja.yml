@@ -30,7 +30,7 @@ ja:
         author_popular_books: "%{author} の人気作品"
         category_popular_books: "%{category}（%{category_name}）の人気作品"
       table:
-        search_offset: "%{from}〜%{to}件 \/ 全%{count}件"
+        search_offset: "%{from}〜%{to}件 / 全%{count}件"
         no_results: （作品がありません）
         copyright_reserved:
           html:
