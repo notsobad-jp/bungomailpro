@@ -1,0 +1,21 @@
+en:
+  search:
+    controllers:
+      application:
+        all_authors: all authors
+      authors:
+        search_result_for: "Search result for '%{author}'"
+        search_result: Search Result
+      books:
+        all_works: all works
+        original_site: Project Gutenberg
+        all_works_for: "All works for %{author}"
+        category_works_for: "%{category_title} (%{category}) works for %{author}"
+        page_in: "(page:%{page})"
+        description_all: "Showing %{author}'s %{count} free e-books in Project Gutenberg by popularity."
+        description_category: "Showing %{author}'s %{count} free e-books of %{category_title} (%{category}) in Project Gutenberg by popularity."
+        show:
+          title: "%{author}『%{title}』 - %{category_title} (%{category} to read)"
+          description: "『%{title}』is a free %{category_title} e-book of %{author} available on Project Gutenberg. It has %{words_count} words and may take about %{category} to read."
+      pages:
+        about: About this site

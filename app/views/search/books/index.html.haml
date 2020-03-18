@@ -6,8 +6,7 @@
   - if @category[:id] != 'all'
     %br
     %small
-      （#{characters_range(@category)}の作品を対象としています。
-      読了時間は「400字/分」の読書スピードで計算した場合の目安です）
+      = t '.category_range', range: characters_range(@category), words_per_minutes: Book::WORDS_PER_MINUTES
 
 .ui.divider
 .ui.secondary.scrolling.menu

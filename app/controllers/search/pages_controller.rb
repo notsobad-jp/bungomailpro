@@ -15,7 +15,7 @@ class Search::PagesController < Search::ApplicationController
 
   def page_titles
     {
-      about: 'ゾラサーチとは',
+      about: t(:about, scope: [:search, :controllers, :pages])
     }
   end
 end

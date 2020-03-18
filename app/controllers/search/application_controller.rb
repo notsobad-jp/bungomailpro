@@ -12,7 +12,7 @@ class Search::ApplicationController < ApplicationController
     @author = if ( params[:author_id] && book = Book.find_by(author_id: params[:author_id]))
       { id: book.author_id, name: book.author.split(',').first.delete(' ') }
     else
-      { id: 'all', name: 'すべての著者' }
+      { id: 'all', name: t(:all_authors, scope: [:search, :controllers, :application]) }
     end
     @authors = Book.popular_authors
   end

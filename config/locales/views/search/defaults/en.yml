@@ -1,0 +1,15 @@
+ja:
+  search:
+    defaults:
+      bungo_search: ゾラサーチ
+      bungo_mail: ブンゴウメール
+      title: 作品名
+      author: 著者
+      words_count: 文字数
+      words: 文字
+      popularity: 人気
+      beginning: 書き出し
+      minutes_to_read: 読了時間
+      search: 検索
+      about_this_site: このサイトについて
+      items: 件

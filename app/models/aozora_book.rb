@@ -44,6 +44,7 @@ class AozoraBook < ApplicationRecord
     0 =>     { rating: 3,   stars: 0 }
   }.freeze
 
+  WORDS_PER_MINUTES = 400
   CATEGORIES = {
     all: {
       id: 'all',

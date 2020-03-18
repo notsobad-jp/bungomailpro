@@ -6,11 +6,11 @@ class Search::BooksController < Search::ApplicationController
 
     @meta_title = search_page_title
     @meta_description = search_page_description
-    @meta_keywords = "#{@author[:name]},#{@category[:name]}で読める,#{@category[:title]}"
+    @meta_keywords = "#{@author[:name]},#{@category[:name]},#{@category[:title]}"
     @meta_canonical_url = root_path if @author[:id] == 'all' && @category[:id] == 'all'
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
-    category_name = @category[:id] == 'all' ? '全作品' : "#{@category[:title]}（#{@category[:name]}）"
+    category_name = @category[:id] == 'all' ? t(:all_works, scope: [:search, :controllers, :books]) : "#{@category[:title]}（#{@category[:name]}）"
     @breadcrumbs << { name: category_name }
   end
 
@@ -20,8 +20,8 @@ class Search::BooksController < Search::ApplicationController
     @author_books = Book.where.not(words_count: 0).where(author_id: @author[:id]).sorted.take(4)
     @category_books = Book.where(category_id: @category[:id]).sorted.take(4)
 
-    @meta_title = "#{@author[:name]}『#{@book.title}』 - #{@category[:name]}で読める#{@category[:title]}"
-    @meta_description = "『#{@book.title}』は青空文庫で公開されている#{@author[:name]}の#{@category[:title]}作品。#{@book.words_count.to_s(:delimited)}文字で、おおよそ#{@category[:name]}で読むことができます。"
+    @meta_title = show_page_title
+    @meta_description = show_page_description
     @meta_keywords = [@book.title, @author[:name], @category[:title], @category[:name]].join(",")
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')}
@@ -33,22 +33,31 @@ class Search::BooksController < Search::ApplicationController
   private
 
   def search_page_title
-    author_name = @author[:id] == 'all' ? '青空文庫' : @author[:name]
+    author_name = @author[:id] == 'all' ? t(:original_site, scope: [:search, :controllers, :books]) : @author[:name]
     title = if @category[:id] == 'all'
-              "#{author_name}の全作品"
+              t :all_works_for, scope: [:search, :controllers, :books], author: author_name
             else
-              "#{@category[:name]}で読める#{author_name}の#{@category[:title]}作品"
+              t :category_works_for, scope: [:search, :controllers, :books], author: author_name, category: @category[:name], category_title: @category[:title]
             end
-    title += "（#{params[:page]}ページ目）" if params[:page] && params[:page].to_i > 1
+    title += t(:page_in, scope: [:search, :controllers, :books], page: params[:page]) if params[:page] && params[:page].to_i > 1
     title
   end
 
   def search_page_description
     book_count = @books.total_count.to_s(:delimited)
     if @category[:id] == 'all'
-      "青空文庫で公開されている#{@author[:name]}の全作品#{book_count}篇を、おすすめ人気順で表示しています。"
+      t :description_all, scope: [:search, :controllers, :books], author: @author[:name], count: book_count
     else
-      "青空文庫で公開されている#{@author[:name]}の作品の中で、おおよその読了目安時間が「#{@category[:name]}」の#{@category[:title]}#{book_count}作品を、おすすめ人気順に表示しています。"
+      t :description_category, scope: [:search, :controllers, :books], author: @author[:name], count: book_count, category: @category[:name], category_title: @category[:title]
     end
+  end
+
+  def show_page_title
+    t :title, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @category[:name], category_title: @category[:title]
+  end
+
+  def show_page_description
+    t :description, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @category[:name], category_title: @category[:title], words_count: @book.words_count.to_s(:delimited)
+    # "『#{@book.title}』は青空文庫で公開されている#{@author[:name]}の#{@category[:title]}作品。#{@book.words_count.to_s(:delimited)}文字で、おおよそ#{@category[:name]}で読むことができます。"
   end
 end

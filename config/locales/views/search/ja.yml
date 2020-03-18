@@ -16,6 +16,7 @@ ja:
     books:
       index:
         author_name: 著者名
+        category_range: "（%{range}の作品を対象としています。読了時間は「%{words_per_minutes}字/分」の読書スピードで計算した場合の目安です）"
       show:
         popularity_unit: PV
         read_at_original: 青空文庫で読む
@@ -49,3 +50,7 @@ ja:
             著者名の表記は
             <a href="https://www.aozora.gr.jp/index_pages/person_all.html" target="_blank">青空文庫</a>
             に準拠していますので、漢字などの表記違いがないかご確認ください。
+    helpers:
+      characters_range_min: "〜%{range_to}文字"
+      characters_range_max: "%{range_from}文字〜"
+      characters_range_other: "%{range_from}〜%{range_to}文字"

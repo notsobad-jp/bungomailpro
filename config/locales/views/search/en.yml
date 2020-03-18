@@ -7,6 +7,7 @@ en:
     books:
       index:
         author_name: Author Name
+        category_range: "(showing books with %{range}. Minutes-to-read is calcurated by %{words_per_minutes} words per minutes)"
       show:
         popularity_unit: Downloads
         read_at_original: Read at Project Gutenberg
@@ -37,3 +38,7 @@ en:
         no_authors_found:
           html:
             No authors found. Please check the keyword and try searching again.
+    helpers:
+      characters_range_min: "less than %{range_to} words"
+      characters_range_max: "more than %{range_from} words"
+      characters_range_other: "between %{range_from} to %{range_to} words"

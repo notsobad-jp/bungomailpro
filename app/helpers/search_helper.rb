@@ -16,11 +16,11 @@ module SearchHelper
     when 'all'
       ""
     when 'flash'
-      "〜#{range_to}文字"
+      t :characters_range_min, scope: [:search, :helpers], range_to: range_to
     when 'novel'
-      "#{range_from}文字〜"
+      t :characters_range_max, scope: [:search, :helpers], range_from: range_from
     else
-      "#{range_from}〜#{range_to}文字"
+      t :characters_range_other, scope: [:search, :helpers], range_to: range_to, range_from: range_from
     end
   end
 
