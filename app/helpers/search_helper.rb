@@ -58,4 +58,9 @@ module SearchHelper
       "itemListElement": items
     }.to_json
   end
+
+  def locale_root_path
+    locale = "en" if I18n.locale == :en
+    search_root_path(locale: locale)
+  end
 end

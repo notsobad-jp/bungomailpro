@@ -13,6 +13,10 @@ ja:
         privacy_policy: プライバシーポリシー
         contacts: お問い合わせ
         company: 運営会社
+      meta:
+        default_title: ゾラサーチ by ブンゴウメール | 青空文庫の作品を読了時間で検索できるサービス
+        default_description: ゾラサーチは、青空文庫の作品を目安の読了時間で検索できるサービスです。
+        default_keywords: ゾラサーチ,読了時間,検索,青空文庫,無料,文学,古典,小説,ブンゴウメール,文豪,読書,毎日,毎月,継続,メール
     books:
       index:
         author_name: 著者名

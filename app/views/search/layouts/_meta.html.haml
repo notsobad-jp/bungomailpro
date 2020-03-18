@@ -5,11 +5,11 @@
 %link(rel="apple-touch-icon" sizes="128x128" href="/apple-touch-icon.png")
 %link(rel="apple-touch-icon-precomposed" sizes="128x128" href="/apple-touch-icon-precomposed.png")
 
-- title = current_page?(root_path) ? "ゾラサーチ by ブンゴウメール | 青空文庫の作品を読了時間で検索できるサービス" : "#{@meta_title} | ゾラサーチ"
+- title = current_page?(locale_root_path) ? t('.default_title') : "#{@meta_title} | #{t(:bungo_search, scope: [:search, :defaults])}"
 %title= title
-- description = current_page?(root_path) ? "ゾラサーチは、青空文庫の作品を目安の読了時間で検索できるサービスです。" : @meta_description
+- description = current_page?(root_path) ? t('.default_description') : @meta_description
 %meta(name="description" content="#{description}")
-%meta(name="keywords" content="#{@meta_keywords},ゾラサーチ,読了時間,検索,青空文庫,無料,文学,古典,小説,ブンゴウメール,文豪,読書,毎日,毎月,継続,メール")
+%meta(name="keywords" content="#{@meta_keywords},#{t('.default_keywords')}")
 
 - canonical_url = @meta_canonical_url || url_for(only_path: false)
 %link(rel="canonical" href="#{canonical_url}")
@@ -17,7 +17,7 @@
 - if @meta_noindex
   %meta(name="robots" content="noindex")
 
-%meta(property="og:site_name" content="ゾラサーチ")
+%meta(property="og:site_name" content="#{t(:bungo_search, scope: [:search, :defaults])}")
 %meta(property="og:title" content="#{title}")
 %meta(property="og:type" content="website")
 %meta(property="og:url" content="#{canonical_url}")

@@ -1,21 +1,12 @@
 class Search::PagesController < Search::ApplicationController
-  def show
-    @page_title = page_titles[params[:page].to_sym]
-    raise ActionController::RoutingError, request.url unless @page_title
+  def about
+    @page_title = t :about, scope: [:search, :controllers, :pages]
 
     @meta_title = @page_title
-    @meta_description = "#{@page_title}のページです。"
+    @meta_description = @page_title
     @meta_keywords = @page_title
     @breadcrumbs << { name: @page_title }
 
-    render params[:page]
-  end
-
-  private
-
-  def page_titles
-    {
-      about: t(:about, scope: [:search, :controllers, :pages])
-    }
+    render 'about'
   end
 end

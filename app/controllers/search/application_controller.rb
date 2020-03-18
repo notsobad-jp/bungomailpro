@@ -1,4 +1,5 @@
 class Search::ApplicationController < ApplicationController
+  include SearchHelper
   layout 'search/layouts/application'
   around_action :switch_locale
   before_action :set_author_and_category, :set_cache_control, :set_meta_tags
@@ -23,12 +24,12 @@ class Search::ApplicationController < ApplicationController
 
   def set_meta_tags
     super
-    @breadcrumbs << { name: 'TOP', url: root_path }
+    @breadcrumbs << { name: 'TOP', url: locale_root_path }
   end
 
   def switch_locale(&action)
-    locale = request.subdomains.first == "en" ? :en : :ja
-    Object.const_set "Book", Class.new(locale==:en ? GutenBook : AozoraBook)
+    locale = params[:locale] || I18n.default_locale
+    Object.const_set "Book", Class.new(locale == "en" ? GutenBook : AozoraBook)
     I18n.with_locale(locale, &action)
   end
 end

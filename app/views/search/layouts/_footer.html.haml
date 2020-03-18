@@ -6,7 +6,7 @@
       by
       = t :bungo_mail, scope: [:search, :defaults]
   %p
-    = link_to page_path(:about) do
+    = link_to about_page_path do
       %i.fas.fa-question-circle
       = t :about_this_site, scope: [:search, :defaults]
   .ui.horizontal.list
@@ -19,7 +19,7 @@
   %br
   %br
   .ui.horizontal.list
-    = link_to t(:bungo_search, scope: [:search, :defaults]), page_url(:about, subdomain: ''), class: 'item', target: '_blank'
+    = link_to t(:bungo_search, scope: [:search, :defaults]), locale_root_path, class: 'item'
     = link_to t('.terms'), page_url(:terms, subdomain: ''), class: 'item'
     = link_to t('.privacy_policy'), page_url(:privacy, subdomain: ''), class: 'item'
     = link_to t('.contacts'), 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'

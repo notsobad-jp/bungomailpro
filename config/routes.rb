@@ -78,22 +78,22 @@ Rails.application.routes.draw do
       get 'mypage' => "users#mypage", as: :mypage
 
       get '/' => 'pages#lp', as: :en_root
-      # root to: 'pages#lp'
     end
   end
 
   # ZORA SEARCH
-  constraints subdomain: ['search', 'en.search'] do
+  constraints subdomain: 'search' do
     scope module: :search do
-      resources :authors do
-        resources :categories do
-          resources :books
+      scope "(:locale)", locale: /ja|en/ do
+        resources :authors do
+          resources :categories do
+            resources :books
+          end
         end
+        get '/about' => "pages#about", as: :about_page
+        get '/:locale' => 'books#index'
+        get '/' => 'books#index', as: :search_root
       end
-      get '/:page' => "pages#show"
-
-      get '/' => 'books#index', as: :search_root
-      # root to: 'books#index'
     end
   end
 end
