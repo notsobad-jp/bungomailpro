@@ -29,7 +29,7 @@ class Search::ApplicationController < ApplicationController
 
   def switch_locale(&action)
     locale = params[:locale] || I18n.default_locale
-    Object.const_set "Book", Class.new(locale == "en" ? GutenBook : AozoraBook)
+    Object.const_set :Book, Class.new(locale == "en" ? GutenBook : AozoraBook) unless Object.const_defined?(:Book)
     I18n.with_locale(locale, &action)
   end
 end
