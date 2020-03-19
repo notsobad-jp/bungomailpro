@@ -89,7 +89,7 @@ class GutenBook < ApplicationRecord
     },
     longnovel: {
       id: 'longnovel',
-      name: '3h~',
+      name: 'over 3h',
       title: 'long novel',
       range_from: WORDS_PER_MINUTES * 180 + 1,
       range_to: 9999999,
