@@ -102,11 +102,6 @@ class GutenBook < ApplicationRecord
     ACCESS_RATINGS.find{|k,v| self.downloads >= k }.dig(1, type)
   end
 
-  # TODO:
-  def beginning
-    ""
-  end
-
   def gutenberg_book_url
     "https://www.gutenberg.org/ebooks/#{id}"
   end
