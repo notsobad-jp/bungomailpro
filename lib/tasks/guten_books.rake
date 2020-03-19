@@ -5,13 +5,15 @@ namespace :guten_books do
     end
   end
 
-  task count: :environment do |_task, _args|
-    GutenBook.where(words_count: 0).find_each do |guten_book|
+  task count_words_and_import_beginning: :environment do |_task, _args|
+    # GutenBook.where(words_count: 0).find_each do |guten_book|
+    GutenBook.all.find_each do |guten_book|
       begin
         next if (text = guten_book.text).nil?
         guten_book.update(
           words_count: text.words.length,
-          chars_count: text.gsub(/\s/, "").length
+          chars_count: text.gsub(/\s/, "").length,
+          beginning: text.sentences.first.truncate(200)
         )
         p "Counted [#{guten_book.id}] #{guten_book.title}"
       rescue => e

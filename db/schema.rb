@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_16_092714) do
+ActiveRecord::Schema.define(version: 2020_03_19_031728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2020_03_16_092714) do
     t.integer "chars_count", default: 0, null: false
     t.integer "author_id"
     t.string "category_id"
+    t.string "beginning"
     t.index ["author_id"], name: "index_guten_books_on_author_id"
     t.index ["category_id"], name: "index_guten_books_on_category_id"
   end
