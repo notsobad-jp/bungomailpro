@@ -65,20 +65,36 @@ class GutenBook < ApplicationRecord
     },
     novelette: {
       id: 'novelette',
-      name: '60min',
+      name: '1h',
       title: 'novelette',
       range_from: WORDS_PER_MINUTES * 30 + 1,
       range_to: WORDS_PER_MINUTES * 60,
       books_count: 6831
     },
+    shortnovel: {
+      id: 'shortnovel',
+      name: '2h',
+      title: 'short novel',
+      range_from: WORDS_PER_MINUTES * 60 + 1,
+      range_to: WORDS_PER_MINUTES * 120,
+      books_count: 10352
+    },
     novel: {
       id: 'novel',
-      name: 'over 1h',
+      name: '3h',
       title: 'novel',
-      range_from: WORDS_PER_MINUTES * 60 + 1,
+      range_from: WORDS_PER_MINUTES * 120 + 1,
+      range_to: WORDS_PER_MINUTES * 180,
+      books_count: 7632
+    },
+    longnovel: {
+      id: 'longnovel',
+      name: '3h~',
+      title: 'long novel',
+      range_from: WORDS_PER_MINUTES * 180 + 1,
       range_to: 9999999,
-      books_count: 26523
-    }
+      books_count: 8539
+    },
   }.freeze
 
 

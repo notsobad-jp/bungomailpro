@@ -21,7 +21,7 @@ namespace :guten_books do
   end
 
   desc 'カテゴリ別の冊数をカウントして保存'
-  task categorize_books: :environment do |_task, _args|
+  task categorize: :environment do |_task, _args|
     GutenBook::CATEGORIES.each do |category_id, category|
       next if category_id == :all
       books = GutenBook.where(words_count: [category[:range_from]..category[:range_to]])
