@@ -32,8 +32,9 @@
   %meta(property="og:image" content="#{@meta_image}")
   %meta(name="twitter:image:src" content="#{@meta_image}")
 - else
-  %meta(property="og:image" content="https://bungomail.com/assets/images/ogp_search.png")
-  %meta(name="twitter:image:src" content="https://bungomail.com/assets/images/ogp_search.png")
+  - ogp_image = I18n.locale == :en ? 'ogp_gutenberg.png' : 'ogp_search.png'
+  %meta(property="og:image" content="https://bungomail.com/assets/images/#{ogp_image}")
+  %meta(name="twitter:image:src" content="https://bungomail.com/assets/images/#{ogp_image}")
 
 
 %script(async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js")
