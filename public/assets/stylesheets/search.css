@@ -147,6 +147,10 @@ img.ui.image{display:block;}
 .ui.basic.blue.label{background:none #fff;color:#2185d0;border-color:#2185d0;}
 .ui.pink.label{background-color:#e03997;border-color:#e03997;color:#fff;}
 .ui.basic.pink.label{background:none #fff;color:#e03997;border-color:#e03997;}
+.ui.brown.label{background-color:#a5673f;border-color:#a5673f;color:#fff;}
+.ui.basic.brown.label{background:none #fff;color:#a5673f;border-color:#a5673f;}
+.ui.violet.label{background-color:#6435c9;border-color:#6435c9;color:#fff;}
+.ui.basic.violet.label{background:none #fff;color:#6435c9;border-color:#6435c9;}
 .ui.basic.label{background:none #fff;border:1px solid rgba(34,36,38,0.15);color:rgba(0,0,0,0.87);-webkit-box-shadow:none;box-shadow:none;}
 .ui.mini.label{font-size:.64285714rem;}
 .ui.label{font-size:.85714286rem;}

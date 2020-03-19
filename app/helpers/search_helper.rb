@@ -36,10 +36,10 @@ module SearchHelper
         'green'
       when 'novel'
         ''
-      # when 'shortnovel'
-      #   'yellow'
-      # when 'longnovel'
-      #   'black'
+      when 'shortnovel'
+        'violet'
+      when 'longnovel'
+        'brown'
     end
 
     content_tag(:div, category[:name], class: "ui basic #{color} mini label")

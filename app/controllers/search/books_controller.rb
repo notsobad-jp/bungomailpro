@@ -2,8 +2,8 @@ class Search::BooksController < Search::ApplicationController
   include SearchHelper
 
   def index
-    books = @category[:id] == 'all' ? Book.all : Book.where(category_id: @category[:id])
-    books = books.where(author_id: @author[:id]) if @author[:id] != 'all'
+    books = @category[:id] == 'all' ? Book.where.not(category_id: nil) : Book.where(category_id: @category[:id])
+    books = @author[:id] == 'all' ? books.where.not(author_id: nil) : books.where(author_id: @author[:id])
     @books = books.where.not(words_count: 0).sorted.order(:words_count).page(params[:page]).per(50)
 
     @meta_title = search_page_title
