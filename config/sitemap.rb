@@ -32,7 +32,7 @@ SitemapGenerator::Sitemap.create do
   end
 
   # 著者別・カテゴリ別一覧
-  @popular_authors = AozoraBook.limit(150).order('sum_access_count desc').group(:author_id).sum(:access_count)
+  @popular_authors = AozoraBook.popular_authors(150)
   AozoraBook.pluck(:author_id).uniq.each do |author_id|
     case @popular_authors[author_id] || 0
     when 300000 .. Float::INFINITY

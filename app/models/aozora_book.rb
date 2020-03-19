@@ -241,8 +241,8 @@ class AozoraBook < ApplicationRecord
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
     end
 
-    def popular_authors
-      self.limit(100).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
+    def popular_authors(limit=15)
+      self.limit(limit).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
     end
   end
 end
