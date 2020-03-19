@@ -4,6 +4,15 @@ en:
       application:
         tagline: Search free e-books by Minutes-to-Read from Project Gutenberg.
         tagline_sp: Search free e-books by Minutes-to-Read
+      sidebar:
+        popular_authors: Popular Authors
+        minutes_to_read: Minutes to Read
+        items: Items
+      footer:
+        terms: Terms
+        privacy_policy: Privacy Policy
+        contacts: Contacts
+        company: Company
       meta:
         default_title: Bungo Search | Search free e-books by Minutes-to-Read from Project Gutenberg
         default_description: Search free e-books by Minutes-to-Read from Project Gutenberg.
