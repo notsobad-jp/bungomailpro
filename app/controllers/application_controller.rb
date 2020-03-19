@@ -2,8 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include Pundit
 
-  before_action :set_meta_tags
-  before_action :redirect_to_custom_domain
+  before_action :set_meta_tags, :redirect_to_custom_domain
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from ActiveRecord::RecordNotFound,     with: :render_404

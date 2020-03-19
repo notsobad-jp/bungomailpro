@@ -1,8 +1,7 @@
 class Search::ApplicationController < ApplicationController
   include SearchHelper
   layout 'search/layouts/application'
-  around_action :switch_locale
-  before_action :set_author_and_category, :set_cache_control, :set_meta_tags
+  before_action :switch_locale, :set_author_and_category, :set_cache_control, :set_meta_tags
 
   private
 
@@ -27,9 +26,8 @@ class Search::ApplicationController < ApplicationController
     @breadcrumbs << { name: 'TOP', url: locale_root_path }
   end
 
-  def switch_locale(&action)
-    locale = params[:locale] || I18n.default_locale
-    Object.const_set :Book, Class.new(locale == "en" ? GutenBook : AozoraBook) unless Object.const_defined?(:Book)
-    I18n.with_locale(locale, &action)
+  def switch_locale
+    I18n.locale = params[:locale]&.to_sym || I18n.default_locale
+    Object.const_set :Book, Class.new(I18n.locale == :en ? GutenBook : AozoraBook)
   end
 end
