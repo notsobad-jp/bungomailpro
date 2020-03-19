@@ -5,25 +5,12 @@
 
     -# Google Tag Manager
     - if Rails.env.production?
-      :javascript
-        document.addEventListener('turbolinks:load', function(event) {
-          var url = event.data.url;
-          dataLayer.push({
-            'event':'pageView',
-            'virtualUrl': url
-          });
-        });
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer', "#{ENV['GOOGLE_TAG_MANAGER_ID']}");
-
+      %script(async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js")
 
   %body#search
     -# Google Tag Manager
-    %noscript
-      %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
+    - if Rails.env.production?
+      %amp-analytics(config="https://www.googletagmanager.com/amp.json?id=GTM-5W36WSW&gtm.url=SOURCE_URL" data-credentials="include")
 
     .ui.attached.borderless.menu
       = link_to locale_root_path, class: 'header item' do
