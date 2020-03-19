@@ -9,7 +9,7 @@ class Search::BooksController < Search::ApplicationController
     @meta_title = search_page_title
     @meta_description = search_page_description
     @meta_keywords = "#{@author[:name]},#{@category[:name]},#{@category[:title]}"
-    @meta_canonical_url = locale_root_path if @author[:id] == 'all' && @category[:id] == 'all'
+    @meta_canonical_url = locale_root_url if @author[:id] == 'all' && @category[:id] == 'all'
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
     category_name = @category[:id] == 'all' ? t(:all_works, scope: [:search, :controllers, :books]) : "#{@category[:title]}（#{@category[:name]}）"

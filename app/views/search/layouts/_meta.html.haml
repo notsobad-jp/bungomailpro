@@ -5,7 +5,7 @@
 %link(rel="apple-touch-icon" sizes="128x128" href="/apple-touch-icon.png")
 %link(rel="apple-touch-icon-precomposed" sizes="128x128" href="/apple-touch-icon-precomposed.png")
 
-- title = current_page?(locale_root_path) ? t('.default_title') : "#{@meta_title} | #{t(:bungo_search, scope: [:search, :defaults])}"
+- title = current_page?(locale_root_url) ? t('.default_title') : "#{@meta_title} | #{t(:bungo_search, scope: [:search, :defaults])}"
 %title= title
 - description = current_page?(root_path) ? t('.default_description') : @meta_description
 %meta(name="description" content="#{description}")

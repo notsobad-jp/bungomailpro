@@ -23,7 +23,7 @@ class Search::ApplicationController < ApplicationController
 
   def set_meta_tags
     super
-    @breadcrumbs << { name: 'TOP', url: locale_root_path }
+    @breadcrumbs << { name: 'TOP', url: locale_root_url }
   end
 
   def switch_locale

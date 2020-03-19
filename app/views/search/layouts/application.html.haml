@@ -13,7 +13,7 @@
       %amp-analytics(config="https://www.googletagmanager.com/amp.json?id=GTM-5W36WSW&gtm.url=SOURCE_URL" data-credentials="include")
 
     .ui.attached.borderless.menu
-      = link_to locale_root_path, class: 'header item' do
+      = link_to locale_root_url, class: 'header item' do
         - if I18n.locale == :ja
           %amp-img(src="/assets/images/logo_search.png" width="130" height="22")
         - else

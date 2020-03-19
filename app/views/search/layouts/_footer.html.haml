@@ -19,7 +19,7 @@
   %br
   %br
   .ui.horizontal.list
-    = link_to t(:bungo_search, scope: [:search, :defaults]), locale_root_path, class: 'item'
+    = link_to t(:bungo_search, scope: [:search, :defaults]), locale_root_url, class: 'item'
     = link_to t('.terms'), page_url(:terms, subdomain: ''), class: 'item'
     = link_to t('.privacy_policy'), page_url(:privacy, subdomain: ''), class: 'item'
     = link_to t('.contacts'), 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'item'

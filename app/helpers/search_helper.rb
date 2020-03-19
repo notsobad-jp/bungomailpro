@@ -63,8 +63,8 @@ module SearchHelper
     }.to_json
   end
 
-  def locale_root_path
+  def locale_root_url
     locale = "en" if I18n.locale == :en
-    search_root_path(locale: locale)
+    search_root_url(locale: locale)
   end
 end
