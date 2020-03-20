@@ -102,6 +102,11 @@ class GutenBook < ApplicationRecord
     ACCESS_RATINGS.find{|k,v| self.downloads >= k }.dig(1, type)
   end
 
+  def author_name
+    names = author.split(",")
+    names.length == 2 ? "#{names[1]} #{names[0]}" : author
+  end
+
   def gutenberg_book_url
     "https://www.gutenberg.org/ebooks/#{id}"
   end

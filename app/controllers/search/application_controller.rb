@@ -10,7 +10,7 @@ class Search::ApplicationController < ApplicationController
     @category = @categories[params[:category_id]&.to_sym || :all]
 
     @author = if ( params[:author_id] && book = Book.find_by(author_id: params[:author_id]))
-      { id: book.author_id, name: book.author.split(',').first.delete(' ') }
+      { id: book.author_id, name: book.author_name }
     else
       { id: 'all', name: t(:all_authors, scope: [:search, :controllers, :application]) }
     end
