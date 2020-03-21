@@ -13,7 +13,7 @@ namespace :guten_books do
         guten_book.update(
           words_count: text.words.length,
           chars_count: text.gsub(/\s/, "").length,
-          beginning: text.sentences.first.truncate(200)
+          beginning: text.first_sentence.truncate(200)
         )
         p "Counted [#{guten_book.id}] #{guten_book.title}"
       rescue => e

@@ -103,8 +103,18 @@ class GutenBook < ApplicationRecord
   end
 
   def author_name
-    names = author.split(",")
+    names = author.split(",").map(&:strip)
     names.length == 2 ? "#{names[1]} #{names[0]}" : author
+  end
+
+  def first_sentence
+    sentence = text.slice(0, 2000)
+    sentence = sentence.split(/Produced by .*/i).last
+    sentence = sentence.split(/by\s+#{author_name}.*$/i).last
+    sentence = sentence.split(/Proofreading Team.*$/i).last
+    sentence = sentence.split(/\[Transcriber's Note:.*publication was renewed\.\]/m).last
+    sentence = sentence.split(/\s*#{title}\s*$/i).last
+    sentence.sentences.first.strip.gsub(/\r\n/, " ")
   end
 
   def gutenberg_book_url
