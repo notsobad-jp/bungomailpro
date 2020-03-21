@@ -6,7 +6,7 @@
   - if @category[:id] != 'all'
     %br
     %small
-      = t '.category_range', range: characters_range(@category), words_per_minutes: Book::WORDS_PER_MINUTES
+      = t '.category_range', range: Book.category_range(@category[:id].to_sym), words_per_minutes: Book::WORDS_PER_MINUTES
 
 .ui.divider
 .ui.secondary.scrolling.menu

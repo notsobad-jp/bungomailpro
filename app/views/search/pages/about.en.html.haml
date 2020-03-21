@@ -10,7 +10,7 @@
     %b Time-to-Read.
     %br
     You can search like:
-    = link_to "Mark Twain's short-short works of 10min to read."
+    = link_to "Mark Twain's short-short works of 10min to read.", author_category_books_path(author_id: 53, category_id: :shortshort)
 %br
 
 %h3.ui.dividing.header
@@ -35,7 +35,7 @@
         %tr
           %td
             = category_label(category)
-          %td= characters_range(category)
+          %td= GutenBook.category_range(id)
 
 %br
 

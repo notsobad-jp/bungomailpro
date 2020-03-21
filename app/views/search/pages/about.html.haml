@@ -33,7 +33,7 @@
         - next if category[:id] == 'all'
         %tr
           %td= category_label(category)
-          %td= characters_range(category)
+          %td= AozoraBook.category_range(id)
 
   %p
     またこのサイト内では「〜12,000文字（=30分以内）」の作品を「短編」、

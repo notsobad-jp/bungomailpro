@@ -37,7 +37,7 @@ class GutenBook < ApplicationRecord
       name: 'all',
       range_from: 1,
       range_to: 9999999,
-      books_count: 42446
+      books_count: 42446,
     },
     flash: {
       id: 'flash',
@@ -45,7 +45,7 @@ class GutenBook < ApplicationRecord
       title: 'flash',
       range_from: 1,
       range_to: WORDS_PER_MINUTES * 5,
-      books_count: 1038
+      books_count: 1038,
     },
     shortshort: {
       id: 'shortshort',
@@ -53,7 +53,7 @@ class GutenBook < ApplicationRecord
       title: 'shortshort',
       range_from: WORDS_PER_MINUTES * 5 + 1,
       range_to: WORDS_PER_MINUTES * 10,
-      books_count: 1653
+      books_count: 1653,
     },
     short: {
       id: 'short',
@@ -190,6 +190,19 @@ class GutenBook < ApplicationRecord
 
 
   class << self
+    def category_range(category_id)
+      category = CATEGORIES[category_id]
+
+      case category_id
+      when :flash
+        "less than #{category[:range_to].to_s(:delimited)} words"
+      when :longnovel
+        "more than #{category[:range_from].to_s(:delimited)} words"
+      else
+        "#{category[:range_from].to_s(:delimited)} to #{category[:range_to].to_s(:delimited)} words"
+      end
+    end
+
     def import_rdf(id)
       file_path = "tmp/gutenberg/rdf/#{id}/pg#{id}.rdf"
       xml = File.open(file_path, &:read)

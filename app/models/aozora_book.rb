@@ -245,6 +245,19 @@ class AozoraBook < ApplicationRecord
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
     end
 
+    def category_range(category_id)
+      category = CATEGORIES[category_id]
+
+      case category_id
+      when :flash
+        "〜#{category[:range_to].to_s(:delimited)}文字"
+      when :novel
+        "#{category[:range_from].to_s(:delimited)}文字〜"
+      else
+        "#{category[:range_from].to_s(:delimited)}〜#{category[:range_to].to_s(:delimited)}文字"
+      end
+    end
+
     def popular_authors(limit=15)
       self.limit(limit).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
     end

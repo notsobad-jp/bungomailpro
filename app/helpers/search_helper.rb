@@ -8,22 +8,6 @@ module SearchHelper
     end
   end
 
-  def characters_range(category)
-    range_from = category[:range_from].to_s(:delimited)
-    range_to = category[:range_to].to_s(:delimited)
-
-    case category[:id]
-    when 'all'
-      ""
-    when 'flash'
-      t :characters_range_min, scope: [:search, :helpers], range_to: range_to
-    when 'novel'
-      t :characters_range_max, scope: [:search, :helpers], range_from: range_from
-    else
-      t :characters_range_other, scope: [:search, :helpers], range_to: range_to, range_from: range_from
-    end
-  end
-
   def category_label(category)
     color = case category[:id]
       when 'flash'
