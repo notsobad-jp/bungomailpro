@@ -25,7 +25,7 @@
       %tr.computer.only
         %td
           = link_to author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id) do
-            = book.title
+            = book.title.truncate(100)
             - if book.rights_reserved?
               %small
                 %i.far.fa-copyright
@@ -42,12 +42,12 @@
         %td
           = access_count_stars(book.access_rating(:stars))
         %td
-          %small= book.beginning.truncate(30)
+          %small= book.beginning.truncate(50)
 
       %tr.mobile.only.main
         %td
           = link_to author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id) do
-            = book.title
+            = book.title.truncate(75)
             - if book.rights_reserved?
               %small
                 %i.far.fa-copyright
