@@ -103,6 +103,7 @@ class GutenBook < ApplicationRecord
   end
 
   def author_name
+    return unless author.present?
     names = author.split(",").map(&:strip)
     names.length == 2 ? "#{names[1]} #{names[0]}" : author
   end
@@ -196,6 +197,11 @@ class GutenBook < ApplicationRecord
   # Gutenbergはファイル直リンクを禁止してるので、 詳細ページに飛ばす
   def original_file_url
     self.gutenberg_book_url
+  end
+
+  def update_beginning
+    return unless self.text
+    update(beginning: first_sentence.truncate(200))
   end
 
 

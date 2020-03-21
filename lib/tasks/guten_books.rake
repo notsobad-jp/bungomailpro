@@ -6,7 +6,6 @@ namespace :guten_books do
   end
 
   task count_words_and_import_beginning: :environment do |_task, _args|
-    # GutenBook.where(words_count: 0).find_each do |guten_book|
     GutenBook.all.find_each do |guten_book|
       begin
         next if (text = guten_book.text).nil?
@@ -21,6 +20,14 @@ namespace :guten_books do
       end
     end
   end
+
+  task update_beginning: :environment do |_task, _args|
+    GutenBook.all.find_each do |guten_book|
+      guten_book.delay.update_beginning
+    end
+  end
+
+
 
   desc 'カテゴリ別の冊数をカウントして保存'
   task categorize: :environment do |_task, _args|
