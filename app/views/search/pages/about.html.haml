@@ -32,7 +32,7 @@
       - @categories.each do |id, category|
         - next if category[:id] == 'all'
         %tr
-          %td= category[:name]
+          %td= category_label(category)
           %td= characters_range(category)
 
   %p

@@ -1,0 +1,101 @@
+%h1.ui.large.header
+  About Bungo Search
+
+%amp-img.mobile.only(src="/assets/images/ogp_gutenberg.png" width="480" height="240" layout="responsive")
+%amp-img.computer.only(src="/assets/images/ogp_gutenberg.png" width="480" height="240")
+
+.ui.basic.segment
+  %p
+    Bungo Search offers you searching free e-books on Project Gutenberg by
+    %b Time-to-Read.
+    %br
+    You can search like:
+    = link_to "Mark Twain's short-short works of 10min to read."
+%br
+
+%h3.ui.dividing.header
+  %i.far.fa-clock
+  Time-to-Read
+.ui.basic.segment
+  %p
+    Time-to-Read of each work is calculated by the average reading speed of
+    %b
+      = Book::WORDS_PER_MINUTES
+      words per minutes.
+  %p See details below:
+
+  %table.ui.unstackable.celled.table
+    %thead
+      %tr
+        %th Time-to-Read
+        %th Words
+    %tbody
+      - @categories.each do |id, category|
+        - next if category[:id] == 'all'
+        %tr
+          %td
+            = category_label(category)
+          %td= characters_range(category)
+
+%br
+
+%h3.ui.dividing.header
+  %i.far.fa-star
+  Popularity
+.ui.basic.segment
+  %p
+    The popularity of each work is calculated on the download count on Project Gutenberg.
+  %p See details below:
+
+  %table.ui.unstackable.celled.table
+    %thead
+      %tr
+        %th Popularity
+        %th Downloads Count
+    %tbody
+      %tr
+        %td= access_count_stars(3)
+        %td Over 51
+      %tr
+        %td= access_count_stars(2)
+        %td Between 16 to 50
+      %tr
+        %td= access_count_stars(1)
+        %td Between 1 to 15
+      %tr
+        %td= access_count_stars(0)
+        %td 0
+%br
+
+-# %h3.ui.dividing.header
+-#   %i.far.fa-envelope
+-#   ブンゴウメールについて
+-# %amp-img.mobile.only(src="/assets/images/ogp.png" width="480" height="240" layout="responsive")
+-# %amp-img.computer.only(src="/assets/images/ogp.png" width="480" height="240")
+-# .ui.basic.segment
+-#   = link_to root_url(subdomain: ''), target: '_blank', class: 'ui basic responsive button' do
+-#     ブンゴウメール公式サイト
+-#     &nbsp;
+-#     %small
+-#       %i.fas.fa-external-link-alt
+-#
+-# .ui.basic.segment
+-#   %p
+-#     ゾラサーチは、「ブンゴウメール」というサービスの姉妹サービスとして運営されています。
+-#   %p
+-#     「ブンゴウメール」は、青空文庫の作品を小分けにして毎日3分程度のメールで配信してくれるサービスです。
+-#     %br
+-#     忙しくて読書の時間を取れなくなった人や、ふだん文学作品を読まない人から反響を頂き、リリースから累計1万人近くのユーザーに登録いただいています。
+-#   %p
+-#     ゾラサーチは、ブンゴウメール開発の過程で青空文庫のテキストを解析したデータが大量にストックされたため、それを活用するプロジェクトとして提供しています。
+-#   %p
+-#     詳しい開発の背景などにもし興味をお持ちいただけたら、開発者ブログをご覧ください。
+-#   %p
+-#     = link_to 'https://blog.notsobad.jp', class: 'ui basic responsive button', target: '_blank' do
+-#       開発者ブログ
+-#       &nbsp;
+-#       %small
+-#         %i.fas.fa-external-link-alt
+-#
+-# %br
+-# %br
