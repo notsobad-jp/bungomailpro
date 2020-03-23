@@ -22,12 +22,10 @@ namespace :guten_books do
   end
 
   task update_beginning: :environment do |_task, _args|
-    GutenBook.all.find_each do |guten_book|
+    GutenBook.where.not(words_count: nil).find_each do |guten_book|
       guten_book.delay.update_beginning
     end
   end
-
-
 
   desc 'カテゴリ別の冊数をカウントして保存'
   task categorize: :environment do |_task, _args|

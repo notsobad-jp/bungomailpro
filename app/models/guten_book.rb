@@ -114,7 +114,7 @@ class GutenBook < ApplicationRecord
     sentence = sentence.split(/by\s+#{author_name}.*$/i).last
     sentence = sentence.split(/Proofreading Team.*$/i).last
     sentence = sentence.split(/\[Transcriber's Note:.*publication was renewed\.\]/m).last
-    sentence = sentence.split(/\s*#{title}\s*$/i).last
+    sentence = sentence.split(/^\s*#{title}\s*$/i).last
     sentence.sentences.first.strip.gsub(/\r\n/, " ")
   end
 
