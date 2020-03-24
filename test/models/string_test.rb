@@ -23,7 +23,9 @@ class StringTest < ActiveSupport::TestCase
   end
 
   test "sentences with special cases" do
-    assert_equal 2, "I like Jamaica. That's true.".sentences.count # 特殊ケース ca. の前に空白がないときは通常の扱い
+    assert_equal 2, "I like Jamaica. Mr. A said.".sentences.count # 特殊ケース ca. の前に空白がないときは通常の扱い
+    assert_equal 1, "This era(ca. 1900 - 2000) is old.".sentences.count
+    assert_equal 1, "This era ca. 1900 - 2000 is old.".sentences.count
     assert_equal 1, "J. J. Bean died.".sentences.count # 一文字 + . は区切らない
   end
 end
