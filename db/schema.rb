@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_19_031728) do
+ActiveRecord::Schema.define(version: 2020_03_28_072607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_031728) do
     t.integer "sender_id", null: false
     t.datetime "created_at", default: -> { "now()" }, null: false
     t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.string "twitter_share_url"
     t.index ["book_id"], name: "index_campaign_groups_on_book_id"
   end
 
@@ -181,12 +182,12 @@ ActiveRecord::Schema.define(version: 2020_03_19_031728) do
   end
 
   add_foreign_key "aozora_books", "categories"
-  add_foreign_key "book_assignments", "guten_books"
+  add_foreign_key "book_assignments", "guten_books", name: "book_assignments_guten_book_id_fkey"
   add_foreign_key "book_assignments", "users"
-  add_foreign_key "campaign_groups", "aozora_books", column: "book_id", on_update: :nullify, on_delete: :nullify
+  add_foreign_key "campaign_groups", "aozora_books", column: "book_id", name: "campaign_groups_book_id_fkey"
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "charges", "users"
   add_foreign_key "feeds", "book_assignments"
-  add_foreign_key "guten_books_subjects", "guten_books"
+  add_foreign_key "guten_books_subjects", "guten_books", name: "guten_books_subjects_guten_book_id_fkey"
   add_foreign_key "guten_books_subjects", "subjects"
 end

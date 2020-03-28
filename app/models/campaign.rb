@@ -58,7 +58,7 @@ class Campaign < ApplicationRecord
 
       =========================
       ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　
-      #{twitter_share_url}
+      #{campaign_group.twitter_share_url}
 
       ■Twitterでみんなの感想を見る：https://goo.gl/rgfoDv
       ■ブンゴウメール公式サイト：https://bungomail.com
@@ -92,20 +92,6 @@ class Campaign < ApplicationRecord
       html_content: html_content,
       plain_content: plain_content
     }
-  end
-
-  def twitter_share_url
-    long_url = CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{send_at.in_time_zone("Tokyo").month}月は%20%23#{campaign_group.book.author.delete(' ')}%20%23#{campaign_group.book.title}%20を配信中！")
-
-    uri = URI.parse("https://api-ssl.bitly.com/v3/shorten?access_token=#{ENV['BITLY_ACCESS_TOKEN']}&longUrl=#{long_url}")
-    https = Net::HTTP.new(uri.host, uri.port)
-    https.use_ssl = true
-    https.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    res = https.start {
-      https.get(uri.request_uri)
-    }
-    JSON.parse(res.body)['data']['url']
   end
 
   def unsubscribe_url
