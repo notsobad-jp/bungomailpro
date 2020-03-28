@@ -4,8 +4,8 @@ include ActionView::Helpers::TextHelper
 namespace :aozora_books do
   desc 'CSVファイルからbookデータをimport'
   task import: :environment do |_task, _args|
-    CSV.foreach('tmp/books.csv') do |fg|
-      next if $INPUT_LINE_NUMBER == 1 # 見出し行をスキップ
+    CSV.foreach('tmp/aozora_books.csv') do |fg|
+      next if fg[0] == '作品ID' # 見出し行をスキップ
       next if fg[23] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
 
       # ファイルID（古い作品では存在しない場合もあるので、そのときはnil）
