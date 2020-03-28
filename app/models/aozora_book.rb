@@ -51,7 +51,7 @@ class AozoraBook < ApplicationRecord
       name: 'すべて',
       range_from: 1,
       range_to: 9999999,
-      books_count: 15862
+      books_count: 15700
     },
     flash: {
       id: 'flash',
@@ -59,7 +59,7 @@ class AozoraBook < ApplicationRecord
       title: '短編',
       range_from: 1,
       range_to: 2000,
-      books_count: 4525
+      books_count: 4526
     },
     shortshort: {
       id: 'shortshort',
@@ -67,7 +67,7 @@ class AozoraBook < ApplicationRecord
       title: '短編',
       range_from: 2001,
       range_to: 4000,
-      books_count: 2573
+      books_count: 2571
     },
     short: {
       id: 'short',
@@ -83,7 +83,7 @@ class AozoraBook < ApplicationRecord
       title: '中編',
       range_from: 12001,
       range_to: 24000,
-      books_count: 2387
+      books_count: 2389
     },
     novel: {
       id: 'novel',
@@ -91,7 +91,7 @@ class AozoraBook < ApplicationRecord
       title: '長編',
       range_from: 24001,
       range_to: 9999999,
-      books_count: 1840
+      books_count: 1841
     }
   }.freeze
 

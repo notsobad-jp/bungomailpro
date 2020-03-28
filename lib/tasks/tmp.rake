@@ -27,4 +27,38 @@ namespace :tmp do
       p "Updated feed: #{next_feed.id}"
     end
   end
+
+  task crawl: :environment do |_task, _args|
+    include Rails.application.routes.url_helpers
+
+    def get(path)
+      uri = URI.join("https://search.bungomail.com", path)
+      http = Net::HTTP.new(uri.hostname, uri.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      req = Net::HTTP::Get.new(uri.request_uri)
+      http.request(req)
+    end
+
+    # 著者別・カテゴリ別一覧
+    @popular_authors = AozoraBook.popular_authors(150)
+    AozoraBook.pluck(:author_id).uniq.push("all").each do |author_id|
+      AozoraBook::CATEGORIES.each do |id, category|
+        path = author_category_books_path(author_id: author_id, category_id: category[:id])
+        res = get path
+        p "#{res.response.code}: #{path}"
+        sleep 1
+      end
+    end
+
+    # 作品詳細
+    AozoraBook.all.find_each do |book|
+      next unless book.category_id
+      path = author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id)
+      res = get path
+      p "#{res.response.code}: #{path}"
+      sleep 1
+    end
+
+  end
 end
