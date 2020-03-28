@@ -2,11 +2,11 @@ en:
   search:
     layouts:
       application:
-        tagline: Search free e-books by Minutes-to-Read from Project Gutenberg.
-        tagline_sp: Search free e-books by Minutes-to-Read
+        tagline: Search free e-books by Time-to-Read from Project Gutenberg.
+        tagline_sp: Search free e-books by Time-to-Read
       sidebar:
         popular_authors: Popular Authors
-        minutes_to_read: Minutes to Read
+        minutes_to_read: Time to Read
         items: Items
       footer:
         terms: Terms
@@ -14,13 +14,13 @@ en:
         contacts: Contacts
         company: Company
       meta:
-        default_title: Bungo Search | Search free e-books by Minutes-to-Read from Project Gutenberg
-        default_description: Search free e-books by Minutes-to-Read from Project Gutenberg.
+        default_title: Bungo Search | Search free e-books by Time-to-Read from Project Gutenberg
+        default_description: Search free e-books by Time-to-Read from Project Gutenberg.
         default_keywords: BungoSearch,BungoMail,time to read,minutes to read,free,e-book,Project Gutenberg,Literature,novels,english
     books:
       index:
         author_name: Author Name
-        category_range: "(showing books with %{range}. Minutes-to-read is calcurated by %{words_per_minutes} words per minutes)"
+        category_range: "(showing books with %{range}. Time-to-read is calcurated by %{words_per_minutes} words per minutes)"
       show:
         popularity_unit: Downloads
         read_at_original: Read at Project Gutenberg

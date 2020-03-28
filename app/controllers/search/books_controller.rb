@@ -42,7 +42,7 @@ class Search::BooksController < Search::ApplicationController
     title = if @category[:id] == 'all'
               t :all_works_for, scope: [:search, :controllers, :books], author: author_name
             else
-              t :category_works_for, scope: [:search, :controllers, :books], author: author_name, category: @category[:name], category_title: @category[:title]
+              t :category_works_for, scope: [:search, :controllers, :books], author: author_name, category: @category[:name], category_title: @category[:title].capitalize
             end
     title += t(:page_in, scope: [:search, :controllers, :books], page: params[:page]) if params[:page] && params[:page].to_i > 1
     title

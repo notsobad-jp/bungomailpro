@@ -50,7 +50,7 @@ class GutenBook < ApplicationRecord
     shortshort: {
       id: 'shortshort',
       name: '10min',
-      title: 'shortshort',
+      title: 'short short',
       range_from: WORDS_PER_MINUTES * 5 + 1,
       range_to: WORDS_PER_MINUTES * 10,
       books_count: 1653,
