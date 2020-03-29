@@ -51,4 +51,9 @@ module SearchHelper
     locale = "en" if I18n.locale == :en
     search_root_url(locale: locale)
   end
+
+  # 書き出しのtruncate文字数をlocaleで変える
+  def truncated_beginning(beginning)
+    beginning.truncate( (I18n.locale == :en) ? 100 : 50 )
+  end
 end

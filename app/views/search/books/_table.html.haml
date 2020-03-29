@@ -42,7 +42,7 @@
         %td
           = access_count_stars(book.access_rating(:stars))
         %td
-          %small= book.beginning.truncate(50)
+          %small= truncated_beginning(book.beginning)
 
       %tr.mobile.only.main
         %td
