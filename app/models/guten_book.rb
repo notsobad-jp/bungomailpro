@@ -109,13 +109,13 @@ class GutenBook < ApplicationRecord
   end
 
   def first_sentence
-    sentence = text.slice(0, 2000)
+    sentence = text.slice(0, 5000)
     sentence = sentence.split(/Produced by .*/i).last
     sentence = sentence.split(/Proofreading Team.*$/i).last
     sentence = sentence.split(/\[Transcriber's Note:.*publication was renewed\.\]/m).last
     sentence = sentence.split(/\[?_?All rights reserved\._?\]?/i).last
-    sentence = sentence.split(/by\s+.*#{author_name}.*$/i).last
-    sentence = sentence.split(/^\s*#{title}\s*$/i).last
+    sentence = sentence.split(/by\s+.*#{author_name}.*$/i).last # by + 著者名。微妙に表記ゆれがあるので前後に他の文字が入っても区切る
+    sentence = sentence.split(/^\s*#{title}\s*$/i).last # タイトル＋空白だけの行があればそこで区切る
     sentence.sentences.first.strip.gsub(/\r\n/, " ")
   end
 
