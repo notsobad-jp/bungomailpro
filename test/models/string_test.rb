@@ -27,5 +27,6 @@ class StringTest < ActiveSupport::TestCase
     assert_equal 1, "This era(ca. 1900 - 2000) is old.".sentences.count
     assert_equal 1, "This era ca. 1900 - 2000 is old.".sentences.count
     assert_equal 1, "J. J. Bean died.".sentences.count # 一文字 + . は区切らない
+    assert_equal 2, "I know (If you know it, please let us know.) Introduction ends.".sentences.count # 「.)」も区切り対象
   end
 end

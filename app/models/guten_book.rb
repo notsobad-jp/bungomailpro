@@ -111,9 +111,10 @@ class GutenBook < ApplicationRecord
   def first_sentence
     sentence = text.slice(0, 2000)
     sentence = sentence.split(/Produced by .*/i).last
-    sentence = sentence.split(/by\s+#{author_name}.*$/i).last
     sentence = sentence.split(/Proofreading Team.*$/i).last
     sentence = sentence.split(/\[Transcriber's Note:.*publication was renewed\.\]/m).last
+    sentence = sentence.split(/\[?_?All rights reserved\._?\]?/i).last
+    sentence = sentence.split(/by\s+.*#{author_name}.*$/i).last
     sentence = sentence.split(/^\s*#{title}\s*$/i).last
     sentence.sentences.first.strip.gsub(/\r\n/, " ")
   end
@@ -126,13 +127,14 @@ class GutenBook < ApplicationRecord
     "https://www.gutenberg.org/cache/epub/#{id}/pg#{id}.txt"
   end
 
-  # 加工前のテキストファイル。本番はGutenbergから、それ以外ではローカルのtmpファイルから返す
+  # 加工前のテキストファイル。本番はGutenbergから、それ以外ではlocalファイルから返す
   def raw_text
-    local_file = "tmp/gutenberg/text/#{id}/pg#{id}.txt.utf8.gzip"
-    if File.exist?(local_file)
-      Zlib::GzipReader.new(open(local_file)).read
-    else
+    if Rails.env.production?
       open(gutenberg_text_url).read
+    else
+      # developmentではtmp、testではtest/fixturesのファイルを返す
+      local_file = Rails.env.development? ? "tmp/gutenberg/text/#{id}/pg#{id}.txt.utf8.gzip" : "test/fixtures/files/gutenberg/pg#{id}.txt.utf8.gzip"
+      Zlib::GzipReader.new(open(local_file)).read
     end
   end
 

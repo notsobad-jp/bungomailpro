@@ -28,20 +28,11 @@
 #  fk_rails_...  (category_id => categories.id)
 #
 
-guten_book1:
-  title: 走れメロス
-  author: 太宰さん
-  rights_reserved: false
-  language: en
-
-guten_book2:
-  title: 走り終わっためろす
-  author: 芥川さん
-  rights_reserved: false
-  language: en
-
-guten_book3:
-  title: もう走れないメロス
-  author: 夏目さん
-  rights_reserved: false
-  language: en
+8:
+  id: 8
+  title: Abraham Lincoln's Second Inaugural Address
+  author: Lincoln, Abraham
+26:
+  id: 26
+  title: Paradise Lost
+  author: Milton, John
