@@ -46,5 +46,5 @@ end
 
 group :production do
   gem 'scout_apm'
-  gem 'hiredis'
+  gem 'redis'
 end

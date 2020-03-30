@@ -101,7 +101,6 @@ GEM
       html2haml (>= 1.0.1)
       railties (>= 5.1)
     hashdiff (1.0.1)
-    hiredis (0.6.3)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -209,6 +208,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.1.3)
     rexml (3.2.4)
     rubocop (0.80.1)
       jaro_winkler (~> 1.5.1)
@@ -292,7 +292,6 @@ DEPENDENCIES
   delayed_job_active_record
   dotenv-rails
   haml-rails (~> 2.0)
-  hiredis
   jbuilder (~> 2.5)
   kaminari
   letter_opener
@@ -306,6 +305,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 6.0)
   rails-i18n
+  redis
   rubocop
   sass-rails (~> 5.0)
   scout_apm
