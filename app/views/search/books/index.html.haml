@@ -32,7 +32,33 @@
 .ui.divider
 %br
 
-= render partial: 'table', locals: { books: @books, author: @author, category: @category }
+%small
+  = t('.search_offset', from: @books.offset_value + 1, to: @books.offset_value + @books.length, count: @books.total_count.to_s(:delimited))
+%table.ui.fixed.unstackable.table
+  %thead
+    %tr.computer.only
+      %th.five.wide= t :title, scope: [:search, :defaults]
+      %th.four.wide= t :author, scope: [:search, :defaults]
+      %th.four.wide= t :minutes_to_read, scope: [:search, :defaults]
+      %th.two.wide= t :popularity, scope: [:search, :defaults]
+      %th.five.wide.computer.only= t :beginning, scope: [:search, :defaults]
+
+    %tr.mobile.only
+      %th.six.wide
+        %small= t :title, scope: [:search, :defaults]
+      %th.six.wide
+        %small= t :author, scope: [:search, :defaults]
+      %th.nine.wide
+        %small= t :minutes_to_read, scope: [:search, :defaults]
+        %small.right.floated= t :popularity, scope: [:search, :defaults]
+  %tbody
+    - if @books.blank?
+      %tr
+        %td(colspan="3")= t '.no_results'
+    = render partial: 'raw', collection: @books, as: :book, locals: { category: @category, author: @author }, cached: true
+
+%small
+  = t '.copyright_reserved.html'
 
 .ui.basic.center.aligned.segment
   = paginate @books, window: 2
