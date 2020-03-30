@@ -257,7 +257,7 @@ class GutenBook < ApplicationRecord
     end
 
     def popular_authors(limit=15)
-      self.limit(limit).where.not(author: nil).order('sum_downloads desc').group(:author, :author_id).sum(:downloads)
+      self.limit(limit).where.not(author: [nil, 'Various', 'Anonymous']).order('sum_downloads desc').group(:author, :author_id).sum(:downloads)
     end
   end
 end
