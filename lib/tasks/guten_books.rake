@@ -36,4 +36,23 @@ namespace :guten_books do
       p "Finished #{category[:id]}: #{books.count} books"
     end
   end
+
+  task ngsl: :environment do |_task, _args|
+    ngsl_words = []
+    CSV.foreach('tmp/ngsl.csv') do |fg|
+      ngsl_words << fg[0]
+    end
+    # p ngsl_words
+    [14838, 1063, 12116, 3206].each do |id|
+      book = GutenBook.find(id)
+      book_words = book.text.unique_words
+
+      dup_count = (book_words & ngsl_words).count
+      ratio = sprintf("%.2f", dup_count/book_words.count.to_f * 100)
+      p "--- #{book.title} by #{book.author} ---"
+      p "Total: #{book_words.count}, Duplicate: #{dup_count}, Ratio: #{ratio}%"
+      p book_words - ngsl_words
+      p ""
+    end
+  end
 end

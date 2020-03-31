@@ -1,7 +1,34 @@
 class String
   # 文字列を単語単位に分割した配列で返す
   def words
-    self.delete("\r\n").scan(/[\w.\/:;'-]+/)
+    # self.delete("\r\n").scan(/[\w.\/:;'-]+/)
+
+    pg = PragmaticTokenizer::Tokenizer.new(punctuation: :none)
+    pg.tokenize(self)
+  end
+
+  def unique_words
+    # words = []
+    # sentences.map{|s|
+    #   s.gsub(/^([A-Z])/) {|string| string.downcase }  # 行頭の大文字を小文字化（それ以外の大文字始まりを固有名詞としてスキップするため）
+    #   words << s.scan(/[\s.!?:;'-]([a-z]{3,})[\s.!?:;'-]/)  # 「空白文字 + 小文字で3文字以上 + 空白文字」を単語として抽出
+    # }
+    # lem = Lemmatizer.new
+    # words.flatten.uniq.map{|w| lem.lemma w}.uniq
+
+    pt = PragmaticTokenizer::Tokenizer.new(
+      filter_languges: [:en],
+      punctuation: :none, # Removes all punctuation from the result.
+      minimum_length: 3,
+      downcase: true,
+      clean: true, # Removes tokens consisting of only hypens, underscores, or periods as well as some special characters (®, ©, ™). Also removes long tokens or tokens with a backslash.
+      numbers: :none, # Removes all tokens that include a number from the result (including Roman numerals)
+      expand_contractions: true, # Expands contractions (i.e. i'll -> i will).
+      long_word_split: 3, # The number of characters after which a token should be split at hypens or underscores.
+      classic_filter: true, # Removes dots from acronyms and 's from the end of tokens.
+    )
+    lem = Lemmatizer.new
+    pt.tokenize(self).uniq.map{|w| lem.lemma w}.uniq
   end
 
   # 文字列をセンテンス単位に分割した配列で返す

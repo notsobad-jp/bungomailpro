@@ -25,6 +25,9 @@ gem 'stripe'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pragmatic_tokenizer'
+  gem 'pragmatic_segmenter'
+  gem 'lemmatizer'
 end
 
 group :development do
