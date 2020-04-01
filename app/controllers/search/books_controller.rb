@@ -11,6 +11,11 @@ class Search::BooksController < Search::ApplicationController
     @meta_keywords = "#{@author[:name]},#{@category[:name]},#{@category[:title]}"
     @meta_canonical_url = locale_root_url if @author[:id] == 'all' && @category[:id] == 'all'
 
+    if I18n.locale == :ja && @author[:id] != 'all'
+      text = @category[:id] == 'all' ? "青空文庫で読める%0A#{@author[:name]}の%0Aおすすめ作品" : "#{@category[:name]}で読める%0A#{@author[:name]}の%0Aおすすめ#{@category[:title]}作品"
+      @meta_image = "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
+    end
+
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
     category_name = @category[:id] == 'all' ? t(:all_works, scope: [:search, :controllers, :books]) : "#{@category[:title]}（#{@category[:name]}）"
     @breadcrumbs << { name: category_name }
