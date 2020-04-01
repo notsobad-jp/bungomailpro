@@ -63,6 +63,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.3
 .ui.basic.button:active{background:#f8f8f8;color:rgba(0,0,0,0.9);-webkit-box-shadow:0 0 0 1px rgba(0,0,0,0.15) inset,0 1px 4px 0 rgba(34,36,38,0.15) inset;box-shadow:0 0 0 1px rgba(0,0,0,0.15) inset,0 1px 4px 0 rgba(34,36,38,0.15) inset;}
 .ui.circular.button{border-radius:10em;}
 .ui.circular.button>.icon{width:1em;vertical-align:baseline;}
+.ui.mini.button { padding: 0.5em 1em; font-size: 0.8rem; }
 .ui.container{display:block;max-width:100%;}
 @media only screen and (max-width: 767px){
 .ui.container{width:auto;margin-left:1em;margin-right:1em;}
@@ -337,6 +338,8 @@ footer{padding:50px 10px;}
 footer.ui.segment{color:rgba(255,255,255,0.6);margin-bottom:0;}
 footer a{color:#fff;}
 .right.floated{float:right;}
+.left.floated{float:left;}
+.clear-float{float:clear;}
 #breadcrumb{margin:1rem 0;}
 @media only screen and (max-width: 767px){
 .computer.only{display:none;}
