@@ -11,8 +11,14 @@ class Search::BooksController < Search::ApplicationController
     @meta_keywords = "#{@author[:name]},#{@category[:name]},#{@category[:title]}"
     @meta_canonical_url = locale_root_url if @author[:id] == 'all' && @category[:id] == 'all'
 
-    if I18n.locale == :ja && @author[:id] != 'all'
-      text = @category[:id] == 'all' ? "青空文庫で読める%0A#{@author[:name]}の%0Aおすすめ作品" : "#{@category[:name]}で読める%0A#{@author[:name]}の%0Aおすすめ#{@category[:title]}作品"
+    if I18n.locale == :ja && !(@author[:id]=='all' && @category[:id]=='all')
+      text = if @author[:id] == 'all'
+        "#{@category[:name]}で読める%0A青空文庫の%0Aおすすめ#{@category[:title]}作品"
+      elsif @category[:id] == 'all'
+        "青空文庫で読める%0A#{@author[:name]}の%0Aおすすめ作品"
+      else
+        "#{@category[:name]}で読める%0A#{@author[:name]}の%0Aおすすめ#{@category[:title]}作品"
+      end
       @meta_image = "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
     end
 
@@ -33,6 +39,11 @@ class Search::BooksController < Search::ApplicationController
     @meta_title = show_page_title
     @meta_description = show_page_description
     @meta_keywords = [@book.title, @author[:name], @category[:title], @category[:name]].join(",")
+
+    if I18n.locale == :ja
+      text = "『#{@book.title}』%0A#{@author[:name]}%0A（読了目安：#{@category[:name]}）"
+      @meta_image = "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
+    end
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')}
     category_name = "#{@category[:title]}（#{@category[:name]}）"
