@@ -359,6 +359,9 @@ h1.ui.header .sub.header{font-size:1.14285714rem;}
 .ui.message{position:relative;min-height:1em;margin:1em 0;background:#f8f8f9;padding:1em 1.5em;line-height:1.4285em;color:rgba(0,0,0,0.87);-webkit-transition:opacity .1s ease,color .1s ease,background .1s ease,-webkit-box-shadow .1s ease;transition:opacity .1s ease,color .1s ease,background .1s ease,-webkit-box-shadow .1s ease;transition:opacity .1s ease,color .1s ease,background .1s ease,box-shadow .1s ease;transition:opacity .1s ease,color .1s ease,background .1s ease,box-shadow .1s ease,-webkit-box-shadow .1s ease;border-radius:.28571429rem;-webkit-box-shadow:0 0 0 1px rgba(34,36,38,0.22) inset,0 0 0 0 transparent;box-shadow:0 0 0 1px rgba(34,36,38,0.22) inset,0 0 0 0 transparent;}
 .ui.warning.message{background-color:#fffaf3;color:#573a08;}
 .ui.warning.message{-webkit-box-shadow:0 0 0 1px #c9ba9b inset,0 0 0 0 transparent;box-shadow:0 0 0 1px #c9ba9b inset,0 0 0 0 transparent;}
+.ui.info.message { background-color: #f8ffff; color: #276f86; }
+.ui.attached.info.message, .ui.info.message { -webkit-box-shadow: 0 0 0 1px #a9d5de inset, 0 0 0 0 transparent; box-shadow: 0 0 0 1px #a9d5de inset, 0 0 0 0 transparent; }
+.ui.attached.message { margin: -1px; border-radius: 0; }
 .ui.message{font-size:1em;}
 
 .ui.action.input>.button{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:0 0 auto;}

@@ -15,7 +15,7 @@
     .ui.attached.borderless.menu
       = link_to locale_root_url, class: 'header item' do
         - if I18n.locale == :ja
-          %amp-img(src="/assets/images/logo_search.png" width="130" height="22")
+          %amp-img(src="/assets/images/logo_search.png" width="194" height="22")
         - else
           Bungo Search
       = link_to root_url(subdomain: ''), target: '_blank', class: 'item computer only' do
@@ -31,6 +31,11 @@
 
     - if current_page?(root_path)
       .ui.attached.mobile.only.segment= t '.tagline_sp'
+
+    - if I18n.locale == :ja
+      .ui.attached.info.message
+        【お知らせ】「ゾラサーチ」は、2020年4月1日より「ブンゴウサーチ」に名称変更いたしました！
+
 
     .ui.container
       .ui.stackable.grid

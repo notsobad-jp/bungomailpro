@@ -18,4 +18,4 @@ ja:
           title: "%{author}『%{title}』 - %{category}で読める%{category_title}"
           description: "『%{title}』は青空文庫で公開されている%{author}の%{category_title}作品。%{words_count}文字で、おおよそ%{category}で読むことができます。"
       pages:
-        about: ゾラサーチとは
+        about: ブンゴウサーチとは
