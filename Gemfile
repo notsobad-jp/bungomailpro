@@ -22,12 +22,12 @@ gem 'activerecord-import'
 gem 'kaminari'
 gem 'rails-i18n'
 gem 'stripe'
+gem 'pragmatic_tokenizer'
+gem 'pragmatic_segmenter'
+gem 'lemmatizer'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'pragmatic_tokenizer'
-  gem 'pragmatic_segmenter'
-  gem 'lemmatizer'
 end
 
 group :development do
