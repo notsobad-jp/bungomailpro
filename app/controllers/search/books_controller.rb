@@ -34,7 +34,7 @@ class Search::BooksController < Search::ApplicationController
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')}
     category_name = "#{@category[:title]}（#{@category[:name]}）"
     @breadcrumbs << { name: category_name, url: author_category_books_url(author_id: @author[:id], category_id: @category[:id]) }
-    @breadcrumbs << { name: @book.title }
+    @breadcrumbs << { name: @book.title.truncate(50) }
   end
 
   private
@@ -68,7 +68,7 @@ class Search::BooksController < Search::ApplicationController
     elsif @category[:id] == 'all'
       t :cloudinary_category_all, scope: [:search, :controllers, :books, :index], author: @author[:name]
     else
-      t :cloudinary, scope: [:search, :controllers, :books, :index], author: @author[:name], category: @category[:name], category_title: @category[:title]
+      t :cloudinary, scope: [:search, :controllers, :books, :index], author: @author[:name], category: @category[:name], category_title: @category[:title].capitalize
     end
 
     "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
@@ -83,7 +83,7 @@ class Search::BooksController < Search::ApplicationController
   end
 
   def show_meta_image
-    text = t :cloudinary, scope: [:search, :controllers, :books, :show], author: @author[:name], category: @category[:name], book: @book.title
+    text = t :cloudinary, scope: [:search, :controllers, :books, :show], author: @author[:name], category: @category[:name], book: @book.title.truncate(30)
     "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
   end
 end

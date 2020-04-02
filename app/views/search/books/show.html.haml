@@ -54,9 +54,9 @@
     - @author_books.each do |book|
       = link_to author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id), class: 'ui card' do
         .content
-          .header= book.title
-          .meta= book.author_name
-          .description= book.beginning.truncate(15)
+          .header= book.title.truncate(50)
+          .meta.ellipsis= book.author_name
+          .description.ellipsis= book.beginning
         .extra.content
           .right.floated
             = category_label(book.category)
@@ -71,9 +71,9 @@
     - @category_books.each do |book|
       = link_to author_category_book_path(author_id: book.author_id, category_id: book.category_id, id: book.id), class: 'ui card' do
         .content
-          .header= book.title
-          .meta= book.author_name
-          .description= book.beginning.truncate(15)
+          .header= book.title.truncate(50)
+          .meta.ellipsis= book.author_name
+          .description.ellipsis= book.beginning
         .extra.content
           .right.floated
             = category_label(book.category)
