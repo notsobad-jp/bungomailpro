@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_28_072607) do
+ActiveRecord::Schema.define(version: 2020_04_02_075137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -29,8 +29,12 @@ ActiveRecord::Schema.define(version: 2020_03_28_072607) do
     t.integer "access_count", default: 0
     t.string "category_id"
     t.boolean "rights_reserved", default: false
+    t.string "first_edition"
+    t.integer "published_at"
+    t.string "character_type"
     t.index ["access_count"], name: "index_aozora_books_on_access_count"
     t.index ["category_id"], name: "index_aozora_books_on_category_id"
+    t.index ["published_at"], name: "index_aozora_books_on_published_at"
     t.index ["words_count"], name: "index_aozora_books_on_words_count"
   end
 
@@ -136,8 +140,14 @@ ActiveRecord::Schema.define(version: 2020_03_28_072607) do
     t.integer "author_id"
     t.string "category_id"
     t.string "beginning"
+    t.integer "unique_words_count", default: 0
+    t.integer "ngsl_words_count", default: 0
+    t.float "ngsl_ratio"
+    t.integer "birth_year"
+    t.integer "death_year"
     t.index ["author_id"], name: "index_guten_books_on_author_id"
     t.index ["category_id"], name: "index_guten_books_on_category_id"
+    t.index ["ngsl_ratio"], name: "index_guten_books_on_ngsl_ratio"
   end
 
   create_table "guten_books_subjects", id: false, force: :cascade do |t|

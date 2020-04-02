@@ -13,22 +13,49 @@ namespace :aozora_books do
       author_id = fg[14].to_i unless match
 
       # 同じ作品が複数行ある（＝著者が複数）場合、2回目以降は著者を追記する
-      if (book = AozoraAozoraBook.find_by(id: fg[0].to_i))
+      if (book = AozoraBook.find_by(id: fg[0].to_i))
         author = "#{book.author}, #{fg[15]} #{fg[16]}"
         book.update!(author: author)
         puts "[著者追加] #{fg[0]} #{fg[1]}: #{fg[15]} #{fg[16]}(#{fg[14]})"
       # 未登録の作品ならレコード作成
       else
+        published_match = fg[7].presence&.match(/\D((?>18|19)\d{2})\D/) # 18xxか19xxの4桁数字にのみマッチさせる
         AozoraBook.create!(
           id: fg[0].to_i,
           title: fg[1],
           author: "#{fg[15]} #{fg[16]}",
           author_id: author_id,
           file_id: file_id,
-          rights_reserved: fg[10] == 'あり'
+          rights_reserved: fg[10] == 'あり',
+          first_edition: fg[7].presence,
+          published_at: published_match ? published_match[1] : nil,
+          character_type: fg[9].presence,
         )
         puts "[#{fg[0]}] #{fg[10]}, #{fg[23]}, #{fg[1]}: #{fg[15]} #{fg[16]}(#{fg[14]}), #{file_id}"
       end
+    end
+  end
+
+  # 既存のレコードをCSVからアップデート（著者タイプで同じ本が複数レコードあるので注意）
+  task update: :environment do |_task, _args|
+    CSV.foreach('tmp/aozora_books.csv') do |fg|
+      next if fg[0] == '作品ID' # 見出し行をスキップ
+      next if fg[23] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
+
+      # ファイルID（古い作品では存在しない場合もあるので、そのときはnil）
+      match, author_id, file_id = fg[50].match(%r{https?://www\.aozora\.gr\.jp/cards/(\d+)/files/\d+_(\d+).html}).to_a
+      author_id = fg[14].to_i unless match
+
+      book = AozoraBook.find_by(id: fg[0].to_i)
+      next unless book
+
+      published_match = fg[7].presence&.match(/\D((?>18|19)\d{2})\D/) # 18xxか19xxの4桁数字にのみマッチさせる
+      book.update!(
+        first_edition: fg[7].presence,
+        published_at: published_match ? published_match[1] : nil,
+        character_type: fg[9].presence,
+      )
+      puts "[Updated] #{fg[0]} #{fg[1]}: #{fg[7]} #{published_match} #{fg[9]}"
     end
   end
 

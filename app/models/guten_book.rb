@@ -234,6 +234,8 @@ class GutenBook < ApplicationRecord
       language = doc.xpath('//dcterms:language/rdf:Description/rdf:value').first.try(:text)
       downloads = doc.xpath('//pgterms:downloads').first.try(:text)
       subject_names = doc.xpath('//dcterms:subject/rdf:Description/rdf:value').map{|value| value.text.split('--').map(&:strip) }.flatten.uniq
+      birth_year = doc.xpath('//dcterms:creator/pgterms:agent/pgterms:birthdate').first.try(:text)
+      death_year = doc.xpath('//dcterms:creator/pgterms:agent/pgterms:deathdate').first.try(:text)
 
       subjects = []
       subject_names.each do |name|
@@ -250,6 +252,8 @@ class GutenBook < ApplicationRecord
         language: language,
         downloads: downloads,
         subjects: subjects,
+        birth_year: birth_year,
+        death_year: death_year,
       )
       p "Imported: [#{id}] #{title}"
     rescue => e
