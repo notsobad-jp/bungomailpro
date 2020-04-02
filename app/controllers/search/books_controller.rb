@@ -10,17 +10,7 @@ class Search::BooksController < Search::ApplicationController
     @meta_description = search_page_description
     @meta_keywords = "#{@author[:name]},#{@category[:name]},#{@category[:title]}"
     @meta_canonical_url = locale_root_url if @author[:id] == 'all' && @category[:id] == 'all'
-
-    if I18n.locale == :ja && !(@author[:id]=='all' && @category[:id]=='all')
-      text = if @author[:id] == 'all'
-        "#{@category[:name]}で読める%0A青空文庫の%0Aおすすめ#{@category[:title]}作品"
-      elsif @category[:id] == 'all'
-        "青空文庫で読める%0A#{@author[:name]}の%0Aおすすめ作品"
-      else
-        "#{@category[:name]}で読める%0A#{@author[:name]}の%0Aおすすめ#{@category[:title]}作品"
-      end
-      @meta_image = "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
-    end
+    @meta_image = search_meta_image
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
     category_name = @category[:id] == 'all' ? t(:all_works, scope: [:search, :controllers, :books]) : "#{@category[:title]}（#{@category[:name]}）"
@@ -39,11 +29,7 @@ class Search::BooksController < Search::ApplicationController
     @meta_title = show_page_title
     @meta_description = show_page_description
     @meta_keywords = [@book.title, @author[:name], @category[:title], @category[:name]].join(",")
-
-    if I18n.locale == :ja
-      text = "『#{@book.title}』%0A#{@author[:name]}%0A（読了目安：#{@category[:name]}）"
-      @meta_image = "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
-    end
+    @meta_image = show_meta_image
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')}
     category_name = "#{@category[:title]}（#{@category[:name]}）"
@@ -73,12 +59,31 @@ class Search::BooksController < Search::ApplicationController
     end
   end
 
+  def search_meta_image
+    # トップページはデフォルトのOGP画像を使用
+    return nil if @author[:id]=='all' && @category[:id]=='all'
+
+    text = if @author[:id] == 'all'
+      t :cloudinary_author_all, scope: [:search, :controllers, :books, :index], category: @category[:name], category_title: @category[:title]
+    elsif @category[:id] == 'all'
+      t :cloudinary_category_all, scope: [:search, :controllers, :books, :index], author: @author[:name]
+    else
+      t :cloudinary, scope: [:search, :controllers, :books, :index], author: @author[:name], category: @category[:name], category_title: @category[:title]
+    end
+
+    "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
+  end
+
   def show_page_title
     t :title, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @category[:name], category_title: @category[:title]
   end
 
   def show_page_description
     t :description, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @category[:name], category_title: @category[:title], words_count: @book.words_count.to_s(:delimited)
-    # "『#{@book.title}』は青空文庫で公開されている#{@author[:name]}の#{@category[:title]}作品。#{@book.words_count.to_s(:delimited)}文字で、おおよそ#{@category[:name]}で読むことができます。"
+  end
+
+  def show_meta_image
+    text = t :cloudinary, scope: [:search, :controllers, :books, :show], author: @author[:name], category: @category[:name], book: @book.title
+    "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_flag.png"
   end
 end
