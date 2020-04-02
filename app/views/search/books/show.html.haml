@@ -9,6 +9,10 @@
 
 %p= @meta_description
 
+= link_to "https://twitter.com/intent/tweet?hashtags=#{t(:bungo_search, scope: [:search, :defaults]).downcase.delete(' ')}&url=#{url_for(only_path: false)}&text=#{@meta_title}", target: :blank, class: 'ui mini twitter button' do
+  %i.fab.fa-twitter
+  Tweet
+
 %table.ui.definition.fixed.unstackable.table
   %tbody
     %tr
@@ -32,6 +36,7 @@
         %small= t :beginning, scope: [:search, :defaults]
       %td
         = @book.beginning
+
 %small
   = t '.popularity_calculation_logic'
 %br
