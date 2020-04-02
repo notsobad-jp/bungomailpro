@@ -7,7 +7,7 @@ class Search::ApplicationController < ApplicationController
 
   def set_author_and_category
     @categories = Book::CATEGORIES
-    @category = @categories[params[:category_id]&.to_sym || :all]
+    @category = @categories[params[:category_id]&.to_sym] || @categories[:all]
 
     @author = if ( params[:author_id] && book = Book.find_by(author_id: params[:author_id]))
       { id: book.author_id, name: book.author_name }
