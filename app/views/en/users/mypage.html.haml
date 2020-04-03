@@ -51,7 +51,7 @@
         %td URL
         %td
           - url = @book_assignment.guten_book.gutenberg_book_url
-          = link_to url, target: :blank do
+          = link_to url, target: :_blank do
             = url
             %i.icon.small.external
     = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
@@ -64,5 +64,5 @@
   .ui.info.message
     %i.icon.gift
     The service is 100% free during BETA. Please enjoy and
-    = link_to 'give us feedback!', 'https://forms.gle/MFpUGvm68DLCmWDQ9', target: :blank
+    = link_to 'give us feedback!', 'https://forms.gle/MFpUGvm68DLCmWDQ9', target: :_blank
   %br
