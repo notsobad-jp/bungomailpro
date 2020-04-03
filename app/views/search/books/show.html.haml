@@ -36,6 +36,29 @@
         %small= t :beginning, scope: [:search, :defaults]
       %td
         = @book.beginning
+    - if I18n.locale == :ja
+      %tr
+        %td
+          %small= t :published_at, scope: [:search, :defaults]
+        %td
+          - if @book.published_at
+            #{@book.published_at}年
+            &nbsp;
+            %small (#{@book.first_edition})
+      %tr
+        %td
+          %small= t :character_type, scope: [:search, :defaults]
+        %td
+          = @book.character_type
+    - else
+      %tr
+        %td
+          %small= t :author, scope: [:search, :defaults]
+        %td
+          = @book.author_name
+          &nbsp;
+          (#{@book.birth_year} - #{@book.death_year})
+
 
 %small
   = t '.popularity_calculation_logic'

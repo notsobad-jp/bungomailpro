@@ -10,6 +10,8 @@ ja:
       popularity: 人気
       beginning: 書き出し
       minutes_to_read: 読了時間
+      published_at: 初出
+      character_type: 表記
       search: 検索
       about_this_site: このサイトについて
       items: 件
