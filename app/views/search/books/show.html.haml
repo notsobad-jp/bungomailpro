@@ -44,7 +44,7 @@
           - if @book.published_at
             #{@book.published_at}年
             &nbsp;
-            %small (#{@book.first_edition})
+            %small (#{@book.first_edition.truncate(100)})
       %tr
         %td
           %small= t :character_type, scope: [:search, :defaults]
