@@ -21,10 +21,11 @@
     %small
       = book.words_count.to_s(:delimited)
       = t :words, scope: [:search, :defaults]
-    -# TMP: 検証用
-    - if I18n.locale == :en && book.ngsl_ratio
-      %br
-      %small (#{book.ngsl_ratio}% in NGSL)
+  -# TMP: 検証用
+  - if I18n.locale == :en
+    %td
+      - if book.ngsl_ratio
+        %small #{book.ngsl_ratio}%
   %td
     = access_count_stars(book.access_rating(:stars))
   %td
