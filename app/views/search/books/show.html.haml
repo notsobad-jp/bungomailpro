@@ -58,6 +58,14 @@
           = @book.author_name
           &nbsp;
           (#{@book.birth_year} - #{@book.death_year})
+      - if @book.ngsl_ratio
+        %tr
+          %td
+            %small NGSL Coverage
+          %td
+            #{@book.ngsl_ratio}%
+            &nbsp;
+            (#{@book.ngsl_words_count.to_s(:delimited)}/#{@book.unique_words_count.to_s(:delimited)}words)
 
 
 %small
@@ -65,11 +73,17 @@
 %br
 %br
 
-= link_to  @book.original_file_url, class: 'ui blue basic button', target: '_blank' do
+= link_to  @book.original_file_url, class: 'ui blue basic button', target: :_blank do
   = t '.read_at_original'
   &nbsp;
   %small
     %i.fas.fa-external-link-alt
+- if I18n.locale == :en && @book.ngsl_ratio
+  = link_to "https://storage.googleapis.com/bungomail/guten_books/ngsl/#{@book.id}/all.csv", class: 'ui basic button' do
+    %i.far.fa-file-archive
+    &nbsp;
+    Download Words CSV
+
 %br
 %br
 
