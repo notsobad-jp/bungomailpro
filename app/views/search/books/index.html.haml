@@ -49,7 +49,7 @@
       %th.five.wide= t :title, scope: [:search, :defaults]
       %th.four.wide= t :author, scope: [:search, :defaults]
       %th.four.wide= t :minutes_to_read, scope: [:search, :defaults]
-      - if I18n.locale == :en
+      - if I18n.locale == :en && @category[:id] == "flash"
         %th.two.wide NGSL
       %th.two.wide= t :popularity, scope: [:search, :defaults]
       %th.five.wide.computer.only= t :beginning, scope: [:search, :defaults]

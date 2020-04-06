@@ -38,16 +38,13 @@ namespace :guten_books do
   end
 
   task ngsl: :environment do |_task, _args|
-    ngsl_words = []
-    CSV.foreach('tmp/ngsl.csv') do |fg|
-      ngsl_words << fg[0]
-    end
+    ngsl_words = CSV.read('tmp/ngsl.csv').pluck(0)
 
-    GutenBook.where(category_id: :flash).where.not(author_id: nil).sorted.take(50).each do |book|
+    GutenBook.where(category_id: :flash).where.not(author_id: nil).sorted.find_each do |book|
       unique_words = book.text.unique_words
 
       dup_words = (unique_words & ngsl_words)
-      ratio = sprintf("%.2f", dup_words.count/unique_words.count.to_f * 100)
+      ratio = sprintf("%.1f", dup_words.count/unique_words.count.to_f * 100)
 
       book.update(
         ngsl_words_count: dup_words.count,
@@ -56,7 +53,6 @@ namespace :guten_books do
       )
       p "--- #{book.title} by #{book.author} ---"
       p "Total: #{unique_words.count}, Duplicate: #{dup_words.count}, Ratio: #{ratio}%"
-      p unique_words - ngsl_words
 
       dir = "tmp/ngsl/#{book.id}"
       FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
