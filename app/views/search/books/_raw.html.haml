@@ -5,15 +5,15 @@
       - if book.rights_reserved?
         %small
           %i.far.fa-copyright
-    - if I18n.locale == :ja && book.published_at
+    - if I18n.locale == :ja && book&.published_at
       %br
-      %small (#{book.published_at}年)
+      %small (#{book&.published_at}年)
   %td
     = link_to author_category_books_path(author_id: book.author_id, category_id: category[:id]) do
       = book.author_name
     - if I18n.locale == :en
       %br
-      %small (#{book.birth_year}-#{book.death_year})
+      %small (#{book&.birth_year}-#{book&.death_year})
   %td
     = link_to author_category_books_path(author_id: author[:id], category_id: book.category_id) do
       = category_label(book.category)
@@ -24,7 +24,7 @@
   -# TMP: 検証用
   - if I18n.locale == :en
     %td
-      - if book.ngsl_ratio
+      - if book&.ngsl_ratio
         %small #{book.ngsl_ratio}%
   %td
     = access_count_stars(book.access_rating(:stars))
