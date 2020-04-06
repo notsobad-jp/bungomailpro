@@ -18,6 +18,7 @@ require 'open-uri'
 class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
 
+  default_scope { where(language: :en) }
   scope :sorted, -> { order(downloads: :desc) }
 
   # アクセス数に対する評価(download数)
