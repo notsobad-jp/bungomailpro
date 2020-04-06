@@ -7,13 +7,13 @@ en:
         search_result_for: "Search result for '%{author}'"
         search_result: Search Result
       books:
-        all_works: All works
+        all_works: All e-books
         original_site: Project Gutenberg
-        all_works_for: "All works of %{author}"
-        category_works_for: "%{category_title} works (%{category} to read) of %{author}"
-        page_in: "(page:%{page})"
+        all_works_for: "All e-books of %{author}"
+        category_works_for: "%{category_title} e-books (%{category} to read) of %{author}"
+        page_in: "(page.%{page})"
         description_all: "%{author}'s %{count} free e-books in Project Gutenberg sorted by popularity."
-        description_category: "%{author}'s %{count} free e-books of %{category_title} (%{category} to read) in Project Gutenberg sorted by popularity."
+        description_category: "%{author}'s %{count} free %{category_title} e-books (%{category} to read) in Project Gutenberg sorted by popularity."
         index:
           cloudinary_author_all: "Popular free e-books of%0AProject Gutenberg%0A(%{category} to read)"
           cloudinary_category_all: "Popular free e-books of%0A%{author}%0Ain Project Gutenberg"
