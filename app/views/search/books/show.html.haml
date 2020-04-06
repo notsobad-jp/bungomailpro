@@ -41,15 +41,15 @@
         %td
           %small= t :published_at, scope: [:search, :defaults]
         %td
-          - if @book&.published_at
-            #{@book&.published_at}年
+          - if @book.try(:published_at)
+            #{@book.try(:published_at)}年
             &nbsp;
-            %small (#{@book&.first_edition&.truncate(100)})
+            %small (#{@book.try(:first_edition).try(:truncate, 100)})
       %tr
         %td
           %small= t :character_type, scope: [:search, :defaults]
         %td
-          = @book&.character_type
+          = @book.try(:character_type)
     - else
       %tr
         %td
@@ -57,8 +57,8 @@
         %td
           = @book.author_name
           &nbsp;
-          (#{@book&.birth_year} - #{@book&.death_year})
-      - if @book&.ngsl_ratio
+          (#{@book.try(:birth_year)} - #{@book.try(:death_year)})
+      - if @book.try(:ngsl_ratio)
         %tr
           %td
             %small NGSL Coverage
