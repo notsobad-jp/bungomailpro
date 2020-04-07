@@ -37,12 +37,16 @@
     - if current_page?(root_path)
       .ui.attached.mobile.only.segment= t '.tagline_sp'
 
-    - if I18n.locale == :ja
+    - if I18n.locale == :ja && params[:locale] != "juvenile"
       .ui.attached.info.message
-        = link_to 'https://blog.bungomail.com/entry/2020/04/04/154926', target: :_blank do
-          【お知らせ】「ゾラサーチ」は、2020年4月1日より「ブンゴウサーチ」に名称変更いたしました！
+        = link_to url_for(locale: :juvenile) do
+          【お知らせ】児童文学のみを検索できる「ブンゴウサーチ for Kids」をリリースしました。お子さまへの読み聞かせなどにぜひご活用ください。
           %small
             %i.fas.fa-external-link-alt
+        -# = link_to 'https://blog.bungomail.com/entry/2020/04/04/154926', target: :_blank do
+        -#   【お知らせ】「ゾラサーチ」は、2020年4月1日より「ブンゴウサーチ」に名称変更いたしました！
+        -#   %small
+        -#     %i.fas.fa-external-link-alt
 
 
     .ui.container

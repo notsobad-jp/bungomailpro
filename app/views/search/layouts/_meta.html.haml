@@ -33,6 +33,7 @@
   %meta(name="twitter:image:src" content="#{@meta_image}")
 - else
   - ogp_image = I18n.locale == :en ? 'ogp_gutenberg.png' : 'ogp_search.png'
+  - ogp_image = 'ogp_juvenile.png' if params[:locale] == "juvenile"
   %meta(property="og:image" content="https://bungomail.com/assets/images/#{ogp_image}")
   %meta(name="twitter:image:src" content="https://bungomail.com/assets/images/#{ogp_image}")
 
