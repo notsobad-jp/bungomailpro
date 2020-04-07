@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_02_075137) do
+ActiveRecord::Schema.define(version: 2020_04_07_052614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -32,8 +32,11 @@ ActiveRecord::Schema.define(version: 2020_04_02_075137) do
     t.string "first_edition"
     t.integer "published_at"
     t.string "character_type"
+    t.boolean "juvenile", default: false, null: false
     t.index ["access_count"], name: "index_aozora_books_on_access_count"
     t.index ["category_id"], name: "index_aozora_books_on_category_id"
+    t.index ["character_type"], name: "index_aozora_books_on_character_type"
+    t.index ["juvenile"], name: "index_aozora_books_on_juvenile"
     t.index ["published_at"], name: "index_aozora_books_on_published_at"
     t.index ["words_count"], name: "index_aozora_books_on_words_count"
   end

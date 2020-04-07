@@ -14,10 +14,15 @@
 
     .ui.attached.borderless.menu
       = link_to locale_root_url, class: 'header item' do
-        - if I18n.locale == :ja
-          %amp-img(src="/assets/images/logo_search.png" width="190" height="22")
-        - else
+        - if I18n.locale == :en
           Bungo Search
+        - elsif params[:locale] == "juvenile"
+          ブンゴウサーチ
+          &nbsp;
+          .ui.orange.mini.label
+            for Kids
+        - else
+          %amp-img(src="/assets/images/logo_search.png" width="190" height="22")
       = link_to root_url(subdomain: ''), target: '_blank', class: 'item computer only' do
         %small
           by

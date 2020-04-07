@@ -49,6 +49,7 @@ module SearchHelper
 
   def locale_root_url
     locale = "en" if I18n.locale == :en
+    locale = "juvenile" if params[:locale] == "juvenile"
     search_root_url(locale: locale)
   end
 

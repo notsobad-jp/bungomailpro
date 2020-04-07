@@ -27,7 +27,14 @@ class Search::ApplicationController < ApplicationController
   end
 
   def switch_locale
-    I18n.locale = params[:locale]&.to_sym || I18n.default_locale
-    Object.const_set :Book, Class.new(I18n.locale == :en ? GutenBook : AozoraBook)
+    I18n.locale = params[:locale]&.to_sym == :en ? :en : I18n.default_locale  # /juvenileとかが来ても:jaで処理する
+    book_class = if I18n.locale == :en
+                   GutenBook
+                 elsif params[:locale] == 'juvenile'
+                   JuvenileBook
+                 else
+                   AozoraBook
+                 end
+    Object.const_set :Book, Class.new(book_class)
   end
 end

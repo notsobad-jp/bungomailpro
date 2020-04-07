@@ -49,13 +49,17 @@ namespace :aozora_books do
       book = AozoraBook.find_by(id: fg[0].to_i)
       next unless book
 
-      published_match = fg[7].presence&.match(/\D((?>18|19)\d{2})\D/) # 18xxか19xxの4桁数字にのみマッチさせる
+      next unless fg[8].match(/K\d{3}/i)
+
+      # published_match = fg[7].presence&.match(/\D((?>18|19)\d{2})\D/) # 18xxか19xxの4桁数字にのみマッチさせる
       book.update!(
-        first_edition: fg[7].presence,
-        published_at: published_match ? published_match[1] : nil,
-        character_type: fg[9].presence,
+        juvenile: true
+        # first_edition: fg[7].presence,
+        # published_at: published_match ? published_match[1] : nil,
+        # character_type: fg[9].presence,
       )
-      puts "[Updated] #{fg[0]} #{fg[1]}: #{fg[7]} #{published_match} #{fg[9]}"
+      puts "[Updated] #{fg[0]}"
+      # puts "[Updated] #{fg[0]} #{fg[1]}: #{fg[7]} #{published_match} #{fg[9]}"
     end
   end
 

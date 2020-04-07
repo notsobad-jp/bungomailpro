@@ -47,6 +47,7 @@ class Search::BooksController < Search::ApplicationController
               t :category_works_for, scope: [:search, :controllers, :books], author: author_name, category: @category[:name], category_title: @category[:title].capitalize
             end
     title += t(:page_in, scope: [:search, :controllers, :books], page: params[:page]) if params[:page] && params[:page].to_i > 1
+    title = "【児童文学】" + title if params[:locale] == "juvenile"
     title
   end
 
