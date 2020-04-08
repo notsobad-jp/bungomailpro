@@ -167,12 +167,7 @@ class AozoraBook < ApplicationRecord
   end
 
   def author_name
-    name = self.author.split(',').first # 複数著者の場合もあるので、最初の一人を取得
-    if name.match(/^[\p{katakana}\s・ー＝]+$/)  # 外国人著者の場合（カタカナ＋記号のみ）
-      name.split(" ", 2).reverse.join("・")
-    else
-      name.delete(' ')
-    end
+    AozoraBook.author_name(author)
   end
 
   def beginning_from_file
@@ -248,6 +243,15 @@ class AozoraBook < ApplicationRecord
     def aozora_file_url(author_id:, book_id:, file_id:)
       file_path = file_id ? "#{book_id}_#{file_id}" : book_id
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
+    end
+
+    def author_name(author)
+      name = author.split(',').first # 複数著者の場合もあるので、最初の一人を取得
+      if name.match(/^[\p{katakana}\s・ー＝]+$/)  # 外国人著者の場合（カタカナ＋記号のみ）
+        name.split(" ", 2).reverse.join("・")
+      else
+        name.delete(' ')
+      end
     end
 
     def category_range(category_id)

@@ -104,9 +104,7 @@ class GutenBook < ApplicationRecord
   end
 
   def author_name
-    return unless author.present?
-    names = author.split(",").map(&:strip)
-    names.length == 2 ? "#{names[1]} #{names[0]}" : author
+    GutenBook.author_name(author)
   end
 
   def first_sentence
@@ -209,6 +207,12 @@ class GutenBook < ApplicationRecord
 
 
   class << self
+    def author_name(author)
+      return unless author.present?
+      names = author.split(",").map(&:strip)
+      names.length == 2 ? "#{names[1]} #{names[0]}" : author
+    end
+
     def category_range(category_id)
       category = CATEGORIES[category_id]
 
