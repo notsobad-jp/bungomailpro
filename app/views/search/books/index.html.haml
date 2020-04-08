@@ -14,7 +14,8 @@
     %i.far.fa-clock.gray
   - @categories.each do |category_id, category|
     - active = 'active' if @category == category
-    = link_to category[:name], author_category_books_path(author_id: @author[:id], category_id: category[:id]), class: "item #{active}"
+    - path = (category_id == :all && @author[:id] == "all") ? locale_root_url : author_category_books_path(author_id: @author[:id], category_id: category[:id])
+    = link_to category[:name], path, class: "item #{active}"
 .ui.divider
 = form_tag(authors_path, method: :get, target: '_top', class: 'ui form') do
   .ui.transparent.fluid.left.icon.input

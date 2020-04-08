@@ -12,6 +12,7 @@ class Search::BooksController < Search::ApplicationController
     @meta_canonical_url = locale_root_url if @author[:id] == 'all' && @category[:id] == 'all'
     @meta_image = search_meta_image
 
+    @breadcrumbs << { name: t(:juvenile_books, scope: [:search, :defaults]), url: locale_root_url} if params[:locale] == 'juvenile'
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
     category_name = @category[:id] == 'all' ? t(:all_works, scope: [:search, :controllers, :books]) : "#{@category[:title]}（#{@category[:name]}）"
     @breadcrumbs << { name: category_name }
