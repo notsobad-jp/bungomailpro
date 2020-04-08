@@ -21,7 +21,7 @@
   .ui.divided.very.relaxed.link.list
     - @authors.each do |author, sum_access_count|
       = link_to author_category_books_path(author_id: author[1], category_id: 'all'), class: 'item' do
-        - if I18n.locale == :ja
+        - if lang_locale == :ja
           = author[0].split(',').first
         - else
           - names = author[0].split(",").map(&:strip)

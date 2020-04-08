@@ -36,7 +36,7 @@
         %small= t :beginning, scope: [:search, :defaults]
       %td
         = @book.beginning
-    - if I18n.locale == :ja
+    - if lang_locale == :ja
       %tr
         %td
           %small= t :published_at, scope: [:search, :defaults]

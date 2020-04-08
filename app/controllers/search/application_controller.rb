@@ -24,22 +24,17 @@ class Search::ApplicationController < ApplicationController
   def set_meta_tags
     super
     @breadcrumbs << { name: 'TOP', url: locale_root_url }
+    @breadcrumbs << { name: t(:juvenile_books, scope: [:search, :defaults]), url: locale_root_url} if params[:juvenile] == 'juvenile'
   end
 
   def switch_locale
-    I18n.locale = if params[:locale] == "en"
-                    params[:juvenile] ? :en_juvenile : :en
-                  else
-                    params[:juvenile] ? :ja_juvenile : I18n.default_locale
-                  end
-
-    book_class = if I18n.locale == :en
-                   GutenBook
-                 elsif params[:juvenile] == 'juvenile'
-                   JuvenileBook
-                 else
-                   AozoraBook
-                 end
+    if params[:locale] == "en"
+      I18n.locale = params[:juvenile] ? :en_juvenile : :en
+      book_class = params[:juvenile] ? GutenJuvenileBook : GutenBook
+    else
+      I18n.locale = params[:juvenile] ? :ja_juvenile : I18n.default_locale
+      book_class = params[:juvenile] ? AozoraJuvenileBook : AozoraBook
+    end
     Object.const_set :Book, Class.new(book_class)
   end
 end

@@ -5,13 +5,13 @@
       - if book.rights_reserved?
         %small
           %i.far.fa-copyright
-    - if I18n.locale == :ja && book.try(:published_at)
+    - if lang_locale == :ja && book.try(:published_at)
       %br
       %small (#{book.try(:published_at)}年)
   %td
     = link_to author_category_books_path(author_id: book.author_id, category_id: category[:id]) do
       = book.author_name
-    - if I18n.locale == :en
+    - if lang_locale == :en
       %br
       %small (#{book.try(:birth_year)}-#{book.try(:death_year)})
   %td
@@ -21,7 +21,7 @@
     %small
       = book.words_count.to_s(:delimited)
       = t :words, scope: [:search, :defaults]
-  - if I18n.locale == :en && category[:id] == "flash"
+  - if lang_locale == :en && category[:id] == "flash"
     %td
       - if book.try(:ngsl_ratio)
         %small #{book.ngsl_ratio}%

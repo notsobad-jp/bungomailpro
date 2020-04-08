@@ -48,13 +48,17 @@ module SearchHelper
   end
 
   def locale_root_url
-    locale = "en" if I18n.locale == :en
-    locale = "juvenile" if params[:locale] == "juvenile"
+    locale = "en" if lang_locale == :en
     search_root_url(locale: locale)
   end
 
   # 書き出しのtruncate文字数をlocaleで変える
   def truncated_beginning(beginning)
-    beginning.truncate( (I18n.locale == :en) ? 100 : 50 )
+    beginning.truncate( (lang_locale == :en) ? 100 : 50 )
+  end
+
+  # juvenileを無視した本当のlocaleを返す
+  def lang_locale
+    I18n.locale.slice(0,2).to_sym
   end
 end

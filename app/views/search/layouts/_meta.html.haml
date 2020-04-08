@@ -5,7 +5,7 @@
 %link(rel="apple-touch-icon" sizes="128x128" href="/apple-touch-icon.png")
 %link(rel="apple-touch-icon-precomposed" sizes="128x128" href="/apple-touch-icon-precomposed.png")
 
-- title = current_page?(locale_root_url) ? t('.default_title') : "#{@meta_title} | #{t(:bungo_search, scope: [:search, :defaults])}"
+- title = (@author[:id]=="all" && @category[:id]=="all") ? t('.default_title') : "#{@meta_title} | #{t(:bungo_search, scope: [:search, :defaults])}"
 %title= title
 - description = current_page?(root_path) ? t('.default_description') : @meta_description
 %meta(name="description" content="#{description}")
@@ -32,8 +32,10 @@
   %meta(property="og:image" content="#{@meta_image}")
   %meta(name="twitter:image:src" content="#{@meta_image}")
 - else
-  - ogp_image = I18n.locale == :en ? 'ogp_gutenberg.png' : 'ogp_search.png'
-  - ogp_image = 'ogp_juvenile.png' if params[:locale] == "juvenile"
+  - if lang_locale == :en
+    - ogp_image = 'ogp_gutenberg.png'
+  - else
+    - ogp_image = params[:juvenile] == "juvenile" ? 'ogp_juvenile.png' : 'ogp_search.png'
   %meta(property="og:image" content="https://bungomail.com/assets/images/#{ogp_image}")
   %meta(name="twitter:image:src" content="https://bungomail.com/assets/images/#{ogp_image}")
 

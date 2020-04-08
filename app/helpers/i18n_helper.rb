@@ -3,8 +3,7 @@ module I18nHelper
     super(key, options.merge(raise: true))
   rescue I18n::MissingTranslationData
     # juvenileで翻訳が見つからないときは、jaかenのファイルを見に行く
-    locale = I18n.locale.slice(0,2).to_sym
-    I18n.with_locale(locale) do
+    I18n.with_locale(lang_locale) do
       super(key, options)
     end
   end

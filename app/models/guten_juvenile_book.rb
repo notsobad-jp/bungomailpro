@@ -1,0 +1,2 @@
+class GutenJuvenileBook < GutenBook
+end

@@ -13,7 +13,6 @@ class Search::BooksController < Search::ApplicationController
     @meta_canonical_url = locale_root_url if @author[:id] == 'all' && @category[:id] == 'all'
     @meta_image = search_meta_image
 
-    @breadcrumbs << { name: t(:juvenile_books, scope: [:search, :defaults]), url: locale_root_url} if params[:locale] == 'juvenile'
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
     category_name = @category[:id] == 'all' ? t(:all_works, scope: [:search, :controllers, :books]) : "#{@category[:title]}（#{@category[:name]}）"
     @breadcrumbs << { name: category_name }
@@ -49,7 +48,6 @@ class Search::BooksController < Search::ApplicationController
               t :category_works_for, scope: [:search, :controllers, :books], author: author_name, category: @category[:name], category_title: @category[:title].capitalize
             end
     title += t(:page_in, scope: [:search, :controllers, :books], page: params[:page]) if params[:page] && params[:page].to_i > 1
-    title = "【児童文学】" + title if params[:locale] == "juvenile"
     title
   end
 
@@ -74,7 +72,7 @@ class Search::BooksController < Search::ApplicationController
       t :cloudinary, scope: [:search, :controllers, :books, :index], author: @author[:name], category: @category[:name], category_title: @category[:title].capitalize
     end
 
-    "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_#{I18n.locale}.png"
+    "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_#{lang_locale}.png"
   end
 
   def show_page_title
@@ -87,6 +85,6 @@ class Search::BooksController < Search::ApplicationController
 
   def show_meta_image
     text = t :cloudinary, scope: [:search, :controllers, :books, :show], author: @author[:name], category: @category[:name], book: @book.title.truncate(30)
-    "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_#{I18n.locale}.png"
+    "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_#{lang_locale}.png"
   end
 end
