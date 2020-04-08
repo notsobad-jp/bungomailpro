@@ -1,5 +1,6 @@
 class Search::BooksController < Search::ApplicationController
   include SearchHelper
+  include I18nHelper
 
   def index
     books = @category[:id] == 'all' ? Book.where.not(category_id: nil) : Book.where(category_id: @category[:id])

@@ -27,10 +27,15 @@ class Search::ApplicationController < ApplicationController
   end
 
   def switch_locale
-    I18n.locale = params[:locale]&.to_sym == :en ? :en : I18n.default_locale  # /juvenileとかが来ても:jaで処理する
+    I18n.locale = if params[:locale] == "en"
+                    params[:juvenile] ? :en_juvenile : :en
+                  else
+                    params[:juvenile] ? :ja_juvenile : I18n.default_locale
+                  end
+
     book_class = if I18n.locale == :en
                    GutenBook
-                 elsif params[:locale] == 'juvenile'
+                 elsif params[:juvenile] == 'juvenile'
                    JuvenileBook
                  else
                    AozoraBook

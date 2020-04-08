@@ -6,6 +6,6 @@
 -#    per_page:      number of items to fetch per page
 -#    remote:        data-remote
 - if current_page.last?
-  %span.last.item= t('views.pagination.last').html_safe
+  %span.last.item Last
 - else
-  = link_to t('views.pagination.last').html_safe, url, remote: remote, class: 'last item'
+  = link_to 'Last', url, remote: remote, class: 'last item'

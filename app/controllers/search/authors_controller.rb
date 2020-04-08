@@ -1,4 +1,6 @@
 class Search::AuthorsController < Search::ApplicationController
+  include I18nHelper
+
   def index
     expires_now
 

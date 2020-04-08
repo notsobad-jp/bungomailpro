@@ -33,6 +33,7 @@ module Bungomail
     config.active_record.default_timezone = :utc
 
     # i18n設定
+    I18n.enforce_available_locales = false
     config.i18n.default_locale = :ja
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
 

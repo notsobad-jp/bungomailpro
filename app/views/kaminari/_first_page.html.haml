@@ -6,6 +6,6 @@
 -#    per_page:      number of items to fetch per page
 -#    remote:        data-remote
 - if current_page.first?
-  %span.first.item= t('views.pagination.first').html_safe
+  %span.first.item First
 - else
-  = link_to t('views.pagination.first').html_safe, url, remote: remote, class: 'first item'
+  = link_to 'First', url, remote: remote, class: 'first item'
