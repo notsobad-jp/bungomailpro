@@ -94,7 +94,7 @@ Rails.application.routes.draw do
           get '/about' => "pages#about", as: :about_page
           get '/:locale' => 'books#index'
           get '/:juvenile' => 'books#index'
-          get '/' => 'books#index', as: :search_root
+          root :to => 'books#index', as: :search_root
         end
       end
     end

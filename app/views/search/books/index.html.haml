@@ -73,4 +73,5 @@
   = t '.copyright_reserved.html'
 
 .ui.basic.center.aligned.segment
-  = paginate @books, window: 2
+  - params = current_page?(locale_root_url) ? { locale: nil, juvenile: nil } : {}  # /en, /juvenileなどの直下URLで、paginationがおかしくなる問題対応
+  = paginate @books, window: 2, params: params
