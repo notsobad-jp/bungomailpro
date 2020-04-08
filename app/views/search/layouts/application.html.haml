@@ -17,7 +17,8 @@
         - if lang_locale == :en
           Bungo Search
         - else
-          %amp-img(src="/assets/images/logo_search.png" width="190" height="22")
+          %amp-img.computer.only(src="/assets/images/logo_search.png" width="190" height="22")
+          %span.mobile.only ブンゴウサーチ
         - if params[:juvenile] == "juvenile"
           &nbsp;
           &nbsp;
