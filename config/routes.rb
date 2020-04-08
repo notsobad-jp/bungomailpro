@@ -1,55 +1,73 @@
 # == Route Map
 #
-#                    Prefix Verb   URI Pattern                                                                              Controller#Action
-#                        en GET    /en(.:format)                                                                            redirect(301, subdomain: en, path: /) {:subdomain=>""}
-#      campaigns_dogramagra GET    /campaigns/dogramagra(.:format)                                                          pages#dogramagra {:subdomain=>""}
-#                      page GET    /:page(.:format)                                                                         pages#show {:subdomain=>""}
-#                      root GET    /                                                                                        pages#lp {:subdomain=>""}
-#                     users GET    /users(.:format)                                                                         en/users#index {:subdomain=>"en"}
-#                           POST   /users(.:format)                                                                         en/users#create {:subdomain=>"en"}
-#                  new_user GET    /users/new(.:format)                                                                     en/users#new {:subdomain=>"en"}
-#                 edit_user GET    /users/:id/edit(.:format)                                                                en/users#edit {:subdomain=>"en"}
-#                      user GET    /users/:id(.:format)                                                                     en/users#show {:subdomain=>"en"}
-#                           PATCH  /users/:id(.:format)                                                                     en/users#update {:subdomain=>"en"}
-#                           PUT    /users/:id(.:format)                                                                     en/users#update {:subdomain=>"en"}
-#                           DELETE /users/:id(.:format)                                                                     en/users#destroy {:subdomain=>"en"}
-#                     login GET    /login(.:format)                                                                         en/magic_tokens#new {:subdomain=>"en"}
-#                      auth GET    /auth(.:format)                                                                          en/magic_tokens#auth {:subdomain=>"en"}
-#                    logout POST   /logout(.:format)                                                                        en/magic_tokens#destroy {:subdomain=>"en"}
-#                    mypage GET    /mypage(.:format)                                                                        en/users#mypage {:subdomain=>"en"}
-#                           GET    /                                                                                        en/pages#lp {:subdomain=>"en"}
-#     author_category_books GET    /authors/:author_id/categories/:category_id/books(.:format)                              search/books#index {:subdomain=>"search"}
-#                           POST   /authors/:author_id/categories/:category_id/books(.:format)                              search/books#create {:subdomain=>"search"}
-#  new_author_category_book GET    /authors/:author_id/categories/:category_id/books/new(.:format)                          search/books#new {:subdomain=>"search"}
-# edit_author_category_book GET    /authors/:author_id/categories/:category_id/books/:id/edit(.:format)                     search/books#edit {:subdomain=>"search"}
-#      author_category_book GET    /authors/:author_id/categories/:category_id/books/:id(.:format)                          search/books#show {:subdomain=>"search"}
-#                           PATCH  /authors/:author_id/categories/:category_id/books/:id(.:format)                          search/books#update {:subdomain=>"search"}
-#                           PUT    /authors/:author_id/categories/:category_id/books/:id(.:format)                          search/books#update {:subdomain=>"search"}
-#                           DELETE /authors/:author_id/categories/:category_id/books/:id(.:format)                          search/books#destroy {:subdomain=>"search"}
-#         author_categories GET    /authors/:author_id/categories(.:format)                                                 search/categories#index {:subdomain=>"search"}
-#                           POST   /authors/:author_id/categories(.:format)                                                 search/categories#create {:subdomain=>"search"}
-#       new_author_category GET    /authors/:author_id/categories/new(.:format)                                             search/categories#new {:subdomain=>"search"}
-#      edit_author_category GET    /authors/:author_id/categories/:id/edit(.:format)                                        search/categories#edit {:subdomain=>"search"}
-#           author_category GET    /authors/:author_id/categories/:id(.:format)                                             search/categories#show {:subdomain=>"search"}
-#                           PATCH  /authors/:author_id/categories/:id(.:format)                                             search/categories#update {:subdomain=>"search"}
-#                           PUT    /authors/:author_id/categories/:id(.:format)                                             search/categories#update {:subdomain=>"search"}
-#                           DELETE /authors/:author_id/categories/:id(.:format)                                             search/categories#destroy {:subdomain=>"search"}
-#                   authors GET    /authors(.:format)                                                                       search/authors#index {:subdomain=>"search"}
-#                           POST   /authors(.:format)                                                                       search/authors#create {:subdomain=>"search"}
-#                new_author GET    /authors/new(.:format)                                                                   search/authors#new {:subdomain=>"search"}
-#               edit_author GET    /authors/:id/edit(.:format)                                                              search/authors#edit {:subdomain=>"search"}
-#                    author GET    /authors/:id(.:format)                                                                   search/authors#show {:subdomain=>"search"}
-#                           PATCH  /authors/:id(.:format)                                                                   search/authors#update {:subdomain=>"search"}
-#                           PUT    /authors/:id(.:format)                                                                   search/authors#update {:subdomain=>"search"}
-#                           DELETE /authors/:id(.:format)                                                                   search/authors#destroy {:subdomain=>"search"}
-#                           GET    /:page(.:format)                                                                         search/pages#show {:subdomain=>"search"}
-#                           GET    /.amp(.:format)                                                                          search/books#index {:subdomain=>"search"}
-#                           GET    /                                                                                        search/books#index {:subdomain=>"search"}
-#        rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
-# rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
-#        rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
-# update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
-#      rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
+#                    Prefix Verb   URI Pattern                                                                                Controller#Action
+#                        en GET    /en(.:format)                                                                              redirect(301, subdomain: en, path: /) {:subdomain=>""}
+#      campaigns_dogramagra GET    /campaigns/dogramagra(.:format)                                                            pages#dogramagra {:subdomain=>""}
+#                      page GET    /:page(.:format)                                                                           pages#show {:subdomain=>""}
+#                      root GET    /                                                                                          pages#lp {:subdomain=>""}
+#                     users GET    /users(.:format)                                                                           en/users#index {:subdomain=>"en"}
+#                           POST   /users(.:format)                                                                           en/users#create {:subdomain=>"en"}
+#                  new_user GET    /users/new(.:format)                                                                       en/users#new {:subdomain=>"en"}
+#                 edit_user GET    /users/:id/edit(.:format)                                                                  en/users#edit {:subdomain=>"en"}
+#                      user GET    /users/:id(.:format)                                                                       en/users#show {:subdomain=>"en"}
+#                           PATCH  /users/:id(.:format)                                                                       en/users#update {:subdomain=>"en"}
+#                           PUT    /users/:id(.:format)                                                                       en/users#update {:subdomain=>"en"}
+#                           DELETE /users/:id(.:format)                                                                       en/users#destroy {:subdomain=>"en"}
+#              magic_tokens GET    /magic_tokens(.:format)                                                                    en/magic_tokens#index {:subdomain=>"en"}
+#                           POST   /magic_tokens(.:format)                                                                    en/magic_tokens#create {:subdomain=>"en"}
+#           new_magic_token GET    /magic_tokens/new(.:format)                                                                en/magic_tokens#new {:subdomain=>"en"}
+#          edit_magic_token GET    /magic_tokens/:id/edit(.:format)                                                           en/magic_tokens#edit {:subdomain=>"en"}
+#               magic_token GET    /magic_tokens/:id(.:format)                                                                en/magic_tokens#show {:subdomain=>"en"}
+#                           PATCH  /magic_tokens/:id(.:format)                                                                en/magic_tokens#update {:subdomain=>"en"}
+#                           PUT    /magic_tokens/:id(.:format)                                                                en/magic_tokens#update {:subdomain=>"en"}
+#                           DELETE /magic_tokens/:id(.:format)                                                                en/magic_tokens#destroy {:subdomain=>"en"}
+#      skip_book_assignment POST   /book_assignments/:id/skip(.:format)                                                       en/book_assignments#skip {:subdomain=>"en"}
+#          book_assignments GET    /book_assignments(.:format)                                                                en/book_assignments#index {:subdomain=>"en"}
+#                           POST   /book_assignments(.:format)                                                                en/book_assignments#create {:subdomain=>"en"}
+#       new_book_assignment GET    /book_assignments/new(.:format)                                                            en/book_assignments#new {:subdomain=>"en"}
+#      edit_book_assignment GET    /book_assignments/:id/edit(.:format)                                                       en/book_assignments#edit {:subdomain=>"en"}
+#           book_assignment GET    /book_assignments/:id(.:format)                                                            en/book_assignments#show {:subdomain=>"en"}
+#                           PATCH  /book_assignments/:id(.:format)                                                            en/book_assignments#update {:subdomain=>"en"}
+#                           PUT    /book_assignments/:id(.:format)                                                            en/book_assignments#update {:subdomain=>"en"}
+#                           DELETE /book_assignments/:id(.:format)                                                            en/book_assignments#destroy {:subdomain=>"en"}
+#                     login GET    /login(.:format)                                                                           en/magic_tokens#new {:subdomain=>"en"}
+#                    logout POST   /logout(.:format)                                                                          en/magic_tokens#destroy {:subdomain=>"en"}
+#                      auth GET    /auth(.:format)                                                                            en/magic_tokens#auth {:subdomain=>"en"}
+#                    mypage GET    /mypage(.:format)                                                                          en/users#mypage {:subdomain=>"en"}
+#                   en_root GET    /                                                                                          en/pages#lp {:subdomain=>"en"}
+#     author_category_books GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books(.:format)          search/books#index {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           POST   (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books(.:format)          search/books#create {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#  new_author_category_book GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books/new(.:format)      search/books#new {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+# edit_author_category_book GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books/:id/edit(.:format) search/books#edit {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#      author_category_book GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books/:id(.:format)      search/books#show {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           PATCH  (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books/:id(.:format)      search/books#update {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           PUT    (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books/:id(.:format)      search/books#update {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           DELETE (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books/:id(.:format)      search/books#destroy {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#         author_categories GET    (/:locale)(/:juvenile)/authors/:author_id/categories(.:format)                             search/categories#index {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           POST   (/:locale)(/:juvenile)/authors/:author_id/categories(.:format)                             search/categories#create {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#       new_author_category GET    (/:locale)(/:juvenile)/authors/:author_id/categories/new(.:format)                         search/categories#new {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#      edit_author_category GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:id/edit(.:format)                    search/categories#edit {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#           author_category GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:id(.:format)                         search/categories#show {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           PATCH  (/:locale)(/:juvenile)/authors/:author_id/categories/:id(.:format)                         search/categories#update {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           PUT    (/:locale)(/:juvenile)/authors/:author_id/categories/:id(.:format)                         search/categories#update {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           DELETE (/:locale)(/:juvenile)/authors/:author_id/categories/:id(.:format)                         search/categories#destroy {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                   authors GET    (/:locale)(/:juvenile)/authors(.:format)                                                   search/authors#index {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           POST   (/:locale)(/:juvenile)/authors(.:format)                                                   search/authors#create {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                new_author GET    (/:locale)(/:juvenile)/authors/new(.:format)                                               search/authors#new {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#               edit_author GET    (/:locale)(/:juvenile)/authors/:id/edit(.:format)                                          search/authors#edit {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                    author GET    (/:locale)(/:juvenile)/authors/:id(.:format)                                               search/authors#show {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           PATCH  (/:locale)(/:juvenile)/authors/:id(.:format)                                               search/authors#update {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           PUT    (/:locale)(/:juvenile)/authors/:id(.:format)                                               search/authors#update {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                           DELETE (/:locale)(/:juvenile)/authors/:id(.:format)                                               search/authors#destroy {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#                about_page GET    (/:locale)(/:juvenile)/about(.:format)                                                     search/pages#about {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#               locale_root GET    (/:locale)(/:juvenile)/:locale(.:format)                                                   search/books#index {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#             juvenile_root GET    (/:locale)(/:juvenile)/:juvenile(.:format)                                                 search/books#index {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#               search_root GET    /(/:locale)(/:juvenile)(.:format)                                                          search/books#index {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
+#        rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                                 active_storage/blobs#show
+# rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format)   active_storage/representations#show
+#        rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                                active_storage/disk#show
+# update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                        active_storage/disk#update
+#      rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                             active_storage/direct_uploads#create
 
 Rails.application.routes.draw do
   # 国内版ブンゴウメール
@@ -97,6 +115,8 @@ Rails.application.routes.draw do
           root :to => 'books#index', as: :search_root
         end
       end
+      get '/:locale' => 'books#index', as: :locale_root
+      get '/:juvenile' => 'books#index', as: :juvenile_root
     end
   end
 end

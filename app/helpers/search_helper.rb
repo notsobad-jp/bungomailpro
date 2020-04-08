@@ -47,11 +47,11 @@ module SearchHelper
     }.to_json
   end
 
-  def locale_root_url
-    # デフォルトだとlocaleが:ja_juvenileとかになってるので正規化 & :jaのときはlocaleをパスに入れない
+  def locale_root_url(locale: lang_locale, juvenile: params[:juvenile])
+    # :jaのときはlocaleをパスに入れない
     # juvenileなどで空パスになって//enなどになるケースがあるので、力技で修正
-    locale = "en" if lang_locale == :en
-    search_root_url(locale: locale).gsub(/\/\/(en|juvenile)/, '/\1')
+    locale = nil if lang_locale == :ja
+    search_root_url(locale: locale, juvenile: juvenile).gsub(/\/\/(en|juvenile)/, '/\1')
   end
 
   # 書き出しのtruncate文字数をlocaleで変える

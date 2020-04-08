@@ -5,6 +5,13 @@
     %small
       by
       = t :bungo_mail, scope: [:search, :defaults]
+  .ui.horizontal.list
+    = link_to locale_root_url(juvenile: nil), class: 'item' do
+      = t :normal_version, scope: [:search, :defaults]
+    = link_to locale_root_url(juvenile: :juvenile), class: 'item' do
+      = t :juvenile_version, scope: [:search, :defaults]
+  %br
+  %br
   %p
     = link_to about_page_path do
       %i.fas.fa-question-circle

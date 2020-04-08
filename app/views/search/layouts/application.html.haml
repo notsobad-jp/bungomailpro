@@ -23,18 +23,24 @@
           &nbsp;
           .ui.orange.mini.label
             for Kids
-      = link_to root_url(subdomain: ''), target: '_blank', class: 'item computer only' do
-        %small
-          by
-          = t :bungo_mail, scope: [:search, :defaults]
       .item.computer.only= t '.tagline'
       .right.floated.menu
+        - if params[:juvenile] == "juvenile"
+          = link_to locale_root_url(juvenile: nil), class: 'item' do
+            %small
+              %i.fas.fa-sign-in-alt
+              = t :normal_version, scope: [:search, :defaults]
+        - else
+          = link_to locale_root_url(juvenile: :juvenile), class: 'item' do
+            %small
+              %i.fas.fa-sign-in-alt
+              = t :juvenile_version, scope: [:search, :defaults]
         = link_to about_page_path, class: 'item' do
           %small
             %i.fas.fa-question-circle
             %span.computer.only= t :about_this_site, scope: [:search, :defaults]
 
-    - if current_page?(root_path)
+    - if current_page?(locale_root_url)
       .ui.attached.mobile.only.segment= t '.tagline_sp'
 
     - if I18n.locale == :ja # juvenileのときは表示しないので、lang_localeを使わない
