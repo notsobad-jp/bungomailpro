@@ -31,7 +31,7 @@
             %small
               %i.fas.fa-sign-in-alt
               = t :normal_version, scope: [:search, :defaults]
-        - else
+        - elsif lang_locale == :ja
           = link_to locale_root_url(juvenile: :juvenile), class: 'item' do
             %small
               %i.fas.fa-sign-in-alt
