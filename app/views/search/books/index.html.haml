@@ -39,7 +39,8 @@
       = t('.search_offset', from: @books.offset_value + 1, to: @books.offset_value + @books.length, count: @books.total_count.to_s(:delimited))
   .right.floated
     - canonical_url = @meta_canonical_url || url_for(only_path: false)
-    = link_to "https://twitter.com/intent/tweet?hashtags=#{t(:bungo_search, scope: [:search, :defaults]).downcase.delete(' ')}&url=#{canonical_url}&text=#{@meta_title}", target: :_blank, class: 'ui mini twitter button' do
+    - text = (@author[:id]=="all" && @category[:id]=="all") ? t(:default_title, scope: [:search, :layouts, :meta]).gsub("|", "-") : @meta_title
+    = link_to "https://twitter.com/intent/tweet?hashtags=#{t(:bungo_search, scope: [:search, :defaults]).downcase.delete(' ')}&url=#{canonical_url}&text=#{text}", target: :_blank, class: 'ui mini twitter button' do
       %i.fab.fa-twitter
       Tweet
 %br

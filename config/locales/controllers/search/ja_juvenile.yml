@@ -2,7 +2,6 @@ ja_juvenile:
   search:
     controllers:
       books:
-        all_works: 児童文学全作品
         original_site: 青空文庫
         all_works_for: "%{author}の児童文学全作品"
         category_works_for: "%{category}で読める%{author}の%{category_title}児童文学作品"
