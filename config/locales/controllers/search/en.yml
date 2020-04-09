@@ -14,6 +14,7 @@ en:
         page_in: "(page.%{page})"
         description_all: "%{author}'s %{count} free e-books in Project Gutenberg sorted by popularity."
         description_category: "%{author}'s %{count} free %{category_title} e-books (%{category} to read) in Project Gutenberg sorted by popularity."
+        description_popular_books: "Popular books are: %{books}."
         index:
           cloudinary_author_all: "Popular free e-books of%0AProject Gutenberg%0A(%{category} to read)"
           cloudinary_category_all: "Popular free e-books of%0A%{author}%0Ain Project Gutenberg"

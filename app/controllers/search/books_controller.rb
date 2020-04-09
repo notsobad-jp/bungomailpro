@@ -5,7 +5,8 @@ class Search::BooksController < Search::ApplicationController
     @books = books.where.not(words_count: 0).sorted.order(:words_count).page(params[:page]).per(50)
 
     @meta_title = search_page_title
-    @meta_description = search_page_description
+    @search_page_description = search_page_description
+    @meta_description = "#{search_page_description} #{search_page_popular_books}"
     @meta_keywords = "#{@author[:name]},#{@category[:name]},#{@category[:title]}"
     @meta_canonical_url = locale_root_url if @author[:id] == 'all' && @category[:id] == 'all'
     @meta_image = search_meta_image
@@ -55,6 +56,13 @@ class Search::BooksController < Search::ApplicationController
     else
       t :description_category, scope: [:search, :controllers, :books], author: @author[:name], count: book_count, category: @category[:name], category_title: @category[:title]
     end
+  end
+
+  def search_page_popular_books
+    books = @books.take(3).map{ |b|
+      @author[:id] == 'all' ? "#{b.author_name.truncate(30)}『#{b.title.truncate(30)}』" : "『#{b.title.truncate(30)}』"
+    }.join(", ")
+    t(:description_popular_books, scope: [:search, :controllers, :books], books: books) if books.present?
   end
 
   def search_meta_image
