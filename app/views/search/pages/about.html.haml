@@ -34,7 +34,8 @@
         %tr
           %td= category_label(category)
           %td= AozoraBook.category_range(id)
-
+  %p
+    朗読や読み聞かせでご利用いただく際は、目安時間の1.5~2倍程度でお考えいただくとよいかと思います。
   %p
     またこのサイト内では「〜12,000文字（=30分以内）」の作品を「短編」、
     「〜24,000文字（＝60分以内）」の作品を「中編」、
@@ -50,7 +51,7 @@
   %p サイト内で各作品の「人気度」は、青空文庫で公開されている過去10年分のアクセスランキングを集計した累計アクセス数を基に算出しています。
 
   %p
-    = link_to 'https://www.aozora.gr.jp/access_ranking/', target: '_blank' do
+    = link_to 'https://www.aozora.gr.jp/access_ranking/', target: :_blank do
       青空文庫アクセスランキング
       %i.icon.external.small
 
@@ -79,13 +80,33 @@
     星の数が同じ作品は詳細な累計アクセス数の順に並びます。累計アクセス数は作品詳細ページで確認できます。
 %br
 
+
+%h3.ui.dividing.header
+  %i.far.fa-smile
+  児童文学版「ブンゴウサーチ for Kids」
+%amp-img.mobile.only(src="/assets/images/ogp_juvenile.png" width="480" height="240" layout="responsive")
+%amp-img.computer.only(src="/assets/images/ogp_juvenile.png" width="480" height="240")
+.ui.basic.segment
+  %p
+    青空文庫収録作品のうち、「児童書」カテゴリの作品のみ検索できるようにした「ブンゴウサーチ for Kids」をリリースしました。
+    %br
+    朗読やお子さんへの読み聞かせなどにもぜひご活用ください。
+  %p
+    = link_to locale_root_url(juvenile: :juvenile), target: :_blank, class: 'ui basic responsive button' do
+      ブンゴウサーチ for Kids
+      &nbsp;
+      %small
+        %i.fas.fa-external-link-alt
+%br
+
+
 %h3.ui.dividing.header
   %i.far.fa-envelope
   ブンゴウメールについて
 %amp-img.mobile.only(src="/assets/images/ogp.png" width="480" height="240" layout="responsive")
 %amp-img.computer.only(src="/assets/images/ogp.png" width="480" height="240")
 .ui.basic.segment
-  = link_to root_url(subdomain: ''), target: '_blank', class: 'ui basic responsive button' do
+  = link_to root_url(subdomain: ''), target: :_blank, class: 'ui basic responsive button' do
     ブンゴウメール公式サイト
     &nbsp;
     %small
@@ -108,6 +129,35 @@
       &nbsp;
       %small
         %i.fas.fa-external-link-alt
+%br
 
+
+%h3.ui.dividing.header
+  %i.far.fa-image
+  イラスト素材について
+.ui.basic.segment
+  %p
+    ブンゴウメール・ブンゴウサーチのカエルのロゴ画像は、「ダ鳥獣戯画」というイラスト素材サイトのものを、規約に則って利用させていただいています。
+    かわいくて絶妙に力の抜けた雰囲気がお気に入りです。
+  %p
+    = link_to 'https://chojugiga.com/', class: 'ui basic responsive button', target: '_blank' do
+      ダ鳥獣戯画
+      &nbsp;
+      %small
+        %i.fas.fa-external-link-alt
+  %p
+    他にも
+    = link_to 'http://flat-icon-design.com/', target: :_blank do
+      FLAT ICON DESIGN
+      &nbsp;
+      %small
+        %i.fas.fa-external-link-alt
+    や、
+    = link_to 'http://flat-icon-design.com/', target: :_blank do
+      ヒューマンピクトグラム2.0
+      &nbsp;
+      %small
+        %i.fas.fa-external-link-alt
+    など、おしゃれで便利なデザイン素材を多数公開されています。気に入った方はぜひこちらもチェックしてみてください。
 %br
 %br

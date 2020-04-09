@@ -1,5 +1,6 @@
 class Search::ApplicationController < ApplicationController
   include SearchHelper
+  include I18nHelper
   layout 'search/layouts/application'
   before_action :switch_locale, :set_author_and_category, :set_cache_control, :set_meta_tags
 
@@ -23,7 +24,7 @@ class Search::ApplicationController < ApplicationController
 
   def set_meta_tags
     super
-    @breadcrumbs << { name: 'TOP', url: locale_root_url }
+    @breadcrumbs << { name: 'TOP', url: locale_root_url(juvenile: nil) }
     @breadcrumbs << { name: t(:juvenile_books, scope: [:search, :defaults]), url: locale_root_url} if params[:juvenile] == 'juvenile'
   end
 
