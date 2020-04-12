@@ -5,6 +5,7 @@ class Search::PagesController < Search::ApplicationController
     @meta_title = @page_title
     @meta_description = @page_title
     @meta_keywords = @page_title
+    @meta_canonical_url = url_for(juvenile: nil)
     @breadcrumbs << { name: @page_title }
 
     render 'about'

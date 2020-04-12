@@ -28,6 +28,7 @@ class Search::BooksController < Search::ApplicationController
     @meta_title = show_page_title
     @meta_description = show_page_description
     @meta_keywords = [@book.title, @author[:name], @category[:title], @category[:name]].join(",")
+    @meta_canonical_url = url_for(juvenile: nil)
     @meta_image = show_meta_image
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')}
