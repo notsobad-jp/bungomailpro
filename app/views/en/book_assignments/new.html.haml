@@ -1,0 +1,43 @@
+%h1.ui.large.header
+  = @book.title
+  .sub.header
+    = @book.author_name
+
+- if @book.rights_reserved?
+  .ui.warning.message
+    = t '.copyright_reserved.html'
+
+%p= @meta_description
+
+%table.ui.definition.fixed.unstackable.table
+  %tbody
+    %tr
+      %td.three.wide
+        %small= t :words_count, scope: [:search, :defaults]
+      %td.thirteen.wide
+        = category_label(@book.category)
+        &nbsp;
+        = @book.words_count.to_s(:delimited)
+        %small= t :words, scope: [:search, :defaults]
+    %tr
+      %td
+        %small= t :popularity, scope: [:search, :defaults]
+      %td
+        = access_count_stars(@book.access_rating(:stars))
+        &nbsp;
+        = (@book.popularity > 0 ) ? @book.popularity.to_s(:delimited) : '--'
+        %small= t('.popularity_unit')
+    %tr
+      %td
+        %small= t :beginning, scope: [:search, :defaults]
+      %td
+        = @book.beginning
+    %tr
+      %td
+        %small= t :author, scope: [:search, :defaults]
+      %td
+        = @book.author_name
+        &nbsp;
+        (#{@book.try(:birth_year)} - #{@book.try(:death_year)})
+
+= link_to 'Add to the stock', book_assignments_path(guten_book_id: @book.id), method: :post, class: 'ui red responsive button'

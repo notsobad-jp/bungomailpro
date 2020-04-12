@@ -40,7 +40,9 @@ class User < ApplicationRecord
 
   def assign_book_and_set_feeds(deliver_now: false)
     # ストック済みがあればそれをセット、なければ新しく本をセレクト
-    if (book_assignment = book_assignments.stocked.order(:created_at).first).blank?
+    if (book_assignment = book_assignments.stocked.order(:created_at).first)
+      book_assignment.active!
+    else
       book = self.select_book
       book_assignment = self.book_assignments.create(guten_book_id: book.id, status: :active)
     end
