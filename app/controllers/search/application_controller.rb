@@ -23,7 +23,7 @@ class Search::ApplicationController < ApplicationController
   end
 
   def set_meta_tags
-    super
+    @breadcrumbs = []
     @breadcrumbs << { name: 'TOP', url: locale_root_url(juvenile: nil) }
     @breadcrumbs << { name: t(:juvenile_books, scope: [:search, :defaults]), url: locale_root_url} if params[:juvenile] == 'juvenile'
   end

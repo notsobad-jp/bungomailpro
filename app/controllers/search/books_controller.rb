@@ -9,6 +9,7 @@ class Search::BooksController < Search::ApplicationController
     @meta_description = "#{search_page_description} #{search_page_popular_books}"
     @meta_keywords = "#{@author[:name]},#{@category[:name]},#{@category[:title]}"
     @meta_canonical_url = locale_root_url if @author[:id] == 'all' && @category[:id] == 'all'
+    @meta_noindex = @books.length == 0  # 検索結果が0件ならnoindex
     @meta_image = search_meta_image
 
     @breadcrumbs << { name: @author[:name], url: author_category_books_url(author_id: @author[:id], category_id: 'all')} unless @author[:id] == 'all'
