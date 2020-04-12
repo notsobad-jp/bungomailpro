@@ -215,6 +215,7 @@ class GutenBook < ApplicationRecord
 
     def category_range(category_id)
       category = CATEGORIES[category_id]
+      return unless category
 
       case category_id
       when :flash
