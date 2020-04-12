@@ -45,4 +45,12 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(timezone: 'Hawaii', delivery_time: '20:00')
     assert_equal (1800 - 24*60), user.utc_offset
   end
+
+  # ストック済みがあればそれを配信
+  test "assign_book_and_set_feeds when stock book exists" do
+  end
+
+  # ストック済みがなければ新たに本をセレクトして配信
+  test "assign_book_and_set_feeds when stock book not exist" do
+  end
 end

@@ -39,8 +39,11 @@ class User < ApplicationRecord
 
 
   def assign_book_and_set_feeds(deliver_now: false)
-    book = self.select_book
-    book_assignment = self.book_assignments.create(guten_book_id: book.id, status: :active)
+    # ストック済みがあればそれをセット、なければ新しく本をセレクト
+    if (book_assignment = book_assignments.stocked.order(:created_at).first).blank?
+      book = self.select_book
+      book_assignment = self.book_assignments.create(guten_book_id: book.id, status: :active)
+    end
     book_assignment.set_feeds
 
     # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される

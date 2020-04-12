@@ -1,6 +1,5 @@
 .ui.basic.segment
   %h1.ui.header
-    %i.icon.sliders.horizontal
     Settings
 
   %h5.ui.small.horizontal.divider.header
@@ -10,6 +9,7 @@
     %tr
       %td Email
       %td= current_user.email
+  %br
   %br
 
   %h5.ui.small.horizontal.divider.header
@@ -29,6 +29,7 @@
         words/day
   = link_to 'Edit', edit_user_path(current_user), class: 'ui blue small responsive button'
   %br
+  %br
 
   %h5.ui.small.horizontal.divider.header
     %i.icon.newspaper.outline
@@ -43,7 +44,7 @@
         %td= @book_assignment.guten_book.title
       %tr
         %td Author
-        %td= @book_assignment.guten_book.author
+        %td= @book_assignment.guten_book.author_name
       %tr
         %td Delivery Status
         %td= "Delivered #{@book_assignment.feeds.where.not(scheduled_at: nil).count} of #{@book_assignment.feeds.count}"
@@ -56,6 +57,41 @@
             %i.icon.small.external
     = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
     %small *We offer infinite skip during BETA, but it will be restricted after the official launch.
+  %br
+  %br
+
+  %h5.ui.small.horizontal.divider.header
+    %i.icon.dolly.flatbed
+    Stocked Books
+  - if @stocked_books.blank?
+    %p No books are stocked.
+    %small *You can manually select and stock books for future distribution.
+  - else
+    %table.ui.fixed.celled.table
+      %thead
+        %tr
+          %th.one.wide #
+          %th.eight.wide Title
+          %th.three.wide URL
+          %th.four.wide
+      %tbody
+        - @stocked_books.each.with_index(1) do |stocked, index|
+          %tr
+            %td= index
+            %td
+              = stocked.guten_book.title
+              %br
+              %small
+                by
+                = stocked.guten_book.author_name
+            %td
+              - url = stocked.guten_book.gutenberg_book_url
+              = link_to url, target: :_blank do
+                = url
+                %i.icon.small.external
+            %td
+              = link_to 'Delete', book_assignment_path(stocked), method: :delete,  data: { confirm: 'Delete this stock. The operation is not reversible.' }
+  %br
   %br
 
   %h5.ui.small.horizontal.divider.header
