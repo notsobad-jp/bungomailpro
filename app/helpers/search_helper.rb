@@ -56,7 +56,7 @@ module SearchHelper
 
   # 書き出しのtruncate文字数をlocaleで変える
   def truncated_beginning(beginning)
-    beginning.truncate( (lang_locale == :en) ? 100 : 50 )
+    beginning.truncate( (lang_locale == :en) ? 100 : 50 ) if beginning
   end
 
   # juvenileを無視した本当のlocaleを返す
