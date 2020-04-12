@@ -15,7 +15,7 @@
       We will send a sign-in URL to your email address in a minute.
     %small.item
       When you signin, it is regarded that you aggreed with the
-      = link_to 'Terms', page_path(:terms), class: 'item'
+      = link_to 'Terms', page_path(:terms, locale: I18n.locale), class: 'item'
       and
-      = link_to 'Privacy Policy', page_path(:privacy), class: 'item'
+      = link_to 'Privacy Policy', page_path(:privacy, locale: I18n.locale), class: 'item'
       \.

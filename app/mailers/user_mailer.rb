@@ -3,7 +3,7 @@ class UserMailer < ApplicationMailer
 
   def magic_login_email(user)
     @user = user
-    @url  = URI.join(root_url(subdomain: :en), "auth?token=#{@user.magic_login_token}")
+    @url  = URI.join(root_url, "auth?token=#{@user.magic_login_token}")
 
     xsmtp_api_params = { category: 'login' }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)

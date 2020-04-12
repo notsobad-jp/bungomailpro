@@ -1,7 +1,7 @@
 !!!
 %html(lang="ja")
   %head
-    = render partial: 'layouts/meta'
+    = render partial: 'mail/layouts/meta'
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
@@ -34,18 +34,26 @@
 
     .ui.top.fixed.borderless.seigaiha.menu
       = link_to(root_path, class: 'header item') do
-        ブンゴウメール
+        Bungo Mail
+      .right.menu
+        - if current_user
+          = link_to current_user.email, mypage_path, class: 'item'
+          = link_to 'Sign Out', logout_path, method: :post, class: 'item'
+        - else
+          = link_to 'Sign In', login_path, class: 'item'
 
     %div#main-content
-      = render partial: 'layouts/breadcrumb'
+      = render partial: 'mail/layouts/breadcrumb'
       .ui.container
         .ui.stackable.grid
           .ui.twelve.wide.column
             - %w(warning error success info).each do |status|
-              - if flash[status] && path != 'pages#top'
-                .ui.message(class="#{status}")
-                  = sanitize flash[status]
+              - next unless flash[status]
+              .ui.message(class="#{status}")
+                - icon_class = %i(success info).include?(status) ? 'info' : 'warning'
+                %i.icon.circle{class: icon_class}
+                = sanitize flash[status]
             = yield
           #sidebar.ui.four.wide.column
-            = render partial: 'layouts/sidebar'
-    = render partial: 'layouts/footer'
+            = render partial: 'mail/layouts/sidebar'
+    = render partial: 'mail/layouts/footer'

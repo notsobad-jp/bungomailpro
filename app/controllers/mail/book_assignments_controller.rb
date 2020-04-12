@@ -1,4 +1,4 @@
-class En::BookAssignmentsController < En::ApplicationController
+class Mail::BookAssignmentsController < Mail::ApplicationController
   def new
     @book = GutenBook.find(params[:guten_book_id])
     unless @book.category && @book.author_id

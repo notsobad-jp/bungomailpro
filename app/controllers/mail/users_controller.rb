@@ -1,4 +1,4 @@
-class En::UsersController < En::ApplicationController
+class Mail::UsersController < Mail::ApplicationController
   skip_before_action :require_login, only: [:create]
 
   def create

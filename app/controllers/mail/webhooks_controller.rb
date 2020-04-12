@@ -1,4 +1,4 @@
-class WebhooksController < ApplicationController
+class Mail::WebhooksController < Mail::ApplicationController
   protect_from_forgery except: :update_subscription
 
   # subscription変更時にDBのstatusに最新の状態を反映する

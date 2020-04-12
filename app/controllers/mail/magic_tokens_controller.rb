@@ -1,4 +1,4 @@
-class En::MagicTokensController < En::ApplicationController
+class Mail::MagicTokensController < Mail::ApplicationController
   skip_before_action :require_login, except: [:destroy]
 
   def new

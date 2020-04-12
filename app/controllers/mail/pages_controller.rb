@@ -1,4 +1,4 @@
-class En::PagesController < En::ApplicationController
+class Mail::PagesController < Mail::ApplicationController
   skip_before_action :require_login
 
   def lp
