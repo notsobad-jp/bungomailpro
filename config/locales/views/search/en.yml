@@ -33,6 +33,7 @@ en:
       show:
         popularity_unit: Downloads
         read_at_original: Read at Project Gutenberg
+        read_at_bungomail: Read at BungoMail
         popularity_calculation_logic: "* Popularity is calculated based on the downloads count on Project Gutenberg."
         copyright_reserved:
           html:
