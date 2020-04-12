@@ -21,6 +21,7 @@ class En::UsersController < En::ApplicationController
 
   def mypage
     @book_assignment = current_user.current_book_assignment
+    @stocked_books = current_user.book_assignments.stocked
     @breadcrumbs << { name: 'Mypage' }
   end
 
