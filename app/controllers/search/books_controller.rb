@@ -22,6 +22,10 @@ class Search::BooksController < Search::ApplicationController
     @book = Book.find(params[:id])
     raise ActiveRecord::RecordNotFound if @book.words_count == 0  # locale間違いなどで wordsのない作品に来たら404
     @author = { id: @book.author_id, name: @book.author_name }
+    @category = @categories[@book.category_id.to_sym]
+
+    # category_id, author_idがおかしいときは正しいURLにリダイレクト
+    redirect_to author_category_book_path(author_id: @book.author_id, category_id: @book.category_id, id: @book.id), status: 301 if @author[:id] != params[:author_id].to_i || @category[:id] != params[:category_id]
 
     @author_books = Book.where.not(words_count: 0).where(author_id: @author[:id]).sorted.take(4)
     @category_books = Book.where(category_id: @category[:id]).sorted.take(4)
