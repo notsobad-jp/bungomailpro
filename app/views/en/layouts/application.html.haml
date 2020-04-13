@@ -43,6 +43,15 @@
           = link_to 'Sign In', login_path, class: 'item'
 
     %div#main-content
+      .ui.error.top.attached.message
+        .header
+          %i.icon.circle.warning
+          Subscription Required!
+        %p
+          You need to subscribe
+          = link_to 'our subscription plan', 'https://www.buymeacoffee.com/bungomail', target: :_blank
+          to continue receiving e-mail.
+
       = render partial: 'en/layouts/breadcrumb'
       .ui.container
         .ui.stackable.grid
