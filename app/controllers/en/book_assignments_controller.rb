@@ -6,7 +6,12 @@ class En::BookAssignmentsController < En::ApplicationController
       redirect_to mypage_path
     end
     @book_assignment = BookAssignment.new(guten_book_id: params[:guten_book_id])
-    @breadcrumbs << { name: 'Add stock book' }
+
+    @categories = GutenBook::CATEGORIES
+    @category = @categories[@book.category_id.to_sym]
+    @author = { id: @book.author_id, name: @book.author_name }
+
+    @breadcrumbs << { name: 'Add to stock' }
   end
 
   def create
