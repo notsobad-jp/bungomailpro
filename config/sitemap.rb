@@ -46,6 +46,7 @@ SitemapGenerator::Sitemap.create do
     end
 
     AozoraBook::CATEGORIES.each do |id, category|
+      next unless AozoraBook.where(author_id: author_id, category_id: category[:id]).exists?
       add author_category_books_path(author_id: author_id, category_id: category[:id]), priority: priority, changefreq: 'weekly'
     end
   end
