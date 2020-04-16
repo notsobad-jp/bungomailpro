@@ -104,6 +104,10 @@ class AozoraBook < ApplicationRecord
     ACCESS_RATINGS.find{|k,v| self.access_count >= k }.dig(1, type)
   end
 
+  def amazon_search_url
+    "https://www.amazon.co.jp/s?k=#{author_name}+#{title}&i=stripbooks"
+  end
+
   def aozora_card_url
     AozoraBook.aozora_card_url(author_id: author_id, book_id: id)
   end

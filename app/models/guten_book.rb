@@ -103,6 +103,10 @@ class GutenBook < ApplicationRecord
     ACCESS_RATINGS.find{|k,v| self.downloads >= k }.dig(1, type)
   end
 
+  def amazon_search_url
+    "https://www.amazon.com/s?k=#{author_name&.slice(0..70)}+#{title&.slice(0..30)}&i=stripbooks-intl-ship"
+  end
+
   def author_name
     GutenBook.author_name(author)
   end

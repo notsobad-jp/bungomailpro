@@ -33,6 +33,7 @@ ja:
         popularity_unit: PV
         read_at_original: 青空文庫で読む
         read_at_bungomail: ブンゴウメールで読む
+        read_at_amazon: Amazonで探す
         popularity_calculation_logic: ※「人気」は青空文庫の過去10年分のアクセスランキングを集計した累計アクセス数から算出しています。
         copyright_reserved:
           html:

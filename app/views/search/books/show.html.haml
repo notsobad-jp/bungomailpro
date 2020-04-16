@@ -84,14 +84,20 @@
 %br
 
 - if lang_locale == :en
-  = link_to  new_book_assignment_url(subdomain: 'en', guten_book_id: @book.id), class: 'ui primary responsive button', target: :_blank do
+  = link_to new_book_assignment_url(subdomain: 'en', guten_book_id: @book.id), class: 'ui primary responsive button', target: :_blank do
     = t '.read_at_bungomail'
     &nbsp;
     %small
       %i.fas.fa-external-link-alt
   &nbsp;
-= link_to  @book.original_file_url, class: 'ui blue basic responsive button', target: :_blank do
+= link_to @book.original_file_url, class: 'ui blue basic responsive button', target: :_blank do
   = t '.read_at_original'
+  &nbsp;
+  %small
+    %i.fas.fa-external-link-alt
+&nbsp;
+= link_to @book.amazon_search_url, class: 'ui red basic responsive button', target: :_blank do
+  = t '.read_at_amazon'
   &nbsp;
   %small
     %i.fas.fa-external-link-alt
