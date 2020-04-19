@@ -1,15 +1,10 @@
 class Mail::ApplicationController < ApplicationController
   layout 'mail/layouts/application'
-  before_action :redirect_to_custom_domain, :switch_locale, :require_login, :set_meta_tags
+  before_action :switch_locale, :require_login, :set_meta_tags
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
-
-  # herokuapp.comドメインでアクセスが来たらカスタムドメインにリダイレクト
-  def redirect_to_custom_domain
-    redirect_to 'https://bungomail.com' + request.path, status: :moved_permanently if request.host.include? 'bungomail.herokuapp.com'
-  end
 
   def user_not_authorized
     flash[:warning] = 'Not authorized. Please check your login status.'

@@ -74,7 +74,7 @@ Rails.application.routes.draw do
   # Bungo Mail
   constraints subdomain: '' do
     scope module: :mail do
-      scope "(:locale)", locale: /ja|en/ do
+      scope ":locale", locale: /ja|en/ do
         resources :users
         resources :magic_tokens
         resources :book_assignments do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_07_052614) do
+ActiveRecord::Schema.define(version: 2020_04_19_025919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -75,14 +75,6 @@ ActiveRecord::Schema.define(version: 2020_04_07_052614) do
     t.bigint "campaign_group_id", default: 1, null: false
     t.index ["campaign_group_id"], name: "index_campaigns_on_campaign_group_id"
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
-  end
-
-  create_table "categories", id: :string, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "range_from"
-    t.integer "range_to"
-    t.integer "books_count", default: 0
-    t.index ["range_from"], name: "index_categories_on_range_from"
   end
 
   create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -194,7 +186,6 @@ ActiveRecord::Schema.define(version: 2020_04_07_052614) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
-  add_foreign_key "aozora_books", "categories"
   add_foreign_key "book_assignments", "guten_books", name: "book_assignments_guten_book_id_fkey"
   add_foreign_key "book_assignments", "users"
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id", name: "campaign_groups_book_id_fkey"
