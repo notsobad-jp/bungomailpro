@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_055200) do
+ActiveRecord::Schema.define(version: 2020_04_19_084237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -86,6 +86,9 @@ ActiveRecord::Schema.define(version: 2020_04_19_055200) do
     t.boolean "public", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.time "delivery_time", default: "2000-01-01 07:00:00", null: false
+    t.integer "words_per_day", default: 400, null: false
+    t.integer "chars_per_day", default: 750, null: false
     t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
@@ -202,8 +205,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_055200) do
     t.string "remember_me_token"
     t.datetime "remember_me_token_expires_at"
     t.string "timezone", default: "UTC"
-    t.string "delivery_time", default: "07:00"
-    t.integer "words_per_day", default: 400
+    t.string "locale", default: "ja", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"

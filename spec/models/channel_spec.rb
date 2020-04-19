@@ -14,12 +14,11 @@ RSpec.describe Channel, type: :model do
       expect(@channel.book_assignments.length).to eq 1
     end
 
-    it "should take all books" do
+    xit "should take all books" do
       @channel.book_assignments << @ba_with_aozora
       @channel.book_assignments << @ba_with_guten
       expect(@channel.save).to be_truthy
 
-      byebug
     end
   end
 end

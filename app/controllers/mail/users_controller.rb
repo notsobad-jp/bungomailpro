@@ -4,14 +4,17 @@ class Mail::UsersController < Mail::ApplicationController
   def create
     @user = User.find_or_initialize_by(email: user_params[:email])
     if @user.persisted?
-      UserMailer.magic_login_email(@user).deliver
+      UserMailer.magic_login_email(@user.id).deliver
       flash[:info] = 'This email address is already registered. We sent you a sign-in email.'
       return redirect_to root_path
     end
 
+    @user.locale = I18n.locale
+    @user.timezone = 'JST' if I18n.locale == :ja  # 日本のときはJST。デフォルトはUTC
+
     if @user.save
       # 本を選んでfeedsをセット。最初のfeedはすぐに配信する
-      @user.delay.assign_book_and_set_feeds(deliver_now: true)
+      @user.default_channel.delay.assign_book_and_set_feeds(deliver_now: true)
       flash[:success] = "Account registered! You'll start receiving the email from today :)"
     else
       flash[:error] = 'Sorry something seems to be wrong with your email address. Please check and try again.'

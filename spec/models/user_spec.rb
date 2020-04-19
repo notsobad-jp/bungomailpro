@@ -9,5 +9,8 @@ RSpec.describe User, type: :model do
     it "has a valid factory" do
       expect(@user).to be_valid
     end
+
+    xit "should has one default channel" do
+    end
   end
 end

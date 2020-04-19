@@ -31,10 +31,11 @@ class BookAssignment < ApplicationRecord
 
   def set_feeds
     feeds = []
-    contents = self.guten_book.contents(words_per: self.user.words_per_day)
+    condition = (book_type == 'AozoraBook') ? { chars_per: channel.chars_per_day } : { words_per: channel.words_per_day }
+    contents = self.book.contents(**condition)
 
     contents.each.with_index(1) do |content, index|
-      title = "#{self.guten_book.title}（#{index} of #{contents.count}）"
+      title = "#{self.book.title}（#{index} of #{contents.count}）"
       feeds << Feed.new(
         book_assignment_id: self.id,
         index: index,
