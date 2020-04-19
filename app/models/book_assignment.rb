@@ -23,8 +23,8 @@
 #
 
 class BookAssignment < ApplicationRecord
-  belongs_to :user
-  belongs_to :guten_book
+  belongs_to :channel
+  belongs_to :book, polymorphic: true
   has_many :feeds, -> { order(:index) }, dependent: :destroy
 
   enum status: { stocked: 0, active: 1, finished: 2, skipped: 3, canceled: 4 }

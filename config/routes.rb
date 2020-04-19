@@ -77,8 +77,11 @@ Rails.application.routes.draw do
       scope ":locale", locale: /ja|en/ do
         resources :users
         resources :magic_tokens
-        resources :book_assignments do
-          post 'skip', on: :member
+        resources :channels, shallow: true do
+          resources :subscriptions
+          resources :book_assignments do
+            post 'skip', on: :member
+          end
         end
 
         get 'login' => 'magic_tokens#new'

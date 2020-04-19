@@ -30,6 +30,7 @@
 
 class AozoraBook < ApplicationRecord
   has_many :campaign_group, dependent: :destroy
+  has_many :book_assignments, as: :book, dependent: :destroy
   self.primary_key = :id
 
   scope :sorted, -> { order(access_count: :desc) }

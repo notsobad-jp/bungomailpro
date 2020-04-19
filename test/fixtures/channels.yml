@@ -24,12 +24,10 @@
 #  index_users_on_remember_me_token  (remember_me_token)
 #
 
-current:
-  book: guten_book1
+channel1:
   user: user1
-  status: 1
+  title: デフォルトチャンネル
 
-stocked:
-  book: guten_book2
-  user: user1
-  status: 0
+channel2:
+  user: user2
+  title: デフォルトチャンネル

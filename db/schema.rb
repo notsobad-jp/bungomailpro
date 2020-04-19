@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_025919) do
+ActiveRecord::Schema.define(version: 2020_04_19_055200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -42,15 +42,16 @@ ActiveRecord::Schema.define(version: 2020_04_19_025919) do
   end
 
   create_table "book_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "guten_book_id", null: false
-    t.uuid "user_id", null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "feeds_count", default: 0
-    t.index ["guten_book_id"], name: "index_book_assignments_on_guten_book_id"
+    t.string "book_type"
+    t.bigint "book_id"
+    t.uuid "channel_id", null: false
+    t.index ["book_type", "book_id"], name: "index_book_assignments_on_book_type_and_book_id"
+    t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
     t.index ["status"], name: "index_book_assignments_on_status"
-    t.index ["user_id"], name: "index_book_assignments_on_user_id"
   end
 
   create_table "campaign_groups", force: :cascade do |t|
@@ -75,6 +76,18 @@ ActiveRecord::Schema.define(version: 2020_04_19_025919) do
     t.bigint "campaign_group_id", default: 1, null: false
     t.index ["campaign_group_id"], name: "index_campaigns_on_campaign_group_id"
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
+  end
+
+  create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "title"
+    t.text "description"
+    t.boolean "default", default: false, null: false
+    t.boolean "public", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
+    t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
   create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -126,8 +139,8 @@ ActiveRecord::Schema.define(version: 2020_04_19_025919) do
     t.string "title", null: false
     t.string "author"
     t.boolean "rights_reserved", default: false
-    t.string "language"
-    t.bigint "downloads"
+    t.string "language", default: "en"
+    t.bigint "downloads", default: 0
     t.integer "words_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -167,6 +180,16 @@ ActiveRecord::Schema.define(version: 2020_04_19_025919) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "channel_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
+    t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "crypted_password"
@@ -186,12 +209,14 @@ ActiveRecord::Schema.define(version: 2020_04_19_025919) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
-  add_foreign_key "book_assignments", "guten_books", name: "book_assignments_guten_book_id_fkey"
-  add_foreign_key "book_assignments", "users"
+  add_foreign_key "book_assignments", "channels"
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id", name: "campaign_groups_book_id_fkey"
   add_foreign_key "campaigns", "campaign_groups"
+  add_foreign_key "channels", "users"
   add_foreign_key "charges", "users"
   add_foreign_key "feeds", "book_assignments"
   add_foreign_key "guten_books_subjects", "guten_books", name: "guten_books_subjects_guten_book_id_fkey"
   add_foreign_key "guten_books_subjects", "subjects"
+  add_foreign_key "subscriptions", "channels"
+  add_foreign_key "subscriptions", "users"
 end

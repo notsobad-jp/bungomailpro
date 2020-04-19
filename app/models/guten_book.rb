@@ -17,6 +17,7 @@ require 'open-uri'
 
 class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
+  has_many :book_assignments, as: :book, dependent: :destroy
 
   default_scope { where(language: :en) }
   scope :sorted, -> { order(downloads: :desc) }
