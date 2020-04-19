@@ -95,6 +95,7 @@ Rails.application.routes.draw do
 
         root to: 'pages#lp'
       end
+      get '/' => 'pages#lp'
     end
   end
 
