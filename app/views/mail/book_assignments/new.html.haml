@@ -3,11 +3,7 @@
   .sub.header
     = @book.author_name
 
-- if @book.rights_reserved?
-  .ui.warning.message
-    = t '.copyright_reserved.html'
-
-%p= @meta_description
+%p= t(:description, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @category[:name], category_title: @category[:title], words_count: @book.words_count.to_s(:delimited))
 
 %table.ui.definition.fixed.unstackable.table
   %tbody
@@ -23,10 +19,14 @@
       %td
         %small= t :popularity, scope: [:search, :defaults]
       %td
-        = access_count_stars(@book.access_rating(:stars))
+        %span
+          - @book.access_rating(:stars).times do |i|
+            %i.icon.yellow.star
+          - (3- @book.access_rating(:stars)).times do |i|
+            %i.icon.yellow.outline.star
         &nbsp;
         = (@book.popularity > 0 ) ? @book.popularity.to_s(:delimited) : '--'
-        %small= t('.popularity_unit')
+        %small= t(:popularity_unit, scope: [:search, :books, :show])
     %tr
       %td
         %small= t :beginning, scope: [:search, :defaults]
@@ -41,3 +41,6 @@
         (#{@book.try(:birth_year)} - #{@book.try(:death_year)})
 
 = link_to 'Add to the stock', book_assignments_path(guten_book_id: @book.id), method: :post, class: 'ui red responsive button'
+&nbsp;
+= link_to locale_root_url(locale: :en), class: 'ui basic responsive button' do
+  Back to search

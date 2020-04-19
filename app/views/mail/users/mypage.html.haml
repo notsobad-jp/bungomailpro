@@ -55,7 +55,7 @@
           = link_to url, target: :_blank do
             = url
             %i.icon.small.external
-    = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
+    = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
     %small *We offer infinite skip during BETA, but it will be restricted after the official launch.
   %br
   %br
@@ -97,8 +97,11 @@
   %h5.ui.small.horizontal.divider.header
     %i.icon.credit.card.outline
     Payment
-  .ui.info.message
-    %i.icon.gift
-    The service is 100% free during BETA. Please enjoy and
-    = link_to 'give us feedback!', 'https://forms.gle/MFpUGvm68DLCmWDQ9', target: :_blank
+  %p
+    To continue this service after the free trial, you need to subscribe our subscription plan on Buy me a coffee,
+  %p
+    = link_to 'https://www.buymeacoffee.com/bungomail', target: :_blank, class: 'ui red large responsive button' do
+      Subscribe on Buy me a coffee
+      &nbsp;
+      %i.icon.external.small
   %br
