@@ -1,0 +1,28 @@
+.ui.basic.segment
+  %h1.ui.header
+    New Channel
+
+  = form_with model: @channel, local: true, class: 'ui form' do |f|
+    .field
+      = f.label :title
+      = f.text_field :title
+    .field
+      = f.label :description
+      = f.text_area :description
+    .field
+      = f.label :delivery_time
+      = f.time_field :delivery_time, required: true
+    .field
+      = f.label "Content Length (words per day)"
+      = f.number_field :words_per_day, min: 200, max: 1000, step: 50, placeholder: '400'
+      %small *Content length should be between 200-1,000 words per day.
+    .field
+      = f.label :public
+      = f.check_box :public
+    .field
+      = f.label :default
+      = f.check_box :default
+    .field
+      = f.submit 'Save', class: 'ui red responsive button'
+      &nbsp;
+      = link_to 'Cancel', mypage_path, class: 'ui basic responsive button'

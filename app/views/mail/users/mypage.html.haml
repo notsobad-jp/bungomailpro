@@ -17,64 +17,22 @@
   %br
 
   %h5.ui.small.horizontal.divider.header
-    %i.icon.newspaper.outline
-    Current Book
-  - if @book_assignment.blank?
-    %p No book is scheduled now.
-    %small *It takes a few minutes to set a new book after skipping. Please reload the page later if you've just skipped.
-  - else
-    %table.ui.fixed.definition.table
-      %tr
-        %td.four.wide Title
-        %td.twelve.wide= @book_assignment.book.title
-      %tr
-        %td Author
-        %td= @book_assignment.book.author_name
-      %tr
-        %td Delivery Status
-        %td= "Delivered #{@book_assignment.feeds.where.not(scheduled_at: nil).count} of #{@book_assignment.feeds.count}"
-      %tr
-        %td URL
-        %td
-          - url = @book_assignment.book.original_file_url
-          = link_to url, target: :_blank do
-            = url
-            %i.icon.small.external
-    = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
+    %i.icon.rss
+    Channels
   %br
+  .ui.stackable.cards
+    - @channels.each do |channel|
+      = link_to channel_path(channel), class: 'card' do
+        .content
+          .header
+            = channel.title || "Default Channel"
+            - unless channel.public
+              %i.icon.lock.small
+          .description= channel.description
   %br
-
-  %h5.ui.small.horizontal.divider.header
-    %i.icon.dolly.flatbed
-    Stocked Books
-  - if @stocked_books.blank?
-    %p No books are stocked.
-    %small *You can manually select and stock books for future distribution.
-  - else
-    %table.ui.fixed.celled.table
-      %thead
-        %tr
-          %th.one.wide #
-          %th.eight.wide Title
-          %th.three.wide URL
-          %th.four.wide
-      %tbody
-        - @stocked_books.each.with_index(1) do |stocked, index|
-          %tr
-            %td= index
-            %td
-              = stocked.book.title
-              %br
-              %small
-                by
-                = stocked.book.author_name
-            %td
-              - url = stocked.book.original_file_url
-              = link_to url, target: :_blank do
-                = url
-                %i.icon.small.external
-            %td
-              = link_to 'Delete', book_assignment_path(stocked), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }
+  = link_to new_channel_path, class: 'ui blue responsive button' do
+    %i.icon.plus
+    New channel
   %br
   %br
 

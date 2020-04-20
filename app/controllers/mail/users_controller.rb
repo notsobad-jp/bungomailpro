@@ -23,8 +23,7 @@ class Mail::UsersController < Mail::ApplicationController
   end
 
   def mypage
-    @book_assignment = current_user.default_channel.current_book_assignment
-    @stocked_books = current_user.default_channel.book_assignments.stocked
+    @channels = current_user.channels
     @breadcrumbs << { name: 'Mypage' }
   end
 
