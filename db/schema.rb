@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_084237) do
+ActiveRecord::Schema.define(version: 2020_04_20_055506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_084237) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "feeds", force: :cascade do |t|
+  create_table "feeds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "index", default: 1, null: false
     t.string "title"
     t.text "content"
