@@ -36,6 +36,6 @@ class Search::ApplicationController < ApplicationController
       I18n.locale = params[:juvenile] ? :ja_juvenile : I18n.default_locale
       book_class = params[:juvenile] ? AozoraJuvenileBook : AozoraBook
     end
-    Object.const_set :Book, Class.new(book_class)
+    Object.const_set :Book, Class.new(book_class) unless Object.const_defined?(:Book)
   end
 end
