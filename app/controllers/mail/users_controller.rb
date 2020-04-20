@@ -46,6 +46,6 @@ class Mail::UsersController < Mail::ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :timezone, :delivery_time, :words_per_day)
+    params.require(:user).permit(:email, :timezone, channels_attributes: [:id, :delivery_time, :words_per_day])
   end
 end

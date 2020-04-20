@@ -1,0 +1,21 @@
+.ui.basic.segment
+  %h1.ui.header
+    Welcome to BungoMail🎉
+
+  = form_with model: current_user, local: true, class: 'ui form' do |f|
+    .field
+      = f.label :timezone
+      = f.time_zone_select :timezone, nil, {}, { class: 'ui dropdown' }
+    = f.fields_for :channels, current_user.default_channel do |cf|
+      .field
+        = cf.label :delivery_time
+        = cf.time_field :delivery_time, value: Channel.column_defaults["delivery_time"].strftime("%H:%M"), required: true
+      .field
+        = cf.label "Content Length (words per day)"
+        = cf.number_field :words_per_day, value: Channel.column_defaults["words_per_day"], min: 200, max: 1000, step: 50, placeholder: '400'
+        %small *Content length should be between 200-1,000 words per day.
+
+    .ui.divider
+
+    = f.submit 'Start BungoMail', class: 'ui red responsive button'
+    = link_to 'Skip and set later', mypage_path, class: 'ui transparent small responsive underline dashed button'

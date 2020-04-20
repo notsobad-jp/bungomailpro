@@ -36,7 +36,13 @@ footer a { color: #fff !important; }
 
 .ui.checkbox .box, .ui.checkbox label { cursor: pointer; }
 
-.ui.transparent.button { box-shadow: none !important; }
+.ui.transparent.button {
+  box-shadow: none !important;
+  background: transparent;
+}
+.underline.dashed {
+  text-decoration: underline dashed;
+}
 
 .right.floated { float: right; }
 

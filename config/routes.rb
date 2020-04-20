@@ -106,6 +106,7 @@ Rails.application.routes.draw do
         post 'logout' => 'magic_tokens#destroy'
         get 'auth' => 'magic_tokens#auth'
         get 'mypage' => "users#mypage", as: :mypage
+        get 'welcome' => "users#welcome", as: :welcome
 
         get '/campaigns/dogramagra' => "pages#dogramagra"
         get '/:locale' => 'pages#lp'
