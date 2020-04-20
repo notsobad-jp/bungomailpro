@@ -40,7 +40,7 @@
         &nbsp;
         (#{@book.try(:birth_year)} - #{@book.try(:death_year)})
 
-= link_to 'Add to the stock', book_assignments_path(guten_book_id: @book.id), method: :post, class: 'ui red responsive button'
+= link_to 'Add to the stock', channel_book_assignments_path(channel_id: @channel.id, book_id: @book.id, book_type: params[:book_type]), method: :post, class: 'ui red responsive button'
 &nbsp;
-= link_to locale_root_url(locale: :en), class: 'ui basic responsive button' do
+= link_to root_url, class: 'ui basic responsive button' do
   Back to search

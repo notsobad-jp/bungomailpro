@@ -63,13 +63,13 @@
           %tr
             %td= index
             %td
-              = stocked.guten_book.title
+              = stocked.book.title
               %br
               %small
                 by
-                = stocked.guten_book.author_name
+                = stocked.book.author_name
             %td
-              - url = stocked.guten_book.gutenberg_book_url
+              - url = stocked.book.original_file_url
               = link_to url, target: :_blank do
                 = url
                 %i.icon.small.external

@@ -1,13 +1,11 @@
 class Mail::BookAssignmentsController < Mail::ApplicationController
-  def new
-    @book = GutenBook.find(params[:guten_book_id])
-    unless @book.category && @book.author_id
-      flash[:error] = 'Sorry invalid data. Please search the book again.'
-      redirect_to mypage_path
-    end
-    @book_assignment = BookAssignment.new(guten_book_id: params[:guten_book_id])
+  before_action :set_channel_and_book, only: [:new, :create]
 
-    @categories = GutenBook::CATEGORIES
+  def new
+    @book_assignment = @channel.book_assignments.new
+    @book_assignment.book = @book
+
+    @categories = @book.class::CATEGORIES
     @category = @categories[@book.category_id.to_sym]
     @author = { id: @book.author_id, name: @book.author_name }
 
@@ -15,9 +13,14 @@ class Mail::BookAssignmentsController < Mail::ApplicationController
   end
 
   def create
-    @book = GutenBook.find(params[:guten_book_id])
-    current_user.book_assignments.create(guten_book_id: params[:guten_book_id])
-    flash[:success] = 'Added the stocked book successfully!'
+    @book_assignment = @channel.book_assignments.new
+    @book_assignment.book = @book
+
+    if @book_assignment.save
+      flash[:success] = 'Added the stocked book successfully!'
+    else
+      flash[:error] = 'Sorry somethin went wrong. Please check the data and try again.'
+    end
     redirect_to mypage_path
   end
 
@@ -37,5 +40,14 @@ class Mail::BookAssignmentsController < Mail::ApplicationController
     @book_assignment.destroy
     flash[:success] = 'Deleted the stocked book successfully!'
     redirect_to mypage_path
+  end
+
+  private
+
+  def set_channel_and_book
+    @channel = Channel.find(params[:channel_id])
+    book_class = params[:book_type].constantize if %w(AozoraBook GutenBook).include?(params[:book_type])
+    @book = book_class&.find_by(id: params[:book_id])
+    raise ActiveRecord::RecordNotFound unless @channel && @book&.category && @book&.author_id
   end
 end

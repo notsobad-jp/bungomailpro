@@ -23,5 +23,4 @@
 
 class Feed < ApplicationRecord
   belongs_to :book_assignment
-  # has_one :user, through: :book_assignment
 end
