@@ -116,7 +116,7 @@ Rails.application.routes.draw do
           root :to => 'books#index', as: :search_root
         end
       end
-      get '/:locale' => 'books#index', as: :locale_root
+      get '/:locale' => 'books#index'
       get '/:juvenile' => 'books#index', as: :juvenile_root
     end
   end
