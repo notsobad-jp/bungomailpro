@@ -23,7 +23,7 @@ class Channel < ApplicationRecord
   end
 
   def current_book_assignment
-    self.book_assignments.includes(:guten_book, :feeds).find_by(status: :active)
+    self.book_assignments.includes(:book, :feeds).find_by(status: :active)
   end
 
   def select_book

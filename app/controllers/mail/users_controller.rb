@@ -10,7 +10,7 @@ class Mail::UsersController < Mail::ApplicationController
     end
 
     @user.locale = I18n.locale
-    @user.timezone = 'JST' if I18n.locale == :ja  # 日本のときはJST。デフォルトはUTC
+    @user.timezone = 'Tokyo' if I18n.locale == :ja  # 日本のときはJST。デフォルトはUTC
 
     if @user.save
       # 本を選んでfeedsをセット。最初のfeedはすぐに配信する
@@ -23,8 +23,8 @@ class Mail::UsersController < Mail::ApplicationController
   end
 
   def mypage
-    @book_assignment = current_user.current_book_assignment
-    @stocked_books = current_user.book_assignments.stocked
+    @book_assignment = current_user.default_channel.current_book_assignment
+    @stocked_books = current_user.default_channel.book_assignments.stocked
     @breadcrumbs << { name: 'Mypage' }
   end
 

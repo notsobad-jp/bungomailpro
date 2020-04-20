@@ -1,32 +1,17 @@
 .ui.basic.segment
   %h1.ui.header
-    Settings
+    Mypage
 
   %h5.ui.small.horizontal.divider.header
     %i.icon.user.outline
     User Profile
   %table.ui.fixed.definition.table
     %tr
-      %td Email
-      %td= current_user.email
-  %br
-  %br
-
-  %h5.ui.small.horizontal.divider.header
-    %i.icon.envelope.outline
-    Delivery Settings
-  %table.ui.fixed.definition.table
+      %td.four.wide Email
+      %td.twelve.wide= current_user.email
     %tr
       %td Timezone
       %td= current_user.timezone
-    %tr
-      %td Delivery Time
-      %td= current_user.delivery_time
-    %tr
-      %td Content Length
-      %td
-        = current_user.words_per_day
-        words/day
   = link_to 'Edit', edit_user_path(current_user), class: 'ui blue small responsive button'
   %br
   %br
@@ -40,23 +25,22 @@
   - else
     %table.ui.fixed.definition.table
       %tr
-        %td Title
-        %td= @book_assignment.guten_book.title
+        %td.four.wide Title
+        %td.twelve.wide= @book_assignment.book.title
       %tr
         %td Author
-        %td= @book_assignment.guten_book.author_name
+        %td= @book_assignment.book.author_name
       %tr
         %td Delivery Status
         %td= "Delivered #{@book_assignment.feeds.where.not(scheduled_at: nil).count} of #{@book_assignment.feeds.count}"
       %tr
         %td URL
         %td
-          - url = @book_assignment.guten_book.gutenberg_book_url
+          - url = @book_assignment.book.original_file_url
           = link_to url, target: :_blank do
             = url
             %i.icon.small.external
     = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
-    %small *We offer infinite skip during BETA, but it will be restricted after the official launch.
   %br
   %br
 
