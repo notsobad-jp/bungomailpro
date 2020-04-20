@@ -8,4 +8,5 @@
 - if current_page.first?
   %span.first.item First
 - else
+  - url = locale_root_url if url == ""
   = link_to 'First', url, remote: remote, class: 'first item'
