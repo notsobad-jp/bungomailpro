@@ -38,4 +38,10 @@ class Search::ApplicationController < ApplicationController
     end
     Object.const_set :Book, Class.new(book_class)
   end
+  
+  def default_url_options
+    locale = :en if I18n.locale.slice(0,2).to_sym == :en
+    juvenile = :juvenile if params[:juvenile].present?
+    { locale: locale, juvenile: juvenile }
+  end
 end
