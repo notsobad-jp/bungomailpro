@@ -84,7 +84,7 @@
 %br
 
 - if lang_locale == :en
-  = link_to new_book_assignment_url(subdomain: 'en', guten_book_id: @book.id), class: 'ui primary responsive button', target: :_blank do
+  = link_to new_book_assignment_url(book_id: @book.id, book_type: @book.class.table_name.classify), class: 'ui primary responsive button', target: :_blank do
     = t '.read_at_bungomail'
     &nbsp;
     %small

@@ -7,7 +7,7 @@
 
 - title = (@author[:id]=="all" && @category[:id]=="all") ? t('.default_title') : "#{@meta_title} | #{t(:bungo_search, scope: [:search, :defaults])}"
 %title= title
-- description = current_page?(root_path) ? t('.default_description') : @meta_description
+- description = current_page?(locale_root_url) ? t('.default_description') : @meta_description
 %meta(name="description" content="#{description}")
 %meta(name="keywords" content="#{@meta_keywords},#{t('.default_keywords')}")
 
