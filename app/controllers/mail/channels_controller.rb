@@ -3,11 +3,14 @@ class Mail::ChannelsController < Mail::ApplicationController
 
   def new
     @channel = Channel.new
+    @breadcrumbs << { name: 'Mypage', url: mypage_path }
     @breadcrumbs << { name: 'New Channel' }
   end
 
   def create
     @channel = current_user.channels.new(channel_params)
+    @breadcrumbs << { name: 'Mypage', url: mypage_path }
+
     if @channel.save
       flash[:success] = 'Channel created!'
       redirect_to channel_path(@channel)
@@ -18,10 +21,12 @@ class Mail::ChannelsController < Mail::ApplicationController
   end
 
   def edit
+    @breadcrumbs << { name: 'Mypage', url: mypage_path }
     @breadcrumbs << { name: 'Edit Channel' }
   end
 
   def update
+    @breadcrumbs << { name: 'Mypage', url: mypage_path }
     if @channel.update(channel_params)
       flash[:success] = 'Channel updated!'
       redirect_to channel_path(@channel)
@@ -35,7 +40,8 @@ class Mail::ChannelsController < Mail::ApplicationController
     @book_assignment = @channel.current_book_assignment
     @stocked_books = @channel.book_assignments.stocked
 
-    @breadcrumbs << { name: @channel.title || "Default Channel" }
+    @breadcrumbs << { name: 'Mypage', url: mypage_path }
+    @breadcrumbs << { name: @channel.title || "(Default Channel)" }
   end
 
   def destroy

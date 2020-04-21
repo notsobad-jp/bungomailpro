@@ -20,7 +20,7 @@
     %i.icon.rss
     Channels
   %br
-  .ui.stackable.cards
+  .ui.stackable.three.cards
     - @channels.each do |channel|
       = link_to channel_path(channel), class: 'card' do
         .content

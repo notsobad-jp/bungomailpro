@@ -17,7 +17,7 @@ class Mail::ApplicationController < ApplicationController
   end
 
   def set_meta_tags
-    @breadcrumbs = [{ name: 'HOME', url: root_url }]
+    @breadcrumbs = [{ name: 'TOP', url: root_url }]
   end
 
   def switch_locale

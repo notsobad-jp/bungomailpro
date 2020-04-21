@@ -1,5 +1,5 @@
 .ui.basic.segment
-  %h1.ui.header
+  %h1.ui.large.header
     Welcome to BungoMail🎉
 
   = form_with model: current_user, local: true, class: 'ui form' do |f|
@@ -18,4 +18,5 @@
     .ui.divider
 
     = f.submit 'Start BungoMail', class: 'ui red responsive button'
+    &nbsp;
     = link_to 'Skip and set later', mypage_path, class: 'ui transparent small responsive underline dashed button'

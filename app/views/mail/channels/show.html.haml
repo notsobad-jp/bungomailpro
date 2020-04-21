@@ -1,89 +1,31 @@
-.ui.basic.segment
-  %h1.ui.header
-    = @channel.title || "Default Channel"
-    - if @channel.default
-      %small
-        %i.icon.small.star.orange
-    - unless @channel.public
-      %small
-        %i.icon.small.lock.grey
+= render partial: 'profile', locals: { channel: @channel }
+= render partial: 'menu', locals: { channel: @channel, active: 'current' }
 
-  - if @channel.description.present?
-    %p= simple_format(@channel.description)
-
-  %table.ui.definition.fixed.unstackable.table
-    %tbody
-      %tr
-        %td.three.wide
-          Delivery Time
-        %td.thirteen.wide
-          = @channel.delivery_time.strftime("%H:%M")
-      %tr
-        %td.three.wide
-          Words per Day
-        %td.thirteen.wide
-          = @channel.words_per_day
-
-  = link_to 'Edit', edit_channel_path(@channel), class: 'ui blue responsive button'
-
-  %h5.ui.small.horizontal.divider.header
-    %i.icon.newspaper.outline
-    Current Book
-  - if @book_assignment.blank?
-    %p No book is scheduled now.
-    %small *It takes a few minutes to set a new book after skipping. Please reload the page later if you've just skipped.
-  - else
-    %table.ui.fixed.definition.table
-      %tr
-        %td.four.wide Title
-        %td.twelve.wide= @book_assignment.book.title
-      %tr
-        %td Author
-        %td= @book_assignment.book.author_name
-      %tr
-        %td Delivery Status
-        %td= "Delivered #{@book_assignment.feeds.where.not(scheduled_at: nil).count} of #{@book_assignment.feeds.count}"
-      %tr
-        %td URL
-        %td
-          - url = @book_assignment.book.original_file_url
-          = link_to url, target: :_blank do
-            = url
-            %i.icon.small.external
-    = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
-  %br
-  %br
-
-  %h5.ui.small.horizontal.divider.header
-    %i.icon.dolly.flatbed
-    Stocked Books
-  - if @stocked_books.blank?
-    %p No books are stocked.
-    %small *You can manually select and stock books for future distribution.
-  - else
-    %table.ui.fixed.celled.table
-      %thead
-        %tr
-          %th.one.wide #
-          %th.eight.wide Title
-          %th.three.wide URL
-          %th.four.wide
-      %tbody
-        - @stocked_books.each.with_index(1) do |stocked, index|
-          %tr
-            %td= index
-            %td
-              = stocked.book.title
-              %br
-              %small
-                by
-                = stocked.book.author_name
-            %td
-              - url = stocked.book.original_file_url
-              = link_to url, target: :_blank do
-                = url
-                %i.icon.small.external
-            %td
-              = link_to 'Delete', book_assignment_path(stocked), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }
-  %br
-  %br
+- if @book_assignment.blank?
+  %p (No book is scheduled yet.)
+  .ui.secondary.center.aligned.segment
+    %div= link_to 'Start Now!', channel_path(@channel), class: 'ui red responsive button'
+    %p
+      Leave it up to us and we select a good book for you😉
+    %p
+      Or you can
+      = link_to 'select books by yourself.', locale_root_url
+- else
+  %table.ui.fixed.definition.table
+    %tr
+      %td.four.wide Title
+      %td.twelve.wide= @book_assignment.book.title
+    %tr
+      %td Author
+      %td= @book_assignment.book.author_name
+    %tr
+      %td Delivery Status
+      %td= "Delivered #{@book_assignment.feeds.where.not(scheduled_at: nil).count} of #{@book_assignment.feeds.count}"
+    %tr
+      %td URL
+      %td
+        - url = @book_assignment.book.original_file_url
+        = link_to url, target: :_blank do
+          = url
+          %i.icon.small.external
+  = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }

@@ -45,9 +45,17 @@ footer a { color: #fff !important; }
 }
 
 .right.floated { float: right; }
+.float-cleared:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 
-/* Zorasearch */
-#search #breadcrumb { margin: 1rem 0 !important; }
+.mb-0 { margin-bottom: 0px !important; }
+.mb-50 { margin-bottom: 50px; }
+.mb-70 { margin-bottom: 70px; }
 
 
 @media only screen and (max-width: 767px) {
