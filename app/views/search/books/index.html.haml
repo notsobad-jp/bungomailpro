@@ -68,7 +68,7 @@
     - if @books.blank?
       %tr
         %td(colspan="3")= t '.no_results'
-    = render partial: 'raw', collection: @books, as: :book, locals: { category: @category, author: @author }, cached: true
+    = render partial: 'raw', collection: @books, as: :book, locals: { category: @category, author: @author }
 
 %small
   = t '.copyright_reserved.html'
