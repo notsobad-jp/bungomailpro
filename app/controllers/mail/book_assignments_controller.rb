@@ -1,18 +1,6 @@
 class Mail::BookAssignmentsController < Mail::ApplicationController
   before_action :set_book, only: [:new, :create]
 
-  def index
-    @channel = Channel.find(params[:channel_id])
-
-    if params[:status] == "finished"
-      @active_tab = "finished"
-      @book_assignments = @channel.book_assignments.where(status: [:finished, :skipped, :canceled])
-    else
-      @active_tab = "scheduled"
-      @book_assignments = @channel.book_assignments.active
-    end
-  end
-
   def new
     @channel = current_user.default_channel
     @book_assignment = @channel.book_assignments.new(book_id: @book.id, book_type: @book.class.name)

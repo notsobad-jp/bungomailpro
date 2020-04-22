@@ -38,7 +38,13 @@ class Mail::ChannelsController < Mail::ApplicationController
 
   def show
     @book_assignment = @channel.current_book_assignment
-    @stocked_books = @channel.book_assignments.stocked
+    if params[:status] == "finished"
+      @active_tab = "finished"
+      @book_assignments = @channel.book_assignments.where(status: [:finished, :skipped, :canceled])
+    else
+      @active_tab = "scheduled"
+      @book_assignments = @channel.book_assignments.stocked
+    end
 
     @breadcrumbs << { name: 'Mypage', url: mypage_path }
     @breadcrumbs << { name: @channel.title || "(Default Channel)" }

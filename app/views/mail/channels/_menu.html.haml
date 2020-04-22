@@ -1,4 +1,0 @@
-.ui.secondary.pointing.menu
-  = link_to 'Current', channel_path(channel), class: "item #{'active' if active == 'current'}"
-  = link_to 'Scheduled', channel_book_assignments_path(channel_id: channel.id), class: "item #{'active' if active == 'scheduled'}"
-  = link_to 'Finished', channel_book_assignments_path(channel_id: channel.id, status: :finished), class: "item #{'active' if active == 'finished'}"
