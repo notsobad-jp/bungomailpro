@@ -15,7 +15,7 @@
       %br
       %small (#{book.try(:birth_year)}-#{book.try(:death_year)})
   %td
-    = link_to author_category_books_path(author_id: author[:id], category_id: book.category_id) do
+    = link_to author_category_books_path(author_id: book.author_id, category_id: book.category_id) do
       = category_label(book.category)
     &nbsp;
     %small
@@ -41,7 +41,7 @@
     = link_to author_category_books_path(author_id: book.author_id, category_id: category[:id]) do
       = book.author_name
   %td
-    = link_to author_category_books_path(author_id: author[:id], category_id: book.category_id) do
+    = link_to author_category_books_path(author_id: book.author_id, category_id: book.category_id) do
       = category_label(book.category)
     %small.right.floated= access_count_stars(book.access_rating(:stars))
 %tr.mobile.only.sub.ellipsis
