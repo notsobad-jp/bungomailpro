@@ -21,9 +21,9 @@
       %td
         %span
           - @book.access_rating(:stars).times do |i|
-            %i.icon.yellow.star
+            %i.icon.yellow.star.m-0
           - (3- @book.access_rating(:stars)).times do |i|
-            %i.icon.yellow.outline.star
+            %i.icon.yellow.outline.star.m-0
         &nbsp;
         = (@book.popularity > 0 ) ? @book.popularity.to_s(:delimited) : '--'
         %small= t(:popularity_unit, scope: [:search, :books, :show])
@@ -40,7 +40,7 @@
         &nbsp;
         (#{@book.try(:birth_year)} - #{@book.try(:death_year)})
 
-= link_to 'Add to the stock', book_assignments_path(channel_id: @channel.id, book_id: @book.id, book_type: params[:book_type]), method: :post, class: 'ui red responsive button'
+= link_to 'Add to the channel', book_assignments_path(channel_id: @channel.id, book_id: @book.id, book_type: @book.class.name), method: :post, class: 'ui red responsive button'
 &nbsp;
-= link_to books_path, class: 'ui basic responsive button' do
+= link_to books_path(book_type: @book.class.name), class: 'ui basic responsive button' do
   Back to search

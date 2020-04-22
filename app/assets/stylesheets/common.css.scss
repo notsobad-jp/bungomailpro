@@ -56,7 +56,8 @@ footer a { color: #fff !important; }
   visibility: hidden;
 }
 
-.mb-0 { margin-bottom: 0px !important; }
+.m-0 { margin: 0 !important; }
+.mb-0 { margin-bottom: 0 !important; }
 .mb-30 { margin-bottom: 30px; }
 .mb-50 { margin-bottom: 50px; }
 .mb-70 { margin-bottom: 70px; }
@@ -93,6 +94,6 @@ footer a { color: #fff !important; }
     z-index: 1000;
     position: -webkit-sticky !important;
     position: sticky !important;
-    top: 0px !important;
+    top: 10px !important;
   }
 }

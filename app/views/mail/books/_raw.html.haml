@@ -1,6 +1,6 @@
 %tr.computer.only
   %td
-    = link_to book_path(book_type: 'gutenberg', id: book.id) do
+    = link_to book_path(book_type: book.class.name, id: book.id) do
       = book.title.truncate(100)
       - if book.rights_reserved?
         %small
@@ -18,14 +18,18 @@
       = book.words_count.to_s(:delimited)
       = t :words, scope: [:search, :defaults]
   %td
-    = access_count_stars(book.access_rating(:stars))
+    %span
+      - book.access_rating(:stars).times do |i|
+        %i.icon.yellow.star.small.m-0
+      - (3- book.access_rating(:stars)).times do |i|
+        %i.icon.yellow.outline.star.small.m-0
   %td
     %small
       = truncated_beginning(book.beginning)
 
 %tr.mobile.only.main
   %td
-    = link_to book_path(book_type: 'gutenberg', id: book.id) do
+    = link_to book_path(book_type: book.class.name, id: book.id) do
       = book.title.truncate(75)
       - if book.rights_reserved?
         %small
@@ -33,7 +37,8 @@
   %td
     = book.author_name
   %td
-    %small.right.floated= access_count_stars(book.access_rating(:stars))
-%tr.mobile.only.sub.ellipsis
-  %td(colspan="3")
-    %small= book.beginning
+    %small.right.floated
+      - book.access_rating(:stars).times do |i|
+        %i.icon.yellow.star.small.m-0
+      - (3- book.access_rating(:stars)).times do |i|
+        %i.icon.yellow.outline.star.small.m-0

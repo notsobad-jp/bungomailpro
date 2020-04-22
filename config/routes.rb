@@ -17,8 +17,6 @@
 #                           PATCH  /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
 #                           PUT    /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
 #                           DELETE /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
-#                     books GET    /:locale/books(.:format)                                                                   mail/books#index {:subdomain=>"", :locale=>/ja|en/}
-#                      book GET    /:locale/books/:id(.:format)                                                               mail/books#show {:subdomain=>"", :locale=>/ja|en/}
 #     channel_subscriptions GET    /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#index {:subdomain=>"", :locale=>/ja|en/}
 #                           POST   /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#create {:subdomain=>"", :locale=>/ja|en/}
 #  new_channel_subscription GET    /:locale/channels/:channel_id/subscriptions/new(.:format)                                  mail/subscriptions#new {:subdomain=>"", :locale=>/ja|en/}
@@ -44,6 +42,8 @@
 #                           PATCH  /:locale/book_assignments/:id(.:format)                                                    mail/book_assignments#update {:subdomain=>"", :locale=>/ja|en/}
 #                           PUT    /:locale/book_assignments/:id(.:format)                                                    mail/book_assignments#update {:subdomain=>"", :locale=>/ja|en/}
 #                           DELETE /:locale/book_assignments/:id(.:format)                                                    mail/book_assignments#destroy {:subdomain=>"", :locale=>/ja|en/}
+#                      book GET    /:locale/books/:book_type/:id(.:format)                                                    mail/books#show {:subdomain=>"", :locale=>/ja|en/}
+#                     books GET    /:locale/books(/:book_type)(.:format)                                                      mail/books#index {:subdomain=>"", :locale=>/ja|en/}
 #                     login GET    /:locale/login(.:format)                                                                   mail/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
 #                    logout POST   /:locale/logout(.:format)                                                                  mail/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
 #                      auth GET    /:locale/auth(.:format)                                                                    mail/magic_tokens#auth {:subdomain=>"", :locale=>/ja|en/}
@@ -96,14 +96,14 @@ Rails.application.routes.draw do
       scope ":locale", locale: /ja|en/ do
         resources :users
         resources :magic_tokens
+        resources :guten_books, only: [:index, :show]
+        resources :aozora_books, only: [:index, :show]
         resources :channels, shallow: true do
           resources :subscriptions
         end
         resources :book_assignments do
           post 'skip', on: :member
         end
-        get 'books' => 'books#index', as: :books
-        get 'books/:book_type/:id' => 'books#show', as: :book
 
         get 'login' => 'magic_tokens#new'
         post 'logout' => 'magic_tokens#destroy'

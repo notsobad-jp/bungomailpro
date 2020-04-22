@@ -49,7 +49,7 @@
       .ui.container
         .ui.stackable.grid
           #sidebar.ui.four.wide.tablet.computer.only.column
-            .ui.vertical.secondary.fluid.menu
+            .ui.vertical.secondary.fluid.large.sticking.menu
               = render partial: 'mail/layouts/menu_items', locals: { active: @active_tab }
           .ui.twelve.wide.column
             - %w(warning error success info).each do |status|
