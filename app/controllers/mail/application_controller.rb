@@ -22,8 +22,6 @@ class Mail::ApplicationController < ApplicationController
 
   def switch_locale
     I18n.locale = params[:locale]&.to_sym || I18n.default_locale
-    book_class = I18n.locale == :ja ? AozoraBook : GutenBook
-    Object.const_set :Book, Class.new(book_class)
   end
 
   def default_url_options

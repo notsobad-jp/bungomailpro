@@ -17,6 +17,8 @@
 #                           PATCH  /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
 #                           PUT    /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
 #                           DELETE /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
+#                     books GET    /:locale/books(.:format)                                                                   mail/books#index {:subdomain=>"", :locale=>/ja|en/}
+#                      book GET    /:locale/books/:id(.:format)                                                               mail/books#show {:subdomain=>"", :locale=>/ja|en/}
 #     channel_subscriptions GET    /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#index {:subdomain=>"", :locale=>/ja|en/}
 #                           POST   /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#create {:subdomain=>"", :locale=>/ja|en/}
 #  new_channel_subscription GET    /:locale/channels/:channel_id/subscriptions/new(.:format)                                  mail/subscriptions#new {:subdomain=>"", :locale=>/ja|en/}
@@ -94,6 +96,7 @@ Rails.application.routes.draw do
       scope ":locale", locale: /ja|en/ do
         resources :users
         resources :magic_tokens
+        resources :books, only: [:index, :show]
         resources :channels, shallow: true do
           resources :subscriptions
         end
