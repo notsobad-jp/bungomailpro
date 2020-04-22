@@ -1,16 +1,5 @@
 class Mail::BookAssignmentsController < Mail::ApplicationController
-  before_action :set_book, only: [:new, :create]
-
-  def new
-    @channel = current_user.default_channel
-    @book_assignment = @channel.book_assignments.new(book_id: @book.id, book_type: @book.class.name)
-
-    @categories = @book.class::CATEGORIES
-    @category = @categories[@book.category_id.to_sym]
-    @author = { id: @book.author_id, name: @book.author_name }
-
-    @breadcrumbs << { name: 'Add to stock' }
-  end
+  before_action :set_book, only: [:create]
 
   def create
     @channel = Channel.find(params[:channel_id])

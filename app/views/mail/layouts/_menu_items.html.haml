@@ -1,7 +1,7 @@
 = link_to channels_path, class: "item #{'active' if active == :channels}" do
   %i.icon.rss
   Channels
-= link_to channels_path, class: "item #{'active' if active == :books}" do
+= link_to books_path, class: "item #{'active' if active == :books}" do
   %i.icon.search
   Books
 - if current_user

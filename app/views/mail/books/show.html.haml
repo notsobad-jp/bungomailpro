@@ -42,5 +42,5 @@
 
 = link_to 'Add to the stock', book_assignments_path(channel_id: @channel.id, book_id: @book.id, book_type: params[:book_type]), method: :post, class: 'ui red responsive button'
 &nbsp;
-= link_to root_url, class: 'ui basic responsive button' do
+= link_to books_path, class: 'ui basic responsive button' do
   Back to search

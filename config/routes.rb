@@ -96,13 +96,14 @@ Rails.application.routes.draw do
       scope ":locale", locale: /ja|en/ do
         resources :users
         resources :magic_tokens
-        resources :books, only: [:index, :show]
         resources :channels, shallow: true do
           resources :subscriptions
         end
         resources :book_assignments do
           post 'skip', on: :member
         end
+        get 'books' => 'books#index', as: :books
+        get 'books/:book_type/:id' => 'books#show', as: :book
 
         get 'login' => 'magic_tokens#new'
         post 'logout' => 'magic_tokens#destroy'
