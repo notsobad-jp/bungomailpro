@@ -1,0 +1,19 @@
+%div.mb-50
+  %h1.ui.large.header
+    My Channel
+
+  .ui.stackable.two.cards
+    - @channels.each do |channel|
+      = link_to channel_path(channel), class: 'card' do
+        .content
+          .header
+            = channel.title || "Default Channel"
+            - unless channel.public
+              %i.icon.lock.small
+          .description= channel.description
+  %br
+  = link_to new_channel_path, class: 'ui blue basic responsive button' do
+    %i.icon.plus
+    New channel
+  %br
+  %br

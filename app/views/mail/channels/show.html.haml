@@ -1,3 +1,9 @@
+%div.mb-30
+  .ui.breadcrumb
+    = link_to 'Channels', channels_path, class: 'section'
+    %i.icon.right.angle.divider
+    .section= @channel.title || "Channel"
+
 %div.mb-50
   %h1.ui.header.mb-0
     = @channel.title || "Default Channel"

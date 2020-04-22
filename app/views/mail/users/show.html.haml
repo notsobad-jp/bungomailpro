@@ -17,26 +17,6 @@
   %br
 
   %h5.ui.small.horizontal.divider.header
-    %i.icon.rss
-    Channels
-  %br
-  .ui.stackable.three.cards
-    - @channels.each do |channel|
-      = link_to channel_path(channel), class: 'card' do
-        .content
-          .header
-            = channel.title || "Default Channel"
-            - unless channel.public
-              %i.icon.lock.small
-          .description= channel.description
-  %br
-  = link_to new_channel_path, class: 'ui blue responsive button' do
-    %i.icon.plus
-    New channel
-  %br
-  %br
-
-  %h5.ui.small.horizontal.divider.header
     %i.icon.credit.card.outline
     Payment
   %p

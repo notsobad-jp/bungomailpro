@@ -32,20 +32,24 @@
     #dimmer.ui.page.inverted.dimmer
       .ui.text.loader Loading..
 
-    .ui.top.fixed.borderless.seigaiha.menu
+    .ui.top.attached.borderless.seigaiha.menu
       = link_to(root_path, class: 'header item') do
         Bungo Mail
       .right.menu
         - if current_user
-          = link_to current_user.email, mypage_path, class: 'item'
+          = link_to current_user.email, user_path(current_user), class: 'item'
           = link_to 'Sign Out', logout_path, method: :post, class: 'item'
         - else
           = link_to 'Sign In', login_path, class: 'item'
+    #mobile-menu.ui.bottom.fixed.fluid.three.item.mobile.only.menu
+      = render partial: 'mail/layouts/menu_items', locals: { active: @active_tab }
 
     %div#main-content
-      = render partial: 'mail/layouts/breadcrumb'
       .ui.container
         .ui.stackable.grid
+          #sidebar.ui.four.wide.tablet.computer.only.column
+            .ui.vertical.secondary.fluid.menu
+              = render partial: 'mail/layouts/menu_items', locals: { active: @active_tab }
           .ui.twelve.wide.column
             - %w(warning error success info).each do |status|
               - next unless flash[status]
@@ -54,6 +58,4 @@
                 %i.icon.circle{class: icon_class}
                 = sanitize flash[status]
             = yield
-          #sidebar.ui.four.wide.column
-            = render partial: 'mail/layouts/sidebar'
     = render partial: 'mail/layouts/footer'

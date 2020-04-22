@@ -1,12 +1,14 @@
 section, footer { padding: 50px 10px !important; }
 
 #main-content {
-  margin: 40px 0;
+  margin: 30px 0;
   word-break: break-all;
   min-height: calc(100vh - 190px);
 }
-#breadcrumb {
-  margin-bottom: 2rem;
+#mobile-menu {
+  z-index: 1000;
+  border-left: 0;
+  border-right: 0;
 }
 
 .hidden { display: none !important; }
@@ -20,6 +22,7 @@ section, footer { padding: 50px 10px !important; }
 
 .ui.form .inline.fields { line-height: 2em; }
 
+.ui.top.attached.menu { margin-top: 0; border-radius: 0; }
 .seigaiha {
   background-image: image-url('seigaiha.png') !important;
 }
@@ -54,6 +57,7 @@ footer a { color: #fff !important; }
 }
 
 .mb-0 { margin-bottom: 0px !important; }
+.mb-30 { margin-bottom: 30px; }
 .mb-50 { margin-bottom: 50px; }
 .mb-70 { margin-bottom: 70px; }
 

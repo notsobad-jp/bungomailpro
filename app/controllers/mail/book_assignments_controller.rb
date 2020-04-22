@@ -18,11 +18,10 @@ class Mail::BookAssignmentsController < Mail::ApplicationController
 
     if @book_assignment.save
       flash[:success] = 'Added the stocked book successfully!'
-      redirect_to channel_path(@channel)
     else
       flash[:error] = 'Sorry somethin went wrong. Please check the data and try again.'
-      redirect_to mypage_path
     end
+    redirect_to channel_path(@channel)
   end
 
   # 現在のBookAssignmentを削除して新しい本をセット

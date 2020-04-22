@@ -2,8 +2,7 @@ class Mail::MagicTokensController < Mail::ApplicationController
   skip_before_action :require_login, except: [:destroy]
 
   def new
-    redirect_to mypage_path if current_user
-    @breadcrumbs << { name: 'Signin' }
+    redirect_to user_path(current_user) if current_user
   end
 
   def create
@@ -23,7 +22,7 @@ class Mail::MagicTokensController < Mail::ApplicationController
     auto_login(@user)
     remember_me!
     flash[:success] = 'Signin successful!'
-    redirect_to mypage_path
+    redirect_to user_path(@user)
   end
 
   def destroy

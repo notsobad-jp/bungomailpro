@@ -1,4 +1,5 @@
 class Mail::UsersController < Mail::ApplicationController
+  before_action :set_active_tab
   skip_before_action :require_login, only: [:create]
 
   def create
@@ -22,21 +23,18 @@ class Mail::UsersController < Mail::ApplicationController
     redirect_to root_path
   end
 
-  def mypage
+  def show
     @channels = current_user.channels
-    @breadcrumbs << { name: 'Mypage' }
   end
 
   def edit
-    @breadcrumbs << { name: 'Mypage', url: mypage_path }
-    @breadcrumbs << { name: 'Delivery Settings' }
   end
 
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
       flash[:success] = 'Your data is saved successfully!'
-      redirect_to mypage_path
+      redirect_to user_path(@user)
     else
       flash[:error] = 'Sorry we failed to save your data. Please check the input again.'
       render :edit
@@ -47,5 +45,9 @@ class Mail::UsersController < Mail::ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :timezone, channels_attributes: [:id, :delivery_time, :words_per_day])
+  end
+
+  def set_active_tab
+    @active_tab = :settings
   end
 end

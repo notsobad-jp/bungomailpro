@@ -45,8 +45,6 @@
 #                     login GET    /:locale/login(.:format)                                                                   mail/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
 #                    logout POST   /:locale/logout(.:format)                                                                  mail/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
 #                      auth GET    /:locale/auth(.:format)                                                                    mail/magic_tokens#auth {:subdomain=>"", :locale=>/ja|en/}
-#                    mypage GET    /:locale/mypage(.:format)                                                                  mail/users#mypage {:subdomain=>"", :locale=>/ja|en/}
-#                   welcome GET    /:locale/welcome(.:format)                                                                 mail/users#welcome {:subdomain=>"", :locale=>/ja|en/}
 #      campaigns_dogramagra GET    /:locale/campaigns/dogramagra(.:format)                                                    mail/pages#dogramagra {:subdomain=>"", :locale=>/ja|en/}
 #                           GET    /:locale/:locale(.:format)                                                                 mail/pages#lp {:subdomain=>"", :locale=>/ja|en/}
 #                      page GET    /:locale/:page(.:format)                                                                   mail/pages#show {:subdomain=>"", :locale=>/ja|en/}
@@ -106,8 +104,6 @@ Rails.application.routes.draw do
         get 'login' => 'magic_tokens#new'
         post 'logout' => 'magic_tokens#destroy'
         get 'auth' => 'magic_tokens#auth'
-        get 'mypage' => "users#mypage", as: :mypage
-        get 'welcome' => "users#welcome", as: :welcome
 
         get '/campaigns/dogramagra' => "pages#dogramagra"
         get '/:locale' => 'pages#lp'
