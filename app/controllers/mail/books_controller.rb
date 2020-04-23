@@ -3,18 +3,14 @@ class Mail::BooksController < Mail::ApplicationController
   before_action :set_active_tab
 
   def index
-    @books = @book_class.where.not(category_id: nil).where.not(author_id: nil).sorted.page(params[:page]).per(50)
-    @category = @book_class::CATEGORIES[:all]
+    @search_params = search_params
+    @books = @book_class.search(@search_params)&.page(params[:page])&.per(30)
   end
 
   def show
     @channel = current_user.default_channel
     @book_assignment = BookAssignment.new(book_id: @book.id, book_type: @book.class.name)
-
-    @categories = @book.class::CATEGORIES
-    @category = @categories[@book.category_id.to_sym]
     @author = { id: @book.author_id, name: @book.author_name }
-
     render 'mail/books/show'
   end
 
@@ -25,5 +21,9 @@ class Mail::BooksController < Mail::ApplicationController
   end
 
   def set_book_and_book_class
+  end
+
+  def search_params
+    params.fetch(:q, {}).permit(:title, :author, :popularity, :category, :character_type, :juvenile)
   end
 end

@@ -46,6 +46,7 @@ footer a { color: #fff !important; }
 .underline.dashed {
   text-decoration: underline dashed;
 }
+.ellipsis { white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
 
 .right.floated { float: right; }
 .float-cleared:after {

@@ -276,5 +276,21 @@ class AozoraBook < ApplicationRecord
     def popular_authors(limit=15)
       self.limit(limit).order('sum_access_count desc').group(:author, :author_id).sum(:access_count)
     end
+
+    def search(q)
+      results = self.where.not(category_id: nil).where.not(author_id: nil).sorted
+      results = results.where("title LIKE ?", "%#{q[:title]}%") if q[:title].present?
+      results = results.where("author LIKE ?", "%#{q[:author]}%") if q[:author].present?
+      results = results.where(category_id: q[:category]) if q[:category].present?
+      results = results.where(character_type: q[:character_type]) if q[:character_type].present?
+      results = results.where(juvenile: q[:juvenile]=="true") if q[:juvenile].present?  # true/falseが文字列で来る
+
+      if q[:popularity].present?
+        min = ACCESS_RATINGS.find{|k,v| v[:stars] == q[:popularity].to_i }&.first
+        max = ACCESS_RATINGS.find{|k,v| v[:stars] == q[:popularity].to_i + 1 }&.first
+        results = results.where(access_count: min..max) # maxがない場合は上限なしの範囲選択(>=)になる
+      end
+      results
+    end
   end
 end

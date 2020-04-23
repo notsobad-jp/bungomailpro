@@ -14,6 +14,7 @@
       %br
       %small (#{book.try(:birth_year)}-#{book.try(:death_year)})
   %td
+    = category_label(book.category)
     %small
       = book.words_count.to_s(:delimited)
       = t :words, scope: [:search, :defaults]
@@ -23,7 +24,7 @@
         %i.icon.yellow.star.small.m-0
       - (3- book.access_rating(:stars)).times do |i|
         %i.icon.yellow.outline.star.small.m-0
-  %td
+  %td.ellipsis
     %small
       = truncated_beginning(book.beginning)
 

@@ -274,5 +274,20 @@ class GutenBook < ApplicationRecord
     def popular_authors(limit=15)
       self.limit(limit).where.not(author: [nil, 'Various', 'Anonymous']).order('sum_downloads desc').group(:author, :author_id).sum(:downloads)
     end
+
+    def search(q)
+      results = self.where.not(category_id: nil).where.not(author_id: nil).sorted
+      results = results.where("title LIKE ?", "%#{q[:title]}%") if q[:title].present?
+      results = results.where("author LIKE ?", "%#{q[:author]}%") if q[:author].present?
+      results = results.where(category_id: q[:category]) if q[:category].present?
+
+      if q[:popularity].present?
+        min = ACCESS_RATINGS.find{|k,v| v[:stars] == q[:popularity].to_i }&.first
+        max = ACCESS_RATINGS.find{|k,v| v[:stars] == q[:popularity].to_i + 1 }&.first
+        results = results.where(downloads: min..max) # maxがない場合は上限なしの範囲選択(>=)になる
+      end
+
+      results
+    end
   end
 end

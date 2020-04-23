@@ -1,0 +1,67 @@
+.mb-50
+  .float-cleared
+    - source_name = @book_class == AozoraBook ? 'AozoraBunko' : 'Gutenberg'
+    %h1.ui.large.left.floated.header
+      Search #{source_name} Books
+    .right.floated
+      - other_source = @book_class == AozoraBook ? GutenBook : AozoraBook
+      - url = send("#{other_source.table_name}_path") # GutenBook => guten_books_path
+      = link_to url do
+        = other_source == AozoraBook ? 'AozoraBunko' : 'Gutenberg'
+        %i.icon.angle.right
+
+  = form_with(scope: :q, model: @book_class, method: :get, local: true, class: 'ui form') do |f|
+    .two.fields
+      .field
+        = f.label :title
+        = f.text_field :title, value: @search_params[:title]
+      .field
+        = f.label :author
+        = f.text_field :author, value: @search_params[:author]
+    .three.fields
+      .field
+        = f.label :popularity
+        - options = [["★★★", 3], ["★★", 2], ["★", 1], ["(なし)", 0]]
+        = f.select :popularity, options_for_select(options, @search_params[:popularity]), { include_blank: "--" }, { class: 'ui dropdown' }
+      .field
+        = f.label "Time to Read"
+        - options = @book_class::CATEGORIES.map{|k, v| [v[:name], v[:id]] }
+        = f.select :category, options_for_select(options, @search_params[:category]), { include_blank: "--" }, { class: 'ui dropdown' }
+      - if @book_class == AozoraBook
+        .field
+          = f.label "Char Type"
+          - options = %w(新字新仮名 新字旧仮名 旧字新仮名 旧字旧仮名 その他)
+          = f.select :character_type, options_for_select(options, @search_params[:character_type]), { include_blank: "--" }, { class: 'ui dropdown' }
+        .field
+          = f.label "検索対象"
+          - options = [["一般書のみ", false], ["児童書のみ", true]]
+          = f.select :juvenile, options_for_select(options, @search_params[:juvenile]), { include_blank: "--" }, { class: 'ui dropdown' }
+    .field
+      = f.submit 'Search', class: 'ui red responsive button'
+
+.mb-50
+  .ui.divider
+
+.mb-50
+  %table.ui.fixed.unstackable.table
+    %thead
+      %tr.computer.only
+        %th.five.wide= t :title, scope: [:search, :defaults]
+        %th.four.wide= t :author, scope: [:search, :defaults]
+        %th.four.wide= t :minutes_to_read, scope: [:search, :defaults]
+        %th.two.wide= t :popularity, scope: [:search, :defaults]
+        %th.five.wide.computer.only= t :beginning, scope: [:search, :defaults]
+
+      %tr.mobile.only
+        %th.six.wide
+          %small= t :title, scope: [:search, :defaults]
+        %th.six.wide
+          %small= t :author, scope: [:search, :defaults]
+        %th.nine.wide
+          %small= t :minutes_to_read, scope: [:search, :defaults]
+          %small.right.floated= t :popularity, scope: [:search, :defaults]
+    %tbody
+      - if @books.blank?
+        %tr
+          %td(colspan="3")= t :no_results, scope: [:search, :books]
+      = render partial: 'mail/books/raw', collection: @books, as: :book

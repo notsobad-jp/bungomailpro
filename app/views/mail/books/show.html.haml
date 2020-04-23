@@ -3,7 +3,7 @@
   .sub.header
     = @book.author_name
 
-%p= t(:description, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @category[:name], category_title: @category[:title], words_count: @book.words_count.to_s(:delimited))
+%p= t(:description, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @book.category[:name], category_title: @book.category[:title], words_count: @book.words_count.to_s(:delimited))
 
 %table.ui.definition.fixed.unstackable.table
   %tbody
@@ -42,5 +42,5 @@
 
 = link_to 'Add to the channel', book_assignments_path(channel_id: @channel.id, book_id: @book.id, book_type: @book.class.name), method: :post, class: 'ui red responsive button'
 &nbsp;
-= link_to books_path(book_type: @book.class.name), class: 'ui basic responsive button' do
+= link_to request.referer, class: 'ui basic responsive button' do
   Back to search
