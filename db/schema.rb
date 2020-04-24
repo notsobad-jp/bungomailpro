@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_20_055506) do
+ActiveRecord::Schema.define(version: 2020_04_24_055106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -89,6 +89,8 @@ ActiveRecord::Schema.define(version: 2020_04_20_055506) do
     t.time "delivery_time", default: "2000-01-01 07:00:00", null: false
     t.integer "words_per_day", default: 400, null: false
     t.integer "chars_per_day", default: 750, null: false
+    t.uuid "search_condition_id"
+    t.index ["search_condition_id"], name: "index_channels_on_search_condition_id"
     t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
@@ -177,6 +179,13 @@ ActiveRecord::Schema.define(version: 2020_04_20_055506) do
     t.datetime "updated_at", default: -> { "now()" }, null: false
   end
 
+  create_table "search_conditions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.jsonb "query"
+    t.integer "book_ids", array: true
+    t.index ["user_id"], name: "index_search_conditions_on_user_id"
+  end
+
   create_table "subjects", id: :string, force: :cascade do |t|
     t.integer "books_count", default: 0
     t.datetime "created_at", null: false
@@ -214,11 +223,13 @@ ActiveRecord::Schema.define(version: 2020_04_20_055506) do
   add_foreign_key "book_assignments", "channels"
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id", name: "campaign_groups_book_id_fkey"
   add_foreign_key "campaigns", "campaign_groups"
+  add_foreign_key "channels", "search_conditions"
   add_foreign_key "channels", "users"
   add_foreign_key "charges", "users"
   add_foreign_key "feeds", "book_assignments"
   add_foreign_key "guten_books_subjects", "guten_books", name: "guten_books_subjects_guten_book_id_fkey"
   add_foreign_key "guten_books_subjects", "subjects"
+  add_foreign_key "search_conditions", "users"
   add_foreign_key "subscriptions", "channels"
   add_foreign_key "subscriptions", "users"
 end

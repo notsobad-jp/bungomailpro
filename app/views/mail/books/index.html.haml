@@ -39,13 +39,16 @@
     .field
       = f.submit 'Search', class: 'ui primary responsive button'
 
-.mb-50
+.mb-30
   .ui.divider
 
 .mb-50
-  %small
-    = t(:search_offset, scope: [:search, :books, :index], from: @books.offset_value + 1, to: @books.offset_value + @books.length, count: @books.total_count.to_s(:delimited))
-  %br
+  .flex-space-between
+    %div
+      %small
+        = t(:search_offset, scope: [:search, :books, :index], from: @books.offset_value + 1, to: @books.offset_value + @books.length, count: @books.total_count.to_s(:delimited))
+    %div
+      = link_to 'Save this search', search_conditions_path(query: @search_params), method: :post, class: 'ui red basic small button'
   %table.ui.fixed.unstackable.table
     %thead
       %tr.computer.only

@@ -98,6 +98,7 @@ Rails.application.routes.draw do
         resources :magic_tokens
         resources :guten_books, only: [:index, :show]
         resources :aozora_books, only: [:index, :show]
+        resources :search_conditions
         resources :channels, shallow: true do
           resources :subscriptions
         end
