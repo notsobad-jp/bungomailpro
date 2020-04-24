@@ -1,3 +1,9 @@
+.mb-30
+  .ui.breadcrumb
+    = link_to 'Search', request.referer, class: 'section'
+    %i.icon.right.angle.divider
+    = @book.title.truncate(30)
+
 %h1.ui.large.header
   = @book.title
   .sub.header

@@ -3,15 +3,27 @@ class Mail::SearchConditionsController < Mail::ApplicationController
     @search_conditions = current_user.search_conditions
   end
 
+  # def new
+  #   @search_condition = current_user.search_conditions.new(
+  #     query: params[:query],
+  #     book_type: params[:book_type],
+  #     books_count: params[:books_count],
+  #   )
+  #   @channel_select_options = current_user.channels.pluck(:title, :id)
+  # end
+
   def create
-    condition = current_user.search_conditions.new(query: params[:query])
+    condition = current_user.search_conditions.new(
+      query: params[:query],
+      book_type: params[:book_type],
+    )
 
     if condition.save
       flash[:success] = 'Saved the condition!'
     else
       flash[:error] = 'Sorry something went wrong. Please check the data and try again.'
     end
-    redirect_to search_conditions_path(params[:query])
+    redirect_to search_conditions_path
   end
 
   def destroy

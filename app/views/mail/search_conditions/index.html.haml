@@ -1,0 +1,20 @@
+.mb-50
+  %h1.ui.large.header
+    Search Conditions
+
+.mb-50
+  .ui.divided.items
+    - @search_conditions.each do |condition|
+      .item
+        .content
+          .header= condition.name || condition.id.truncate(10)
+          .meta= condition.book_type
+          .description.computer.only.ellipsis= condition.query&.to_s
+          .description.mobile.tablet.only= condition.query&.to_s&.truncate(100)
+          .extra
+            = link_to guten_books_path(q: condition.query) do
+              %i.icon.search
+              Search Result
+            = link_to search_condition_path(condition), method: :delete, class: 'ui right floated' do
+              %i.icon.trash
+              Delete

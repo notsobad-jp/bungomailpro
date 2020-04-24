@@ -1,0 +1,30 @@
+.mb-30
+  .ui.breadcrumb
+    = link_to 'Search', request.referer, class: 'section'
+    %i.icon.right.angle.divider
+    Condition
+
+.mb-50
+  %h1.ui.large.header
+    Save Search Condition
+
+  = form_with model: @search_condition, local: true, class: 'ui form' do |f|
+    .ui.secondary.segment
+      .ui.mini.header Condition
+      %p= @search_condition.query
+      .ui.mini.header Result
+      %p
+        = @search_condition.books_count
+        %small Books
+    .field
+      = f.label :name
+      = f.text_field :name
+    .field
+      = f.label :channel
+      = f.select :channel, options_for_select(@channel_select_options), { include_blank: "--" }, { class: 'ui dropdown' }
+    .field
+      = f.hidden_field :book_type
+      = f.hidden_field :query
+      = f.submit 'Save', class: 'ui red responsive button'
+      &nbsp;
+      = link_to 'Cancel', request.referer, class: 'ui basic responsive button'
