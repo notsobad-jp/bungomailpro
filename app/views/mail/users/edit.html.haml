@@ -1,5 +1,11 @@
-.ui.basic.segment
-  %h1.ui.header
+.mb-30
+  .ui.breadcrumb
+    = link_to 'Settings', user_path(current_user), class: 'section'
+    %i.icon.right.angle.divider
+    Edit
+
+.mb-50
+  %h1.ui.large.header
     User Settings
 
   = form_for current_user, html: { class: 'ui form' } do |f|

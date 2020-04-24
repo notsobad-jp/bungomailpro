@@ -1,9 +1,14 @@
-.ui.basic.segment
-  %h1.ui.header
+.mb-30
+  .ui.breadcrumb
+    = link_to 'Channels', channels_path, class: 'section'
+    %i.icon.right.angle.divider
+    = link_to @channel.title || "Channel", channel_path(@channel), class: 'section'
+    %i.icon.right.angle.divider
+    Edit
+
+.mb-50
+  %h1.ui.large.header
     = @channel.title || "Default Channel"
-    - if @channel.default
-      %small
-        %i.icon.small.star.yellow
     - unless @channel.public
       %small
         %i.icon.small.lock.grey

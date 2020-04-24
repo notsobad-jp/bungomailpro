@@ -1,15 +1,12 @@
-%div.mb-30
+.mb-30
   .ui.breadcrumb
     = link_to 'Channels', channels_path, class: 'section'
     %i.icon.right.angle.divider
     .section= @channel.title || "Channel"
 
-%div.mb-50
-  %h1.ui.header.mb-0
+.mb-50
+  %h1.ui.large.header.mb-0
     = @channel.title || "Default Channel"
-    - if @channel.default
-      %small
-        %i.icon.small.star.orange
     - unless @channel.public
       %small
         %i.icon.small.lock.grey
@@ -29,7 +26,7 @@
     %p= simple_format(@channel.description)
 
 
-%div.mb-50
+.mb-50
   - if @book_assignment.blank?
     .ui.secondary.center.aligned.segment
       %div= link_to 'Start Now!', channel_path(@channel), class: 'ui red responsive button'
@@ -59,7 +56,7 @@
     = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
 
 
-%div.mb-50
+.mb-50
   .ui.fluid.secondary.pointing.two.item.mobile.only.menu
     = link_to 'Scheduled', channel_path(@channel), class: "item #{'active' unless params['status']}"
     = link_to 'Finished', channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}"

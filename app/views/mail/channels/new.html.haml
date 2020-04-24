@@ -1,5 +1,11 @@
-.ui.basic.segment
-  %h1.ui.header
+.mb-30
+  .ui.breadcrumb
+    = link_to 'Channels', channels_path, class: 'section'
+    %i.icon.right.angle.divider
+    New
+
+.mb-50
+  %h1.ui.large.header
     New Channel
 
   = form_with model: @channel, local: true, class: 'ui form' do |f|
