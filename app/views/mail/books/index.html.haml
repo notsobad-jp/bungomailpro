@@ -37,12 +37,15 @@
           - options = [["一般書のみ", false], ["児童書のみ", true]]
           = f.select :juvenile, options_for_select(options, @search_params[:juvenile]), { include_blank: "--" }, { class: 'ui dropdown' }
     .field
-      = f.submit 'Search', class: 'ui red responsive button'
+      = f.submit 'Search', class: 'ui primary responsive button'
 
 .mb-50
   .ui.divider
 
 .mb-50
+  %small
+    = t(:search_offset, scope: [:search, :books, :index], from: @books.offset_value + 1, to: @books.offset_value + @books.length, count: @books.total_count.to_s(:delimited))
+  %br
   %table.ui.fixed.unstackable.table
     %thead
       %tr.computer.only
@@ -65,3 +68,6 @@
         %tr
           %td(colspan="3")= t :no_results, scope: [:search, :books]
       = render partial: 'mail/books/raw', collection: @books, as: :book
+
+  .ui.basic.center.aligned.segment
+    = paginate @books, window: 2, params: @search_params
