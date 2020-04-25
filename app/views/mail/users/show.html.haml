@@ -8,11 +8,11 @@
   %table.ui.fixed.definition.table
     %tr
       %td.four.wide Email
-      %td.twelve.wide= current_user.email
+      %td.twelve.wide= @user.email
     %tr
       %td Timezone
-      %td= current_user.timezone
-  = link_to 'Edit', edit_user_path(current_user), class: 'ui blue small responsive button'
+      %td= @user.timezone
+  = link_to 'Edit', edit_user_path(@user), class: 'ui blue small responsive button'
   %br
   %br
 

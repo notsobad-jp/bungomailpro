@@ -29,10 +29,11 @@ class Mail::UsersController < Mail::ApplicationController
   end
 
   def edit
+    @user = authorize User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = authorize User.find(params[:id])
     if @user.update(user_params)
       flash[:success] = 'Your data is saved successfully!'
       redirect_to user_path(@user)
