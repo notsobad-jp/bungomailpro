@@ -7,7 +7,6 @@
     - @search_conditions.each do |condition|
       .item
         .content
-          .header= condition.name || condition.id.truncate(10)
           .meta= condition.book_type
           .description.computer.only.ellipsis= condition.query&.to_s
           .description.mobile.tablet.only= condition.query&.to_s&.truncate(100)

@@ -17,9 +17,6 @@
         = @search_condition.books_count
         %small Books
     .field
-      = f.label :name
-      = f.text_field :name
-    .field
       = f.label :channel
       = f.select :channel, options_for_select(@channel_select_options), { include_blank: "--" }, { class: 'ui dropdown' }
     .field

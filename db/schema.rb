@@ -181,7 +181,6 @@ ActiveRecord::Schema.define(version: 2020_04_24_055106) do
 
   create_table "search_conditions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.string "name"
     t.jsonb "query"
     t.string "book_type", null: false
     t.integer "book_ids", array: true

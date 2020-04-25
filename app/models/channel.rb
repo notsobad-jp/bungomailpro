@@ -10,10 +10,18 @@ class Channel < ApplicationRecord
   end
 
   def assign_book_and_set_feeds(deliver_now: false)
-    # ストック済みがあればそれをセット、なければ新しく本をセレクト
+    # ストック済みの本があればそれを配信
     if (book_assignment = book_assignments.stocked.order(:created_at).first)
       book_assignment.active!
+    elsif search_condition
+      # 検索条件が保存されてる場合はそこからセレクト
+      book_class = search_condition.book_type.constantize
+      # TODO: あらかじめbook_idsを保存しておいてクエリ実行せずに選べるようにする
+      # TODO: 該当する本がないときのフォールバック処理
+      book = book_class.search(search_condition.query).order(Arel.sql("RANDOM()")).first
+      book_assignment = self.book_assignments.create(book_type: book.class.name, book_id: book.id, status: :active)
     else
+      # それもなければデフォルト条件でセレクト
       book = self.select_book
       book_assignment = self.book_assignments.create(book_type: book.class.name, book_id: book.id, status: :active)
     end
