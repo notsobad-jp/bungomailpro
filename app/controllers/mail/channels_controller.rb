@@ -28,7 +28,8 @@ class Mail::ChannelsController < Mail::ApplicationController
   def update
     if @channel.update(channel_params)
       flash[:success] = 'Channel updated!'
-      redirect_to channel_path(@channel)
+      redirect_path = params[:redirect_to] || channel_path(@channel)
+      redirect_to redirect_path
     else
       flash[:error] = 'Sorry somethin went wrong. Please check the data and try again.'
       render :edit
@@ -42,6 +43,7 @@ class Mail::ChannelsController < Mail::ApplicationController
     else
       @book_assignments = @channel.book_assignments.stocked
     end
+    @condition = @channel.search_condition
   end
 
   def destroy
@@ -53,7 +55,7 @@ class Mail::ChannelsController < Mail::ApplicationController
   private
 
   def channel_params
-    params.require(:channel).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day)
+    params.require(:channel).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id)
   end
 
   def set_active_tab

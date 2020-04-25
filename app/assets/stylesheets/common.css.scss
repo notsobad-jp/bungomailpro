@@ -67,6 +67,9 @@ footer a { color: #fff !important; }
   justify-content:space-between;
 }
 
+// SearchCondition#indexのドロップダウン
+.ui.secondary.menu .dropdown.item>.menu, .ui.text.menu .dropdown.item>.menu { margin-top: 0; }
+
 .m-0 { margin: 0 !important; }
 .mb-0 { margin-bottom: 0 !important; }
 .mb-30 { margin-bottom: 30px; }

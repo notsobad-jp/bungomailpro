@@ -39,7 +39,8 @@
     .field
       = f.submit 'Search', class: 'ui red responsive button'
       &nbsp;
-      = link_to 'Save', search_conditions_path(query: @search_params&.reject{|k,v| v.blank?}, book_type: @book_class.name), method: :post, class: 'ui blue responsive button'
+      - disabled = "disabled" if @search_params.blank? || @books.blank?
+      = link_to 'Save', search_conditions_path(query: @search_params&.reject{|k,v| v.blank?}, book_type: @book_class.name), method: :post, class: "ui blue responsive button #{disabled}"
       &nbsp;
       = link_to 'Saved searches', search_conditions_path
 

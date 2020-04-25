@@ -2,13 +2,13 @@
   .ui.breadcrumb
     = link_to 'Channels', channels_path, class: 'section'
     %i.icon.right.angle.divider
-    = link_to @channel.title || "Channel", channel_path(@channel), class: 'section'
+    = link_to @channel.title, channel_path(@channel), class: 'section'
     %i.icon.right.angle.divider
     Edit
 
 .mb-50
   %h1.ui.large.header
-    = @channel.title || "Default Channel"
+    = @channel.title
     - unless @channel.public
       %small
         %i.icon.small.lock.grey

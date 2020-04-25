@@ -28,9 +28,9 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
   has_one :charge, dependent: :destroy
   has_one :default_channel, -> { where(default: true) }, class_name: 'Channel'
-  has_many :channels, dependent: :destroy
+  has_many :channels, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-  has_many :search_conditions, dependent: :destroy
+  has_many :search_conditions, -> { order(created_at: :desc) }, dependent: :destroy
   accepts_nested_attributes_for :channels
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze

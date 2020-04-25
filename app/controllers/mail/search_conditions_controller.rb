@@ -1,16 +1,9 @@
 class Mail::SearchConditionsController < Mail::ApplicationController
   def index
-    @search_conditions = current_user.search_conditions.order(created_at: :desc)
+    @search_conditions = current_user.search_conditions
+    @channels = current_user.channels
+    @active_tab = :books
   end
-
-  # def new
-  #   @search_condition = current_user.search_conditions.new(
-  #     query: params[:query],
-  #     book_type: params[:book_type],
-  #     books_count: params[:books_count],
-  #   )
-  #   @channel_select_options = current_user.channels.pluck(:title, :id)
-  # end
 
   def create
     condition = current_user.search_conditions.new(

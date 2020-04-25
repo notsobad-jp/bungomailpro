@@ -55,7 +55,7 @@
             - %w(warning error success info).each do |status|
               - next unless flash[status]
               .ui.message(class="#{status}")
-                - icon_class = %i(success info).include?(status) ? 'info' : 'warning'
+                - icon_class = %w(success info).include?(status) ? 'info' : 'warning'
                 %i.icon.circle{class: icon_class}
                 = sanitize flash[status]
             = yield

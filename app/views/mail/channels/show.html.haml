@@ -2,11 +2,11 @@
   .ui.breadcrumb
     = link_to 'Channels', channels_path, class: 'section'
     %i.icon.right.angle.divider
-    .section= @channel.title || "Channel"
+    .section= @channel.title
 
 .mb-50
   %h1.ui.large.header.mb-0
-    = @channel.title || "Default Channel"
+    = @channel.title
     - unless @channel.public
       %small
         %i.icon.small.lock.grey
@@ -65,8 +65,26 @@
     = link_to 'Finished', channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}"
 
   - if @book_assignments.blank?
-    %p No books are scheduled.
-    %small *You can manually select and stock books for future distribution.
+    .ui.small.header
+      (No book is scheduled yet.)
+      .sub.header The book will be selected automatically with the search condition below:
+    - if @condition
+      .ui.segment
+        - books_path = @condition.book_type == 'GutenBook' ? guten_books_path(q: @condition.query) : aozora_books_path(q: @condition.query)
+        .item
+          .content
+            .meta
+              .ui.label= @condition.book_type
+              &nbsp;
+              = link_to 'See results', books_path
+            .description= @condition.query.to_s
+    %p
+      = link_to 'See saved searches', search_conditions_path
+      or
+      - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
+      = link_to 'Create new search', books_path
+
+
   - else
     %table.ui.fixed.celled.table
       %thead

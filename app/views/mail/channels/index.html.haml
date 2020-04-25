@@ -7,7 +7,7 @@
       = link_to channel_path(channel), class: 'card' do
         .content
           .header
-            = channel.title || "Default Channel"
+            = channel.title
             - unless channel.public
               %i.icon.lock.small
           .description= channel.description

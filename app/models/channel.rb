@@ -5,6 +5,8 @@ class Channel < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :subscribers, through: :subscriptions, source: :user
 
+  validates :title, presence: true
+
   after_create do
     self.subscriptions.create(user_id: self.user_id)
   end

@@ -20,22 +20,24 @@
           .description
             .computer.only.ellipsis= condition.query&.reject{|k,v| v.blank? }&.to_s
             .mobile.tablet.only= condition.query&.to_s&.truncate(100)
+          .description
             - condition.channels.each do |channel|
-              .ui.basic.mini.label
+              .ui.basic.small.label
                 = channel.title
+                = link_to channel_path(channel, channel: { search_condition_id: nil }, redirect_to: search_conditions_path), method: :patch do
+                  %i.icon.delete
           .extra
-            .ui.compact.small.menu
+            .ui.secondary.menu
               .ui.simple.dropdown.item
+                %i.icon.plus
                 Apply to Channel
                 %i.icon.dropdown
                 .menu
-                  = link_to 'Channel A', guten_books_path, class: 'item'
-                  = link_to 'Channel A', search_conditions_path, class: 'item'
-                  = link_to 'Channel A', search_conditions_path, class: 'item'
-            = link_to guten_books_path(q: condition.query), class: 'item' do
-              %i.icon.search
-              Search
-            &nbsp;
-            = link_to search_condition_path(condition), method: :delete, class: 'item' do
-              %i.icon.trash
-              Delete
+                  - @channels.each do |channel|
+                    = link_to channel.title, channel_path(channel, channel: {search_condition_id: condition.id}, redirect_to: search_conditions_path), method: :patch, class: 'item'
+              = link_to guten_books_path(q: condition.query), class: 'item' do
+                %i.icon.search
+                Search
+              = link_to search_condition_path(condition), method: :delete, class: 'item' do
+                %i.icon.trash
+                Delete
