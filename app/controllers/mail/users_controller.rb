@@ -24,6 +24,7 @@ class Mail::UsersController < Mail::ApplicationController
   end
 
   def show
+    @user = authorize User.find(params[:id])
     @channels = current_user.channels
   end
 

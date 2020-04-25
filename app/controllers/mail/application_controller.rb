@@ -8,7 +8,7 @@ class Mail::ApplicationController < ApplicationController
 
   def user_not_authorized
     flash[:warning] = 'Not authorized. Please check your login status.'
-    redirect_to(request.referer || root_path)
+    redirect_to(request.referer || login_path)
   end
 
   def not_authenticated

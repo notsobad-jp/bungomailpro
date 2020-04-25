@@ -7,11 +7,11 @@ class ApplicationPolicy
   end
 
   def index?
-    true
+    user
   end
 
   def show?
-    true
+    update?
   end
 
   def create?
@@ -43,7 +43,7 @@ class ApplicationPolicy
     end
 
     def resolve
-      scope.all
+      scope.where(user_id: user.id)
     end
   end
 end
