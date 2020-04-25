@@ -1,19 +1,41 @@
-.mb-50
-  %h1.ui.large.header
-    Search Conditions
+.mb-30
+  .ui.breadcrumb
+    - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
+    = link_to 'Search', books_path, class: 'section'
+    %i.icon.right.angle.divider
+    Saved Searches
 
 .mb-50
+  %h1.ui.large.header
+    Saved Searches
+
   .ui.divided.items
     - @search_conditions.each do |condition|
       .item
         .content
-          .meta= condition.book_type
-          .description.computer.only.ellipsis= condition.query&.to_s
-          .description.mobile.tablet.only= condition.query&.to_s&.truncate(100)
+          .meta
+            = condition.created_at.strftime("%Y-%m-%d")
+            &nbsp;
+            .ui.label= condition.book_type
+          .description
+            .computer.only.ellipsis= condition.query&.reject{|k,v| v.blank? }&.to_s
+            .mobile.tablet.only= condition.query&.to_s&.truncate(100)
+            - condition.channels.each do |channel|
+              .ui.basic.mini.label
+                = channel.title
           .extra
-            = link_to guten_books_path(q: condition.query) do
+            .ui.compact.small.menu
+              .ui.simple.dropdown.item
+                Apply to Channel
+                %i.icon.dropdown
+                .menu
+                  = link_to 'Channel A', guten_books_path, class: 'item'
+                  = link_to 'Channel A', search_conditions_path, class: 'item'
+                  = link_to 'Channel A', search_conditions_path, class: 'item'
+            = link_to guten_books_path(q: condition.query), class: 'item' do
               %i.icon.search
-              Search Result
-            = link_to search_condition_path(condition), method: :delete, class: 'ui right floated' do
+              Search
+            &nbsp;
+            = link_to search_condition_path(condition), method: :delete, class: 'item' do
               %i.icon.trash
               Delete

@@ -1,6 +1,6 @@
 class Mail::SearchConditionsController < Mail::ApplicationController
   def index
-    @search_conditions = current_user.search_conditions
+    @search_conditions = current_user.search_conditions.order(created_at: :desc)
   end
 
   # def new

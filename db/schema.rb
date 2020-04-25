@@ -184,6 +184,8 @@ ActiveRecord::Schema.define(version: 2020_04_24_055106) do
     t.jsonb "query"
     t.string "book_type", null: false
     t.integer "book_ids", array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_search_conditions_on_user_id"
   end
 

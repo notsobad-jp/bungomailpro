@@ -5,6 +5,7 @@ class CreateSearchCondition < ActiveRecord::Migration[6.0]
       t.jsonb :query
       t.string :book_type, null: false
       t.integer :book_ids, array: true
+      t.timestamps
     end
   end
 end
