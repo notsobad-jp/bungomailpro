@@ -8,9 +8,25 @@
         .content
           .header
             = channel.title
-            - unless channel.public
-              %i.icon.lock.small
-          .description= channel.description
+          - if channel.description
+            .description= channel.description
+        .ui.secondary.basic.attached.segment.ellipsis
+          - ba = channel.current_book_assignment
+          - icon_class = channel.active? ? "play" : "pause"
+          %i.icon.circle{class: icon_class}
+          - if ba
+            "#{ba.book.title}" by #{ba.book.author_name}
+          - else
+            (Not started yet)
+        .extra.content
+          .ui.small.horizontal.list
+            .item
+              %i.icon.clock.outline
+              = channel.delivery_time.strftime("%H:%M")
+            .item
+              %i.icon.align.left
+              = channel.words_per_day
+              words/day
   %br
   = link_to new_channel_path, class: 'ui blue basic responsive button' do
     %i.icon.plus
