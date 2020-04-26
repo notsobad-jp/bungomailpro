@@ -55,8 +55,8 @@
             - %w(warning error success info).each do |status|
               - next unless flash[status]
               .ui.message(class="#{status}")
-                - icon_class = %w(success info).include?(status) ? 'info' : 'warning'
-                %i.icon.circle{class: icon_class}
+                - if %w(warning error).include?(status)
+                  %i.icon.circle{class: "warning"}
                 = sanitize flash[status]
             = yield
     = render partial: 'mail/layouts/footer'
