@@ -1,12 +1,12 @@
 class Mail::SearchConditionsController < Mail::ApplicationController
   def index
-    @search_conditions = current_user.search_conditions
-    @channels = current_user.channels
+    @search_conditions = policy_scope(SearchCondition)
+    @channels = policy_scope(Channel)
     @active_tab = :books
   end
 
   def create
-    condition = current_user.search_conditions.new(
+    condition = authorize current_user.search_conditions.new(
       query: params[:query],
       book_type: params[:book_type],
     )
@@ -20,7 +20,7 @@ class Mail::SearchConditionsController < Mail::ApplicationController
   end
 
   def destroy
-    condition = SearchCondition.find(params[:id])
+    condition = authorize SearchCondition.find(params[:id])
     condition.destroy
     flash[:success] = 'Deleted the condition!'
     redirect_to search_conditions_path
