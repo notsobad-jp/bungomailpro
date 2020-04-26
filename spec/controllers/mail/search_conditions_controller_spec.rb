@@ -97,7 +97,7 @@ RSpec.describe Mail::SearchConditionsController, type: :controller do
     context "as an other user" do
       before { login_user(create(:user)) }
 
-      it "responds successfully" do
+      it "returns a 302 response" do
         subject
         expect(response).to redirect_to login_url
         expect(response).to have_http_status "302"

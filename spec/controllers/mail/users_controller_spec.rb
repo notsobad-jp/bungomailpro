@@ -5,10 +5,15 @@ RSpec.describe Mail::UsersController, type: :controller do
     @user = create(:user)
   end
 
+  ####################################################
+  # create
+  ####################################################
   describe "#create" do
+    subject { post :create, params: { locale: :en, user: { email: @user.email } }, session: {} }
+
     context "as an existing user" do
       it "sends login email" do
-        post :create, params: { locale: :en, user: { email: @user.email } }, session: {}
+        subject
         expect(flash[:info]).to include("already registered")
       end
     end
@@ -16,7 +21,7 @@ RSpec.describe Mail::UsersController, type: :controller do
     context "as a new :en user" do
       xit "create user with default channel" do
         email = build(:user).email
-        post :create, params: { locale: :en, user: { email: email } }, session: {}
+        subject
         expect(flash[:success]).to include("Account registered")
 
         user = User.find_by(email: email)
@@ -26,7 +31,7 @@ RSpec.describe Mail::UsersController, type: :controller do
 
       xit "create user with :en params" do
         email = build(:user).email
-        post :create, params: { locale: :en, user: { email: email } }, session: {}
+        subject
         expect(flash[:success]).to include("Account registered")
 
         user = User.find_by(email: email)
@@ -48,87 +53,110 @@ RSpec.describe Mail::UsersController, type: :controller do
     end
   end
 
+
+  ####################################################
+  # show
+  ####################################################
   describe "#show" do
+    subject { get :show, params: { id: @user.id, locale: :en }, session: {} }
+
     context "as a guest" do
       it "returns a 302 response" do
-        get :show, params: { id: @user.id, locale: :en }, session: {}
+        subject
         expect(response).to redirect_to login_url
         expect(response).to have_http_status "302"
       end
     end
 
     context "as an other user" do
+      before { login_user(create(:user)) }
+
       it "returns a 302 response" do
-        login_user(create(:user))
-        get :show, params: { id: @user.id, locale: :en }, session: {}
+        subject
         expect(response).to redirect_to login_url
         expect(response).to have_http_status "302"
       end
     end
 
     context "as an owner" do
+      before { login_user(@user) }
+
       it "responds successfully" do
-        login_user(@user)
-        get :show, params: { id: @user.id, locale: :en }, session: {}
+        subject
         expect(response).to be_successful
       end
     end
   end
 
+
+  ####################################################
+  # edit
+  ####################################################
   describe "#edit" do
+    subject { get :edit, params: { id: @user.id, locale: :en }, session: {} }
+
     context "as a guest" do
       it "returns a 302 response" do
-        get :edit, params: { id: @user.id, locale: :en }, session: {}
+        subject
         expect(response).to redirect_to login_url
         expect(response).to have_http_status "302"
       end
     end
 
     context "as an other user" do
+      before { login_user(create(:user)) }
+
       it "returns a 302 response" do
-        login_user(create(:user))
-        get :edit, params: { id: @user.id, locale: :en }, session: {}
+        subject
         expect(response).to redirect_to login_url
         expect(response).to have_http_status "302"
       end
     end
 
     context "as an owner" do
+      before { login_user(@user) }
+
       it "responds successfully" do
-        login_user(@user)
-        get :edit, params: { id: @user.id, locale: :en }, session: {}
+        subject
         expect(response).to be_successful
       end
     end
   end
 
+
+  ####################################################
+  # update
+  ####################################################
   describe "#update" do
+    subject { patch :update, params: { id: @user.id, locale: :en, user: { timezone: 'Tokyo' } }, session: {} }
+
     context "as a guest" do
       it "returns a 302 response" do
-        patch :update, params: { id: @user.id, locale: :en }, session: {}
+        subject
         expect(response).to redirect_to login_url
         expect(response).to have_http_status "302"
       end
     end
 
     context "as an other user" do
+      before { login_user(create(:user)) }
+
       it "returns a 302 response" do
-        login_user(create(:user))
-        patch :update, params: { id: @user.id, locale: :en, user: { timezone: 'Tokyo' } }, session: {}
+        subject
         expect(response).to redirect_to login_url
         expect(response).to have_http_status "302"
       end
     end
 
     context "as an owner" do
+      before { login_user(@user) }
+
       it "updates attributes with valid params" do
-        login_user(@user)
-        patch :update, params: { id: @user.id, locale: :en, user: { timezone: 'Tokyo' } }, session: {}
+        subject
         expect(@user.reload.timezone).to eq 'Tokyo'
       end
 
       it "returns error with invalid params" do
-        login_user(@user)
         patch :update, params: { id: @user.id, locale: :en, user: { timezone: "" } }, session: {}
         expect(flash[:error]).to include("failed")
       end

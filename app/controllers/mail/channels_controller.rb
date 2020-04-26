@@ -3,15 +3,15 @@ class Mail::ChannelsController < Mail::ApplicationController
   before_action :set_channel, except: [:index, :new, :create]
 
   def index
-    @channels = current_user.channels
+    @channels = policy_scope(Channel)
   end
 
   def new
-    @channel = Channel.new
+    @channel = authorize Channel.new
   end
 
   def create
-    @channel = current_user.channels.new(channel_params)
+    @channel = authorize current_user.channels.new(channel_params)
 
     if @channel.save
       flash[:success] = 'Channel created!'
@@ -20,6 +20,16 @@ class Mail::ChannelsController < Mail::ApplicationController
       flash[:error] = 'Sorry somethin went wrong. Please check the data and try again.'
       render :new
     end
+  end
+
+  def show
+    @book_assignment = @channel.current_book_assignment
+    if params[:status] == "finished"
+      @book_assignments = @channel.book_assignments.where(status: [:finished, :skipped, :canceled])
+    else
+      @book_assignments = @channel.book_assignments.stocked
+    end
+    @condition = @channel.search_condition
   end
 
   def edit
@@ -34,16 +44,6 @@ class Mail::ChannelsController < Mail::ApplicationController
       flash[:error] = 'Sorry somethin went wrong. Please check the data and try again.'
       render :edit
     end
-  end
-
-  def show
-    @book_assignment = @channel.current_book_assignment
-    if params[:status] == "finished"
-      @book_assignments = @channel.book_assignments.where(status: [:finished, :skipped, :canceled])
-    else
-      @book_assignments = @channel.book_assignments.stocked
-    end
-    @condition = @channel.search_condition
   end
 
   def destroy
@@ -63,6 +63,6 @@ class Mail::ChannelsController < Mail::ApplicationController
   end
 
   def set_channel
-    @channel = Channel.find(params[:id])
+    @channel = authorize Channel.find(params[:id])
   end
 end
