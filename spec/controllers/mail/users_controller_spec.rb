@@ -9,44 +9,49 @@ RSpec.describe Mail::UsersController, type: :controller do
   # create
   ####################################################
   describe "#create" do
-    subject { post :create, params: { locale: :en, user: { email: @user.email } }, session: {} }
+    before { @new_user = build(:user) }
+    subject { post :create, params: { locale: :en, user: { email: @new_user.email } }, session: {} }
 
     context "as an existing user" do
       it "sends login email" do
-        subject
+        post :create, params: { locale: :en, user: { email: @user.email } }, session: {}
         expect(flash[:info]).to include("already registered")
       end
     end
 
     context "as a new :en user" do
-      xit "create user with default channel" do
-        email = build(:user).email
+      it "responds successfully" do
         subject
         expect(flash[:success]).to include("Account registered")
+      end
 
-        user = User.find_by(email: email)
+      it "creates new user" do
+        expect{ subject }.to change(User, :count).by(1)
+      end
+
+      it "creates user with default channel" do
+        expect{ subject }.to change(Channel, :count).by(1)
+
+        subject
+        user = User.find_by(email: @new_user.email)
         expect(user.channels.length).to eq 1
         expect(user.channels.first.default).to eq true
       end
 
-      xit "create user with :en params" do
-        email = build(:user).email
+      it "creates user with :en params" do
         subject
-        expect(flash[:success]).to include("Account registered")
-
-        user = User.find_by(email: email)
+        user = User.find_by(email: @new_user.email)
         expect(user.timezone).to eq 'UTC'
         expect(user.locale).to eq 'en'
       end
     end
 
     context "as a new :ja user" do
-      xit "create user with :ja params" do
-        email = build(:user).email
-        post :create, params: { locale: :ja, user: { email: email } }, session: {}
+      it "create user with :ja params" do
+        post :create, params: { locale: :ja, user: { email: @new_user.email } }, session: {}
         expect(flash[:success]).to include("Account registered")
 
-        user = User.find_by(email: email)
+        user = User.find_by(email: @new_user.email)
         expect(user.timezone).to eq 'Tokyo'
         expect(user.locale).to eq 'ja'
       end

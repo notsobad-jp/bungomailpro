@@ -39,7 +39,7 @@ class User < ApplicationRecord
 
   after_create do
     self.generate_magic_login_token! # ユーザー作成時にmagic_login_tokenも発行しておく
-    self.channels.create(default: true) # デフォルトchannel作成（さらにsubscriptionも作成される）
+    self.channels.create(title: 'Default Channel', default: true) # デフォルトchannel作成（さらにsubscriptionも作成される）
   end
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
