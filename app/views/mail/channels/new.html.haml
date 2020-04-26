@@ -8,27 +8,4 @@
   %h1.ui.large.header
     New Channel
 
-  = form_with model: @channel, local: true, class: 'ui form' do |f|
-    .field.required
-      = f.label :title
-      = f.text_field :title, required: true
-    .field
-      = f.label :delivery_time
-      = f.time_field :delivery_time, required: true
-    .field
-      = f.label "Content Length (words per day)"
-      = f.number_field :words_per_day, min: 200, max: 1000, step: 50, placeholder: '400'
-      %small *Content length should be between 200-1,000 words per day.
-
-    .field
-      = f.label :description
-      = f.text_area :description
-    .field
-      = f.check_box :public
-      Make this channel public.
-
-    .ui.divider
-    .field
-      = f.submit 'Save', class: 'ui red responsive button'
-      &nbsp;
-      = link_to 'Cancel', channels_path, class: 'ui basic responsive button'
+  = render partial: 'form', locals: { channel: @channel }
