@@ -5,6 +5,7 @@ class ReCreateChannel < ActiveRecord::Migration[6.0]
       t.string :title, null: false
       t.text :description
       t.boolean :default, null: false, default: false
+      t.boolean :active, null: false, default: false
       t.boolean :public, null: false, default: false
 
       t.timestamps

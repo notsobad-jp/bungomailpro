@@ -2,6 +2,7 @@ class Channel < ApplicationRecord
   belongs_to :user
   belongs_to :search_condition, optional: true
   has_many :book_assignments, dependent: :destroy
+  has_one :current_book_assignment, -> { where(status: :active) }, class_name: 'BookAssignment'
   has_many :subscriptions, dependent: :destroy
   has_many :subscribers, through: :subscriptions, source: :user
 
@@ -31,10 +32,6 @@ class Channel < ApplicationRecord
 
     # TODO: UTCの配信時間以前なら予約・以降ならすぐに配信される
     UserMailer.feed_email(book_assignment.next_feed).deliver if deliver_now
-  end
-
-  def current_book_assignment
-    self.book_assignments.includes(:book, :feeds).find_by(status: :active)
   end
 
   def select_book
