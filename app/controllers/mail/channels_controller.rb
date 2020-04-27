@@ -3,7 +3,7 @@ class Mail::ChannelsController < Mail::ApplicationController
   before_action :set_channel, except: [:index, :new, :create]
 
   def index
-    @channels = policy_scope(Channel)
+    @channels = current_user.subscribed_channels
   end
 
   def new
@@ -25,7 +25,7 @@ class Mail::ChannelsController < Mail::ApplicationController
   def show
     @book_assignment = @channel.current_book_assignment
     if params[:status] == "finished"
-      @book_assignments = @channel.book_assignments.where(status: [:finished, :skipped, :canceled])
+      @book_assignments = @channel.book_assignments.where(status: [:finished, :skipped])
     else
       @book_assignments = @channel.book_assignments.stocked
     end

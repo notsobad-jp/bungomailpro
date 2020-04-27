@@ -1,6 +1,6 @@
 .mb-50
   %h1.ui.large.header
-    My Channel
+    Channels
 
   .ui.stackable.two.cards
     - @channels.each do |channel|
@@ -8,8 +8,8 @@
         .content
           .header
             = channel.title
-          - if channel.description
-            .description= channel.description
+            - if channel.public
+              %i.icon.small.green.check.circle
         .ui.secondary.basic.attached.segment.ellipsis
           - ba = channel.current_book_assignment
           - icon_class = channel.active? ? "play" : "pause"
