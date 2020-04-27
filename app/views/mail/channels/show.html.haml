@@ -7,10 +7,13 @@
 .mb-50
   %h1.ui.large.header.mb-0
     = @channel.title
-    - unless @channel.public
-      %small
+    %small
+      - if @channel.public
+        %i.icon.small.green.check.circle
+      - else
         %i.icon.small.lock.grey
 
+  .ui.divider.mb-0
   .ui.small.horizontal.list
     .item
       %i.icon.clock.outline
@@ -21,13 +24,14 @@
       words/day
     .item
       = link_to 'Edit settings', edit_channel_path(@channel)
+  .ui.divider.mt-0
 
   - if @channel.description.present?
     %p= simple_format(@channel.description)
 
 
 .mb-50
-  - if @book_assignment.blank?
+  - if @current_assignment.blank?
     .ui.secondary.center.aligned.segment
       %div= link_to 'Start Now!', channel_path(@channel), class: 'ui red responsive large button'
       %p
@@ -39,21 +43,20 @@
     %table.ui.fixed.definition.table
       %tr
         %td.four.wide Title
-        %td.twelve.wide= @book_assignment.book.title
+        %td.twelve.wide= @current_assignment.book.title
       %tr
         %td Author
-        %td= @book_assignment.book.author_name
+        %td= @current_assignment.book.author_name
       %tr
         %td Delivery Status
-        %td= "Delivered #{@book_assignment.feeds.where.not(scheduled_at: nil).count} of #{@book_assignment.feeds.count}"
+        %td= "Delivered #{@current_assignment.feeds.where.not(scheduled_at: nil).count} of #{@current_assignment.feeds.count}"
       %tr
         %td URL
         %td
-          - url = @book_assignment.book.original_file_url
-          = link_to url, target: :_blank do
-            = url
-            %i.icon.small.external
-    = link_to 'Skip this book', skip_book_assignment_path(@book_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
+          - url = @current_assignment.book_type == 'GutenBook' ? guten_book_path(@current_assignment.book_id) : aozora_book_path(@current_assignment.book_id)
+          = link_to url do
+            Detail
+    = link_to 'Skip this book', skip_book_assignment_path(@current_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
 
 
 .mb-50
