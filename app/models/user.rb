@@ -27,7 +27,6 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_one :charge, dependent: :destroy
-  has_one :default_channel, -> { where(default: true) }, class_name: 'Channel'
   has_many :channels, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :search_conditions, -> { order(created_at: :desc) }, dependent: :destroy
@@ -39,7 +38,6 @@ class User < ApplicationRecord
 
   after_create do
     self.generate_magic_login_token! # ユーザー作成時にmagic_login_tokenも発行しておく
-    self.channels.create(title: 'Default Channel', default: true) # デフォルトchannel作成（さらにsubscriptionも作成される）
   end
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）

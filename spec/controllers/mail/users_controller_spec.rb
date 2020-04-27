@@ -29,13 +29,8 @@ RSpec.describe Mail::UsersController, type: :controller do
         expect{ subject }.to change(User, :count).by(1)
       end
 
-      it "creates user with default channel" do
-        expect{ subject }.to change(Channel, :count).by(1)
-
-        subject
-        user = User.find_by(email: @new_user.email)
-        expect(user.channels.length).to eq 1
-        expect(user.channels.first.default).to eq true
+      it "creates user with default subscription" do
+        expect{ subject }.to change(Subscription, :count).by(1)
       end
 
       it "creates user with :en params" do
@@ -49,8 +44,6 @@ RSpec.describe Mail::UsersController, type: :controller do
     context "as a new :ja user" do
       it "create user with :ja params" do
         post :create, params: { locale: :ja, user: { email: @new_user.email } }, session: {}
-        expect(flash[:success]).to include("Account registered")
-
         user = User.find_by(email: @new_user.email)
         expect(user.timezone).to eq 'Tokyo'
         expect(user.locale).to eq 'ja'

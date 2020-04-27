@@ -12,11 +12,10 @@ class Mail::UsersController < Mail::ApplicationController
 
     @user.locale = I18n.locale
     @user.timezone = 'Tokyo' if I18n.locale == :ja  # 日本のときはJST。デフォルトはUTC
+    @user.subscriptions.new(channel_id: Channel.default_channel_id(I18n.locale))
 
     if @user.save
-      # 本を選んでfeedsをセット。最初のfeedはすぐに配信する
-      @user.default_channel.delay.assign_book_and_set_feeds(deliver_now: true)
-      flash[:success] = "Account registered! You'll start receiving the email from today :)"
+      flash[:success] = "Account registered! You'll start receiving the email from tomorrow :)"
     else
       flash[:error] = 'Sorry something seems to be wrong with your email address. Please check and try again.'
     end

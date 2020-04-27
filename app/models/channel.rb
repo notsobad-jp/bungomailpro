@@ -8,6 +8,10 @@ class Channel < ApplicationRecord
 
   validates :title, presence: true
 
+  # 言語別の公式チャネルID
+  DEFAULT_JA_CHANNEL_ID = '821b9354-8ce4-4706-8fdc-6ac42c16e053'.freeze
+  DEFAULT_EN_CHANNEL_ID = '4c386a3c-ed38-4e6e-8505-334a6e9f5043'.freeze
+
   after_create do
     self.subscriptions.create(user_id: self.user_id)
   end
@@ -37,5 +41,11 @@ class Channel < ApplicationRecord
   def select_book
     ids = ActiveRecord::Base.connection.select_values("select guten_book_id from guten_books_subjects where subject_id IN (select id from subjects where LOWER(id) LIKE '%fiction%')")
     GutenBook.where(id: ids, language: 'en', rights_reserved: false, words_count: 2000..15000).where("downloads > ?", 50).order(Arel.sql("RANDOM()")).first
+  end
+
+  class << self
+    def default_channel_id(locale)
+      locale == :ja ? DEFAULT_JA_CHANNEL_ID : DEFAULT_EN_CHANNEL_ID
+    end
   end
 end

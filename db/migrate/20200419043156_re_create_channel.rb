@@ -4,12 +4,10 @@ class ReCreateChannel < ActiveRecord::Migration[6.0]
       t.references :user, type: :uuid, foreign_key: true, null: false
       t.string :title, null: false
       t.text :description
-      t.boolean :default, null: false, default: false
       t.boolean :active, null: false, default: false
       t.boolean :public, null: false, default: false
 
       t.timestamps
     end
-    add_index :channels, [:user_id, :default], where: '"default" = true', unique: true
   end
 end
