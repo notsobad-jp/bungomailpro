@@ -46,7 +46,15 @@
         &nbsp;
         (#{@book.try(:birth_year)} - #{@book.try(:death_year)})
 
-= link_to 'Add to the channel', book_assignments_path(channel_id: @channel.id, book_id: @book.id, book_type: @book.class.name), method: :post, class: 'ui red responsive button'
+.ui.simple.dropdown.red.button
+  Add to channel
+  %i.icon.dropdown
+  .menu
+    - if @channels.present?
+      - @channels.each do |channel|
+        = link_to channel.title, book_assignments_path(channel_id: channel.id, book_id: @book.id, book_type: @book.class.name), method: :post, class: 'item'
+    - else
+      .item (No channel is available.)
 &nbsp;
 = link_to request.referer, class: 'ui basic responsive button' do
   Back to search

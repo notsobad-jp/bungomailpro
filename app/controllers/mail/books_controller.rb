@@ -8,7 +8,7 @@ class Mail::BooksController < Mail::ApplicationController
   end
 
   def show
-    @channel = current_user.channels.first
+    @channels = policy_scope(Channel)
     @book_assignment = BookAssignment.new(book_id: @book.id, book_type: @book.class.name)
     @author = { id: @book.author_id, name: @book.author_name }
     render 'mail/books/show'
