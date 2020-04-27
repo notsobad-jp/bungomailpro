@@ -12,7 +12,7 @@ class Mail::UsersController < Mail::ApplicationController
 
     @user.locale = I18n.locale
     @user.timezone = 'Tokyo' if I18n.locale == :ja  # 日本のときはJST。デフォルトはUTC
-    @user.subscriptions.new(channel_id: Channel.default_channel_id(I18n.locale))
+    @user.subscriptions.new(channel_id: Channel::DEFAULT_CHANNEL_ID[I18n.locale])
 
     if @user.save
       flash[:success] = "Account registered! You'll start receiving the email from tomorrow :)"

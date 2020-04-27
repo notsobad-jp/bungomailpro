@@ -10,13 +10,6 @@
     = f.number_field :words_per_day, min: 200, max: 1000, step: 50, placeholder: '400'
     %small *Content length should be between 200-1,000 words per day.
 
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.check_box :public
-    Make this channel public.
-
   .ui.divider
   .field
     = f.submit 'Save', class: 'ui red responsive button'
