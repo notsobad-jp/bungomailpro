@@ -6,9 +6,7 @@ section, footer { padding: 50px 10px !important; }
   min-height: calc(100vh - 190px);
 }
 #mobile-menu {
-  z-index: 1000;
-  border-left: 0;
-  border-right: 0;
+  .menu { width: 100%; }
 }
 
 .hidden { display: none !important; }

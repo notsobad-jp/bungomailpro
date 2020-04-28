@@ -42,8 +42,11 @@
           = link_to 'Sign Out', logout_path, method: :post, class: 'item'
         - else
           = link_to 'Sign In', login_path, class: 'item'
-    #mobile-menu.ui.bottom.fixed.fluid.three.item.mobile.only.menu
-      = render partial: 'mail/layouts/menu_items', locals: { active: @active_tab }
+    #mobile-menu.ui.top.attached.mobile.only.simple.dropdown.segment.mt-0
+      = @active_tab&.capitalize
+      %i.icon.dropdown
+      .menu
+        = render partial: 'mail/layouts/menu_items', locals: { active: @active_tab }
 
     %div#main-content
       .ui.container
