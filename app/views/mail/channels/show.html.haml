@@ -88,25 +88,24 @@
         = link_to add_books_channel_path(@channel), method: :post, class: 'ui red button' do
           Auto Select Books
         .or
-        .ui.button
-          Select by yourself
+        - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
+        = link_to 'Select by yourself', books_path, class: 'ui button'
       .mobile.tablet.only
         .mb-10
           = link_to add_books_channel_path(@channel), method: :post, class: 'ui red button' do
             Auto Select Books
         %p
           Or
-          = link_to 'Select by yourself', channel_path(@channel)
+          - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
+          = link_to 'Select by yourself', books_path
 
       .ui.basic.segment
-        The books will be selected automatically.
-        You can change it later if you like.
+        You can change the selected books later if you don't like them.
     %p
       = link_to 'See saved searches', search_conditions_path
       or
       - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
       = link_to 'Create new search', books_path
-
 
   - else
     .ui.divided.items
@@ -119,3 +118,7 @@
             .meta= assignment.book.author_name
           = link_to book_assignment_path(assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }, class: 'ui right floated icon button' do
             %i.icon.remove
+      .ui.info.message
+        %i.icon.info.circle
+        New book will be added automatically when stock runs out.
+        Or You can add books manually whenever you like :)

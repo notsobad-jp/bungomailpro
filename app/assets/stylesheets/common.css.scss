@@ -46,6 +46,8 @@ footer a { color: #fff !important; }
 }
 .ellipsis { white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
 
+.center.aligned { text-align: center; }
+
 .right.floated { float: right; }
 .float-cleared:after {
   content: ".";

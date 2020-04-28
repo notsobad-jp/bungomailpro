@@ -13,6 +13,13 @@ class Mail::ChannelsController < Mail::ApplicationController
   def create
     @channel = authorize current_user.channels.new(channel_params)
 
+    # books#showからチャネル作成した場合
+    ## 選択した本でassignment作成。titleが無いのでデフォルト値を登録
+    if params[:book_id] && params[:book_type]
+      @channel.book_assignments.new(book_id: params[:book_id], book_type: params[:book_type])
+      @channel.title = "My Channel"
+    end
+
     if @channel.save
       flash[:success] = 'Channel created!'
       redirect_to channel_path(@channel)
@@ -94,7 +101,7 @@ class Mail::ChannelsController < Mail::ApplicationController
   private
 
   def channel_params
-    params.require(:channel).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id)
+    params.fetch(:channel, {}).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id)
   end
 
   def set_active_tab
