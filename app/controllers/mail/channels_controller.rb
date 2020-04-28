@@ -31,11 +31,7 @@ class Mail::ChannelsController < Mail::ApplicationController
 
   def show
     @current_assignment = @channel.current_book_assignment
-    if params[:status] == "finished"
-      @book_assignments = @channel.book_assignments.where(status: [:finished, :skipped])
-    else
-      @book_assignments = @channel.book_assignments.stocked
-    end
+    @book_assignments = @channel.book_assignments.stocked
     @condition = @channel.search_condition
   end
 

@@ -22,47 +22,30 @@
       words/day
     .item
       = link_to 'Edit', edit_channel_path(@channel)
-  .ui.divider.mt-0.mb-0
-  .ui.small.horizontal.list
-    .item
-      %i.icon.search
-      Search Condition:
-      &nbsp:
-      - if @condition
-        - books_path = @condition.book_type == 'GutenBook' ? guten_books_path(q: @condition.query) : aozora_books_path(q: @condition.query)
-        = @condition.query.to_s
-        &nbsp;
-        = link_to books_path do
-          Edit
-        &nbsp;
-        = link_to books_path do
-          %i.icon.remove
-      - else
-        ( Default )
-        &nbsp;
-        = link_to guten_books_path do
-          Edit
   .ui.divider.mt-0
 
 .mb-50
+  .ui.fluid.secondary.pointing.menu
+    .active.item
+      %i.icon.play.circle
+      Now Playing
   - if @current_assignment.blank?
-    - disabled = "disabled" if @book_assignments.blank?
-    = link_to 'Start Now!', start_channel_path(@channel), method: :post, class: "ui red responsive large button #{disabled}"
-    - if @book_assignments.blank?
-      &nbsp;
-      *No book is stocked. Add some at the section below.
+    .ui.secondary.center.aligned.segment
+      .mb-10
+        = link_to 'Start Now!', start_channel_path(@channel), method: :post, class: "ui red responsive large button"
+      - if @book_assignments.present?
+        The first book of the stocked books will be delivered.
+      - else
+        The book will be selected automatically.
   - else
     .ui.fluid.card
-      .ui.secondary.top.attached.segment
-        .ui.small.header
-          - icon_class = @channel.active? ? "play" : "pause"
-          %i.icon.circle{class: icon_class}
+      .secondary.content
+        .header
           = @current_assignment.book.title
-          (1 of 30)
           &nbsp;
-          %small
-            by
-            = @current_assignment.book.author_name
+          .ui.small.black.basic.label 1 of 30
+        .meta
+          = @current_assignment.book.author_name
       .ui.bottom.attached.basic.buttons
         - if @channel.active?
           = link_to pause_channel_path(@channel), method: :post, class: 'ui button' do
@@ -77,12 +60,22 @@
           Delete
 
 .mb-50
+  -# SP
   .ui.fluid.secondary.pointing.two.item.mobile.only.menu
-    = link_to 'Scheduled', channel_path(@channel), class: "item #{'active' unless params['status']}"
-    = link_to 'Finished', channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}"
+    = link_to channel_path(@channel), class: "item #{'active' unless params['status']}" do
+      %i.icon.book
+      Stocked Books
+    = link_to  channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}" do
+      %i.icon.search
+      Search Settings
+  -# PC
   .ui.fluid.secondary.pointing.tablet.computer.only.menu
-    = link_to 'Scheduled', channel_path(@channel), class: "item #{'active' unless params['status']}"
-    = link_to 'Finished', channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}"
+    = link_to channel_path(@channel), class: "item #{'active' unless params['status']}" do
+      %i.icon.book
+      Stocked Books
+    = link_to  channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}" do
+      %i.icon.search
+      Search Settings
 
   - if @book_assignments.blank?
     .ui.placeholder.center.aligned.segment
@@ -92,14 +85,14 @@
           No book is stocked.
 
       .ui.large.buttons.computer.only
-        = link_to add_books_channel_path(@channel), method: :post, class: 'ui red button' do
+        = link_to add_books_channel_path(@channel), method: :post, class: 'ui primary button' do
           Auto Select Books
         .or
         - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
         = link_to 'Select by yourself', books_path, class: 'ui button'
       .mobile.tablet.only
         .mb-10
-          = link_to add_books_channel_path(@channel), method: :post, class: 'ui red button' do
+          = link_to add_books_channel_path(@channel), method: :post, class: 'ui primary button' do
             Auto Select Books
         %p
           Or
