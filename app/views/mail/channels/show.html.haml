@@ -62,62 +62,101 @@
 .mb-50
   -# SP
   .ui.fluid.secondary.pointing.two.item.mobile.only.menu
-    = link_to channel_path(@channel), class: "item #{'active' unless params['status']}" do
+    = link_to channel_path(@channel), class: "item #{'active' unless params['menu']}" do
       %i.icon.book
       Stocked Books
-    = link_to  channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}" do
+    = link_to  channel_path(@channel, menu: "search_condition"), class: "item #{'active' if params['menu']}" do
       %i.icon.search
-      Search Settings
+      Auto-Select Setting
   -# PC
   .ui.fluid.secondary.pointing.tablet.computer.only.menu
-    = link_to channel_path(@channel), class: "item #{'active' unless params['status']}" do
+    = link_to channel_path(@channel), class: "item #{'active' unless params['menu']}" do
       %i.icon.book
       Stocked Books
-    = link_to  channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}" do
+    = link_to  channel_path(@channel, menu: "search_condition"), class: "item #{'active' if params['menu']}" do
       %i.icon.search
-      Search Settings
+      Auto-Select Setting
 
-  - if @book_assignments.blank?
-    .ui.placeholder.center.aligned.segment
-      .ui.icon.header
-        %i.icon.inbox
-        .content
-          No book is stocked.
+  - if params["menu"]
+    - if @condition.present?
+      %table.ui.definition.divided.unstackable.fixed.table
+        - @condition.query.each do |key, value|
+          %tr
+            %td.four.wide= key
+            %td= value
+      = link_to guten_books_path(q: @condition.query), class: 'ui responsive button' do
+        %i.icon.search
+        See search results
+      &nbsp;
+      = link_to search_conditions_path do
+        Saved Searches
 
-      .ui.large.buttons.computer.only
-        = link_to add_books_channel_path(@channel), method: :post, class: 'ui primary button' do
-          Auto Select Books
-        .or
-        - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
-        = link_to 'Select by yourself', books_path, class: 'ui button'
-      .mobile.tablet.only
+    - else
+      .ui.placeholder.center.aligned.segment
+        .ui.icon.header
+          %i.icon.search
+          .content
+            No setting exists.
         .mb-10
-          = link_to add_books_channel_path(@channel), method: :post, class: 'ui primary button' do
-            Auto Select Books
-        %p
-          Or
-          - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
-          = link_to 'Select by yourself', books_path
+          = link_to 'Set Search Settings', guten_books_path, class: 'ui large primary responsive button'
+        %p If not, books will be selected with the defaults search settings.
 
-      .ui.basic.segment
-        You can change the selected books later if you don't like them.
-    %p
-      = link_to 'See saved searches', search_conditions_path
-      or
-      - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
-      = link_to 'Create new search', books_path
+
 
   - else
-    .ui.divided.items
-      - @book_assignments.each do |assignment|
-        .item
+    - if @book_assignments.blank?
+      .ui.placeholder.center.aligned.segment
+        .ui.icon.header
+          %i.icon.inbox
           .content
-            %i.icon.bars
-            &nbsp;
-            .header= assignment.book.title
-            .meta= assignment.book.author_name
-          = link_to book_assignment_path(assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }, class: 'ui right floated icon button' do
-            %i.icon.remove
+            No book is stocked.
+
+        .ui.large.buttons.computer.only
+          = link_to add_books_channel_path(@channel), method: :post, class: 'ui primary button' do
+            Auto Select Books
+          .or
+          - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
+          = link_to 'Select by yourself', books_path, class: 'ui button'
+        .mobile.tablet.only
+          .mb-10
+            = link_to add_books_channel_path(@channel), method: :post, class: 'ui primary button' do
+              Auto Select Books
+          %p
+            Or
+            - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
+            = link_to 'Select by yourself', books_path
+
+        .ui.basic.segment
+          You can change the selected books later if you don't like them.
+      %p
+        = link_to 'See saved searches', search_conditions_path
+        or
+        - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
+        = link_to 'Create new search', books_path
+
+    - else
+      %table.ui.fixed.unstackable.table
+        - @book_assignments.each do |assignment|
+          %tr
+            %td.one.wide.left.aligned.computer.only
+              %i.icon.bars
+            %td.two.wide.left.aligned.mobile.tablet.only
+              %i.icon.bars
+
+            %td.twelve.wide
+              .ui.small.header.mb-0
+                = assignment.book.title
+              %small= assignment.book.author_name
+              &nbsp;
+              %span.ui.mini.label 1mth
+
+            %td.two.wide.right.aligned.computer.only
+              = link_to book_assignment_path(assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }, class: 'ui transparent icon button' do
+                %i.icon.remove
+            %td.three.wide.right.aligned.mobile.tablet.only
+              = link_to book_assignment_path(assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }, class: 'ui transparent icon button' do
+                %i.icon.remove
+      .mb-30
       .ui.info.message
         %i.icon.info.circle
         New book will be added automatically when stock runs out.

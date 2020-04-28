@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_055106) do
     t.bigint "book_id"
     t.uuid "channel_id", null: false
     t.index ["book_type", "book_id"], name: "index_book_assignments_on_book_type_and_book_id"
+    t.index ["channel_id", "status"], name: "index_book_assignments_on_channel_id_and_status", unique: true, where: "(status = 1)"
     t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
     t.index ["status"], name: "index_book_assignments_on_status"
   end
@@ -80,18 +81,17 @@ ActiveRecord::Schema.define(version: 2020_04_24_055106) do
 
   create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.string "title"
+    t.string "title", null: false
     t.text "description"
-    t.boolean "default", default: false, null: false
     t.boolean "public", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.time "delivery_time", default: "2000-01-01 07:00:00", null: false
     t.integer "words_per_day", default: 400, null: false
     t.integer "chars_per_day", default: 750, null: false
+    t.boolean "active", default: false, null: false
     t.uuid "search_condition_id"
     t.index ["search_condition_id"], name: "index_channels_on_search_condition_id"
-    t.index ["user_id", "default"], name: "index_channels_on_user_id_and_default", unique: true, where: "(\"default\" = true)"
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
@@ -181,7 +181,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_055106) do
 
   create_table "search_conditions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.jsonb "query"
+    t.jsonb "query", default: {}, null: false
     t.string "book_type", null: false
     t.integer "book_ids", array: true
     t.datetime "created_at", precision: 6, null: false
@@ -216,7 +216,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_055106) do
     t.datetime "magic_login_email_sent_at"
     t.string "remember_me_token"
     t.datetime "remember_me_token_expires_at"
-    t.string "timezone", default: "UTC"
+    t.string "timezone", default: "UTC", null: false
     t.string "locale", default: "ja", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
