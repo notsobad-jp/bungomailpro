@@ -78,24 +78,31 @@ class Mail::ChannelsController < Mail::ApplicationController
 
   # 配信開始・再開
   def start
-    redirect_to channel_path(@channel), flash: { error: 'This channel is already started.' } if @channel.active?
+    return redirect_to channel_path(@channel), flash: { error: 'This channel is already started.' } if @channel.active?
 
     if @channel.current_book_assignment
       # 再開
       # TODO: activeにしてfeedの日付調整する処理
+      @channel.update(active: true)
     else
       # TODO: activeにしてfeedセットする処理
       # 開始
-      # next_assignment = @channel.book_assignments.stocked.first
-      # next_assignment.activate
+      next_assignment = @channel.book_assignments.stocked.first
+      next_assignment.active!
+      @channel.update(active: true)
     end
+    flash[:success] = 'Channel started!'
+    redirect_to channel_path(@channel)
   end
 
   # 一時停止
   def pause
-    redirect_to channel_path(@channel), flash: { error: 'This channel is already paused.' } unless @channel.active?
+    return redirect_to channel_path(@channel), flash: { error: 'This channel is already paused.' } unless @channel.active?
 
     # TODO: 非activeにして日時調整
+    @channel.update(active: false)
+    flash[:success] = 'Channel paused!'
+    redirect_to channel_path(@channel)
   end
 
   private

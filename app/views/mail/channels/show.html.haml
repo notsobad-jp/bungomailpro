@@ -21,25 +21,33 @@
       = @channel.words_per_day
       words/day
     .item
-      = link_to 'Edit settings', edit_channel_path(@channel)
-  - if @condition
-    .ui.divider.mt-0.mb-0
-    .ui.small.horizontal.list
-      .item
-        %i.icon.search
+      = link_to 'Edit', edit_channel_path(@channel)
+  .ui.divider.mt-0.mb-0
+  .ui.small.horizontal.list
+    .item
+      %i.icon.search
+      Search Condition:
+      &nbsp:
+      - if @condition
         - books_path = @condition.book_type == 'GutenBook' ? guten_books_path(q: @condition.query) : aozora_books_path(q: @condition.query)
         = @condition.query.to_s
-      .item
-        = link_to 'Edit search', books_path
+        &nbsp;
+        = link_to books_path do
+          Edit
+        &nbsp;
+        = link_to books_path do
+          %i.icon.remove
+      - else
+        ( Default )
+        &nbsp;
+        = link_to guten_books_path do
+          Edit
   .ui.divider.mt-0
-
-  - if @channel.description.present?
-    %p= simple_format(@channel.description)
 
 .mb-50
   - if @current_assignment.blank?
     - disabled = "disabled" if @book_assignments.blank?
-    = link_to 'Start Now!', channel_path(@channel), class: "ui red responsive large button #{disabled}"
+    = link_to 'Start Now!', start_channel_path(@channel), method: :post, class: "ui red responsive large button #{disabled}"
     - if @book_assignments.blank?
       &nbsp;
       *No book is stocked. Add some at the section below.
@@ -50,23 +58,22 @@
           - icon_class = @channel.active? ? "play" : "pause"
           %i.icon.circle{class: icon_class}
           = @current_assignment.book.title
+          (1 of 30)
           &nbsp;
           %small
             by
             = @current_assignment.book.author_name
-        %small
-          %i.icon.calendar.alternate
-          2020.04.01 - 2020.04.30
       .ui.bottom.attached.basic.buttons
-        .ui.button
-          - if @channel.active?
+        - if @channel.active?
+          = link_to pause_channel_path(@channel), method: :post, class: 'ui button' do
             %i.icon.pause
             Pause
-          - else
+        - else
+          = link_to start_channel_path(@channel), method: :post, class: 'ui button' do
             %i.icon.play
             Play
-        .ui.button
-          %i.icon.close
+        = link_to book_assignment_path(@current_assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }, class: 'ui button' do
+          %i.icon.remove
           Delete
 
 .mb-50

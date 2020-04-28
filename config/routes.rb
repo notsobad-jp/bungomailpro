@@ -111,6 +111,8 @@ Rails.application.routes.draw do
         resources :aozora_books, only: [:index, :show]
         resources :search_conditions
         resources :channels, shallow: true do
+          post 'start', on: :member
+          post 'pause', on: :member
           post 'add_books', on: :member
           resources :subscriptions
         end
