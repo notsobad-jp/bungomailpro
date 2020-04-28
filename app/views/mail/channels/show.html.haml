@@ -10,8 +10,6 @@
     %small
       - if @channel.public
         %i.icon.small.green.check.circle
-      - else
-        %i.icon.small.lock.grey
 
   .ui.divider.mb-0
   .ui.small.horizontal.list
@@ -24,6 +22,15 @@
       words/day
     .item
       = link_to 'Edit settings', edit_channel_path(@channel)
+  - if @condition
+    .ui.divider.mt-0.mb-0
+    .ui.small.horizontal.list
+      .item
+        %i.icon.search
+        - books_path = @condition.book_type == 'GutenBook' ? guten_books_path(q: @condition.query) : aozora_books_path(q: @condition.query)
+        = @condition.query.to_s
+      .item
+        = link_to 'Edit search', books_path
   .ui.divider.mt-0
 
   - if @channel.description.present?
