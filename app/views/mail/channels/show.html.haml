@@ -4,7 +4,7 @@
     %i.icon.right.angle.divider
     .section= @channel.title
 
-.mb-50
+.mb-30
   %h1.ui.large.header.mb-0
     = @channel.title
     %small
@@ -36,35 +36,38 @@
   - if @channel.description.present?
     %p= simple_format(@channel.description)
 
-
 .mb-50
   - if @current_assignment.blank?
-    .ui.secondary.center.aligned.segment
-      %div= link_to 'Start Now!', channel_path(@channel), class: 'ui red responsive large button'
-      %p
-        Leave it up to us and we select a good book for you😉
-      %p
-        Or you can
-        = link_to 'select books by yourself.', locale_root_url
+    - disabled = "disabled" if @book_assignments.blank?
+    = link_to 'Start Now!', channel_path(@channel), class: "ui red responsive large button #{disabled}"
+    - if @book_assignments.blank?
+      &nbsp;
+      *No book is stocked. Add some at the section below.
   - else
-    %table.ui.fixed.definition.table
-      %tr
-        %td.four.wide Title
-        %td.twelve.wide= @current_assignment.book.title
-      %tr
-        %td Author
-        %td= @current_assignment.book.author_name
-      %tr
-        %td Delivery Status
-        %td= "Delivered #{@current_assignment.feeds.where.not(scheduled_at: nil).count} of #{@current_assignment.feeds.count}"
-      %tr
-        %td URL
-        %td
-          - url = @current_assignment.book_type == 'GutenBook' ? guten_book_path(@current_assignment.book_id) : aozora_book_path(@current_assignment.book_id)
-          = link_to url do
-            Detail
-    = link_to 'Skip this book', skip_book_assignment_path(@current_assignment), method: :post, class: 'ui red small basic responsive button', data: { confirm: 'Skip the current book and start delivering next book. You can not undo this after confirming.' }
-
+    .ui.fluid.card
+      .ui.secondary.top.attached.segment
+        .ui.small.header
+          - icon_class = @channel.active? ? "play" : "pause"
+          %i.icon.circle{class: icon_class}
+          = @current_assignment.book.title
+          &nbsp;
+          %small
+            by
+            = @current_assignment.book.author_name
+        %small
+          %i.icon.calendar.alternate
+          2020.04.01 - 2020.04.30
+      .ui.bottom.attached.basic.buttons
+        .ui.button
+          - if @channel.active?
+            %i.icon.pause
+            Pause
+          - else
+            %i.icon.play
+            Play
+        .ui.button
+          %i.icon.close
+          Delete
 
 .mb-50
   .ui.fluid.secondary.pointing.two.item.mobile.only.menu
@@ -75,19 +78,29 @@
     = link_to 'Finished', channel_path(@channel, status: "finished"), class: "item #{'active' if params['status']}"
 
   - if @book_assignments.blank?
-    .ui.small.header
-      (No book is scheduled yet.)
-      .sub.header The book will be selected automatically with the search condition below:
-    - if @condition
-      .ui.segment
-        - books_path = @condition.book_type == 'GutenBook' ? guten_books_path(q: @condition.query) : aozora_books_path(q: @condition.query)
-        .item
-          .content
-            .meta
-              .ui.label= @condition.book_type
-              &nbsp;
-              = link_to 'See results', books_path
-            .description= @condition.query.to_s
+    .ui.placeholder.center.aligned.segment
+      .ui.icon.header
+        %i.icon.inbox
+        .content
+          No book is stocked.
+
+      .ui.large.buttons.computer.only
+        = link_to add_books_channel_path(@channel), method: :post, class: 'ui red button' do
+          Auto Select Books
+        .or
+        .ui.button
+          Select by yourself
+      .mobile.tablet.only
+        .mb-10
+          = link_to add_books_channel_path(@channel), method: :post, class: 'ui red button' do
+            Auto Select Books
+        %p
+          Or
+          = link_to 'Select by yourself', channel_path(@channel)
+
+      .ui.basic.segment
+        The books will be selected automatically.
+        You can change it later if you like.
     %p
       = link_to 'See saved searches', search_conditions_path
       or
@@ -96,27 +109,13 @@
 
 
   - else
-    %table.ui.fixed.celled.table
-      %thead
-        %tr
-          %th.one.wide #
-          %th.eight.wide Title
-          %th.three.wide URL
-          %th.four.wide
-      %tbody
-        - @book_assignments.each.with_index(1) do |assignment, index|
-          %tr
-            %td= index
-            %td
-              = assignment.book.title
-              %br
-              %small
-                by
-                = assignment.book.author_name
-            %td
-              - url = assignment.book.original_file_url
-              = link_to url, target: :_blank do
-                = url
-                %i.icon.small.external
-            %td
-              = link_to 'Delete', book_assignment_path(assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }
+    .ui.divided.items
+      - @book_assignments.each do |assignment|
+        .item
+          .content
+            %i.icon.bars
+            &nbsp;
+            .header= assignment.book.title
+            .meta= assignment.book.author_name
+          = link_to book_assignment_path(assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }, class: 'ui right floated icon button' do
+            %i.icon.remove

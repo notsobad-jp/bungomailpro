@@ -40,8 +40,8 @@ class Channel < ApplicationRecord
     UserMailer.feed_email(book_assignment.next_feed).deliver if deliver_now
   end
 
-  def select_book
+  def select_book(num=1)
     ids = ActiveRecord::Base.connection.select_values("select guten_book_id from guten_books_subjects where subject_id IN (select id from subjects where LOWER(id) LIKE '%fiction%')")
-    GutenBook.where(id: ids, language: 'en', rights_reserved: false, words_count: 2000..15000).where("downloads > ?", 50).order(Arel.sql("RANDOM()")).first
+    GutenBook.where(id: ids, language: 'en', rights_reserved: false, words_count: 2000..15000).where("downloads > ?", 50).order(Arel.sql("RANDOM()")).take(num)
   end
 end

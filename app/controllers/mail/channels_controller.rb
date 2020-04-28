@@ -41,7 +41,7 @@ class Mail::ChannelsController < Mail::ApplicationController
       redirect_path = params[:redirect_to] || channel_path(@channel)
       redirect_to redirect_path
     else
-      flash[:error] = 'Sorry somethin went wrong. Please check the data and try again.'
+      flash[:error] = 'Sorry something went wrong.. Please check the data and try again.'
       render :edit
     end
   end
@@ -50,6 +50,45 @@ class Mail::ChannelsController < Mail::ApplicationController
     @channel.destroy
     flash[:success] = 'Deleted the channel successfully!'
     redirect_to channels_path
+  end
+
+  # Auto Select: 本を3冊セレクトしてbook_assignmentsに追加
+  def add_books
+    @channel.select_book(3).each do |book|
+      @channel.book_assignments.new(
+        book_type: book.class.name,
+        book_id: book.id,
+      )
+    end
+
+    if @channel.save
+      flash[:success] = 'Books added!'
+    else
+      flash[:error] = 'Sorry something went wrong.. Please try again later.'
+    end
+    redirect_to channel_path(@channel)
+  end
+
+  # 配信開始・再開
+  def start
+    redirect_to channel_path(@channel), flash: { error: 'This channel is already started.' } if @channel.active?
+
+    if @channel.current_book_assignment
+      # 再開
+      # TODO: activeにしてfeedの日付調整する処理
+    else
+      # TODO: activeにしてfeedセットする処理
+      # 開始
+      # next_assignment = @channel.book_assignments.stocked.first
+      # next_assignment.activate
+    end
+  end
+
+  # 一時停止
+  def pause
+    redirect_to channel_path(@channel), flash: { error: 'This channel is already paused.' } unless @channel.active?
+
+    # TODO: 非activeにして日時調整
   end
 
   private

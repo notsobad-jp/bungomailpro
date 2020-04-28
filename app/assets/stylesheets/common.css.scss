@@ -68,8 +68,22 @@ footer a { color: #fff !important; }
 // SearchCondition#indexのドロップダウン
 .ui.secondary.menu .dropdown.item>.menu, .ui.text.menu .dropdown.item>.menu { margin-top: 0; }
 
+// channels#showのplaceholder内のbutton group
+.ui.placeholder.segment {
+  .buttons {
+    margin-left: auto;
+    margin-right: auto;
+
+    .button {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
 .m-0 { margin: 0 !important; }
 .mb-0 { margin-bottom: 0 !important; }
+.mb-10 { margin-bottom: 10px; }
 .mb-30 { margin-bottom: 30px; }
 .mb-50 { margin-bottom: 50px; }
 .mb-70 { margin-bottom: 70px; }
