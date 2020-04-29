@@ -3,7 +3,7 @@ class Mail::ChannelsController < Mail::ApplicationController
   before_action :set_channel, except: [:index, :new, :create]
 
   def index
-    @channels = current_user.subscribed_channels
+    @channels = current_user.subscribed_channels.includes(current_book_assignment: :book)
   end
 
   def new
