@@ -72,14 +72,12 @@ class Mail::ChannelsController < Mail::ApplicationController
     redirect_to channel_path(@channel)
   end
 
-  # 配信開始・再開
+  # 配信開始
   def start
     return redirect_to channel_path(@channel), flash: { error: 'This channel is already started.' } if @channel.active?
 
     # TODO: activeにしてfeedセットする処理
-    # 開始
-    next_assignment = @channel.book_assignments.stocked.first
-    next_assignment.active!
+    @channel.assign_book_and_set_feeds
     @channel.update(active: true)
 
     flash[:success] = 'Channel started!'

@@ -32,6 +32,7 @@ class Mail::BookAssignmentsController < Mail::ApplicationController
   def destroy
     @book_assignment = BookAssignment.find(params[:id])
     @book_assignment.destroy
+    @book_assignment.channel.update(active: false) if @book_assignment.active?
     flash[:success] = 'Deleted the stocked book successfully!'
     redirect_to channel_path(@book_assignment.channel)
   end

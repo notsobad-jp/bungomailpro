@@ -31,7 +31,7 @@ class Channel < ApplicationRecord
       book_assignment = self.book_assignments.create(book_type: book.class.name, book_id: book.id, status: :active)
     else
       # それもなければデフォルト条件でセレクト
-      book = self.select_book
+      book = self.select_book.first
       book_assignment = self.book_assignments.create(book_type: book.class.name, book_id: book.id, status: :active)
     end
     book_assignment.set_feeds
