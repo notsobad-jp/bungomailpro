@@ -29,6 +29,7 @@
 #                           PATCH  /:locale/search_conditions/:id(.:format)                                                   mail/search_conditions#update {:subdomain=>"", :locale=>/ja|en/}
 #                           PUT    /:locale/search_conditions/:id(.:format)                                                   mail/search_conditions#update {:subdomain=>"", :locale=>/ja|en/}
 #                           DELETE /:locale/search_conditions/:id(.:format)                                                   mail/search_conditions#destroy {:subdomain=>"", :locale=>/ja|en/}
+#             start_channel POST   /:locale/channels/:id/start(.:format)                                                      mail/channels#start {:subdomain=>"", :locale=>/ja|en/}
 #         add_books_channel POST   /:locale/channels/:id/add_books(.:format)                                                  mail/channels#add_books {:subdomain=>"", :locale=>/ja|en/}
 #     channel_subscriptions GET    /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#index {:subdomain=>"", :locale=>/ja|en/}
 #                           POST   /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#create {:subdomain=>"", :locale=>/ja|en/}
@@ -38,6 +39,7 @@
 #                           PATCH  /:locale/subscriptions/:id(.:format)                                                       mail/subscriptions#update {:subdomain=>"", :locale=>/ja|en/}
 #                           PUT    /:locale/subscriptions/:id(.:format)                                                       mail/subscriptions#update {:subdomain=>"", :locale=>/ja|en/}
 #                           DELETE /:locale/subscriptions/:id(.:format)                                                       mail/subscriptions#destroy {:subdomain=>"", :locale=>/ja|en/}
+#  channel_book_assignments GET    /:locale/channels/:channel_id/book_assignments(.:format)                                   mail/book_assignments#index {:subdomain=>"", :locale=>/ja|en/}
 #                  channels GET    /:locale/channels(.:format)                                                                mail/channels#index {:subdomain=>"", :locale=>/ja|en/}
 #                           POST   /:locale/channels(.:format)                                                                mail/channels#create {:subdomain=>"", :locale=>/ja|en/}
 #               new_channel GET    /:locale/channels/new(.:format)                                                            mail/channels#new {:subdomain=>"", :locale=>/ja|en/}
@@ -112,9 +114,9 @@ Rails.application.routes.draw do
         resources :search_conditions
         resources :channels, shallow: true do
           post 'start', on: :member
-          post 'pause', on: :member
           post 'add_books', on: :member
           resources :subscriptions
+          resources :book_assignments, only: [:index]
         end
         resources :book_assignments do
           post 'skip', on: :member

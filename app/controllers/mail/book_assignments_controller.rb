@@ -1,6 +1,11 @@
 class Mail::BookAssignmentsController < Mail::ApplicationController
   before_action :set_book, only: [:create]
 
+  def index
+    @channel = authorize Channel.find(params[:channel_id])
+    @book_assignments = @channel.book_assignments.stocked
+  end
+
   def create
     @channel = Channel.find(params[:channel_id])
     @book_assignment = @channel.book_assignments.new(book_id: @book.id, book_type: @book.class.name)

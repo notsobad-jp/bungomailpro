@@ -76,35 +76,20 @@ class Mail::ChannelsController < Mail::ApplicationController
   def start
     return redirect_to channel_path(@channel), flash: { error: 'This channel is already started.' } if @channel.active?
 
-    if @channel.current_book_assignment
-      # 再開
-      # TODO: activeにしてfeedの日付調整する処理
-      @channel.update(active: true)
-    else
-      # TODO: activeにしてfeedセットする処理
-      # 開始
-      next_assignment = @channel.book_assignments.stocked.first
-      next_assignment.active!
-      @channel.update(active: true)
-    end
+    # TODO: activeにしてfeedセットする処理
+    # 開始
+    next_assignment = @channel.book_assignments.stocked.first
+    next_assignment.active!
+    @channel.update(active: true)
+
     flash[:success] = 'Channel started!'
-    redirect_to channel_path(@channel)
-  end
-
-  # 一時停止
-  def pause
-    return redirect_to channel_path(@channel), flash: { error: 'This channel is already paused.' } unless @channel.active?
-
-    # TODO: 非activeにして日時調整
-    @channel.update(active: false)
-    flash[:success] = 'Channel paused!'
     redirect_to channel_path(@channel)
   end
 
   private
 
   def channel_params
-    params.fetch(:channel, {}).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id)
+    params.fetch(:channel, {}).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id, :active)
   end
 
   def set_active_tab

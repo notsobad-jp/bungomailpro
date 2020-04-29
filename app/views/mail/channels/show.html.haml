@@ -24,6 +24,7 @@
       = link_to 'Edit', edit_channel_path(@channel)
   .ui.divider.mt-0
 
+-# Now Playing
 .mb-50
   .ui.fluid.secondary.pointing.menu
     .active.item
@@ -41,6 +42,8 @@
     .ui.fluid.card
       .secondary.content
         .header
+          - icon_class = @channel.active? ? "play" : "pause"
+          %i.icon.outline.red.circle{class: icon_class}
           = @current_assignment.book.title
           &nbsp;
           .ui.small.black.basic.label 1 of 30
@@ -48,17 +51,19 @@
           = @current_assignment.book.author_name
       .ui.bottom.attached.basic.buttons
         - if @channel.active?
-          = link_to pause_channel_path(@channel), method: :post, class: 'ui button' do
+          = link_to channel_path(@channel, channel: { active: false }), method: :patch, class: 'ui button' do
             %i.icon.pause
             Pause
         - else
-          = link_to start_channel_path(@channel), method: :post, class: 'ui button' do
+          = link_to channel_path(@channel, channel: { active: true }), method: :patch, class: 'ui button' do
             %i.icon.play
             Play
         = link_to book_assignment_path(@current_assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }, class: 'ui button' do
           %i.icon.remove
           Delete
 
+
+-# Stocked Books & Auto-Select Settings
 .mb-50
   -# SP
   .ui.fluid.secondary.pointing.two.item.mobile.only.menu
@@ -77,6 +82,8 @@
       %i.icon.search
       Auto-Select Setting
 
+
+  -# Auto-Select Setting
   - if params["menu"]
     - if @condition.present?
       %table.ui.definition.divided.unstackable.fixed.table
@@ -102,8 +109,8 @@
         %p If not, books will be selected with the defaults search settings.
 
 
-
   - else
+    -# Stocked Books
     - if @book_assignments.blank?
       .ui.placeholder.center.aligned.segment
         .ui.icon.header
@@ -136,12 +143,14 @@
 
     - else
       %table.ui.fixed.unstackable.table
-        - @book_assignments.each do |assignment|
+        = link_to channel_book_assignments_path(@channel) do
+          Change Order
+        - @book_assignments.each.with_index(1) do |assignment, index|
           %tr
             %td.one.wide.left.aligned.computer.only
-              %i.icon.bars
+              = index
             %td.two.wide.left.aligned.mobile.tablet.only
-              %i.icon.bars
+              = index
 
             %td.twelve.wide
               .ui.small.header.mb-0
@@ -157,7 +166,4 @@
               = link_to book_assignment_path(assignment), method: :delete,  data: { confirm: 'Delete the stocked book. You can not undo this after confirming.' }, class: 'ui transparent icon button' do
                 %i.icon.remove
       .mb-30
-      .ui.info.message
-        %i.icon.info.circle
-        New book will be added automatically when stock runs out.
-        Or You can add books manually whenever you like :)
+      %p *New book will be added automatically when stock runs out.
