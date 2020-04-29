@@ -21,14 +21,6 @@
 #                guten_book GET    /:locale/guten_books/:id(.:format)                                                         mail/guten_books#show {:subdomain=>"", :locale=>/ja|en/}
 #              aozora_books GET    /:locale/aozora_books(.:format)                                                            mail/aozora_books#index {:subdomain=>"", :locale=>/ja|en/}
 #               aozora_book GET    /:locale/aozora_books/:id(.:format)                                                        mail/aozora_books#show {:subdomain=>"", :locale=>/ja|en/}
-#         search_conditions GET    /:locale/search_conditions(.:format)                                                       mail/search_conditions#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   /:locale/search_conditions(.:format)                                                       mail/search_conditions#create {:subdomain=>"", :locale=>/ja|en/}
-#      new_search_condition GET    /:locale/search_conditions/new(.:format)                                                   mail/search_conditions#new {:subdomain=>"", :locale=>/ja|en/}
-#     edit_search_condition GET    /:locale/search_conditions/:id/edit(.:format)                                              mail/search_conditions#edit {:subdomain=>"", :locale=>/ja|en/}
-#          search_condition GET    /:locale/search_conditions/:id(.:format)                                                   mail/search_conditions#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  /:locale/search_conditions/:id(.:format)                                                   mail/search_conditions#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    /:locale/search_conditions/:id(.:format)                                                   mail/search_conditions#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE /:locale/search_conditions/:id(.:format)                                                   mail/search_conditions#destroy {:subdomain=>"", :locale=>/ja|en/}
 #             start_channel POST   /:locale/channels/:id/start(.:format)                                                      mail/channels#start {:subdomain=>"", :locale=>/ja|en/}
 #         add_books_channel POST   /:locale/channels/:id/add_books(.:format)                                                  mail/channels#add_books {:subdomain=>"", :locale=>/ja|en/}
 #     channel_subscriptions GET    /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#index {:subdomain=>"", :locale=>/ja|en/}
@@ -111,7 +103,6 @@ Rails.application.routes.draw do
         resources :magic_tokens
         resources :guten_books, only: [:index, :show]
         resources :aozora_books, only: [:index, :show]
-        resources :search_conditions
         resources :channels, shallow: true do
           post 'start', on: :member
           post 'add_books', on: :member

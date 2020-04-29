@@ -1,12 +1,13 @@
 class Channel < ApplicationRecord
   belongs_to :user
-  belongs_to :search_condition, optional: true
+  has_one :search_condition, dependent: :destroy
   has_many :book_assignments, dependent: :destroy
   has_one :current_book_assignment, -> { where(status: :active) }, class_name: 'BookAssignment'
   has_many :subscriptions, dependent: :destroy
   has_many :subscribers, through: :subscriptions, source: :user
 
   validates :title, presence: true
+  accepts_nested_attributes_for :search_condition
 
   # 言語別の公式チャネルID
   DEFAULT_CHANNEL_ID = {

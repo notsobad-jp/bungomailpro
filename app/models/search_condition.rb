@@ -1,4 +1,3 @@
 class SearchCondition < ApplicationRecord
-  belongs_to :user
-  has_many :channels, dependent: :nullify
+  belongs_to :channel
 end

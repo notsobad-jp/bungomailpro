@@ -87,7 +87,7 @@ class Mail::ChannelsController < Mail::ApplicationController
   private
 
   def channel_params
-    params.fetch(:channel, {}).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id, :active)
+    params.fetch(:channel, {}).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id, :active, search_condition_attributes: [:book_type, query: {}])
   end
 
   def set_active_tab

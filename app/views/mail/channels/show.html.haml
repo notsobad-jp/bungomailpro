@@ -93,10 +93,7 @@
             %td= value
       = link_to guten_books_path(q: @condition.query), class: 'ui responsive button' do
         %i.icon.search
-        See search results
-      &nbsp;
-      = link_to search_conditions_path do
-        Saved Searches
+        See and edit Search Settings
 
     - else
       .ui.placeholder.center.aligned.segment
@@ -135,11 +132,6 @@
 
         .ui.basic.segment
           You can change the selected books later if you don't like them.
-      %p
-        = link_to 'See saved searches', search_conditions_path
-        or
-        - books_path = I18n.locale == :en ? guten_books_path : aozora_books_path
-        = link_to 'Create new search', books_path
 
     - else
       %table.ui.fixed.unstackable.table

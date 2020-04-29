@@ -30,7 +30,6 @@ class User < ApplicationRecord
   has_many :channels, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :subscribed_channels, through: :subscriptions, source: :channel
-  has_many :search_conditions, -> { order(created_at: :desc) }, dependent: :destroy
   accepts_nested_attributes_for :channels
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze

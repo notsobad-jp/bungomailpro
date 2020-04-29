@@ -52,7 +52,7 @@
       .menu
         - query = @search_params&.reject{|k,v| v.blank?}
         - @channels.each do |channel|
-          = link_to channel.title, search_conditions_path(query: query, book_type: @book_class.name), method: :post, class: "item"
+          = link_to channel.title, channel_path(channel, channel: { search_condition_attributes: { query: query, book_type: @book_class.name } }, redirect_to: channel_path(channel, menu: 'search_condition')), method: :patch, class: "item"
         - if @channels.present?
           .ui.divider
         = link_to '(New Channel)', channels_path(search_condition: { query: query, book_type: @book_class.name }), method: :post, class: 'item'
