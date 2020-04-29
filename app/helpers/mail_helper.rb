@@ -4,6 +4,6 @@ module MailHelper
   end
 
   def book_path(book_type:, id:)
-    book_type.constantize.find(id) rescue url_for
+    "#{book_type.underscore}_path(#{id})" rescue url_for
   end
 end
