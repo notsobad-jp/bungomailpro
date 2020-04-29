@@ -4,6 +4,7 @@ class Mail::BooksController < Mail::ApplicationController
 
   def index
     @search_params = search_params
+    @channels = policy_scope(Channel)
     @books = @book_class.search(@search_params)&.page(params[:page])&.per(30)
   end
 

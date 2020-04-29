@@ -1,4 +1,4 @@
-.mb-50
+.mb-30
   .float-cleared
     - source_name = @book_class == AozoraBook ? 'AozoraBunko' : 'Gutenberg'
     %h1.ui.large.left.floated.header
@@ -11,41 +11,53 @@
         %i.icon.angle.right
 
   = form_with(scope: :q, model: @book_class, method: :get, local: true, class: 'ui form') do |f|
-    .two.fields
-      .field
-        = f.label :title
-        = f.text_field :title, value: @search_params[:title]
-      .field
-        = f.label :author
-        = f.text_field :author, value: @search_params[:author]
-    .three.fields
-      .field
-        = f.label :popularity
-        - options = [["★★★", 3], ["★★", 2], ["★", 1], ["(なし)", 0]]
-        = f.select :popularity, options_for_select(options, @search_params[:popularity]), { include_blank: "--" }, { class: 'ui dropdown' }
-      .field
-        = f.label "Time to Read"
-        - options = @book_class::CATEGORIES.map{|k, v| [v[:name], v[:id]] }
-        = f.select :category, options_for_select(options, @search_params[:category]), { include_blank: "--" }, { class: 'ui dropdown' }
-      - if @book_class == AozoraBook
+    .ui.accordion
+      .title.active(onclick="this.classList.toggle('active');this.nextElementSibling.classList.toggle('active');")
+        %i.dropdown.icon
+        Search Condition
+      .content.active.accordable
+        .two.fields
+          .field
+            = f.label :title
+            = f.text_field :title, value: @search_params[:title]
+          .field
+            = f.label :author
+            = f.text_field :author, value: @search_params[:author]
+        .three.fields
+          .field
+            = f.label :popularity
+            - options = [["★★★", 3], ["★★", 2], ["★", 1], ["(なし)", 0]]
+            = f.select :popularity, options_for_select(options, @search_params[:popularity]), { include_blank: "--" }, { class: 'ui dropdown' }
+          .field
+            = f.label "Time to Read"
+            - options = @book_class::CATEGORIES.map{|k, v| [v[:name], v[:id]] }
+            = f.select :category, options_for_select(options, @search_params[:category]), { include_blank: "--" }, { class: 'ui dropdown' }
+          - if @book_class == AozoraBook
+            .field
+              = f.label "Char Type"
+              - options = %w(新字新仮名 新字旧仮名 旧字新仮名 旧字旧仮名 その他)
+              = f.select :character_type, options_for_select(options, @search_params[:character_type]), { include_blank: "--" }, { class: 'ui dropdown' }
+            .field
+              = f.label "検索対象"
+              - options = [["一般書のみ", false], ["児童書のみ", true]]
+              = f.select :juvenile, options_for_select(options, @search_params[:juvenile]), { include_blank: "--" }, { class: 'ui dropdown' }
         .field
-          = f.label "Char Type"
-          - options = %w(新字新仮名 新字旧仮名 旧字新仮名 旧字旧仮名 その他)
-          = f.select :character_type, options_for_select(options, @search_params[:character_type]), { include_blank: "--" }, { class: 'ui dropdown' }
-        .field
-          = f.label "検索対象"
-          - options = [["一般書のみ", false], ["児童書のみ", true]]
-          = f.select :juvenile, options_for_select(options, @search_params[:juvenile]), { include_blank: "--" }, { class: 'ui dropdown' }
-    .field
-      = f.submit 'Search', class: 'ui red responsive button'
-      &nbsp;
-      - disabled = "disabled" if @search_params.blank? || @books.blank?
-      = link_to 'Save', search_conditions_path(query: @search_params&.reject{|k,v| v.blank?}, book_type: @book_class.name), method: :post, class: "ui blue responsive button #{disabled}"
-      &nbsp;
-      = link_to 'Saved searches', search_conditions_path
+          = f.submit 'Search', class: 'ui primary responsive button'
 
-.mb-30
-  .ui.divider
+    .ui.divider
+    - disabled = "disabled" if @search_params.blank? || @books.blank?
+    .ui.simple.dropdown.red.responsive.center.aligned.button{class: disabled ? 'disabled' : ''}
+      Add this to channel
+      %i.icon.dropdown
+      .menu
+        - query = @search_params&.reject{|k,v| v.blank?}
+        - @channels.each do |channel|
+          = link_to channel.title, search_conditions_path(query: query, book_type: @book_class.name), method: :post, class: "item"
+        - if @channels.present?
+          .ui.divider
+        = link_to '(New Channel)', channels_path(search_condition: { query: query, book_type: @book_class.name }), method: :post, class: 'item'
+    %small *Use this search for auto-selecting books.
+    .ui.divider
 
 .mb-50
   %small
