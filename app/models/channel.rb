@@ -8,6 +8,7 @@ class Channel < ApplicationRecord
 
   validates :title, presence: true
   accepts_nested_attributes_for :search_condition
+  accepts_nested_attributes_for :book_assignments
 
   # 言語別の公式チャネルID
   DEFAULT_CHANNEL_ID = {

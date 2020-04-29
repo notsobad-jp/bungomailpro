@@ -16,3 +16,6 @@
     &nbsp;
     - cancel_path = channel.persisted? ? channel_path(channel) : channels_path
     = link_to 'Cancel', cancel_path, class: 'ui basic responsive button'
+    - if channel.persisted?
+      &nbsp;
+      = link_to 'Delete', channel_path(channel), method: :delete, data: { confirm: 'Delete this channel. You can not undo this after confirming.' }

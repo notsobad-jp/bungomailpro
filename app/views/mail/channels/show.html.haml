@@ -91,9 +91,8 @@
           %tr
             %td.four.wide= key
             %td= value
-      = link_to guten_books_path(q: @condition.query), class: 'ui responsive button' do
-        %i.icon.search
-        See and edit Search Settings
+      = link_to guten_books_path(q: @condition.query), class: 'ui responsive primary button' do
+        Edit
 
     - else
       .ui.placeholder.center.aligned.segment

@@ -12,19 +12,13 @@ class Mail::ChannelsController < Mail::ApplicationController
 
   def create
     @channel = authorize current_user.channels.new(channel_params)
-
-    # books#showからチャネル作成した場合
-    ## 選択した本でassignment作成。titleが無いのでデフォルト値を登録
-    if params[:book_id] && params[:book_type]
-      @channel.book_assignments.new(book_id: params[:book_id], book_type: params[:book_type])
-      @channel.title = "My Channel"
-    end
+    @channel.title ||= 'My Channel'
 
     if @channel.save
       flash[:success] = 'Channel created!'
-      redirect_to channel_path(@channel)
+      redirect_to params[:redirect_to] || channel_path(@channel)
     else
-      flash[:error] = 'Sorry somethin went wrong. Please check the data and try again.'
+      flash[:error] = 'Sorry something went wrong.. Please check the data and try again.'
       render :new
     end
   end
@@ -41,8 +35,7 @@ class Mail::ChannelsController < Mail::ApplicationController
   def update
     if @channel.update(channel_params)
       flash[:success] = 'Channel updated!'
-      redirect_path = params[:redirect_to] || channel_path(@channel)
-      redirect_to redirect_path
+      redirect_to params[:redirect_to] || channel_path(@channel)
     else
       flash[:error] = 'Sorry something went wrong.. Please check the data and try again.'
       render :edit
@@ -87,7 +80,11 @@ class Mail::ChannelsController < Mail::ApplicationController
   private
 
   def channel_params
-    params.fetch(:channel, {}).permit(:title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id, :active, search_condition_attributes: [:book_type, query: {}])
+    params.fetch(:channel, {}).permit(
+      :title, :description, :public, :delivery_time, :words_per_day, :chars_per_day, :search_condition_id, :active,
+      search_condition_attributes: [:book_type, query: {}],
+      book_assignments_attributes: [:book_id, :book_type],
+    )
   end
 
   def set_active_tab
