@@ -101,17 +101,6 @@ Rails.application.routes.draw do
       scope "(:locale)", locale: /ja|en/ do
         resources :users
         resources :magic_tokens
-        resources :guten_books, only: [:index, :show]
-        resources :aozora_books, only: [:index, :show]
-        resources :channels, shallow: true do
-          post 'start', on: :member
-          post 'add_books', on: :member
-          resources :subscriptions
-          resources :book_assignments, only: [:index]
-        end
-        resources :book_assignments do
-          post 'skip', on: :member
-        end
 
         get 'login' => 'magic_tokens#new'
         post 'logout' => 'magic_tokens#destroy'

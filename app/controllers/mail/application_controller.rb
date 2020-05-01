@@ -25,6 +25,7 @@ class Mail::ApplicationController < ApplicationController
   end
 
   def default_url_options
-    { locale: I18n.locale }
+    locale = :en if I18n.locale == :en
+    { locale: locale }
   end
 end

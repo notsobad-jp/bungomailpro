@@ -83,13 +83,13 @@ ActiveRecord::Schema.define(version: 2020_04_24_050457) do
     t.uuid "user_id", null: false
     t.string "title", null: false
     t.text "description"
+    t.boolean "active", default: false, null: false
     t.boolean "public", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.time "delivery_time", default: "2000-01-01 07:00:00", null: false
     t.integer "words_per_day", default: 400, null: false
     t.integer "chars_per_day", default: 750, null: false
-    t.boolean "active", default: false, null: false
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
@@ -226,7 +226,6 @@ ActiveRecord::Schema.define(version: 2020_04_24_050457) do
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "channels", "users"
   add_foreign_key "charges", "users"
-  add_foreign_key "feeds", "book_assignments"
   add_foreign_key "guten_books_subjects", "guten_books", name: "guten_books_subjects_guten_book_id_fkey"
   add_foreign_key "guten_books_subjects", "subjects"
   add_foreign_key "search_conditions", "channels"
