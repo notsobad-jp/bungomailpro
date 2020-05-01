@@ -83,13 +83,6 @@
 %br
 %br
 
-- if lang_locale == :en
-  = link_to new_book_assignment_url(book_id: @book.id, book_type: @book.class.table_name.classify), class: 'ui primary responsive button', target: :_blank do
-    = t '.read_at_bungomail'
-    &nbsp;
-    %small
-      %i.fas.fa-external-link-alt
-  &nbsp;
 = link_to @book.original_file_url, class: 'ui blue basic responsive button', target: :_blank do
   = t '.read_at_original'
   &nbsp;
