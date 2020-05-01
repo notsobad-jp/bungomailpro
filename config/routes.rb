@@ -1,61 +1,61 @@
 # == Route Map
 #
 #                    Prefix Verb   URI Pattern                                                                                Controller#Action
-#                     users GET    /:locale/users(.:format)                                                                   mail/users#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   /:locale/users(.:format)                                                                   mail/users#create {:subdomain=>"", :locale=>/ja|en/}
-#                  new_user GET    /:locale/users/new(.:format)                                                               mail/users#new {:subdomain=>"", :locale=>/ja|en/}
-#                 edit_user GET    /:locale/users/:id/edit(.:format)                                                          mail/users#edit {:subdomain=>"", :locale=>/ja|en/}
-#                      user GET    /:locale/users/:id(.:format)                                                               mail/users#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  /:locale/users/:id(.:format)                                                               mail/users#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    /:locale/users/:id(.:format)                                                               mail/users#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE /:locale/users/:id(.:format)                                                               mail/users#destroy {:subdomain=>"", :locale=>/ja|en/}
-#              magic_tokens GET    /:locale/magic_tokens(.:format)                                                            mail/magic_tokens#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   /:locale/magic_tokens(.:format)                                                            mail/magic_tokens#create {:subdomain=>"", :locale=>/ja|en/}
-#           new_magic_token GET    /:locale/magic_tokens/new(.:format)                                                        mail/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
-#          edit_magic_token GET    /:locale/magic_tokens/:id/edit(.:format)                                                   mail/magic_tokens#edit {:subdomain=>"", :locale=>/ja|en/}
-#               magic_token GET    /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE /:locale/magic_tokens/:id(.:format)                                                        mail/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
-#               guten_books GET    /:locale/guten_books(.:format)                                                             mail/guten_books#index {:subdomain=>"", :locale=>/ja|en/}
-#                guten_book GET    /:locale/guten_books/:id(.:format)                                                         mail/guten_books#show {:subdomain=>"", :locale=>/ja|en/}
-#              aozora_books GET    /:locale/aozora_books(.:format)                                                            mail/aozora_books#index {:subdomain=>"", :locale=>/ja|en/}
-#               aozora_book GET    /:locale/aozora_books/:id(.:format)                                                        mail/aozora_books#show {:subdomain=>"", :locale=>/ja|en/}
-#             start_channel POST   /:locale/channels/:id/start(.:format)                                                      mail/channels#start {:subdomain=>"", :locale=>/ja|en/}
-#         add_books_channel POST   /:locale/channels/:id/add_books(.:format)                                                  mail/channels#add_books {:subdomain=>"", :locale=>/ja|en/}
-#     channel_subscriptions GET    /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   /:locale/channels/:channel_id/subscriptions(.:format)                                      mail/subscriptions#create {:subdomain=>"", :locale=>/ja|en/}
-#  new_channel_subscription GET    /:locale/channels/:channel_id/subscriptions/new(.:format)                                  mail/subscriptions#new {:subdomain=>"", :locale=>/ja|en/}
-#         edit_subscription GET    /:locale/subscriptions/:id/edit(.:format)                                                  mail/subscriptions#edit {:subdomain=>"", :locale=>/ja|en/}
-#              subscription GET    /:locale/subscriptions/:id(.:format)                                                       mail/subscriptions#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  /:locale/subscriptions/:id(.:format)                                                       mail/subscriptions#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    /:locale/subscriptions/:id(.:format)                                                       mail/subscriptions#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE /:locale/subscriptions/:id(.:format)                                                       mail/subscriptions#destroy {:subdomain=>"", :locale=>/ja|en/}
-#  channel_book_assignments GET    /:locale/channels/:channel_id/book_assignments(.:format)                                   mail/book_assignments#index {:subdomain=>"", :locale=>/ja|en/}
-#                  channels GET    /:locale/channels(.:format)                                                                mail/channels#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   /:locale/channels(.:format)                                                                mail/channels#create {:subdomain=>"", :locale=>/ja|en/}
-#               new_channel GET    /:locale/channels/new(.:format)                                                            mail/channels#new {:subdomain=>"", :locale=>/ja|en/}
-#              edit_channel GET    /:locale/channels/:id/edit(.:format)                                                       mail/channels#edit {:subdomain=>"", :locale=>/ja|en/}
-#                   channel GET    /:locale/channels/:id(.:format)                                                            mail/channels#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  /:locale/channels/:id(.:format)                                                            mail/channels#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    /:locale/channels/:id(.:format)                                                            mail/channels#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE /:locale/channels/:id(.:format)                                                            mail/channels#destroy {:subdomain=>"", :locale=>/ja|en/}
-#      skip_book_assignment POST   /:locale/book_assignments/:id/skip(.:format)                                               mail/book_assignments#skip {:subdomain=>"", :locale=>/ja|en/}
-#          book_assignments GET    /:locale/book_assignments(.:format)                                                        mail/book_assignments#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   /:locale/book_assignments(.:format)                                                        mail/book_assignments#create {:subdomain=>"", :locale=>/ja|en/}
-#       new_book_assignment GET    /:locale/book_assignments/new(.:format)                                                    mail/book_assignments#new {:subdomain=>"", :locale=>/ja|en/}
-#      edit_book_assignment GET    /:locale/book_assignments/:id/edit(.:format)                                               mail/book_assignments#edit {:subdomain=>"", :locale=>/ja|en/}
-#           book_assignment GET    /:locale/book_assignments/:id(.:format)                                                    mail/book_assignments#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  /:locale/book_assignments/:id(.:format)                                                    mail/book_assignments#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    /:locale/book_assignments/:id(.:format)                                                    mail/book_assignments#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE /:locale/book_assignments/:id(.:format)                                                    mail/book_assignments#destroy {:subdomain=>"", :locale=>/ja|en/}
-#                     login GET    /:locale/login(.:format)                                                                   mail/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
-#                    logout POST   /:locale/logout(.:format)                                                                  mail/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
-#                      auth GET    /:locale/auth(.:format)                                                                    mail/magic_tokens#auth {:subdomain=>"", :locale=>/ja|en/}
-#      campaigns_dogramagra GET    /:locale/campaigns/dogramagra(.:format)                                                    mail/pages#dogramagra {:subdomain=>"", :locale=>/ja|en/}
-#                           GET    /:locale/:locale(.:format)                                                                 mail/pages#lp {:subdomain=>"", :locale=>/ja|en/}
-#                      page GET    /:locale/:page(.:format)                                                                   mail/pages#show {:subdomain=>"", :locale=>/ja|en/}
-#                      root GET    /:locale(.:format)                                                                         mail/pages#lp {:subdomain=>"", :locale=>/ja|en/}
+#                     users GET    (/:locale)/users(.:format)                                                                 mail/users#index {:subdomain=>"", :locale=>/ja|en/}
+#                           POST   (/:locale)/users(.:format)                                                                 mail/users#create {:subdomain=>"", :locale=>/ja|en/}
+#                  new_user GET    (/:locale)/users/new(.:format)                                                             mail/users#new {:subdomain=>"", :locale=>/ja|en/}
+#                 edit_user GET    (/:locale)/users/:id/edit(.:format)                                                        mail/users#edit {:subdomain=>"", :locale=>/ja|en/}
+#                      user GET    (/:locale)/users/:id(.:format)                                                             mail/users#show {:subdomain=>"", :locale=>/ja|en/}
+#                           PATCH  (/:locale)/users/:id(.:format)                                                             mail/users#update {:subdomain=>"", :locale=>/ja|en/}
+#                           PUT    (/:locale)/users/:id(.:format)                                                             mail/users#update {:subdomain=>"", :locale=>/ja|en/}
+#                           DELETE (/:locale)/users/:id(.:format)                                                             mail/users#destroy {:subdomain=>"", :locale=>/ja|en/}
+#              magic_tokens GET    (/:locale)/magic_tokens(.:format)                                                          mail/magic_tokens#index {:subdomain=>"", :locale=>/ja|en/}
+#                           POST   (/:locale)/magic_tokens(.:format)                                                          mail/magic_tokens#create {:subdomain=>"", :locale=>/ja|en/}
+#           new_magic_token GET    (/:locale)/magic_tokens/new(.:format)                                                      mail/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
+#          edit_magic_token GET    (/:locale)/magic_tokens/:id/edit(.:format)                                                 mail/magic_tokens#edit {:subdomain=>"", :locale=>/ja|en/}
+#               magic_token GET    (/:locale)/magic_tokens/:id(.:format)                                                      mail/magic_tokens#show {:subdomain=>"", :locale=>/ja|en/}
+#                           PATCH  (/:locale)/magic_tokens/:id(.:format)                                                      mail/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
+#                           PUT    (/:locale)/magic_tokens/:id(.:format)                                                      mail/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
+#                           DELETE (/:locale)/magic_tokens/:id(.:format)                                                      mail/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
+#               guten_books GET    (/:locale)/guten_books(.:format)                                                           mail/guten_books#index {:subdomain=>"", :locale=>/ja|en/}
+#                guten_book GET    (/:locale)/guten_books/:id(.:format)                                                       mail/guten_books#show {:subdomain=>"", :locale=>/ja|en/}
+#              aozora_books GET    (/:locale)/aozora_books(.:format)                                                          mail/aozora_books#index {:subdomain=>"", :locale=>/ja|en/}
+#               aozora_book GET    (/:locale)/aozora_books/:id(.:format)                                                      mail/aozora_books#show {:subdomain=>"", :locale=>/ja|en/}
+#             start_channel POST   (/:locale)/channels/:id/start(.:format)                                                    mail/channels#start {:subdomain=>"", :locale=>/ja|en/}
+#         add_books_channel POST   (/:locale)/channels/:id/add_books(.:format)                                                mail/channels#add_books {:subdomain=>"", :locale=>/ja|en/}
+#     channel_subscriptions GET    (/:locale)/channels/:channel_id/subscriptions(.:format)                                    mail/subscriptions#index {:subdomain=>"", :locale=>/ja|en/}
+#                           POST   (/:locale)/channels/:channel_id/subscriptions(.:format)                                    mail/subscriptions#create {:subdomain=>"", :locale=>/ja|en/}
+#  new_channel_subscription GET    (/:locale)/channels/:channel_id/subscriptions/new(.:format)                                mail/subscriptions#new {:subdomain=>"", :locale=>/ja|en/}
+#         edit_subscription GET    (/:locale)/subscriptions/:id/edit(.:format)                                                mail/subscriptions#edit {:subdomain=>"", :locale=>/ja|en/}
+#              subscription GET    (/:locale)/subscriptions/:id(.:format)                                                     mail/subscriptions#show {:subdomain=>"", :locale=>/ja|en/}
+#                           PATCH  (/:locale)/subscriptions/:id(.:format)                                                     mail/subscriptions#update {:subdomain=>"", :locale=>/ja|en/}
+#                           PUT    (/:locale)/subscriptions/:id(.:format)                                                     mail/subscriptions#update {:subdomain=>"", :locale=>/ja|en/}
+#                           DELETE (/:locale)/subscriptions/:id(.:format)                                                     mail/subscriptions#destroy {:subdomain=>"", :locale=>/ja|en/}
+#  channel_book_assignments GET    (/:locale)/channels/:channel_id/book_assignments(.:format)                                 mail/book_assignments#index {:subdomain=>"", :locale=>/ja|en/}
+#                  channels GET    (/:locale)/channels(.:format)                                                              mail/channels#index {:subdomain=>"", :locale=>/ja|en/}
+#                           POST   (/:locale)/channels(.:format)                                                              mail/channels#create {:subdomain=>"", :locale=>/ja|en/}
+#               new_channel GET    (/:locale)/channels/new(.:format)                                                          mail/channels#new {:subdomain=>"", :locale=>/ja|en/}
+#              edit_channel GET    (/:locale)/channels/:id/edit(.:format)                                                     mail/channels#edit {:subdomain=>"", :locale=>/ja|en/}
+#                   channel GET    (/:locale)/channels/:id(.:format)                                                          mail/channels#show {:subdomain=>"", :locale=>/ja|en/}
+#                           PATCH  (/:locale)/channels/:id(.:format)                                                          mail/channels#update {:subdomain=>"", :locale=>/ja|en/}
+#                           PUT    (/:locale)/channels/:id(.:format)                                                          mail/channels#update {:subdomain=>"", :locale=>/ja|en/}
+#                           DELETE (/:locale)/channels/:id(.:format)                                                          mail/channels#destroy {:subdomain=>"", :locale=>/ja|en/}
+#      skip_book_assignment POST   (/:locale)/book_assignments/:id/skip(.:format)                                             mail/book_assignments#skip {:subdomain=>"", :locale=>/ja|en/}
+#          book_assignments GET    (/:locale)/book_assignments(.:format)                                                      mail/book_assignments#index {:subdomain=>"", :locale=>/ja|en/}
+#                           POST   (/:locale)/book_assignments(.:format)                                                      mail/book_assignments#create {:subdomain=>"", :locale=>/ja|en/}
+#       new_book_assignment GET    (/:locale)/book_assignments/new(.:format)                                                  mail/book_assignments#new {:subdomain=>"", :locale=>/ja|en/}
+#      edit_book_assignment GET    (/:locale)/book_assignments/:id/edit(.:format)                                             mail/book_assignments#edit {:subdomain=>"", :locale=>/ja|en/}
+#           book_assignment GET    (/:locale)/book_assignments/:id(.:format)                                                  mail/book_assignments#show {:subdomain=>"", :locale=>/ja|en/}
+#                           PATCH  (/:locale)/book_assignments/:id(.:format)                                                  mail/book_assignments#update {:subdomain=>"", :locale=>/ja|en/}
+#                           PUT    (/:locale)/book_assignments/:id(.:format)                                                  mail/book_assignments#update {:subdomain=>"", :locale=>/ja|en/}
+#                           DELETE (/:locale)/book_assignments/:id(.:format)                                                  mail/book_assignments#destroy {:subdomain=>"", :locale=>/ja|en/}
+#                     login GET    (/:locale)/login(.:format)                                                                 mail/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
+#                    logout POST   (/:locale)/logout(.:format)                                                                mail/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
+#                      auth GET    (/:locale)/auth(.:format)                                                                  mail/magic_tokens#auth {:subdomain=>"", :locale=>/ja|en/}
+#      campaigns_dogramagra GET    (/:locale)/campaigns/dogramagra(.:format)                                                  mail/pages#dogramagra {:subdomain=>"", :locale=>/ja|en/}
+#                           GET    (/:locale)/:locale(.:format)                                                               mail/pages#lp {:subdomain=>"", :locale=>/ja|en/}
+#                      page GET    (/:locale)/:page(.:format)                                                                 mail/pages#show {:subdomain=>"", :locale=>/ja|en/}
+#                      root GET    /(:locale)(.:format)                                                                       mail/pages#lp {:subdomain=>"", :locale=>/ja|en/}
 #                           GET    /                                                                                          mail/pages#lp {:subdomain=>""}
 #     author_category_books GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books(.:format)          search/books#index {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
 #                           POST   (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books(.:format)          search/books#create {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
@@ -98,7 +98,7 @@ Rails.application.routes.draw do
   # Bungo Mail
   constraints subdomain: '' do
     scope module: :mail do
-      scope ":locale", locale: /ja|en/ do
+      scope "(:locale)", locale: /ja|en/ do
         resources :users
         resources :magic_tokens
         resources :guten_books, only: [:index, :show]

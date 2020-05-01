@@ -30,30 +30,19 @@
     %noscript
       %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
-    #dimmer.ui.page.inverted.dimmer
-      .ui.text.loader Loading..
-
     .ui.top.attached.borderless.seigaiha.menu
       = link_to(root_path, class: 'header item') do
-        Bungo Mail
+        ブンゴウメール
       .right.menu
         - if current_user
           = link_to current_user.email, user_path(current_user), class: 'item'
           = link_to 'Sign Out', logout_path, method: :post, class: 'item'
         - else
           = link_to 'Sign In', login_path, class: 'item'
-    #mobile-menu.ui.top.attached.mobile.only.simple.dropdown.segment.mt-0
-      = @active_tab&.capitalize
-      %i.icon.dropdown
-      .menu
-        = render partial: 'mail/layouts/menu_items', locals: { active: @active_tab }
 
     %div#main-content
       .ui.container
-        .ui.stackable.grid
-          #sidebar.ui.four.wide.tablet.computer.only.column
-            .ui.vertical.secondary.fluid.large.sticking.menu
-              = render partial: 'mail/layouts/menu_items', locals: { active: @active_tab }
+        .ui.stackable.centered.grid
           .ui.twelve.wide.column
             - %w(warning error success info).each do |status|
               - next unless flash[status]
