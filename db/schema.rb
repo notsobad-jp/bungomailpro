@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_01_080535) do
+ActiveRecord::Schema.define(version: 2020_05_02_023056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -41,20 +41,6 @@ ActiveRecord::Schema.define(version: 2020_05_01_080535) do
     t.index ["words_count"], name: "index_aozora_books_on_words_count"
   end
 
-  create_table "book_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "feeds_count", default: 0
-    t.string "book_type"
-    t.bigint "book_id"
-    t.uuid "channel_id", null: false
-    t.index ["book_type", "book_id"], name: "index_book_assignments_on_book_type_and_book_id"
-    t.index ["channel_id", "status"], name: "index_book_assignments_on_channel_id_and_status", unique: true, where: "(status = 1)"
-    t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
-    t.index ["status"], name: "index_book_assignments_on_status"
-  end
-
   create_table "campaign_groups", force: :cascade do |t|
     t.bigint "book_id", null: false
     t.integer "count", null: false
@@ -77,20 +63,6 @@ ActiveRecord::Schema.define(version: 2020_05_01_080535) do
     t.bigint "campaign_group_id", default: 1, null: false
     t.index ["campaign_group_id"], name: "index_campaigns_on_campaign_group_id"
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
-  end
-
-  create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.string "title", null: false
-    t.text "description"
-    t.boolean "active", default: false, null: false
-    t.boolean "public", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.time "delivery_time", default: "2000-01-01 07:00:00", null: false
-    t.integer "words_per_day", default: 400, null: false
-    t.integer "chars_per_day", default: 750, null: false
-    t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
   create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -126,18 +98,6 @@ ActiveRecord::Schema.define(version: 2020_05_01_080535) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "feeds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "index", default: 1, null: false
-    t.string "title"
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.uuid "book_assignment_id", null: false
-    t.datetime "scheduled_at"
-    t.index ["book_assignment_id"], name: "index_feeds_on_book_assignment_id"
-    t.index ["scheduled_at"], name: "index_feeds_on_scheduled_at"
-  end
-
   create_table "guten_books", force: :cascade do |t|
     t.string "title", null: false
     t.string "author"
@@ -169,38 +129,10 @@ ActiveRecord::Schema.define(version: 2020_05_01_080535) do
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
   end
 
-  create_table "notifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title"
-    t.text "content"
-    t.datetime "send_at"
-    t.datetime "created_at", default: -> { "now()" }, null: false
-    t.datetime "updated_at", default: -> { "now()" }, null: false
-  end
-
-  create_table "search_conditions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "channel_id", null: false
-    t.jsonb "query", default: {}, null: false
-    t.string "book_type", null: false
-    t.integer "book_ids", array: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["channel_id"], name: "index_search_conditions_on_channel_id", unique: true
-  end
-
   create_table "subjects", id: :string, force: :cascade do |t|
     t.integer "books_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "channel_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
-    t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
-    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -214,8 +146,6 @@ ActiveRecord::Schema.define(version: 2020_05_01_080535) do
     t.datetime "magic_login_email_sent_at"
     t.string "remember_me_token"
     t.datetime "remember_me_token_expires_at"
-    t.string "timezone", default: "UTC", null: false
-    t.string "locale", default: "ja", null: false
     t.string "activation_state"
     t.string "activation_token"
     t.datetime "activation_token_expires_at"
@@ -225,13 +155,8 @@ ActiveRecord::Schema.define(version: 2020_05_01_080535) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
-  add_foreign_key "book_assignments", "channels"
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id", name: "campaign_groups_book_id_fkey"
   add_foreign_key "campaigns", "campaign_groups"
-  add_foreign_key "channels", "users"
   add_foreign_key "charges", "users"
   add_foreign_key "guten_books_subjects", "subjects"
-  add_foreign_key "search_conditions", "channels"
-  add_foreign_key "subscriptions", "channels"
-  add_foreign_key "subscriptions", "users"
 end

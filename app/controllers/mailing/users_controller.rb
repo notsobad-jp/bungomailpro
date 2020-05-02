@@ -23,7 +23,6 @@ class Mailing::UsersController < Mailing::ApplicationController
 
   def show
     @user = authorize User.find(params[:id])
-    @channels = current_user.channels
   end
 
   def edit
@@ -53,6 +52,6 @@ class Mailing::UsersController < Mailing::ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :timezone, :password, :password_confirmation)
+    params.require(:user).permit(:email)
   end
 end

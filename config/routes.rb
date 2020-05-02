@@ -18,6 +18,7 @@
 #                           PATCH  (/:locale)/users/:id(.:format)                                                             mailing/users#update {:subdomain=>"", :locale=>/ja|en/}
 #                           PUT    (/:locale)/users/:id(.:format)                                                             mailing/users#update {:subdomain=>"", :locale=>/ja|en/}
 #                           DELETE (/:locale)/users/:id(.:format)                                                             mailing/users#destroy {:subdomain=>"", :locale=>/ja|en/}
+#                    signup GET    (/:locale)/signup(.:format)                                                                mailing/users#new {:subdomain=>"", :locale=>/ja|en/}
 #                     login GET    (/:locale)/login(.:format)                                                                 mailing/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
 #                    logout POST   (/:locale)/logout(.:format)                                                                mailing/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
 #                      auth GET    (/:locale)/auth(.:format)                                                                  mailing/magic_tokens#auth {:subdomain=>"", :locale=>/ja|en/}

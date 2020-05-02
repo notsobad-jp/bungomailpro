@@ -27,10 +27,6 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_one :charge, dependent: :destroy
-  has_many :channels, -> { order(created_at: :desc) }, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
-  has_many :subscribed_channels, through: :subscriptions, source: :channel
-  accepts_nested_attributes_for :channels
 
   # activation実行に必要なのでダミーのパスワードを設定
   ## before_validateでcryptedの作成処理が走るので、それより先に用意できるようにafter_initializeを使用
@@ -40,7 +36,6 @@ class User < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
-  validates :timezone, presence: true
 
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）

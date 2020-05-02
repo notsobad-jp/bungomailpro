@@ -28,26 +28,6 @@ RSpec.describe Mailing::UsersController, type: :controller do
       it "creates new user" do
         expect{ subject }.to change(User, :count).by(1)
       end
-
-      it "creates user with default subscription" do
-        expect{ subject }.to change(Subscription, :count).by(1)
-      end
-
-      it "creates user with :en params" do
-        subject
-        user = User.find_by(email: @new_user.email)
-        expect(user.timezone).to eq 'UTC'
-        expect(user.locale).to eq 'en'
-      end
-    end
-
-    context "as a new :ja user" do
-      it "create user with :ja params" do
-        post :create, params: { locale: :ja, user: { email: @new_user.email } }, session: {}
-        user = User.find_by(email: @new_user.email)
-        expect(user.timezone).to eq 'Tokyo'
-        expect(user.locale).to eq 'ja'
-      end
     end
   end
 
@@ -125,39 +105,39 @@ RSpec.describe Mailing::UsersController, type: :controller do
   ####################################################
   # update
   ####################################################
-  describe "#update" do
-    subject { patch :update, params: { id: @user.id, locale: :en, user: { timezone: 'Tokyo' } }, session: {} }
-
-    context "as a guest" do
-      it "returns a 302 response" do
-        subject
-        expect(response).to redirect_to login_url
-        expect(response).to have_http_status "302"
-      end
-    end
-
-    context "as an other user" do
-      before { login_user(create(:user)) }
-
-      it "returns a 302 response" do
-        subject
-        expect(response).to redirect_to login_url
-        expect(response).to have_http_status "302"
-      end
-    end
-
-    context "as an owner" do
-      before { login_user(@user) }
-
-      it "updates attributes with valid params" do
-        subject
-        expect(@user.reload.timezone).to eq 'Tokyo'
-      end
-
-      it "returns error with invalid params" do
-        patch :update, params: { id: @user.id, locale: :en, user: { timezone: "" } }, session: {}
-        expect(flash[:error]).to include("failed")
-      end
-    end
-  end
+  # describe "#update" do
+  #   subject { patch :update, params: { id: @user.id, locale: :en, user: { timezone: 'Tokyo' } }, session: {} }
+  #
+  #   context "as a guest" do
+  #     it "returns a 302 response" do
+  #       subject
+  #       expect(response).to redirect_to login_url
+  #       expect(response).to have_http_status "302"
+  #     end
+  #   end
+  #
+  #   context "as an other user" do
+  #     before { login_user(create(:user)) }
+  #
+  #     it "returns a 302 response" do
+  #       subject
+  #       expect(response).to redirect_to login_url
+  #       expect(response).to have_http_status "302"
+  #     end
+  #   end
+  #
+  #   context "as an owner" do
+  #     before { login_user(@user) }
+  #
+  #     it "updates attributes with valid params" do
+  #       subject
+  #       expect(@user.reload.timezone).to eq 'Tokyo'
+  #     end
+  #
+  #     it "returns error with invalid params" do
+  #       patch :update, params: { id: @user.id, locale: :en, user: { timezone: "" } }, session: {}
+  #       expect(flash[:error]).to include("failed")
+  #     end
+  #   end
+  # end
 end

@@ -1,2 +1,0 @@
-class SearchConditionPolicy < ApplicationPolicy
-end
