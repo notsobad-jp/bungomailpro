@@ -1,4 +1,4 @@
-class Mail::GutenBooksController < Mail::BooksController
+class Mailing::GutenBooksController < Mailing::BooksController
 
   private
 

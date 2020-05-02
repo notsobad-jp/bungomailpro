@@ -1,4 +1,4 @@
-class Mail::ChargesController < Mail::ApplicationController
+class Mailing::ChargesController < Mailing::ApplicationController
   before_action :require_login
   before_action :set_charge
   after_action :verify_authorized

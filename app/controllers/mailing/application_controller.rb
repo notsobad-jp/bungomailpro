@@ -1,5 +1,5 @@
-class Mail::ApplicationController < ApplicationController
-  layout 'mail/layouts/application'
+class Mailing::ApplicationController < ApplicationController
+  layout 'mailing/layouts/application'
   before_action :switch_locale, :require_login, :set_meta_tags
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized

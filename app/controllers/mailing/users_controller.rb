@@ -1,4 +1,4 @@
-class Mail::UsersController < Mail::ApplicationController
+class Mailing::UsersController < Mailing::ApplicationController
   before_action :set_active_tab
   skip_before_action :require_login, only: [:create]
 

@@ -1,4 +1,4 @@
-class Mail::BooksController < Mail::ApplicationController
+class Mailing::BooksController < Mailing::ApplicationController
   before_action :set_book_and_book_class
   before_action :set_active_tab
 

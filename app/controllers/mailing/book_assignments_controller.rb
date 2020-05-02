@@ -1,4 +1,4 @@
-class Mail::BookAssignmentsController < Mail::ApplicationController
+class Mailing::BookAssignmentsController < Mailing::ApplicationController
   before_action :set_book, only: [:create]
 
   def index

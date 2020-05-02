@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Mail::UsersController, type: :controller do
+RSpec.describe Mailing::UsersController, type: :controller do
   before do
     @user = create(:user)
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_050457) do
+ActiveRecord::Schema.define(version: 2020_05_01_080535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -216,6 +216,10 @@ ActiveRecord::Schema.define(version: 2020_04_24_050457) do
     t.datetime "remember_me_token_expires_at"
     t.string "timezone", default: "UTC", null: false
     t.string "locale", default: "ja", null: false
+    t.string "activation_state"
+    t.string "activation_token"
+    t.datetime "activation_token_expires_at"
+    t.index ["activation_token"], name: "index_users_on_activation_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
@@ -226,7 +230,6 @@ ActiveRecord::Schema.define(version: 2020_04_24_050457) do
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "channels", "users"
   add_foreign_key "charges", "users"
-  add_foreign_key "guten_books_subjects", "guten_books", name: "guten_books_subjects_guten_book_id_fkey"
   add_foreign_key "guten_books_subjects", "subjects"
   add_foreign_key "search_conditions", "channels"
   add_foreign_key "subscriptions", "channels"

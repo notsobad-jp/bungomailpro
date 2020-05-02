@@ -1,7 +1,7 @@
 !!!
 %html(lang="ja")
   %head
-    = render partial: 'mail/layouts/meta'
+    = render partial: 'mailing/layouts/meta'
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
@@ -33,12 +33,12 @@
     .ui.top.attached.borderless.seigaiha.menu
       = link_to(root_path, class: 'header item') do
         ブンゴウメール
-      -# .right.menu
-      -#   - if current_user
-      -#     = link_to current_user.email, user_path(current_user), class: 'item'
-      -#     = link_to 'Sign Out', logout_path, method: :post, class: 'item'
-      -#   - else
-      -#     = link_to 'Sign In', login_path, class: 'item'
+      .right.menu
+        - if current_user
+          = link_to current_user.email, user_path(current_user), class: 'item'
+          = link_to 'ログアウト', logout_path, method: :post, class: 'item'
+        - else
+          = link_to 'ログイン', login_path, class: 'item'
 
     %div#main-content
       .ui.container
@@ -51,4 +51,4 @@
                   %i.icon.circle{class: "warning"}
                 = sanitize flash[status]
             = yield
-    = render partial: 'mail/layouts/footer'
+    = render partial: 'mailing/layouts/footer'

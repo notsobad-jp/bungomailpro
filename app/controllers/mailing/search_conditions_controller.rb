@@ -1,4 +1,4 @@
-class Mail::SearchConditionsController < Mail::ApplicationController
+class Mailing::SearchConditionsController < Mailing::ApplicationController
   def index
     @search_conditions = policy_scope(SearchCondition)
     @channels = policy_scope(Channel)

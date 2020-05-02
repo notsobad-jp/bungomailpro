@@ -1,4 +1,4 @@
-class Mail::AozoraBooksController < Mail::BooksController
+class Mailing::AozoraBooksController < Mailing::BooksController
 
   private
 

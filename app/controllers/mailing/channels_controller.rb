@@ -1,4 +1,4 @@
-class Mail::ChannelsController < Mail::ApplicationController
+class Mailing::ChannelsController < Mailing::ApplicationController
   before_action :set_active_tab
   before_action :set_channel, except: [:index, :new, :create]
 
