@@ -32,13 +32,16 @@ class User < ApplicationRecord
   has_many :subscribed_channels, through: :subscriptions, source: :channel
   accepts_nested_attributes_for :channels
 
+  # activation実行に必要なのでダミーのパスワードを設定
+  ## before_validateでcryptedの作成処理が走るので、それより先に用意できるようにafter_initializeを使用
+  after_initialize do
+    self.password = SecureRandom.hex(10)
+  end
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validates :timezone, presence: true
 
-  after_create do
-    self.generate_magic_login_token! # ユーザー作成時にmagic_login_tokenも発行しておく
-  end
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
   def utc_offset

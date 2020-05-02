@@ -1,14 +1,6 @@
 # == Route Map
 #
 #                    Prefix Verb   URI Pattern                                                                                Controller#Action
-#                     users GET    (/:locale)/users(.:format)                                                                 mailing/users#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   (/:locale)/users(.:format)                                                                 mailing/users#create {:subdomain=>"", :locale=>/ja|en/}
-#                  new_user GET    (/:locale)/users/new(.:format)                                                             mailing/users#new {:subdomain=>"", :locale=>/ja|en/}
-#                 edit_user GET    (/:locale)/users/:id/edit(.:format)                                                        mailing/users#edit {:subdomain=>"", :locale=>/ja|en/}
-#                      user GET    (/:locale)/users/:id(.:format)                                                             mailing/users#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  (/:locale)/users/:id(.:format)                                                             mailing/users#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    (/:locale)/users/:id(.:format)                                                             mailing/users#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE (/:locale)/users/:id(.:format)                                                             mailing/users#destroy {:subdomain=>"", :locale=>/ja|en/}
 #              magic_tokens GET    (/:locale)/magic_tokens(.:format)                                                          mailing/magic_tokens#index {:subdomain=>"", :locale=>/ja|en/}
 #                           POST   (/:locale)/magic_tokens(.:format)                                                          mailing/magic_tokens#create {:subdomain=>"", :locale=>/ja|en/}
 #           new_magic_token GET    (/:locale)/magic_tokens/new(.:format)                                                      mailing/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
@@ -17,6 +9,15 @@
 #                           PATCH  (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
 #                           PUT    (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
 #                           DELETE (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
+#             activate_user GET    (/:locale)/users/:id/activate(.:format)                                                    mailing/users#activate {:subdomain=>"", :locale=>/ja|en/}
+#                     users GET    (/:locale)/users(.:format)                                                                 mailing/users#index {:subdomain=>"", :locale=>/ja|en/}
+#                           POST   (/:locale)/users(.:format)                                                                 mailing/users#create {:subdomain=>"", :locale=>/ja|en/}
+#                  new_user GET    (/:locale)/users/new(.:format)                                                             mailing/users#new {:subdomain=>"", :locale=>/ja|en/}
+#                 edit_user GET    (/:locale)/users/:id/edit(.:format)                                                        mailing/users#edit {:subdomain=>"", :locale=>/ja|en/}
+#                      user GET    (/:locale)/users/:id(.:format)                                                             mailing/users#show {:subdomain=>"", :locale=>/ja|en/}
+#                           PATCH  (/:locale)/users/:id(.:format)                                                             mailing/users#update {:subdomain=>"", :locale=>/ja|en/}
+#                           PUT    (/:locale)/users/:id(.:format)                                                             mailing/users#update {:subdomain=>"", :locale=>/ja|en/}
+#                           DELETE (/:locale)/users/:id(.:format)                                                             mailing/users#destroy {:subdomain=>"", :locale=>/ja|en/}
 #                     login GET    (/:locale)/login(.:format)                                                                 mailing/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
 #                    logout POST   (/:locale)/logout(.:format)                                                                mailing/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
 #                      auth GET    (/:locale)/auth(.:format)                                                                  mailing/magic_tokens#auth {:subdomain=>"", :locale=>/ja|en/}
@@ -67,9 +68,12 @@ Rails.application.routes.draw do
   constraints subdomain: '' do
     scope module: :mailing do
       scope "(:locale)", locale: /ja|en/ do
-        resources :users
         resources :magic_tokens
+        resources :users do
+          get 'activate', on: :member
+        end
 
+        get 'signup' => 'users#new'
         get 'login' => 'magic_tokens#new'
         post 'logout' => 'magic_tokens#destroy'
         get 'auth' => 'magic_tokens#auth'

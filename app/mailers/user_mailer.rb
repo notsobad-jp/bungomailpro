@@ -1,10 +1,8 @@
 class UserMailer < ApplicationMailer
   add_template_helper(ApplicationHelper)
 
-  def magic_login_email(user_id)
-    self.default_url_options = default_url_options.merge(locale: :en) # TODO: locale setting
-
-    @user = User.find(user_id)
+  def magic_login_email(user)
+    @user = user
     @url  = URI.join(root_url, "/#{I18n.locale}/auth?token=#{@user.magic_login_token}")
 
     xsmtp_api_params = { category: 'login' }
@@ -14,49 +12,9 @@ class UserMailer < ApplicationMailer
     logger.info "[LOGIN] Login mail sent to #{@user.id}"
   end
 
-  def feed_email(feed)
-    @feed = feed
-    send_at = Time.current.beginning_of_day.since(@feed.user.utc_offset.minutes)
-
-    # TODO: 課金ユーザーじゃない場合はスキップ
-    # return if (deliverable_emails = @subscription.deliverable_emails).blank?
-
-    xsmtp_api_params = {
-      send_at: send_at.to_i,
-      to: [@feed.user.email],
-      category: ['gutenberg']
-    }
-    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
-
-    from_email = 'noreply@bungomail.com'
-    from_name = "#{@feed.book_assignment.guten_book.author_name} (BungoMail)"
-    subject = @feed.title
-
-    mail(
-      from: "#{from_name} <#{from_email}>",
-      to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
-      subject: subject,
-      reply_to: 'info@notsobad.jp'
-    )
-    @feed.update(scheduled_at: [send_at, Time.current].max) # 過去時間の場合、すぐ配信されるので現在時間で記録する
-    logger.info "[SCHEDULED] feed:#{@feed.id}"
-  end
-
-  def notification_email(notification)
-    @notification = notification
-
-    xsmtp_api_params = {
-      send_at: @notification.send_at.to_i,
-      to: User.all.pluck(:email),  # paramは配列
-      category: ['notification']
-    }
-    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
-
-    mail(
-      to: 'noreply@notsobad.jp', # xsmtpパラメータで上書きされるのでこのtoはダミー
-      subject: @notification.title,
-      reply_to: 'info@notsobad.jp'
-    )
-    logger.info "[SCHEDULED] notification:#{@notification.id}"
+  def activation_needed_email(user)
+    @user = user
+    @url  = "http://0.0.0.0:3000/users/#{user.activation_token}/activate"
+    mail(to: user.email, subject: "Welcome to My Awesome Site")
   end
 end

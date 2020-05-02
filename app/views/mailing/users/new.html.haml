@@ -1,0 +1,20 @@
+%h1.ui.medium.header
+  %i.icon.mail
+  アカウント登録
+
+= form_with model: @user, local: true do |f|
+  .ui.action.fluid.input
+    = f.text_field :email, placeholder: 'Your email address', required: true
+    %button.ui.red.button 
+      登録
+
+.ui.basic.segment
+  .ui.bulleted.list
+    %small.item
+      入力したアドレスに確認用メールが送信されます。メール内のリンクをクリックしてアカウントを有効化してください。
+    %small.item
+      メールアドレスを登録することで、本サービスの
+      = link_to '利用規約', page_path(:terms, locale: I18n.locale), class: 'item'
+      と
+      = link_to 'プライバシーポリシー', page_path(:privacy, locale: I18n.locale), class: 'item'
+      に同意されたものとみなします。

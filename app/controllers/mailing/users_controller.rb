@@ -1,25 +1,24 @@
 class Mailing::UsersController < Mailing::ApplicationController
-  before_action :set_active_tab
-  skip_before_action :require_login, only: [:create]
+  skip_before_action :require_login, only: [:new, :create, :activate]
+
+  def new
+    @user = User.new
+  end
 
   def create
     @user = User.find_or_initialize_by(email: user_params[:email])
     if @user.persisted?
-      UserMailer.magic_login_email(@user.id).deliver
+      UserMailer.magic_login_email(@user).deliver
       flash[:info] = 'This email address is already registered. We sent you a sign-in email.'
       return redirect_to root_path
     end
-
-    @user.locale = I18n.locale
-    @user.timezone = 'Tokyo' if I18n.locale == :ja  # 日本のときはJST。デフォルトはUTC
-    @user.subscriptions.new(channel_id: Channel::DEFAULT_CHANNEL_ID[I18n.locale])
 
     if @user.save
       flash[:success] = "Account registered! You'll start receiving the email from tomorrow :)"
     else
       flash[:error] = 'Sorry something seems to be wrong with your email address. Please check and try again.'
     end
-    redirect_to root_path
+    redirect_to login_path
   end
 
   def show
@@ -42,13 +41,18 @@ class Mailing::UsersController < Mailing::ApplicationController
     end
   end
 
+  def activate
+    if (@user = User.load_from_activation_token(params[:id]))
+      @user.activate!
+      redirect_to(login_path, :notice => 'User was successfully activated.')
+    else
+      not_authenticated
+    end
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:email, :timezone, channels_attributes: [:id, :delivery_time, :words_per_day])
-  end
-
-  def set_active_tab
-    @active_tab = :settings
+    params.require(:user).permit(:email, :timezone, :password, :password_confirmation)
   end
 end
