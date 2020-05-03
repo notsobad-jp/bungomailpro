@@ -43,7 +43,16 @@ class Mailing::UsersController < Mailing::ApplicationController
   def activate
     if (@user = User.load_from_activation_token(params[:id]))
       @user.activate!
-      redirect_to(login_path, :notice => 'User was successfully activated.')
+
+      # SendGridにrecipient追加（翌月初までListには追加しない）
+      recipient = Sendgrid.call(path: "contactdb/recipients", params: [{ email: @user.email }]) rescue nil
+      @user.update(
+        sendgrid_id: recipient&.dig("persisted_recipients", 0),
+        trial_end_at: Time.current.next_month.end_of_month, # 翌月末まで無料期間
+      )
+
+      auto_login(@user)
+      redirect_to(user_path(@user), flash: { success: 'アカウント登録が完了しました🎉' })
     else
       not_authenticated
     end

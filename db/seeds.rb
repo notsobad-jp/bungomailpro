@@ -6,4 +6,13 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-admin = User.create(email: 'info@notsobad.jp')
+User.create(email: 'info@notsobad.jp')
+
+senders = File.open("db/seeds/senders.json", &:read)
+JSON.parse(senders).each do |sender|
+  Sender.create(
+    id: sender["id"],
+    nickname: sender["nickname"],
+    name: sender["from"]["name"],
+  )
+end

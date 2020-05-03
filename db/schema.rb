@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_02_023056) do
+ActiveRecord::Schema.define(version: 2020_05_03_051409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -129,6 +129,15 @@ ActiveRecord::Schema.define(version: 2020_05_02_023056) do
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
   end
 
+  create_table "senders", id: :serial, force: :cascade do |t|
+    t.string "nickname", null: false
+    t.string "name", null: false
+    t.date "locked_until"
+    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
+    t.index ["locked_until"], name: "index_senders_on_locked_until"
+  end
+
   create_table "subjects", id: :string, force: :cascade do |t|
     t.integer "books_count", default: 0
     t.datetime "created_at", null: false
@@ -149,10 +158,15 @@ ActiveRecord::Schema.define(version: 2020_05_02_023056) do
     t.string "activation_state"
     t.string "activation_token"
     t.datetime "activation_token_expires_at"
+    t.string "sendgrid_id"
+    t.datetime "trial_end_at"
+    t.boolean "list_subscribed", default: false
     t.index ["activation_token"], name: "index_users_on_activation_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
+    t.index ["sendgrid_id"], name: "index_users_on_sendgrid_id", unique: true
+    t.index ["trial_end_at"], name: "index_users_on_trial_end_at"
   end
 
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id", name: "campaign_groups_book_id_fkey"

@@ -1,0 +1,5 @@
+[
+  {"id":669841, "nickname":"ブンゴウメール（お知らせ用）", "from":{"email":"bungomail@notsobad.jp", "name":"レフ・トルストイ（ブンゴウメール）"}, "reply_to":{"email":"info@notsobad.jp", "name":"レフ・トルストイ（ブンゴウメール）"}, "address":"NOT SO BAD, LLC.", "address_2":"", "city":"Tokyo", "state":"", "zip":"", "country":"Japan", "verified":{"status":true, "reason":""}, "updated_at":1582779388, "created_at":1575448618, "locked":false},
+  {"id":612132, "nickname":"ドグラ・マグラ配信チャネル", "from":{"email":"bungomail@notsobad.jp", "name":"夢野久作（ブンゴウメール）"}, "reply_to":{"email":"info@notsobad.jp", "name":"夢野久作（ブンゴウメール）"}, "address":"Bunkyo-ku", "address_2":"", "city":"Tokyo", "state":"", "zip":"", "country":"Japan", "verified":{"status":true, "reason":""}, "updated_at":1572515422, "created_at":1567770558, "locked":true},
+  {"id":611140, "nickname":"ブンゴウメール編集部", "from":{"email":"bungomail@notsobad.jp", "name":"ロマン・ロラン（ブンゴウメール）"}, "reply_to":{"email":"info@notsobad.jp", "name":"ロマン・ロラン（ブンゴウメール）"}, "address":"NOT SO BAD, LLC.", "address_2":"", "city":"Tokyo", "state":"", "zip":"", "country":"Japan", "verified":{"status":true, "reason":""}, "updated_at":1588146853, "created_at":1567665828, "locked":true}
+]

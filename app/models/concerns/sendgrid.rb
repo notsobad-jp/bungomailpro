@@ -15,7 +15,7 @@ module Sendgrid
     req.body = params.to_json if params
 
     res = (body = http.request(req).body) ? JSON.parse(body) : nil
-    if res && res["errors"]
+    if res&.is_a?(Hash) && res["errors"].present?
       error = res["errors"].map{|m| m["message"] }.join(", ")
       Rails.logger.error "[Sendgrid] #{method} #{path}, Error: #{error}"
       raise error
@@ -24,4 +24,9 @@ module Sendgrid
       res
     end
   end
+
+  # module関数としても使いつつincludeしたclassのinstanceメソッドとしても使えるように
+  ## Sendgrid.call(xx), Campaign.new.call(xx)
+  module_function :call
+  public :call
 end

@@ -24,6 +24,8 @@ class CampaignGroup < ApplicationRecord
   belongs_to :book, class_name: 'AozoraBook'
   has_many :campaigns, -> { order(:send_at) }, dependent: :destroy
 
+  LIST_ID = "11909538".freeze # 有料版配信用のSendGridチャネルID
+
   def import_campaigns
     campaigns = []
     contents = self.book.contents(count: self.count)
