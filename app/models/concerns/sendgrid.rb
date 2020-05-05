@@ -14,7 +14,7 @@ module Sendgrid
     req["content-type"] = 'application/json'
     req.body = params.to_json if params
 
-    res = (body = http.request(req).body) ? JSON.parse(body) : nil
+    res = (body = http.request(req).body.presence) ? JSON.parse(body) : nil
     if res&.is_a?(Hash) && res["errors"].present?
       error = res["errors"].map{|m| m["message"] }.join(", ")
       raise error

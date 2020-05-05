@@ -12,10 +12,16 @@
       %tr
         %td.four.wide ステータス
         %td.twelve.wide
-          %span.ui.label
-            無料トライアル中
-          %small （#{@user.trial_end_at.strftime("%m月%d日")}まで）
-    -# = link_to 'Edit', edit_user_path(@user), class: 'ui blue small responsive button'
+          - if @user.before_trial?
+            %span.ui.blue.basic.label
+              無料トライアル開始待ち
+            %small （#{@user.trial_start_at.strftime("%-m月%-d日")}トライアル開始）
+          - elsif @user.trialing?
+            %span.ui.red.basic.label
+              無料トライアル中
+            %small （#{@user.trial_end_at.strftime("%-m月%-d日")}終了）
+    - if @user.before_trial?
+      = link_to 'いますぐトライアルを開始する', start_trial_now_user_path(@user), class: 'ui blue small responsive button', method: :post
 
   .mb-70
     %h5.ui.small.horizontal.divider.header

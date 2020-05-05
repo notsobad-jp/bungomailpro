@@ -9,7 +9,16 @@
 #                           PATCH  (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
 #                           PUT    (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
 #                           DELETE (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
+#                   charges GET    (/:locale)/charges(.:format)                                                               mailing/charges#index {:subdomain=>"", :locale=>/ja|en/}
+#                           POST   (/:locale)/charges(.:format)                                                               mailing/charges#create {:subdomain=>"", :locale=>/ja|en/}
+#                new_charge GET    (/:locale)/charges/new(.:format)                                                           mailing/charges#new {:subdomain=>"", :locale=>/ja|en/}
+#               edit_charge GET    (/:locale)/charges/:id/edit(.:format)                                                      mailing/charges#edit {:subdomain=>"", :locale=>/ja|en/}
+#                    charge GET    (/:locale)/charges/:id(.:format)                                                           mailing/charges#show {:subdomain=>"", :locale=>/ja|en/}
+#                           PATCH  (/:locale)/charges/:id(.:format)                                                           mailing/charges#update {:subdomain=>"", :locale=>/ja|en/}
+#                           PUT    (/:locale)/charges/:id(.:format)                                                           mailing/charges#update {:subdomain=>"", :locale=>/ja|en/}
+#                           DELETE (/:locale)/charges/:id(.:format)                                                           mailing/charges#destroy {:subdomain=>"", :locale=>/ja|en/}
 #             activate_user GET    (/:locale)/users/:id/activate(.:format)                                                    mailing/users#activate {:subdomain=>"", :locale=>/ja|en/}
+#      start_trial_now_user POST   (/:locale)/users/:id/start_trial_now(.:format)                                             mailing/users#start_trial_now {:subdomain=>"", :locale=>/ja|en/}
 #                     users GET    (/:locale)/users(.:format)                                                                 mailing/users#index {:subdomain=>"", :locale=>/ja|en/}
 #                           POST   (/:locale)/users(.:format)                                                                 mailing/users#create {:subdomain=>"", :locale=>/ja|en/}
 #                  new_user GET    (/:locale)/users/new(.:format)                                                             mailing/users#new {:subdomain=>"", :locale=>/ja|en/}
@@ -73,6 +82,7 @@ Rails.application.routes.draw do
         resources :charges
         resources :users do
           get 'activate', on: :member
+          post 'start_trial_now', on: :member
         end
 
         get 'signup' => 'users#new'

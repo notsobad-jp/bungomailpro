@@ -59,6 +59,15 @@ class Mailing::UsersController < Mailing::ApplicationController
     end
   end
 
+  def start_trial_now
+    @user = authorize User.find(params[:id])
+    @user.start_trial_now
+    redirect_to(user_path(@user), flash: { success: 'トライアルを開始しました！次回配信分（朝7:00）からメールが届くようになります。' })
+  rescue => error
+    byebug
+    redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })
+  end
+
   private
 
   def user_params

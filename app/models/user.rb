@@ -62,6 +62,18 @@ class User < ApplicationRecord
     trial_start_at < Time.current && Time.current < trial_end_at
   end
 
+  # トライアル開始前の状態から、すぐにトライアルを開始する
+  ## トライアル終了日時も翌月末→今月末に繰り上げ
+  def start_trial_now
+    raise unless before_trial?
+    Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: [sendgrid_id])
+    update(
+      list_subscribed: true,
+      trial_end_at: Time.current.end_of_month
+    )
+    # TODO: chargeも作成済みだったらそっちのtrialも繰り上げる
+  end
+
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
   def utc_offset
     # UTC00:00から配信時間までの分数（必ずプラス）
