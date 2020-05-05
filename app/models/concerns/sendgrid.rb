@@ -17,12 +17,14 @@ module Sendgrid
     res = (body = http.request(req).body) ? JSON.parse(body) : nil
     if res&.is_a?(Hash) && res["errors"].present?
       error = res["errors"].map{|m| m["message"] }.join(", ")
-      Rails.logger.error "[Sendgrid] #{method} #{path}, Error: #{error}"
       raise error
     else
       Rails.logger.info "[Sendgrid] #{method} #{path}"
       res
     end
+  rescue => error
+    Rails.logger.error "[Sendgrid] #{method} #{path}, Error: #{error}"
+    raise error
   end
 
   # module関数としても使いつつincludeしたclassのinstanceメソッドとしても使えるように

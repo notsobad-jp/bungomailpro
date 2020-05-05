@@ -13,6 +13,7 @@ class Mailing::UsersController < Mailing::ApplicationController
       return redirect_to root_path
     end
 
+    # sorceryのuser_activationで、create後は自動的にactivationメールが送られる
     if @user.save
       flash[:success] = "Account registered! You'll start receiving the email from tomorrow :)"
     else
