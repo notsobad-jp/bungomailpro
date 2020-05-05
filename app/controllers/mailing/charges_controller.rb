@@ -1,11 +1,8 @@
 class Mailing::ChargesController < Mailing::ApplicationController
-  before_action :require_login
   before_action :set_charge
   after_action :verify_authorized
 
   def new
-    @breadcrumbs << { name: 'アカウント情報', url: user_path(current_user) }
-    @breadcrumbs << { name: '決済情報' }
   end
 
   def create
@@ -26,8 +23,6 @@ class Mailing::ChargesController < Mailing::ApplicationController
   end
 
   def edit
-    @breadcrumbs << { name: 'アカウント情報', url: user_path(current_user) }
-    @breadcrumbs << { name: '決済情報の更新' }
   end
 
   def update
@@ -77,8 +72,7 @@ class Mailing::ChargesController < Mailing::ApplicationController
 
   def set_charge
     if (id = params[:id])
-      @charge = Charge.find(id)
-      authorize @charge
+      @charge = authorize Charge.find(id)
     else
       authorize Charge
     end

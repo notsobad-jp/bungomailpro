@@ -40,6 +40,11 @@
         - else
           = link_to 'ログイン', login_path, class: 'item'
 
+    - if @alert_message
+      .ui.attached.warning.message
+        %i.icon.exclamation.triangle
+        = @alert_message
+
     %div#main-content
       .ui.container
         .ui.stackable.centered.grid

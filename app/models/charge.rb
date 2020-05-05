@@ -29,7 +29,6 @@
 
 class Charge < ApplicationRecord
   belongs_to :user
-  TRIAL_PERIOD_DAYS = 14 # 無料トライアル日数
 
   def active?
     %w[trialing active past_due].include? status
@@ -88,7 +87,7 @@ class Charge < ApplicationRecord
     # Stripeでsubscription作成
     subscription = Stripe::Subscription.create(
       customer: customer_id,
-      trial_end: trial_end_at.to_i,
+      trial_end: user.trial_end_at.to_i,
       items: [{ plan: ENV['STRIPE_PLAN_ID'] }]
     )
 
@@ -96,12 +95,8 @@ class Charge < ApplicationRecord
     update!(
       subscription_id: subscription.id,
       status: subscription.status,
-      trial_end: trial_end_at
+      trial_end: user.trial_end_at
     )
-  end
-
-  def trial_end_at
-    TRIAL_PERIOD_DAYS.days.since(Time.current.end_of_day)
   end
 
   def update_customer(params)

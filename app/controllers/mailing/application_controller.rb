@@ -1,6 +1,6 @@
 class Mailing::ApplicationController < ApplicationController
   layout 'mailing/layouts/application'
-  before_action :switch_locale, :require_login, :set_meta_tags
+  before_action :switch_locale, :require_login, :set_meta_tags, :set_alert_message
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -27,5 +27,16 @@ class Mailing::ApplicationController < ApplicationController
   def default_url_options
     locale = :en if I18n.locale == :en
     { locale: locale }
+  end
+
+  # 未課金ユーザーに警告表示
+  def set_alert_message
+    return unless current_user && current_user&.charge.present?
+
+    @alert_message =  if current_user.before_trial?
+                        "無料トライアルは『#{current_user.trial_start_at.strftime('%m月%d日')}』から始まります。いますぐに開始したい場合はマイページで設定を変更してください（作品途中からの配信になります）"
+                      elsif current_user.trialing?
+                        "無料トライアルは『#{current_user.trial_end_at.strftime('%m月%d日')}』で終了します。翌月以降もメールを受信するためには、決済情報を登録してください。"
+                      end
   end
 end

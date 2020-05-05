@@ -70,6 +70,7 @@ Rails.application.routes.draw do
     scope module: :mailing do
       scope "(:locale)", locale: /ja|en/ do
         resources :magic_tokens
+        resources :charges
         resources :users do
           get 'activate', on: :member
         end

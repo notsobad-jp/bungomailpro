@@ -28,6 +28,16 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
   has_one :charge, dependent: :destroy
 
+  # トライアル終了日が現時刻より先 && 1ヶ月後よりは手前 = トライアル期間1ヶ月に現時刻が含まれる
+  scope :trialing, -> { where(trial_end_at: Time.current..Time.current.next_month) }
+
+  # 決済情報が登録されてる && 決済情報が有効（trialing, active, past_due）
+  ## past_dueは何回か失敗後にcanceledになって、そのタイミングでリストからも除外するので一旦active扱いでOK
+  scope :charging, -> { joins(:charge).where(charges: {status: %w(trialing active past_due)}) }
+
+  # 決済情報が登録されていない OR 決済情報が無効（canceled, unpaid）
+  scope :not_charging, -> { left_joins(:charge).where(charges: {id: nil}).or(User.left_joins(:charge).where(charges: {status: %w(canceled unpaid)})) }
+
   # activation実行に必要なのでダミーのパスワードを設定
   ## before_validateでcryptedの作成処理が走るので、それより先に用意できるようにafter_initializeを使用
   after_initialize do
@@ -37,6 +47,18 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
 
+
+  def trial_start_at
+    trial_end_at.beginning_of_month
+  end
+
+  def before_trial?
+    trial_start_at > Time.current
+  end
+
+  def trialing?
+    trial_start_at < Time.current && Time.current < trial_end_at
+  end
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
   def utc_offset
@@ -49,5 +71,20 @@ class User < ApplicationRecord
 
     # offsetの結果、前日や翌日に日がまたぐ場合もいい感じに調整する（e.g. -01:00 => 23:00, 27:00 => 03:00）
     (delivery_offset - timezone_offset) % (24 * 60)
+  end
+
+
+  class << self
+    ## 配信停止中のvalidなユーザー
+    #### 対象: 一時停止中の課金ユーザー || お試し期間中のユーザー
+    def valid_paused_users
+      User.charging.or(User.joins(:charge).trialing).where(list_subscribed: false)
+    end
+
+    ## 配信中のinvalidなユーザー
+    #### 対象: お試し期間が終了した非課金ユーザー
+    def invalid_subscribing_users
+      User.not_charging.where("trial_end_at < ?", Time.current).where(list_subscribed: true)
+    end
   end
 end
