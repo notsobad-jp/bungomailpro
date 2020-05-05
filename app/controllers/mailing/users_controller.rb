@@ -9,15 +9,15 @@ class Mailing::UsersController < Mailing::ApplicationController
     @user = User.find_or_initialize_by(email: user_params[:email])
     if @user.persisted?
       UserMailer.magic_login_email(@user).deliver
-      flash[:info] = 'This email address is already registered. We sent you a sign-in email.'
+      flash[:info] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクからサイトにアクセスしてください。'
       return redirect_to root_path
     end
 
     # sorceryのuser_activationで、create後は自動的にactivationメールが送られる
     if @user.save
-      flash[:success] = "Account registered! You'll start receiving the email from tomorrow :)"
+      flash[:success] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクからアクセスして、アカウントを認証してください。'
     else
-      flash[:error] = 'Sorry something seems to be wrong with your email address. Please check and try again.'
+      flash[:error] = '処理に失敗しました。。再度試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
     end
     redirect_to login_path
   end
@@ -62,9 +62,16 @@ class Mailing::UsersController < Mailing::ApplicationController
   def start_trial_now
     @user = authorize User.find(params[:id])
     @user.start_trial_now
-    redirect_to(user_path(@user), flash: { success: 'トライアルを開始しました！次回配信分（朝7:00）からメールが届くようになります。' })
+    redirect_to(user_path(@user), flash: { success: 'トライアルを開始しました！次回配信分からメールが届くようになります。' })
   rescue => error
-    byebug
+    redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })
+  end
+
+  def pause_subscription
+    @user = authorize User.find(params[:id])
+    @user.pause_subscription
+    redirect_to(user_path(@user), flash: { success: '配信を一時停止しました。翌月から自動的に配信が再開します。' })
+  rescue => error
     redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })
   end
 

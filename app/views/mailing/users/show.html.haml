@@ -20,8 +20,17 @@
             %span.ui.red.basic.label
               無料トライアル中
             %small （#{@user.trial_end_at.strftime("%-m月%-d日")}終了）
+          - elsif @user.list_subscribed?
+            %span.ui.green.basic.label
+              購読中
+          - else
+            %span.ui.black.basic.label
+              配信停止中
+            - if @user.charge&.active?
+              %small （#{Time.current.next_month.beginning_of_month.strftime("%-m月%-d日")}から配信再開）
+
     - if @user.before_trial?
-      = link_to 'いますぐトライアルを開始する', start_trial_now_user_path(@user), class: 'ui blue small responsive button', method: :post
+      = link_to 'いますぐトライアルを開始する', start_trial_now_user_path(@user), class: 'ui blue small responsive button', method: :post, data: { confirm: 'いますぐ無料トライアル期間を開始し、次回配信分からメールをお届けします。作品途中からの配信となり、無料トライアルは今月末で終了します。本当によろしいですか？' }
 
   .mb-70
     %h5.ui.small.horizontal.divider.header
@@ -42,8 +51,11 @@
             %span.ui.small.label 2020年5月
             &nbsp;
             %small 次回配信: 2020年5月3日 7:00AM
-    %div
+    .mb-30
       %small= link_to '過去の配信タイトルを見る', '#'
+
+    - if @user.list_subscribed?
+      = link_to '月末まで配信を停止する', pause_subscription_user_path(@user), class: 'ui red small responsive button', method: :post, data: { confirm: '月末まで配信を停止して、翌月1日から配信を再開します。この処理は取り消せません。本当によろしいですか？' }
 
   .mb-70
     %h5.ui.small.horizontal.divider.header

@@ -19,6 +19,7 @@
 #                           DELETE (/:locale)/charges/:id(.:format)                                                           mailing/charges#destroy {:subdomain=>"", :locale=>/ja|en/}
 #             activate_user GET    (/:locale)/users/:id/activate(.:format)                                                    mailing/users#activate {:subdomain=>"", :locale=>/ja|en/}
 #      start_trial_now_user POST   (/:locale)/users/:id/start_trial_now(.:format)                                             mailing/users#start_trial_now {:subdomain=>"", :locale=>/ja|en/}
+#   pause_subscription_user POST   (/:locale)/users/:id/pause_subscription(.:format)                                          mailing/users#pause_subscription {:subdomain=>"", :locale=>/ja|en/}
 #                     users GET    (/:locale)/users(.:format)                                                                 mailing/users#index {:subdomain=>"", :locale=>/ja|en/}
 #                           POST   (/:locale)/users(.:format)                                                                 mailing/users#create {:subdomain=>"", :locale=>/ja|en/}
 #                  new_user GET    (/:locale)/users/new(.:format)                                                             mailing/users#new {:subdomain=>"", :locale=>/ja|en/}
@@ -83,6 +84,7 @@ Rails.application.routes.draw do
         resources :users do
           get 'activate', on: :member
           post 'start_trial_now', on: :member
+          post 'pause_subscription', on: :member
         end
 
         get 'signup' => 'users#new'

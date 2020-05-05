@@ -65,13 +65,20 @@ class User < ApplicationRecord
   # トライアル開始前の状態から、すぐにトライアルを開始する
   ## トライアル終了日時も翌月末→今月末に繰り上げ
   def start_trial_now
-    raise unless before_trial?
     Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: [sendgrid_id])
     update(
       list_subscribed: true,
       trial_end_at: Time.current.end_of_month
     )
     # TODO: chargeも作成済みだったらそっちのtrialも繰り上げる
+  end
+
+  # 月末まで配信を停止する
+  ## 毎月7日以前なら返金、それ以降なら返金はなし
+  def pause_subscription
+    Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: [sendgrid_id], method: :delete)
+    update(list_subscribed: false)
+    # TODO: 7日以前なら返金処理を実行
   end
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
