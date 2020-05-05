@@ -5,8 +5,8 @@ namespace :cron do
     Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: User.valid_and_paused.pluck(:sendgrid_id))
 
     # 配信中のinvalidユーザーを配信リストから削除する
-    # User.invalid_and_subscribing.each do |user|
-    #   Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: user.sendgrid_id, method: :delete)
-    # end
+    User.invalid_and_subscribing.each do |user|
+      Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: user.sendgrid_id, method: :delete)
+    end
   end
 end
