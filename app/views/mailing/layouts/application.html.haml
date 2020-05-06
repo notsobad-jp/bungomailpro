@@ -33,12 +33,12 @@
     .ui.top.attached.borderless.seigaiha.menu
       = link_to(root_path, class: 'header item') do
         ブンゴウメール
-      .right.menu
-        - if current_user
-          = link_to current_user.email, user_path(current_user), class: 'item'
-          = link_to 'ログアウト', logout_path, method: :post, class: 'item'
-        - else
-          = link_to 'ログイン', login_path, class: 'item'
+      -# .right.menu
+      -#   - if current_user
+      -#     = link_to current_user.email, user_path(current_user), class: 'item'
+      -#     = link_to 'ログアウト', logout_path, method: :post, class: 'item'
+      -#   - else
+      -#     = link_to 'ログイン', login_path, class: 'item'
 
     - if @alert_message
       .ui.attached.warning.message

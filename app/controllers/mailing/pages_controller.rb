@@ -17,13 +17,23 @@ class Mailing::PagesController < Mailing::ApplicationController
     render params[:page]
   end
 
+  def dogramagra
+    @page_title = "ドグラ・マグラ365日配信チャレンジ"
+
+    @meta_title = @page_title
+    @meta_description = "夢野久作『ドグラ・マグラ』を、365日かけて毎日メールで少しずつ配信します。"
+    @meta_keywords = @page_title
+    @breadcrumbs << { name: @page_title }
+    @meta_image = "https://bungomail.com/assets/images/campaigns/dogramagra.png"
+  end
+
   private
 
   def page_titles
     {
       terms: '利用規約',
       privacy: 'プライバシーポリシー',
-      tokushoho: '特定商取引法に基づく表示'
+      tokushoho: '特定商取引法に基づく表示',
     }
   end
 end
