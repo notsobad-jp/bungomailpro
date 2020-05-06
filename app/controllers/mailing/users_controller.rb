@@ -70,6 +70,7 @@ class Mailing::UsersController < Mailing::ApplicationController
   def pause_subscription
     @user = authorize User.find(params[:id])
     @user.pause_subscription
+    @user.charge.refund_latest_payment if Time.current.day <= 7 # 7日以前なら返金処理
     redirect_to(user_path(@user), flash: { success: '配信を一時停止しました。翌月から自動的に配信が再開します。' })
   rescue => error
     redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })

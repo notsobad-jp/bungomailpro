@@ -114,4 +114,15 @@ class Charge < ApplicationRecord
       last4: card.last4
     )
   end
+
+  # 7日以前に配信停止した場合、直近で支払ったchargeをrefundする
+  def refund_latest_payment
+    payment_intents = Stripe::PaymentIntent.list({
+      customer: customer_id,
+      created: {gte: Time.current.beginning_of_month.to_i},
+      limit: 1
+    })
+    intent = payment_intents["data"].first
+    Stripe::Refund.create({payment_intent: intent["id"]}) if intent["status"] == "succeeded"
+  end
 end

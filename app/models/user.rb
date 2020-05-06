@@ -27,6 +27,7 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_one :charge, dependent: :destroy
+  has_many :skip_histories, dependent: :destroy
 
   # トライアル終了日が現時刻より先 && 1ヶ月後よりは手前 = トライアル期間1ヶ月に現時刻が含まれる
   scope :trialing, -> (date = Time.current) { where(trial_end_at: date..date.next_month) }
@@ -73,12 +74,11 @@ class User < ApplicationRecord
     # TODO: chargeも作成済みだったらそっちのtrialも繰り上げる
   end
 
-  # 月末まで配信を停止する
-  ## 毎月7日以前なら返金、それ以降なら返金はなし
+  # 配信リストから除外（「月末まで停止」に使用）して履歴に記録
   def pause_subscription
     Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: [sendgrid_id], method: :delete)
     update(list_subscribed: false)
-    # TODO: 7日以前なら返金処理を実行
+    skip_histories.create
   end
 
   # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）

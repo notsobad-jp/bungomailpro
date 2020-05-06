@@ -10,19 +10,19 @@ RSpec.describe Mailing::UsersController, type: :controller do
   ####################################################
   describe "#create" do
     before { @new_user = build(:user) }
-    subject { post :create, params: { locale: :en, user: { email: @new_user.email } }, session: {} }
+    subject { post :create, params: { user: { email: @new_user.email } }, session: {} }
 
     context "as an existing user" do
       it "sends login email" do
         post :create, params: { locale: :en, user: { email: @user.email } }, session: {}
-        expect(flash[:info]).to include("already registered")
+        expect(flash[:info]).to include("認証用メールを送信しました")
       end
     end
 
     context "as a new :en user" do
       it "responds successfully" do
         subject
-        expect(flash[:success]).to include("Account registered")
+        expect(flash[:success]).to include("認証用メールを送信しました")
       end
 
       it "creates new user" do

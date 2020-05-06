@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_03_051409) do
+ActiveRecord::Schema.define(version: 2020_05_06_015420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -138,6 +138,13 @@ ActiveRecord::Schema.define(version: 2020_05_03_051409) do
     t.index ["locked_until"], name: "index_senders_on_locked_until"
   end
 
+  create_table "skip_histories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_skip_histories_on_user_id"
+  end
+
   create_table "subjects", id: :string, force: :cascade do |t|
     t.integer "books_count", default: 0
     t.datetime "created_at", null: false
@@ -173,4 +180,5 @@ ActiveRecord::Schema.define(version: 2020_05_03_051409) do
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "charges", "users"
   add_foreign_key "guten_books_subjects", "subjects"
+  add_foreign_key "skip_histories", "users"
 end

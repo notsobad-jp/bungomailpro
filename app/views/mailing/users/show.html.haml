@@ -21,7 +21,7 @@
               無料トライアル中
             %small （#{@user.trial_end_at.strftime("%-m月%-d日")}終了）
           - elsif @user.list_subscribed?
-            %span.ui.green.basic.label
+            %span.ui.blue.basic.label
               購読中
           - else
             %span.ui.black.basic.label
@@ -55,7 +55,12 @@
       %small= link_to '過去の配信タイトルを見る', '#'
 
     - if @user.list_subscribed?
-      = link_to '月末まで配信を停止する', pause_subscription_user_path(@user), class: 'ui red small responsive button', method: :post, data: { confirm: '月末まで配信を停止して、翌月1日から配信を再開します。この処理は取り消せません。本当によろしいですか？' }
+      = link_to '月末まで配信を停止する', pause_subscription_user_path(@user), class: 'ui red small basic responsive button', method: :post, data: { confirm: '月末まで配信を停止して、翌月1日から配信を再開します。この処理は取り消せません。本当によろしいですか？' }
+      %p
+        - if Time.current.day <= 7
+          %small ※7日以前なので、いま停止すれば今月分の利用料は返金されます。
+        - else
+          %small ※7日を過ぎているため、いま配信停止しても利用料は返金されません。
 
   .mb-70
     %h5.ui.small.horizontal.divider.header
