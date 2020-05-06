@@ -14,7 +14,7 @@ class Mailing::ChargesController < Mailing::ApplicationController
     charge.create_subscription
 
     logger.info "[Charge] CREATED charge:#{charge.id}, user:#{current_user.id}, trial_end:#{charge.trial_end}"
-    flash[:success] = '決済登録が完了しました🎉 無料トライアル期間のあとに、支払いが開始します'
+    flash[:success] = '決済登録が完了しました🎉 ご登録ありがとうございます。'
     redirect_to user_path(current_user)
   rescue Stripe::StripeError => e
     logger.error "[STRIPE] user: #{current_user.id}, error: #{e}"

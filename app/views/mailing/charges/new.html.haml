@@ -16,7 +16,7 @@
             data-key="#{Rails.configuration.stripe[:publishable_key]}"
             data-image="#{asset_path('avatar.png')}"
             data-name="ブンゴウメール"
-            data-description="1ヶ月間は無料トライアル"
+            data-description="毎月1冊おまかせ読書"
             data-currency="JPY"
             data-amount="500"
             data-label="クレジットカードで決済する"
@@ -31,16 +31,11 @@
   ご利用の流れ
 .ui.bulleted.list
   .item
-    決済情報の登録から、
-    %b.red 1ヶ月間は無料トライアル
-    期間としてすべての機能をご利用いただけます。
+    クレジットカードを登録しても、無料トライアル期間が終了するまで料金は発生しません。
   .item
-    トライアル
-    %b.red 終了3日前に、メールでお知らせ
-    します。
-    トライアル終了前に解約いただいた場合、料金は一切発生しません。
+    無料トライアル終了前に解約いただいた場合、料金は一切発生しません。
   .item
-    トライアル終了後、1ヶ月分の料金をご請求します。その後は1ヶ月毎に料金が発生いたします。
+    トライアル終了後、毎月1日に当月分の料金をご請求します。
 %h5.ui.small.header
   %i.icon.exclamation.triangle
   その他注意事項

@@ -84,10 +84,21 @@ class Charge < ApplicationRecord
   def create_subscription
     raise 'already subscribing' if active? # すでに支払い中の場合は処理を中断
 
+    if user.trial_end_at > Time.current
+      # トライアル終了前なら、trial_endを終了日に設定
+      billing_cycle_anchor = nil
+      trial_end = user.trial_end_at.to_i
+    else
+      # トライアル終了後なら、trialなしでanchorを翌月初に設定
+      billing_cycle_anchor = Time.current.next_month.beginning_of_month.to_i
+      trial_end = nil
+    end
+
     # Stripeでsubscription作成
     subscription = Stripe::Subscription.create(
       customer: customer_id,
-      trial_end: user.trial_end_at.to_i,
+      trial_end: trial_end,
+      billing_cycle_anchor: billing_cycle_anchor,
       items: [{ plan: ENV['STRIPE_PLAN_ID'] }]
     )
 
@@ -95,7 +106,7 @@ class Charge < ApplicationRecord
     update!(
       subscription_id: subscription.id,
       status: subscription.status,
-      trial_end: user.trial_end_at
+      trial_end: trial_end
     )
   end
 
