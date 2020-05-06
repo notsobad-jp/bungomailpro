@@ -5,6 +5,6 @@ class ChangeBookAssignment < ActiveRecord::Migration[6.0]
 
     add_reference :book_assignments, :book, polymorphic: true
     add_reference :book_assignments, :channel, type: :uuid, foreign_key: true, null: false
-    add_index :book_assignments, [:channel_id, :status], where: '"status" = 1', unique: true
+    # add_index :book_assignments, [:channel_id, :status], where: '"status" = 1', unique: true
   end
 end
