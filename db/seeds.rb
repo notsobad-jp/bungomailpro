@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'csv'
 
 User.create(email: 'info@notsobad.jp')
 
@@ -16,3 +17,15 @@ JSON.parse(senders).each do |sender|
     name: sender["from"]["name"],
   )
 end
+
+groups = []
+CSV.foreach('db/seeds/campaign_groups.csv', headers: true) do |data|
+  groups << CampaignGroup.new(
+    book_id: data["ID"],
+    count: data["回数"],
+    start_at: Time.zone.parse(data["開始日"]),
+    list_id: CampaignGroup::LIST_ID,
+    sender_id: 611140,
+  )
+end
+CampaignGroup.import groups

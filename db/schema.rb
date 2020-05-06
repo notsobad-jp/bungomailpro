@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_015420) do
+ActiveRecord::Schema.define(version: 2020_05_06_072749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_015420) do
     t.index ["words_count"], name: "index_aozora_books_on_words_count"
   end
 
-  create_table "campaign_groups", force: :cascade do |t|
+  create_table "campaign_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "book_id", null: false
     t.integer "count", null: false
     t.datetime "start_at", null: false
@@ -53,14 +53,14 @@ ActiveRecord::Schema.define(version: 2020_05_06_015420) do
     t.index ["book_id"], name: "index_campaign_groups_on_book_id"
   end
 
-  create_table "campaigns", force: :cascade do |t|
+  create_table "campaigns", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "sendgrid_id"
     t.string "title", null: false
     t.text "content", null: false
     t.datetime "send_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "campaign_group_id", default: 1, null: false
+    t.uuid "campaign_group_id", null: false
     t.index ["campaign_group_id"], name: "index_campaigns_on_campaign_group_id"
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
   end

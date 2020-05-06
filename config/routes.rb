@@ -1,42 +1,51 @@
 # == Route Map
 #
 #                    Prefix Verb   URI Pattern                                                                                Controller#Action
-#              magic_tokens GET    (/:locale)/magic_tokens(.:format)                                                          mailing/magic_tokens#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   (/:locale)/magic_tokens(.:format)                                                          mailing/magic_tokens#create {:subdomain=>"", :locale=>/ja|en/}
-#           new_magic_token GET    (/:locale)/magic_tokens/new(.:format)                                                      mailing/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
-#          edit_magic_token GET    (/:locale)/magic_tokens/:id/edit(.:format)                                                 mailing/magic_tokens#edit {:subdomain=>"", :locale=>/ja|en/}
-#               magic_token GET    (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
-#                   charges GET    (/:locale)/charges(.:format)                                                               mailing/charges#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   (/:locale)/charges(.:format)                                                               mailing/charges#create {:subdomain=>"", :locale=>/ja|en/}
-#                new_charge GET    (/:locale)/charges/new(.:format)                                                           mailing/charges#new {:subdomain=>"", :locale=>/ja|en/}
-#               edit_charge GET    (/:locale)/charges/:id/edit(.:format)                                                      mailing/charges#edit {:subdomain=>"", :locale=>/ja|en/}
-#                    charge GET    (/:locale)/charges/:id(.:format)                                                           mailing/charges#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  (/:locale)/charges/:id(.:format)                                                           mailing/charges#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    (/:locale)/charges/:id(.:format)                                                           mailing/charges#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE (/:locale)/charges/:id(.:format)                                                           mailing/charges#destroy {:subdomain=>"", :locale=>/ja|en/}
-#             activate_user GET    (/:locale)/users/:id/activate(.:format)                                                    mailing/users#activate {:subdomain=>"", :locale=>/ja|en/}
-#      start_trial_now_user POST   (/:locale)/users/:id/start_trial_now(.:format)                                             mailing/users#start_trial_now {:subdomain=>"", :locale=>/ja|en/}
-#   pause_subscription_user POST   (/:locale)/users/:id/pause_subscription(.:format)                                          mailing/users#pause_subscription {:subdomain=>"", :locale=>/ja|en/}
-#                     users GET    (/:locale)/users(.:format)                                                                 mailing/users#index {:subdomain=>"", :locale=>/ja|en/}
-#                           POST   (/:locale)/users(.:format)                                                                 mailing/users#create {:subdomain=>"", :locale=>/ja|en/}
-#                  new_user GET    (/:locale)/users/new(.:format)                                                             mailing/users#new {:subdomain=>"", :locale=>/ja|en/}
-#                 edit_user GET    (/:locale)/users/:id/edit(.:format)                                                        mailing/users#edit {:subdomain=>"", :locale=>/ja|en/}
-#                      user GET    (/:locale)/users/:id(.:format)                                                             mailing/users#show {:subdomain=>"", :locale=>/ja|en/}
-#                           PATCH  (/:locale)/users/:id(.:format)                                                             mailing/users#update {:subdomain=>"", :locale=>/ja|en/}
-#                           PUT    (/:locale)/users/:id(.:format)                                                             mailing/users#update {:subdomain=>"", :locale=>/ja|en/}
-#                           DELETE (/:locale)/users/:id(.:format)                                                             mailing/users#destroy {:subdomain=>"", :locale=>/ja|en/}
-#                    signup GET    (/:locale)/signup(.:format)                                                                mailing/users#new {:subdomain=>"", :locale=>/ja|en/}
-#                     login GET    (/:locale)/login(.:format)                                                                 mailing/magic_tokens#new {:subdomain=>"", :locale=>/ja|en/}
-#                    logout POST   (/:locale)/logout(.:format)                                                                mailing/magic_tokens#destroy {:subdomain=>"", :locale=>/ja|en/}
-#                      auth GET    (/:locale)/auth(.:format)                                                                  mailing/magic_tokens#auth {:subdomain=>"", :locale=>/ja|en/}
-#      campaigns_dogramagra GET    (/:locale)/campaigns/dogramagra(.:format)                                                  mailing/pages#dogramagra {:subdomain=>"", :locale=>/ja|en/}
-#                           GET    (/:locale)/:locale(.:format)                                                               mailing/pages#lp {:subdomain=>"", :locale=>/ja|en/}
-#                      page GET    (/:locale)/:page(.:format)                                                                 mailing/pages#show {:subdomain=>"", :locale=>/ja|en/}
-#                      root GET    /(:locale)(.:format)                                                                       mailing/pages#lp {:subdomain=>"", :locale=>/ja|en/}
-#                           GET    /                                                                                          mailing/pages#lp {:subdomain=>""}
+#              magic_tokens GET    (/:locale)/magic_tokens(.:format)                                                          mailing/magic_tokens#index {:locale=>/ja|en/}
+#                           POST   (/:locale)/magic_tokens(.:format)                                                          mailing/magic_tokens#create {:locale=>/ja|en/}
+#           new_magic_token GET    (/:locale)/magic_tokens/new(.:format)                                                      mailing/magic_tokens#new {:locale=>/ja|en/}
+#          edit_magic_token GET    (/:locale)/magic_tokens/:id/edit(.:format)                                                 mailing/magic_tokens#edit {:locale=>/ja|en/}
+#               magic_token GET    (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#show {:locale=>/ja|en/}
+#                           PATCH  (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#update {:locale=>/ja|en/}
+#                           PUT    (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#update {:locale=>/ja|en/}
+#                           DELETE (/:locale)/magic_tokens/:id(.:format)                                                      mailing/magic_tokens#destroy {:locale=>/ja|en/}
+#                   charges GET    (/:locale)/charges(.:format)                                                               mailing/charges#index {:locale=>/ja|en/}
+#                           POST   (/:locale)/charges(.:format)                                                               mailing/charges#create {:locale=>/ja|en/}
+#                new_charge GET    (/:locale)/charges/new(.:format)                                                           mailing/charges#new {:locale=>/ja|en/}
+#               edit_charge GET    (/:locale)/charges/:id/edit(.:format)                                                      mailing/charges#edit {:locale=>/ja|en/}
+#                    charge GET    (/:locale)/charges/:id(.:format)                                                           mailing/charges#show {:locale=>/ja|en/}
+#                           PATCH  (/:locale)/charges/:id(.:format)                                                           mailing/charges#update {:locale=>/ja|en/}
+#                           PUT    (/:locale)/charges/:id(.:format)                                                           mailing/charges#update {:locale=>/ja|en/}
+#                           DELETE (/:locale)/charges/:id(.:format)                                                           mailing/charges#destroy {:locale=>/ja|en/}
+#                books_list GET    (/:locale)/lists/:id/books(.:format)                                                       mailing/lists#books {:locale=>/ja|en/}
+#                     lists GET    (/:locale)/lists(.:format)                                                                 mailing/lists#index {:locale=>/ja|en/}
+#                           POST   (/:locale)/lists(.:format)                                                                 mailing/lists#create {:locale=>/ja|en/}
+#                  new_list GET    (/:locale)/lists/new(.:format)                                                             mailing/lists#new {:locale=>/ja|en/}
+#                 edit_list GET    (/:locale)/lists/:id/edit(.:format)                                                        mailing/lists#edit {:locale=>/ja|en/}
+#                      list GET    (/:locale)/lists/:id(.:format)                                                             mailing/lists#show {:locale=>/ja|en/}
+#                           PATCH  (/:locale)/lists/:id(.:format)                                                             mailing/lists#update {:locale=>/ja|en/}
+#                           PUT    (/:locale)/lists/:id(.:format)                                                             mailing/lists#update {:locale=>/ja|en/}
+#                           DELETE (/:locale)/lists/:id(.:format)                                                             mailing/lists#destroy {:locale=>/ja|en/}
+#             activate_user GET    (/:locale)/users/:id/activate(.:format)                                                    mailing/users#activate {:locale=>/ja|en/}
+#      start_trial_now_user POST   (/:locale)/users/:id/start_trial_now(.:format)                                             mailing/users#start_trial_now {:locale=>/ja|en/}
+#   pause_subscription_user POST   (/:locale)/users/:id/pause_subscription(.:format)                                          mailing/users#pause_subscription {:locale=>/ja|en/}
+#                     users GET    (/:locale)/users(.:format)                                                                 mailing/users#index {:locale=>/ja|en/}
+#                           POST   (/:locale)/users(.:format)                                                                 mailing/users#create {:locale=>/ja|en/}
+#                  new_user GET    (/:locale)/users/new(.:format)                                                             mailing/users#new {:locale=>/ja|en/}
+#                 edit_user GET    (/:locale)/users/:id/edit(.:format)                                                        mailing/users#edit {:locale=>/ja|en/}
+#                      user GET    (/:locale)/users/:id(.:format)                                                             mailing/users#show {:locale=>/ja|en/}
+#                           PATCH  (/:locale)/users/:id(.:format)                                                             mailing/users#update {:locale=>/ja|en/}
+#                           PUT    (/:locale)/users/:id(.:format)                                                             mailing/users#update {:locale=>/ja|en/}
+#                           DELETE (/:locale)/users/:id(.:format)                                                             mailing/users#destroy {:locale=>/ja|en/}
+#                    signup GET    (/:locale)/signup(.:format)                                                                mailing/users#new {:locale=>/ja|en/}
+#                     login GET    (/:locale)/login(.:format)                                                                 mailing/magic_tokens#new {:locale=>/ja|en/}
+#                    logout POST   (/:locale)/logout(.:format)                                                                mailing/magic_tokens#destroy {:locale=>/ja|en/}
+#                      auth GET    (/:locale)/auth(.:format)                                                                  mailing/magic_tokens#auth {:locale=>/ja|en/}
+#      campaigns_dogramagra GET    (/:locale)/campaigns/dogramagra(.:format)                                                  mailing/pages#dogramagra {:locale=>/ja|en/}
+#                           GET    (/:locale)/:locale(.:format)                                                               mailing/pages#lp {:locale=>/ja|en/}
+#                      page GET    (/:locale)/:page(.:format)                                                                 mailing/pages#show {:locale=>/ja|en/}
+#                      root GET    /(:locale)(.:format)                                                                       mailing/pages#lp {:locale=>/ja|en/}
+#                           GET    /                                                                                          mailing/pages#lp
 #     author_category_books GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books(.:format)          search/books#index {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
 #                           POST   (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books(.:format)          search/books#create {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
 #  new_author_category_book GET    (/:locale)(/:juvenile)/authors/:author_id/categories/:category_id/books/new(.:format)      search/books#new {:subdomain=>"search", :locale=>/ja|en/, :juvenile=>/juvenile/}
@@ -81,6 +90,9 @@ Rails.application.routes.draw do
       scope "(:locale)", locale: /ja|en/ do
         resources :magic_tokens
         resources :charges
+        resources :lists do
+          get 'books', on: :member
+        end
         resources :users do
           get 'activate', on: :member
           post 'start_trial_now', on: :member

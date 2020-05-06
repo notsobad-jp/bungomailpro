@@ -50,19 +50,21 @@
     .mb-10
       .ui.one.cards
         .ui.card
+          - book = @campaign_group.book
           .content.ui.secondary.basic.segment
             .header
               %i.icon.play.circle
-              宮沢賢治『注文の多い料理店』
+              = book.author_name
+              『#{book.title}』
               %small
-                = link_to 'https://search.bungomail.com/authors/81/categories/short/books/43754', target: :_blank do
+                = link_to author_category_book_url(subdomain: 'search', author_id: book.author_id, category_id: book.category_id, id: book.id), target: :_blank do
                   %i.icon.small.external
           .extra.content
-            %span.ui.small.label 2020年5月
+            %span.ui.small.label= @campaign_group.start_at.strftime("%Y年%-m月")
             &nbsp;
             %small 次回配信: 2020年5月3日 7:00AM
     .mb-30
-      %small= link_to '過去の配信タイトルを見る', '#'
+      %small= link_to '過去の配信タイトルを見る', books_list_path(id: CampaignGroup::LIST_ID)
 
   .mb-70
     %h5.ui.small.horizontal.divider.header
