@@ -59,7 +59,7 @@ jobs:
           name: run tests
           command: |
             mkdir /tmp/test-results
-            bundle exec rails test
+            bundle exec rspec
 
       # collect reports
       - store_test_results:
