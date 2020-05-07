@@ -21,5 +21,9 @@ FactoryBot.define do
     trait :past_due do
       status { "past_due" }
     end
+
+    trait :with_user do
+      user { build(:user) }
+    end
   end
 end
