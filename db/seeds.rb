@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'csv'
 
-User.create(email: 'info@notsobad.jp')
+User.create(email: 'info@notsobad.jp', trial_end_at: '2000-01-01 00:00:00')
 
 senders = File.open("db/seeds/senders.json", &:read)
 JSON.parse(senders).each do |sender|

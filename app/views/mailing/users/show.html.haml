@@ -1,99 +1,99 @@
 .mb-50
-  %h1.ui.large.header マイページ
+  %h1.ui.large.header 設定
 
-  .mb-70
-    %h5.ui.small.horizontal.divider.header
-      %i.icon.user.outline
-      アカウント情報
+.mb-70
+  %h5.ui.small.horizontal.divider.header
+    %i.icon.user.outline
+    アカウント情報
+  %table.ui.fixed.definition.unstackable.table
+    %tr
+      %td.four.wide Email
+      %td.twelve.wide= @user.email
+    %tr
+      %td.four.wide ステータス
+      %td.twelve.wide
+        - if @user.before_trial?
+          %span.ui.blue.basic.label
+            無料トライアル開始待ち
+          %small （#{@user.trial_start_at.strftime("%-m月%-d日")}トライアル開始）
+        - elsif @user.trialing?
+          %span.ui.red.basic.label
+            無料トライアル中
+          %small （#{@user.trial_end_at.strftime("%-m月%-d日")}終了）
+        - elsif @user.list_subscribed?
+          %span.ui.blue.basic.label
+            購読中
+        - else
+          %span.ui.black.basic.label
+            配信停止中
+          - if @user.charge&.active?
+            %small （#{Time.current.next_month.beginning_of_month.strftime("%-m月%-d日")}から配信再開）
+
+  - if @user.before_trial?
+    = link_to 'いますぐトライアルを開始する', start_trial_now_user_path(@user), class: 'ui blue small responsive button', method: :post, data: { confirm: 'いますぐ無料トライアル期間を開始し、次回配信分からメールをお届けします。作品途中からの配信となり、無料トライアルは今月末で終了します。本当によろしいですか？' }
+
+  -# 配信中 && トライアル終了済み && 課金状態 のときのみ、配信停止ボタン表示
+  - if @user.list_subscribed? && @user.trial_end_at < Time.current && @user.charge&.active?
+    = link_to '月末まで配信を停止する', pause_subscription_user_path(@user), class: 'ui red small basic responsive button', method: :post, data: { confirm: '月末まで配信を停止して、翌月1日から配信を再開します。この処理は取り消せません。本当によろしいですか？' }
+    %p
+      - if Time.current.day <= 7
+        %small ※7日以前なので、いま停止すれば今月分の利用料は返金されます。
+      - else
+        %small ※7日を過ぎているため、いま配信停止しても利用料は返金されません。
+
+
+  -# .mb-70
+  -#   %h5.ui.small.horizontal.divider.header
+  -#     %i.icon.mail.outline
+  -#     今月の配信タイトル
+  -#
+  -#   .mb-10
+  -#     .ui.one.cards
+  -#       .ui.card
+  -#         - book = @campaign_group.book
+  -#         .content.ui.secondary.basic.segment
+  -#           .header
+  -#             %i.icon.play.circle
+  -#             = book.author_name
+  -#             『#{book.title}』
+  -#             %small
+  -#               = link_to author_category_book_url(subdomain: 'search', author_id: book.author_id, category_id: book.category_id, id: book.id), target: :_blank do
+  -#                 %i.icon.small.external
+  -#         .extra.content
+  -#           %span.ui.small.label= @campaign_group.start_at.strftime("%Y年%-m月")
+  -#           &nbsp;
+  -#           %small 次回配信: 2020年5月3日 7:00AM
+  -#   .mb-30
+  -#     %small= link_to '過去の配信タイトルを見る', books_list_path(id: CampaignGroup::LIST_ID)
+
+.mb-70
+  %h5.ui.small.horizontal.divider.header
+    %i.icon.credit.card.outline
+    お支払い情報
+  - if @user.charge.present?
+    .mb-10
     %table.ui.fixed.definition.unstackable.table
       %tr
-        %td.four.wide Email
-        %td.twelve.wide= @user.email
+        %td.four.wide 登録カード情報
+        %td
+          = creditcard_icon(@user.charge.brand)
+          \･･･
+          = @user.charge.last4
+          &nbsp;
+          %small= link_to 'カード情報を変更する', edit_charge_path(@user.charge), "data-turbolinks": false
+
       %tr
-        %td.four.wide ステータス
+        %td.four.wide 決済情報
         %td.twelve.wide
-          - if @user.before_trial?
-            %span.ui.blue.basic.label
-              無料トライアル開始待ち
-            %small （#{@user.trial_start_at.strftime("%-m月%-d日")}トライアル開始）
-          - elsif @user.trialing?
-            %span.ui.red.basic.label
-              無料トライアル中
-            %small （#{@user.trial_end_at.strftime("%-m月%-d日")}終了）
-          - elsif @user.list_subscribed?
-            %span.ui.blue.basic.label
-              購読中
-          - else
-            %span.ui.black.basic.label
-              配信停止中
-            - if @user.charge&.active?
-              %small （#{Time.current.next_month.beginning_of_month.strftime("%-m月%-d日")}から配信再開）
+          前回決済日: （まだお支払いがありません）
+          %br
+          次回決済日: 2020年6月1日
 
-    - if @user.before_trial?
-      = link_to 'いますぐトライアルを開始する', start_trial_now_user_path(@user), class: 'ui blue small responsive button', method: :post, data: { confirm: 'いますぐ無料トライアル期間を開始し、次回配信分からメールをお届けします。作品途中からの配信となり、無料トライアルは今月末で終了します。本当によろしいですか？' }
-
-    -# 配信中 && トライアル終了済み && 課金状態 のときのみ、配信停止ボタン表示
-    - if @user.list_subscribed? && @user.trial_end_at < Time.current && @user.charge&.active?
-      = link_to '月末まで配信を停止する', pause_subscription_user_path(@user), class: 'ui red small basic responsive button', method: :post, data: { confirm: '月末まで配信を停止して、翌月1日から配信を再開します。この処理は取り消せません。本当によろしいですか？' }
-      %p
-        - if Time.current.day <= 7
-          %small ※7日以前なので、いま停止すれば今月分の利用料は返金されます。
-        - else
-          %small ※7日を過ぎているため、いま配信停止しても利用料は返金されません。
-
-
-  .mb-70
-    %h5.ui.small.horizontal.divider.header
-      %i.icon.mail.outline
-      今月の配信タイトル
-
-    .mb-10
-      .ui.one.cards
-        .ui.card
-          - book = @campaign_group.book
-          .content.ui.secondary.basic.segment
-            .header
-              %i.icon.play.circle
-              = book.author_name
-              『#{book.title}』
-              %small
-                = link_to author_category_book_url(subdomain: 'search', author_id: book.author_id, category_id: book.category_id, id: book.id), target: :_blank do
-                  %i.icon.small.external
-          .extra.content
-            %span.ui.small.label= @campaign_group.start_at.strftime("%Y年%-m月")
-            &nbsp;
-            %small 次回配信: 2020年5月3日 7:00AM
-    .mb-30
-      %small= link_to '過去の配信タイトルを見る', books_list_path(id: CampaignGroup::LIST_ID)
-
-  .mb-70
-    %h5.ui.small.horizontal.divider.header
-      %i.icon.credit.card.outline
-      お支払い情報
-    - if @user.charge.present?
-      .mb-10
-      %table.ui.fixed.definition.unstackable.table
-        %tr
-          %td.four.wide 登録カード情報
-          %td
-            = creditcard_icon(@user.charge.brand)
-            \･･･
-            = @user.charge.last4
-            &nbsp;
-            %small= link_to 'カード情報を変更する', edit_charge_path(@user.charge), "data-turbolinks": false
-
-        %tr
-          %td.four.wide 決済情報
-          %td.twelve.wide
-            前回決済日: （まだお支払いがありません）
-            %br
-            次回決済日: 2020年6月1日
-
-    - else
-      %p
-        決済情報が登録されていません。
-      %p
-        = link_to 'クレジットカード情報を登録する', new_charge_path, class: 'ui red button', "data-turbolinks": false
-      -# トライアル終了後に決済登録する場合、即時開始して月末までの分は日割り精算する
-      - if @user.trial_end_at < Time.current
-        %p ※料金は毎月1日に引き落としされます。初月分のみご登録時に月末までの日数で日割りした金額を請求し、以降は毎月1日の請求となります。
+  - else
+    %p
+      決済情報が登録されていません。
+    %p
+      = link_to 'クレジットカード情報を登録する', new_charge_path, class: 'ui red button', "data-turbolinks": false
+    -# トライアル終了後に決済登録する場合、即時開始して月末までの分は日割り精算する
+    - if @user.trial_end_at < Time.current
+      %p ※料金は毎月1日に引き落としされます。初月分のみご登録時に月末までの日数で日割りした金額を請求し、以降は毎月1日の請求となります。

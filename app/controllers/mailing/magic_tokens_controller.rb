@@ -6,10 +6,11 @@ class Mailing::MagicTokensController < Mailing::ApplicationController
   end
 
   def create
-    @user = User.find_by(eMailing: params[:email])
+    @user = User.find_by(email: params[:email])
     return redirect_to login_path, flash: { error: 'This email address is not registered. Please register first or try another address.' } unless @user
 
-    UserMailer.magic_login_email(@user.id).deliver
+    @user.generate_magic_login_token!
+    UserMailer.magic_login_email(@user).deliver
     flash[:success] = 'We sent you an email with signin URL.'
     redirect_to root_path
   end
