@@ -15,7 +15,7 @@ RSpec.describe Mailing::UsersController, type: :controller do
     context "as an existing user" do
       it "sends login email" do
         post :create, params: { locale: :en, user: { email: @user.email } }, session: {}
-        expect(flash[:info]).to include("認証用メールを送信しました")
+        expect(flash[:info]).to include("登録済みのアドレスに")
       end
     end
 

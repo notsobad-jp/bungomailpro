@@ -9,7 +9,7 @@ class Mailing::UsersController < Mailing::ApplicationController
     @user = User.find_or_initialize_by(email: user_params[:email])
     if @user.persisted?
       UserMailer.magic_login_email(@user).deliver
-      flash[:info] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクからサイトにアクセスしてください。'
+      flash[:info] = '登録済みのアドレスに認証用メールを送信しました。メール内のリンクからサイトにアクセスしてください。'
       return redirect_to root_path
     end
 
@@ -47,7 +47,7 @@ class Mailing::UsersController < Mailing::ApplicationController
       @user.activate!
 
       # SendGridにrecipient追加（翌月初までListには追加しない）
-      recipient = Sendgrid.call(path: "contactdb/recipients", params: [{ email: @user.email }]) rescue nil
+      recipient = @user.create_recipient rescue nil
       @user.update(
         sendgrid_id: recipient&.dig("persisted_recipients", 0),
         trial_end_at: Time.current.next_month.end_of_month, # 翌月末まで無料期間
