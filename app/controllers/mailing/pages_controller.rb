@@ -5,6 +5,10 @@ class Mailing::PagesController < Mailing::ApplicationController
     render layout: false
   end
 
+  def new_lp
+    render layout: false
+  end
+
   def show
     @page_title = page_titles[params[:page].to_sym]
     raise ActionController::RoutingError, request.url unless @page_title

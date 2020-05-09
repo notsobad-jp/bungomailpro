@@ -27,8 +27,9 @@
 
   %body(data-path="#{controller_name}##{action_name}" data-controller="#{controller_name}" data-action="#{action_name}")
     -# Google Tag Manager
-    %noscript
-      %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
+    - if Rails.env.production?
+      %noscript
+        %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
     .ui.top.attached.borderless.seigaiha.menu
       = link_to(root_path, class: 'header item') do

@@ -26,6 +26,7 @@
 
 class User < ApplicationRecord
   authenticates_with_sorcery!
+
   has_one :charge, dependent: :destroy
   has_many :skip_histories, dependent: :destroy
 
@@ -66,7 +67,7 @@ class User < ApplicationRecord
   # トライアル開始前の状態から、すぐにトライアルを開始する
   ## トライアル終了日時も翌月末→今月末に繰り上げ
   def start_trial_now
-    Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: [sendgrid_id])
+    add_to_list
     update(
       list_subscribed: true,
       trial_end_at: Time.current.end_of_month
@@ -76,21 +77,24 @@ class User < ApplicationRecord
 
   # 配信リストから除外（「月末まで停止」に使用）して履歴に記録
   def pause_subscription
-    Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: [sendgrid_id], method: :delete)
+    remove_from_list
     update(list_subscribed: false)
     skip_histories.create
   end
 
-  # 配信時間とTZの時差を調整して、UTCとのoffsetを算出（単位:minutes）
-  def utc_offset
-    # UTC00:00から配信時間までの分数（必ずプラス）
-    ## "08:10" => [8, 10] => [480, 10] => +490(minutes)
-    delivery_offset = self.delivery_time.split(":").map(&:to_i).zip([60, 1]).map{|a,b| a*b }.sum
 
-    # UTCとユーザーTimezoneの差分（プラスマイナスどちらもありえる）
-    timezone_offset = ActiveSupport::TimeZone.new(self.timezone).utc_offset / 60
+  #######################################
+  # Sendgrid用メソッド
+  #######################################
+  def create_recipient
+    Sendgrid.call(path: "contactdb/recipients", params: [{ email: email }])
+  end
 
-    # offsetの結果、前日や翌日に日がまたぐ場合もいい感じに調整する（e.g. -01:00 => 23:00, 27:00 => 03:00）
-    (delivery_offset - timezone_offset) % (24 * 60)
+  def add_to_list
+    Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: [sendgrid_id])
+  end
+
+  def remove_from_list
+    Sendgrid.call(path: "contactdb/lists/#{CampaignGroup::LIST_ID}/recipients", params: [sendgrid_id], method: :delete)
   end
 end

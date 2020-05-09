@@ -1,0 +1,64 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.sendgrid.com/v3/contactdb/lists/11909538/recipients
+    body:
+      encoding: UTF-8
+      string: '["c2VuZGdyaWQtdGVzdEBidW5nb21haWwuY29t"]'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer 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
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: CREATED
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 09 May 2020 05:39:09 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '0'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Methods:
+      - HEAD, GET, PUT, POST, DELETE, OPTIONS, PATCH
+      Access-Control-Max-Age:
+      - '21600'
+      Access-Control-Expose-Headers:
+      - Link, Location
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - AUTHORIZATION, Content-Type, On-behalf-of, x-sg-elas-acl, X-Recaptcha, X-Request-Source
+      Content-Security-Policy:
+      - default-src https://api.sendgrid.com; frame-src 'none'; object-src 'none'
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Ratelimit-Remaining:
+      - '0'
+      X-Ratelimit-Limit:
+      - '1'
+      X-Ratelimit-Reset:
+      - '1589002750'
+      Powered-By:
+      - Mako
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: null
+  recorded_at: Sat, 09 May 2020 05:39:09 GMT
+recorded_with: VCR 5.1.0

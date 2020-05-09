@@ -1,0 +1,399 @@
+!!!
+%html(lang="ja")
+  %head
+    = render partial: 'mailing/layouts/meta'
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    %link(href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet")
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload', async: true
+
+    -# Google Tag Manager
+    - if Rails.env.production?
+      :javascript
+        document.addEventListener('turbolinks:load', function(event) {
+          var url = event.data.url;
+          dataLayer.push({
+            'event':'pageView',
+            'virtualUrl': url
+          });
+        });
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer', "#{ENV['GOOGLE_TAG_MANAGER_ID']}");
+
+  %body
+    -# Google Tag Manager
+    - if Rails.env.production?
+      %noscript
+        %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
+
+    .ui.top.attached.borderless.seigaiha.menu
+      = link_to(root_path, class: 'header item') do
+        ブンゴウメール
+      .right.menu
+        = link_to 'ログイン', login_path, class: 'item'
+
+    %section#header.ui.centered.stackable.seigaiha.grid
+      .ui.row
+        #header-logo.six.wide.right.aligned.column
+          %br.computer.only/
+          %h1
+            %img.ui.medium.centered.image{:alt => "ブンゴウメール", :src => "./images/logo.png"}/
+          %br/
+        #header-catch.six.wide.center.aligned.column
+          %br.computer.only/
+          .ui.huge.header
+            １日３分のメールで、
+            %br.computer.only/
+            ムリせず毎月本が読める。
+            .sub.header
+              青空文庫の作品を小分けにして、毎朝メールで配信。
+              %br.computer.only/
+              気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。
+          %a.ui.blue.large.fluid.button{:href => "https://goo.gl/forms/oOWiGUaqMckVXgBk2", :target => "_blank"}
+            メールアドレス登録（無料）
+
+    %section.ui.centered.stackable.grid
+      .ui.row
+        .ten.wide.center.aligned.column
+          %h2.ui.huge.center.aligned.header
+            %span.ui.orange.label New!
+            ドグラ・マグラ365日配信チャレンジ
+          %p.sub.header
+            通常版の配信とは別に、2020年1月1日から365日かけてドグラ・マグラの配信を行います。
+            %br.computer.only/
+            登録は無料なので、この機会にぜひお試しください。
+          %a{:href => "https://bungomail.com/campaigns/dogramagra", :target => "_blank"}
+            %img.ui.image{:alt => "ドグラ・マグラ", :src => "./assets/images/campaigns/dogramagra.png"}/
+            %br/
+            %p
+              ドグラ・マグラ365日配信チャレンジ
+              %i.icon.external.small
+    .ui.mini.divider
+    %section.ui.centered.stackable.grid
+      .ui.row
+        .four.wide.center.aligned.column
+          %img{:alt => "", :src => "./images/1.png"}/
+          %h3.ui.header
+            最近、仕事以外の本読みました？
+          %p
+            忙しいと、すぐに役立つ知識ばかり仕入れがち。なかなか仕事以外の本を読む時間が取れなかったりしませんか。
+        .four.wide.center.aligned.column
+          %img{:alt => "", :src => "./images/2.png"}/
+          %h3.ui.header
+            でも毎日メールは読んでますよね
+          %p
+            じゃあそのメールで本が読めたらどうでしょう。1〜3分程度のメールが1通増えるだけなので大丈夫。あなたならきっと読めます。
+        .four.wide.center.aligned.column
+          %img{:alt => "", :src => "./images/3.png"}/
+          %h3.ui.header
+            せっかくなら教養になる名作を
+          %p
+            名前は知ってるけど読んでなかった名作、青空文庫にはいっぱいあります。普段自分では選ばない本を読めるのもいいものです。
+        .ui.mini.divider
+        %section.ui.centered.stackable.grid
+          .ui.row
+            .ten.wide.center.aligned.column
+              %h2.ui.huge.header
+                本当に文豪からメールが届きます
+              %p.sub.header
+                メールの送信者名がその作品の文豪になっているので、たのしい気分になります。
+                %br/
+                Gmailだとアイコンもいい感じになっているかもしれません。
+              %br/
+              .ui.stackable.centered.two.cards
+                .ui.card
+                  .image
+                    %img{:src => "./images/mailbox.png"}/
+        .ui.mini.divider
+        %section.ui.centered.stackable.grid
+          .ui.row
+            .ten.wide.center.aligned.column
+              %h2.ui.huge.header
+                たとえば、1年でこれだけ本が読めます
+              %p.sub.header 1日3分のメールを読み続けるだけで、1年ではこれだけの作品を読むことができます。（あくまで一例なので、実際に配信する内容とは異なります）
+          .ui.row
+            .twelve.wide.center.aligned.column
+              .ui.four.doubling.cards
+                .ui.violet.card
+                  .content
+                    %p.header 芥川龍之介
+                    .meta 藪の中
+                .ui.violet.card
+                  .content
+                    %p.header 萩原朔太郎
+                    .meta 月に吠える
+                .ui.violet.card
+                  .content
+                    %p.header 新美南吉
+                    .meta ごん狐
+                .ui.violet.card
+                  .content
+                    %p.header 坂口安吾
+                    .meta 堕落論
+                .ui.violet.card
+                  .content
+                    %p.header 太宰治
+                    .meta ヴィヨンの妻
+                .ui.violet.card
+                  .content
+                    %p.header 宮沢賢治
+                    .meta 銀河鉄道の夜
+                .ui.violet.card
+                  .content
+                    %p.header カフカ
+                    .meta 断食芸人
+                .ui.violet.card
+                  .content
+                    %p.header 森鴎外
+                    .meta 高瀬舟
+                .ui.violet.card
+                  .content
+                    %p.header 夏目漱石
+                    .meta 夢十夜
+                .ui.violet.card
+                  .content
+                    %p.header 中島敦
+                    .meta 山月記
+                .ui.violet.card
+                  .content
+                    %p.header 泉鏡花
+                    .meta 外科室
+                .ui.violet.card
+                  .content
+                    %p.header 林芙美子
+                    .meta 風琴と魚の町
+        .ui.mini.divider
+        %section.ui.centered.stackable.grid
+          .ui.row
+            .ten.wide.center.aligned.column
+              %h2.ui.huge.header
+                料金
+              %p.sub.header
+                現在ブンゴウメールは無料でご利用いただけます。
+                %br.computer.only/
+                サービスを気に入っていただけたら
+                %a{:href => "https://www.buymeacoffee.com/bungomail", :target => "_blank"} 運営に寄付
+                いただけると非常に喜びます。
+          .ui.row
+            .six.wide.centered.column
+              .ui.fluid.card
+                .ui.secondary.center.aligned.attached.segment
+                  %h3.ui.small.header FREEプラン
+                .content
+                  .description
+                    .ui.huge.center.aligned.red.header
+                      無料
+                      .sub.header 毎月1冊、おまかせ読書
+                    .ui.divider
+                    .ui.small.header
+                      %i.icon.green.check
+                      編集部が毎月1冊の短編をセレクトして配信します。
+                    .ui.small.header
+                      %i.icon.green.check
+                      月の途中で登録した場合、作品の途中から届き始めます。
+                    .ui.small.header
+                      %i.icon.green.check
+                      メール内に広告が掲載されたり、広告メールが配信されたりします。
+                %a.ui.bottom.attached.primary.button{:href => "https://goo.gl/forms/oOWiGUaqMckVXgBk2", :target => "_blank"}
+                  %i.icon.mail
+                  FREEプランに登録する（無料）
+          .ui.basic.segment
+            ※青空文庫作品の商用利用は、
+            %a{:href => "https://www.aozora.gr.jp/guide/kijyunn.html", :target => "_blank"}> 青空文庫の規約
+            で公式に認められています。
+            %br.computer.only/
+            またこのサービスは青空文庫というすばらしい活動の上に成立するものであるため、収益の一部は青空文庫の活動支援に還元する予定です。
+        .ui.mini.divider
+        %section.ui.centered.stackable.grid
+          .ui.row
+            .ten.wide.column
+              %h2.ui.huge.center.aligned.header
+                みんなの感想
+              %p.sub.header
+                みんなで同時に同じ作品を読むので、感想を共有できるのもたのしいポイントです。
+                %br.computer.only/
+                ハッシュタグ「#ブンゴウメール」をつけてTwitterに感想をつぶやいてみよう。
+              .ui.center.aligned.basic.segment
+                %a.ui.twitter.button{:href => "https://twitter.com/search?q=%23ブンゴウメール", :target => "_blank"}
+                  %i.icon.twitter
+                  Twitterでみんなの感想を見る
+        .ui.mini.divider
+        %section.ui.centered.stackable.grid
+          .ui.row
+            .ten.wide.column
+              %h2.ui.huge.center.aligned.header
+                よくある質問
+              %br/
+              .ui.divided.relaxed.items
+                .item
+                  .content
+                    .header
+                      登録したけどメールが届かない
+                    .description
+                      %p
+                        お使いのメールソフトによっては、自動で迷惑メールフォルダなどにはいってしまう場合があります。
+                        特に
+                        %span.ui.small.red.header> Gmail
+                        や
+                        %span.ui.small.red.header> 携帯キャリアアドレス
+                        をお使いの場合にフィルタされるケースが多いようです。
+                      %p
+                        公式ブログに対応方法をご案内しておりますので、メールが届かない場合はこちらを参考にご設定お願いいたします。
+                        それでも届かない場合は運営までお問い合わせください。
+                      %p
+                        %a{:href => "https://bungomail.hatenablog.com/entry/2018/05/21/172542", :target => "_blank"}
+                          ブンゴウメールからメールを受信できないケースと対応方法について
+                          %i.icon.link.external
+                .item
+                  .content
+                    .header
+                      メール配信を解約したい
+                    .description
+                      %p
+                        解約を希望される場合は、以下の解約フォームに登録いただいているアドレスを入力してください。
+                      %p
+                        %a.ui.basic.blue.button{:href => "https://goo.gl/forms/kVz3fE9HdDq5iuA03", :target => "_blank"}
+                          解約フォーム
+                           
+                          %i.icon.small.external
+                      %p
+                        また完全に解約するのではなく、月末まで配信を停止し、翌月から自動的に配信を再開する「一時停止」もできます。
+                        今回の作品が合わない、今月は忙しくて読めそうにない、などの場合にご活用ください。
+                      %p
+                        %a.ui.basic.blue.button{:href => "https://forms.gle/d2gZZBtbeAEdXySW9", :target => "_blank"}
+                          一時停止フォーム
+                           
+                          %i.icon.small.external
+                .item
+                  .content
+                    .header
+                      月の途中で登録したので、それまでの話がわからない
+                    .description
+                      %p
+                        過去の配信分は、
+                        %a{:href => "https://bungomail.hatenablog.com/", :target => "_blank"} 公式ブログ
+                        にすべてログとして記録されています。月途中で登録した場合は、公式ブログをご確認いただければ追いつくことができます。
+                      %p
+                        もちろん青空文庫にもすべて掲載されていますので、そちらでお読みいただいても結構ですが、全部読んでしまうと楽しみが減ってしまいますのでお気をつけください。
+                .item
+                  .content
+                    .header
+                      どうしてもメール以外の手段で読みたい
+                    .description
+                      %p
+                        ご安心ください。そんなあなたのためにRSSフィードを配信しています。
+                        そのままRSSリーダーで購読したり、Slackなどに連携して読むこともできますね。
+                        %br/
+                        %a{:href => "https://blog.bungomail.com/feed", :target => "_blank"} RSSフィード
+                      %p
+                        また同じ内容を公式ブログにも配信していますので、もちろんこちらで購読いただくことも可能です。
+                        %br/
+                        %a{:href => "https://bungomail.hatenablog.com/", :target => "_blank"} 公式ブログ
+        .ui.mini.divider
+        %section.ui.centered.stackable.grid
+          .ui.row
+            .ten.wide.center.aligned.column
+              %h2.ui.huge.center.aligned.header
+                姉妹サービス「ブンゴウサーチ」
+              %p.sub.header
+                青空文庫の作品を目安の読了時間で検索できる姉妹サービス「ブンゴウサーチ」もリリースしました。
+                %br.computer.only/
+                %a{:href => "https://search.bungomail.com/authors/81/categories/flash/books", :target => "_blank"}
+                  「5分で読める宮沢賢治の短編」
+                  %i.icon.external.small
+                のように探せます。ぜひご活用ください。
+              %a{:href => "https://search.bungomail.com", :target => "_blank"}
+                %img.ui.image{:alt => "ブンゴウサーチ", :src => "./assets/images/ogp_search.png"}/
+                %br/
+                %p
+                  青空文庫の作品を読了時間で検索できるサービス「ブンゴウサーチ」
+                  %i.icon.external.small
+        .ui.mini.divider
+        %section.ui.centered.stackable.grid
+          .ui.row
+            .ten.wide.center.aligned.column
+              %h2.ui.huge.center.aligned.header
+                メディア掲載
+              .ui.horizontal.list
+                %a.item{:href => "https://gigazine.net/news/20180531-bungomail/", :target => "_blank"}
+                  %img.ui.small.image{:alt => "GIGAZINE", :src => "./images/press/gigazine.png"}/
+                %a.item{:href => "http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html", :target => "_blank"}
+                  %img.ui.small.image{:alt => "ねとらぼ", :src => "./images/press/nlab.png"}/
+                %a.item{:href => "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", :target => "_blank"}
+                  %img.ui.tiny.image{:alt => "InternetWatch", :src => "./images/press/internetwatch.png"}/
+                %a.item{:href => "https://rocketnews24.com/2019/12/11/1303143/", :target => "_blank"}
+                  %img.ui.small.image{:alt => "RocketNews24", :src => "./images/press/rocketnews.png"}/
+                %a.item{:href => "https://kai-you.net/article/69993", :target => "_blank"}
+                  %img.ui.small.image{:alt => "KAI-YOU", :src => "./images/press/kai-you.png"}/
+                %a.item{:href => "https://amp.review/2019/04/08/search-bungomail/", :target => "_blank"}
+                  %img.ui.small.image{:alt => "AMP", :src => "./images/press/amp.png"}/
+                %a.item{:href => "https://www.j-cast.com/trend/2019/04/08354695.html", :target => "_blank"}
+                  %img.ui.small.image{:alt => "jcast", :src => "./images/press/jcast.png"}/
+                %a.item{:href => "https://lamire.jp/148287", :target => "_blank"}
+                  %img.ui.small.image{:alt => "lamire", :src => "./images/press/lamire.png", :style => "height:70px;width:auto;"}/
+                %a.item{:href => "https://irorio.jp/nagasawamaki/20180912/492864/", :target => "_blank"}
+                  %img.ui.small.image{:alt => "IRORIO", :src => "./images/press/irorio.jpg"}/
+                %a.item{:href => "https://isuta.jp/category/iphone/2019/04/599166", :target => "_blank"}
+                  %img.ui.small.image{:alt => "isuta", :src => "./images/press/isuta.png"}/
+        .ui.mini.divider
+        %section.ui.centered.stackable.grid
+          .ui.row
+            .ten.wide.center.aligned.column
+              %h2.ui.huge.center.aligned.header
+                コラボ・事業提携パートナー募集
+              %p.sub.header
+                ブンゴウメールとのコラボ・事業提携は随時募集しております。
+                これまでのコラボ実績等は以下をご参照ください。
+                提携内容等は柔軟に対応できますので、少しでもご興味お持ちいただければぜひお気軽にご連絡いただければ幸いです。
+              %div
+                %a.ui.blue.large.button{:href => "https://forms.gle/GfEGoJ6K7dVbWP4S7", :target => "_blank"} お問い合わせフォーム
+              %br/
+          .ui.row
+            .twelve.wide.center.aligned.column
+              .ui.three.stackable.cards
+                %a.ui.card{:href => "https://prtimes.jp/main/html/rd/p/000000003.000034248.html", :target => "_blank"}
+                  .image
+                    %img{:alt => "ALTER EGO", :src => "./assets/images/campaigns/alterego.jpg"}/
+                  .content
+                    %h3.header 「ALTER EGO」公式チャネル
+                    .meta
+                      %span.date 2019年4月~11月
+                    .description
+                      累計50万ダウンロード突破の大人気自分探しタップゲーム「ALTER EGO」との公式コラボを実施しました。
+                %a.ui.card{:href => "https://prtimes.jp/main/html/rd/p/000000005.000034248.html", :target => "_blank"}
+                  .image
+                    %img{:alt => "ビジネスモデル2.0図鑑", :src => "./assets/images/campaigns/business_model.jpg"}/
+                  .content
+                    %h3.header 『ビジネスモデル2.0図鑑』公式配信
+                    .meta
+                      %span.date 2019年6月~9月
+                    .description
+                      5万部突破の大人気書籍『ビジネスモデル2.0図鑑』全文を公式配信する企画を実施しました。
+                %a.ui.card{:href => "https://prtimes.jp/main/html/rd/p/000000007.000034248.html", :target => "_blank"}
+                  .image
+                    %img{:alt => "ドグラ・マグラ", :src => "./assets/images/campaigns/dogramagra.png"}/
+                  .content
+                    %h3.header ドグラ・マグラ365日配信チャレンジ
+                    .meta
+                      %span.date 2020年1月~12月
+                    .description
+                      日本三大奇書に数えられる一大長編、夢野久作の『ドグラ・マグラ』を1年かけて配信する企画を実施しました。
+        %section.ui.centered.stackable.grid.gray-flat
+          .ui.row
+            .ten.wide.center.aligned.column
+              %h2.ui.huge.header
+                ブンゴウメールに登録する（無料）
+              %p.sub.header
+                月の途中で登録した場合、月末まで作品の途中から配信されます。
+                %br.computer.only/
+                %a{:href => "https://bungomail.hatenablog.com/", :target => "_blank"} 公式ブログ
+                で追いつくか、翌月初に次の作品が始まるのをお待ちください。
+              %a.ui.blue.large.button{:href => "https://goo.gl/forms/oOWiGUaqMckVXgBk2", :target => "_blank"}
+                FREEプランに登録する（無料）
+
+
+    = render partial: 'mailing/layouts/footer'
