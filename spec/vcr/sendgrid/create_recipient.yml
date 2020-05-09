@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: delete
-    uri: https://api.sendgrid.com/v3/contactdb/lists/11909538/recipients
+    method: post
+    uri: https://api.sendgrid.com/v3/contactdb/recipients
     body:
       encoding: UTF-8
-      string: '["c2VuZGdyaWQtdGVzdEBidW5nb21haWwuY29t"]'
+      string: '[{"email":"sendgrid-test@bungomail.com"}]'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -19,17 +19,17 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 204
-      message: NO CONTENT
+      code: 201
+      message: CREATED
     headers:
       Server:
       - nginx
       Date:
-      - Sat, 09 May 2020 05:16:17 GMT
+      - Sat, 09 May 2020 05:39:08 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '0'
+      - '170'
       Connection:
       - keep-alive
       Access-Control-Allow-Methods:
@@ -49,16 +49,18 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       X-Ratelimit-Remaining:
-      - '1'
+      - '2'
       X-Ratelimit-Limit:
       - '3'
       X-Ratelimit-Reset:
-      - '1589001378'
+      - '1589002748'
       Powered-By:
       - Mako
     body:
       encoding: UTF-8
-      string: ''
+      string: '{"new_count":0,"updated_count":0,"error_count":0,"error_indices":[],"unmodified_indices":[0],"persisted_recipients":["c2VuZGdyaWQtdGVzdEBidW5nb21haWwuY29t"],"errors":[]}
+
+'
     http_version: null
-  recorded_at: Sat, 09 May 2020 05:16:17 GMT
+  recorded_at: Sat, 09 May 2020 05:39:08 GMT
 recorded_with: VCR 5.1.0

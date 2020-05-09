@@ -80,48 +80,65 @@ RSpec.describe User, type: :model do
   end
 
 
-  VCR.use_cassette('sendgrid') do
-    describe "create_recipient_and_add_and_remove_to_list", :vcr do
-      let(:user) { build(:user, email: 'sendgrid-test@bungomail.com') }
+  describe "create_recipient", :vcr do
+    let(:user) { build(:user, email: 'sendgrid-test@bungomail.com') }
 
-      it "should create new recipient and add to list and remove from list" do
-        # create recipient
-        recipient = user.create_recipient
-        expect(recipient).to be_truthy
-        user.update(sendgrid_id: recipient&.dig("persisted_recipients", 0))
+    it "should create new recipient" do
+      VCR.use_cassette('sendgrid/create_recipient') do
+        expect(user.create_recipient).to be_truthy
+      end
+    end
+  end
 
-        # add to list
+  describe "add_to_list", :vcr do
+    let(:user) { build(:user, :sendgrid_recipient) }
+
+    it "should add user to list" do
+      VCR.use_cassette('sendgrid/add_to_list') do
         expect(user.add_to_list).to be_nil
-        user.update(list_subscribed: true)
+      end
+    end
+  end
 
-        # remove from list
+  describe "remove_from_list", :vcr do
+    let(:user) { build(:user, :sendgrid_recipient) }
+
+    it "should remove user from list" do
+      VCR.use_cassette('sendgrid/remove_from_list') do
         expect(user.remove_from_list).to be_nil
-        user.update(list_subscribed: false)
+      end
+    end
+  end
+
+  describe "start_trial_now", :vcr do
+    let(:user) { create(:user, :sendgrid_recipient) }
+    subject { user.start_trial_now }
+
+    it "should add user to the list" do
+      VCR.use_cassette('sendgrid/add_to_list') do
+        expect{ subject }.to change{ user.list_subscribed }.from(false).to(true)
       end
     end
 
-    describe "start_trial_now", :vcr do
-      let(:user) { create(:user, :sendgrid_recipient) }
-      subject { user.start_trial_now }
-
-      it "should add user to the list" do
-        expect{ subject }.to change{ user.list_subscribed }.from(false).to(true)
-      end
-
-      it "should set trial_end to eom" do
+    it "should set trial_end to eom" do
+      VCR.use_cassette('sendgrid/add_to_list') do
         expect{ subject }.to change{ user.trial_end_at }.to(Time.current.end_of_month)
       end
     end
+  end
 
-    describe "pause_subscription", :vcr do
-      let(:user) { create(:user, :sendgrid_recipient, list_subscribed: true) }
-      subject { user.pause_subscription }
+  describe "pause_subscription", :vcr do
+    let(:user) { create(:user, :sendgrid_recipient, list_subscribed: true) }
+    subject { user.pause_subscription }
 
-      it "should remove user from list" do
+    it "should remove user from list" do
+      VCR.use_cassette('sendgrid/remove_from_list') do
         expect{ subject }.to change{ user.list_subscribed }.from(true).to(false)
       end
+    end
 
-      it "should create new skip history" do
+    it "should create new skip history" do
+      VCR.use_cassette('sendgrid/remove_from_list') do
         expect{ subject }.to change{ SkipHistory.count }.by(1)
       end
     end

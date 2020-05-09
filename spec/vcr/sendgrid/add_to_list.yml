@@ -1,7 +1,7 @@
 ---
 http_interactions:
 - request:
-    method: delete
+    method: post
     uri: https://api.sendgrid.com/v3/contactdb/lists/11909538/recipients
     body:
       encoding: UTF-8
@@ -19,13 +19,13 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 204
-      message: NO CONTENT
+      code: 201
+      message: CREATED
     headers:
       Server:
       - nginx
       Date:
-      - Sat, 09 May 2020 05:16:16 GMT
+      - Sat, 09 May 2020 05:39:09 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,16 +49,16 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       X-Ratelimit-Remaining:
-      - '2'
+      - '0'
       X-Ratelimit-Limit:
-      - '3'
+      - '1'
       X-Ratelimit-Reset:
-      - '1589001378'
+      - '1589002750'
       Powered-By:
       - Mako
     body:
       encoding: UTF-8
       string: ''
     http_version: null
-  recorded_at: Sat, 09 May 2020 05:16:16 GMT
+  recorded_at: Sat, 09 May 2020 05:39:09 GMT
 recorded_with: VCR 5.1.0
