@@ -80,50 +80,50 @@ RSpec.describe User, type: :model do
   end
 
 
-  describe "create_recipient", vcr: true do
-    let(:user) { create(:user, :not_activated) }
-    it "should create new recipient" do
-      expect(user.create_recipient).to be_truthy
-    end
-  end
+  VCR.use_cassette('sendgrid') do
+    describe "create_recipient_and_add_and_remove_to_list", :vcr do
+      let(:user) { build(:user, email: 'sendgrid-test@bungomail.com') }
 
-  describe "add_to_list", vcr: true do
-    let(:user) { create(:user, :activated) }
-
-    context "when user not added yet" do
-      it "should add recipient to list" do
+      it "should create new recipient and add to list and remove from list" do
+        # create recipient
         recipient = user.create_recipient
-        user.update(sendgrid_id: recipient.dig("persisted_recipients", 0))
-        expect(user.add_to_list).to be_truthy
+        expect(recipient).to be_truthy
+        user.update(sendgrid_id: recipient&.dig("persisted_recipients", 0))
+
+        # add to list
+        expect(user.add_to_list).to be_nil
+        user.update(list_subscribed: true)
+
+        # remove from list
+        expect(user.remove_from_list).to be_nil
+        user.update(list_subscribed: false)
       end
     end
 
-    context "when user already added" do
-    end
-  end
+    describe "start_trial_now", :vcr do
+      let(:user) { create(:user, :sendgrid_recipient) }
+      subject { user.start_trial_now }
 
-  describe "remove_from_list", vcr: true do
-    let(:user) { create(:user, :activated) }
-    
-    context "when user already added" do
-      it "should remove recipient from list" do
-        recipient = user.create_recipient
-        user.update(sendgrid_id: recipient.dig("persisted_recipients", 0))
-        user.add_to_list
-        expect(user.remove_from_list).to be_truthy
+      it "should add user to the list" do
+        expect{ subject }.to change{ user.list_subscribed }.from(false).to(true)
+      end
+
+      it "should set trial_end to eom" do
+        expect{ subject }.to change{ user.trial_end_at }.to(Time.current.end_of_month)
       end
     end
 
-    context "when user not added yet" do
+    describe "pause_subscription", :vcr do
+      let(:user) { create(:user, :sendgrid_recipient, list_subscribed: true) }
+      subject { user.pause_subscription }
+
+      it "should remove user from list" do
+        expect{ subject }.to change{ user.list_subscribed }.from(true).to(false)
+      end
+
+      it "should create new skip history" do
+        expect{ subject }.to change{ SkipHistory.count }.by(1)
+      end
     end
   end
-
-  # describe "start_trial_now" do
-  #   let!(:user) { create(:user) } # before_trial
-  #   subject { user.start_trial_now }
-  #
-  #   it "should add user to the list" do
-  #     expect(user.list_subscribed).to be_truthy
-  #   end
-  # end
 end

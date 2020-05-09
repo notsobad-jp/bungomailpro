@@ -47,6 +47,11 @@ FactoryBot.define do
       end
     end
 
+    trait :sendgrid_recipient do
+      email {'sendgrid-test@bungomail.com' }
+      sendgrid_id {'c2VuZGdyaWQtdGVzdEBidW5nb21haWwuY29t'}
+    end
+
     factory :user_not_activated,           traits: [:not_activated]
     factory :user_trialing_without_charge, traits: [:trialing, :list_subscribed]
     factory :user_trialing_with_charge,    traits: [:trialing, :list_subscribed, :with_trialing_charge]

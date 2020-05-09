@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: post
-    uri: https://api.sendgrid.com/v3/contactdb/recipients
+    method: delete
+    uri: https://api.sendgrid.com/v3/contactdb/lists/11909538/recipients
     body:
       encoding: UTF-8
-      string: '[{"email":"hoge276@example.com"}]'
+      string: '["c2VuZGdyaWQtdGVzdEBidW5nb21haWwuY29t"]'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -14,22 +14,22 @@ http_interactions:
       User-Agent:
       - Ruby
       Authorization:
-      - 'Bearer '
+      - Bearer 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
       Content-Type:
       - application/json
   response:
     status:
-      code: 401
-      message: UNAUTHORIZED
+      code: 204
+      message: NO CONTENT
     headers:
       Server:
       - nginx
       Date:
-      - Fri, 08 May 2020 06:46:13 GMT
+      - Sat, 09 May 2020 05:16:17 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '62'
+      - '0'
       Connection:
       - keep-alive
       Access-Control-Allow-Methods:
@@ -48,9 +48,17 @@ http_interactions:
       - nosniff
       Strict-Transport-Security:
       - max-age=31536000
+      X-Ratelimit-Remaining:
+      - '1'
+      X-Ratelimit-Limit:
+      - '3'
+      X-Ratelimit-Reset:
+      - '1589001378'
+      Powered-By:
+      - Mako
     body:
       encoding: UTF-8
-      string: '{"errors":[{"field":null,"message":"authorization required"}]}'
+      string: ''
     http_version: null
-  recorded_at: Fri, 08 May 2020 06:46:14 GMT
+  recorded_at: Sat, 09 May 2020 05:16:17 GMT
 recorded_with: VCR 5.1.0
