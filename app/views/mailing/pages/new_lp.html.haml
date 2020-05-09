@@ -346,49 +346,63 @@
               %img.ui.small.image{:alt => "IRORIO", :src => "./images/press/irorio.jpg"}/
             %a.item{:href => "https://isuta.jp/category/iphone/2019/04/599166", :target => "_blank"}
               %img.ui.small.image{:alt => "isuta", :src => "./images/press/isuta.png"}/
+
     .ui.mini.divider
     %section.ui.centered.stackable.grid
       .ui.row
         .ten.wide.center.aligned.column
           %h2.ui.huge.center.aligned.header
-            コラボ・事業提携パートナー募集
-          %p.sub.header
-            ブンゴウメールとのコラボ・事業提携は随時募集しております。
-            これまでのコラボ実績等は以下をご参照ください。
-            提携内容等は柔軟に対応できますので、少しでもご興味お持ちいただければぜひお気軽にご連絡いただければ幸いです。
-          %div
-            %a.ui.blue.large.button{:href => "https://forms.gle/GfEGoJ6K7dVbWP4S7", :target => "_blank"} お問い合わせフォーム
-          %br/
+            お知らせ
+          %br
       .ui.row
-        .twelve.wide.center.aligned.column
-          .ui.three.stackable.cards
-            %a.ui.card{:href => "https://prtimes.jp/main/html/rd/p/000000003.000034248.html", :target => "_blank"}
+        .ten.wide.column
+          .ui.divided.link.items
+            = link_to root_url(subdomain: :search), target: :_blank, class: 'item' do
               .image
-                %img{:alt => "ALTER EGO", :src => "./assets/images/campaigns/alterego.jpg"}/
+                = image_tag('/assets/images/ogp_search.png')
               .content
-                %h3.header 「ALTER EGO」公式チャネル
-                .meta
-                  %span.date 2019年4月~11月
+                .header 「ブンゴウサーチ」をリニューアルしました
+                .meta 2020年4月
+                .description
+                  青空文庫の作品を読了時間で検索できる姉妹サービス「ブンゴウサーチ」をリニューアルしました。児童書のみ検索できる新機能も提供しています。
+
+            = link_to campaigns_dogramagra_path, target: :_blank, class: 'item' do
+              .image
+                = image_tag('/assets/images/campaigns/dogramagra.png')
+              .content
+                .header 「ドグラ・マグラ365日配信チャレンジ」を開始しました
+                .meta 2020年1月~12月
+                .description
+                  日本三大奇書に数えられる一大長編、夢野久作の『ドグラ・マグラ』を1年かけて配信する企画を開始しました。
+
+            = link_to 'https://logmi.jp/business/articles/322767', target: :_blank, class: 'item' do
+              .image
+                = image_tag('news/book_tech.jpg')
+              .content
+                .header 「本の"新しい"読み方〜BOOK TECH〜」イベントに登壇しました
+                .meta 2019年11月
+                .description
+                  本の新しい読み方を提供するスタートアップ3社のトークイベントに、代表の大西が登壇いたしました。
+
+            = link_to "https://prtimes.jp/main/html/rd/p/000000003.000034248.html", target: :_blank, class: 'item' do
+              .image
+                = image_tag('/assets/images/campaigns/alterego.jpg')
+              .content
+                .header 「ALTER EGO」公式コラボを実施しました
+                .meta 2019年4月~11月
                 .description
                   累計50万ダウンロード突破の大人気自分探しタップゲーム「ALTER EGO」との公式コラボを実施しました。
-            %a.ui.card{:href => "https://prtimes.jp/main/html/rd/p/000000005.000034248.html", :target => "_blank"}
+
+            = link_to "https://prtimes.jp/main/html/rd/p/000000005.000034248.html", target: :_blank, class: 'item' do
               .image
-                %img{:alt => "ビジネスモデル2.0図鑑", :src => "./assets/images/campaigns/business_model.jpg"}/
+                = image_tag('/assets/images/campaigns/business_model.jpg')
               .content
-                %h3.header 『ビジネスモデル2.0図鑑』公式配信
-                .meta
-                  %span.date 2019年6月~9月
+                .header 『ビジネスモデル2.0図鑑』公式配信を実施しました
+                .meta 2019年6月~9月
                 .description
                   5万部突破の大人気書籍『ビジネスモデル2.0図鑑』全文を公式配信する企画を実施しました。
-            %a.ui.card{:href => "https://prtimes.jp/main/html/rd/p/000000007.000034248.html", :target => "_blank"}
-              .image
-                %img{:alt => "ドグラ・マグラ", :src => "./assets/images/campaigns/dogramagra.png"}/
-              .content
-                %h3.header ドグラ・マグラ365日配信チャレンジ
-                .meta
-                  %span.date 2020年1月~12月
-                .description
-                  日本三大奇書に数えられる一大長編、夢野久作の『ドグラ・マグラ』を1年かけて配信する企画を実施しました。
+
+
     %section.ui.centered.stackable.grid.secondary.attached.segment
       .ui.row
         .ten.wide.center.aligned.column
