@@ -14,7 +14,7 @@ http_interactions:
       User-Agent:
       - Ruby
       Authorization:
-      - Bearer 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
+      - Bearer <SENDGRID_API_KEY>
       Content-Type:
       - application/json
   response:
@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 09 May 2020 05:39:08 GMT
+      - Sat, 09 May 2020 08:33:57 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -53,7 +53,7 @@ http_interactions:
       X-Ratelimit-Limit:
       - '3'
       X-Ratelimit-Reset:
-      - '1589002748'
+      - '1589013238'
       Powered-By:
       - Mako
     body:
@@ -62,5 +62,5 @@ http_interactions:
 
 '
     http_version: null
-  recorded_at: Sat, 09 May 2020 05:39:08 GMT
+  recorded_at: Sat, 09 May 2020 08:33:57 GMT
 recorded_with: VCR 5.1.0
