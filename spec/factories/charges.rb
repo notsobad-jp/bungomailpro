@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :charge do
-    customer_id     { 'cus_HFdJZzJpmXdQd8' }
+    customer_id     { "cus_#{SecureRandom.hex(5)}" }
     subscription_id { "sub_#{SecureRandom.hex(5)}" }
     brand           { "Visa" }
     exp_month       { 1 }
@@ -24,6 +24,10 @@ FactoryBot.define do
 
     trait :with_user do
       user { build(:user) }
+    end
+
+    trait :test_customer do
+      customer_id { 'cus_HFdJZzJpmXdQd8' }
     end
 
     trait :no_customer do

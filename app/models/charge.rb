@@ -102,7 +102,7 @@ class Charge < ApplicationRecord
       items: [{ plan: ENV['STRIPE_PLAN_ID'] }]
     )
 
-    # DBにsubscription情報を保存(chargeオブジェクトを返す
+    # DBにsubscription情報を保存(chargeオブジェクトを返す）
     tap do |charge|
       charge.update!(
         subscription_id: subscription.id,
@@ -112,13 +112,11 @@ class Charge < ApplicationRecord
     end
   end
 
-  def latest_payment_intent
-    payment_intents = Stripe::PaymentIntent.list({
-      customer: customer_id,
-      created: {gte: Time.current.beginning_of_month.to_i},
-      limit: 1
-    })
-    payment_intents["data"].last
+  # Subscriptionに紐づく最新の支払い（支払い済み && リファンドしてない場合のみ）
+  ## Stripe::Chargeオブジェクトを返す
+  def latest_payment
+    invoice = Stripe::Subscription.retrieve({id: subscription_id, expand: ['latest_invoice.charge']}).latest_invoice
+    invoice.charge if invoice.paid && invoice.charge&.paid && !invoice.charge.refunded
   end
 
   def update_customer(params)
@@ -139,9 +137,7 @@ class Charge < ApplicationRecord
 
   # 直近で支払ったchargeをrefundする
   def refund_latest_payment
-    intent = latest_payment_intent
-    # （intentが存在しない || まだ支払い済みじゃない || すでにリファンドされてる）場合はエラー
-    raise 'no intent found' if !intent || intent.status != "succeeded" || intent.charges.first.refunded
-    Stripe::Refund.create({payment_intent: intent.id})
+    raise 'no payment exists' if (payment = latest_payment).blank?
+    Stripe::Refund.create({charge: payment.id})
   end
 end
