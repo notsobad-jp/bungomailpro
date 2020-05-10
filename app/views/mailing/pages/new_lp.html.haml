@@ -24,7 +24,7 @@
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer', "#{ENV['GOOGLE_TAG_MANAGER_ID']}");
 
-  %body
+  %body#lp
     -# Google Tag Manager
     - if Rails.env.production?
       %noscript
@@ -39,23 +39,23 @@
 
     %section#header.ui.centered.stackable.seigaiha.grid
       .ui.row
-        #header-logo.six.wide.right.aligned.column
-          %br.computer.only/
+        .six.wide.right.aligned.column
           %h1
             %img.ui.medium.centered.image{:alt => "ブンゴウメール", :src => "./images/logo.png"}/
-          %br/
-        #header-catch.six.wide.center.aligned.column
+          %br
+        .six.wide.center.aligned.column
           .ui.huge.header
             １日３分のメールで、
-            %br.computer.only/
+            %br.computer.only
             ムリせず毎月本が読める。
             .sub.header
               青空文庫の作品を小分けにして、毎朝メールで配信。
-              %br.computer.only/
+              %br.computer.only
               気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。
           .mb-10
             = link_to signup_path, class: 'ui blue large fluid button' do
-              メールアドレスを登録する（1ヶ月無料）
+              メールアドレスを登録する
+              %small （1ヶ月無料）
           %small
             （すでに登録済みの方は、こちらから
             = link_to 'ログイン', login_path
@@ -201,7 +201,7 @@
                 .right.floated.meta #ブンゴウメール
       .ui.row
         .twelve.wide.center.aligned.column
-          = link_to 'https://twitter.com', target: :_blank do
+          = link_to 'https://twitter.com/search?q=%23%E3%83%96%E3%83%B3%E3%82%B4%E3%82%A6%E3%83%A1%E3%83%BC%E3%83%AB', target: :_blank do
             %i.icon.chevron.right
             Twitterでみんなの感想を見る
 
@@ -415,7 +415,8 @@
             で追いつくか、翌月初に次の作品が始まるのをお待ちください。
           .mb-10
             = link_to signup_path, class: 'ui blue large responsive button' do
-              メールアドレスを登録する（1ヶ月無料）
+              メールアドレスを登録する
+              %small （1ヶ月無料）
           %small
             （すでに登録済みの方は、こちらから
             = link_to 'ログイン', login_path
