@@ -23,6 +23,10 @@ FactoryBot.define do
       list_subscribed { true }
     end
 
+    trait :stripe_customer do
+      email { 'stripe-test@bungomail.com' }
+    end
+
     trait :with_active_charge do
       after(:build) do |user|
         build(:charge, user: user)

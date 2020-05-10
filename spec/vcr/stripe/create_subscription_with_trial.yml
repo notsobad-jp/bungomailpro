@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/subscriptions
+    body:
+      encoding: UTF-8
+      string: customer=cus_HFdJZzJpmXdQd8&trial_end=1593529199&items[0][plan]=plan_HDgD3VAKtQOQVt
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/5.17.0
+      Authorization:
+      - Bearer <STRIPE_SECRET_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"5.17.0","lang":"ruby","lang_version":"2.6.0 p0 (2018-12-25)","platform":"x86_64-darwin19","engine":"ruby","publisher":"stripe","uname":"Darwin
+        notsobadnoMac-mini.local 19.4.0 Darwin Kernel Version 19.4.0: Wed Mar  4 22:28:40
+        PST 2020; root:xnu-6153.101.6~15/RELEASE_X86_64 x86_64","hostname":"notsobadnoMac-mini.local"}'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 10 May 2020 06:10:56 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2862'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_1g72oRc2FQrOoK
+      Stripe-Version:
+      - '2018-11-08'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        ewogICJpZCI6ICJzdWJfSEZkZWdOSGtveWdObzUiLAogICJvYmplY3QiOiAic3Vic2NyaXB0aW9uIiwKICAiYXBwbGljYXRpb25fZmVlX3BlcmNlbnQiOiBudWxsLAogICJiaWxsaW5nIjogImNoYXJnZV9hdXRvbWF0aWNhbGx5IiwKICAiYmlsbGluZ19jeWNsZV9hbmNob3IiOiAxNTkzNTI5MTk5LAogICJiaWxsaW5nX3RocmVzaG9sZHMiOiBudWxsLAogICJjYW5jZWxfYXQiOiBudWxsLAogICJjYW5jZWxfYXRfcGVyaW9kX2VuZCI6IGZhbHNlLAogICJjYW5jZWxlZF9hdCI6IG51bGwsCiAgImNvbGxlY3Rpb25fbWV0aG9kIjogImNoYXJnZV9hdXRvbWF0aWNhbGx5IiwKICAiY3JlYXRlZCI6IDE1ODkwOTEwNTUsCiAgImN1cnJlbnRfcGVyaW9kX2VuZCI6IDE1OTM1MjkxOTksCiAgImN1cnJlbnRfcGVyaW9kX3N0YXJ0IjogMTU4OTA5MTA1NSwKICAiY3VzdG9tZXIiOiAiY3VzX0hGZEpaekpwbVhkUWQ4IiwKICAiZGF5c191bnRpbF9kdWUiOiBudWxsLAogICJkZWZhdWx0X3BheW1lbnRfbWV0aG9kIjogbnVsbCwKICAiZGVmYXVsdF9zb3VyY2UiOiBudWxsLAogICJkZWZhdWx0X3RheF9yYXRlcyI6IFsKCiAgXSwKICAiZGlzY291bnQiOiBudWxsLAogICJlbmRlZF9hdCI6IG51bGwsCiAgImludm9pY2VfY3VzdG9tZXJfYmFsYW5jZV9zZXR0aW5ncyI6IHsKICAgICJjb25zdW1lX2FwcGxpZWRfYmFsYW5jZV9vbl92b2lkIjogdHJ1ZQogIH0sCiAgIml0ZW1zIjogewogICAgIm9iamVjdCI6ICJsaXN0IiwKICAgICJkYXRhIjogWwogICAgICB7CiAgICAgICAgImlkIjogInNpX0hGZGVqZExTTkpUMWtRIiwKICAgICAgICAib2JqZWN0IjogInN1YnNjcmlwdGlvbl9pdGVtIiwKICAgICAgICAiYmlsbGluZ190aHJlc2hvbGRzIjogbnVsbCwKICAgICAgICAiY3JlYXRlZCI6IDE1ODkwOTEwNTYsCiAgICAgICAgIm1ldGFkYXRhIjogewogICAgICAgIH0sCiAgICAgICAgInBsYW4iOiB7CiAgICAgICAgICAiaWQiOiAicGxhbl9IRGdEM1ZBS3RRT1FWdCIsCiAgICAgICAgICAib2JqZWN0IjogInBsYW4iLAogICAgICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICAgICAiYWdncmVnYXRlX3VzYWdlIjogbnVsbCwKICAgICAgICAgICJhbW91bnQiOiA1MDAsCiAgICAgICAgICAiYW1vdW50X2RlY2ltYWwiOiAiNTAwIiwKICAgICAgICAgICJiaWxsaW5nX3NjaGVtZSI6ICJwZXJfdW5pdCIsCiAgICAgICAgICAiY3JlYXRlZCI6IDE1ODg2MzkzMDYsCiAgICAgICAgICAiY3VycmVuY3kiOiAianB5IiwKICAgICAgICAgICJpbnRlcnZhbCI6ICJtb250aCIsCiAgICAgICAgICAiaW50ZXJ2YWxfY291bnQiOiAxLAogICAgICAgICAgImxpdmVtb2RlIjogZmFsc2UsCiAgICAgICAgICAibWV0YWRhdGEiOiB7CiAgICAgICAgICB9LAogICAgICAgICAgIm5pY2tuYW1lIjogIuaciOasoSIsCiAgICAgICAgICAicHJvZHVjdCI6ICJwcm9kX0VRanU3aDJhT2FrbVZGIiwKICAgICAgICAgICJ0aWVycyI6IG51bGwsCiAgICAgICAgICAidGllcnNfbW9kZSI6IG51bGwsCiAgICAgICAgICAidHJhbnNmb3JtX3VzYWdlIjogbnVsbCwKICAgICAgICAgICJ0cmlhbF9wZXJpb2RfZGF5cyI6IG51bGwsCiAgICAgICAgICAidXNhZ2VfdHlwZSI6ICJsaWNlbnNlZCIKICAgICAgICB9LAogICAgICAgICJxdWFudGl0eSI6IDEsCiAgICAgICAgInN1YnNjcmlwdGlvbiI6ICJzdWJfSEZkZWdOSGtveWdObzUiLAogICAgICAgICJ0YXhfcmF0ZXMiOiBbCgogICAgICAgIF0KICAgICAgfQogICAgXSwKICAgICJoYXNfbW9yZSI6IGZhbHNlLAogICAgInRvdGFsX2NvdW50IjogMSwKICAgICJ1cmwiOiAiL3YxL3N1YnNjcmlwdGlvbl9pdGVtcz9zdWJzY3JpcHRpb249c3ViX0hGZGVnTkhrb3lnTm81IgogIH0sCiAgImxhdGVzdF9pbnZvaWNlIjogImluXzFHaDhOSEhsUTRseHc3RlpmUHBMa3oxayIsCiAgImxpdmVtb2RlIjogZmFsc2UsCiAgIm1ldGFkYXRhIjogewogIH0sCiAgIm5leHRfcGVuZGluZ19pbnZvaWNlX2l0ZW1faW52b2ljZSI6IG51bGwsCiAgInBhdXNlX2NvbGxlY3Rpb24iOiBudWxsLAogICJwZW5kaW5nX2ludm9pY2VfaXRlbV9pbnRlcnZhbCI6IG51bGwsCiAgInBlbmRpbmdfc2V0dXBfaW50ZW50IjogbnVsbCwKICAicGVuZGluZ191cGRhdGUiOiBudWxsLAogICJwbGFuIjogewogICAgImlkIjogInBsYW5fSERnRDNWQUt0UU9RVnQiLAogICAgIm9iamVjdCI6ICJwbGFuIiwKICAgICJhY3RpdmUiOiB0cnVlLAogICAgImFnZ3JlZ2F0ZV91c2FnZSI6IG51bGwsCiAgICAiYW1vdW50IjogNTAwLAogICAgImFtb3VudF9kZWNpbWFsIjogIjUwMCIsCiAgICAiYmlsbGluZ19zY2hlbWUiOiAicGVyX3VuaXQiLAogICAgImNyZWF0ZWQiOiAxNTg4NjM5MzA2LAogICAgImN1cnJlbmN5IjogImpweSIsCiAgICAiaW50ZXJ2YWwiOiAibW9udGgiLAogICAgImludGVydmFsX2NvdW50IjogMSwKICAgICJsaXZlbW9kZSI6IGZhbHNlLAogICAgIm1ldGFkYXRhIjogewogICAgfSwKICAgICJuaWNrbmFtZSI6ICLmnIjmrKEiLAogICAgInByb2R1Y3QiOiAicHJvZF9FUWp1N2gyYU9ha21WRiIsCiAgICAidGllcnMiOiBudWxsLAogICAgInRpZXJzX21vZGUiOiBudWxsLAogICAgInRyYW5zZm9ybV91c2FnZSI6IG51bGwsCiAgICAidHJpYWxfcGVyaW9kX2RheXMiOiBudWxsLAogICAgInVzYWdlX3R5cGUiOiAibGljZW5zZWQiCiAgfSwKICAicXVhbnRpdHkiOiAxLAogICJzY2hlZHVsZSI6IG51bGwsCiAgInN0YXJ0IjogMTU4OTA5MTA1NSwKICAic3RhcnRfZGF0ZSI6IDE1ODkwOTEwNTUsCiAgInN0YXR1cyI6ICJ0cmlhbGluZyIsCiAgInRheF9wZXJjZW50IjogbnVsbCwKICAidHJpYWxfZW5kIjogMTU5MzUyOTE5OSwKICAidHJpYWxfc3RhcnQiOiAxNTg5MDkxMDU1Cn0K
+    http_version: null
+  recorded_at: Sun, 10 May 2020 06:10:55 GMT
+recorded_with: VCR 5.1.0

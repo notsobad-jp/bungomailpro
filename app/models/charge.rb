@@ -87,7 +87,7 @@ class Charge < ApplicationRecord
     if user.trial_end_at > Time.current
       # トライアル終了前なら、trial_endを終了日に設定
       billing_cycle_anchor = nil
-      trial_end = user.trial_end_at.to_i
+      trial_end = user.trial_end_at
     else
       # トライアル終了後なら、trialなしでanchorを翌月初に設定
       billing_cycle_anchor = Time.current.next_month.beginning_of_month.to_i
@@ -97,17 +97,28 @@ class Charge < ApplicationRecord
     # Stripeでsubscription作成
     subscription = Stripe::Subscription.create(
       customer: customer_id,
-      trial_end: trial_end,
+      trial_end: trial_end&.to_i,
       billing_cycle_anchor: billing_cycle_anchor,
       items: [{ plan: ENV['STRIPE_PLAN_ID'] }]
     )
 
-    # DBにsubscription情報を保存
-    update!(
-      subscription_id: subscription.id,
-      status: subscription.status,
-      trial_end: trial_end
-    )
+    # DBにsubscription情報を保存(chargeオブジェクトを返す
+    tap do |charge|
+      charge.update!(
+        subscription_id: subscription.id,
+        status: subscription.status,
+        trial_end: trial_end
+      )
+    end
+  end
+
+  def latest_payment_intent
+    payment_intents = Stripe::PaymentIntent.list({
+      customer: customer_id,
+      created: {gte: Time.current.beginning_of_month.to_i},
+      limit: 1
+    })
+    payment_intents["data"].last
   end
 
   def update_customer(params)
@@ -126,14 +137,11 @@ class Charge < ApplicationRecord
     )
   end
 
-  # 7日以前に配信停止した場合、直近で支払ったchargeをrefundする
+  # 直近で支払ったchargeをrefundする
   def refund_latest_payment
-    payment_intents = Stripe::PaymentIntent.list({
-      customer: customer_id,
-      created: {gte: Time.current.beginning_of_month.to_i},
-      limit: 1
-    })
-    intent = payment_intents["data"].first
-    Stripe::Refund.create({payment_intent: intent["id"]}) if intent["status"] == "succeeded"
+    intent = latest_payment_intent
+    # （intentが存在しない || まだ支払い済みじゃない || すでにリファンドされてる）場合はエラー
+    raise 'no intent found' if !intent || intent.status != "succeeded" || intent.charges.first.refunded
+    Stripe::Refund.create({payment_intent: intent.id})
   end
 end
