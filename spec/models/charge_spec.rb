@@ -5,6 +5,9 @@ RSpec.describe Charge, type: :model do
     @charge = build(:charge)
   end
 
+  ####################################################
+  # active?
+  ####################################################
   describe 'active?' do
     context 'when active' do
       let!(:charge) { build(:charge) }
@@ -39,6 +42,9 @@ RSpec.describe Charge, type: :model do
     end
   end
 
+  ####################################################
+  # create_subscription
+  ####################################################
   describe "create_subscription" do
     subject { charge.create_subscription }
 
@@ -83,6 +89,9 @@ RSpec.describe Charge, type: :model do
     end
   end
 
+  ####################################################
+  # latest_payment
+  ####################################################
   describe "latest_payment" do
     context "when paid payment exists" do
       # トライアル終了状態でsubscriptionつくってすぐに支払いを発生させる
@@ -128,6 +137,9 @@ RSpec.describe Charge, type: :model do
     end
   end
 
+  ####################################################
+  # refund_latest_payment
+  ####################################################
   describe "refund_latest_payment" do
     context "when last payment exists" do
       # トライアル終了状態でsubscriptionつくってすぐに支払いを発生させる
@@ -157,6 +169,39 @@ RSpec.describe Charge, type: :model do
         VCR.use_cassette('stripe/refund_not_exists') do
           charge.create_subscription
           expect{ subject }.to raise_error 'no payment exists'
+        end
+      end
+    end
+  end
+
+  ####################################################
+  # create_or_update_customer
+  ####################################################
+  describe "create_or_update_customer" do
+    context "when customer not exists" do
+      let(:charge) { build(:charge, :no_customer, :no_subscription, user: build(:user, email: 'create_or_update_customer@bungomail.com')) }
+
+      it "should create customer and update payment info" do
+        VCR.use_cassette('stripe/create_customer') do
+          token = Stripe::Token.create({ card: { number: '4242424242424242', exp_month: 1, exp_year: 2030, cvc: '123' } })
+          charge.create_or_update_customer(stripeEmail: charge.user.email, stripeToken: token.id)
+          expect(charge.last4).to eq("4242")
+        end
+      end
+    end
+
+    context "when customer already exists" do
+      let(:charge) { build(:charge, user: build(:user, email: 'create_or_update_customer2@bungomail.com')) }
+
+      it "should create customer and update payment info" do
+        VCR.use_cassette('stripe/update_customer') do
+          token = Stripe::Token.create({ card: { number: '4242424242424242', exp_month: 1, exp_year: 2030, cvc: '123' } })
+          customer = Stripe::Customer.create({email: charge.user.email, source: token.id})
+          charge.customer_id = customer.id
+
+          token = Stripe::Token.create({ card: { number: '4242424242424242', exp_month: 5, exp_year: 2030, cvc: '123' } })
+          charge.create_or_update_customer(stripeEmail: charge.user.email, stripeToken: token.id)
+          expect(charge.exp_month).to eq(5)
         end
       end
     end

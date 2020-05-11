@@ -58,7 +58,7 @@ class Charge < ApplicationRecord
 
   def create_or_update_customer(params)
     # Stripe::Customerが登録されてなかったら新規登録、されてればクレカ情報更新（解約→再登録のケース）
-    customer = Stripe::Customer.retrieve(customer_id) if persisted?
+    customer = Stripe::Customer.retrieve(customer_id) if customer_id.present?
     if !customer
       customer = Stripe::Customer.create(
         email: params[:stripeEmail],

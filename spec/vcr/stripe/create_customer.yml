@@ -1,0 +1,244 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/tokens
+    body:
+      encoding: UTF-8
+      string: card[number]=4242424242424242&card[exp_month]=1&card[exp_year]=2030&card[cvc]=123
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/5.17.0
+      Authorization:
+      - Bearer <STRIPE_SECRET_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_iox0zpwMCGfy5J","request_duration_ms":5}}'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"5.17.0","lang":"ruby","lang_version":"2.6.0 p0 (2018-12-25)","platform":"x86_64-darwin19","engine":"ruby","publisher":"stripe","uname":"Darwin
+        MB.local 19.4.0 Darwin Kernel Version 19.4.0: Wed Mar  4 22:28:40 PST 2020;
+        root:xnu-6153.101.6~15/RELEASE_X86_64 x86_64","hostname":"MB.local"}'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 11 May 2020 10:12:59 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '784'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_vqUKm7sGhT47FW
+      Stripe-Version:
+      - '2018-11-08'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "tok_1GhYd5HlQ4lxw7FZWBVpRvtx",
+          "object": "token",
+          "card": {
+            "id": "card_1GhYd5HlQ4lxw7FZjGbKcYsF",
+            "object": "card",
+            "address_city": null,
+            "address_country": null,
+            "address_line1": null,
+            "address_line1_check": null,
+            "address_line2": null,
+            "address_state": null,
+            "address_zip": null,
+            "address_zip_check": null,
+            "brand": "Visa",
+            "country": "US",
+            "cvc_check": "unchecked",
+            "dynamic_last4": null,
+            "exp_month": 1,
+            "exp_year": 2030,
+            "fingerprint": "xDvEx6bRifNk7pxO",
+            "funding": "credit",
+            "last4": "4242",
+            "metadata": {
+            },
+            "name": null,
+            "tokenization_method": null
+          },
+          "client_ip": "119.240.42.1",
+          "created": 1589191979,
+          "livemode": false,
+          "type": "card",
+          "used": false
+        }
+    http_version: null
+  recorded_at: Mon, 11 May 2020 10:12:59 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: UTF-8
+      string: email=create_or_update_customer%40bungomail.com&source=tok_1GhYd5HlQ4lxw7FZWBVpRvtx
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/5.17.0
+      Authorization:
+      - Bearer <STRIPE_SECRET_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_vqUKm7sGhT47FW","request_duration_ms":482}}'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"5.17.0","lang":"ruby","lang_version":"2.6.0 p0 (2018-12-25)","platform":"x86_64-darwin19","engine":"ruby","publisher":"stripe","uname":"Darwin
+        MB.local 19.4.0 Darwin Kernel Version 19.4.0: Wed Mar  4 22:28:40 PST 2020;
+        root:xnu-6153.101.6~15/RELEASE_X86_64 x86_64","hostname":"MB.local"}'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 11 May 2020 10:13:00 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1946'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_llRkV6Kx2r48cr
+      Stripe-Version:
+      - '2018-11-08'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "cus_HG4mjiSWJpjCtd",
+          "object": "customer",
+          "account_balance": 0,
+          "address": null,
+          "balance": 0,
+          "created": 1589191980,
+          "currency": null,
+          "default_source": "card_1GhYd5HlQ4lxw7FZjGbKcYsF",
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": "create_or_update_customer@bungomail.com",
+          "invoice_prefix": "9AE1FF07",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null
+          },
+          "livemode": false,
+          "metadata": {
+          },
+          "name": null,
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [
+
+          ],
+          "shipping": null,
+          "sources": {
+            "object": "list",
+            "data": [
+              {
+                "id": "card_1GhYd5HlQ4lxw7FZjGbKcYsF",
+                "object": "card",
+                "address_city": null,
+                "address_country": null,
+                "address_line1": null,
+                "address_line1_check": null,
+                "address_line2": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_zip_check": null,
+                "brand": "Visa",
+                "country": "US",
+                "customer": "cus_HG4mjiSWJpjCtd",
+                "cvc_check": "pass",
+                "dynamic_last4": null,
+                "exp_month": 1,
+                "exp_year": 2030,
+                "fingerprint": "xDvEx6bRifNk7pxO",
+                "funding": "credit",
+                "last4": "4242",
+                "metadata": {
+                },
+                "name": null,
+                "tokenization_method": null
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/customers/cus_HG4mjiSWJpjCtd/sources"
+          },
+          "subscriptions": {
+            "object": "list",
+            "data": [
+
+            ],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_HG4mjiSWJpjCtd/subscriptions"
+          },
+          "tax_exempt": "none",
+          "tax_ids": {
+            "object": "list",
+            "data": [
+
+            ],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_HG4mjiSWJpjCtd/tax_ids"
+          },
+          "tax_info": null,
+          "tax_info_verification": null
+        }
+    http_version: null
+  recorded_at: Mon, 11 May 2020 10:13:00 GMT
+recorded_with: VCR 5.1.0
