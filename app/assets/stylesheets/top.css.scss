@@ -11,6 +11,7 @@
     border-width: 3px !important;
     border-color: #333 !important;
   }
+  .ui.fluid.card { max-width: 450px; }
   section {
     padding-top: 50px !important;
     padding-bottom: 50px !important;
@@ -20,5 +21,9 @@
     #header h1 img { max-width: 250px; }
     .huge.header .sub.header { font-size: 1.1rem; }
     .ui.mini.divider { margin: 30px auto; }
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .ui.container { width: 960px; }
   }
 }
