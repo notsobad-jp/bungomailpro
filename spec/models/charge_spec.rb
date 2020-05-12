@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Charge, type: :model do
-  before do
-    @charge = build(:charge)
+  around do |e|
+    travel_to('2020-5-10 8:00'.to_time) {e.run}
   end
 
   ####################################################
