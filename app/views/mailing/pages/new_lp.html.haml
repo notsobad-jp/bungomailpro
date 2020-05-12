@@ -31,35 +31,38 @@
         %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
     .ui.top.attached.borderless.seigaiha.menu
-      = link_to(root_path, class: 'header item') do
-        ブンゴウメール
-      .right.menu
-        = link_to 'ユーザー登録', signup_path, class: 'item'
-        = link_to 'ログイン', login_path, class: 'item'
+      .ui.container
+        = link_to(root_path, class: 'header item') do
+          ブンゴウメール
+        .right.menu
+          = link_to 'ユーザー登録', signup_path, class: 'item'
+          = link_to 'ログイン', login_path, class: 'item'
 
-    %section#header.ui.centered.stackable.seigaiha.grid
-      .ui.row
-        .six.wide.right.aligned.column
-          %h1
-            %img.ui.medium.centered.image{:alt => "ブンゴウメール", :src => "./images/logo.png"}/
-          %br
-        .six.wide.center.aligned.column
-          .ui.huge.header
-            １日３分のメールで、
-            %br.computer.only
-            ムリせず毎月本が読める。
-            .sub.header
-              青空文庫の作品を小分けにして、毎朝メールで配信。
+    %section#header.seigaiha
+      %br.computer.only
+      .ui.centered.stackable.grid.container
+        .ui.two.column.row
+          .right.aligned.column
+            %h1
+              %img.ui.medium.centered.image{:alt => "ブンゴウメール", :src => "./images/logo.png"}/
+            %br
+          .center.aligned.column
+            .ui.huge.header
+              １日３分のメールで、
               %br.computer.only
-              気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。
-          .mb-10
-            = link_to signup_path, class: 'ui blue large fluid button' do
-              メールアドレスを登録する
-              %small （1ヶ月無料）
-          %small
-            （すでに登録済みの方は、こちらから
-            = link_to 'ログイン', login_path
-            してください）
+              ムリせず毎月本が読める。
+              .sub.header
+                青空文庫の作品を小分けにして、毎朝メールで配信。
+                %br.computer.only
+                気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。
+            .mb-10
+              = link_to signup_path, class: 'ui blue large fluid button' do
+                メールアドレスを登録する
+                %small （1ヶ月無料）
+            %small
+              （すでに登録済みの方は、こちらから
+              = link_to 'ログイン', login_path
+              してください）
 
 
     %section.ui.centered.stackable.grid.container
