@@ -34,9 +34,6 @@
       .ui.container
         = link_to(root_path, class: 'header item') do
           ブンゴウメール
-        .right.menu
-          = link_to 'ユーザー登録', signup_path, class: 'item'
-          = link_to 'ログイン', login_path, class: 'item'
 
     %section#header.seigaiha
       %br.computer.only
@@ -58,13 +55,9 @@
                 %br.computer.only
                 忙しいあなたのための読書サポートサービスです。
             .mb-10
-              = link_to signup_path, class: 'ui blue large responsive button' do
+              = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'ui blue large responsive button' do
                 メールアドレスを登録する
-                %small （1ヶ月無料）
-            %small
-              （すでに登録済みの方は、こちらから
-              = link_to 'ログイン', login_path
-              してください）
+                %small （無料）
 
 
     %section.ui.centered.stackable.grid.container
@@ -161,10 +154,10 @@
           .content
             %p.header 林芙美子
             .meta 風琴と魚の町
-      .ui.basic.center.aligned.segment
-        = link_to books_list_path(CampaignGroup::LIST_ID, year: 2018) do
-          %i.icon.chevron.right
-          過去の配信作品一覧はこちら
+      -# .ui.basic.center.aligned.segment
+      -#   = link_to books_list_path(CampaignGroup::LIST_ID, year: 2018) do
+      -#     %i.icon.chevron.right
+      -#     過去の配信作品一覧はこちら
 
     .ui.mini.divider
 
@@ -210,18 +203,15 @@
       %h2.ui.huge.header
         料金
       %p.sub.header
-        最初の1ヶ月は無料トライアル期間となり、クレジットカードの登録も不要で利用できます。
-        %br.computer.only
-        またトライアル終了後も、読まない月は配信をスキップすれば料金が発生しません。
+        現在ブンゴウメールはベータ版のため無料でご利用いただけます。
       .ui.centered.fluid.card
         .ui.secondary.center.aligned.attached.segment
-          %h3.ui.small.header 月額プラン
+          %h3.ui.small.header FREEプラン
         .content
           .description
             .ui.huge.center.aligned.header
-              %span.red 500円
-              %small /月（税込）
-              .sub.header 1ヶ月間は無料トライアル
+              %span.red 無料
+              .sub.header 毎月1冊おまかせ読書
         .left.aligned.content
           .description
             .ui.small.header
@@ -229,13 +219,13 @@
               毎月1冊おすすめ短編をセレクトして配信
             .ui.small.header
               %i.icon.green.check
-              最初の1ヶ月は無料トライアル期間
+              月の途中で登録した場合、作品の途中から届き始めます
             .ui.small.header
               %i.icon.green.check
-              読まない月はスキップすれば料金不要
-        = link_to signup_path, class: 'ui bottom attached primary button' do
+              メール内に広告が掲載されたり、広告メールが配信される場合があります
+        = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'ui bottom attached primary button' do
           %i.icon.mail
-          無料トライアルに登録する
+          FREEプランに登録する
       .ui.basic.segment
         ※青空文庫作品の商用利用は、
         %a{:href => "https://www.aozora.gr.jp/guide/kijyunn.html", :target => "_blank"}> 青空文庫の規約
@@ -407,13 +397,9 @@
             %a{:href => "https://bungomail.hatenablog.com/", :target => "_blank"} 公式ブログ
             で追いつくか、翌月初に次の作品が始まるのをお待ちください。
           .mb-10
-            = link_to signup_path, class: 'ui blue large responsive button' do
+            = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'ui blue large responsive button' do
               メールアドレスを登録する
-              %small （1ヶ月無料）
-          %small
-            （すでに登録済みの方は、こちらから
-            = link_to 'ログイン', login_path
-            してください）
+              %small （無料）
 
 
     = render partial: 'mailing/layouts/footer'
