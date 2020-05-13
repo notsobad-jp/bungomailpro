@@ -81,19 +81,17 @@
           %p
             名前は知ってるけど読んでなかった名作、青空文庫にはいっぱいあります。普段自分では選ばない本を読めるのもいいものです。
 
-    .ui.mini.divider
-
-    %section.ui.center.aligned.container
-      %h2.ui.huge.header
-        本当に文豪からメールが届きます
-      %p.sub.header
-        メールの送信者名がその作品の文豪になっているので、たのしい気分になります。
-        %br
-        Gmailだとアイコンもいい感じになっているかもしれません。
-      %br
-      .ui.centered.fluid.card
-        .image
-          %img{:src => "./images/mailbox.png"}/
+    %section.ui.container
+      .ui.stackable.two.cards
+        .ui.card
+          .image
+            = image_tag("lp/feature_detail.png", class: 'ui image')
+        %br.mobile.table.only
+        .ui.card
+          .image
+            = image_tag("lp/feature_list.png", class: 'ui image')
+      .ui.basic.center.aligned.segment
+        メールは文豪の名前で届くので、受信箱がたのしい感じになります。
 
     .ui.mini.divider
 
@@ -154,10 +152,10 @@
           .content
             %p.header 林芙美子
             .meta 風琴と魚の町
-      -# .ui.basic.center.aligned.segment
-      -#   = link_to books_list_path(CampaignGroup::LIST_ID, year: 2018) do
-      -#     %i.icon.chevron.right
-      -#     過去の配信作品一覧はこちら
+      .ui.basic.center.aligned.segment
+        = link_to books_list_path(CampaignGroup::LIST_ID, year: 2018) do
+          %i.icon.chevron.right
+          これまでの配信作品一覧はこちら
 
     .ui.mini.divider
 

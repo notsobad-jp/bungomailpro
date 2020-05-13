@@ -4,7 +4,7 @@
 %link(rel="apple-touch-icon" sizes="128x128" href="/apple-touch-icon.png")
 %link(rel="apple-touch-icon-precomposed" sizes="128x128" href="/apple-touch-icon-precomposed.png")
 
-- @meta_title = "#{@meta_title} | ブンゴウメール"
+- @meta_title = "#{@meta_title} | ブンゴウメール" unless current_page?(root_path)
 %title= @meta_title
 %meta(name="description" content="#{@meta_description}")
 %meta(name="keywords" content="#{@meta_keywords},ブンゴウメール,文豪,読書,青空文庫,無料,文学,古典,小説,毎日,毎月,継続,メール")
