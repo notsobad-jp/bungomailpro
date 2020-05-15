@@ -5,7 +5,7 @@
       .ui.two.column.row
         .right.aligned.column
           %h1
-            %img.ui.medium.centered.image{:alt => "ブンゴウメール", :src => "./images/logo.png"}/
+            %img.ui.medium.centered.image{alt: t(:bungo_mail, scope: [:mailing, :defaults]), src: "./images/logo.png"}
           %br
         .left.aligned.column
           .ui.huge.header
@@ -54,8 +54,10 @@
       .ui.card
         .image
           = image_tag("lp/feature_list.png", class: 'ui image')
+
     .ui.basic.center.aligned.segment
       メールは文豪の名前で届くので、受信箱がたのしい感じになります。
+
 
   .ui.mini.divider
 
@@ -295,6 +297,7 @@
       %a.item{:href => "https://isuta.jp/category/iphone/2019/04/599166", :target => "_blank"}
         %img.ui.small.image{:alt => "isuta", :src => "./images/press/isuta.png"}/
 
+
   .ui.mini.divider
 
   %section.ui.container
@@ -346,7 +349,6 @@
           .meta 2019年6月~9月
           .description
             5万部突破の大人気書籍『ビジネスモデル2.0図鑑』全文を公式配信する企画を実施しました。
-
 
   %section.ui.centered.stackable.grid.secondary.attached.segment
     .ui.row

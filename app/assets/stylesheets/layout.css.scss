@@ -1,4 +1,11 @@
+#container {
+  margin: 50px auto;
+  min-height: calc(100vh - 350px);  // headerとfooterの分をマイナス
+}
 .ui.top.attached.menu { margin-top: 0; border-radius: 0; }
+
+body.ja { .en.only { display: none; } }
+body.en { .ja.only { display: none; } }
 
 footer {
   padding: 50px 10px !important;

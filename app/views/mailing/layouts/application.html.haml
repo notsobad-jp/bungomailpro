@@ -25,7 +25,7 @@
         })(window,document,'script','dataLayer', "#{ENV['GOOGLE_TAG_MANAGER_ID']}");
 
 
-  %body
+  %body{ class: I18n.locale }
     -# Google Tag Manager
     - if Rails.env.production?
       %noscript
@@ -51,7 +51,7 @@
     - if current_page?(root_url)
       = yield
     - else
-      .ui.container
+      #container.ui.container
         - %w(warning error success info).each do |status|
           - next unless flash[status]
           .ui.message(class="#{status}")

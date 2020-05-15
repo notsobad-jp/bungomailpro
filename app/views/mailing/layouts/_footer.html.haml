@@ -4,18 +4,18 @@
       = t :bungo_mail, scope: [:mailing, :defaults]
   %br
   .ui.horizontal.list
-    = link_to '利用規約', page_path(:terms, juvenile: nil), class: 'item'
-    = link_to 'プライバシーポリシー', page_path(:privacy, juvenile: nil), class: 'item'
-    = link_to 'お問い合わせ', 'https://forms.gle/MFpUGvm68DLCmWDQ9', target: '_blank', class: 'item'
-    = link_to '運営会社', 'https://notsobad.jp', target: '_blank', class: 'item'
-    = link_to '公式Twitter', 'https://twitter.com/bungomail', target: '_blank', class: 'item'
+    = link_to t(:terms, scope: [:mailing, :defaults]), page_path(:terms), class: 'item'
+    = link_to t(:privacy_policy, scope: [:mailing, :defaults]), page_path(:privacy), class: 'item'
+    = link_to t(:contact, scope: [:mailing, :defaults]), 'https://forms.gle/MFpUGvm68DLCmWDQ9', target: '_blank', class: 'item'
+    = link_to t(:company, scope: [:mailing, :defaults]), 'https://notsobad.jp', target: '_blank', class: 'item'
+    = link_to t(:twitter, scope: [:mailing, :defaults]), 'https://twitter.com/bungomail', target: '_blank', class: 'item'
   %br
   %br
   %br
   %div
     %small
       Copyright
-      = link_to 'ブンゴウメール', root_path
+      = link_to t(:bungo_mail, scope: [:mailing, :defaults]), root_path
       2018 All rights reserved.
     %small
       Powered by
