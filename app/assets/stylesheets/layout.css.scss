@@ -1,0 +1,10 @@
+.ui.top.attached.menu { margin-top: 0; border-radius: 0; }
+
+footer {
+  padding: 50px 10px !important;
+  &.ui.segment {
+    color: rgba(255,255,255,.6);
+    margin-bottom: 0;
+  }
+  a { color: #fff !important; }
+}

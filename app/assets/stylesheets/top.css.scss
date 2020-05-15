@@ -16,7 +16,6 @@
     padding-top: 50px !important;
     padding-bottom: 50px !important;
   }
-  .ui.menu { border: none; } // LPのみメニューの境界線をなくして#headerセクションとなじませる
 
   @media only screen and (max-width: 767px) {
     #header h1 img { max-width: 250px; }

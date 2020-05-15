@@ -1,7 +1,7 @@
 %footer.ui.basic.center.aligned.inverted.segment.mt-0
   %h5.ui.header
     = link_to root_path do
-      ブンゴウメール
+      = t :bungo_mail, scope: [:mailing, :defaults]
   %br
   .ui.horizontal.list
     = link_to '利用規約', page_path(:terms, juvenile: nil), class: 'item'

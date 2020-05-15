@@ -1,0 +1,5 @@
+en:
+  mailing:
+    defaults:
+      bungo_search: Bungo Search
+      bungo_mail: Bungo Mail

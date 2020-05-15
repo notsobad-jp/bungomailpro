@@ -25,37 +25,39 @@
         })(window,document,'script','dataLayer', "#{ENV['GOOGLE_TAG_MANAGER_ID']}");
 
 
-  %body(data-path="#{controller_name}##{action_name}" data-controller="#{controller_name}" data-action="#{action_name}")
+  %body
     -# Google Tag Manager
     - if Rails.env.production?
       %noscript
         %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
-    .ui.top.attached.borderless.seigaiha.menu
-      = link_to(root_path, class: 'header item') do
-        ブンゴウメール
-      - if Rails.env.development?
-        .right.menu
-          - if current_user
-            = link_to current_user.email, user_path(current_user), class: 'item'
-            = link_to 'ログアウト', logout_path, method: :post, class: 'item'
-          - else
-            = link_to 'ログイン', login_path, class: 'item'
+    .ui.top.attached.borderless.seigaiha.menu{class: current_page?(root_url) ? 'border-none' : ''}
+      .ui.container
+        = link_to(root_path, class: 'header item') do
+          = t :bungo_mail, scope: [:mailing, :defaults]
+        - if I18n.locale == :en
+          .right.menu
+            - if current_user
+              = link_to current_user.email, user_path(current_user), class: 'item'
+              = link_to 'ログアウト', logout_path, method: :post, class: 'item'
+            - else
+              = link_to 'ログイン', login_path, class: 'item'
 
     - if @alert_message
       .ui.attached.warning.message
         %i.icon.exclamation.triangle
         = @alert_message
 
-    %div#main-content
+    - if current_page?(root_url)
+      = yield
+    - else
       .ui.container
-        .ui.stackable.centered.grid
-          .ui.twelve.wide.column
-            - %w(warning error success info).each do |status|
-              - next unless flash[status]
-              .ui.message(class="#{status}")
-                - if %w(warning error).include?(status)
-                  %i.icon.circle{class: "warning"}
-                = sanitize flash[status]
-            = yield
+        - %w(warning error success info).each do |status|
+          - next unless flash[status]
+          .ui.message(class="#{status}")
+            - if %w(warning error).include?(status)
+              %i.icon.circle{class: "warning"}
+            = sanitize flash[status]
+        = yield
+
     = render partial: 'mailing/layouts/footer'
