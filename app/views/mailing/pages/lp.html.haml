@@ -5,7 +5,7 @@
       .ui.two.column.row
         .right.aligned.column
           %h1
-            %img.ui.medium.centered.image{alt: t(:bungo_mail, scope: [:mailing, :defaults]), src: "./images/logo.png"}
+            = image_tag('logo.png', alt: t(:bungo_mail, scope: [:mailing, :defaults]), class: 'ui medium centered image')
           %br
         .left.aligned.column
           .ui.huge.header
@@ -49,11 +49,11 @@
     .ui.stackable.two.cards
       .ui.card
         .image
-          = image_tag("lp/feature_detail.png", class: 'ui image')
+          = image_tag("lp/screenshot/detail.png", class: 'ui image')
       %br.mobile.table.only
       .ui.card
         .image
-          = image_tag("lp/feature_list.png", class: 'ui image')
+          = image_tag("lp/screenshot/list.png", class: 'ui image')
 
     .ui.basic.center.aligned.segment
       メールは文豪の名前で届くので、受信箱がたのしい感じになります。
@@ -134,7 +134,7 @@
         .content
           短くて読みやすい…！ささっと読めるちょうどいい長さだから毎日続けられそうだし、何よりこう、続きが気になってくる👏
         .extra.content
-          = image_tag("lp/helen.jpg", class: 'ui avatar image')
+          = image_tag("lp/feedback/helen.jpg", class: 'ui avatar image')
           .right.floated.meta #ブンゴウメール
       .ui.card
         .content
@@ -142,19 +142,19 @@
           こういう機会でもないと、一生読まなかっただろうなと思うと感慨深い。
           短いから無理なく読めるし
         .extra.content
-          = image_tag("lp/elyse.png", class: 'ui avatar image')
+          = image_tag("lp/feedback/elyse.png", class: 'ui avatar image')
           .right.floated.meta #ブンゴウメール
       .ui.card
         .content
           毎日育児に追われててもどうにか読める長さが毎日届くの画期的だしありがたすぎる…🙏
         .extra.content
-          = image_tag("lp/stevie.jpg", class: 'ui avatar image')
+          = image_tag("lp/feedback/stevie.jpg", class: 'ui avatar image')
           .right.floated.meta #ブンゴウメール
       .ui.card
         .content
           ほんの1分で読める量だから、「今日は『反駁』の『駁』を調べてみよう」と辞書を開くきっかけにしたり、一言一句を気まぐれに噛み締めてみたりしている
         .extra.content
-          = image_tag("lp/elliot.jpg", class: 'ui avatar image')
+          = image_tag("lp/feedback/elliot.jpg", class: 'ui avatar image')
           .right.floated.meta #ブンゴウメール
     .ui.basic.center.aligned.segment
       = link_to 'https://twitter.com/search?q=%23%E3%83%96%E3%83%B3%E3%82%B4%E3%82%A6%E3%83%A1%E3%83%BC%E3%83%AB', target: :_blank do
@@ -276,26 +276,28 @@
       メディア掲載
     %br
     .ui.horizontal.list
-      %a.item{:href => "https://gigazine.net/news/20180531-bungomail/", :target => "_blank"}
-        %img.ui.small.image{:alt => "GIGAZINE", :src => "./images/press/gigazine.png"}/
-      %a.item{:href => "http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html", :target => "_blank"}
-        %img.ui.small.image{:alt => "ねとらぼ", :src => "./images/press/nlab.png"}/
-      %a.item{:href => "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", :target => "_blank"}
-        %img.ui.tiny.image{:alt => "InternetWatch", :src => "./images/press/internetwatch.png"}/
-      %a.item{:href => "https://rocketnews24.com/2019/12/11/1303143/", :target => "_blank"}
-        %img.ui.small.image{:alt => "RocketNews24", :src => "./images/press/rocketnews.png"}/
-      %a.item{:href => "https://kai-you.net/article/69993", :target => "_blank"}
-        %img.ui.small.image{:alt => "KAI-YOU", :src => "./images/press/kai-you.png"}/
-      %a.item{:href => "https://amp.review/2019/04/08/search-bungomail/", :target => "_blank"}
-        %img.ui.small.image{:alt => "AMP", :src => "./images/press/amp.png"}/
-      %a.item{:href => "https://www.j-cast.com/trend/2019/04/08354695.html", :target => "_blank"}
-        %img.ui.small.image{:alt => "jcast", :src => "./images/press/jcast.png"}/
-      %a.item{:href => "https://lamire.jp/148287", :target => "_blank"}
-        %img.ui.small.image{:alt => "lamire", :src => "./images/press/lamire.png", :style => "height:70px;width:auto;"}/
-      %a.item{:href => "https://irorio.jp/nagasawamaki/20180912/492864/", :target => "_blank"}
-        %img.ui.small.image{:alt => "IRORIO", :src => "./images/press/irorio.jpg"}/
-      %a.item{:href => "https://isuta.jp/category/iphone/2019/04/599166", :target => "_blank"}
-        %img.ui.small.image{:alt => "isuta", :src => "./images/press/isuta.png"}/
+      = link_to "https://www.j-wave.co.jp/original/colorswonder/entry/200517.html", target: :_blank, class: 'item' do
+        = image_tag('lp/media/j-wave.png', alt: 'J-WAVE', class: 'ui small image')
+      = link_to "https://gigazine.net/news/20180531-bungomail/", target: :_blank, class: 'item' do
+        = image_tag('lp/media/gigazine.png', alt: 'GIGAZINE', class: 'ui small image')
+      = link_to "http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html", target: :_blank, class: 'item' do
+        = image_tag('lp/media/nlab.png', alt: 'ねとらぼ', class: 'ui small image')
+      = link_to "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", target: :_blank, class: 'item' do
+        = image_tag('lp/media/internetwatch.png', alt: 'InternetWatch', class: 'ui tiny image')
+      = link_to "https://rocketnews24.com/2019/12/11/1303143/", target: :_blank, class: 'item' do
+        = image_tag('lp/media/rocketnews.png', alt: 'RocketNews24', class: 'ui small image')
+      = link_to "https://kai-you.net/article/69993", target: :_blank, class: 'item' do
+        = image_tag('lp/media/kai-you.png', alt: 'KAI-YOU', class: 'ui small image')
+      = link_to "https://amp.review/2019/04/08/search-bungomail/", target: :_blank, class: 'item' do
+        = image_tag('lp/media/amp.png', alt: 'AMP', class: 'ui small image')
+      = link_to "https://www.j-cast.com/trend/2019/04/08354695.html", target: :_blank, class: 'item' do
+        = image_tag('lp/media/jcast.png', alt: 'jcast', class: 'ui small image')
+      = link_to "https://lamire.jp/148287", target: :_blank, class: 'item' do
+        = image_tag('lp/media/lamire.png', alt: 'lamire', class: 'ui tiny image')
+      = link_to "https://irorio.jp/nagasawamaki/20180912/492864/", target: :_blank, class: 'item' do
+        = image_tag('lp/media/irorio.jpg', alt: 'IRORIO', class: 'ui small image')
+      = link_to "https://isuta.jp/category/iphone/2019/04/599166", target: :_blank, class: 'item' do
+        = image_tag('lp/media/isuta.png', alt: 'isuta', class: 'ui small image')
 
 
   .ui.mini.divider
@@ -305,6 +307,15 @@
       お知らせ
     %br
     .ui.divided.link.items
+      = link_to 'https://www.j-wave.co.jp/original/colorswonder/entry/200517.html', target: :_blank, class: 'item' do
+        .image
+          = image_tag('lp/news/j-wave.jpg', alt: 'J-WAVE')
+        .content
+          .header J-WAVE「COLORS OF WONDER」で紹介いただきました
+          .meta 2020年5月17日
+          .description
+            J-WAVE「COLORS OF WONDER」5/17放送回の「いまこそ読書」特集で、ブンゴウメールを紹介いただきました。
+
       = link_to root_url(subdomain: :search), target: :_blank, class: 'item' do
         .image
           = image_tag('/assets/images/ogp_search.png')
@@ -325,7 +336,7 @@
 
       = link_to 'https://logmi.jp/business/articles/322767', target: :_blank, class: 'item' do
         .image
-          = image_tag('news/book_tech.jpg')
+          = image_tag('lp/news/book_tech.jpg')
         .content
           .header 「本の"新しい"読み方〜BOOK TECH〜」イベントに登壇しました
           .meta 2019年11月
