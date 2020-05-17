@@ -5,7 +5,7 @@
       .ui.two.column.row
         .right.aligned.column
           %h1
-            %img.ui.medium.centered.image{alt: t(:bungo_mail, scope: [:mailing, :defaults]), src: "./images/logo.png"}
+            = image_tag('logo.png', alt: t(:bungo_mail, scope: [:mailing, :defaults]), class: 'ui medium centered image')
           %br
         .left.aligned.column
           .ui.huge.header
@@ -29,21 +29,21 @@
   %section.ui.centered.stackable.grid.container
     .ui.three.column.row
       .center.aligned.column
-        %img{:alt => "", :src => "./images/1.png"}/
+        = image_tag('lp/feature/1.png', alt: 'feature_1')
         %h3.ui.header
           No time to read books?
         %p
           Each email will be no longer than 3 minutes.
           You can read them easily while checking emails :)
       .center.aligned.column
-        %img{:alt => "", :src => "./images/2.png"}/
+        = image_tag('lp/feature/2.png', alt: 'feature_2')
         %h3.ui.header
           Good use of small pockets of time.
         %p
           What do you do when you have small pockets of time?
           Read books instead of checking social media.
       .center.aligned.column
-        %img{:alt => "", :src => "./images/3.png"}/
+        = image_tag('lp/feature/3.png', alt: 'feature_3')
         %h3.ui.header
           Read masterpieces.
         %p
@@ -54,11 +54,11 @@
     .ui.stackable.two.cards
       .ui.card
         .image
-          = image_tag("lp/feature_detail.png", class: 'ui image')
+          = image_tag("lp/screenshot/detail.png", class: 'ui image')
       %br.mobile.table.only
       .ui.card
         .image
-          = image_tag("lp/feature_list.png", class: 'ui image')
+          = image_tag("lp/screenshot/list.png", class: 'ui image')
     .ui.basic.center.aligned.segment
       (Images from Japanese ver. Your email will come in English.)
 
@@ -141,26 +141,28 @@
         (In Japanese media)
     %br
     .ui.horizontal.list
-      %a.item{:href => "https://gigazine.net/news/20180531-bungomail/", :target => "_blank"}
-        %img.ui.small.image{:alt => "GIGAZINE", :src => "./images/press/gigazine.png"}/
-      %a.item{:href => "http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html", :target => "_blank"}
-        %img.ui.small.image{:alt => "ねとらぼ", :src => "./images/press/nlab.png"}/
-      %a.item{:href => "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", :target => "_blank"}
-        %img.ui.tiny.image{:alt => "InternetWatch", :src => "./images/press/internetwatch.png"}/
-      %a.item{:href => "https://rocketnews24.com/2019/12/11/1303143/", :target => "_blank"}
-        %img.ui.small.image{:alt => "RocketNews24", :src => "./images/press/rocketnews.png"}/
-      %a.item{:href => "https://kai-you.net/article/69993", :target => "_blank"}
-        %img.ui.small.image{:alt => "KAI-YOU", :src => "./images/press/kai-you.png"}/
-      %a.item{:href => "https://amp.review/2019/04/08/search-bungomail/", :target => "_blank"}
-        %img.ui.small.image{:alt => "AMP", :src => "./images/press/amp.png"}/
-      %a.item{:href => "https://www.j-cast.com/trend/2019/04/08354695.html", :target => "_blank"}
-        %img.ui.small.image{:alt => "jcast", :src => "./images/press/jcast.png"}/
-      %a.item{:href => "https://lamire.jp/148287", :target => "_blank"}
-        %img.ui.small.image{:alt => "lamire", :src => "./images/press/lamire.png", :style => "height:70px;width:auto;"}/
-      %a.item{:href => "https://irorio.jp/nagasawamaki/20180912/492864/", :target => "_blank"}
-        %img.ui.small.image{:alt => "IRORIO", :src => "./images/press/irorio.jpg"}/
-      %a.item{:href => "https://isuta.jp/category/iphone/2019/04/599166", :target => "_blank"}
-        %img.ui.small.image{:alt => "isuta", :src => "./images/press/isuta.png"}/
+      = link_to "https://www.j-wave.co.jp/original/colorswonder/entry/200517.html", target: :_blank, class: 'item' do
+        = image_tag('lp/media/j-wave.png', alt: 'J-WAVE', class: 'ui small image')
+      = link_to "https://gigazine.net/news/20180531-bungomail/", target: :_blank, class: 'item' do
+        = image_tag('lp/media/gigazine.png', alt: 'GIGAZINE', class: 'ui small image')
+      = link_to "http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html", target: :_blank, class: 'item' do
+        = image_tag('lp/media/nlab.png', alt: 'ねとらぼ', class: 'ui small image')
+      = link_to "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", target: :_blank, class: 'item' do
+        = image_tag('lp/media/internetwatch.png', alt: 'InternetWatch', class: 'ui tiny image')
+      = link_to "https://rocketnews24.com/2019/12/11/1303143/", target: :_blank, class: 'item' do
+        = image_tag('lp/media/rocketnews.png', alt: 'RocketNews24', class: 'ui small image')
+      = link_to "https://kai-you.net/article/69993", target: :_blank, class: 'item' do
+        = image_tag('lp/media/kai-you.png', alt: 'KAI-YOU', class: 'ui small image')
+      = link_to "https://amp.review/2019/04/08/search-bungomail/", target: :_blank, class: 'item' do
+        = image_tag('lp/media/amp.png', alt: 'AMP', class: 'ui small image')
+      = link_to "https://www.j-cast.com/trend/2019/04/08354695.html", target: :_blank, class: 'item' do
+        = image_tag('lp/media/jcast.png', alt: 'jcast', class: 'ui small image')
+      = link_to "https://lamire.jp/148287", target: :_blank, class: 'item' do
+        = image_tag('lp/media/lamire.png', alt: 'lamire', class: 'ui tiny image')
+      = link_to "https://irorio.jp/nagasawamaki/20180912/492864/", target: :_blank, class: 'item' do
+        = image_tag('lp/media/irorio.jpg', alt: 'IRORIO', class: 'ui small image')
+      = link_to "https://isuta.jp/category/iphone/2019/04/599166", target: :_blank, class: 'item' do
+        = image_tag('lp/media/isuta.png', alt: 'isuta', class: 'ui small image')
 
 
   %section.ui.centered.stackable.grid.secondary.attached.segment
