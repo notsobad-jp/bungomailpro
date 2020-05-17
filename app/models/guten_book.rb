@@ -218,6 +218,13 @@ class GutenBook < ApplicationRecord
       names.length == 2 ? "#{names[1]} #{names[0]}" : author
     end
 
+    # DB検索用に、表示名を実際の値に戻す
+    def author_search_name(name)
+      # name = name.split(' ').reverse.join(', ') if name.split(' ').length == 2
+      name = name.gsub(/(.*) (.+)$/, '\2, \1') # 最初の半角スペースで分割して入れ替え
+      name.delete(' ')
+    end
+
     def category_range(category_id)
       category = CATEGORIES[category_id]
       return unless category

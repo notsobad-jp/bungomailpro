@@ -259,6 +259,16 @@ class AozoraBook < ApplicationRecord
       end
     end
 
+    # DB検索用に、表示名を実際の値に戻す（e.g. イワン・ツルゲーネフ => ツルゲーネフ イワン）
+    ## ヴィルヘルム・カール・グリム => グリム ヴィルヘルム・カール
+    def author_search_name(name)
+      # 外国人著者の場合（カタカナ＋記号のみ）
+      if name.match(/^[\p{katakana}\s・ー＝]+$/)
+        name = name.gsub(/(.*)・(.+)$/, '\2 \1') # 最後の・以降を先頭に持ってきて半角スペースでつなぐ
+      end
+      name.delete(' ')
+    end
+
     def category_range(category_id)
       category = CATEGORIES[category_id]
       return unless category
