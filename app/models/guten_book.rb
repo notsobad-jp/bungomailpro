@@ -118,9 +118,12 @@ class GutenBook < ApplicationRecord
     sentence = sentence.split(/Proofreading Team.*$/i).last
     sentence = sentence.split(/\[Transcriber's Note:.*publication was renewed\.\]/m).last
     sentence = sentence.split(/\[?_?All rights reserved\._?\]?/i).last
-    sentence = sentence.split(/by\s+.*#{author_name}.*$/i).last # by + 著者名。微妙に表記ゆれがあるので前後に他の文字が入っても区切る
+    name = author_name.split(" ").join("(.*)\s+")
+    sentence = sentence.split(/by\s+.*#{name}.*$/i).last # by + 著者名。微妙に表記ゆれがあるので前後に他の文字が入っても区切る
     sentence = sentence.split(/^\s*#{title}\s*$/i).last # タイトル＋空白だけの行があればそこで区切る
-    sentence.sentences.first.strip.gsub(/\r\n/, " ")
+    sentence = sentence.split(/(\s*Chapter\s*[IVX0-9]+[^\r\n]+[\r?\n]+){2,}/m).last # 目次行（Chapter + 数字＋文字列が改行区切りで続くエリア）を除外
+    sentence = sentence.split(/(\s*[IVX0-9]+\. [^\r\n]+[\r?\n]+){2,}/m).last # 目次行（数字 + . + 文字列が改行区切りで続くエリア）を除外
+    sentence.sentences.first.strip.gsub(/\r\n|\r|\n/, " ")
   end
 
   def gutenberg_book_url
