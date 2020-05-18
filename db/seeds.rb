@@ -18,6 +18,26 @@ JSON.parse(senders).each do |sender|
   )
 end
 
+aozora_books = []
+CSV.foreach('db/seeds/aozora_books.csv', headers: true) do |data|
+  aozora_books << AozoraBook.new(
+    id: data["id"],
+    title: data["title"],
+    author: data["author"],
+  )
+end
+AozoraBook.import aozora_books
+
+guten_books = []
+CSV.foreach('db/seeds/guten_books.csv', headers: true) do |data|
+  guten_books << GutenBook.new(
+    id: data["id"],
+    title: data["title"],
+    author: data["author"],
+  )
+end
+GutenBook.import guten_books
+
 groups = []
 CSV.foreach('db/seeds/campaign_groups.csv', headers: true) do |data|
   groups << CampaignGroup.new(

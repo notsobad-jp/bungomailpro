@@ -137,7 +137,7 @@ class GutenBook < ApplicationRecord
       open(gutenberg_text_url).read
     else
       # developmentではtmp、testではtest/fixturesのファイルを返す
-      local_file = Rails.env.development? ? "tmp/gutenberg/text/#{id}/pg#{id}.txt.utf8.gzip" : "test/fixtures/files/gutenberg/pg#{id}.txt.utf8.gzip"
+      local_file = Rails.env.development? ? "tmp/gutenberg/text/#{id}/pg#{id}.txt.utf8.gzip" : "spec/files/gutenberg/pg#{id}.txt.utf8.gzip"
       Zlib::GzipReader.new(open(local_file)).read
     end
   end
