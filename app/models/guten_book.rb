@@ -113,17 +113,19 @@ class GutenBook < ApplicationRecord
   end
 
   def first_sentence
-    sentence = text.slice(0, 5000)
-    sentence = sentence.split(/Produced by .*/i).last
-    sentence = sentence.split(/Proofreading Team.*$/i).last
-    sentence = sentence.split(/\[Transcriber's Note:.*publication was renewed\.\]/m).last
-    sentence = sentence.split(/\[?_?All rights reserved\._?\]?/i).last
+    str = text.slice(0, 5000)
+    str = str.split(/Produced by .*/i).last
+    str = str.split(/Proofreading Team.*$/i).last
+    str = str.split(/\[Transcriber's Note:.*publication was renewed\.\]/m).last
+    str = str.split(/\[?_?All rights reserved\._?\]?/i).last
     name = author_name.split(" ").join("(.*)\s+")
-    sentence = sentence.split(/by\s+.*#{name}.*$/i).last # by + 著者名。微妙に表記ゆれがあるので前後に他の文字が入っても区切る
-    sentence = sentence.split(/^\s*#{title}\s*$/i).last # タイトル＋空白だけの行があればそこで区切る
-    sentence = sentence.split(/(\s*Chapter\s*[IVX0-9]+[^\r\n]+[\r?\n]+){2,}/m).last # 目次行（Chapter + 数字＋文字列が改行区切りで続くエリア）を除外
-    sentence = sentence.split(/(\s*[IVX0-9]+\. [^\r\n]+[\r?\n]+){2,}/m).last # 目次行（数字 + . + 文字列が改行区切りで続くエリア）を除外
-    sentence.sentences.first.strip.gsub(/\r\n|\r|\n/, " ")
+    str = str.split(/by\s+.*#{name}.*$/i).last # by + 著者名。微妙に表記ゆれがあるので前後に他の文字が入っても区切る
+    str = str.split(/^\s*#{title}\s*$/i).last # タイトル＋空白だけの行があればそこで区切る
+    str = str.split(/(\s*Chapter\s*[IVX0-9]+[^\r\n]+[\r?\n]+){3,}/m).last # 目次行（Chapter + 数字＋文字列が改行区切りで3行以上続くエリア）を除外
+    str = str.split(/(\s*[IVX0-9]+\. [^\r\n]+[\r?\n]+){3,}/m).last # 目次行（数字 + . + 文字列が改行区切りで3行以上続くエリア）を除外
+    str = str.sub(/(Chapter\s*[I1](?:\s|\.)+)/i, '[[CHAPTER1]]\1').split("[[CHAPTER1]]").last # 目次を除いたあとに「Chapter 1/I」があればそこからスタート
+    sentence = str.sentences.reject{|s| s == s.upcase }.first # 全部大文字の行は除外
+    sentence.strip.gsub(/\r\n|\r|\n/, " ")
   end
 
   def gutenberg_book_url
