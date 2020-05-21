@@ -22,8 +22,9 @@ namespace :guten_books do
   end
 
   task update_beginning: :environment do |_task, _args|
-    GutenBook.where.not(words_count: nil).find_each do |guten_book|
-      guten_book.delay.update_beginning
+    GutenBook.where("id > ?", 17756).where(language: "en").where.not(category_id: nil).where.not(author_id: nil).find_each do |book|
+      book.update_beginning
+      p "Finished #{book.id}"
     end
   end
 
@@ -40,7 +41,7 @@ namespace :guten_books do
   task ngsl: :environment do |_task, _args|
     ngsl_words = CSV.read('tmp/ngsl.csv').pluck(0)
 
-    GutenBook.where(category_id: :flash).where.not(author_id: nil).sorted.find_each do |book|
+    GutenBook.where.not(category_id: nil).where.not(author_id: nil).sorted.find_each do |book|
       unique_words = book.text.unique_words
 
       dup_words = (unique_words & ngsl_words)
@@ -56,9 +57,7 @@ namespace :guten_books do
 
       dir = "tmp/ngsl/#{book.id}"
       FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
-      File.write("#{dir}/ngsl.csv", dup_words.map{|w| [w].to_csv }.join)
-      File.write("#{dir}/non_ngsl.csv", (unique_words - dup_words).map{|w| [w].to_csv }.join)
-      File.write("#{dir}/all.csv", unique_words.map{|w| [w].to_csv }.join)
+      File.write("#{dir}/words.csv", (unique_words - dup_words).map{|w| [w].to_csv }.join)
     end
   end
 end

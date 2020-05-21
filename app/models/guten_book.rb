@@ -118,14 +118,16 @@ class GutenBook < ApplicationRecord
     str = str.split(/Proofreading Team.*$/i).last
     str = str.split(/\[Transcriber's Note:.*publication was renewed\.\]/m).last
     str = str.split(/\[?_?All rights reserved\._?\]?/i).last
-    name = author_name.split(" ").join("(.*)\s+")
-    str = str.split(/by\s+.*#{name}.*$/i).last # by + 著者名。微妙に表記ゆれがあるので前後に他の文字が入っても区切る
+    if author_name
+      name = author_name.split(" ").join("(.*)\s+")
+      str = str.split(/by\s+.*#{name}.*$/i).last # by + 著者名。微妙に表記ゆれがあるので前後に他の文字が入っても区切る
+    end
     str = str.split(/^\s*#{title}\s*$/i).last # タイトル＋空白だけの行があればそこで区切る
     str = str.split(/(\s*Chapter\s*[IVX0-9]+[^\r\n]+[\r?\n]+){3,}/m).last # 目次行（Chapter + 数字＋文字列が改行区切りで3行以上続くエリア）を除外
     str = str.split(/(\s*[IVX0-9]+\. [^\r\n]+[\r?\n]+){3,}/m).last # 目次行（数字 + . + 文字列が改行区切りで3行以上続くエリア）を除外
     str = str.sub(/(Chapter\s*[I1](?:\s|\.)+)/i, '[[CHAPTER1]]\1').split("[[CHAPTER1]]").last # 目次を除いたあとに「Chapter 1/I」があればそこからスタート
     sentence = str.sentences.reject{|s| s == s.upcase }.first # 全部大文字の行は除外
-    sentence.strip.gsub(/\r\n|\r|\n/, " ")
+    sentence&.strip&.gsub(/\r\n|\r|\n/, " ")
   end
 
   def gutenberg_book_url
@@ -211,7 +213,7 @@ class GutenBook < ApplicationRecord
   end
 
   def update_beginning
-    return unless self.text
+    return if text.blank? || first_sentence.blank?
     update(beginning: first_sentence.truncate(200))
   end
 
