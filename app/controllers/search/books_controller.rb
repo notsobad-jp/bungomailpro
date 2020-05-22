@@ -80,6 +80,6 @@ class Search::BooksController < Search::ApplicationController
   end
 
   def cloudinary_image_url(text)
-    "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text}/v1585631765/ogp_#{lang_locale}.png"
+    "https://res.cloudinary.com/notsobad/image/upload/y_-10,l_text:Roboto_80_line_spacing_15_text_align_center_font_antialias_good:#{text.delete(',').gsub('\'', '%27')}/v1585631765/ogp_#{lang_locale}.png"
   end
 end
