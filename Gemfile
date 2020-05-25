@@ -44,6 +44,10 @@ group :development do
   gem 'rubocop', require: false
   gem "rack-dev-mark"
   gem 'sitemap_generator'
+
+  # 新しいバージョンは複数workerをkillできないバグがあるので古いので固定
+  ## https://github.com/collectiveidea/delayed_job/issues/798
+  gem 'daemons', '1.1.9'  
 end
 
 group :test do

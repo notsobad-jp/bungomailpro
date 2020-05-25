@@ -21,13 +21,6 @@ namespace :guten_books do
     end
   end
 
-  task update_beginning: :environment do |_task, _args|
-    GutenBook.where("id > ?", 17756).where(language: "en").where.not(category_id: nil).where.not(author_id: nil).find_each do |book|
-      book.update_beginning
-      p "Finished #{book.id}"
-    end
-  end
-
   desc 'カテゴリ別の冊数をカウントして保存'
   task categorize: :environment do |_task, _args|
     GutenBook::CATEGORIES.each do |category_id, category|
@@ -38,26 +31,24 @@ namespace :guten_books do
     end
   end
 
-  task ngsl: :environment do |_task, _args|
-    ngsl_words = CSV.read('tmp/ngsl.csv').pluck(0)
+  # 時間がかかるのでworkerを複数動かしておいてから実行して、並列で処理させる
+  desc '書き出しの一文を取得して保存'
+  task update_beginning: :environment do |_task, _args|
+    GutenBook.where(language: "en").where.not(category_id: nil).where.not(author_id: nil).find_each do |book|
+      book.delay.update_beginning
+      p "Queued #{book.id}"
+    end
+  end
 
-    GutenBook.where.not(category_id: nil).where.not(author_id: nil).sorted.find_each do |book|
-      unique_words = book.text.unique_words
+  # 時間がかかるのでworkerを複数動かしておいてから実行して、並列で処理させる
+  desc '全文を単語化→NGSL比率を計算して、非NGSL単語をCSVにして保存'
+  task update_ngsl: :environment do |_task, _args|
+    ngsl_words = CSV.read('db/seeds/ngsl.csv').pluck(0)
 
-      dup_words = (unique_words & ngsl_words)
-      ratio = sprintf("%.1f", dup_words.count/unique_words.count.to_f * 100)
-
-      book.update(
-        ngsl_words_count: dup_words.count,
-        unique_words_count: unique_words.count,
-        ngsl_ratio: ratio,
-      )
-      p "--- #{book.title} by #{book.author} ---"
-      p "Total: #{unique_words.count}, Duplicate: #{dup_words.count}, Ratio: #{ratio}%"
-
-      dir = "tmp/ngsl/#{book.id}"
-      FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
-      File.write("#{dir}/words.csv", (unique_words - dup_words).map{|w| [w].to_csv }.join)
+    # GutenBook.where(language: 'en').where.not(category_id: nil).where.not(author_id: nil).sorted.find_each do |book|
+    GutenBook.where(language: 'en').where(category_id: ['flash', 'shortshort']).where.not(author_id: nil).sorted.find_each do |book|
+      book.delay.update_ngsl(ngsl_words)
+      p "Queued #{book.id}"
     end
   end
 end

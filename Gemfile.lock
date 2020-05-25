@@ -74,6 +74,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
+    daemons (1.1.9)
     database_cleaner (1.8.4)
     delayed_job (4.1.8)
       activesupport (>= 3.0, < 6.1)
@@ -322,6 +323,7 @@ DEPENDENCIES
   annotate
   bootsnap (>= 1.1.0)
   byebug
+  daemons (= 1.1.9)
   database_cleaner
   delayed_job_active_record
   dotenv-rails

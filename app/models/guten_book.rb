@@ -14,6 +14,7 @@
 #  updated_at  :datetime         not null
 #
 require 'open-uri'
+require 'csv'
 
 class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
@@ -215,6 +216,23 @@ class GutenBook < ApplicationRecord
   def update_beginning
     return if text.blank? || first_sentence.blank?
     update(beginning: first_sentence.truncate(200))
+  end
+
+  def update_ngsl(ngsl_words)
+    unique_words = self.text.unique_words
+
+    dup_words = (unique_words & ngsl_words)
+    ratio = sprintf("%.1f", dup_words.count/unique_words.count.to_f * 100)
+
+    self.update(
+      ngsl_words_count: dup_words.count,
+      unique_words_count: unique_words.count,
+      ngsl_ratio: ratio,
+    )
+
+    dir = "tmp/gutenberg/ngsl/#{self.id}"
+    FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
+    File.write("#{dir}/#{self.id}.csv", (unique_words - dup_words).map{|w| [w].to_csv }.join)
   end
 
 
