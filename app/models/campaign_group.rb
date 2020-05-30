@@ -24,7 +24,7 @@ class CampaignGroup < ApplicationRecord
   belongs_to :book, class_name: 'AozoraBook'
   has_many :campaigns, -> { order(:send_at) }, dependent: :destroy
 
-  LIST_ID = "11909538".freeze # 有料版配信用のSendGridチャネルID
+  LIST_ID = "9399756".freeze
 
   def import_campaigns
     campaigns = []
@@ -58,6 +58,6 @@ class CampaignGroup < ApplicationRecord
 
   def twitter_long_url
     # CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{campaigns.first.send_at.in_time_zone("Tokyo").month}月は%20%23#{book.author.delete(' ')}%20%23#{book.title}%20を配信中！")
-    "https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{campaigns.first.send_at.in_time_zone("Tokyo").month}月は%20%23#{book.author.delete(' ')}%20%23#{book.title}%20を配信中！"
+    "https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{start_at.month}月は%20%23#{book.author.delete(' ')}%20%23#{book.title}%20を配信中！"
   end
 end
