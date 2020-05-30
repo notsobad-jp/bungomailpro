@@ -13,9 +13,11 @@ namespace :campaign_groups do
 
     # Sender情報をDBとSendgrid両方でアップデート
     book = AozoraBook.find(ENV['BOOK_ID'])
-    sender.update(name: "#{book.author_name}（ブンゴウメール）")
-    Sendgrid.call(path: "senders/#{sender.id}", method: :patch, params: { from: { name: book.author_name }, reply_to: { name: book.author_name } })
+    author_name =  "#{book.author_name}（ブンゴウメール）"
+    locked_until = Time.zone.parse(ENV['START_AT']).since((ENV['COUNT'].to_i - 1).days)
+    sender.update(name: author_name, locked_until: locked_until)
+    Sendgrid.call(path: "senders/#{sender.id}", method: :patch, params: { from: { name: author_name }, reply_to: { name: author_name } })
 
-    p "Created #{book.title} campaign and updated sender name to #{book.author_name}"
+    p "Created #{book.title} campaign and updated sender name to #{author_name}"
   end
 end
