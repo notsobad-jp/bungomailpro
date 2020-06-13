@@ -33,14 +33,14 @@ class GutenBook < ApplicationRecord
     0 =>     { rating: 3,   stars: 0 }
   }.freeze
 
-  WORDS_PER_MINUTES = 500
+  WORDS_PER_MINUTES = 300
   CATEGORIES = {
     all: {
       id: 'all',
       name: 'all',
       range_from: 1,
       range_to: 9999999,
-      books_count: 42446,
+      books_count: 35142,
     },
     flash: {
       id: 'flash',
@@ -48,7 +48,7 @@ class GutenBook < ApplicationRecord
       title: 'flash',
       range_from: 1,
       range_to: WORDS_PER_MINUTES * 5,
-      books_count: 1038,
+      books_count: 631,
     },
     shortshort: {
       id: 'shortshort',
@@ -56,7 +56,7 @@ class GutenBook < ApplicationRecord
       title: 'short short',
       range_from: WORDS_PER_MINUTES * 5 + 1,
       range_to: WORDS_PER_MINUTES * 10,
-      books_count: 1653,
+      books_count: 700,
     },
     short: {
       id: 'short',
@@ -64,7 +64,7 @@ class GutenBook < ApplicationRecord
       title: 'short',
       range_from: WORDS_PER_MINUTES * 10 + 1,
       range_to: WORDS_PER_MINUTES * 30,
-      books_count: 6401
+      books_count: 3509,
     },
     novelette: {
       id: 'novelette',
@@ -72,7 +72,7 @@ class GutenBook < ApplicationRecord
       title: 'novelette',
       range_from: WORDS_PER_MINUTES * 30 + 1,
       range_to: WORDS_PER_MINUTES * 60,
-      books_count: 6831
+      books_count: 4613,
     },
     shortnovel: {
       id: 'shortnovel',
@@ -80,7 +80,7 @@ class GutenBook < ApplicationRecord
       title: 'short novel',
       range_from: WORDS_PER_MINUTES * 60 + 1,
       range_to: WORDS_PER_MINUTES * 120,
-      books_count: 10352
+      books_count: 5851,
     },
     novel: {
       id: 'novel',
@@ -88,7 +88,7 @@ class GutenBook < ApplicationRecord
       title: 'novel',
       range_from: WORDS_PER_MINUTES * 120 + 1,
       range_to: WORDS_PER_MINUTES * 180,
-      books_count: 7632
+      books_count: 5837,
     },
     longnovel: {
       id: 'longnovel',
@@ -96,7 +96,7 @@ class GutenBook < ApplicationRecord
       title: 'long novel',
       range_from: WORDS_PER_MINUTES * 180 + 1,
       range_to: 9999999,
-      books_count: 8539
+      books_count: 15359,
     },
   }.freeze
 
