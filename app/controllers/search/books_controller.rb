@@ -25,7 +25,7 @@ class Search::BooksController < Search::ApplicationController
     redirect_to author_category_book_path(author_id: @book.author_id, category_id: @book.category_id, id: @book.id), status: 301 if @author[:id] != @book.author_id || @category[:id] != @book.category_id
 
     @author_books = Book.where.not(words_count: 0).where(author_id: @author[:id]).sorted.take(4)
-    @category_books = Book.where(category_id: @category[:id]).sorted.take(4)
+    @category_books = Book.where(category_id: @category[:id]).where.not(author_id: nil).sorted.take(4)
 
     @meta_title = t :title, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @category[:name], category_title: @category[:title]
     @meta_description = t :description, scope: [:search, :controllers, :books, :show], author: @author[:name], title: @book.title, category: @category[:name], category_title: @category[:title], words_count: @book.words_count.to_s(:delimited)
