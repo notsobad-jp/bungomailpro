@@ -51,6 +51,10 @@ class CampaignGroup < ApplicationRecord
       campaign.create_draft
       campaign.schedule
       # campaign.deliver
+
+      # ブログ用mdファイル作成
+      campaign.create_md
+
       p "Scheduled #{campaign.title}"
       sleep 1
     end

@@ -47,11 +47,30 @@ class Campaign < ApplicationRecord
     self.delete
   end
 
+  def create_md
+    slug = self.send_at.strftime('%Y%m%d%H%M%S')
+    File.open("tmp/blog/#{slug}.md", "w") do |f|
+      f.puts(markdown_content)
+    end
+  end
+
   private
+
+  def markdown_content
+    <<~EOS
+      ---
+      title: #{title}
+      date: #{send_at.strftime("%m/%d/%Y %H:%M:%S")}
+      author: #{campaign_group.book.author_name}
+      ---
+
+      #{plain_content}
+    EOS
+  end
 
   def plain_content
     word_count = content.gsub(" ", "").length
-    <<-EOS
+    <<~EOS
       （#{word_count.to_s(:delimited)}字。目安の読了時間：#{word_count.quo(500).ceil}分）
 
       #{content}
