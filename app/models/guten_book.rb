@@ -20,7 +20,7 @@ class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
   has_many :book_assignments, as: :book, dependent: :destroy
 
-  default_scope { where(language: :en) }
+  default_scope { where(language: :en).where.not(id: EXCLUDE_IDS) }
   scope :sorted, -> { order(downloads: :desc) }
 
   # アクセス数に対する評価(download数)
@@ -32,6 +32,9 @@ class GutenBook < ApplicationRecord
     1 =>     { rating: 4,   stars: 1 },
     0 =>     { rating: 3,   stars: 0 }
   }.freeze
+
+  # 中身がない作品を検索結果から除外する
+  EXCLUDE_IDS = [25525, 3206, 11262, 31565, 29004, 11261, 4742, 28876, 30580, 30153, 4663, 8421, 28747, 28760, 28821, 42911, 29434, 30152, 8215, 29441]
 
   WORDS_PER_MINUTES = 300
   CATEGORIES = {
@@ -48,7 +51,7 @@ class GutenBook < ApplicationRecord
       title: 'flash',
       range_from: 1,
       range_to: WORDS_PER_MINUTES * 5,
-      books_count: 594,
+      books_count: 579,
     },
     shortshort: {
       id: 'shortshort',
@@ -56,7 +59,7 @@ class GutenBook < ApplicationRecord
       title: 'short short',
       range_from: WORDS_PER_MINUTES * 5 + 1,
       range_to: WORDS_PER_MINUTES * 10,
-      books_count: 682,
+      books_count: 681,
     },
     short: {
       id: 'short',
