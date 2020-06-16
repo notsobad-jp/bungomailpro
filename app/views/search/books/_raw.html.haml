@@ -23,7 +23,7 @@
       = t :words, scope: [:search, :defaults]
   - if lang_locale == :en && @category[:id] == "flash"
     %td
-      %small #{book.ngsl_ratio || '--'}%
+      %small #{book.try(:ngsl_ratio) || '--'}%
   %td
     = access_count_stars(book.access_rating(:stars))
   %td
