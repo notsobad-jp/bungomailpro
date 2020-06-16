@@ -67,6 +67,33 @@
         %td 0
 %br
 
+%h3.ui.dividing.header
+  %i.fas.fa-globe
+  English Words Level (NGSL ratio)
+.ui.basic.segment
+  %p BungoSearch shows NGSL words ratio of each book for English learners.
+  %p
+    NGSL stands for
+    = link_to 'NEW GENERAL SERVICE LIST', 'http://www.newgeneralservicelist.org/', target: :_blank, rel: 'noopener'
+    , which is a list of basic english words which covers 92% of general english sentences.
+  %p
+    The higher ratio means the book consists mainly of basic words and might be easier to read.
+  %p
+    %amp-img.mobile.only(src="/assets/images/search/ngsl_ratio.png" width="480" height="335" layout="responsive")
+    %amp-img.computer.only(src="/assets/images/search/ngsl_ratio.png" width="480" height="335")
+  %br
+  %p
+    And if you go to the book detail page, you can download the words in CSV which appears in that book.
+  %p
+    %amp-img.mobile.only(src="/assets/images/search/ngsl_download.png" width="480" height="220" layout="responsive")
+    %amp-img.computer.only(src="/assets/images/search/ngsl_download.png" width="480" height="220")
+
+  .ui.warning.message
+    %i.fas.fa-exclamation-triangle
+    &nbsp;
+    NGSL ratio and CSV download are currently available only for books of 5min and 10min to read.
+
+
 -# %h3.ui.dividing.header
 -#   %i.far.fa-envelope
 -#   ブンゴウメールについて

@@ -66,15 +66,11 @@
             #{@book.ngsl_ratio}%
             &nbsp;
             (#{@book.ngsl_words_count.to_s(:delimited)}/#{@book.unique_words_count.to_s(:delimited)}words)
-            %br
-            (
-            %small Download Words CSV:&nbsp;
-            %small= link_to 'all', "https://storage.googleapis.com/bungomail/guten_books/ngsl/#{@book.id}/all.csv"
-            ,&nbsp;
-            %small= link_to 'ngsl', "https://storage.googleapis.com/bungomail/guten_books/ngsl/#{@book.id}/ngsl.csv"
-            ,&nbsp;
-            %small= link_to 'non-ngsl', "https://storage.googleapis.com/bungomail/guten_books/ngsl/#{@book.id}/non_ngsl.csv"
-            )
+            &nbsp;
+            = link_to "https://storage.googleapis.com/bungomail/guten_books/ngsl/#{@book.id}/#{@book.id}.csv", download: "#{@book.id}.csv", class: 'ui small basic button computer only' do
+              %i.fas.fa-download
+              &nbsp;
+              Download Words CSV
 
 
 
