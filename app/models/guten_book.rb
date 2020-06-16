@@ -48,7 +48,7 @@ class GutenBook < ApplicationRecord
       title: 'flash',
       range_from: 1,
       range_to: WORDS_PER_MINUTES * 5,
-      books_count: 631,
+      books_count: 594,
     },
     shortshort: {
       id: 'shortshort',
@@ -56,7 +56,7 @@ class GutenBook < ApplicationRecord
       title: 'short short',
       range_from: WORDS_PER_MINUTES * 5 + 1,
       range_to: WORDS_PER_MINUTES * 10,
-      books_count: 700,
+      books_count: 682,
     },
     short: {
       id: 'short',
@@ -64,7 +64,7 @@ class GutenBook < ApplicationRecord
       title: 'short',
       range_from: WORDS_PER_MINUTES * 10 + 1,
       range_to: WORDS_PER_MINUTES * 30,
-      books_count: 3509,
+      books_count: 3420,
     },
     novelette: {
       id: 'novelette',
@@ -72,7 +72,7 @@ class GutenBook < ApplicationRecord
       title: 'novelette',
       range_from: WORDS_PER_MINUTES * 30 + 1,
       range_to: WORDS_PER_MINUTES * 60,
-      books_count: 4613,
+      books_count: 4478,
     },
     shortnovel: {
       id: 'shortnovel',
@@ -80,7 +80,7 @@ class GutenBook < ApplicationRecord
       title: 'short novel',
       range_from: WORDS_PER_MINUTES * 60 + 1,
       range_to: WORDS_PER_MINUTES * 120,
-      books_count: 5851,
+      books_count: 5672,
     },
     novel: {
       id: 'novel',
@@ -88,7 +88,7 @@ class GutenBook < ApplicationRecord
       title: 'novel',
       range_from: WORDS_PER_MINUTES * 120 + 1,
       range_to: WORDS_PER_MINUTES * 180,
-      books_count: 5837,
+      books_count: 5630,
     },
     longnovel: {
       id: 'longnovel',
@@ -96,7 +96,7 @@ class GutenBook < ApplicationRecord
       title: 'long novel',
       range_from: WORDS_PER_MINUTES * 180 + 1,
       range_to: 9999999,
-      books_count: 15359,
+      books_count: 14666,
     },
   }.freeze
 
