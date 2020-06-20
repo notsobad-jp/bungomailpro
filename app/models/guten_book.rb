@@ -226,7 +226,7 @@ class GutenBook < ApplicationRecord
     unique_words = self.text.unique_words
 
     dup_words = (unique_words & ngsl_words)
-    ratio = sprintf("%.1f", dup_words.count/unique_words.count.to_f * 100)
+    ratio = sprintf("%.1f", dup_words.count/unique_words.count.to_f * 100) if unique_words.count > 0
 
     self.update(
       ngsl_words_count: dup_words.count,
