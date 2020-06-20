@@ -221,7 +221,8 @@ class GutenBook < ApplicationRecord
     update(beginning: first_sentence.truncate(200))
   end
 
-  def update_ngsl(ngsl_words)
+  def update_ngsl(ngsl_words = nil)
+    ngsl_words ||= CSV.read('db/seeds/ngsl.csv').pluck(0)
     unique_words = self.text.unique_words
 
     dup_words = (unique_words & ngsl_words)

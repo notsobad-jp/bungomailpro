@@ -7,17 +7,26 @@ class String
 
   def unique_words
     pt = PragmaticTokenizer::Tokenizer.new(
-      filter_languges: [:en],
-      punctuation: :none, # Removes all punctuation from the result.
-      minimum_length: 3,
-      downcase: false,
-      clean: true, # Removes tokens consisting of only hypens, underscores, or periods as well as some special characters (®, ©, ™). Also removes long tokens or tokens with a backslash.
-      numbers: :none, # Removes all tokens that include a number from the result (including Roman numerals)
+      language:            :en, # the language of the string you are tokenizing
+      stop_words:          ['is', 'the'], # a user-supplied array of stop words (downcased)
+      remove_stop_words:   true, # remove stop words
       expand_contractions: true, # Expands contractions (i.e. i'll -> i will).
-      long_word_split: 3, # The number of characters after which a token should be split at hypens or underscores.
-      classic_filter: true, # Removes dots from acronyms and 's from the end of tokens.
+      filter_languages:    [:en], # process abbreviations, contractions and stop words for this array of languages
+      punctuation:         :none, # Removes all punctuation from the result.
+      numbers:             :none, # Removes all tokens that include a number from the result (including Roman numerals)
+      remove_emoji:        :true, # remove any emoji tokens
+      remove_urls:         :true, # remove any urls
+      remove_emails:       :true, # remove any emails
+      remove_domains:      :true, # remove any domains
+      hashtags:            :keep_and_clean, # remove the hastag prefix
+      mentions:            :keep_and_clean, # remove the @ prefix
+      clean:               true, # Removes tokens consisting of only hypens, underscores, or periods as well as some special characters (®, ©, ™). Also removes long tokens or tokens with a backslash.
+      classic_filter:      true, # Removes dots from acronyms and 's from the end of tokens.
+      downcase:            false, # do not downcase tokens
+      minimum_length:      3, # remove any tokens less than 3 characters
     )
     lem = Lemmatizer.new
+    # pt.tokenize(self).uniq.reject{|t| t.match(/[A-Z]/) }.map{|w| lem.lemma w}.reject{|t| t.length < 3}.uniq  # 大文字を含む単語は除外
     pt.tokenize(self).uniq.reject{|t| t.match(/[A-Z]/) }.map{|w| lem.lemma w}.uniq  # 大文字を含む単語は除外
   end
 
