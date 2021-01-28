@@ -1,0 +1,27 @@
+en:
+  search:
+    controllers:
+      application:
+        all_authors: All authors
+      authors:
+        search_result_for: "Search result for '%{author}'"
+        search_result: Search Result
+      books:
+        all_works: All e-books
+        original_site: Project Gutenberg
+        all_works_for: "All e-books of %{author}"
+        category_works_for: "%{category_title} e-books (%{category} to read) of %{author}"
+        page_in: "(page.%{page})"
+        description_all: "%{author}'s %{count} free e-books in Project Gutenberg sorted by popularity."
+        description_category: "%{author}'s %{count} free %{category_title} e-books (%{category} to read) in Project Gutenberg sorted by popularity."
+        description_popular_books: "Popular books are: %{books}."
+        index:
+          cloudinary_author_all: "Popular free e-books of%0AProject Gutenberg%0A(%{category} to read)"
+          cloudinary_category_all: "Popular free e-books of%0A%{author}%0Ain Project Gutenberg"
+          cloudinary: "%{category_title} e-books of%0A%{author}%0A(%{category} to read)"
+        show:
+          title: "%{author}『%{title}』 - %{category_title} (%{category} to read)"
+          description: "『%{title}』is a free %{category_title} e-book of %{author} available on Project Gutenberg. It has %{words_count} words and may take about %{category} to read."
+          cloudinary: "『%{book}』%0Aby %{author}%0A（%{category} to read）"
+      pages:
+        about: About this site

@@ -1,0 +1,62 @@
+!!!
+%html(amp lang="ja")
+  %head
+    = render partial: 'layouts/meta'
+
+    - if Rails.env.production?
+      -# Google Tag Manager
+      %script(async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js")
+      -# Google Adsense
+      %script(async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js")
+
+
+  %body.text-gray-700
+    -# Google Tag Manager
+    - if Rails.env.production?
+      %amp-analytics(config="https://www.googletagmanager.com/amp.json?id=GTM-5W36WSW&gtm.url=SOURCE_URL" data-credentials="include")
+
+    .flex.justify-between.items-center.px-2.py-3.border-b.border-gray-100.text-sm
+      .flex.items-center
+        = link_to locale_root_url, class: 'mr-8' do
+          - if lang_locale == :en
+            .font-bold Bungo Search
+          - else
+            %amp-img.hidden.sm:block(src="/assets/images/logo_search.png" width="190" height="22")
+            .block.sm:hidden.font-bold ブンゴウサーチ
+        - if params[:juvenile] == "juvenile"
+          .-ml-4.mr-8.rounded.bg-yellow-600.text-white.px-2.py-1.text-xs
+            for Kids
+        .hidden.sm:block
+          = t :tagline, scope: [:search, :layouts, :application]
+      %div
+        - if params[:juvenile] == "juvenile"
+          = link_to locale_root_url(juvenile: nil), class: 'mr-4' do
+            %small
+              %i.fas.fa-sign-in-alt
+              = t :normal_version, scope: [:search, :defaults]
+        - elsif lang_locale == :ja
+          = link_to locale_root_url(juvenile: :juvenile), class: 'mr-4' do
+            %small
+              %i.fas.fa-sign-in-alt
+              = t :juvenile_version, scope: [:search, :defaults]
+        = link_to about_page_path, class: 'item' do
+          %small
+            %i.fas.fa-question-circle
+            %span.hidden.sm:inline-block
+              = t :about_this_site, scope: [:search, :defaults]
+
+    - if current_page?(locale_root_url)
+      .block.sm:hidden.px-2.py-3.text-xs.border-b.border-gray-100
+        = t :tagline_sp, scope: [:search, :layouts, :application]
+
+    .container.mx-auto.max-w-screen-lg.mb-24
+      .sm:grid.grid-cols-5.gap-8
+        .col-span-4.p-2.sm:p-0
+          - if controller_name == 'books' && (@author[:id] == 'all' && @category[:id] == 'all')
+            %br.hidden.sm:block
+          - else
+            = render partial: 'layouts/breadcrumb'
+          = yield
+        .col-span-1.p-2.sm:p-0
+          = render partial: 'layouts/sidebar'
+    = render partial: 'layouts/footer'

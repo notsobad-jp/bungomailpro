@@ -1,0 +1,16 @@
+ja_juvenile:
+  search:
+    controllers:
+      books:
+        original_site: 青空文庫
+        all_works_for: "%{author}の児童文学全作品"
+        category_works_for: "%{category}で読める%{author}の%{category_title}児童文学作品"
+        page_in: "（%{page}ページ目）"
+        description_all: "青空文庫で公開されている%{author}の児童文学全作品%{count}篇を、おすすめ人気順で表示しています。"
+        description_category: "青空文庫で公開されている%{author}の児童文学作品の中で、おおよその読了目安時間が「%{category}」の%{category_title}%{count}作品を、おすすめ人気順に表示しています。"
+        index:
+          cloudinary_author_all: "%{category}で読める%0A青空文庫の%0Aおすすめ%{category_title}児童文学作品"
+          cloudinary_category_all: "青空文庫で読める%0A%{author}の%0Aおすすめ児童文学作品"
+          cloudinary: "%{category}で読める%0A%{author}の%0Aおすすめ%{category_title}児童文学作品"
+      pages:
+        about: ブンゴウサーチとは

@@ -1,0 +1,27 @@
+ja:
+  search:
+    controllers:
+      application:
+        all_authors: すべての著者
+      authors:
+        search_result_for: "「%{author}」の検索結果"
+        search_result: 検索結果
+      books:
+        all_works: 全作品
+        original_site: 青空文庫
+        all_works_for: "%{author}の全作品"
+        category_works_for: "%{category}で読める%{author}の%{category_title}作品"
+        page_in: "（%{page}ページ目）"
+        description_all: "青空文庫で公開されている%{author}の全作品%{count}篇を、おすすめ人気順で表示しています。"
+        description_category: "青空文庫で公開されている%{author}の作品の中で、おおよその読了目安時間が「%{category}」の%{category_title}%{count}作品を、おすすめ人気順に表示しています。"
+        description_popular_books: "%{books}などが特に人気です。"
+        index:
+          cloudinary_author_all: "%{category}で読める%0A青空文庫の%0Aおすすめ%{category_title}作品"
+          cloudinary_category_all: "青空文庫で読める%0A%{author}の%0Aおすすめ作品"
+          cloudinary: "%{category}で読める%0A%{author}の%0Aおすすめ%{category_title}作品"
+        show:
+          title: "%{author}『%{title}』 - %{category}で読める%{category_title}"
+          description: "『%{title}』は青空文庫で公開されている%{author}の%{category_title}作品。%{words_count}文字で、おおよそ%{category}で読むことができます。"
+          cloudinary: "『%{book}』%0A%{author}%0A（読了目安：%{category}）"
+      pages:
+        about: ブンゴウサーチとは

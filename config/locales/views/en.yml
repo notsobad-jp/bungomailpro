@@ -1,0 +1,55 @@
+en:
+  search:
+    layouts:
+      application:
+        tagline: Search free e-books by Time-to-Read from Project Gutenberg.
+        tagline_sp: Search free e-books by Time-to-Read
+      sidebar:
+        popular_authors: Popular Authors
+        minutes_to_read: Time to Read
+        support_creator: Support the creator
+        items: Items
+      footer:
+        terms: Terms
+        privacy_policy: Privacy Policy
+        contacts: Contacts
+        company: Company
+      meta:
+        default_title: Bungo Search | Search free e-books by Time-to-Read from Project Gutenberg
+        default_description: Search free e-books by Time-to-Read from Project Gutenberg.
+        default_keywords: BungoSearch,BungoMail,time to read,minutes to read,free,e-book,Project Gutenberg,Literature,novels,english
+    books:
+      index:
+        author_name: Author Name
+        category_range: "(showing books with %{range}. Time-to-read is calcurated by %{words_per_minutes} words per minutes)"
+        search_offset: "Showing %{from} - %{to} of %{count} items"
+        no_results: (No results)
+        copyright_reserved:
+          html:
+            The copyright remains for the books with
+            <i class="far fa-copyright"></i>
+            mark.
+            Please see details at
+            <a href="https://www.gutenberg.org/wiki/Gutenberg:Copyright_How-To" target="_blank">Project Gutenberg</a>.
+      show:
+        popularity_unit: Downloads
+        read_at_original: Read at Project Gutenberg
+        read_at_bungomail: Read at BungoMail
+        read_at_amazon: Search at Amazon
+        popularity_calculation_logic: "* Popularity is calculated based on the downloads count on Project Gutenberg."
+        copyright_reserved:
+          html:
+            <i class="fas fa-exclamation-triangle"></i>
+            The copyright remains for this book.
+            Please see details at
+            <a href="https://www.gutenberg.org/wiki/Gutenberg:Copyright_How-To" target="_blank">Project Gutenberg</a>.
+        author_popular_books: "Popular books from Author: %{author}"
+        category_popular_books: "Popular books from Category: %{category} (%{category_name})"
+    authors:
+      index:
+        noindex: true
+        author_name: Author Name
+        multiple_authors_found: Multiple authors found. Select from the list below or try searching with other keywords.
+        no_authors_found:
+          html:
+            No authors found. Please check the keyword and try searching again.

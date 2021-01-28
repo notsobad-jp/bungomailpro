@@ -1,0 +1,39 @@
+%footer.bg-gray-900.text-gray-300.text-center.py-12.text-sm
+  %h5.font-bold.text-white.text-base.mb-4
+    = t :bungo_search, scope: [:search, :defaults]
+    &nbsp;
+    %small
+      by
+      = t :bungo_mail, scope: [:search, :defaults]
+  - if lang_locale == :ja
+    .space-x-4.mb-4
+      = link_to locale_root_url(juvenile: nil), class: 'hover:text-white' do
+        = t :normal_version, scope: [:search, :defaults]
+      = link_to locale_root_url(juvenile: :juvenile), class: 'hover:text-white' do
+        = t :juvenile_version, scope: [:search, :defaults]
+  %p.mb-4
+    = link_to about_page_path, class: 'hover:text-white' do
+      %i.fas.fa-question-circle
+      = t :about_this_site, scope: [:search, :defaults]
+  .flex.justify-center.items-center.space-x-4.mb-8
+    = link_to "https://twitter.com/intent/tweet?hashtags=#{t(:bungo_search, scope: [:search, :defaults]).downcase.delete(' ')}&url=#{locale_root_url}&text=#{t(:bungo_search, scope: [:search, :defaults])} - #{t(:tagline_sp, scope: [:search, :layouts, :application])}%0A", target: '_blank', class: 'rounded-full bg-blue-400 text-white w-8 h-8 flex justify-center items-center' do
+      %i.fab.fa-twitter
+    = link_to 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsearch.bungomail.com%2F&display=popup&ref=plugin&src=like&kid_directed_site=0&app_id=139414576217599', target: '_blank', class: 'rounded-full bg-blue-600 text-white w-8 h-8 flex justify-center items-center' do
+      %i.fab.fa-facebook-f
+  .ui.horizontal.list.mb-8.space-x-2
+    = link_to t(:bungo_search, scope: [:search, :defaults]), locale_root_url, class: 'hover:text-white'
+    -# = link_to t('.terms'), page_url(:terms, subdomain: '', juvenile: nil), class: 'item'
+    -# = link_to t('.privacy_policy'), page_url(:privacy, subdomain: '', juvenile: nil), class: 'item'
+    = link_to t(:contacts, scope: [:search, :layouts, :footer]), 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'hover:text-white'
+    = link_to t(:company, scope: [:search, :layouts, :footer] ), 'https://notsobad.jp', target: '_blank', class: 'hover:text-white'
+  %div
+    %small
+      Copyright
+      = t :bungo_search, scope: [:search, :defaults]
+      by
+      = t :bungo_mail, scope: [:search, :defaults]
+      2019 All rights reserved.
+    %br
+    %small
+      Powered by
+      %a{:href => "https://notsobad.jp", :target => "_blank"} NOT SO BAD, LLC.
