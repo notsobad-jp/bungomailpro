@@ -6,4 +6,11 @@
   .text-link {
     @apply text-blue-700 hover:text-blue-800 visited:text-purple-600;
   }
+  .full-bleed {
+    width: 100vw;
+    margin-left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
 }
