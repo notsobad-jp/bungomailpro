@@ -30,6 +30,7 @@ namespace :aozora_books do
           first_edition: fg[7].presence,
           published_at: published_match ? published_match[1] : nil,
           character_type: fg[9].presence,
+          juvenile: fg[8].match(/K\d{3}/i).present?,
         )
         puts "[#{fg[0]}] #{fg[10]}, #{fg[23]}, #{fg[1]}: #{fg[15]} #{fg[16]}(#{fg[14]}), #{file_id}"
       end
