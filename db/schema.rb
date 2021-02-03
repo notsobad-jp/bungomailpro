@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_072749) do
+ActiveRecord::Schema.define(version: 2021_02_03_055651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -65,25 +65,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_072749) do
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
   end
 
-  create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.string "customer_id", null: false
-    t.string "brand", null: false, comment: "IN (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, Unknown)"
-    t.integer "exp_month", null: false
-    t.integer "exp_year", null: false
-    t.string "last4", null: false
-    t.string "subscription_id"
-    t.string "status", comment: "IN (trialing active past_due canceled unpaid)"
-    t.datetime "trial_end"
-    t.datetime "cancel_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_charges_on_customer_id", unique: true
-    t.index ["subscription_id"], name: "index_charges_on_subscription_id", unique: true
-    t.index ["user_id"], name: "index_charges_on_user_id", unique: true
-  end
-
-  create_table "delayed_jobs", force: :cascade do |t|
+  create_table "delayed_jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
     t.text "handler", null: false
@@ -138,47 +120,13 @@ ActiveRecord::Schema.define(version: 2020_05_06_072749) do
     t.index ["locked_until"], name: "index_senders_on_locked_until"
   end
 
-  create_table "skip_histories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_skip_histories_on_user_id"
-  end
-
   create_table "subjects", id: :string, force: :cascade do |t|
     t.integer "books_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "email", null: false
-    t.string "crypted_password"
-    t.string "salt"
-    t.datetime "created_at", default: -> { "now()" }, null: false
-    t.datetime "updated_at", default: -> { "now()" }, null: false
-    t.string "magic_login_token"
-    t.datetime "magic_login_token_expires_at"
-    t.datetime "magic_login_email_sent_at"
-    t.string "remember_me_token"
-    t.datetime "remember_me_token_expires_at"
-    t.string "activation_state"
-    t.string "activation_token"
-    t.datetime "activation_token_expires_at"
-    t.string "sendgrid_id"
-    t.datetime "trial_end_at"
-    t.boolean "list_subscribed", default: false
-    t.index ["activation_token"], name: "index_users_on_activation_token"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
-    t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
-    t.index ["sendgrid_id"], name: "index_users_on_sendgrid_id", unique: true
-    t.index ["trial_end_at"], name: "index_users_on_trial_end_at"
-  end
-
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id"
   add_foreign_key "campaigns", "campaign_groups"
-  add_foreign_key "charges", "users"
   add_foreign_key "guten_books_subjects", "subjects"
-  add_foreign_key "skip_histories", "users"
 end
