@@ -1,0 +1,34 @@
+.mb-30
+  %h1.ui.large.header
+    %i.icon.history
+    過去の配信作品一覧
+
+.ui.divider.mb-0
+.ui.secondary.scrolling.menu
+  - [*(2018..Time.current.year)].reverse.each do |year|
+    - active = 'active' if year == params[:year].to_i || (params[:year].blank? && year == Time.current.year)
+    = link_to "#{year}年", books_list_path(id: params[:id], year: year), class: "item #{active}"
+.ui.divider.mt-0
+
+- colors = %w(red orange yellow olive green teal blue violet purple pink brown black)
+.ui.divided.items
+  - @campaign_groups.each do |cg|
+    - month = cg.start_at.month
+    - end_month = (cg.count - 1).days.since(cg.start_at).month
+    .item
+      .content
+        = link_to "https://bungo-search.com/authors/#{cg.book.author_id}/categories/#{cg.book.category_id}/books/#{cg.book_id}", class: 'header', target: :blank do
+          %span.ui.basic.small.label{class: colors[month - 1]} #{month}月
+          - if month != end_month # ２ヶ月配信対応
+            %span.ui.basic.small.label{class: colors[end_month - 1]} #{end_month}月
+          &nbsp;
+          『#{cg.book.title}』
+          %small= cg.book.author_name
+          &nbsp;
+          %small
+            %i.icon.external.small
+        .extra
+          %small
+            = cg.start_at.strftime("%Y年%-m月%-d日")
+            〜
+            = (cg.count - 1).days.since(cg.start_at).strftime("%Y年%-m月%-d日")
