@@ -1,26 +1,26 @@
 .bg-gray-100.full-bleed.mb-24(style="background-image: url('/assets/images/seigaiha.png')")
-  .container.mx-auto.max-w-screen-lg
+  .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
     .py-4
       .font-bold ブンゴウメール
-    .grid.grid-cols-2.pt-8.pb-16
+    .grid.grid-cols-1.pt-8.pb-16.gap-y-12(class="sm:grid-cols-2 sm:gap-y-0")
       %h1.text-center
-        = image_tag('/assets/images/logo.png', alt: 'ブンゴウメール', class: 'max-w-xs mx-auto')
+        = image_tag('/assets/images/logo.png', alt: 'ブンゴウメール', class: 'w-64 sm:w-auto sm:max-w-xs mx-auto')
       %div
         .text-3xl.font-bold.mb-4
           １日３分のメールで、
-          %br.computer.only
+          %br.hidden(class="sm:block")
           ムリせず毎月本が読める。
         .mb-8
           青空文庫の作品を小分けにして、毎朝メールで配信。
-          %br.computer.only
+          %br.hidden(class="sm:block")
           気づいたら毎月1冊本が読めてしまう、
-          %br.computer.only
+          %br.hidden(class="sm:block")
           忙しいあなたのための読書サポートサービスです。
-        = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'inline-block rounded bg-indigo-500 text-white px-6 py-3 font-bold' do
+        = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'block sm:inline-block text-center rounded bg-indigo-500 text-white px-6 py-3 font-bold' do
           メールアドレスを登録する
           %small.text-xs （無料）
 
-.grid.grid-cols-3.gap-12.mb-24
+.grid.grid-cols-1.gap-8.mb-24(class="sm:grid-cols-3 sm:gap-12")
   %div
     = image_tag('/assets/images/lp/feature/1.png', alt: 'feature_1', class: 'mx-auto')
     %h5.font-bold.text-center.mb-2
@@ -41,7 +41,7 @@
       名前は知ってるけど読んでなかった名作、青空文庫にはいっぱいあります。普段自分では選ばない本を読めるのもいいものです。
 
 .mb-24
-  .grid.grid-cols-2.gap-12.mb-8
+  .grid.grid-cols-1.gap-12.mb-8(class="sm:grid-cols-2")
     = image_tag("/assets/images/lp/screenshot/detail.png", class: 'border rounded')
     = image_tag("/assets/images/lp/screenshot/list.png", class: 'border rounded')
   .text-center.text-sm
@@ -52,12 +52,14 @@
 .mb-24
   .mb-12.text-center
     %h3.text-2xl.font-bold.mb-4
-      たとえば、1年でこれだけ本が読めます
+      たとえば、1年で
+      %br.block(class="sm:hidden")
+      これだけ本が読めます
     .text-sm
       1日3分のメールを読み続けるだけで、1年ではこれだけの作品を読むことができます。
-      %br.computer.only
+      %br.hidden(class="sm:block")
       （あくまで一例なので、実際に配信する内容とは異なります）
-  .grid.grid-cols-4.gap-x-8.gap-y-4.text-center
+  .grid.grid-cols-2.gap-4.text-center(class="sm:grid-cols-4")
     .border.rounded.py-2
       .font-bold.mb-2
         芥川龍之介
@@ -132,7 +134,7 @@
   .mb-12.text-center
     %h3.text-2xl.font-bold
       みんなの感想
-  .flex.space-x-8.mb-12.text-sm
+  .flex.space-y-8.mb-12.text-sm.flex-col(class="sm:flex-row sm:space-x-8 sm:space-y-0")
     .flex.flex-1.flex-col.justify-between.border.rounded.p-4
       .mb-4
         短くて読みやすい…！ささっと読めるちょうどいい長さだから毎日続けられそうだし、何よりこう、続きが気になってくる👏
@@ -161,7 +163,7 @@
         \#ブンゴウメール
 
   .text-center.text-sm
-    = link_to 'https://twitter.com/search?q=%23%E3%83%96%E3%83%B3%E3%82%B4%E3%82%A6%E3%83%A1%E3%83%BC%E3%83%AB', target: :_blank do
+    = link_to 'https://twitter.com/search?q=%23%E3%83%96%E3%83%B3%E3%82%B4%E3%82%A6%E3%83%A1%E3%83%BC%E3%83%AB', target: :_blank, class: 'text-link' do
       %i.icon.chevron.right
       Twitterでみんなの感想を見る
 
@@ -174,7 +176,7 @@
     .text-sm
       現在ブンゴウメールはベータ版のため無料でご利用いただけます。
 
-  .rounded.border.divide-y.mb-12.mx-auto.text-center{class: 'w-1/2'}
+  .rounded.border.divide-y.mb-12.mx-auto.text-center{class: 'w-auto sm:w-1/2'}
     .bg-gray-100.p-2
       %h5.font-bold FREEプラン
     %div.p-6
@@ -184,16 +186,16 @@
       %li ✅ 毎月1冊おすすめ短編をセレクトして配信
       %li ✅ 月の途中で登録した場合、作品の途中から届き始めます
       %li ✅ メール内に広告が掲載されたり、広告メールが配信される場合があります
-    = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'p-2 block bg-indigo-500 text-white' do
+    = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'p-2 block bg-indigo-500 text-white rounded-b border border-indigo-500' do
       FREEプランに登録する
 
-  .text-center.text-sm
+  .text-left.text-sm(class="sm:text-center")
     ※青空文庫作品の商用利用は、
-    %a{:href => "https://www.aozora.gr.jp/guide/kijyunn.html", :target => "_blank"}> 青空文庫の規約
+    %a(href="https://www.aozora.gr.jp/guide/kijyunn.html" target="_blank" class="text-link")> 青空文庫の規約
     で公式に認められています。
-    %br.computer.only
+    %br.hidden(class="sm:block")
     またこのサービスは青空文庫というすばらしい活動の上に成立するものであるため、
-    %br.computer.only
+    %br.hidden(class="sm:block")
     収益の一部は青空文庫の活動支援に還元する予定です。
 
 .w-12.border-b-8.border-gray-700.mx-auto.mb-24
@@ -271,29 +273,29 @@
     %h3.text-2xl.font-bold.mb-4
       メディア掲載
 
-  .space-x-4
+  .flex.flex-wrap.space-x-4.space-y-2
     = link_to "https://www.nhk.jp/p/shibu5/ts/X5J7MZMGGY/episode/te/729252Z8XK/", target: :_blank do
-      = image_tag('/assets/images/lp/media/nhk.png', alt: 'NHK', class: 'inline-block h-14')
+      = image_tag('/assets/images/lp/media/nhk.png', alt: 'NHK', class: 'inline-block h-12 sm:h-14')
     = link_to "https://www.j-wave.co.jp/original/colorswonder/entry/200517.html", target: :_blank do
-      = image_tag('/assets/images/lp/media/j-wave.png', alt: 'J-WAVE', class: 'inline-block h-6')
+      = image_tag('/assets/images/lp/media/j-wave.png', alt: 'J-WAVE', class: 'inline-block h-5 sm:h-6')
     = link_to "https://gigazine.net/news/20180531-bungomail/", target: :_blank do
-      = image_tag('/assets/images/lp/media/gigazine.png', alt: 'GIGAZINE', class: 'inline-block h-12')
+      = image_tag('/assets/images/lp/media/gigazine.png', alt: 'GIGAZINE', class: 'inline-block h-10 sm:h-12')
     = link_to "http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html", target: :_blank do
-      = image_tag('/assets/images/lp/media/nlab.png', alt: 'ねとらぼ', class: 'inline-block h-14')
+      = image_tag('/assets/images/lp/media/nlab.png', alt: 'ねとらぼ', class: 'inline-block h-12 sm:h-14')
     = link_to "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", target: :_blank do
-      = image_tag('/assets/images/lp/media/internetwatch.png', alt: 'InternetWatch', class: 'inline-block h-16')
+      = image_tag('/assets/images/lp/media/internetwatch.png', alt: 'InternetWatch', class: 'inline-block h-14 sm:-16')
     = link_to "https://rocketnews24.com/2019/12/11/1303143/", target: :_blank do
-      = image_tag('/assets/images/lp/media/rocketnews.png', alt: 'RocketNews24', class: 'inline-block h-16')
+      = image_tag('/assets/images/lp/media/rocketnews.png', alt: 'RocketNews24', class: 'inline-block h-14 sm:h-16')
     = link_to "https://kai-you.net/article/69993", target: :_blank do
-      = image_tag('/assets/images/lp/media/kai-you.png', alt: 'KAI-YOU', class: 'inline-block h-10')
+      = image_tag('/assets/images/lp/media/kai-you.png', alt: 'KAI-YOU', class: 'inline-block h-8 sm:h-10')
     = link_to "https://news.mynavi.jp/article/20201206-1562101/", target: :_blank do
-      = image_tag('/assets/images/lp/media/mynavi.png', alt: 'マイナビ', class: 'inline-block h-14')
+      = image_tag('/assets/images/lp/media/mynavi.png', alt: 'マイナビ', class: 'inline-block h-10 sm:h-14')
     = link_to "https://amp.review/2019/04/08/search-bungomail/", target: :_blank do
-      = image_tag('/assets/images/lp/media/amp.png', alt: 'AMP', class: 'inline-block h-10')
+      = image_tag('/assets/images/lp/media/amp.png', alt: 'AMP', class: 'inline-block h-8 sm:h-10')
     = link_to "https://www.j-cast.com/trend/2019/04/08354695.html", target: :_blank do
-      = image_tag('/assets/images/lp/media/jcast.png', alt: 'jcast', class: 'inline-block h-16')
+      = image_tag('/assets/images/lp/media/jcast.png', alt: 'jcast', class: 'inline-block h-14 sm:h-16')
     = link_to "https://lamire.jp/148287", target: :_blank do
-      = image_tag('/assets/images/lp/media/lamire.png', alt: 'lamire', class: 'inline-block h-16')
+      = image_tag('/assets/images/lp/media/lamire.png', alt: 'lamire', class: 'inline-block h-14 sm:h-16')
 
 
 .w-12.border-b-8.border-gray-700.mx-auto.mb-24
@@ -303,80 +305,80 @@
     %h3.text-2xl.font-bold.mb-4
       お知らせ
   .divide-y
-    = link_to 'https://www.nhk.jp/p/shibu5/ts/X5J7MZMGGY/episode/te/729252Z8XK/', target: :_blank, class: 'flex space-x-4 py-2 ' do
-      = image_tag('/assets/images/lp/news/nhk.jpg', alt: 'NHK ニュース シブ5時', class: 'w-48 max-w-xs')
+    = link_to 'https://www.nhk.jp/p/shibu5/ts/X5J7MZMGGY/episode/te/729252Z8XK/', target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2 ' do
+      = image_tag('/assets/images/lp/news/nhk.jpg', alt: 'NHK ニュース シブ5時', class: 'w-auto sm:w-48 sm:max-w-xs')
       .flex-1
         .font-bold.text-lg NHK「ニュース シブ5時」で紹介いただきました
         .text-xs.text-gray-500.mb-2 2020年10月29日
         .text-sm
           10/29放送のNHK「ニュース シブ5時」でブンゴウメールを紹介いただきました。
 
-    = link_to 'https://www.amazon.co.jp/dp/4046044519', target: :_blank, class: 'flex space-x-4 py-2' do
+    = link_to 'https://www.amazon.co.jp/dp/4046044519', target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2' do
       .image
-        = image_tag('/assets/images/lp/news/episodes.jpg', alt: '文豪どうかしてる逸話集', class: 'w-48 max-w-xs')
+        = image_tag('/assets/images/lp/news/episodes.jpg', alt: '文豪どうかしてる逸話集', class: 'w-auto sm:w-48 sm:max-w-xs')
       .content
         .font-bold.text-lg KADOKAWA『文豪どうかしてる逸話集』とコラボしました
         .text-xs.text-gray-500.mb-2 2020年10月1日
         .text-sm
           進士素丸さん著『文豪どうかしてる逸話集』(KADOKAWA)とコラボし、書籍収録の逸話をブンゴウメールで配信いたしました。
 
-    = link_to 'https://prtimes.jp/main/html/rd/p/000000017.000043723.html', target: :_blank, class: 'flex space-x-4 py-2' do
+    = link_to 'https://prtimes.jp/main/html/rd/p/000000017.000043723.html', target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2' do
       .image
-        = image_tag('/assets/images/lp/news/booqs.png', alt: 'BooQs', class: 'w-48 max-w-xs')
+        = image_tag('/assets/images/lp/news/booqs.png', alt: 'BooQs', class: 'w-auto sm:w-48 sm:max-w-xs')
       .content
         .font-bold.text-lg 英単語学習サービス「BooQs」とコラボしました
         .text-xs.text-gray-500.mb-2 2020年6月28日
         .text-sm
           英語版「Bungo Search」をリリースし、200万回答突破の人気英単語学習サービス「BooQs」との特設コラボページを開設しました。
 
-    = link_to 'https://www.j-wave.co.jp/original/colorswonder/entry/200517.html', target: :_blank, class: 'flex space-x-4 py-2' do
+    = link_to 'https://www.j-wave.co.jp/original/colorswonder/entry/200517.html', target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2' do
       .image
-        = image_tag('/assets/images/lp/news/j-wave.jpg', alt: 'J-WAVE', class: 'w-48 max-w-xs')
+        = image_tag('/assets/images/lp/news/j-wave.jpg', alt: 'J-WAVE', class: 'w-auto sm:w-48 sm:max-w-xs')
       .content
         .font-bold.text-lg J-WAVE「COLORS OF WONDER」で紹介いただきました
         .text-xs.text-gray-500.mb-2 2020年5月17日
         .text-sm
           J-WAVE「COLORS OF WONDER」5/17放送回の「いまこそ読書」特集で、ブンゴウメールを紹介いただきました。
 
-    = link_to root_url(subdomain: :search), target: :_blank, class: 'flex space-x-4 py-2' do
+    = link_to root_url(subdomain: :search), target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2' do
       .image
-        = image_tag('/assets/images/ogp_search.png', class: 'w-48 max-w-xs')
+        = image_tag('/assets/images/ogp_search.png', class: 'w-auto sm:w-48 sm:max-w-xs')
       .content
         .font-bold.text-lg 「ブンゴウサーチ」をリニューアルしました
         .text-xs.text-gray-500.mb-2 2020年4月
         .text-sm
           青空文庫の作品を読了時間で検索できる姉妹サービス「ブンゴウサーチ」をリニューアルしました。児童書のみ検索できる新機能も提供しています。
 
-    = link_to campaigns_dogramagra_path, target: :_blank, class: 'flex space-x-4 py-2' do
+    = link_to campaigns_dogramagra_path, target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2' do
       .image
-        = image_tag('/assets/images/campaigns/dogramagra.png', class: 'w-48 max-w-xs')
+        = image_tag('/assets/images/campaigns/dogramagra.png', class: 'w-auto sm:w-48 sm:max-w-xs')
       .content
         .font-bold.text-lg 「ドグラ・マグラ365日配信チャレンジ」を開始しました
         .text-xs.text-gray-500.mb-2 2020年1月~12月
         .text-sm
           日本三大奇書に数えられる一大長編、夢野久作の『ドグラ・マグラ』を1年かけて配信する企画を開始しました。
 
-    = link_to 'https://logmi.jp/business/articles/322767', target: :_blank, class: 'flex space-x-4 py-2' do
+    = link_to 'https://logmi.jp/business/articles/322767', target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2' do
       .image
-        = image_tag('/assets/images/lp/news/book_tech.jpg', class: 'w-48 max-w-xs')
+        = image_tag('/assets/images/lp/news/book_tech.jpg', class: 'w-auto sm:w-48 sm:max-w-xs')
       .content
         .font-bold.text-lg 「本の"新しい"読み方〜BOOK TECH〜」イベントに登壇しました
         .text-xs.text-gray-500.mb-2 2019年11月
         .text-sm
           本の新しい読み方を提供するスタートアップ3社のトークイベントに、代表の大西が登壇いたしました。
 
-    = link_to "https://prtimes.jp/main/html/rd/p/000000003.000034248.html", target: :_blank, class: 'flex space-x-4 py-2' do
+    = link_to "https://prtimes.jp/main/html/rd/p/000000003.000034248.html", target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2' do
       .image
-        = image_tag('/assets/images/campaigns/alterego.jpg', class: 'w-48 max-w-xs')
+        = image_tag('/assets/images/campaigns/alterego.jpg', class: 'w-auto sm:w-48 sm:max-w-xs')
       .content
         .font-bold.text-lg 「ALTER EGO」公式コラボを実施しました
         .text-xs.text-gray-500.mb-2 2019年4月~11月
         .text-sm
           累計50万ダウンロード突破の大人気自分探しタップゲーム「ALTER EGO」との公式コラボを実施しました。
 
-    = link_to "https://prtimes.jp/main/html/rd/p/000000005.000034248.html", target: :_blank, class: 'flex space-x-4 py-2' do
+    = link_to "https://prtimes.jp/main/html/rd/p/000000005.000034248.html", target: :_blank, class: 'flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-0 sm:space-x-4 py-2' do
       .image
-        = image_tag('/assets/images/campaigns/business_model.jpg', class: 'w-48 max-w-xs')
+        = image_tag('/assets/images/campaigns/business_model.jpg', class: 'w-auto sm:w-48 sm:max-w-xs')
       .content
         .font-bold.text-lg 『ビジネスモデル2.0図鑑』公式配信を実施しました
         .text-xs.text-gray-500.mb-2 2019年6月~9月
@@ -388,31 +390,33 @@
 .mb-24
   .mb-12.text-center
     %h3.text-2xl.font-bold.mb-4
-      スポンサー/コラボパートナー募集
+      スポンサー/コラボパートナー
+      %br.block(class="sm:hidden")
+      募集
   .text-center.text-sm
     .mb-4
       ブンゴウメールに共感し、活動を支援してくださる企業様を募集しています。
-      %br
+      %br.hidden(class="sm:block")
       配信メールへの広告掲載やキャンペーン企画の実施など、ご相談の上で柔軟に設計可能です。
       ご興味あればぜひお気軽にお声がけください。
     .mb-8
       またコラボパートナーも随時募集しております。
-      %br
+      %br.hidden(class="sm:block")
       こちらも柔軟なコラボ方法が可能ですので、過去のコラボ実績などをご覧の上、ぜひお気軽にお問い合わせください。
     .mb-4
       = link_to 'https://goo.gl/forms/jE387feQLYysiv5m2', target: :_blank, class: 'text-link' do
         > お問い合わせ
 
 .full-bleed.bg-gray-100.py-24.text-center
-  .container.mx-auto.max-w-screen-lg
+  .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
     .mb-4.text-center
       %h3.text-2xl.font-bold.mb-4
         ブンゴウメールに登録する
     .text-sm.text-gray-500.mb-6
       月の途中で登録した場合、月末まで作品の途中から配信されます。
-      %br.computer.only/
-      %a{:href => "https://blog.bungomail.com", :target => "_blank"} 公式ブログ
+      %br.hidden(class="sm:block")
+      %a{href: "https://blog.bungomail.com", target: "_blank", class: 'text-link'} 公式ブログ
       で追いつくか、翌月初に次の作品が始まるのをお待ちください。
-    = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'inline-block bg-indigo-500 text-white rounded px-6 py-3 font-bold' do
+    = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'block sm:inline-block text-center bg-indigo-500 text-white rounded px-6 py-3 font-bold' do
       メールアドレスを登録する
       %small （無料）
