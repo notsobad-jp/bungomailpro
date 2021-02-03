@@ -29,6 +29,9 @@ module BungoMail
     # DB保存時のタイムゾーンをJSTに設定
     config.active_record.default_timezone = :local
 
+    # ActiveJob設定
+    config.active_job.queue_adapter = :delayed_job
+
     # i18n設定
     I18n.enforce_available_locales = false
     config.i18n.default_locale = :ja
