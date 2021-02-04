@@ -85,7 +85,7 @@ namespace :aozora_books do
 
   desc 'filesからアクセス数ランキングをDBに保存'
   task save_access_ranking: :environment do |_task, _args|
-    (2009..2020).each do |year|
+    (2009..2021).each do |year|
       p "Year: #{year}"
       (1..12).each do |month|
         p "- Month: #{month}"
