@@ -1,7 +1,6 @@
 .bg-gray-100.full-bleed.mb-24(style="background-image: url('/assets/images/seigaiha.png')")
   .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
-    .py-4
-      .font-bold ブンゴウメール
+    = link_to 'ブンゴウメール', root_path, class: 'inline-block py-3 font-bold'
     .grid.grid-cols-1.pt-8.pb-16.gap-y-12(class="sm:grid-cols-2 sm:gap-y-0")
       %h1.text-center
         = image_tag('/assets/images/logo.png', alt: 'ブンゴウメール', class: 'w-64 sm:w-auto sm:max-w-xs mx-auto')

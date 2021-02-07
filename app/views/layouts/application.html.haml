@@ -1,14 +1,12 @@
 !!!
 %html(amp lang="ja")
   %head
-    %meta(content="text/html" charset="UTF-8" http-equiv="Content-Type")
-    %meta(name="viewport" content="width=device-width" initial-scale="1.0" maximum-scale="1.0")
-    %link(rel="shortcut icon" href="/favicon.ico")
-    %link(rel="apple-touch-icon" sizes="128x128" href="/apple-touch-icon.png")
-    %link(rel="apple-touch-icon-precomposed" sizes="128x128" href="/apple-touch-icon-precomposed.png")
+    = render partial: 'layouts/meta'
     %link(rel="stylesheet" href="/assets/stylesheets/application.css")
 
   %body.text-gray-700
+    - unless current_page?(root_url)
+      = render partial: 'layouts/header'
     .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
       = yield
     = render partial: 'layouts/footer'

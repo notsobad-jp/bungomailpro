@@ -1,0 +1,11 @@
+.mb-8
+  .mb-4.bg-gray-100.full-bleed.shadow-sm(style="background-image: url('/assets/images/seigaiha.png')")
+    .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
+      = link_to 'ブンゴウメール', root_path, class: 'inline-block py-3 font-bold'
+
+  .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
+    .flex.flex-wrap.text-sm.items-center
+      = link_to 'TOP', root_path, class: 'text-link'
+      %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+        %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
+      = @meta_title.split(' | ').first

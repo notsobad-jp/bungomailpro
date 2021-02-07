@@ -9,105 +9,97 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-%h1
-  = image_tag('/assets/images/campaigns/dogramagra.png', class: 'ui image')
+%h1.mb-4
+  = image_tag('/assets/images/campaigns/dogramagra.png', class: 'sm:max-w-xl', alt: 'ドグラ・マグラ365日配信チャレンジ')
 
-.ui.basic.segment
+.flex.flex-wrap.items-center.mb-4.space-x-1
   .fb-like(data-href="https://bungomail.com/campaigns/dogramagra" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true")
-  &nbsp;&nbsp;
-  %a(href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="ドグラ・マグラ365日配信チャレンジ" data-url="https://bungomail.com/campaigns/dogramagra" data-hashtags="ブンゴウメール" data-show-count="false") Tweet
-  %script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
-  &nbsp;&nbsp;
-  %a(href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加")
-    %img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;")
-  %script(type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async")
+  %div
+    %a(href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="ドグラ・マグラ365日配信チャレンジ" data-url="https://bungomail.com/campaigns/dogramagra" data-hashtags="ブンゴウメール" data-show-count="false") Tweet
+    %script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+  %div
+    %a(href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加")
+      %img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;")
+    %script(type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async")
 
-.ui.basic.segment
+.mb-8
   %p
     名作小説をメールで小分け配信するブンゴウメールで、2020年元旦より新企画
-    %b.red 『ドグラ・マグラ365日配信チャレンジ』
+    %b.text-red 『ドグラ・マグラ365日配信チャレンジ』
     を実施いたします。
   %p
     一度は読んでみたかったけど手を出せていなかった人、途中まで読んだけどチャカポコで挫折した人、無事に読了したけど久しぶりに再読してみたい人、どなたでも大歓迎です。
     無料なのでぜひこの機会にチャレンジしてみてください。
-  %p
-  = link_to 'メールアドレス登録（無料）', "https://forms.gle/Ueuh7ysWZG4aSdMb7", class: 'ui red responsive button', target: '_blank'
+  %div{class: 'mt-4 rounded bg-red-600 text-white px-4 py-2 block sm:inline-block text-center font-bold opacity-50'}
+    キャンペーンは終了しました
 
-%h3.ui.dividing.header キャンペーン概要
-.ui.basic.segment
-  %p
+.mb-8
+  %h3.font-bold.border-b.text-lg.mb-4 キャンペーン概要
+  .mb-4
     『ドグラ・マグラ』は、構想・執筆に10年以上をかけたと言われる夢野久作の代表作で、日本三大奇書の1つに数えられる一大長編です。
     内容の不可思議さとその長さに読了を諦める人も多い一方、最後まで読み切ると精神に異常をきたすとも言われている魅惑的な書物です。
-  %p
+  .mb-4
     今回の「ドグラ・マグラ365日配信チャレンジ」では、この『ドグラ・マグラ』を365回に分けて、2020年1月1日から12月30日まで毎日配信いたします。
-  %p
+  .mb-4
     １回あたりの配信文字数は約1,000文字程度で、標準的な読書スピードでおよそ3分程度の文量になる予定です（回によって多少変動します）。
     また内容的に朝の気分ではなさそうなので、夜に配信する予定です。
-  %p
+  .mb-4
     ブゥーーーンで始まる素敵な1年を、みなさんと一緒に迎えられたら大変うれしく思います。
 
-%h3.ui.dividing.header 配信期間
-.ui.basic.segment
-  %ul.ui.list
-    %li.item 2020年1月1日〜2020年12月30日
-    %li.item 毎日夜22時に配信予定です
+.mb-8
+  %h3.font-bold.border-b.text-lg.mb-4 配信期間
+  %ul.space-y-4.mb-4
+    %li - 2020年1月1日〜2020年12月30日
+    %li - 毎日夜22時に配信予定です
 
   %small ※配信時間などは変更となる場合もあるかもしれません。
 
-%h3.ui.dividing.header 登録方法
-.ui.basic.segment
-  .ui.warning.message
-    %i.icon.warning.circle
-    ご利用の環境によっては、メールがフィルタされたり迷惑メールなどに振り分けられる場合があります。
-    = link_to '公式ブログの記事', 'https://bungomail.hatenablog.com/entry/2018/05/21/172542', target: '_blank'
-    などを参考に設定をご確認ください。
-    大変申し訳ありませんが見逃した過去配信分の再送などはできません。
-  %p 以下のリンクから受信を希望するメールアドレスを登録してください。配信は最後まで無料です。
-  %p
-    = link_to 'メールアドレス登録（無料）', "https://forms.gle/Ueuh7ysWZG4aSdMb7", class: 'ui red responsive button', target: '_blank'
-  %div
-    %small ※通常のブンゴウメール本編とは別に配信されます。本編に登録している方も、ドグラ・マグラの受信を希望する場合は改めてこちらで登録してください。
-  %div
-    %small ※万が一登録が増えすぎた場合は有料化させていただくかもしれませんが、その場合は事前にご連絡いたします。申し訳ありませんがあらかじめご了承ください。
+.mb-8
+  %h3.font-bold.border-b.text-lg.mb-4 登録方法
+  %div{class: 'rounded bg-red-600 text-white px-4 py-2 block sm:inline-block text-center font-bold opacity-50'}
+    キャンペーンは終了しました
+  .mt-4.space-y-2
+    .text-xs ※通常のブンゴウメール本編とは別に配信されます。本編に登録している方も、ドグラ・マグラの受信を希望する場合は改めてこちらで登録してください。
+    .text-xs ※万が一登録が増えすぎた場合は有料化させていただくかもしれませんが、その場合は事前にご連絡いたします。申し訳ありませんがあらかじめご了承ください。
 
-%h3.ui.dividing.header 解約方法
-.ui.basic.segment
-  %p 配信が不要になった場合、いつでも解約することができます。解約を希望するメールアドレスから、以下のアドレスまで空メールを送信してください。
-  %p bungomail-dogramagra+unsubscribe@notsobad.jp
-  %div
-    %small ※解約後でも、すでに配信が予約されている分については配信される場合があります。もし解約後も配信が続く場合はinfo@notsobad.jpまでその旨ご連絡ください。
+.mb-8
+  %h3.font-bold.border-b.text-lg.mb-4 解約方法
+  .mb-4
+    配信が不要になった場合、いつでも解約することができます。解約を希望するメールアドレスから、以下のアドレスまで空メールを送信してください。
+  .mb-4.font-bold
+    bungomail-dogramagra+unsubscribe@notsobad.jp
 
 
-%h3.ui.dividing.header 注意や参考情報
-.ui.basic.segment
-  %ul.ui.list
+.mb-8
+  %h3.font-bold.border-b.text-lg.mb-4 注意や参考情報
+  %ul.space-y-4
     %li
-      ご利用の環境によっては、メールがフィルタされたり迷惑メールなどに振り分けられる場合があります。
-      = link_to '公式ブログの記事', 'https://bungomail.hatenablog.com/entry/2018/05/21/172542', target: '_blank'
+      \- ご利用の環境によっては、メールがフィルタされたり迷惑メールなどに振り分けられる場合があります。
+      = link_to '公式ブログの記事', 'https://bungomail.hatenablog.com/entry/2018/05/21/172542', target: '_blank', class: 'text-link'
       などを参考に設定をご確認ください。
     %li
-      本配信を通して精神に何らかの異常をきたされても、弊社では一切責任を負いかねます。
+      \- 本配信を通して精神に何らかの異常をきたされても、弊社では一切責任を負いかねます。
       どうしても心配な方は先人による
-      = link_to 'Yahoo!知恵袋の回答', 'https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q1027682090', target: '_blank'
+      = link_to 'Yahoo!知恵袋の回答', 'https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q1027682090', target: '_blank', class: 'text-link'
       などが参考になるかと思いますので、ぜひ事前にご一読ください。
       大丈夫です。私も読んだことがありますが、精神に異常をきたしたりしておりません。
     %li
-      難解な長編なので、途中迷子になることもあると思います。
+      \- 難解な長編なので、途中迷子になることもあると思います。
       そんなときは
-      = link_to 'こちらのイラスト解説', 'https://togetter.com/li/1230259', target: '_blank'
+      = link_to 'こちらのイラスト解説', 'https://togetter.com/li/1230259', target: '_blank', class: 'text-link'
       などを見ると気持ちが落ち着くと思うのでぜひご参考ください（ちょっとだけネタバレします）。
 
-%h3.ui.dividing.header 本件に関するお問い合わせ等
-.ui.basic.segment
-  = link_to 'お問い合わせフォーム', 'https://goo.gl/forms/jE387feQLYysiv5m2', target: '_blank', class: 'ui primary basic button'
+.mb-8
+  %h3.font-bold.border-b.text-lg.mb-4 本件に関するお問い合わせ等
+  .mb-4 info@notsobad.jp
 
 
-.ui.basic.segment
+.flex.flex-wrap.items-center.mb-24.space-x-1
   .fb-like(data-href="https://bungomail.com/campaigns/dogramagra" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true")
-  &nbsp;&nbsp;
-  %a(href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="ドグラ・マグラ365日配信チャレンジ" data-url="https://bungomail.com/campaigns/dogramagra" data-hashtags="ブンゴウメール" data-show-count="false") Tweet
-  %script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
-  &nbsp;&nbsp;
-  %a(href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加")
-    %img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;")
-  %script(type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async")
+  %div
+    %a(href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="ドグラ・マグラ365日配信チャレンジ" data-url="https://bungomail.com/campaigns/dogramagra" data-hashtags="ブンゴウメール" data-show-count="false") Tweet
+    %script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+  %div
+    %a(href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加")
+      %img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;")
+    %script(type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async")
