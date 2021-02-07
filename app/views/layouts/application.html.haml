@@ -1,11 +1,27 @@
 !!!
 %html(amp lang="ja")
   %head
+    -# Google Tag Manager
+    - if Rails.env.production?
+      :javascript
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer', "#{ENV['GOOGLE_TAG_MANAGER_ID']}");
+
     = render partial: 'layouts/meta'
+    = csrf_meta_tags
+    = csp_meta_tag
     %link(rel="stylesheet" href="/assets/stylesheets/application.css")
 
   %body.text-gray-700
-    - unless current_page?(root_url)
+    -# Google Tag Manager
+    - if Rails.env.production?
+      %noscript
+        %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
+
+    - if !current_page?(root_url)
       = render partial: 'layouts/header'
     .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
       = yield

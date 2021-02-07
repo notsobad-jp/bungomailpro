@@ -11,7 +11,11 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'haml-rails'
 gem 'kaminari'
 gem 'rails-i18n'
+gem 'dotenv-rails'
 gem 'delayed_job_active_record'
+gem 'pragmatic_tokenizer'
+gem 'pragmatic_segmenter'
+gem 'lemmatizer'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -28,4 +32,8 @@ group :development do
   # 新しいバージョンは複数workerをkillできないバグがあるので古いので固定
   ## https://github.com/collectiveidea/delayed_job/issues/798
   gem 'daemons', '1.1.9'
+end
+
+group :production do
+  gem 'scout_apm'
 end
