@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 2021_02_03_055651) do
     t.string "title", null: false
     t.text "content", null: false
     t.datetime "send_at", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.uuid "campaign_group_id", null: false
     t.index ["campaign_group_id"], name: "index_campaigns_on_campaign_group_id"
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true

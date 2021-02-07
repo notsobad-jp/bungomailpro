@@ -33,15 +33,15 @@ class CampaignGroup < ApplicationRecord
 
     contents.each.with_index(1) do |content, index|
       title = "#{self.book.title}（#{index}/#{contents.count}）"
-      campaigns << Campaign.new(
+      campaigns << {
         title: title,
         content: content,
         send_at: send_at,
         campaign_group_id: self.id
-      )
+      }
       send_at += 1.day
     end
-    Campaign.import campaigns
+    Campaign.insert_all campaigns
   end
 
   def schedule

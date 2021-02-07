@@ -44,8 +44,8 @@ class InitialMigration < ActiveRecord::Migration[6.0]
       t.string "title", null: false
       t.text "content", null: false
       t.datetime "send_at", null: false
-      t.datetime "created_at", null: false
-      t.datetime "updated_at", null: false
+      t.datetime "created_at", null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime "updated_at", null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.uuid "campaign_group_id", null: false
       t.index ["campaign_group_id"], name: "index_campaigns_on_campaign_group_id"
       t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
