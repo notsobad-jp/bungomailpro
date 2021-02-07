@@ -58,7 +58,7 @@
       1日3分のメールを読み続けるだけで、1年ではこれだけの作品を読むことができます。
       %br.hidden(class="sm:block")
       （あくまで一例なので、実際に配信する内容とは異なります）
-  .grid.grid-cols-2.gap-4.text-center(class="sm:grid-cols-4")
+  .mb-4.grid.grid-cols-2.gap-4.text-center(class="sm:grid-cols-4")
     .border.rounded.py-2
       .font-bold.mb-2
         芥川龍之介
@@ -122,10 +122,11 @@
       .text-sm.text-gray-500
         風琴と魚の町
 
-  -# .ui.basic.center.aligned.segment
-  -#   = link_to books_list_path(CampaignGroup::LIST_ID, year: 2018) do
-  -#     %i.icon.chevron.right
-  -#     これまでの配信作品一覧はこちら
+  .flex.flex-wrap.justify-center.items-center
+    %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+      %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
+    = link_to books_list_path(CampaignGroup::LIST_ID, year: 2018), class: 'text-link' do
+      これまでの配信作品一覧はこちら
 
 .w-12.border-b-8.border-gray-700.mx-auto.mb-24
 
@@ -133,7 +134,7 @@
   .mb-12.text-center
     %h3.text-2xl.font-bold
       みんなの感想
-  .flex.space-y-8.mb-12.text-sm.flex-col(class="sm:flex-row sm:space-x-8 sm:space-y-0")
+  .mb-8.flex.space-y-8.text-sm.flex-col(class="sm:flex-row sm:space-x-8 sm:space-y-0")
     .flex.flex-1.flex-col.justify-between.border.rounded.p-4
       .mb-4
         短くて読みやすい…！ささっと読めるちょうどいい長さだから毎日続けられそうだし、何よりこう、続きが気になってくる👏
@@ -161,9 +162,10 @@
         = image_tag("/assets/images/lp/feedback/elliot.jpg", class: 'w-8 rounded-full')
         \#ブンゴウメール
 
-  .text-center.text-sm
+  .flex.flex-wrap.justify-center.items-center
+    %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+      %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
     = link_to 'https://twitter.com/search?q=%23%E3%83%96%E3%83%B3%E3%82%B4%E3%82%A6%E3%83%A1%E3%83%BC%E3%83%AB', target: :_blank, class: 'text-link' do
-      %i.icon.chevron.right
       Twitterでみんなの感想を見る
 
 .w-12.border-b-8.border-gray-700.mx-auto.mb-24
@@ -402,9 +404,11 @@
       またコラボパートナーも随時募集しております。
       %br.hidden(class="sm:block")
       こちらも柔軟なコラボ方法が可能ですので、過去のコラボ実績などをご覧の上、ぜひお気軽にお問い合わせください。
-    .mb-4
+    .flex.flex-wrap.justify-center.items-center
+      %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+        %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
       = link_to 'https://goo.gl/forms/jE387feQLYysiv5m2', target: :_blank, class: 'text-link' do
-        > お問い合わせ
+        お問い合わせ
 
 .full-bleed.bg-gray-100.py-24.text-center
   .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
