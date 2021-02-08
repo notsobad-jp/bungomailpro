@@ -1,0 +1,19 @@
+（<%= @word_count.to_s(:delimited) %>字。目安の読了時間：<%= @word_count.quo(500).ceil %>分）
+
+<%= @campaign.content %>
+
+=========================
+ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　
+<%= @campaign.campaign_group.twitter_share_url %>
+
+■Twitterでみんなの感想を見る：https://goo.gl/rgfoDv
+■ブンゴウメール公式サイト：https://bungomail.com
+■青空文庫でこの作品を読む：<%= @book.aozora_file_url %>
+■運営へのご支援はこちら： https://www.buymeacoffee.com/bungomail
+■月末まで一時的に配信を停止： https://forms.gle/d2gZZBtbeAEdXySW9
+
+-------
+配信元: ブンゴウメール編集部
+NOT SO BAD, LLC.
+Web: https://bungomail.com
+配信停止： https://goo.gl/forms/kVz3fE9HdDq5iuA03

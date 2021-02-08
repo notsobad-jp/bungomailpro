@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'BungoMail <noreply@bungomail.com>'
+  default from: 'ブンゴウメール編集部 <bungomail@notsobad.jp>'
   # layout 'mailer'
   layout false
 end

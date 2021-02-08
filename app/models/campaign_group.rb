@@ -46,17 +46,12 @@ class CampaignGroup < ApplicationRecord
 
   def schedule
     self.campaigns.each do |campaign|
-      next if campaign.send_at < Time.zone.now
-
-      campaign.create_draft
-      campaign.schedule
-      # campaign.deliver
-
-      # ブログ用mdファイル作成
-      campaign.create_md
+      campaign.deliver_later
+      # campaign.create_draft
+      # campaign.schedule
 
       p "Scheduled #{campaign.title}"
-      sleep 1
+      # sleep 1
     end
   end
 
@@ -66,7 +61,6 @@ class CampaignGroup < ApplicationRecord
   end
 
   def twitter_long_url
-    # CGI.escape("https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール&text=#{campaigns.first.send_at.in_time_zone("Tokyo").month}月は%20%23#{book.author.delete(' ')}%20%23#{book.title}%20を配信中！")
     "https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール,青空文庫&text=#{start_at.month}月は%20%23#{book.author.delete(' ')}%20%23#{book.title}%20を配信中！"
   end
 end

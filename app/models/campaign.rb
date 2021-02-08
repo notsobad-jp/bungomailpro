@@ -47,6 +47,11 @@ class Campaign < ApplicationRecord
     self.delete
   end
 
+  def deliver_later
+    return if self.send_at < Time.current
+    BungoMailer.with(campaign: self).chapter_email.deliver_later(queue: 'chapter_email', wait_until: self.send_at)
+  end
+
   def create_md
     slug = self.send_at.strftime('%Y%m%d%H%M%S')
     File.open("tmp/blog/#{slug}.md", "w") do |f|
