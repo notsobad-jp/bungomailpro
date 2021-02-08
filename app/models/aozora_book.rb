@@ -27,6 +27,7 @@
 #
 #  fk_rails_...  (category_id => categories.id)
 #
+require 'open-uri'
 
 class AozoraBook < ApplicationRecord
   has_many :campaign_group, dependent: :destroy
@@ -121,9 +122,13 @@ class AozoraBook < ApplicationRecord
     AozoraBook.aozora_file_url(author_id: author_id, book_id: id, file_id: file_id)
   end
 
+  def aozora_raw_file_url
+    AozoraBook.aozora_raw_file_url(author_id: author_id, book_id: id, file_id: file_id)
+  end
+
   # scrape and parse Aozora File
   def aozora_file_text(html=nil)
-    html = File.open(aozora_file_path, &:read) if !html
+    html = html || Rails.env.production? ? open(aozora_raw_file_url)&.read : File.open(aozora_file_path, &:read)
 
     charset = 'CP932'
     doc = Nokogiri::HTML.parse(html, nil, charset)
@@ -248,6 +253,11 @@ class AozoraBook < ApplicationRecord
     def aozora_file_url(author_id:, book_id:, file_id:)
       file_path = file_id ? "#{book_id}_#{file_id}" : book_id
       "https://www.aozora.gr.jp/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
+    end
+
+    def aozora_raw_file_url(author_id:, book_id:, file_id:)
+      file_path = file_id ? "#{book_id}_#{file_id}" : book_id
+      "https://raw.githubusercontent.com/aozorabunko/aozorabunko/master/cards/#{format('%06d', author_id)}/files/#{file_path}.html"
     end
 
     def author_name(author)
