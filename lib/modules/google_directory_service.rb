@@ -8,10 +8,7 @@ class GoogleDirectoryService < Google::Apis::AdminDirectoryV1::DirectoryService
   def initialize
     super
 
-    scope = [
-      'https://www.googleapis.com/auth/admin.directory.group',
-      # 'https://www.googleapis.com/auth/admin.directory.member',
-    ]
+    scope = ['https://www.googleapis.com/auth/admin.directory.group']
     auth = Google::Auth::ServiceAccountCredentials.make_creds(
       json_key_io: StringIO.new(ENV['GOOGLE_SERVICE_ACCOUNT_KEY']),
       scope: scope
