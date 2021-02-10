@@ -15,9 +15,12 @@
           気づいたら毎月1冊本が読めてしまう、
           %br.hidden(class="sm:block")
           忙しいあなたのための読書サポートサービスです。
-        = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'block sm:inline-block text-center rounded bg-indigo-500 text-white px-6 py-3 font-bold' do
-          メールアドレスを登録する
-          %small.text-xs （無料）
+
+        = form_with(url: subscriptions_path, local: true, class: 'flex flex-col sm:flex-row') do |f|
+          = f.email_field :email, class: 'p-2 flex-1 rounded-l rounded-r sm:rounded-r-none border mb-2 sm:mb-0', placeholder: 'メールアドレス', required: true
+          = button_tag type: 'submit', class: 'bg-indigo-500 border border-indigo-500 rounded-l sm:rounded-l-none rounded-r text-white px-4 py-2' do
+            メールを登録する
+        %small.text-xs.block.mt-4 ※登録は無料です。翌日からメール配信が始まります。
 
 .grid.grid-cols-1.gap-8.mb-24(class="sm:grid-cols-3 sm:gap-12")
   %div
