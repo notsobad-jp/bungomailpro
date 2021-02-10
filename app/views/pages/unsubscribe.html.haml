@@ -1,0 +1,11 @@
+.mb-4
+  %h1.text-lg.font-bold
+    配信停止
+
+= form_with(url: subscriptions_path, method: :delete, local: true) do |f|
+  = f.email_field :email, class: "p-2 flex-1 rounded-l rounded-r sm:rounded-r-none border mb-2 sm:mb-0 #{flash[:error] ? 'border-red-500' : ''}", placeholder: 'メールアドレス', required: true
+  = button_tag type: 'submit', class: 'bg-indigo-500 border border-indigo-500 rounded-l sm:rounded-l-none rounded-r text-white px-4 py-2' do
+    メールを登録する
+- if flash[:error]
+  .text-red-600
+    = flash[:error]
