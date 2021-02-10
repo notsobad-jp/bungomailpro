@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_03_055651) do
+ActiveRecord::Schema.define(version: 2021_02_10_131124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -109,6 +109,14 @@ ActiveRecord::Schema.define(version: 2021_02_03_055651) do
     t.index ["guten_book_id", "subject_id"], name: "index_guten_books_subjects_on_guten_book_id_and_subject_id", unique: true
     t.index ["guten_book_id"], name: "index_guten_books_subjects_on_guten_book_id"
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
+  end
+
+  create_table "paused_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email", null: false
+    t.string "month", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email", "month"], name: "index_paused_logs_on_email_and_month", unique: true
   end
 
   create_table "senders", id: :serial, force: :cascade do |t|

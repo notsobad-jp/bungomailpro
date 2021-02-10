@@ -1,0 +1,2 @@
+class PausedLog < ApplicationRecord
+end

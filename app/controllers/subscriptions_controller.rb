@@ -22,11 +22,18 @@ class SubscriptionsController < ApplicationController
 
   # 月末まで一時停止
   def update
+    month = Time.current.strftime("%Y%m")
+    paused_log = PausedLog.find_or_initialize_by(email: params[:email], month: month)
+    if paused_log.persisted?
+      redirect_to page_path(:unsubscribe), flash: { error: "このアドレスはすでに月末まで配信停止中です。もし配信が止まらない場合はinfo@notsobad.jpまでお問い合わせください。" } and return
+    end
+
     service = GoogleDirectoryService.instance
     member = Google::Apis::AdminDirectoryV1::Member.new(delivery_settings: 'NONE')
 
     begin
       service.patch_member('test@notsobad.jp', params[:email], member)
+      paused_log.save!
       flash[:success] = '月末まで配信を一時停止しました。来月になると自動で配信が再開されます。'
       redirect_to root_path
     rescue => e
