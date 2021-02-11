@@ -8,7 +8,7 @@ namespace :cron do
     count = paused_emails.length
     paused_emails.each do |email|
       begin
-        service.patch_member('test@notsobad.jp', email, member)
+        service.patch_member(ENV['GOOGLE_GROUP_KEY'], email, member)
         p "success!"
       rescue => e
         p e

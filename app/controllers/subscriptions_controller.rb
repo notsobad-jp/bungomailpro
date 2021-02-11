@@ -5,7 +5,7 @@ class SubscriptionsController < ApplicationController
 
     begin
       member = Google::Apis::AdminDirectoryV1::Member.new(email: params[:email])
-      service.insert_member('test@notsobad.jp', member)
+      service.insert_member(ENV['GOOGLE_GROUP_KEY'], member)
       flash[:success] = '登録完了しました！明日の配信からメールが届きます。<a href="https://blog.bungomail.com/entry/2018/05/21/172542" target="_blank" class="text-link">メールの受信設定</a>を事前に必ずご確認ください。'
       SubscriptionLog.create!(email: params[:email], action: "subscribed")
     rescue => e
@@ -28,12 +28,12 @@ class SubscriptionsController < ApplicationController
     begin
       # 登録解除
       if params[:action_type] == 'unsubscribed'
-        service.delete_member('test@notsobad.jp', params[:email])
+        service.delete_member(ENV['GOOGLE_GROUP_KEY'], params[:email])
         flash[:success] = '購読を解除しました。明日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。'
       # 月末まで一時停止
       elsif params[:action_type] == 'paused'
         member = Google::Apis::AdminDirectoryV1::Member.new(delivery_settings: 'NONE')
-        service.patch_member('test@notsobad.jp', params[:email], member)
+        service.patch_member(ENV['GOOGLE_GROUP_KEY'], params[:email], member)
         flash[:success] = '月末まで配信を一時停止しました。来月になると自動で配信が再開されます。'
       end
 
