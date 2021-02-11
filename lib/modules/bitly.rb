@@ -29,8 +29,5 @@ module Bitly
     raise error
   end
 
-  # module関数としても使いつつincludeしたclassのinstanceメソッドとしても使えるように
-  ## Sendgrid.call(xx), Campaign.new.call(xx)
   module_function :call
-  public :call
 end
