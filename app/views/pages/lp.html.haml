@@ -201,7 +201,7 @@
       %li ✅ 毎月1冊おすすめ短編をセレクトして配信
       %li ✅ 月の途中で登録した場合、作品の途中から届き始めます
       %li ✅ メール内に広告が掲載されたり、広告メールが配信される場合があります
-    = link_to 'https://goo.gl/forms/oOWiGUaqMckVXgBk2', target: :_blank, class: 'p-2 block bg-indigo-500 text-white rounded-b border border-indigo-500' do
+    = link_to '#subscribe', class: 'p-2 block bg-indigo-500 text-white rounded-b border border-indigo-500' do
       FREEプランに登録する
 
   .text-left.text-sm(class="sm:text-center")
@@ -243,20 +243,12 @@
         メール配信を解約したい
       .text-sm
         .mb-2
-          解約を希望される場合は、以下の解約フォームに登録いただいているアドレスを入力してください。
+          解約を希望される場合は、以下の配信停止フォームに登録いただいているアドレスを入力してください。
         .mb-2
-          %a.text-link{:href => "https://goo.gl/forms/kVz3fE9HdDq5iuA03", :target => "_blank"}
-            解約フォーム
-            %i.icon.small.external
+          = link_to '配信停止フォーム', page_path(:unsubscribe), class: 'block sm:inline-block rounded bg-red-500 text-white px-4 py-2 text-center hover:opacity-75'
         .mb-2
           また完全に解約するのではなく、月末まで配信を停止し、翌月から自動的に配信を再開する「一時停止」もできます。
           今回の作品が合わない、今月は忙しくて読めそうにない、などの場合にご活用ください。
-        .mb-2
-          %a.text-link{:href => "https://forms.gle/d2gZZBtbeAEdXySW9", :target => "_blank"}
-            一時停止フォーム
-            %i.icon.small.external
-          %br
-          %small ※ベータ版のため動作が不安定な場合があります。ご了承ください。
     .py-4
       .text-lg.font-bold.mb-2
         月の途中で登録したので、それまでの話がわからない
@@ -424,7 +416,7 @@
       = link_to 'https://goo.gl/forms/jE387feQLYysiv5m2', target: :_blank, class: 'text-link' do
         お問い合わせ
 
-.full-bleed.bg-gray-100.py-24.text-center
+#subscribe.full-bleed.bg-gray-100.py-24.text-center
   .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
     .mb-4.text-center
       %h3.text-2xl.font-bold.mb-4
