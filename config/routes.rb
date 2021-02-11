@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :subscriptions
+  delete '/subscriptions' => 'subscriptions#destroy'
+
   resources :lists do
     get 'books', on: :member
   end
