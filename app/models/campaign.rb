@@ -59,7 +59,7 @@ class Campaign < ApplicationRecord
     end
   end
 
-  private
+  # private
 
   def markdown_content
     <<~EOS
@@ -99,7 +99,8 @@ class Campaign < ApplicationRecord
   end
 
   def html_content
-    text = plain_content
+    # text = plain_content
+    text = content
     URI.extract(text, ["http", "https"]).uniq.each do |url|
       text.gsub!(url, "<a target='_blank' href='#{url}'>#{url}</a>")
     end
