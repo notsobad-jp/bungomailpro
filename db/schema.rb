@@ -111,14 +111,6 @@ ActiveRecord::Schema.define(version: 2021_02_10_131124) do
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
   end
 
-  create_table "paused_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "email", null: false
-    t.string "month", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email", "month"], name: "index_paused_logs_on_email_and_month", unique: true
-  end
-
   create_table "senders", id: :serial, force: :cascade do |t|
     t.string "nickname", null: false
     t.string "name", null: false
@@ -132,6 +124,14 @@ ActiveRecord::Schema.define(version: 2021_02_10_131124) do
     t.integer "books_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "subscription_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email", null: false
+    t.integer "action", default: 1, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_subscription_logs_on_action"
   end
 
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id"

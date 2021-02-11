@@ -4,7 +4,7 @@ namespace :cron do
     member = Google::Apis::AdminDirectoryV1::Member.new(delivery_settings: 'ALL_MAIL')
 
     # 先月一時停止したユーザーのメアド一覧を取得
-    paused_emails = PausedLog.where(created_at: Time.current.last_month.all_month).pluck(:email).uniq
+    paused_emails = SubscriptionLog.where(type: "paused", created_at: Time.current.last_month.all_month).pluck(:email).uniq
     count = paused_emails.length
     paused_emails.each do |email|
       begin
