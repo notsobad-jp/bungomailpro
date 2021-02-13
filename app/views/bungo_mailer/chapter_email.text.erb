@@ -1,10 +1,10 @@
 （<%= @word_count.to_s(:delimited) %>字。目安の読了時間：<%= @word_count.quo(500).ceil %>分）
 
-<%= @campaign.content %>
+<%= @chapter.content %>
 
 =========================
 ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　
-<%= @campaign.campaign_group.twitter_share_url %>
+<%= @chapter.book_assignment.twitter_short_url %>
 
 ■Twitterでみんなの感想を見る：https://goo.gl/rgfoDv
 ■ブンゴウメール公式サイト：https://bungomail.com

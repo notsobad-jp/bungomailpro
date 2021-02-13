@@ -1,11 +1,14 @@
 class BungoMailer < ApplicationMailer
   def chapter_email
-    @campaign = params[:campaign]
-    @book = @campaign.campaign_group.book
-    @word_count = @campaign.content.gsub(" ", "").length
-    sender_name = envelope_display_name("#{@book.author_name}（ブンゴウメール）")
+    @chapter = params[:chapter]
+    @book = @chapter.book_assignment.book
+    @channel = @chapter.book_assignment.channel
+    @word_count = @chapter.content.gsub(" ", "").length
 
-    mail(to: "info@notsobad.jp", from: "#{sender_name} <bungomail@notsobad.jp>", subject: @campaign.title)
+    sender_name = envelope_display_name("#{@book.author_name}（ブンゴウメール）")
+    send_to = @channel.send_to || @channel.user.email
+
+    mail(to: send_to, from: "#{sender_name} <bungomail@notsobad.jp>", subject: @chapter.title)
   end
 
   private
