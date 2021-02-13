@@ -1,0 +1,21 @@
+%h1.ui.medium.header
+  %i.icon.mail
+  Sign In
+
+= form_tag magic_tokens_path, method: :post do
+  .ui.action.fluid.input
+    = text_field_tag :email, nil, placeholder: 'Your email address', required: true
+    %button.ui.pink.right.labeled.icon.button
+      Submit
+      %i.send.icon
+
+.ui.basic.segment
+  .ui.bulleted.list
+    %small.item
+      We will send a sign-in URL to your email address in a minute.
+    %small.item
+      When you signin, it is regarded that you aggreed with the
+      = link_to 'Terms', page_path(:terms, locale: I18n.locale), class: 'item'
+      and
+      = link_to 'Privacy Policy', page_path(:privacy, locale: I18n.locale), class: 'item'
+      \.

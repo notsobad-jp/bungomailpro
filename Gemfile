@@ -18,6 +18,7 @@ gem 'pragmatic_segmenter'
 gem 'lemmatizer'
 gem 'google-api-client'
 gem 'sorcery'
+gem 'pundit'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

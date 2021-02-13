@@ -1,4 +1,6 @@
 class SubscriptionsController < ApplicationController
+  skip_before_action :require_login
+
   # 購読
   def create
     service = GoogleDirectoryService.instance

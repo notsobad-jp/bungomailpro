@@ -197,6 +197,8 @@ GEM
     public_suffix (4.0.6)
     puma (4.3.7)
       nio4r (~> 2.0)
+    pundit (2.1.0)
+      activesupport (>= 3.0.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -307,6 +309,7 @@ DEPENDENCIES
   pragmatic_segmenter
   pragmatic_tokenizer
   puma (~> 4.1)
+  pundit
   rails (~> 6.0.3, >= 6.0.3.4)
   rails-i18n
   scout_apm
