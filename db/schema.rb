@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_10_131124) do
+ActiveRecord::Schema.define(version: 2021_02_13_033417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -132,6 +132,19 @@ ActiveRecord::Schema.define(version: 2021_02_10_131124) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["action"], name: "index_subscription_logs_on_action"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "magic_login_token"
+    t.datetime "magic_login_token_expires_at"
+    t.datetime "magic_login_email_sent_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
   end
 
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id"
