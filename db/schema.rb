@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_043432) do
 
   create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
+    t.boolean "public", default: false, null: false
     t.string "send_to"
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
@@ -92,8 +93,8 @@ ActiveRecord::Schema.define(version: 2021_02_13_043432) do
     t.string "title", null: false
     t.text "content", null: false
     t.datetime "send_at", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["book_assignment_id"], name: "index_chapters_on_book_assignment_id"
     t.index ["delayed_job_id"], name: "index_chapters_on_delayed_job_id"
   end
