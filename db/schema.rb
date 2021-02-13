@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_035344) do
+ActiveRecord::Schema.define(version: 2021_02_13_043432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -41,6 +41,18 @@ ActiveRecord::Schema.define(version: 2021_02_13_035344) do
     t.index ["words_count"], name: "index_aozora_books_on_words_count"
   end
 
+  create_table "book_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "channel_id", null: false
+    t.integer "book_id", null: false
+    t.string "book_type", null: false
+    t.integer "count", null: false
+    t.datetime "start_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["book_id", "book_type"], name: "index_book_assignments_on_book_id_and_book_type"
+    t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
+  end
+
   create_table "campaign_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "book_id", null: false
     t.integer "count", null: false
@@ -63,6 +75,27 @@ ActiveRecord::Schema.define(version: 2021_02_13_035344) do
     t.uuid "campaign_group_id", null: false
     t.index ["campaign_group_id"], name: "index_campaigns_on_campaign_group_id"
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
+  end
+
+  create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "send_to"
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_channels_on_user_id"
+  end
+
+  create_table "chapters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "book_assignment_id", null: false
+    t.uuid "delayed_job_id"
+    t.string "title", null: false
+    t.text "content", null: false
+    t.datetime "send_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["book_assignment_id"], name: "index_chapters_on_book_assignment_id"
+    t.index ["delayed_job_id"], name: "index_chapters_on_delayed_job_id"
   end
 
   create_table "delayed_jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -134,7 +167,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_035344) do
     t.index ["action"], name: "index_subscription_logs_on_action"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "crypted_password"
     t.string "salt"
@@ -150,7 +183,11 @@ ActiveRecord::Schema.define(version: 2021_02_13_035344) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
+  add_foreign_key "book_assignments", "channels"
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id"
   add_foreign_key "campaigns", "campaign_groups"
+  add_foreign_key "channels", "users"
+  add_foreign_key "chapters", "book_assignments"
+  add_foreign_key "chapters", "delayed_jobs"
   add_foreign_key "guten_books_subjects", "subjects"
 end

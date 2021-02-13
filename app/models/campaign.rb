@@ -1,26 +1,3 @@
-# == Schema Information
-#
-# Table name: campaigns
-#
-#  id                :bigint(8)        not null, primary key
-#  content           :text             not null
-#  send_at           :datetime         not null
-#  title             :string           not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  campaign_group_id :bigint(8)        default(1), not null
-#  sendgrid_id       :integer
-#
-# Indexes
-#
-#  index_campaigns_on_campaign_group_id  (campaign_group_id)
-#  index_campaigns_on_sendgrid_id        (sendgrid_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (campaign_group_id => campaign_groups.id)
-#
-
 class Campaign < ApplicationRecord
   belongs_to :campaign_group
   include Sendgrid

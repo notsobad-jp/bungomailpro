@@ -1,25 +1,3 @@
-# == Schema Information
-#
-# Table name: campaign_groups
-#
-#  id         :bigint(8)        not null, primary key
-#  count      :integer          not null
-#  start_at   :datetime         not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  book_id    :bigint(8)        not null
-#  list_id    :integer          not null
-#  sender_id  :integer          not null
-#
-# Indexes
-#
-#  index_campaign_groups_on_book_id  (book_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (book_id => books.id)
-#
-
 class CampaignGroup < ApplicationRecord
   belongs_to :book, class_name: 'AozoraBook'
   has_many :campaigns, -> { order(:send_at) }, dependent: :destroy

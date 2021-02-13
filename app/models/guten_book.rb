@@ -1,24 +1,9 @@
-# == Schema Information
-#
-# Table name: guten_books
-#
-#  id          :bigint(8)        not null, primary key
-#  author      :string           not null
-#  chars_count :integer          default(0), not null
-#  downloads   :bigint(8)
-#  language    :string
-#  rights      :string
-#  title       :string           not null
-#  words_count :integer          default(0), not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#
 require 'open-uri'
 require 'csv'
 
 class GutenBook < ApplicationRecord
   has_and_belongs_to_many :subjects
-  has_many :book_assignments, as: :book, dependent: :destroy
+  has_many :book_assignments, as: :book, dependent: :restrict_with_exception
 
   default_scope { where(language: :en).where.not(id: EXCLUDE_IDS) }
   scope :sorted, -> { order(downloads: :desc) }
