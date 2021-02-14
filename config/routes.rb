@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :subscriptions
   resources :magic_tokens
+  resources :channels do
+    resources :book_assignments
+  end
   resources :users
   resources :lists do
     get 'books', on: :member
