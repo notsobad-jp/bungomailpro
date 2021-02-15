@@ -8,7 +8,33 @@ class BungoMailer < ApplicationMailer
     sender_name = envelope_display_name("#{@book.author_name}（ブンゴウメール）")
     send_to = @channel.send_to || @channel.user.email
 
+    xsmtp_api_params = { category: 'chapter' }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
     mail(to: send_to, from: "#{sender_name} <bungomail@notsobad.jp>", subject: @chapter.title)
+    logger.info "[CHAPTER] channel: #{@channel.code || @channel.id}, title: #{@chapter.title}"
+  end
+
+  def magic_login_email
+    @user = params[:user]
+    @url  = URI.join(root_url, "/auth?token=#{@user.magic_login_token}")
+
+    xsmtp_api_params = { category: 'login' }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
+    mail(to: @user.email, subject: '【ブンゴウメール】ログイン用URL')
+    logger.info "[LOGIN] Login mail sent to #{@user.id}"
+  end
+
+  def activation_email
+    @user = params[:user]
+    @url  = URI.join(root_url, "/users/#{@user.activation_token}/activate")
+
+    xsmtp_api_params = { category: 'activation' }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
+    mail(to: @user.email, subject: "【ブンゴウメール】アカウント確認")
+    logger.info "[ACTIVATION] Activation mail sent to #{@user.id}"
   end
 
   private
