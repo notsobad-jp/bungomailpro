@@ -8,7 +8,7 @@
     = link_to "#{year}年", books_list_path(id: params[:id], year: year), class: "rounded px-2 sm:px-4 py-2 #{active}"
 
 - colors = %w(red orange yellow olive green teal blue violet purple pink brown black)
-.mb-24.space-y-4
+.mb-4.space-y-4
   - @campaign_groups.each do |cg|
     - month = cg.start_at.month
     - end_month = (cg.count - 1).days.since(cg.start_at).month

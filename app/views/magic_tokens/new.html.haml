@@ -5,16 +5,16 @@
 .mb-4
   = form_with(url: magic_tokens_path, local: true, class: 'flex flex-col sm:flex-row') do |f|
     = f.email_field :email, class: "p-2 flex-1 rounded-l rounded-r sm:rounded-r-none border mb-2 sm:mb-0 #{flash[:error] ? 'border-red-500' : ''}", placeholder: 'メールアドレス', required: true
-    = button_tag type: 'submit', class: 'bg-indigo-500 border border-indigo-500 rounded-l sm:rounded-l-none rounded-r text-white px-4 py-2' do
-      ログイン
+    = button_tag type: 'submit', class: 'bg-indigo-500 border border-indigo-500 rounded-l sm:rounded-l-none rounded-r text-white px-6 py-2' do
+      送信
   - if flash[:error]
     .text-red-600
       = flash[:error]
-      
+
 .mb-4
   .text-xs.block 入力したアドレスにログイン用URLを送信します。
 
-.mb-32
+.mb-4
   .flex.items-center.text-sm
     %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
       %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")

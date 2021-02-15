@@ -1,7 +1,5 @@
-.bg-gray-100.full-bleed.mb-24(style="background-image: url('/assets/images/seigaiha.png')")
+.bg-gray-100.full-bleed.mb-24.-mt-4(style="background-image: url('/assets/images/seigaiha.png')")
   .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
-    = link_to 'ブンゴウメール', root_path, class: 'inline-block py-3 font-bold'
-
     - if flash[:success]
       .px-4.py-2.rounded.bg-green-50.border.border-green-500.text-green-700
         = flash[:success].html_safe

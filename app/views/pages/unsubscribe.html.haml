@@ -7,7 +7,7 @@
   %br
   「月末まで一時停止」した場合、来月になると自動で配信を再開します。
 
-.mb-24
+.mb-8
   = form_with(url: subscriptions_path, method: :delete, local: true, class: 'max-w-lg') do |f|
     = f.email_field :email, class: "block w-full p-2 rounded border mb-2 #{flash[:error] ? 'border-red-500' : ''}", placeholder: 'メールアドレス', required: true
     .flex{class: "sm:flex-row flex-col space-x-0 sm:space-x-2 space-y-2 sm:space-y-0"}
