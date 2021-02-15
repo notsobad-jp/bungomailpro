@@ -1,0 +1,7 @@
+- if flash[:success]
+  .px-4.py-2.rounded.bg-green-50.border.border-green-500.text-green-700{class: style}
+    = flash[:success].html_safe
+- if flash[:error]
+  .px-4.py-2.rounded.bg-red-50.border.border-red-500.text-red-700{class: style}
+    【エラー】
+    = flash[:error].html_safe

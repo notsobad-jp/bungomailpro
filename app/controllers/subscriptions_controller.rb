@@ -11,6 +11,7 @@ class SubscriptionsController < ApplicationController
       flash[:success] = '登録完了しました！明日の配信からメールが届きます。<a href="https://blog.bungomail.com/entry/2018/05/21/172542" target="_blank" class="text-link">メールの受信設定</a>を事前に必ずご確認ください。'
       SubscriptionLog.create!(email: params[:email], action: "subscribed")
     rescue => e
+      logger.error "[Subscription Error]#{e.message}, #{params[:email]}"
       flash[:error] = case e.status_code
                       when 409
                         'このメールアドレスはすでに登録されています'

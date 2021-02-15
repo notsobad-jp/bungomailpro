@@ -23,15 +23,16 @@
 
     = render partial: 'layouts/header'
 
-    - if current_page?(root_url)
-      .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
+    .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
+      - if current_page?(root_url)
         = yield
-    - else
-      .mb-32.container.mx-auto.max-w-screen-lg.px-2.grid.grid-cols-1(class="sm:px-0 sm:grid-cols-3 sm:gap-12")
-        .col-span-2.border-b.pb-8.mb-8(class="sm:border-b-0 sm:pb-0 sm:mb-0")
-          = render partial: 'layouts/breadcrumb'
-          = yield
-        .col-span-1
-          = render partial: 'layouts/sidebar'
+      - else
+        .mb-32.grid.grid-cols-1(class="sm:grid-cols-3 sm:gap-12")
+          .col-span-2.border-b.pb-8.mb-8(class="sm:border-b-0 sm:pb-0 sm:mb-0")
+            = render partial: 'layouts/breadcrumb'
+            = render partial: 'layouts/flash', locals: { style: '-mt-4 mb-4' }
+            = yield
+          .col-span-1
+            = render partial: 'layouts/sidebar'
 
     = render partial: 'layouts/footer'
