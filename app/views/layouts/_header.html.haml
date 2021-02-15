@@ -1,7 +1,12 @@
 .mb-8
   .mb-4.bg-gray-100.full-bleed.shadow-sm(style="background-image: url('/assets/images/seigaiha.png')")
-    .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
-      = link_to 'ブンゴウメール', root_path, class: 'inline-block py-3 font-bold'
+    .container.mx-auto.max-w-screen-lg.px-2.flex.items-stretch.justify-between(class="sm:px-0")
+      %div
+        = link_to 'ブンゴウメール', root_path, class: 'inline-block py-3 font-bold'
+      -# TODO
+      - if Rails.env.development?
+        = link_to login_path, class: 'inline-block text-sm flex items-center hover:opacity-75' do
+          ログイン
 
   .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
     .flex.flex-wrap.text-sm.items-center

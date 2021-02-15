@@ -2,17 +2,18 @@ class MagicTokensController < ApplicationController
   skip_before_action :require_login, except: [:destroy]
 
   def new
+    @meta_title = 'ログイン'
     redirect_to user_path(current_user) if current_user
   end
 
   def create
     @user = User.find_by(email: params[:email])
-    return redirect_to login_path, flash: { error: 'This email address is not registered. Please register first or try another address.' } unless @user
+    return redirect_to login_path, flash: { error: 'メールアドレスが見つかりませんでした。。初めての方はアカウント登録してください。' } unless @user
 
     @user.generate_magic_login_token!
-    BungoMailer.magic_login_email(@user).deliver
-    flash[:success] = 'We sent you an email with signin URL.'
-    redirect_to root_path
+    BungoMailer.magic_login_email(@user).deliver_later
+    flash[:success] = 'ログイン用URLを送信しました！メールに記載されたURLからログインしてください。'
+    redirect_to login_path
   end
 
   def auth
