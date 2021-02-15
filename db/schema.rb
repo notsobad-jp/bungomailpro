@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_043432) do
+ActiveRecord::Schema.define(version: 2021_02_15_065425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_043432) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["book_id", "book_type"], name: "index_book_assignments_on_book_id_and_book_type"
     t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
+    t.index ["start_at"], name: "index_book_assignments_on_start_at"
   end
 
   create_table "campaign_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -77,13 +78,20 @@ ActiveRecord::Schema.define(version: 2021_02_13_043432) do
     t.index ["sendgrid_id"], name: "index_campaigns_on_sendgrid_id", unique: true
   end
 
-  create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.boolean "public", default: false, null: false
+  create_table "channel_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "send_to"
     t.string "title"
+    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "channels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "code"
+    t.index ["code"], name: "index_channels_on_code", unique: true
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
@@ -187,6 +195,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_043432) do
   add_foreign_key "book_assignments", "channels"
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id"
   add_foreign_key "campaigns", "campaign_groups"
+  add_foreign_key "channel_profiles", "channels", column: "id"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "book_assignments"
   add_foreign_key "chapters", "delayed_jobs"

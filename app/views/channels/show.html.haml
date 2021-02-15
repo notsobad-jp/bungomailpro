@@ -1,26 +1,22 @@
-.mb-4
+- if @channel.code?
+  .bg-black.mb-4
+    = image_tag("/assets/images/channels/#{@channel.code}.png", alt: @meta_title, class: 'max-h-64 mx-auto')
+
+.mb-8
   %h1.text-lg.font-bold
-    = @channel.title
+    = @meta_title
 
-.py-4.border-t.border-b.mb-8
-  - [*(2018..Time.current.year)].reverse.each do |year|
-    - active = 'bg-gray-100 font-bold' if year == params[:year].to_i || (params[:year].blank? && year == Time.current.year)
-    -# = link_to "#{year}年", books_list_path(id: params[:id], year: year), class: "rounded px-2 sm:px-4 py-2 #{active}"
-    = link_to "#{year}年", channel_path(@channel, year: year), class: "rounded px-2 sm:px-4 py-2 #{active}"
+- if @channel.description.present?
+  .mb-8.text-sm
+    = simple_format @channel.description
 
-- colors = %w(red orange yellow olive green teal blue violet purple pink brown black)
-.mb-24.space-y-4
-  - @book_assignments.each do |ba|
-    - month = ba.start_at.month
-    - end_month = (ba.count - 1).days.since(ba.start_at).month
-    .item
+.mb-24
+  %h3.font-bold.mb-4.pb-2.border-b ▼ 配信履歴
+  .space-y-2
+    - @book_assignments.each do |ba|
       .content
         = link_to "https://bungo-search.com/authors/#{ba.book.author_id}/categories/#{ba.book.category_id}/books/#{ba.book_id}", class: 'header', target: :blank do
-          %span.text-sm{class: colors[month - 1]} #{month}月
-          - if month != end_month # ２ヶ月配信対応
-            %span.text-sm{class: colors[end_month - 1]} #{end_month}月
-          &nbsp;
-          .inline.font-bold 『#{ba.book.title}』
+          .inline.sm:text-lg.font-bold= ba.book.title
           = ba.book.author_name
           &nbsp;
           %small
@@ -30,3 +26,6 @@
             = ba.start_at.strftime("%Y年%-m月%-d日")
             〜
             = (ba.count - 1).days.since(ba.start_at).strftime("%Y年%-m月%-d日")
+
+  .mt-8.mx-auto
+    = paginate @book_assignments
