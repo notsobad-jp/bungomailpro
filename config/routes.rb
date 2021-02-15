@@ -12,10 +12,11 @@ Rails.application.routes.draw do
   delete '/subscriptions' => 'subscriptions#destroy'
   get 'signup' => 'users#new'
   get 'login' => 'magic_tokens#new'
-  post 'logout' => 'magic_tokens#destroy'
+  delete 'logout' => 'magic_tokens#destroy'
   get 'auth' => 'magic_tokens#auth'
   get '/campaigns/dogramagra' => "pages#dogramagra"
-  get ':page' => "pages#show", as: :page
+  get 'mypage' => "users#show"
 
+  get ':page' => "pages#show", as: :page
   root to: 'pages#lp'
 end

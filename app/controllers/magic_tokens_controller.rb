@@ -23,13 +23,13 @@ class MagicTokensController < ApplicationController
 
     auto_login(@user)
     remember_me!
-    flash[:success] = 'Signin successful!'
-    redirect_to user_path(@user)
+    flash[:success] = 'ログインしました！'
+    redirect_to mypage_path
   end
 
   def destroy
     logout
-    flash[:info] = 'Signed out successfully.'
+    flash[:info] = 'ログアウトしました'
     redirect_to root_path
   end
 end

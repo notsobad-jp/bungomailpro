@@ -24,7 +24,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = authorize User.find(params[:id])
+    @user = current_user
+    # @user = authorize User.find(params[:id])
     @campaign_group = CampaignGroup.where("start_at < ?", Time.current).order(start_at: :desc).first
   end
 

@@ -15,11 +15,11 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:warning] = 'Not authorized. Please check your login status.'
-    redirect_to request.referer || login_path, status: :forbidden #403
+    redirect_to request.referer || login_path
   end
 
   def not_authenticated
     flash[:warning] = 'Not authorized. Please signin to see the content.'
-    redirect_to login_path, status: :unauthorized #401
+    redirect_to login_path
   end
 end
