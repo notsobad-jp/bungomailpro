@@ -49,13 +49,12 @@ class UsersController < ApplicationController
     return not_authenticated unless @user
     @user.activate!
 
-    # TODO: DelayedJobの登録
-
+    # 翌月初にトライアル開始、翌月末でキャンセルになるように予約
     start_at = Time.current.next_month.beginning_of_month
-    MembershipLog.insert_all([
-      {user_id: @user.id, action: 'trial_start', plan: 'basic', status: "trialing", apply_at: start_at},
-      {user_id: @user.id, action: 'cancel', plan: 'basic', status: "canceled", apply_at: start_at.end_of_month},
-    ])
+    trial_params = {action: 'trial_start', plan: 'basic', status: "trialing", apply_at: start_at}
+    @user.schedule_membership(trial_params)
+    cancel_params = {action: 'cancel', plan: 'basic', status: "canceled", apply_at: start_at.end_of_month}
+    @user.schedule_membership(cancel_params)
 
     auto_login(@user)
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉' })
