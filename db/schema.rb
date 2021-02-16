@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_075119) do
+ActiveRecord::Schema.define(version: 2021_02_16_123105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -153,14 +153,27 @@ ActiveRecord::Schema.define(version: 2021_02_16_075119) do
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
   end
 
+  create_table "membership_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "delayed_job_id"
+    t.string "action", null: false
+    t.string "plan", null: false
+    t.string "status", null: false
+    t.datetime "apply_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "canceled", default: false, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["action"], name: "index_membership_logs_on_action"
+    t.index ["apply_at"], name: "index_membership_logs_on_apply_at"
+    t.index ["delayed_job_id"], name: "index_membership_logs_on_delayed_job_id"
+    t.index ["user_id"], name: "index_membership_logs_on_user_id"
+  end
+
   create_table "memberships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "stripe_customer_id"
     t.string "stripe_subscription_id"
     t.string "plan", null: false
     t.string "status", null: false
-    t.datetime "start_at"
-    t.datetime "trial_end_at"
-    t.datetime "cancel_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -217,5 +230,7 @@ ActiveRecord::Schema.define(version: 2021_02_16_075119) do
   add_foreign_key "chapters", "delayed_jobs", on_delete: :nullify
   add_foreign_key "guten_books_subjects", "guten_books", on_delete: :cascade
   add_foreign_key "guten_books_subjects", "subjects", on_delete: :cascade
+  add_foreign_key "membership_logs", "delayed_jobs", on_delete: :nullify
+  add_foreign_key "membership_logs", "users"
   add_foreign_key "memberships", "users", column: "id"
 end
