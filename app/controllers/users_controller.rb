@@ -9,18 +9,17 @@ class UsersController < ApplicationController
   def create
     @user = User.find_or_initialize_by(email: user_params[:email])
     if @user.persisted?
-      BungoMailer.magic_login_email(@user).deliver
-      flash[:info] = '登録済みのアドレスに認証用メールを送信しました。メール内のリンクからサイトにアクセスしてください。'
-      return redirect_to root_path
+      flash[:warning] = 'このアドレスはすでに登録されているようです。こちらのページからログインしてください。'
+      return redirect_to login_path
     end
 
-    # sorceryのuser_activationで、create後は自動的にactivationメールが送られる
     if @user.save
-      flash[:success] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクからアクセスして、アカウントを認証してください。'
+      BungoMailer.with(user: @user).activation_email.deliver_later
+      flash[:success] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクをクリックして、アカウントを認証してください。'
     else
       flash[:error] = '処理に失敗しました。。再度試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
     end
-    redirect_to login_path
+    redirect_to signup_path
   end
 
   def show
@@ -45,36 +44,21 @@ class UsersController < ApplicationController
   end
 
   def activate
-    if (@user = User.load_from_activation_token(params[:id]))
-      @user.activate!
+    @user = User.load_from_activation_token(params[:id])
+    return not_authenticated unless @user
 
-      # SendGridにrecipient追加（翌月初までListには追加しない）
-      recipient = @user.create_recipient rescue nil
-      @user.update(
-        sendgrid_id: recipient&.dig("persisted_recipients", 0),
-        trial_end_at: Time.current.next_month.end_of_month, # 翌月末まで無料期間
-      )
+    @user.activate!
+    # ステータス更新
+    # StripeでSubscription予約
 
-      auto_login(@user)
-      redirect_to(user_path(@user), flash: { success: 'アカウント登録が完了しました🎉' })
-    else
-      not_authenticated
-    end
+    auto_login(@user)
+    redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉' })
   end
 
   def start_trial_now
     @user = authorize User.find(params[:id])
     @user.start_trial_now
     redirect_to(user_path(@user), flash: { success: 'トライアルを開始しました！次回配信分からメールが届くようになります。' })
-  rescue => error
-    redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })
-  end
-
-  def pause_subscription
-    @user = authorize User.find(params[:id])
-    @user.pause_subscription
-    @user.charge.refund_latest_payment if Time.current.day <= 7 # 7日以前なら返金処理
-    redirect_to(user_path(@user), flash: { success: '配信を一時停止しました。翌月から自動的に配信が再開します。' })
   rescue => error
     redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })
   end

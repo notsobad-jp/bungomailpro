@@ -1,20 +1,29 @@
-%h1.ui.medium.header
-  %i.icon.mail
-  アカウント登録
+.mb-4
+  %h1.text-lg.font-bold
+    アカウント登録
 
-= form_with model: @user, local: true do |f|
-  .ui.action.fluid.input
-    = f.text_field :email, placeholder: 'Your email address', required: true
-    %button.ui.red.button 
-      登録
+.mb-4
+  = form_with(model: @user, local: true, class: 'flex flex-col sm:flex-row') do |f|
+    = f.email_field :email, class: "p-2 flex-1 rounded-l rounded-r sm:rounded-r-none border mb-2 sm:mb-0 #{flash[:error] ? 'border-red-500' : ''}", placeholder: 'メールアドレス', required: true
+    = button_tag type: 'submit', class: 'bg-indigo-500 border border-indigo-500 rounded-l sm:rounded-l-none rounded-r text-white px-6 py-2' do
+      送信
 
-.ui.basic.segment
-  .ui.bulleted.list
-    %small.item
-      入力したアドレスに確認用メールが送信されます。メール内のリンクをクリックしてアカウントを有効化してください。
-    %small.item
-      メールアドレスを登録することで、本サービスの
-      = link_to '利用規約', page_path(:terms, locale: I18n.locale), class: 'item'
-      と
-      = link_to 'プライバシーポリシー', page_path(:privacy, locale: I18n.locale), class: 'item'
-      に同意されたものとみなします。
+.mb-4
+  .text-xs
+    入力したアドレスに認証用メールが送信されます。
+    メール内のリンクをクリックしてアカウントを有効化してください。
+
+.mb-8
+  .flex.items-center.text-sm
+    %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+      %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
+    = link_to login_path, class: 'text-link' do
+      ログインはこちら
+
+.mb-4
+  .text-xs
+    ※メールアドレスを登録することで、本サービスの
+    = link_to '利用規約', page_path(:terms), target: :_blank, class: 'text-link'
+    と
+    = link_to 'プライバシーポリシー', page_path(:privacy), target: :_blank, class: 'text-link'
+    に同意されたものとみなします。

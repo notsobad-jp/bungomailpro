@@ -43,6 +43,7 @@ class SubscriptionsController < ApplicationController
       SubscriptionLog.create!(email: params[:email], action: params[:action_type])
       redirect_to root_path
     rescue => e
+      logger.error "[Un-subscription Error]#{e.message}, #{params[:email]}"
       flash[:error] = case e.status_code
                       when 404
                         'メールアドレスが見つかりませんでした。。再度試してもうまくいかないない場合、お手数ですがinfo@notsobad.jpまでお問い合わせください。'

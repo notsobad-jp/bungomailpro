@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   resources :channels do
     resources :book_assignments
   end
-  resources :users
+  resources :users do
+    get 'activate', on: :member
+  end
   resources :lists do
     get 'books', on: :member
   end
