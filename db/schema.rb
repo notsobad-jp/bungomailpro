@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_15_065425) do
+ActiveRecord::Schema.define(version: 2021_02_16_024401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -198,6 +198,6 @@ ActiveRecord::Schema.define(version: 2021_02_15_065425) do
   add_foreign_key "channel_profiles", "channels", column: "id"
   add_foreign_key "channels", "users"
   add_foreign_key "chapters", "book_assignments"
-  add_foreign_key "chapters", "delayed_jobs"
+  add_foreign_key "chapters", "delayed_jobs", on_delete: :nullify
   add_foreign_key "guten_books_subjects", "subjects"
 end
