@@ -1,0 +1,51 @@
+%h1.ui.large.header
+  %i.icon.credit.card.outline
+  決済情報の登録
+
+-# %small
+-#   = link_to page_path(:plan) do
+-#     %i.icon.chevron.right
+-#     料金プランを確認する
+
+.ui.secondary.center.aligned.segment
+  %h3.ui.small.header
+    月額500円(税込)
+  = form_tag charges_path do
+    %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-email="#{current_user.email}"
+            data-key="#{Rails.configuration.stripe[:publishable_key]}"
+            data-image="#{asset_path('avatar.png')}"
+            data-name="ブンゴウメール"
+            data-description="毎月1冊おまかせ読書"
+            data-currency="JPY"
+            data-amount="500"
+            data-label="クレジットカードで決済する"
+            data-panel-label="利用登録する（{{amount}}/月）"
+            data-allow-remember-me="false"
+            data-locale="auto")
+  %br
+  %p 無料トライアル期間中に解約した場合、一切料金は発生いたしません
+
+%h5.ui.small.header
+  %i.icon.info.circle
+  ご利用の流れ
+.ui.bulleted.list
+  .item
+    クレジットカードを登録しても、無料トライアル期間が終了するまで料金は発生しません。
+  .item
+    無料トライアル終了前に解約いただいた場合、料金は一切発生しません。
+  .item
+    トライアル終了後、毎月1日に当月分の料金をご請求します。
+%h5.ui.small.header
+  %i.icon.exclamation.triangle
+  その他注意事項
+.ui.bulleted.list
+  .item
+    プランの解約はいつでも可能です。ただしすでにお支払いいただいた分の返金は致しかねますので、あらかじめご了承ください。
+  .item
+    決済に失敗した場合はメールでお知らせしますので、必要に応じて登録カード情報をご修正ください。数日経っても決済に失敗する場合、自動的に契約を解除させていただきます。
+  .item
+    一度解約してから再度ご契約いただいた場合、無料トライアルは付与されません。ご了承ください。
+  .item
+    利用可能なクレジットカードは、以下のブランドです。
+    VISA, MasterCard, AmericanExpress, JCB, DinersClub, Discover

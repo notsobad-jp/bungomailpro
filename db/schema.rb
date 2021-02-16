@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_043626) do
+ActiveRecord::Schema.define(version: 2021_02_16_061823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -153,6 +153,18 @@ ActiveRecord::Schema.define(version: 2021_02_16_043626) do
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
   end
 
+  create_table "memberships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "stripe_customer_id"
+    t.string "stripe_subscription_id"
+    t.string "plan", default: "free", null: false
+    t.string "status", default: "before_trial", null: false
+    t.datetime "start_at", null: false
+    t.datetime "trial_end_at"
+    t.datetime "cancel_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "senders", id: :serial, force: :cascade do |t|
     t.string "nickname", null: false
     t.string "name", null: false
@@ -204,4 +216,5 @@ ActiveRecord::Schema.define(version: 2021_02_16_043626) do
   add_foreign_key "chapters", "book_assignments"
   add_foreign_key "chapters", "delayed_jobs", on_delete: :nullify
   add_foreign_key "guten_books_subjects", "subjects"
+  add_foreign_key "memberships", "users", column: "id"
 end

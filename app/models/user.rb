@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
+  has_one :membership, foreign_key: :id, dependent: :destroy
   has_many :channels, dependent: :destroy
 
   # activation実行に必要なのでダミーのパスワードを設定
