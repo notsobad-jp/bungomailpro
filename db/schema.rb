@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_061823) do
+ActiveRecord::Schema.define(version: 2021_02_16_075119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -208,13 +208,14 @@ ActiveRecord::Schema.define(version: 2021_02_16_061823) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
-  add_foreign_key "book_assignments", "channels"
+  add_foreign_key "book_assignments", "channels", on_delete: :cascade
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id"
   add_foreign_key "campaigns", "campaign_groups"
-  add_foreign_key "channel_profiles", "channels", column: "id"
+  add_foreign_key "channel_profiles", "channels", column: "id", on_delete: :cascade
   add_foreign_key "channels", "users"
-  add_foreign_key "chapters", "book_assignments"
+  add_foreign_key "chapters", "book_assignments", on_delete: :cascade
   add_foreign_key "chapters", "delayed_jobs", on_delete: :nullify
-  add_foreign_key "guten_books_subjects", "subjects"
+  add_foreign_key "guten_books_subjects", "guten_books", on_delete: :cascade
+  add_foreign_key "guten_books_subjects", "subjects", on_delete: :cascade
   add_foreign_key "memberships", "users", column: "id"
 end
