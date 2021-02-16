@@ -3,9 +3,9 @@ class CreateMembership < ActiveRecord::Migration[6.0]
     create_table :memberships, id: :uuid do |t|
       t.string :stripe_customer_id
       t.string :stripe_subscription_id
-      t.string :plan, default: 'free', null: false
-      t.string :status, default: 'before_trial', null: false
-      t.datetime :start_at, null: false
+      t.string :plan, null: false
+      t.string :status, null: false
+      t.datetime :start_at
       t.datetime :trial_end_at
       t.datetime :cancel_at
       t.timestamps

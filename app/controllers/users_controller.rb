@@ -22,46 +22,53 @@ class UsersController < ApplicationController
     redirect_to signup_path
   end
 
-  def show
-    @user = current_user
-    # @user = authorize User.find(params[:id])
-    @campaign_group = CampaignGroup.where("start_at < ?", Time.current).order(start_at: :desc).first
-  end
-
-  def edit
-    @user = authorize User.find(params[:id])
-  end
-
-  def update
-    @user = authorize User.find(params[:id])
-    if @user.update(user_params)
-      flash[:success] = 'Your data is saved successfully!'
-      redirect_to user_path(@user)
-    else
-      flash[:error] = 'Sorry we failed to save your data. Please check the input again.'
-      render :edit
-    end
-  end
+  # def show
+  #   @user = current_user
+  #   # @user = authorize User.find(params[:id])
+  #   @campaign_group = CampaignGroup.where("start_at < ?", Time.current).order(start_at: :desc).first
+  # end
+  #
+  # def edit
+  #   @user = authorize User.find(params[:id])
+  # end
+  #
+  # def update
+  #   @user = authorize User.find(params[:id])
+  #   if @user.update(user_params)
+  #     flash[:success] = 'Your data is saved successfully!'
+  #     redirect_to user_path(@user)
+  #   else
+  #     flash[:error] = 'Sorry we failed to save your data. Please check the input again.'
+  #     render :edit
+  #   end
+  # end
 
   def activate
     @user = User.load_from_activation_token(params[:id])
     return not_authenticated unless @user
-
     @user.activate!
-    # ステータス更新
-    # StripeでSubscription予約
+
+    start_at = Time.current.next_month.beginning_of_month
+    Membership.create!(
+      id: @user.id,
+      plan: 'basic',
+      status: 'not_started',
+      start_at: start_at,
+      trial_end_at: start_at.end_of_month,
+      cancel_at: start_at.end_of_month,
+    )
 
     auto_login(@user)
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉' })
   end
 
-  def start_trial_now
-    @user = authorize User.find(params[:id])
-    @user.start_trial_now
-    redirect_to(user_path(@user), flash: { success: 'トライアルを開始しました！次回配信分からメールが届くようになります。' })
-  rescue => error
-    redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })
-  end
+  # def start_trial_now
+  #   @user = authorize User.find(params[:id])
+  #   @user.start_trial_now
+  #   redirect_to(user_path(@user), flash: { success: 'トライアルを開始しました！次回配信分からメールが届くようになります。' })
+  # rescue => error
+  #   redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })
+  # end
 
   private
 
