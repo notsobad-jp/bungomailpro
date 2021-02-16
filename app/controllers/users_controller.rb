@@ -22,11 +22,12 @@ class UsersController < ApplicationController
     redirect_to signup_path
   end
 
-  # def show
-  #   @user = current_user
-  #   # @user = authorize User.find(params[:id])
-  #   @campaign_group = CampaignGroup.where("start_at < ?", Time.current).order(start_at: :desc).first
-  # end
+  def show
+    @meta_title = 'マイページ'
+    @user = current_user
+    # @user = authorize User.find(params[:id])
+    # @campaign_group = CampaignGroup.where("start_at < ?", Time.current).order(start_at: :desc).first
+  end
   #
   # def edit
   #   @user = authorize User.find(params[:id])
@@ -48,15 +49,13 @@ class UsersController < ApplicationController
     return not_authenticated unless @user
     @user.activate!
 
+    # TODO: DelayedJobの登録
+
     start_at = Time.current.next_month.beginning_of_month
-    Membership.create!(
-      id: @user.id,
-      plan: 'basic',
-      status: 'not_started',
-      start_at: start_at,
-      trial_end_at: start_at.end_of_month,
-      cancel_at: start_at.end_of_month,
-    )
+    MembershipLog.insert_all([
+      {user_id: @user.id, action: 'trial_start', plan: 'basic', status: "trialing", apply_at: start_at},
+      {user_id: @user.id, action: 'cancel', plan: 'basic', status: "canceled", apply_at: start_at.end_of_month},
+    ])
 
     auto_login(@user)
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉' })

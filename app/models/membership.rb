@@ -1,9 +1,6 @@
 class Membership < ApplicationRecord
   belongs_to :user, foreign_key: :id
 
-  # Stripe::Subscriptionのstatusに `not_started`を追加
-  STATUSES = %w(not_started trialing active past_due incomplete incomplete_expired canceled unpaid)
-
   # def active?
   #   %w[trialing active past_due].include? status
   # end

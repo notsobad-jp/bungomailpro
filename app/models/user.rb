@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_one :membership, foreign_key: :id, dependent: :destroy
+  has_many :membership_logs, dependent: :destroy
   has_many :channels, dependent: :destroy
 
   # FIXME: delegate_missing_toでallow_nilができなくて全メソッド列挙中。直したい。
