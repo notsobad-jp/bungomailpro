@@ -1,4 +1,4 @@
-class SubscriptionsController < ApplicationController
+class ChannelSubscriptionsController < ApplicationController
   skip_before_action :require_login
 
   # 購読
@@ -9,7 +9,7 @@ class SubscriptionsController < ApplicationController
       member = Google::Apis::AdminDirectoryV1::Member.new(email: params[:email])
       service.insert_member(ENV['GOOGLE_GROUP_KEY'], member)
       flash[:success] = '登録完了しました！明日の配信からメールが届きます。<a href="https://blog.bungomail.com/entry/2018/05/21/172542" target="_blank" class="text-link">メールの受信設定</a>を事前に必ずご確認ください。'
-      SubscriptionLog.create!(email: params[:email], action: "subscribed")
+      ChannelSubscriptionLog.create!(email: params[:email], action: "subscribed")
     rescue => e
       logger.error "[Subscription Error]#{e.message}, #{params[:email]}"
       flash[:error] = case e.status_code
@@ -40,10 +40,10 @@ class SubscriptionsController < ApplicationController
         flash[:success] = '月末まで配信を一時停止しました。来月になると自動で配信が再開されます。'
       end
 
-      SubscriptionLog.create!(email: params[:email], action: params[:action_type])
+      ChannelSubscriptionLog.create!(email: params[:email], action: params[:action_type])
       redirect_to root_path
     rescue => e
-      logger.error "[Un-subscription Error]#{e.message}, #{params[:email]}"
+      logger.error "[Unsubscription Error]#{e.message}, #{params[:email]}"
       flash[:error] = case e.status_code
                       when 404
                         'メールアドレスが見つかりませんでした。。再度試してもうまくいかないない場合、お手数ですがinfo@notsobad.jpまでお問い合わせください。'
