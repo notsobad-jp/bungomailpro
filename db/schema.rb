@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_17_055813) do
+ActiveRecord::Schema.define(version: 2021_02_17_132710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -210,10 +210,12 @@ ActiveRecord::Schema.define(version: 2021_02_17_055813) do
     t.boolean "canceled", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status", null: false
     t.index ["action"], name: "index_subscription_logs_on_action"
     t.index ["apply_at"], name: "index_subscription_logs_on_apply_at"
     t.index ["channel_id"], name: "index_subscription_logs_on_channel_id"
     t.index ["membership_log_id"], name: "index_subscription_logs_on_membership_log_id"
+    t.index ["status"], name: "index_subscription_logs_on_status"
     t.index ["user_id", "channel_id"], name: "index_subscription_logs_on_user_id_and_channel_id"
     t.index ["user_id"], name: "index_subscription_logs_on_user_id"
   end
@@ -221,10 +223,11 @@ ActiveRecord::Schema.define(version: 2021_02_17_055813) do
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "channel_id", null: false
-    t.boolean "paused", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status", null: false
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
+    t.index ["status"], name: "index_subscriptions_on_status"
     t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
