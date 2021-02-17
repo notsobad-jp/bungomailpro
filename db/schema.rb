@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_123105) do
+ActiveRecord::Schema.define(version: 2021_02_17_013508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 2021_02_16_123105) do
   end
 
   create_table "channel_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "send_to"
-    t.string "title"
+    t.string "google_group_key"
+    t.string "title", null: false
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
