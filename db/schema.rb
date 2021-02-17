@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_17_054701) do
+ActiveRecord::Schema.define(version: 2021_02_17_055813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -200,6 +200,35 @@ ActiveRecord::Schema.define(version: 2021_02_17_054701) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "subscription_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "channel_id", null: false
+    t.uuid "membership_log_id"
+    t.string "action", null: false
+    t.datetime "apply_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "finished", default: false, null: false
+    t.boolean "canceled", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_subscription_logs_on_action"
+    t.index ["apply_at"], name: "index_subscription_logs_on_apply_at"
+    t.index ["channel_id"], name: "index_subscription_logs_on_channel_id"
+    t.index ["membership_log_id"], name: "index_subscription_logs_on_membership_log_id"
+    t.index ["user_id", "channel_id"], name: "index_subscription_logs_on_user_id_and_channel_id"
+    t.index ["user_id"], name: "index_subscription_logs_on_user_id"
+  end
+
+  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "channel_id", null: false
+    t.boolean "paused", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
+    t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "crypted_password"
@@ -231,4 +260,9 @@ ActiveRecord::Schema.define(version: 2021_02_17_054701) do
   add_foreign_key "guten_books_subjects", "subjects", on_delete: :cascade
   add_foreign_key "membership_logs", "users"
   add_foreign_key "memberships", "users", column: "id"
+  add_foreign_key "subscription_logs", "channels", on_delete: :cascade
+  add_foreign_key "subscription_logs", "membership_logs"
+  add_foreign_key "subscription_logs", "users", on_delete: :cascade
+  add_foreign_key "subscriptions", "channels", on_delete: :cascade
+  add_foreign_key "subscriptions", "users", on_delete: :cascade
 end

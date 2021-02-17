@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :magic_tokens
   resources :memberships
+  resources :subscriptions
   resources :channels do
     resources :book_assignments
   end

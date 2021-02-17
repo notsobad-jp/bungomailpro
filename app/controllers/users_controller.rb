@@ -47,16 +47,13 @@ class UsersController < ApplicationController
   def activate
     @user = User.load_from_activation_token(params[:id])
     return not_authenticated unless @user
+
     @user.activate!
-
-    # 翌月初にトライアル開始、翌月末でキャンセルになるように予約
-    start_at = Time.current.next_month.beginning_of_month
-    trial_params = {action: 'trial_start', plan: 'basic', status: "trialing", apply_at: start_at}
-    @user.membership_logs.create(trial_params)
-    cancel_params = {action: 'cancel', plan: 'basic', status: "canceled", apply_at: start_at.end_of_month}
-    @user.membership_logs.create(cancel_params)
-
     auto_login(@user)
+
+    # 翌月初にBasicプランでトライアル開始→翌月末でキャンセルしてFreeプランになるように予約
+    @user.delay(queue: 'user_activation').schedule_trial
+
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉' })
   end
 
