@@ -16,11 +16,11 @@ Rails.application.routes.draw do
   get 'mypage' => "users#show"
 
   # TODO: 新システム移行後は不要
-  resources :subscriptions
+  resources :channel_subscriptions
   resources :lists do
     get 'books', on: :member
   end
-  delete '/subscriptions' => 'subscriptions#destroy'
+  delete '/channel_subscriptions' => 'channel_subscriptions#destroy'
 
   get ':page' => "pages#show", as: :page
   root to: 'pages#lp'

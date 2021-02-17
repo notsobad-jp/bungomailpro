@@ -8,7 +8,7 @@
   「月末まで一時停止」した場合、来月になると自動で配信を再開します。
 
 .mb-8
-  = form_with(url: subscriptions_path, method: :delete, local: true, class: 'max-w-lg') do |f|
+  = form_with(url: channel_subscriptions_path, method: :delete, local: true, class: 'max-w-lg') do |f|
     = f.email_field :email, class: "block w-full p-2 rounded border mb-2", placeholder: 'メールアドレス', required: true
     .flex{class: "sm:flex-row flex-col space-x-0 sm:space-x-2 space-y-2 sm:space-y-0"}
       = button_tag type: 'submit', name: 'action_type', value: 'unsubscribed', class: 'flex-1 bg-red-600 border border-red-600 rounded text-white px-4 py-2 hover:opacity-75' do
