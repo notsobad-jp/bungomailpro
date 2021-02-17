@@ -163,7 +163,6 @@ ActiveRecord::Schema.define(version: 2021_02_17_132710) do
 
   create_table "membership_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.string "action", null: false
     t.string "plan", null: false
     t.string "status", null: false
     t.datetime "apply_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -171,7 +170,6 @@ ActiveRecord::Schema.define(version: 2021_02_17_132710) do
     t.boolean "canceled", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["action"], name: "index_membership_logs_on_action"
     t.index ["apply_at"], name: "index_membership_logs_on_apply_at"
     t.index ["user_id"], name: "index_membership_logs_on_user_id"
   end
@@ -204,14 +202,12 @@ ActiveRecord::Schema.define(version: 2021_02_17_132710) do
     t.uuid "user_id", null: false
     t.uuid "channel_id", null: false
     t.uuid "membership_log_id"
-    t.string "action", null: false
     t.datetime "apply_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "finished", default: false, null: false
     t.boolean "canceled", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", null: false
-    t.index ["action"], name: "index_subscription_logs_on_action"
     t.index ["apply_at"], name: "index_subscription_logs_on_apply_at"
     t.index ["channel_id"], name: "index_subscription_logs_on_channel_id"
     t.index ["membership_log_id"], name: "index_subscription_logs_on_membership_log_id"

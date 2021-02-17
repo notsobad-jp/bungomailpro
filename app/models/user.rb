@@ -25,13 +25,13 @@ class User < ApplicationRecord
 
     ActiveRecord::Base.transaction do
       # トライアル開始時
-      m_log_start = self.membership_logs.create!(action: 'trial_start', plan: 'basic', status: "trialing", apply_at: start_at)
-      self.subscription_logs.create!(channel_id: ch_basic.id, action: 'subscribe', apply_at: start_at, membership_log_id: m_log_start.id)
+      m_log_start = self.membership_logs.create!(plan: 'basic', status: "trialing", apply_at: start_at)
+      self.subscription_logs.create!(channel_id: ch_basic.id, status: 'active', apply_at: start_at, membership_log_id: m_log_start.id)
 
       # トライアル終了時
       m_log_cancel = self.membership_logs.create!(action: 'cancel', plan: 'basic', status: "canceled", apply_at: end_at)
-      self.subscription_logs.create!(channel_id: ch_basic.id, action: 'unsubscribe', apply_at: end_at, membership_log_id: m_log_cancel.id)
-      self.subscription_logs.create!(channel_id: ch_free.id, action: 'subscribe', apply_at: start_at.next_month, membership_log_id: m_log_cancel.id)
+      self.subscription_logs.create!(channel_id: ch_basic.id, status: 'canceled', apply_at: end_at, membership_log_id: m_log_cancel.id)
+      self.subscription_logs.create!(channel_id: ch_free.id, status: 'active', apply_at: start_at.next_month, membership_log_id: m_log_cancel.id)
     end
   end
 end
