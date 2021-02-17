@@ -14,15 +14,4 @@ class User < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
-
-  # membershipの更新をjobで予約して、その内容をmembership_logに記録
-  def schedule_membership(params)
-    job = self.delay(run_at: params[:apply_at], queue: 'membership')
-              .upsert_membership(plan: params[:plan], status: params[:status])
-    self.membership_logs.create(delayed_job_id: job.id, **params)
-  end
-
-  def upsert_membership(params)
-    Membership.upsert(id: self.id, **params)
-  end
 end
