@@ -31,7 +31,7 @@ class User < ApplicationRecord
       # トライアル終了時
       m_log_cancel = self.membership_logs.create!(action: 'cancel', plan: 'basic', status: "canceled", apply_at: end_at)
       self.subscription_logs.create!(channel_id: ch_basic.id, status: 'canceled', apply_at: end_at, membership_log_id: m_log_cancel.id)
-      self.subscription_logs.create!(channel_id: ch_free.id, status: 'active', apply_at: start_at.next_month, membership_log_id: m_log_cancel.id)
+      self.subscription_logs.create!(channel_id: ch_free.id, status: 'active', apply_at: start_at.next_month, membership_log_id: m_log_cancel.id, google_action: 'insert')  # 無料版はGoogleチャネルなのでgoogle_actionも追加
     end
   end
 end

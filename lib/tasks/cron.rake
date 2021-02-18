@@ -17,4 +17,11 @@ namespace :cron do
     end
     p "[FINISHED] success: #{count}, failure: #{paused_emails.length - count}"
   end
+
+  task upsert_memberships_and_subscriptions: :environment do |_task, _args|
+    ActiveRecord::Base.transaction do
+      MembershipLog.apply_all
+      SubscriptionLog.apply_all
+    end
+  end
 end
