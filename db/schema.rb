@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_18_063817) do
+ActiveRecord::Schema.define(version: 2021_02_18_071515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -208,6 +208,7 @@ ActiveRecord::Schema.define(version: 2021_02_18_063817) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "status", null: false
+    t.string "google_action"
     t.index ["apply_at"], name: "index_subscription_logs_on_apply_at"
     t.index ["channel_id"], name: "index_subscription_logs_on_channel_id"
     t.index ["membership_log_id"], name: "index_subscription_logs_on_membership_log_id"

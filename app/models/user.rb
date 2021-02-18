@@ -6,8 +6,6 @@ class User < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :subscription_logs, dependent: :destroy
 
-  delegate :stripe_customer_id, :stripe_subscription_id, :plan, :status, to: :membership, allow_nil: true
-
   # activation実行に必要なのでダミーのパスワードを設定
   ## before_validateでcryptedの作成処理が走るので、それより先に用意できるようにafter_initializeを使用
   after_initialize do
