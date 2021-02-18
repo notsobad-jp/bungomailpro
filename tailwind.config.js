@@ -1,5 +1,14 @@
+const purge = {
+  content: [
+    'app/views/**/*.haml',
+    'app/views/**/*.haml',
+    'app/helpers/*.rb',
+    'config/locales/**/*.yml',
+  ],
+}
+
 module.exports = {
-  purge: false, // purge outside of tailwind
+  purge: process.env.NODE_ENV === 'production' ? purge : {},
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},

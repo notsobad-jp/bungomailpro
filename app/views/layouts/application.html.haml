@@ -13,7 +13,8 @@
     = render partial: 'layouts/meta'
     = csrf_meta_tags
     = csp_meta_tag
-    %link(rel="stylesheet" href="/assets/stylesheets/application.css")
+    - css_file_name = Rails.env.production? ? JSON.load(File.read('tmp/csv_version.json'))["application.css"] : 'application.css'
+    %link(rel="stylesheet" href="/assets/stylesheets/#{css_file_name}")
 
   %body.text-gray-700
     -# Google Tag Manager

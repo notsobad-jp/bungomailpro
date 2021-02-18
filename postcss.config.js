@@ -1,11 +1,7 @@
-const purgecss = require('@fullhuman/postcss-purgecss')({
-  content: [
-    'app/views/**/*.haml',
-    'app/views/**/*.haml',
-    'app/helpers/*.rb',
-    'config/locales/**/*.yml',
-  ],
-  defaultExtractor: content => content.match(/[^<>"'.`\s]*[^.<>"'`\s:]/g) || [],
+const hash = require('postcss-hash')({
+  algorithm: 'sha256',
+  trim: 20,
+  manifest: './tmp/csv_version.json'
 })
 
 const cssnano = require('cssnano')({
@@ -24,6 +20,6 @@ module.exports = {
       },
       stage: 3
     }),
-    ...(process.env.NODE_ENV === 'production' ? [purgecss, cssnano] : []),
+    ...(process.env.NODE_ENV === 'production' ? [cssnano, hash] : []),
   ]
 }

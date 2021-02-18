@@ -1168,7 +1168,7 @@ minimist@^1.1.1, minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-mkdirp@~0.5.1:
+mkdirp@^0.5.1, mkdirp@~0.5.1:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
   integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
@@ -1542,6 +1542,14 @@ postcss-gap-properties@^2.0.0:
   resolved "https://registry.yarnpkg.com/postcss-gap-properties/-/postcss-gap-properties-2.0.0.tgz#431c192ab3ed96a3c3d09f2ff615960f902c1715"
   integrity sha512-QZSqDaMgXCHuHTEzMsS2KfVDOq7ZFiknSpkrPJY6jmxbugUPTuSzs/vuE5I3zv0WAS+3vhrlqhijiprnuQfzmg==
   dependencies:
+    postcss "^7.0.2"
+
+postcss-hash@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-hash/-/postcss-hash-2.0.0.tgz#185632a6d51383243197b7b9fde71443795d316c"
+  integrity sha512-hlRGfXYnpZrTg+g8Jdek/Z0DX3XHQ9tHcXhvlTnQFLnKuq/e2UZELuJNxgPg9oMxg9U6UsBkPCzMVmmGG4dgVw==
+  dependencies:
+    mkdirp "^0.5.1"
     postcss "^7.0.2"
 
 postcss-image-set-function@^3.0.1:
