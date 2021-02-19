@@ -1,5 +1,6 @@
 class MembershipLog < ApplicationRecord
   belongs_to :user
+  belongs_to :membership, foreign_key: :user_id
   has_many :subscription_logs, dependent: :destroy
 
   scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }

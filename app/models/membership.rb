@@ -1,5 +1,24 @@
 class Membership < ApplicationRecord
   belongs_to :user, foreign_key: :id
+  has_many :membership_logs, foreign_key: :user_id
+
+  def schedule_trial
+    ch_basic = Channel.find_by(code: 'bungomail-official')
+    ch_free = Channel.find_by(code: 'dogramagra') # FIXME: 無料プラン用チャネル作ってそっちに差し替える
+    start_at = Time.current.next_month.beginning_of_month
+    end_at = start_at.end_of_month
+
+    ActiveRecord::Base.transaction do
+      # トライアル開始時
+      m_log_start = self.membership_logs.create!(plan: 'basic', status: "trialing", apply_at: start_at)
+      m_log_start.subscription_logs.create!(user_id: self.id, channel_id: ch_basic.id, status: 'active', apply_at: start_at)
+
+      # トライアル終了時
+      m_log_cancel = self.membership_logs.create!(plan: 'free', status: "active", apply_at: end_at)
+      m_log_cancel.subscription_logs.create!(user_id: self.id, channel_id: ch_basic.id, status: 'canceled', apply_at: end_at)
+      m_log_cancel.subscription_logs.create!(user_id: self.id, channel_id: ch_free.id, status: 'active', apply_at: start_at.next_month, google_action: 'insert')  # 無料版はGoogleチャネルなのでgoogle_actionも追加
+    end
+  end
 
   # def active?
   #   %w[trialing active past_due].include? status

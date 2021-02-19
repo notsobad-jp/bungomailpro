@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     auto_login(@user)
 
     # 翌月初にBasicプランでトライアル開始→翌月末でキャンセルしてFreeプランになるように予約
-    @user.delay(queue: 'user_activation').schedule_trial
+    @user.membership.delay(queue: 'schedule_trial').schedule_trial
 
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉' })
   end
