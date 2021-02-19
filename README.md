@@ -4,23 +4,23 @@
 やってること
 
 - tailwindを読み込み
-- purgecssで不要なcssを削除
+- purgecssで不要なcssを削除(tailwind.config)
 - cssnanoでminify
+- postcss-hashでダイジェスト付与、csv_versionでファイル名保存
 
-※AMP対応で、_meta.htmlで出力したcssを直接head内に読み込み・出力
 
 ## Development
-railsサーバと並行して、postcss-cliでwatchしておく
+devはpurgeしないので、最初に1回buildしたらその後は不要
 
-> yarn watch
+> yarn dev-build
 
 -> `public/assets/stylesheets/application.css` を出力
 
-※localではpurgeしてない大きいやつ
 
 ## Production
 deployしたら、本番用コマンドを自動実行
 
 > yarn build
 
--> `public/assets/stylesheets/application.css` を出力
+-> `public/assets/stylesheets/application.xxxx.css` を出力
+-> `tmp/csv_version.csv`を出力

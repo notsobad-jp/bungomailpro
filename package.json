@@ -14,8 +14,8 @@
     "tailwindcss": "^2.0.2"
   },
   "scripts": {
-    "build": "postcss app/assets/stylesheets/tailwind.css -o public/assets/stylesheets/application.css --env 'production'",
-    "watch": "postcss app/assets/stylesheets/tailwind.css -o public/assets/stylesheets/application.css -w"
+    "dev-build": "postcss app/assets/stylesheets/tailwind.css -o public/assets/stylesheets/application.css",
+    "build": "postcss app/assets/stylesheets/tailwind.css -o public/assets/stylesheets/application.css --env 'production'"
   },
   "version": "0.1.0"
 }
