@@ -3,9 +3,11 @@
 <%= simple_format @chapter.content.gsub(/(\r\n|\r|\n)/, "<br />") %>
 
 <br />=========================<br />
-ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　<br />
-<%= link_to(nil, @chapter.book_assignment.twitter_short_url) %><br />
-<br />
+<% if @chapter.book_assignment.twitter_share_url.present? %>
+  ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　<br />
+  <%= link_to(nil, @chapter.book_assignment.twitter_share_url) %><br />
+  <br />
+<% end %>
 ■Twitterでみんなの感想を見る：<%= link_to(nil, "https://goo.gl/rgfoDv") %><br />
 ■ブンゴウメール公式サイト：<%= link_to(nil, "https://bungomail.com") %><br />
 ■青空文庫でこの作品を読む：<%= link_to(nil, @book.aozora_file_url) %><br />

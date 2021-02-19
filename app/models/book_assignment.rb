@@ -4,6 +4,10 @@ class BookAssignment < ApplicationRecord
   has_many :chapters, -> { order(:send_at) }, dependent: :destroy
   has_many :delayed_jobs, through: :chapters, dependent: :destroy
 
+  before_create do
+    self.twitter_share_url = self.twitter_short_url
+  end
+
   def create_chapters
     chapters = []
     contents = self.book.contents(count: self.count)
@@ -23,8 +27,7 @@ class BookAssignment < ApplicationRecord
   end
 
   def twitter_short_url
-    res = Bitly.call(path: 'shorten', params: { long_url: self.twitter_long_url })
-    res["link"]
+    Bitly.call(path: 'shorten', params: { long_url: self.twitter_long_url })
   end
 
   def twitter_long_url

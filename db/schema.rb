@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_18_071515) do
+ActiveRecord::Schema.define(version: 2021_02_19_061034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2021_02_18_071515) do
     t.datetime "start_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "twitter_share_url"
     t.index ["book_id", "book_type"], name: "index_book_assignments_on_book_id_and_book_type"
     t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
     t.index ["start_at"], name: "index_book_assignments_on_start_at"

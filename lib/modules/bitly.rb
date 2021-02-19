@@ -16,17 +16,19 @@ module Bitly
     req["content-type"] = 'application/json'
     req.body = params.to_json if params
 
-    res = (body = http.request(req).body.presence) ? JSON.parse(body) : nil
-    if res&.is_a?(Hash) && res["errors"].present?
+    res = JSON.parse(http.request(req).body)
+    if res["errors"].present?
       error = res["errors"].map{|m| m["message"] }.join(", ")
       raise error
+    elsif res["message"] == 'FORBIDDEN'
+      raise 'forbidden'
     else
       Rails.logger.info "[Bitly] #{method} #{path}"
-      res
+      res["link"]
     end
   rescue => error
     Rails.logger.error "[Bitly] #{method} #{path}, Error: #{error}"
-    raise error
+    nil
   end
 
   module_function :call
