@@ -6,7 +6,7 @@ class BungoMailer < ApplicationMailer
     @word_count = @chapter.content.gsub(" ", "").length
 
     sender_name = envelope_display_name("#{@book.author_name}（ブンゴウメール）")
-    send_to = @channel.google_group_key || @channel.user.email
+    send_to = @channel.google_group_key || @channel.active_subscribers.map(&:email)
 
     xsmtp_api_params = { category: 'chapter' }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
