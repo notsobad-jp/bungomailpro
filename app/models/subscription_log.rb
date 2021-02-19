@@ -7,6 +7,7 @@ class SubscriptionLog < ApplicationRecord
   delegate :google_group_key, to: :channel
 
   scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }
+  scope :scheduled, -> { where("apply_at > ?", Time.current).where(finished: false, canceled: false) }
 
   @@service = GoogleDirectoryService.instance
 

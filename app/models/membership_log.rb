@@ -4,6 +4,7 @@ class MembershipLog < ApplicationRecord
   has_many :subscription_logs, dependent: :destroy
 
   scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }
+  scope :scheduled, -> { where("apply_at > ?", Time.current).where(finished: false, canceled: false) }
 
   def self.apply_all
     logs = self.applicable
@@ -17,5 +18,11 @@ class MembershipLog < ApplicationRecord
     attributes[:id] = self.user_id # membershipとlogsでidの値がずれるのを修正
     attributes[:updated_at] = self.apply_at
     attributes
+  end
+
+  # membershipの変更をキャンセルして、紐づくsubscriptionsの更新もキャンセルする
+  def cancel
+    self.update!(canceled: true)
+    self.subscription_logs.update_all(canceled: true, updated_at: Time.current)
   end
 end

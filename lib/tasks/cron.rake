@@ -19,7 +19,7 @@ namespace :cron do
   end
 
   task upsert_memberships_and_subscriptions: :environment do |_task, _args|
-    ActiveRecord::Base.transaction do
+    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
       MembershipLog.apply_all
       SubscriptionLog.apply_all
     end
