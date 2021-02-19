@@ -1,29 +1,34 @@
 - if @channel.code?
   .mb-4.bg-gray-500
     - image_path = "/assets/images/channels/#{@channel.code}.png"
-    .bg-cover.bg-center.h-48.hidden(class="sm:block" style="background-image: url(#{image_path});")
+    - bg_position = %w(bungomail-official alterego).include?(@channel.code) ? 'bg-top' : 'bg-center'
+    .bg-cover.h-60.hidden(class="sm:block #{bg_position}" style="background-image: url(#{image_path});")
     = image_tag(image_path, alt: @meta_title, class: 'max-h-64 mx-auto sm:hidden')
 
-.mb-8
-  .flex.items-center.mb-2.space-x-2
-    %h1.text-lg.font-bold
-      = @meta_title
-    .text-xs.rounded.inline-block.border.border-yellow-500.bg-yellow-50.text-yellow-700.font-bold.px-2.py-1 Basic
+.mb-4
+  .flex.flex-col.justify-between.space-y-4(class="sm:flex-row sm:items-center sm:space-y-0")
+    .flex.items-center.space-x-2
+      %h1.text-lg.font-bold
+        = @meta_title
+      - if @channel.code == 'bungomail-official'
+        .text-xs.rounded.inline-block.border.border-yellow-500.bg-yellow-50.text-yellow-700.font-bold.px-2.py-1 Basic
+    %div
+      - if %w(alterego dogramagra business-model).include?(@channel.code)
+        .rounded.block.bg-indigo-500.text-white.font-bold.px-6.py-2.text-center.opacity-50(class="sm:inline-block")
+          配信終了しました
+      - elsif @channel.code == 'bungomail-official'
+        - if @subscription&.status == 'active'
+          .space-x-0.space-y-2(class="sm:space-x-2 sm:space-y-0")
+            %div(class="rounded block bg-indigo-500 text-white font-bold px-6 py-2 text-center sm:inline-block opacity-50") 購読中
+            = button_to '解約する', subscription_path(@subscription), method: :delete, class: "rounded block bg-red-500 text-white font-bold px-6 py-2 text-center sm:inline-block"
+        - else
+          = button_to '購読する', subscriptions_path(channel_id: @channel.id), method: :post, class: "rounded block bg-indigo-500 text-white font-bold px-6 py-2 text-center sm:inline-block"
 
-  - if @channel.description.present?
-    .mb-8.text-sm
-      = simple_format @channel.description
+- if @channel.description.present?
+  .mb-8.text-sm
+    = simple_format @channel.description
 
-.mb-16
-  .flex.flex-col.space-x-2(class="sm:flex-row sm:items-center")
-    - if current_user.membership.plan == 'free'
-      .rounded.inline-block.bg-indigo-500.text-white.font-bold.px-4.py-2.text-center.opacity-50 購読する
-      .text-sm ※このチャネルはBasicプラン以上で購読できます
-    - else
-      .rounded.inline-block.bg-indigo-500.text-white.font-bold.px-4.py-2.text-center 購読する
-      .text-sm ※このチャネルはBasicプラン以上で購読できます
-
-.mb-8
+.mt-8.mb-8
   %h3.font-bold.mb-4.pb-2.border-b ▼ 配信履歴
   .space-y-2
     - @book_assignments.each do |ba|
@@ -39,6 +44,20 @@
             = ba.start_at.strftime("%Y年%-m月%-d日")
             〜
             = (ba.count - 1).days.since(ba.start_at).strftime("%Y年%-m月%-d日")
+    - if @channel.code == 'business-model'
+      .content
+        = link_to "https://www.amazon.co.jp/dp/4046023619", class: 'header', target: :blank do
+          .inline.sm:text-lg.font-bold ビジネスモデル2.0図鑑
+          近藤 哲朗
+          &nbsp;
+          %small
+            %i.icon.external.small
+        .extra
+          %small
+            2019年6月1日
+            〜
+            2019年9月10日
+
 
   .mt-8.mx-auto
     = paginate @book_assignments
