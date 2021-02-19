@@ -3,12 +3,23 @@
     = image_tag("/assets/images/channels/#{@channel.code}.png", alt: @meta_title, class: 'max-h-64 mx-auto')
 
 .mb-8
-  %h1.text-lg.font-bold
-    = @meta_title
+  .flex.items-center.mb-2.space-x-2
+    %h1.text-lg.font-bold
+      = @meta_title
+    .text-xs.rounded.inline-block.border.border-yellow-500.bg-yellow-50.text-yellow-700.font-bold.px-2.py-1 Basic
 
-- if @channel.description.present?
-  .mb-8.text-sm
-    = simple_format @channel.description
+  - if @channel.description.present?
+    .mb-8.text-sm
+      = simple_format @channel.description
+
+.mb-8
+  .flex.items-center.space-x-2
+    - if current_user.membership.plan == 'free'
+      .rounded.inline-block.bg-indigo-500.text-white.font-bold.px-4.py-2.opacity-50 購読する
+      .text-sm ※このチャネルはBasicプラン以上で購読できます
+    - else
+      .rounded.inline-block.bg-indigo-500.text-white.font-bold.px-4.py-2 購読する
+      .text-sm ※このチャネルはBasicプラン以上で購読できます
 
 .mb-8
   %h3.font-bold.mb-4.pb-2.border-b ▼ 配信履歴
