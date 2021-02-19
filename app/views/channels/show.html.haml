@@ -1,6 +1,8 @@
 - if @channel.code?
-  .bg-black.mb-4
-    = image_tag("/assets/images/channels/#{@channel.code}.png", alt: @meta_title, class: 'max-h-64 mx-auto')
+  .mb-4.bg-gray-500
+    - image_path = "/assets/images/channels/#{@channel.code}.png"
+    .bg-cover.bg-center.h-48.hidden(class="sm:block" style="background-image: url(#{image_path});")
+    = image_tag(image_path, alt: @meta_title, class: 'max-h-64 mx-auto sm:hidden')
 
 .mb-8
   .flex.items-center.mb-2.space-x-2
@@ -12,13 +14,13 @@
     .mb-8.text-sm
       = simple_format @channel.description
 
-.mb-8
-  .flex.items-center.space-x-2
+.mb-16
+  .flex.flex-col.space-x-2(class="sm:flex-row sm:items-center")
     - if current_user.membership.plan == 'free'
-      .rounded.inline-block.bg-indigo-500.text-white.font-bold.px-4.py-2.opacity-50 購読する
+      .rounded.inline-block.bg-indigo-500.text-white.font-bold.px-4.py-2.text-center.opacity-50 購読する
       .text-sm ※このチャネルはBasicプラン以上で購読できます
     - else
-      .rounded.inline-block.bg-indigo-500.text-white.font-bold.px-4.py-2 購読する
+      .rounded.inline-block.bg-indigo-500.text-white.font-bold.px-4.py-2.text-center 購読する
       .text-sm ※このチャネルはBasicプラン以上で購読できます
 
 .mb-8
