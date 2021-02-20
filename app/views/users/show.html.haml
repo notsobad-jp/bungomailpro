@@ -13,4 +13,12 @@
       （無料トライアル）
 
 .mb-8
+  = button_to '退会する', user_path(@user), method: :delete, class: 'text-link bg-transparent cursor-pointer'
+
+.mb-8
   %h3.font-bold.mb-4 ▼ 購読中のチャネル
+  %ul
+  - @subscriptions.each do |sub|
+    %li
+      = sub.channel.title
+      （#{sub.status}）

@@ -25,6 +25,7 @@ class UsersController < ApplicationController
   def show
     @meta_title = 'マイページ'
     @user = current_user
+    @subscriptions = @user.subscriptions.includes(channel: :channel_profile)
     # @user = authorize User.find(params[:id])
     # @campaign_group = CampaignGroup.where("start_at < ?", Time.current).order(start_at: :desc).first
   end
@@ -57,13 +58,16 @@ class UsersController < ApplicationController
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉' })
   end
 
-  # def start_trial_now
-  #   @user = authorize User.find(params[:id])
-  #   @user.start_trial_now
-  #   redirect_to(user_path(@user), flash: { success: 'トライアルを開始しました！次回配信分からメールが届くようになります。' })
-  # rescue => error
-  #   redirect_to(user_path(@user), flash: { error: '処理に失敗しました。。再度試してもうまく行かない場合、お手数ですが運営までお問い合わせください。' })
-  # end
+  def destroy
+    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
+      current_user.update!(activation_state: nil)
+      current_user.membership_logs.create!(plan: 'free', status: "canceled")
+      current_user.membership_logs.scheduled.map(&:cancel)
+      # TODO: freeチャネルの購読はcronで削除されないので、ここで手動削除しておく
+    end
+    logout
+    redirect_to(root_path, flash: { info: '退会処理が完了しました。翌日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。' })
+  end
 
   private
 
