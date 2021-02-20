@@ -1,6 +1,11 @@
 class ChannelsController < ApplicationController
   skip_before_action :require_login, only: [:show]
 
+  def index
+    @channels = Channel.where.not(code: nil)
+    @meta_title = '公開チャネル'
+  end
+
   def show
     # 公開チャネルはcodeでチャネル検索
     codes = Channel.where.not(code: nil).pluck(:code)
