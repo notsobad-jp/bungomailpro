@@ -1,27 +1,23 @@
 namespace :cron do
-  task revert_paused_users: :environment do |_task, _args|
-    service = GoogleDirectoryService.instance
-    member = Google::Apis::AdminDirectoryV1::Member.new(delivery_settings: 'ALL_MAIL')
-
-    # 先月一時停止したユーザーのメアド一覧を取得
-    paused_emails = SubscriptionLog.where(type: "paused", created_at: Time.current.last_month.all_month).pluck(:email).uniq
-    count = paused_emails.length
-    paused_emails.each do |email|
-      begin
-        service.patch_member(ENV['GOOGLE_GROUP_KEY'], email, member)
-        p "success!"
-      rescue => e
-        p e
-        count -= 1
+  # 月初にmemberships_logs,subscription_logsの変更予約を反映
+  task upsert_memberships_and_subscriptions: :environment do |_task, _args|
+    begin
+      ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
+        MembershipLog.apply_all
+        SubscriptionLog.apply_all
       end
+    rescue => e
+      Rails.logger.error "[Error]Cron upserting failed: #{e}"
     end
-    p "[FINISHED] success: #{count}, failure: #{paused_emails.length - count}"
   end
 
-  task upsert_memberships_and_subscriptions: :environment do |_task, _args|
-    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      MembershipLog.apply_all
-      SubscriptionLog.apply_all
+  # 月初の処理後、membership解約後に残ってる有料チャネルの購読などを削除
+  task cancel_forbidden_subscriptions: :environment do |_task, _args|
+    begin
+      canceled_subs = Subscription.cancel_forbidden_subscriptions || []
+      Rails.logger.info "[Success]Canceled #{canceled_subs.length} forbidden subscriptions."
+    rescue => e
+      Rails.logger.error "[Error]Cron canceling failed: #{e}"
     end
   end
 end

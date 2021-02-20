@@ -4,7 +4,6 @@ class SubscriptionLog < ApplicationRecord
   belongs_to :membership_log, required: false
 
   delegate :email, prefix: true, to: :user
-  delegate :google_group_key, to: :channel
 
   scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }
   scope :scheduled, -> { where("apply_at > ?", Time.current).where(finished: false, canceled: false) }
@@ -34,13 +33,13 @@ class SubscriptionLog < ApplicationRecord
     case action
     when 'insert'
       member = Google::Apis::AdminDirectoryV1::Member.new(email: user_email)
-      @@service.insert_member(google_group_key, member)
+      @@service.insert_member(channel.google_group_key, member)
     when 'update'
       delivery_settings = status == 'active' ? 'ALL_MAIL' : 'NONE'
       member = Google::Apis::AdminDirectoryV1::Member.new(delivery_settings: delivery_settings)
-      @@service.update_member(google_group_key, user_email, member)
+      @@service.update_member(channel.google_group_key, user_email, member)
     when 'delete'
-      @@service.delete_member(google_group_key, user_email)
+      @@service.delete_member(channel.google_group_key, user_email)
     end
   rescue => e
     logger.error e

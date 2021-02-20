@@ -7,4 +7,6 @@ class Channel < ApplicationRecord
   has_many :active_subscribers, through: :active_subscriptions, source: :user
 
   delegate :title, :description, :google_group_key, to: :channel_profile, allow_nil: true
+
+  FREE_CHANNEL_IDS = %w() # TODO: Freeチャネル作ったらここに追加する
 end
