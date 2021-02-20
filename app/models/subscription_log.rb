@@ -17,6 +17,7 @@ class SubscriptionLog < ActivityLog
     # GoogleGroupを使うChannelの場合はそっちの購読状況も更新
     logs.each do |log|
       log.update_google_subscription if log.google_action.present?
+      sleep 1
     end
   end
 
