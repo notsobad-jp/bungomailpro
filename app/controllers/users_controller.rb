@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     redirect_to signup_path
   end
 
-  def show
+  def mypage
     @meta_title = 'マイページ'
     @user = current_user
     @subscriptions = @user.subscriptions.includes(channel: :channel_profile)
