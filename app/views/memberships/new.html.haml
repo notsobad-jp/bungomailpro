@@ -10,19 +10,8 @@
 .ui.secondary.center.aligned.segment
   %h3.ui.small.header
     月額500円(税込)
-  = form_tag charges_path do
-    %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-email="#{current_user.email}"
-            data-key="#{Rails.configuration.stripe[:publishable_key]}"
-            data-image="#{asset_path('avatar.png')}"
-            data-name="ブンゴウメール"
-            data-description="毎月1冊おまかせ読書"
-            data-currency="JPY"
-            data-amount="500"
-            data-label="クレジットカードで決済する"
-            data-panel-label="利用登録する（{{amount}}/月）"
-            data-allow-remember-me="false"
-            data-locale="auto")
+  %button#checkout-button.my-2.bg-indigo-600.text-white.text-center.font-bold.px-4.py-2.rounded(class="hover:opacity-75")
+    決済情報を登録する
   %br
   %p 無料トライアル期間中に解約した場合、一切料金は発生いたしません
 
@@ -49,3 +38,24 @@
   .item
     利用可能なクレジットカードは、以下のブランドです。
     VISA, MasterCard, AmericanExpress, JCB, DinersClub, Discover
+
+
+
+
+%script(src="https://js.stripe.com/v3/")
+:javascript
+  var stripe = Stripe("#{ENV['STRIPE_PUBLISHABLE_KEY']}");
+  var checkoutButton = document.getElementById('checkout-button');
+
+  checkoutButton.addEventListener('click', function() {
+    stripe.redirectToCheckout({
+      // Make the id field from the Checkout Session creation API response
+      // available to this file, so you can provide it as argument here
+      // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+      sessionId: "#{@session.id}"
+    }).then(function (result) {
+      // If `redirectToCheckout` fails due to a browser or network
+      // error, display the localized error message to your customer
+      // using `result.error.message`.
+    });
+  });
