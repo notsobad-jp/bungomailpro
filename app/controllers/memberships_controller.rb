@@ -26,7 +26,7 @@ class MembershipsController < ApplicationController
     sub = Stripe::Subscription.create({
       customer: cus.id,
       items: [ {price: ENV['STRIPE_PLAN_ID']} ],
-      trial_end: Time.current.next_month.beginning_of_month.to_i, # FIXME: トライアル開始前に決済したら1ヶ月早くおわってしまう
+      trial_end: current_user.membership.trial_end_at.since(1.second).to_i,
     })
     current_user.membership.update!(stripe_customer_id: cus.id, stripe_subscription_id: sub.id)
     current_user.membership.schedule_billing

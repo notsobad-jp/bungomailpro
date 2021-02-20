@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_many :channels, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :subscription_logs, dependent: :destroy
-  
+
   delegate :plan, :status, to: :membership, prefix: true, allow_nil: true
 
   # activation実行に必要なのでダミーのパスワードを設定
@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
   after_create do
-    Membership.create!(id: self.id, plan: 'free', status: 'active')
+    Membership.create!(id: self.id, plan: 'free', status: 'active', trial_end_at: end_of_next_month)
   end
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze

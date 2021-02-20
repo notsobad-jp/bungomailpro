@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_19_061034) do
+ActiveRecord::Schema.define(version: 2021_02_20_164421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -182,6 +182,10 @@ ActiveRecord::Schema.define(version: 2021_02_19_061034) do
     t.string "status", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "trial_end_at"
+    t.index ["plan"], name: "index_memberships_on_plan"
+    t.index ["status"], name: "index_memberships_on_status"
+    t.index ["trial_end_at"], name: "index_memberships_on_trial_end_at"
   end
 
   create_table "senders", id: :serial, force: :cascade do |t|
