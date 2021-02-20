@@ -1,12 +1,9 @@
-class SubscriptionLog < ApplicationRecord
+class SubscriptionLog < ActivityLog
   belongs_to :user
   belongs_to :channel
   belongs_to :membership_log, required: false
 
   delegate :email, prefix: true, to: :user
-
-  scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }
-  scope :scheduled, -> { where("apply_at > ?", Time.current).where(finished: false, canceled: false) }
 
   @@service = GoogleDirectoryService.instance
 
