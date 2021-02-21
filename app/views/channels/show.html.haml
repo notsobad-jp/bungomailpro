@@ -20,9 +20,9 @@
         - if @subscription&.status == 'active'
           .space-x-0.space-y-2(class="sm:space-x-2 sm:space-y-0")
             %div(class="rounded block bg-indigo-500 text-white font-bold px-6 py-2 text-center sm:inline-block opacity-50") 購読中
-            = button_to '解約する', subscription_path(@subscription), method: :delete, class: "rounded block bg-red-500 text-white font-bold px-6 py-2 text-center sm:inline-block"
+            = link_to '解約する', subscription_path(@subscription), method: :delete, class: "rounded block bg-red-500 text-white font-bold px-6 py-2 text-center sm:inline-block", data: { confirm: 'このチャネルの購読を解約し、翌日からのメール配信を停止します。よろしいですか？' }
         - else
-          = button_to '購読する', subscriptions_path(channel_id: @channel.id), method: :post, class: "rounded block bg-indigo-500 text-white font-bold px-6 py-2 text-center sm:inline-block"
+          = link_to '購読する', subscriptions_path(channel_id: @channel.id), method: :post, class: "rounded block bg-indigo-500 text-white font-bold px-6 py-2 text-center sm:inline-block"
 
 - if @channel.description.present?
   .mb-8.text-sm
