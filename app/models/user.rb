@@ -15,9 +15,10 @@ class User < ApplicationRecord
   end
 
   after_create do
-    Membership.create!(id: self.id, plan: 'free', status: 'active', trial_end_at: end_of_next_month)
+    # 正式リリース前に登録したら2021年6月末までトライアル。それ以降は翌月末までトライアル。
+    trial_end_at = [Time.zone.parse("2021/06/01").end_of_month, end_of_next_month].max
+    Membership.create!(id: self.id, plan: 'free', status: 'active', trial_end_at: trial_end_at)
   end
 
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
-  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
+  validates :email, presence: true, uniqueness: true
 end
