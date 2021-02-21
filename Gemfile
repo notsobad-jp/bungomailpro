@@ -6,23 +6,28 @@ ruby '2.7.0'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
+gem 'sass-rails'
+gem 'uglifier'
+gem 'haml-rails'
 gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'haml-rails'
-gem 'kaminari'
-gem 'rails-i18n'
+gem 'sorcery'
 gem 'dotenv-rails'
 gem 'delayed_job_active_record'
+gem 'pundit'
+gem 'kaminari'
+gem 'rails-i18n'
+gem 'stripe'
 gem 'pragmatic_tokenizer'
 gem 'pragmatic_segmenter'
 gem 'lemmatizer'
 gem 'google-api-client'
-gem 'sorcery'
-gem 'pundit'
-gem 'stripe'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails'
+  gem 'spring-commands-rspec'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -31,6 +36,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'letter_opener'
+  gem "rack-dev-mark"
   gem 'sitemap_generator'
 
   # 新しいバージョンは複数workerをkillできないバグがあるので古いので固定
