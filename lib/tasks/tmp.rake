@@ -135,4 +135,38 @@ namespace :tmp do
       end
     end
   end
+
+  ## (6) DBに保存されたChannelSubscriptionLogの内容もマージする
+  task import_channel_subscription_logs: :environment do |_task, _args|
+    default_timestamp = Time.zone.parse("2018/4/30")
+    official_ch = Channel.find_by(code: "bungomail-official")
+
+    ChannelSubscriptionLog.all.each do |log|
+      case log.action
+      when "subscribed"
+        user = User.find_by(email: log.email)
+        next if !user
+        user.update(created_at: log.created_at, updated_at: log.updated_at) if user.created_at == default_timestamp
+      when "paused"
+        user = User.find_by(email: log.email)
+        next if !user || user.subscriptions.blank?
+        user.subscriptions.first.update(status: 'paused', updated_at: log.created_at)
+        user.subscription_logs.create(channel_id: official_ch.id, status: 'active', apply_at: Time.zone.parse("2021/03/01"), google_action: 'update', created_at: log.created_at, updated_at: log.updated_at)
+      when "unsubscribed"
+        user = User.find_by(email: log.email)
+        next if user
+
+        uuid = SecureRandom.uuid
+        user_attributes = []
+        membership_attributes = []
+        user_attributes << {id: uuid, email: log.email, created_at: default_timestamp, updated_at: log.created_at}
+        membership_attributes << {id: uuid, plan: 'free', status: 'canceled', created_at: default_timestamp, updated_at: log.created_at}
+
+        ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
+          User.insert_all(user_attributes)
+          Membership.insert_all(membership_attributes)
+        end
+      end
+    end
+  end
 end
