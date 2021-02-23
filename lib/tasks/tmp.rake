@@ -50,21 +50,22 @@ namespace :tmp do
   end
 
   ## (2) 一時停止履歴からいまGoogleに存在するユーザーをインポート（status: paused → 再開ログを予約）
-  task import_paused_users: :environment do |_task, _args|
-    official_ch = Channel.find_by(code: "bungomail-official")
-    csv_rows = CSV.read("tmp/google_migration/paused_logs.csv", headers: true).uniq{|row| row['メールアドレス'] }
-    csv_rows.each do |log|
-      p log['メールアドレス']
-      user = User.find_by(email: log['メールアドレス'])
-      timestamp = Time.zone.parse(log['タイムスタンプ'])
-      next unless user
-
-      ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-        user.subscriptions.first.update(status: 'paused', updated_at: timestamp)
-        user.subscription_logs.create!(channel_id: official_ch.id, status: 'active', created_at: timestamp, updated_at: timestamp, apply_at: Time.zone.parse("2021/03/01"), google_action: 'update') # 配信再開用のログを予約
-      end
-    end
-  end
+  ## ※現時点の一時停止ユーザーは、2021/3/1に手動でactiveに戻してログは作らない
+  # task import_paused_users: :environment do |_task, _args|
+  #   official_ch = Channel.find_by(code: "bungomail-official")
+  #   csv_rows = CSV.read("tmp/google_migration/paused_logs.csv", headers: true).uniq{|row| row['メールアドレス'] }
+  #   csv_rows.each do |log|
+  #     p log['メールアドレス']
+  #     user = User.find_by(email: log['メールアドレス'])
+  #     timestamp = Time.zone.parse(log['タイムスタンプ'])
+  #     next unless user
+  #
+  #     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
+  #       user.subscriptions.first.update(status: 'paused', updated_at: timestamp)
+  #       user.subscription_logs.create!(channel_id: official_ch.id, status: 'active', created_at: timestamp, updated_at: timestamp, apply_at: Time.zone.parse("2021/03/01"), google_action: 'update') # 配信再開用のログを予約
+  #     end
+  #   end
+  # end
 
   ## (3) 解約履歴からいまGoogleにいないユーザーをインポート(status: canceled)
   task import_unsubscribed_users: :environment do |_task, _args|
@@ -139,19 +140,24 @@ namespace :tmp do
   ## (6) DBに保存されたChannelSubscriptionLogの内容もマージする
   task import_channel_subscription_logs: :environment do |_task, _args|
     default_timestamp = Time.zone.parse("2018/4/30")
-    official_ch = Channel.find_by(code: "bungomail-official")
+    # official_ch = Channel.find_by(code: "bungomail-official")
 
     ChannelSubscriptionLog.all.each do |log|
+      timestamp = log.created_at
+
       case log.action
       when "subscribed"
         user = User.find_by(email: log.email)
         next if !user
-        user.update(created_at: log.created_at, updated_at: log.updated_at) if user.created_at == default_timestamp
+        user.update(created_at: [user.created_at, timestamp].min, updated_at: timestamp)
+        user.membership.update!(created_at: [user.membership.created_at, timestamp].min, updated_at: [user.membership.updated_at, timestamp].max)
+        user.subscriptions.first&.update!(created_at: [user.subscriptions.first&.created_at, timestamp].min, updated_at: [user.subscriptions.first&.updated_at, timestamp].max) # 解約ユーザーの場合は存在しないので&ガード
       when "paused"
-        user = User.find_by(email: log.email)
-        next if !user || user.subscriptions.blank?
-        user.subscriptions.first.update(status: 'paused', updated_at: log.created_at)
-        user.subscription_logs.create(channel_id: official_ch.id, status: 'active', apply_at: Time.zone.parse("2021/03/01"), google_action: 'update', created_at: log.created_at, updated_at: log.updated_at)
+        ## ※現時点の一時停止ユーザーは、2021/3/1に手動でactiveに戻してログは作らない
+        # user = User.find_by(email: log.email)
+        # next if !user || user.subscriptions.blank?
+        # user.subscriptions.first.update(status: 'paused', updated_at: timestamp)
+        # user.subscription_logs.create(channel_id: official_ch.id, status: 'active', apply_at: Time.zone.parse("2021/03/01"), google_action: 'update', created_at: timestamp, updated_at: timestamp)
       when "unsubscribed"
         user = User.find_by(email: log.email)
         next if user
@@ -159,8 +165,8 @@ namespace :tmp do
         uuid = SecureRandom.uuid
         user_attributes = []
         membership_attributes = []
-        user_attributes << {id: uuid, email: log.email, created_at: default_timestamp, updated_at: log.created_at}
-        membership_attributes << {id: uuid, plan: 'free', status: 'canceled', created_at: default_timestamp, updated_at: log.created_at}
+        user_attributes << {id: uuid, email: log.email, created_at: default_timestamp, updated_at: timestamp}
+        membership_attributes << {id: uuid, plan: 'free', status: 'canceled', created_at: default_timestamp, updated_at: timestamp}
 
         ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
           User.insert_all(user_attributes)
