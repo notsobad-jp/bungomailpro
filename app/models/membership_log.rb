@@ -10,6 +10,13 @@ class MembershipLog < ActivityLog
     logs.update_all(finished: true)
   end
 
+  # def apply
+  #   ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
+  #     self.membership.update!(plan: self.plan, status: self.status)
+  #     self.update!(finished: true)
+  #   end
+  # end
+
   def upsert_attributes
     attributes = self.slice(:id, :plan, :status)
     attributes[:id] = self.user_id # membershipとlogsでidの値がずれるのを修正

@@ -52,10 +52,10 @@ class UsersController < ApplicationController
     @user.activate!
     auto_login(@user)
 
-    # 翌月初にBasicプランでトライアル開始→翌月末でキャンセルしてFreeプランになるように予約
-    @user.membership.delay(queue: 'schedule_trial').schedule_trial
+    # Freeプランの無料チャネルをすぐに購読開始
+    @user.subscription_logs.create!(channel_id: Channel::JUVENILE_CHANNEL_ID, status: 'active', google_action: 'insert')
 
-    redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉' })
+    redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉 翌日からメール配信が始まります。' })
   end
 
   def destroy
