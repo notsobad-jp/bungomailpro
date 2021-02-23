@@ -21,7 +21,7 @@ class SubscriptionsController < ApplicationController
     begin
       google_action = 'update' if @sub.channel.google_group_key.present?
       current_user.subscription_logs.create!(channel_id: @sub.channel_id, status: 'paused', google_action: google_action)
-      current_user.subscription_logs.create!(channel_id: @sub.channel_id, status: 'active', apply_at: beginning_of_next_month, google_action: google_action)
+      current_user.subscription_logs.create!(channel_id: @sub.channel_id, status: 'active', apply_at: Time.current.next_month.beginning_of_month, google_action: google_action)
       flash[:success] = '配信を月末まで一時停止しました。翌月から自動的に配信を再開します。'
     rescue => e
       logger.error "[Error]Pausing failed: #{e.message}, #{current_user.id}"

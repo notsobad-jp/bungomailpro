@@ -28,7 +28,7 @@ class SubscriptionLog < ActivityLog
   end
 
   def update_google_subscription
-    case action
+    case google_action
     when 'insert'
       member = Google::Apis::AdminDirectoryV1::Member.new(email: user_email)
       @@service.insert_member(channel.google_group_key, member)

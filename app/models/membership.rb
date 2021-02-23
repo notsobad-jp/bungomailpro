@@ -8,20 +8,20 @@ class Membership < ApplicationRecord
 
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
       # トライアル開始時
-      m_log_start = self.membership_logs.create!(plan: 'basic', status: "trialing", apply_at: beginning_of_next_month)
-      m_log_start.subscription_logs.create!(user_id: self.id, channel_id: ch_basic.id, status: 'active', apply_at: beginning_of_next_month)
+      m_log_start = self.membership_logs.create!(plan: 'basic', status: "trialing", apply_at: Time.current.next_month.beginning_of_month)
+      m_log_start.subscription_logs.create!(user_id: self.id, channel_id: ch_basic.id, status: 'active', apply_at: Time.current.next_month.beginning_of_month)
 
       # トライアル終了時
-      m_log_cancel = self.membership_logs.create!(plan: 'free', status: "active", apply_at: end_of_next_month)
-      m_log_cancel.subscription_logs.create!(user_id: self.id, channel_id: ch_basic.id, status: 'canceled', apply_at: end_of_next_month)
-      m_log_cancel.subscription_logs.create!(user_id: self.id, channel_id: ch_free.id, status: 'active', apply_at: beginning_of_next_month.next_month, google_action: 'insert')  # 無料版はGoogleチャネルなのでgoogle_actionも追加
+      m_log_cancel = self.membership_logs.create!(plan: 'free', status: "active", apply_at: Time.current.next_month.end_of_month)
+      m_log_cancel.subscription_logs.create!(user_id: self.id, channel_id: ch_basic.id, status: 'canceled', apply_at: Time.current.next_month.end_of_month)
+      m_log_cancel.subscription_logs.create!(user_id: self.id, channel_id: ch_free.id, status: 'active', apply_at: Time.current.next_month.beginning_of_month.next_month, google_action: 'insert')  # 無料版はGoogleチャネルなのでgoogle_actionも追加
     end
   end
 
   # 決済情報登録して、翌月から課金開始
   def schedule_billing
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      self.membership_logs.create!(plan: 'basic', status: "active", apply_at: beginning_of_next_month)
+      self.membership_logs.create!(plan: 'basic', status: "active", apply_at: Time.current.next_month.beginning_of_month)
       self.membership_logs.scheduled.map(&:cancel)
     end
   end
@@ -29,7 +29,7 @@ class Membership < ApplicationRecord
   # 月末で解約してfreeプランに戻る
   def cancel_billing
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      self.membership_logs.create!(plan: 'free', status: "active", apply_at: beginning_of_next_month)
+      self.membership_logs.create!(plan: 'free', status: "active", apply_at: Time.current.next_month.beginning_of_month)
       self.membership_logs.scheduled.map(&:cancel)
     end
   end
