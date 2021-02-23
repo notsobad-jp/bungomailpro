@@ -3,6 +3,8 @@ class MembershipLog < ActivityLog
   belongs_to :membership, foreign_key: :user_id
   has_many :subscription_logs, dependent: :destroy
 
+  enum status: { active: 1, trialing: 2, canceled: 3 }
+
   def self.apply_all
     logs = self.applicable
     return if logs.blank?

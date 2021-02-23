@@ -3,6 +3,7 @@ class SubscriptionLog < ActivityLog
   belongs_to :channel
   belongs_to :membership_log, required: false
 
+  enum status: { active: 1, paused: 2, canceled: 3 }
   delegate :email, prefix: true, to: :user
 
   @@service = GoogleDirectoryService.instance

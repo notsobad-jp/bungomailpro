@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     auto_login(@user)
 
     # Freeプランの無料チャネルをすぐに購読開始
-    @user.subscription_logs.create!(channel_id: Channel::JUVENILE_CHANNEL_ID, status: 'active', google_action: 'insert')
+    @user.subscription_logs.create!(channel_id: Channel::JUVENILE_CHANNEL_ID, status: :active, google_action: 'insert')
 
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉 翌日からメール配信が始まります。' })
   end
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
   def destroy
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
       current_user.update!(activation_state: nil)
-      current_user.membership_logs.create!(plan: 'free', status: "canceled")
+      current_user.membership_logs.create!(plan: 'free', status: :canceled)
       current_user.membership_logs.scheduled.map(&:cancel)
       # TODO: freeチャネルの購読はcronで削除されないので、ここで手動削除しておく
     end

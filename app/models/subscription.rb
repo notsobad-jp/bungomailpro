@@ -2,6 +2,8 @@ class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :channel
 
+  enum status: { active: 1, paused: 2, canceled: 3 }
+
   # 不正なsubscription: freeプランユーザーがfree以外のchannelをまだ購読している場合
   scope :forbidden, -> {includes(:channel, user: :membership).where(status: 'active', user: {memberships: {plan: 'free'}}).where.not(channel: {id: Channel::FREE_CHANNEL_IDS}) }
 
@@ -12,7 +14,7 @@ class Subscription < ApplicationRecord
 
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
       # subscription停止
-      forbidden_subs.update_all(status: 'canceled')
+      forbidden_subs.update_all(status: :canceled)
 
       # 一応subscription_logも残す
       sub_logs = []

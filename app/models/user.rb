@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
   after_create do
-    Membership.create!(id: self.id, plan: 'free', status: 'active')
+    Membership.create!(id: self.id, plan: 'free', status: :active)
   end
 
   validates :email, presence: true, uniqueness: true
