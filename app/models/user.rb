@@ -14,9 +14,13 @@ class User < ApplicationRecord
     self.password = SecureRandom.hex(10)
   end
 
-  after_create do
-    Membership.create!(id: self.id, plan: 'free', status: :active)
-  end
+  after_create :create_membership
 
   validates :email, presence: true, uniqueness: true
+
+  private
+
+  def create_membership
+    Membership.create!(id: self.id, plan: 'free', status: :active)
+  end
 end

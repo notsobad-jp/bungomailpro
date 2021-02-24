@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :membership do
-    user
+    id { create(:user, :without_membership).id }
     plan { 'free' }
     status { :active }
 
