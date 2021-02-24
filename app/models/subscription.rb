@@ -2,7 +2,6 @@ class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :channel
 
-  enum status: { active: 1, paused: 2, canceled: 3 }
   delegate :email, prefix: true, to: :user
 
   @@service = GoogleDirectoryService.instance
