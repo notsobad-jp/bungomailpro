@@ -1,8 +1,6 @@
 class ChannelSubscriptionsController < ApplicationController
   skip_before_action :require_login
 
-  @@official_channel_id = Channel.find_by(code: 'bungomail-official').id
-
   # 購読
   def create
     begin
@@ -10,7 +8,7 @@ class ChannelSubscriptionsController < ApplicationController
       if user.subscriptions.present?
         flash[:error] = 'このメールアドレスはすでに登録されています'
       else
-        user.subscription_logs.create(channel_id: @@official_channel_id, apply_at: Time.current, status: 'active', google_action: 'insert')
+        user.subscriptions.create(channel_id: Channel::OFFICIAL_CHANNEL_ID)
         flash[:success] = '登録完了しました！翌日の配信からメールが届きます。<a href="https://blog.bungomail.com/entry/2018/05/21/172542" target="_blank" class="text-link">メールの受信設定</a>を事前に必ずご確認ください。'
       end
     rescue => e
@@ -31,12 +29,11 @@ class ChannelSubscriptionsController < ApplicationController
 
       # 登録解除
       if params[:action_type] == 'unsubscribed'
-        user.subscription_logs.create(channel_id: @@official_channel_id, apply_at: Time.current, status: 'canceled', google_action: 'delete')
+        user.subscriptions.first.destroy
         flash[:success] = '購読を解除しました。明日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。'
       # 月末まで一時停止
       elsif params[:action_type] == 'paused'
-        user.subscription_logs.create(channel_id: @@official_channel_id, apply_at: Time.current, status: 'paused', google_action: 'update')
-        user.subscription_logs.create(channel_id: @@official_channel_id, apply_at: Time.current.next_month.beginning_of_month, status: 'active', google_action: 'update')
+        user.subscriptions.first.update(paused: true)
         flash[:success] = '月末まで配信を一時停止しました。来月になると自動で配信が再開されます。'
       end
 

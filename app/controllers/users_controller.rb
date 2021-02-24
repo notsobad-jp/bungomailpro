@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     auto_login(@user)
 
     # Freeプランの無料チャネルをすぐに購読開始
-    @user.subscription_logs.create!(channel_id: Channel::JUVENILE_CHANNEL_ID, status: :active, google_action: 'insert')
+    @user.subscriptions.create!(channel_id: Channel::JUVENILE_CHANNEL_ID)
 
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉 翌日からメール配信が始まります。' })
   end

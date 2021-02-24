@@ -1,34 +1,31 @@
-class MembershipLog < ActivityLog
+class MembershipLog < ApplicationRecord
   belongs_to :user
   belongs_to :membership, foreign_key: :user_id
-  has_many :subscription_logs, dependent: :destroy
 
   enum status: { active: 1, trialing: 2, canceled: 3 }
 
-  def self.apply_all
-    logs = self.applicable
-    return if logs.blank?
-    Membership.upsert_all(logs.map(&:upsert_attributes))
-    logs.update_all(finished: true)
-  end
+  scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }
+  scope :scheduled, -> { where("apply_at > ?", Time.current).where(finished: false, canceled: false) }
 
-  # def apply
-  #   ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-  #     self.membership.update!(plan: self.plan, status: self.status)
-  #     self.update!(finished: true)
-  #   end
-  # end
+  def apply
+    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
+      # trial開始時: 公式チャネル購読
+      if plan == 'basic' && trialing?
+        Subscription.create!(user_id: self.user_id, channel_id: Channel::OFFICIAL_CHANNEL_ID)
+      end
 
-  def upsert_attributes
-    attributes = self.slice(:id, :plan, :status)
-    attributes[:id] = self.user_id # membershipとlogsでidの値がずれるのを修正
-    attributes[:updated_at] = self.apply_at
-    attributes
-  end
+      # basic→free: 無料チャネル1つ以外解約・自分チャネルの配信停止？
+      if plan == 'free' && active? && membership.plan == 'basic'
+        # TODO
+      end
 
-  # membershipの変更をキャンセルして、紐づくsubscriptionsの更新もキャンセルする
-  def cancel
-    self.update!(canceled: true)
-    self.subscription_logs.update_all(canceled: true, updated_at: Time.current)
+      # free-canceled: すべてのチャネル解約・自分チャネルの配信停止？
+      if plan == 'free' && canceled?
+        # TODO
+      end
+
+      self.membership.update!(plan: self.plan, status: self.status)
+      self.update!(finished: true)
+    end
   end
 end

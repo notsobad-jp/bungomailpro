@@ -8,7 +8,6 @@ class Channel < ApplicationRecord
 
   delegate :title, :description, :google_group_key, to: :channel_profile, allow_nil: true
 
-  FREE_CHANNEL_IDS = %w() # TODO: Freeチャネル作ったらここに追加する
   OFFICIAL_CHANNEL_ID = '1418479c-d5a7-4d29-a174-c5133ca484b6'
   JUVENILE_CHANNEL_ID = '470a73fb-d1ae-4ffb-9c6b-5b9dc292f4ef'
 end
