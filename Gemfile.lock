@@ -68,6 +68,12 @@ GEM
     concurrent-ruby (1.1.7)
     crass (1.0.6)
     daemons (1.1.9)
+    database_cleaner (2.0.1)
+      database_cleaner-active_record (~> 2.0.0)
+    database_cleaner-active_record (2.0.0)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0.0)
+    database_cleaner-core (2.0.1)
     declarative (0.0.20)
     declarative-option (0.1.0)
     delayed_job (4.1.9)
@@ -291,7 +297,7 @@ GEM
       multi_json (~> 1.10)
     sitemap_generator (6.1.2)
       builder (~> 3.0)
-    sorcery (0.15.0)
+    sorcery (0.16.0)
       bcrypt (~> 3.1)
       oauth (~> 0.4, >= 0.4.4)
       oauth2 (~> 1.0, >= 0.8.0)
@@ -308,7 +314,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stripe (5.29.1)
+    stripe (5.30.0)
     temple (0.8.2)
     thor (1.0.1)
     thread_safe (0.3.6)
@@ -337,6 +343,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   daemons (= 1.1.9)
+  database_cleaner
   delayed_job_active_record
   dotenv-rails
   factory_bot_rails

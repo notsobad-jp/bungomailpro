@@ -25,9 +25,6 @@ gem 'google-api-client'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'rspec-rails'
-  gem 'spring-commands-rspec'
-  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -42,6 +39,13 @@ group :development do
   # 新しいバージョンは複数workerをkillできないバグがあるので古いので固定
   ## https://github.com/collectiveidea/delayed_job/issues/798
   gem 'daemons', '1.1.9'
+end
+
+group :test do
+  gem 'rspec-rails'
+  gem 'spring-commands-rspec'
+  gem 'factory_bot_rails'
+  gem 'database_cleaner'
 end
 
 group :production do
