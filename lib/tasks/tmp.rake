@@ -24,7 +24,6 @@ namespace :tmp do
   ## (1) DLしたGoogleGroupの現在の登録者をインポート（status: active）
   task import_google_group_members: :environment do |_task, _args|
     default_timestamp = Time.zone.parse("2018/4/30")
-    official_ch = Channel.find_by(code: "bungomail-official")
 
     user_attributes = []
     membership_attributes = []
@@ -36,9 +35,9 @@ namespace :tmp do
         p email
         next if email == 'info@notsobad.jp'
         uuid = SecureRandom.uuid
-        user_attributes << {id: uuid, email: email, created_at: default_timestamp, updated_at: default_timestamp, activation_state: "active"}
-        membership_attributes << {id: uuid, plan: 'free', status: 'active', created_at: default_timestamp, updated_at: default_timestamp}
-        subscription_attributes << {user_id: uuid, channel_id: official_ch.id, status: 'active', created_at: default_timestamp, updated_at: default_timestamp}
+        user_attributes << {id: uuid, email: email, created_at: default_timestamp, updated_at: default_timestamp, activation_state: "active"} # activate済みにしとく
+        membership_attributes << {id: uuid, plan: 'free', status: Membership.statuses[:active], created_at: default_timestamp, updated_at: default_timestamp}
+        subscription_attributes << {user_id: uuid, channel_id: Channel::OFFICIAL_CHANNEL_ID, created_at: default_timestamp, updated_at: default_timestamp}
       end
     end
 
@@ -84,7 +83,7 @@ namespace :tmp do
 
       uuid = SecureRandom.uuid
       user_attributes << {id: uuid, email: email, created_at: default_timestamp, updated_at: timestamp}   # ログインできないように、未activationの状態で登録
-      membership_attributes << {id: uuid, plan: 'free', status: 'canceled', created_at: default_timestamp, updated_at: timestamp}
+      membership_attributes << {id: uuid, plan: 'free', status: Membership.statuses[:canceled], created_at: default_timestamp, updated_at: timestamp}
     end
 
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
@@ -109,7 +108,7 @@ namespace :tmp do
 
         uuid = SecureRandom.uuid
         user_attributes << {id: uuid, email: email, created_at: default_timestamp, updated_at: default_timestamp, activation_state: "active"}
-        membership_attributes << {id: uuid, plan: 'free', status: 'active', created_at: default_timestamp, updated_at: default_timestamp}
+        membership_attributes << {id: uuid, plan: 'free', status: Membership.statuses[:active], created_at: default_timestamp, updated_at: default_timestamp}
       end
     end
 
@@ -140,7 +139,6 @@ namespace :tmp do
   ## (6) DBに保存されたChannelSubscriptionLogの内容もマージする
   task import_channel_subscription_logs: :environment do |_task, _args|
     default_timestamp = Time.zone.parse("2018/4/30")
-    # official_ch = Channel.find_by(code: "bungomail-official")
 
     ChannelSubscriptionLog.all.each do |log|
       timestamp = log.created_at
@@ -166,7 +164,7 @@ namespace :tmp do
         user_attributes = []
         membership_attributes = []
         user_attributes << {id: uuid, email: log.email, created_at: default_timestamp, updated_at: timestamp}
-        membership_attributes << {id: uuid, plan: 'free', status: 'canceled', created_at: default_timestamp, updated_at: timestamp}
+        membership_attributes << {id: uuid, plan: 'free', status: Membership.statuses[:canceled], created_at: default_timestamp, updated_at: timestamp}
 
         ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
           User.insert_all(user_attributes)
