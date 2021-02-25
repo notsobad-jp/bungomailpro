@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include Pundit
   before_action :require_login
-  after_action :verify_authorized
 
   rescue_from ActiveRecord::RecordNotFound,   with: :render_404
   rescue_from ActionController::RoutingError, with: :render_404

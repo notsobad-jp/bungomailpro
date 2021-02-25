@@ -1,4 +1,7 @@
 class SubscriptionsController < ApplicationController
+  before_action :set_and_authorize_record
+  after_action :authorize_record
+
   # 購読
   def create
     @channel = Channel.find(params[:channel_id])
@@ -36,5 +39,11 @@ class SubscriptionsController < ApplicationController
       flash[:error] = '【エラー】処理に失敗しました。。何回か試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
     end
     redirect_to channel_path(@sub.channel)
+  end
+
+  private
+
+  def authorize_record
+    authorize @sub || Subscription
   end
 end

@@ -1,6 +1,5 @@
 class MagicTokensController < ApplicationController
   skip_before_action :require_login, except: [:destroy]
-  skip_after_action :verify_authorized
 
   def new
     @meta_title = 'ログイン'
