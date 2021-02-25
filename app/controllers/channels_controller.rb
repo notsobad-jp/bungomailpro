@@ -1,5 +1,6 @@
 class ChannelsController < ApplicationController
-  skip_before_action :require_login, only: [:show]
+  skip_before_action :require_login, only: [:index, :show]
+  after_action :authorize_record
 
   def index
     @channels = Channel.where.not(code: nil)
@@ -14,5 +15,11 @@ class ChannelsController < ApplicationController
     @subscription = Subscription.find_by(user_id: current_user.id, channel_id: @channel.id) if current_user
 
     @meta_title = @channel.title || 'マイチャネル'
+  end
+
+  private
+
+  def authorize_record
+    authorize @channel || Channel
   end
 end

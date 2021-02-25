@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  include Pundit
   before_action :require_login
+  after_action :verify_authorized
 
   rescue_from ActiveRecord::RecordNotFound,   with: :render_404
   rescue_from ActionController::RoutingError, with: :render_404
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
   private
 
@@ -13,13 +15,13 @@ class ApplicationController < ActionController::Base
     render file: Rails.root.join("public", "404.html"), layout: false, status: :not_found
   end
 
-  def user_not_authorized
-    flash[:warning] = 'Not authorized. Please check your login status.'
+  def not_authorized
+    flash[:warning] = '権限がありません。。ログイン状態をご確認ください。'
     redirect_to request.referer || login_path
   end
 
   def not_authenticated
-    flash[:warning] = 'Not authorized. Please signin to see the content.'
+    flash[:warning] = 'ログインしてください。'
     redirect_to login_path
   end
 end

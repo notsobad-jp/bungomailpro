@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :require_login
+  skip_after_action :verify_authorized
 
   def lp
     @meta_title = 'ブンゴウメール | 1日3分のメールでムリせず毎月1冊本が読める、忙しいあなたのための読書サポートサービス'

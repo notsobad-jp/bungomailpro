@@ -1,5 +1,6 @@
 class ChannelSubscriptionsController < ApplicationController
   skip_before_action :require_login
+  skip_after_action :verify_authorized
 
   # # 購読
   # def create

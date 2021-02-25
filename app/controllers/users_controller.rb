@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:new, :create, :activate]
+  skip_after_action :verify_authorized
 
   def new
     @meta_title = "アカウント登録"
@@ -26,24 +27,7 @@ class UsersController < ApplicationController
     @meta_title = 'マイページ'
     @user = current_user
     @subscriptions = @user.subscriptions.includes(channel: :channel_profile)
-    # @user = authorize User.find(params[:id])
-    # @campaign_group = CampaignGroup.where("start_at < ?", Time.current).order(start_at: :desc).first
   end
-  #
-  # def edit
-  #   @user = authorize User.find(params[:id])
-  # end
-  #
-  # def update
-  #   @user = authorize User.find(params[:id])
-  #   if @user.update(user_params)
-  #     flash[:success] = 'Your data is saved successfully!'
-  #     redirect_to user_path(@user)
-  #   else
-  #     flash[:error] = 'Sorry we failed to save your data. Please check the input again.'
-  #     render :edit
-  #   end
-  # end
 
   def activate
     @user = User.load_from_activation_token(params[:id])
