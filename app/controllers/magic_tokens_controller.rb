@@ -2,8 +2,8 @@ class MagicTokensController < ApplicationController
   skip_before_action :require_login, except: [:destroy]
 
   def new
+    redirect_to mypage_path if current_user
     @meta_title = 'ログイン'
-    redirect_to user_path(current_user) if current_user
   end
 
   def create

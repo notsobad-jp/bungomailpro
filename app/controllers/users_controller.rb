@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :require_login, only: [:new, :create, :activate]
 
   def new
+    redirect_to mypage_path if current_user
     @meta_title = "アカウント登録"
     @user = User.new
   end
