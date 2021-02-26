@@ -11,4 +11,8 @@ class Chapter < ApplicationRecord
     res = BungoMailer.with(chapter: self).chapter_email.deliver_later(queue: 'chapter_email', wait_until: self.send_at)
     self.update!(delayed_job_id: res.provider_job_id)
   end
+
+  def send_at
+    Time.zone.parse("#{delivery_date.to_s} #{book_assignment.channel.delivery_time}")
+  end
 end

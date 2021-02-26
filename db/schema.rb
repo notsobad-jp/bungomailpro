@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_053754) do
+ActiveRecord::Schema.define(version: 2021_02_26_112713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -46,13 +46,13 @@ ActiveRecord::Schema.define(version: 2021_02_24_053754) do
     t.integer "book_id", null: false
     t.string "book_type", null: false
     t.integer "count", null: false
-    t.datetime "start_at", null: false
+    t.date "start_date", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "twitter_share_url"
     t.index ["book_id", "book_type"], name: "index_book_assignments_on_book_id_and_book_type"
     t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
-    t.index ["start_at"], name: "index_book_assignments_on_start_at"
+    t.index ["start_date"], name: "index_book_assignments_on_start_date"
   end
 
   create_table "campaign_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2021_02_24_053754) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "code"
+    t.time "delivery_time", default: "2000-01-01 09:00:00", null: false
     t.index ["code"], name: "index_channels_on_code", unique: true
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
@@ -109,7 +110,7 @@ ActiveRecord::Schema.define(version: 2021_02_24_053754) do
     t.uuid "delayed_job_id"
     t.string "title", null: false
     t.text "content", null: false
-    t.datetime "send_at", null: false
+    t.date "delivery_date", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["book_assignment_id"], name: "index_chapters_on_book_assignment_id"

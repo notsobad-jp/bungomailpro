@@ -2,6 +2,7 @@ class Channel < ApplicationRecord
   belongs_to :user
   has_one :channel_profile, foreign_key: :id, dependent: :destroy
   has_many :book_assignments, dependent: :destroy
+  has_many :delayed_jobs, through: :book_assignments
   has_many :subscriptions
   has_many :active_subscriptions, -> { where status: 'active' }, class_name: 'Subscription'
   has_many :active_subscribers, through: :active_subscriptions, source: :user

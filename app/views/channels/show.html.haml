@@ -41,9 +41,9 @@
             %i.icon.external.small
         .extra
           %small
-            = ba.start_at.strftime("%Y年%-m月%-d日")
+            = ba.start_date.strftime("%Y年%-m月%-d日")
             〜
-            = (ba.count - 1).days.since(ba.start_at).strftime("%Y年%-m月%-d日")
+            = (ba.count - 1).days.since(ba.start_date).strftime("%Y年%-m月%-d日")
     - if @channel.code == 'business-model'
       .content
         = link_to "https://www.amazon.co.jp/dp/4046023619", class: 'header', target: :blank do
