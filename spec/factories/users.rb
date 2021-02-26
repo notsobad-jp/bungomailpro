@@ -6,5 +6,12 @@ FactoryBot.define do
       before(:create) { |user| user.class.skip_callback(:create, :after, :create_membership) }
       after(:create) { |user| user.class.set_callback(:create, :after, :create_membership) }
     end
+
+    trait :with_basic_membership do
+      without_membership
+      after(:create) do |user|
+        user.membership = create(:membership, plan: 'basic')
+      end
+    end
   end
 end

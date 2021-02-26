@@ -5,7 +5,7 @@ class BookAssignment < ApplicationRecord
   has_many :delayed_jobs, through: :chapters, dependent: :destroy
 
   before_create do
-    self.twitter_share_url = self.twitter_short_url
+    self.twitter_share_url = self.twitter_short_url unless Rails.env.test?
   end
 
   def create_chapters
@@ -27,7 +27,11 @@ class BookAssignment < ApplicationRecord
   end
 
   def twitter_short_url
-    Bitly.call(path: 'shorten', params: { long_url: self.twitter_long_url })
+    begin
+      Bitly.call(path: 'shorten', params: { long_url: self.twitter_long_url })
+    rescue => e
+      logger.error "[Error] Bitly API failed: #{e}"
+    end
   end
 
   def twitter_long_url
