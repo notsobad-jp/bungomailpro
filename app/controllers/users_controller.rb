@@ -42,16 +42,16 @@ class UsersController < ApplicationController
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉 翌日からメール配信が始まります。' })
   end
 
-  def destroy
-    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      current_user.update!(activation_state: nil)
-      current_user.membership_logs.create!(plan: 'free', status: :canceled)
-      current_user.membership_logs.scheduled.map(&:cancel)
-      # TODO: freeチャネルの購読はcronで削除されないので、ここで手動削除しておく
-    end
-    logout
-    redirect_to(root_path, flash: { info: '退会処理が完了しました。翌日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。' })
-  end
+  # TODO: 即時退会処理（当面は手動対応）
+  # def destroy
+  #   ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
+  #     current_user.update!(activation_state: nil)
+  #     current_user.membership_logs.scheduled.map(&:cancel)
+  #     current_user.membership_logs.create!(plan: 'free', status: :canceled).apply
+  #   end
+  #   logout
+  #   redirect_to(root_path, flash: { info: '退会処理が完了しました。翌日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。' })
+  # end
 
   private
 

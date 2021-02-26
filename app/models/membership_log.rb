@@ -18,20 +18,21 @@ class MembershipLog < ApplicationRecord
   end
 
   def apply
+    raise "membership_log is already finished or canceled." if self.finished? || self.canceled?
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
       # trial開始時: 公式チャネル購読
       if plan == 'basic' && trialing?
         Subscription.create!(user_id: self.user_id, channel_id: Channel::OFFICIAL_CHANNEL_ID)
       end
 
-      # basic→free: 無料チャネル1つ以外解約・自分チャネルの配信停止？
+      # basic→free: 無料チャネル以外解約・自作チャネルの削除・配信停止
       if plan == 'free' && active? && membership.plan == 'basic'
-        # TODO
+        self.user.cancel_basic_plan
       end
 
-      # free-canceled: すべてのチャネル解約・自分チャネルの配信停止？
+      # free&canceled: すべてのチャネル解約・自作チャネルの削除・配信停止
       if plan == 'free' && canceled?
-        # TODO
+        self.user.cancel_free_plan
       end
 
       self.membership.update!(plan: self.plan, status: self.status)
