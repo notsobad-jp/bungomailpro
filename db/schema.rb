@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_112713) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "code"
-    t.time "delivery_time", default: "2000-01-01 09:00:00", null: false
+    t.time "delivery_time", default: "2000-01-01 07:00:00", null: false
     t.index ["code"], name: "index_channels_on_code", unique: true
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
