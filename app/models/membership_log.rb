@@ -7,6 +7,16 @@ class MembershipLog < ApplicationRecord
   scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }
   scope :scheduled, -> { where("apply_at > ?", Time.current).where(finished: false, canceled: false) }
 
+  def self.apply_all
+    self.applicable.each do |m_log|
+      begin
+        m_log.apply
+      rescue => e # subscriptionのcallbackでDirectoryAPI叩くので、こけて処理が止まらないようにrescueしてる
+        logger.error "[Error] Apply failed: #{m_log.id} #{e}"
+      end
+    end
+  end
+
   def apply
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
       # trial開始時: 公式チャネル購読

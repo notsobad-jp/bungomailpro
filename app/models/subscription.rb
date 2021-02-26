@@ -11,6 +11,16 @@ class Subscription < ApplicationRecord
   # after_update  :google_update_member, if: Proc.new { |sub| sub.channel.google_group_key.present? }
   # after_destroy :google_delete_member, if: Proc.new { |sub| sub.channel.google_group_key.present? }
 
+  def self.restart_all
+    self.where(paused: true).each do |sub|
+      begin
+        sub.update!(paused: false)
+      rescue => e # subscriptionのcallbackでDirectoryAPI叩くので、こけて処理が止まらないようにrescueしてる
+        logger.error "[Error] Restarting failed: #{sub.id} #{e}"
+      end
+    end
+  end
+
   private
 
   def google_insert_member
