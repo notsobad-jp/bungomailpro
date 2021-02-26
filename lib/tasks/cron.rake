@@ -1,23 +1,23 @@
 namespace :cron do
-  # 月初にmemberships_logs,subscription_logsの変更予約を反映
-  task upsert_memberships_and_subscriptions: :environment do |_task, _args|
-    begin
-      ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-        MembershipLog.apply_all
-        SubscriptionLog.apply_all
+  # [月初] memberships_logsの変更予約を反映
+  task apply_scheduled_membership_changes: :environment do |_task, _args|
+    MembershipLog.applicable.each do |m_log|
+      begin
+        m_log.apply
+      rescue => e
+        Rails.logger.error "[Error] Apply failed: #{m_log.id} #{e}"
       end
-    rescue => e
-      Rails.logger.error "[Error]Cron upserting failed: #{e}"
     end
   end
 
-  # 月初の処理後、membership解約後に残ってる有料チャネルの購読などを削除
-  task cancel_forbidden_subscriptions: :environment do |_task, _args|
-    begin
-      canceled_subs = Subscription.cancel_forbidden_subscriptions || []
-      Rails.logger.info "[Success]Canceled #{canceled_subs.length} forbidden subscriptions."
-    rescue => e
-      Rails.logger.error "[Error]Cron canceling failed: #{e}"
+  # [月初] 一時停止中のsubscriptionを配信再開
+  task restart_paused_subscriptions: :environment do |_task, _args|
+    Subscription.where(paused: true).each do |sub|
+      begin
+        sub.update!(paused: false)
+      rescue => e
+        Rails.logger.error "[Error] Restarting failed: #{sub.id} #{e}"
+      end
     end
   end
 end

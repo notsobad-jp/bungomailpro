@@ -35,7 +35,7 @@ namespace :tmp do
         p email
         next if email == 'info@notsobad.jp'
         uuid = SecureRandom.uuid
-        user_attributes << {id: uuid, email: email, created_at: default_timestamp, updated_at: default_timestamp, activation_state: "active"} # activate済みにしとく
+        user_attributes << {id: uuid, email: email, created_at: default_timestamp, updated_at: default_timestamp}
         membership_attributes << {id: uuid, plan: 'free', status: Membership.statuses[:active], created_at: default_timestamp, updated_at: default_timestamp}
         subscription_attributes << {user_id: uuid, channel_id: Channel::OFFICIAL_CHANNEL_ID, created_at: default_timestamp, updated_at: default_timestamp}
       end
@@ -82,7 +82,7 @@ namespace :tmp do
       next if existing_emails.include?(email)
 
       uuid = SecureRandom.uuid
-      user_attributes << {id: uuid, email: email, created_at: default_timestamp, updated_at: timestamp}   # ログインできないように、未activationの状態で登録
+      user_attributes << {id: uuid, email: email, created_at: default_timestamp, updated_at: timestamp}
       membership_attributes << {id: uuid, plan: 'free', status: Membership.statuses[:canceled], created_at: default_timestamp, updated_at: timestamp}
     end
 
@@ -142,6 +142,7 @@ namespace :tmp do
 
     ChannelSubscriptionLog.all.each do |log|
       timestamp = log.created_at
+      p log.email
 
       case log.action
       when "subscribed"
@@ -167,9 +168,28 @@ namespace :tmp do
         membership_attributes << {id: uuid, plan: 'free', status: Membership.statuses[:canceled], created_at: default_timestamp, updated_at: timestamp}
 
         ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-          User.insert_all(user_attributes)
-          Membership.insert_all(membership_attributes)
+          User.insert!(user_attributes)
+          Membership.insert!(membership_attributes)
         end
+      end
+    end
+  end
+
+  # (7) 一時停止履歴からGoogleGroupのステータスを更新する
+  task revert_paused_users: :environment do |_task, _args|
+    csv_rows = CSV.read("tmp/google_migration/paused_logs.csv", headers: true).uniq{|row| row['メールアドレス'] }
+    csv_rows.each do |log|
+      p log['メールアドレス']
+      sub = Subscription.includes(:user).find_by(users: { email: log['メールアドレス'] })
+      next unless sub
+
+      begin
+        service = GoogleDirectoryService.instance
+        member = Google::Apis::AdminDirectoryV1::Member.new(delivery_settings: 'ALL_MAIL')
+        # service.update_member("bungomail-text@notsobad.jp", log['メールアドレス'], member)
+        p "restarted!"
+      rescue => e
+        p e
       end
     end
   end
