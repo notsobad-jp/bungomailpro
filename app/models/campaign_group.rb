@@ -24,12 +24,12 @@ class CampaignGroup < ApplicationRecord
 
   def schedule
     self.campaigns.each do |campaign|
-      campaign.deliver_later
-      # campaign.create_draft
-      # campaign.schedule
+      # campaign.deliver_later
+      campaign.create_draft
+      campaign.schedule
 
       p "Scheduled #{campaign.title}"
-      # sleep 1
+      sleep 1
     end
   end
 
