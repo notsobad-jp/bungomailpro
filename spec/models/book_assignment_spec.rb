@@ -32,4 +32,54 @@ RSpec.describe BookAssignment, type: :model do
       end
     end
   end
+
+  describe "delivery_period_should_not_overlap" do
+    let(:book_assignment) { create(:book_assignment, :with_book) }
+
+    context "with overlapping period" do
+      # 対象期間が既存レコードに先行するとき
+      context "when new period proceeds the existing record" do
+        it "should not be valid" do
+          ba = build(:book_assignment, channel: book_assignment.channel, book: book_assignment.book, start_date: Time.zone.today - 10)
+          expect(ba.valid?).to be_falsy
+          expect(ba.errors[:start_date]).to include("配信期間が重複しています")
+        end
+      end
+
+      # 対象期間が既存レコードに後続するとき
+      context "when new period succeeds the existing record" do
+        it "should not be valid" do
+          ba = build(:book_assignment, channel: book_assignment.channel, book: book_assignment.book, start_date: Time.zone.today + 10)
+          expect(ba.valid?).to be_falsy
+          expect(ba.errors[:start_date]).to include("配信期間が重複しています")
+        end
+      end
+
+      # 対象期間が既存レコードを包含するとき
+      context "when new period includes the existing record" do
+        it "should not be valid" do
+          ba = build(:book_assignment, channel: book_assignment.channel, book: book_assignment.book, start_date: Time.zone.today, count: 50)
+          expect(ba.valid?).to be_falsy
+          expect(ba.errors[:start_date]).to include("配信期間が重複しています")
+        end
+      end
+
+      # 対象期間が既存レコードに包含されるとき
+      context "when new period is included by the existing record" do
+        it "should not be valid" do
+          ba = build(:book_assignment, channel: book_assignment.channel, book: book_assignment.book, start_date: Time.zone.today + 2, count: 10)
+          expect(ba.valid?).to be_falsy
+          expect(ba.errors[:start_date]).to include("配信期間が重複しています")
+        end
+      end
+    end
+
+    # 期間重複してても他のチャネルならOK
+    context "when other channel has overlapping record" do
+      it "should be valid" do
+        ba = build(:book_assignment, book: book_assignment.book, start_date: Time.zone.today)
+        expect(ba.valid?).to be_truthy
+      end
+    end
+  end
 end

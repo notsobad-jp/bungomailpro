@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_26_112713) do
+ActiveRecord::Schema.define(version: 2021_02_27_124000) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "btree_gist"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -50,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_112713) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "twitter_share_url"
+    t.index "channel_id, daterange(start_date, date((start_date + (((count - 1))::double precision * '1 day'::interval))))", name: "gist_index_book_assignments_on_delivery_period", using: :gist
     t.index ["book_id", "book_type"], name: "index_book_assignments_on_book_id_and_book_type"
     t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
     t.index ["start_date"], name: "index_book_assignments_on_start_date"

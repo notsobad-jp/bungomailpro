@@ -4,6 +4,10 @@ class BookAssignment < ApplicationRecord
   has_many :chapters, -> { order(:delivery_date) }, dependent: :destroy
   has_many :delayed_jobs, through: :chapters, dependent: :destroy
 
+  validates :start_date, presence: true
+  validates :count, presence: true
+  validate :delivery_period_should_not_overlap # 同一チャネルで期間が重複するレコードが存在すればinvalid
+
   before_create do
     self.twitter_share_url = self.twitter_short_url unless Rails.env.test?
   end
@@ -36,5 +40,14 @@ class BookAssignment < ApplicationRecord
 
   def twitter_long_url
     "https://twitter.com/intent/tweet?url=https%3A%2F%2Fbungomail.com%2F&hashtags=ブンゴウメール,青空文庫&text=#{start_date.month}月は%20%23#{book.author_name}%20%23#{book.title}%20を配信中！"
+  end
+
+
+  private
+
+  # 同一チャネルで期間が重複するレコードが存在すればinvalid
+  def delivery_period_should_not_overlap
+    overlapping = BookAssignment.where.not(id: id).where(channel_id: channel_id).where("date(start_date + (count-1) * INTERVAL '1 day') > ? and ? > start_date", start_date, start_date + count)
+    errors.add(:start_date, "配信期間が重複しています") if overlapping.present?
   end
 end
