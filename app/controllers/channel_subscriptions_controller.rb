@@ -42,6 +42,7 @@ class ChannelSubscriptionsController < ApplicationController
       if params[:action_type] == 'unsubscribed'
         service.delete_member(ENV['GOOGLE_GROUP_KEY'], params[:email])
         sub.destroy!
+        user.membership.canceled!
         flash[:info] = '購読を解除しました。明日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。'
       # 月末まで一時停止
       elsif params[:action_type] == 'paused'
