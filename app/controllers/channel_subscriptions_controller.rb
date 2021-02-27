@@ -2,8 +2,11 @@ class ChannelSubscriptionsController < ApplicationController
   skip_before_action :require_login
 
   # # FIXME: 3月1日以降のフロー
+  # ## subscriptionのgoogle callbackはOFFになってる前提で、ここでGoogle更新もやってる
+  #
   # # 購読
   # def create
+  #   service = GoogleDirectoryService.instance
   #   user = User.find_or_create_by(email: params[:email])
   #   # 退会済みだった人は再度activeに
   #   user.membership.active! if user.membership.canceled?
@@ -13,6 +16,8 @@ class ChannelSubscriptionsController < ApplicationController
   #   end
   #
   #   begin
+  #     member = Google::Apis::AdminDirectoryV1::Member.new(email: params[:email])
+  #     service.insert_member(ENV['GOOGLE_GROUP_KEY'], member)
   #     user.subscriptions.create(channel_id: Channel::OFFICIAL_CHANNEL_ID)
   #     flash[:success] = '登録完了しました！翌日の配信からメールが届きます。<a href="https://blog.bungomail.com/entry/2018/05/21/172542" target="_blank" class="text-link">メールの受信設定</a>を事前に必ずご確認ください。'
   #   rescue => e
@@ -24,6 +29,7 @@ class ChannelSubscriptionsController < ApplicationController
   #
   # # 配信停止
   # def destroy
+  #   service = GoogleDirectoryService.instance
   #   user = User.find_by(email: params[:email])
   #   sub = user.subscriptions.find_by(channel_id: Channel::OFFICIAL_CHANNEL_ID) if user
   #   if !user || !sub
@@ -34,10 +40,13 @@ class ChannelSubscriptionsController < ApplicationController
   #   # 登録解除
   #   begin
   #     if params[:action_type] == 'unsubscribed'
+  #       service.delete_member(ENV['GOOGLE_GROUP_KEY'], params[:email])
   #       sub.destroy!
   #       flash[:info] = '購読を解除しました。明日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。'
   #     # 月末まで一時停止
   #     elsif params[:action_type] == 'paused'
+  #       member = Google::Apis::AdminDirectoryV1::Member.new(delivery_settings: 'NONE')
+  #       service.patch_member(ENV['GOOGLE_GROUP_KEY'], params[:email], member)
   #       sub.update!(paused: true)
   #       flash[:info] = '月末まで配信を一時停止しました。来月になると自動で配信が再開されます。'
   #     end
