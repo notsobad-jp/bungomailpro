@@ -161,6 +161,7 @@ namespace :tmp do
         user = User.find_by(email: log.email)
         next if user
 
+        # FIXME: canceledのmembershipを作りたいけど、callbackでactiveにされるのでinsert_allしてる（普通に作ってからupdateでよかったかも）
         uuid = SecureRandom.uuid
         user_attributes = []
         membership_attributes = []
@@ -168,8 +169,8 @@ namespace :tmp do
         membership_attributes << {id: uuid, plan: 'free', status: Membership.statuses[:canceled], created_at: default_timestamp, updated_at: timestamp}
 
         ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-          User.insert!(user_attributes)
-          Membership.insert!(membership_attributes)
+          User.insert_all!(user_attributes)
+          Membership.insert_all!(membership_attributes)
         end
       end
     end
