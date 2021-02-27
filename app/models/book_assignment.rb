@@ -9,7 +9,7 @@ class BookAssignment < ApplicationRecord
   validate :delivery_period_should_not_overlap # 同一チャネルで期間が重複するレコードが存在すればinvalid
 
   before_create do
-    self.twitter_share_url = self.twitter_short_url unless Rails.env.test?
+    self.twitter_share_url = self.twitter_short_url
   end
 
   def create_chapters

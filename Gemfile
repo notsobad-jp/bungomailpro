@@ -46,6 +46,7 @@ group :test do
   gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
   gem 'database_cleaner'
+  gem 'webmock', require: false
 end
 
 group :production do

@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Chapter, type: :model do
+  before do
+    WebMock.stub_request(:post, "https://api-ssl.bitly.com/v4/shorten").to_return(body: "https://bit.ly/3q3sjgW")
+  end
+
   describe "send_at" do
     let(:chapter) { build(:chapter, delivery_date: Time.zone.today) }
 
