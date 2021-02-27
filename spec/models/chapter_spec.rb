@@ -23,9 +23,18 @@ RSpec.describe Chapter, type: :model do
     context "when send_at not passed yet" do
       let(:chapter) { create(:chapter, delivery_date: Time.zone.tomorrow) }
 
+      before do
+        chapter.book_assignment.channel.update(delivery_time: '10:00:00')
+      end
+
       it "should enqueue the job" do
         chapter.schedule
         expect(chapter.delayed_job_id).not_to be_nil
+      end
+
+      it "should has correct run_at on job" do
+        chapter.schedule
+        expect(chapter.delayed_job.run_at).to eq(Time.zone.tomorrow.to_time.change(hour: 10))
       end
     end
   end
