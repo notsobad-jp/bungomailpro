@@ -176,17 +176,20 @@ namespace :tmp do
   end
 
   # (7) 一時停止履歴からGoogleGroupのステータスを更新する
+  ## 2021.2.28の通常配信後に実行
   task revert_paused_users: :environment do |_task, _args|
     csv_rows = CSV.read("tmp/google_migration/paused_logs.csv", headers: true).uniq{|row| row['メールアドレス'] }
-    csv_rows.each do |log|
-      p log['メールアドレス']
-      sub = Subscription.includes(:user).find_by(users: { email: log['メールアドレス'] })
+    emails = csv_rows.pluck("メールアドレス")
+    emails << ChannelSubscriptionLog.where(action: "paused").pluck(:email)
+    emails.flatten.uniq.each do |email|
+      p email
+      sub = Subscription.includes(:user).find_by(users: { email: email })
       next unless sub
 
       begin
         service = GoogleDirectoryService.instance
         member = Google::Apis::AdminDirectoryV1::Member.new(delivery_settings: 'ALL_MAIL')
-        # service.update_member("bungomail-text@notsobad.jp", log['メールアドレス'], member)
+        service.update_member("bungomail-text@notsobad.jp", email, member)
         p "restarted!"
       rescue => e
         p e

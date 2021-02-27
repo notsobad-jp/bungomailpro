@@ -3,7 +3,7 @@ class ChannelSubscriptionsController < ApplicationController
 
   # 3月1日以降のフロー
   ## subscriptionのgoogle callbackはOFFになってる前提で、ここでGoogle更新もやってる
-  
+
   # 購読
   def create
     service = GoogleDirectoryService.instance
