@@ -13,3 +13,4 @@ admin = User.create(
   updated_at: Time.zone.parse("2018/4/1"),
   activation_state: "active"
 )
+admin.membership.update(plan: 'basic')

@@ -4,12 +4,12 @@ Rails.application.routes.draw do
     get 'completed', on: :collection
   end
   resources :subscriptions
-  resources :channels do
-    resources :book_assignments
-  end
+  resources :channels
+  resources :book_assignments
   resources :users do
     get 'activate', on: :member
   end
+  resources :aozora_books, only: [:index, :show]
 
   get 'signup' => 'users#new'
   get 'login' => 'magic_tokens#new'

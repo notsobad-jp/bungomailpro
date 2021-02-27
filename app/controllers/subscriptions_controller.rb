@@ -1,5 +1,4 @@
 class SubscriptionsController < ApplicationController
-  before_action :set_and_authorize_record
   after_action :authorize_record
 
   # 購読
