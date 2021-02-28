@@ -62,18 +62,14 @@ class Membership < ApplicationRecord
 
   # basicプラン解約: 無料チャネル以外解約・自作チャネルの削除・配信停止
   def cancel_basic_plan
-    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      user.channels.destroy_all  # 自作チャネルと配信予約を削除
-      user.subscriptions.where.not(channel_id: Channel::JUVENILE_CHANNEL_ID).destroy_all # 児童チャネル以外配信停止
-    end
+    user.channels.destroy_all  # 自作チャネルと配信予約を削除
+    user.subscriptions.where.not(channel_id: Channel::JUVENILE_CHANNEL_ID).destroy_all # 児童チャネル以外配信停止
   end
 
   # 退会: すべてのチャネル解約・自作チャネルの削除・配信停止
   def cancel_free_plan
-    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      user.channels.destroy_all  # 自作チャネルと配信予約を削除
-      user.subscriptions.destroy_all # すべてのsubscriptionを解約
-      user.update!(activation_state: nil) # ログインできなくする
-    end
+    user.channels.destroy_all  # 自作チャネルと配信予約を削除
+    user.subscriptions.destroy_all # すべてのsubscriptionを解約
+    user.update!(activation_state: nil) # ログインできなくする
   end
 end

@@ -44,4 +44,27 @@ RSpec.describe Membership, type: :model do
       end
     end
   end
+
+  describe "cancel_free_plan" do
+    let(:user) { create(:user, :with_basic_membership) }
+
+    context "when user has a custom channel and subscribing public channel" do
+      before do
+        user.activate!
+        @juv_sub = user.subscriptions.create(channel_id: Channel::JUVENILE_CHANNEL_ID)
+        custom_channel = create(:channel, user: user)
+        user.subscriptions.create(channel_id: custom_channel.id)
+        public_channel = create(:channel)
+        user.subscriptions.create(channel_id: public_channel.id)
+      end
+
+      subject { user.membership.update(plan: 'free', status: :canceled)  }
+
+      it "should destroy all channels & subscriptions" do
+        expect{subject}.to change{user.subscriptions.count}.from(4).to(0).
+                       and change{user.channels.count}.from(1).to(0).
+                       and change{user.reload.activation_state}.from("active").to(nil)
+      end
+    end
+  end
 end
