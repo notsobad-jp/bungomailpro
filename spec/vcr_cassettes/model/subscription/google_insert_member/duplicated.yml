@@ -1,0 +1,127 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.googleapis.com/oauth2/v4/token
+    body:
+      encoding: ASCII-8BIT
+      string: grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJidW5nb21haWxAYnVuZ28tbWFpbC5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsImF1ZCI6Imh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL29hdXRoMi92NC90b2tlbiIsImV4cCI6MTYxNDQ5NDcxNywiaWF0IjoxNjE0NDk0NTk3LCJzY29wZSI6Imh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL2F1dGgvYWRtaW4uZGlyZWN0b3J5Lmdyb3VwIiwic3ViIjoiaW5mb0Bub3Rzb2JhZC5qcCJ9.lbyHaF0v3YHZqnVFKYzKcLARNTMzRxGN9ioK3WmwPfEPZ1yGMYLEOfjmx-25Nq2VVO4T7N5nwSSA_NCwVQERAs7skkIWdFspd9OkSbx8J_mDn0bhBWbbTHVjs0oR77qaGGzgqlOt8M_RKhgUH33PpQwDmOSXgP_SXe-cGrzGIOHELbHFML0KPrUgKbkPo9O2tJ57EXkCXIZ8c7Dg7DD1-ERn2LgCfR-axfHd9eJvkEd2R-1W1hCCnw8nLxXydzaQlzyA00rjgrQbqCt7fdlQdwWEID8LY2A5pwAZnqFwGXJVDajxWdvwHEpH57n9L0XLOnZsl2DedLGu4MEYvQzz4g
+    headers:
+      User-Agent:
+      - Faraday v1.3.0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 28 Feb 2021 06:44:18 GMT
+      Pragma:
+      - no-cache
+      Expires:
+      - Mon, 01 Jan 1990 00:00:00 GMT
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Alt-Svc:
+      - h3-29=":443"; ma=2592000,h3-T051=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
+        ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "access_token": "ya29.A0AfH6SMCQVqk4PmJBOt6Mqn-Z23xp2WYsHVi-2d3tJkyIEbxq3WaF3RR2mdroeRoIo-e2S9Ldjcp1VhPBj92Sdr3jXThPuT4X9hYFFjbiPJr0A7rlG-Jg7VYa8mWrQfKT2bOtaElT-_1-ClE_7wYQK1YYkiZy_t5jwuKmDJFU64DpEgWPN1v4_mN28fNOOUxsDCJKLJyU2uo",
+          "expires_in": 3599,
+          "token_type": "Bearer"
+        }
+  recorded_at: Sun, 28 Feb 2021 06:44:18 GMT
+- request:
+    method: post
+    uri: https://admin.googleapis.com/admin/directory/v1/groups/test@notsobad.jp/members
+    body:
+      encoding: UTF-8
+      string: '{"email":"test5@example.com"}'
+    headers:
+      User-Agent:
+      - unknown/0.0.0 google-api-ruby-client/0.2.1 Mac OS X/11.2.1 (gzip)
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip,deflate
+      Date:
+      - Sun, 28 Feb 2021 06:44:18 GMT
+      X-Goog-Api-Client:
+      - gl-ruby/2.7.0 gdcl/1.2.1
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer ya29.A0AfH6SMCQVqk4PmJBOt6Mqn-Z23xp2WYsHVi-2d3tJkyIEbxq3WaF3RR2mdroeRoIo-e2S9Ldjcp1VhPBj92Sdr3jXThPuT4X9hYFFjbiPJr0A7rlG-Jg7VYa8mWrQfKT2bOtaElT-_1-ClE_7wYQK1YYkiZy_t5jwuKmDJFU64DpEgWPN1v4_mN28fNOOUxsDCJKLJyU2uo
+  response:
+    status:
+      code: 409
+      message: Conflict
+    headers:
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Encoding:
+      - gzip
+      Date:
+      - Sun, 28 Feb 2021 06:44:18 GMT
+      Server:
+      - ESF
+      Cache-Control:
+      - private
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Alt-Svc:
+      - h3-29=":443"; ma=2592000,h3-T051=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
+        ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "error": {
+            "code": 409,
+            "message": "Member already exists.",
+            "errors": [
+              {
+                "message": "Member already exists.",
+                "domain": "global",
+                "reason": "duplicate"
+              }
+            ]
+          }
+        }
+  recorded_at: Sun, 28 Feb 2021 06:44:18 GMT
+recorded_with: VCR 6.0.0
