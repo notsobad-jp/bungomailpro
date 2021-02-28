@@ -3,5 +3,6 @@ FactoryBot.define do
     membership
     plan { 'free' }
     status { :active }
+    apply_at { Time.current.ago(1.hour) }
   end
 end
