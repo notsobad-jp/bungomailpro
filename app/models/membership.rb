@@ -8,30 +8,37 @@ class Membership < ApplicationRecord
   after_update :cancel_basic_plan, if: :basic_plan_canceled?
   after_update :cancel_free_plan, if: :free_plan_canceled?
 
+
   def schedule_trial
-    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      self.membership_logs.create!(plan: 'basic', status: :trialing, apply_at: Time.current.next_month.beginning_of_month)
-      self.membership_logs.create!(plan: 'free', status: :active, apply_at: Time.current.next_month.end_of_month)
-    end
+    raise 'already in basic' unless plan_status == 'free-active'
+    self.membership_logs.create!(plan: 'basic', status: :trialing, apply_at: Time.current.next_month.beginning_of_month)  # 翌月初からトライアル開始
+    self.membership_logs.create!(plan: 'free', status: :active, apply_at: Time.current.since(2.month).beginning_of_month) # 変更がなければ翌々月初からfreeプランに戻る
+    self.update!(trial_end_at: Time.current.next_month.end_of_month)
   end
 
-  # 決済情報登録して、翌月から課金開始
+  # 決済情報登録して、翌月末かトライアル終了後から課金開始
+  ## トライアル開始前 -> 翌々月初、 トライアル中 -> 翌月初、 トライアル終了後 -> 翌月初
   def schedule_billing
-    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      self.membership_logs.scheduled.update_all(canceled: true)
-      self.membership_logs.create!(plan: 'basic', status: :active, apply_at: Time.current.next_month.beginning_of_month)
-    end
+    raise 'already billing' if plan_status == 'basic-active'   # ありえるのは free-active OR basic-trialing
+    self.membership_logs.scheduled.update_all(canceled: true)
+    self.membership_logs.create!(plan: 'basic', status: :active, apply_at: billing_start_at)
   end
 
   # 月末で解約してfreeプランに戻る
   def cancel_billing
-    ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      self.membership_logs.scheduled.update_all(canceled: true)
-      self.membership_logs.create!(plan: 'free', status: :active, apply_at: Time.current.next_month.beginning_of_month)
-    end
+    raise 'not billing' unless plan_status == 'basic-active'
+    self.membership_logs.create!(plan: 'free', status: :active, apply_at: Time.current.next_month.beginning_of_month)
+  end
+
+  def plan_status
+    "#{plan}-#{status}"
   end
 
   private
+
+  def billing_start_at
+    [trial_end_at.since(1.second), Time.current.next_month.beginning_of_month].max
+  end
 
   ###########################################################
   # callbackの条件判定メソッド
