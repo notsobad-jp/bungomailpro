@@ -1,20 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe BookAssignment, type: :model do
-  before do
-    # WebMock.stub_request(:post, "https://api-ssl.bitly.com/v4/shorten").to_return(body: "https://bit.ly/3q3sjgW")
-  end
-
   describe "create_chapters" do
     let(:book_assignment) { create(:book_assignment, :with_book) }
 
     describe "with different count" do
       context "when it has 30 count" do
         it "should have 30 chapters" do
-          VCR.use_cassette("bitly") do
-            book_assignment.create_chapters
-            expect(book_assignment.chapters.length).to eq(30)
-          end
+          book_assignment.create_chapters
+          expect(book_assignment.chapters.length).to eq(30)
         end
       end
 
