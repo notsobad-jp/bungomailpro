@@ -7,7 +7,7 @@ RSpec.describe Subscription, type: :model do
       let(:subscription) { create(:subscription) }
 
       it "should raise exception" do
-        expect(subscription.google_insert_member).to be_nil
+        expect(subscription.send(:google_insert_member)).to be_nil
       end
     end
 
@@ -17,7 +17,7 @@ RSpec.describe Subscription, type: :model do
 
         it "should succeed" do
           VCR.use_cassette 'model/subscription/google_insert_member/valid' do
-            expect(subscription.google_insert_member).to be_truthy
+            expect(subscription.send(:google_insert_member)).to be_truthy
           end
         end
       end
@@ -27,7 +27,7 @@ RSpec.describe Subscription, type: :model do
 
         it "should raise duplicate exception" do
           VCR.use_cassette 'model/subscription/google_insert_member/duplicated' do
-            subscription.google_insert_member rescue exception = $! # $! は例外クラスのこと
+            subscription.send(:google_insert_member) rescue exception = $! # $! は例外クラスのこと
             expect(exception.status_code).to eq(409)
             expect(exception.message).to include("duplicate")
           end
@@ -39,7 +39,7 @@ RSpec.describe Subscription, type: :model do
 
         it "should raise notFound exception" do
           VCR.use_cassette 'model/subscription/google_insert_member/invalid' do
-            subscription.google_insert_member rescue exception = $! # $! は例外クラスのこと
+            subscription.send(:google_insert_member) rescue exception = $! # $! は例外クラスのこと
             expect(exception.status_code).to eq(404)
             expect(exception.message).to include("notFound")
           end
@@ -51,7 +51,7 @@ RSpec.describe Subscription, type: :model do
 
         it "should raise notFound exception" do
           VCR.use_cassette 'model/subscription/google_insert_member/aliased' do
-            subscription.google_insert_member rescue exception = $! # $! は例外クラスのこと
+            subscription.send(:google_insert_member) rescue exception = $! # $! は例外クラスのこと
             expect(exception.status_code).to eq(404)
             expect(exception.message).to include("notFound")
           end

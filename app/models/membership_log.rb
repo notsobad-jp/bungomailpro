@@ -7,10 +7,6 @@ class MembershipLog < ApplicationRecord
   scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }
   scope :scheduled, -> { where("apply_at > ?", Time.current).where(finished: false, canceled: false) }
 
-  def applicable?
-    (self.apply_at < Time.current) && !self.finished? && !self.canceled?
-  end
-
   def self.apply_all
     self.applicable.each do |m_log|
       begin
@@ -27,5 +23,11 @@ class MembershipLog < ApplicationRecord
       self.membership.update!(plan: self.plan, status: self.status)
       self.update!(finished: true)
     end
+  end
+
+  private
+
+  def applicable?
+    (self.apply_at < Time.current) && !self.finished? && !self.canceled?
   end
 end

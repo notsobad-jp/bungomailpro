@@ -11,6 +11,7 @@ FactoryBot.define do
       without_membership
       after(:create) do |user|
         user.membership = create(:membership, plan: 'basic')
+        user.subscriptions.create(channel_id: Channel::OFFICIAL_CHANNEL_ID)
       end
     end
   end

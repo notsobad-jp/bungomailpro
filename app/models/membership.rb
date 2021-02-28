@@ -45,7 +45,7 @@ class Membership < ApplicationRecord
   end
 
   def basic_plan_canceled?
-    plan_or_status_changed? && saved_changes_to_plan == ['basic', 'free'] && active?
+    saved_change_to_plan == ['basic', 'free'] && active?
   end
 
   def free_plan_canceled?
@@ -57,7 +57,7 @@ class Membership < ApplicationRecord
   ###########################################################
   # trial開始: 公式チャネル購読
   def start_trialing
-    Subscription.create!(user_id: id, channel_id: Channel::OFFICIAL_CHANNEL_ID)
+    user.subscriptions.create!(channel_id: Channel::OFFICIAL_CHANNEL_ID)
   end
 
   # basicプラン解約: 無料チャネル以外解約・自作チャネルの削除・配信停止

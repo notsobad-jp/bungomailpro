@@ -28,65 +28,44 @@ RSpec.describe MembershipLog, type: :model do
   describe "applicable?" do
     it "should be applicable with valid record" do
       m_log = build(:membership_log)
-      expect(m_log.applicable?).to be_truthy
+      expect(m_log.send(:applicable?)).to be_truthy
     end
 
     it "should not be applicable when apply_at not passed" do
       m_log = build(:membership_log, apply_at: Time.current.since(1.hour))
-      expect(m_log.applicable?).to be_falsy
+      expect(m_log.send(:applicable?)).to be_falsy
     end
 
     it "should not be applicable when finished" do
       m_log = build(:membership_log, finished: true)
-      expect(m_log.applicable?).to be_falsy
+      expect(m_log.send(:applicable?)).to be_falsy
     end
 
     it "should not be applicable when canceled" do
       m_log = build(:membership_log, status: :canceled)
-      expect(m_log.applicable?).to be_falsy
+      expect(m_log.send(:applicable?)).to be_falsy
     end
   end
 
   describe "apply" do
-    # free -> トライアル開始
-    context "free:active -> basic:trialing" do
-      let(:user) { create(:user) }
-      let(:m_log) { create(:membership_log, membership: user.membership, plan: 'basic', status: :trialing) }
+    context "when not applicable" do
+      let(:m_log) { create(:membership_log, apply_at: Time.current.since(1.hour)) }
 
-      it "should update membership status" do
-        byebug
-        m_log.apply
-        expect(user.membership.plan).to eq('basic')
-        expect(user.membership.status).to eq(:trialing)
+      it "should return nil" do
+        expect(m_log.apply).to be_nil
       end
     end
 
-    # free -> 解約
-    context "free:active -> free:canceled" do
-    end
+    context "when applicable" do
+      let!(:official_channel) { create(:channel, id: Channel::OFFICIAL_CHANNEL_ID) }
+      let!(:juvenile_channel) { create(:channel, id: Channel::JUVENILE_CHANNEL_ID) }
+      let(:m_log) { create(:membership_log, plan: 'basic', status: :trialing) }
 
-    # free -> basicプラン開始（以前にトライアル終了してるパターン）
-    context "free:active -> basic:active" do
-    end
-
-    # trialing -> basic（トライアル中に契約）
-    context "basic:trialing -> basic:active" do
-    end
-
-    # trialing -> free（契約せずにトライアル終了）
-    context "basic:trialing -> free:active" do
-    end
-
-    # trialing -> 解約
-    context "basic:trialing -> free:canceled" do
-    end
-
-    # basic -> free（プラン解約）
-    context "basic:active -> free:active" do
-    end
-
-    # basic -> 解約
-    context "basic:active -> free:canceled" do
+      it "should apply plan and status" do
+        expect{m_log.apply}.to change(m_log.membership, :plan).from('free').to('basic').
+                           and change(m_log.membership, :status).from('active').to('trialing').
+                           and change(m_log, :finished).from(false).to(true)
+      end
     end
   end
 end
