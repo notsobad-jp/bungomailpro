@@ -14,6 +14,14 @@ class UsersController < ApplicationController
       return redirect_to login_path
     end
 
+    # 退会済みユーザーの再登録: userは削除済みでEmailDigestが残っているケース
+    ## 基本は@user.saveのコールバックでコケてエラー
+    ## リニューアル以前の退会ユーザーは再登録可能にする
+    email_digest = EmailDigest.find_by(digest: BCrypt::Password.create(user_params[:email]))
+    if email_digest && email_digest.deleted_at < Time.zone.parse("2021-12-31")  # FIXME: リニューアル以前かどうかで判定
+      email_digest.destroy!
+    end
+
     if @user.save
       BungoMailer.with(user: @user).activation_email.deliver_later
       flash[:success] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクをクリックして、アカウントを認証してください。'
@@ -36,22 +44,19 @@ class UsersController < ApplicationController
     @user.activate!
     auto_login(@user)
 
-    # Freeプランの無料チャネルをすぐに購読開始
-    @user.subscriptions.create!(channel_id: Channel::JUVENILE_CHANNEL_ID)
-
     redirect_to(mypage_path, flash: { success: 'アカウント登録が完了しました🎉 翌日からメール配信が始まります。' })
   end
 
-  # TODO: 即時退会処理（当面は手動対応）
-  # def destroy
-  #   ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-  #     current_user.update!(activation_state: nil)
-  #     current_user.membership_logs.scheduled.map(&:cancel)
-  #     current_user.membership_logs.create!(plan: 'free', status: :canceled).apply
-  #   end
-  #   logout
-  #   redirect_to(root_path, flash: { info: '退会処理が完了しました。翌日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。' })
-  # end
+  # TODO: 有料プランの場合はStripeの購読も削除する
+  def destroy
+    if current_user.destroy
+      logout
+      flash[:info] = '退会処理が完了しました。翌日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。'
+    else
+      flash[:error] = '処理に失敗しました。。再度試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
+    end
+    redirect_to(root_path)
+  end
 
   private
 

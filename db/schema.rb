@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_27_124000) do
+ActiveRecord::Schema.define(version: 2021_03_01_131201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
@@ -134,6 +134,12 @@ ActiveRecord::Schema.define(version: 2021_02_27_124000) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "email_digests", primary_key: "digest", id: :string, force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+  end
+
   create_table "guten_books", force: :cascade do |t|
     t.string "title", null: false
     t.string "author"
@@ -168,12 +174,12 @@ ActiveRecord::Schema.define(version: 2021_02_27_124000) do
   create_table "membership_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.string "plan", null: false
-    t.integer "status", default: 1, null: false
     t.datetime "apply_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "finished", default: false, null: false
     t.boolean "canceled", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "trialing", default: false, null: false
     t.index ["apply_at"], name: "index_membership_logs_on_apply_at"
     t.index ["user_id"], name: "index_membership_logs_on_user_id"
   end
@@ -182,12 +188,11 @@ ActiveRecord::Schema.define(version: 2021_02_27_124000) do
     t.string "stripe_customer_id"
     t.string "stripe_subscription_id"
     t.string "plan", null: false
-    t.integer "status", default: 1, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "trial_end_at"
+    t.boolean "trialing", default: false, null: false
     t.index ["plan"], name: "index_memberships_on_plan"
-    t.index ["status"], name: "index_memberships_on_status"
     t.index ["trial_end_at"], name: "index_memberships_on_trial_end_at"
   end
 

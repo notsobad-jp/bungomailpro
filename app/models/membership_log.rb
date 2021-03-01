@@ -2,8 +2,6 @@ class MembershipLog < ApplicationRecord
   belongs_to :user
   belongs_to :membership, foreign_key: :user_id
 
-  enum status: { active: 1, trialing: 2, canceled: 3 }
-
   scope :applicable, -> { where("apply_at < ?", Time.current).where(finished: false, canceled: false) }
   scope :scheduled, -> { where("apply_at > ?", Time.current).where(finished: false, canceled: false) }
 
@@ -20,7 +18,7 @@ class MembershipLog < ApplicationRecord
   def apply
     return unless applicable?
     ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
-      self.membership.update!(plan: self.plan, status: self.status)
+      self.membership.update!(plan: self.plan, trialing: self.trialing)
       self.update!(finished: true)
     end
   end

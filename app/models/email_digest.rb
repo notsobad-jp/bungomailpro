@@ -1,0 +1,2 @@
+class EmailDigest < ApplicationRecord
+end
