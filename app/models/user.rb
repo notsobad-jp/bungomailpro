@@ -4,7 +4,6 @@ class User < ApplicationRecord
   has_many :membership_logs, dependent: :destroy
   has_many :channels, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-  has_many :subscription_logs, dependent: :destroy
 
   delegate :plan, :status, to: :membership, prefix: true, allow_nil: true
 
