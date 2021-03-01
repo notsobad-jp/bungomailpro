@@ -2,10 +2,7 @@ class Membership < ApplicationRecord
   belongs_to :user, foreign_key: :id
   has_many :membership_logs, foreign_key: :user_id
 
-  after_create do
-    # Freeプランの無料チャネルをすぐに購読開始
-    user.subscriptions.create!(channel_id: Channel::JUVENILE_CHANNEL_ID)
-  end
+  after_create :start_free_plan
   after_update :start_trialing, if: :trialing_started?
   after_update :cancel_basic_plan, if: :basic_plan_canceled?
   after_update :cancel_free_plan, if: :free_plan_canceled?
@@ -28,9 +25,8 @@ class Membership < ApplicationRecord
 
   # 月末で解約してfreeプランに戻る
   def cancel_billing
-    raise 'not billing' unless plan_status == 'basic-active'
-    # TODO: 解約予約をどうやって表現するか
-    # self.membership_logs.create!(plan: 'free', status: :active, apply_at: Time.current.next_month.beginning_of_month)
+    raise 'not billing' if plan == 'free' || trialing?
+    self.membership_logs.create!(plan: 'free', apply_at: Time.current.next_month.beginning_of_month)
   end
 
 
@@ -52,18 +48,21 @@ class Membership < ApplicationRecord
   end
 
   def basic_plan_canceled?
-    # TODO: 修正
     saved_change_to_plan == ['basic', 'free']
   end
 
   def free_plan_canceled?
-    # TODO: 修正
-    # plan_or_trialing_changed? && plan == 'free' && canceled?
+    plan_or_trialing_changed? && plan == nil
   end
 
   ###########################################################
   # callbackの処理実行メソッド
   ###########################################################
+  # freeプラン開始（activate時）: 児童チャネル購読
+  def start_free_plan
+    user.subscriptions.create!(channel_id: Channel::JUVENILE_CHANNEL_ID)
+  end
+
   # trial開始: 公式チャネル購読
   def start_trialing
     user.subscriptions.create!(channel_id: Channel::OFFICIAL_CHANNEL_ID)

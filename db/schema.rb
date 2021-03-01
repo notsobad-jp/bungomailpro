@@ -173,7 +173,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
 
   create_table "membership_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.string "plan", null: false
+    t.string "plan"
     t.datetime "apply_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "finished", default: false, null: false
     t.boolean "canceled", default: false, null: false
@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
   create_table "memberships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "stripe_customer_id"
     t.string "stripe_subscription_id"
-    t.string "plan", null: false
+    t.string "plan"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "trial_end_at"

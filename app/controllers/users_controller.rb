@@ -15,17 +15,16 @@ class UsersController < ApplicationController
     end
 
     # 退会済みユーザーの再登録: userは削除済みでEmailDigestが残っているケース
-    ## 基本は@user.saveのコールバックでコケてエラー
-    ## リニューアル以前の退会ユーザーは再登録可能にする
     email_digest = EmailDigest.find_by(digest: BCrypt::Password.create(user_params[:email]))
     if email_digest && email_digest.deleted_at < Time.zone.parse("2021-12-31")  # FIXME: リニューアル以前かどうかで判定
-      email_digest.destroy!
+      email_digest.destroy! # リニューアル以前の退会ユーザーは再登録可能にしてあげる
     end
 
     if @user.save
       BungoMailer.with(user: @user).activation_email.deliver_later
       flash[:success] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクをクリックして、アカウントを認証してください。'
     else
+      # リニューアル以降に退会したユーザーの再登録など
       flash[:error] = '処理に失敗しました。。再度試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
     end
     redirect_to signup_path
