@@ -9,6 +9,18 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "validates_format_of_email" do
+    it "should accept normal gmail address" do
+      user = build(:user, email: "hogehoge@gmail.com")
+      expect(user.valid?).to be_truthy
+    end
+
+    it "should not accept gmail alias address" do
+      user = build(:user, email: "hogehoge+hoge@gmail.com")
+      expect(user.valid?).to be_falsy
+      expect(user.errors.full_messages).to include("Emailは不正な値です")
+    end
+  end
 
   # 退会時は全削除してEmailDigestを更新する
   describe "cancel membership" do
@@ -21,7 +33,6 @@ RSpec.describe User, type: :model do
       expect(email_digest.reload.updated_at.between?(Time.current.ago(1.minute), Time.current)).to be_truthy
     end
   end
-
 
   describe "re-registration after destroy" do
     let(:email) { "hogehoge@example.com" }

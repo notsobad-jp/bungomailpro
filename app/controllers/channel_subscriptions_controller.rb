@@ -8,11 +8,11 @@ class ChannelSubscriptionsController < ApplicationController
   def create
     service = GoogleDirectoryService.instance
     user = User.find_or_create_by(email: params[:email])
-    # 退会済みだった人は再度activeに
-    user.membership.active! if user.membership.canceled?
     # すでに購読済みの場合はエラー
     if user.subscriptions.present?
       return redirect_to root_path, flash: { error: 'このメールアドレスはすでに登録されています' }
+    elsif user.errors.present?
+      return redirect_to root_path, flash: { error: '登録に失敗しました。。Gmailのエイリアスアドレスなどは利用できませんので、他のアドレスをご利用ください。' }
     end
 
     begin
@@ -41,8 +41,7 @@ class ChannelSubscriptionsController < ApplicationController
     begin
       if params[:action_type] == 'unsubscribed'
         service.delete_member(ENV['GOOGLE_GROUP_KEY'], params[:email])
-        sub.destroy!
-        user.membership.canceled!
+        user.destroy!
         flash[:info] = '購読を解除しました。明日の配信からメールが届かなくなります。これまでのご利用ありがとうございました。'
       # 月末まで一時停止
       elsif params[:action_type] == 'paused'

@@ -8,15 +8,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.find_or_initialize_by(email: user_params[:email])
-    if @user.persisted?
+    if User.find_by(email: user_params[:email])
       flash[:warning] = 'このアドレスはすでに登録されているようです。こちらのページからログインしてください。'
       return redirect_to login_path
     end
 
     begin
-      @user.save
-      BungoMailer.with(user: @user).activation_email.deliver_later
+      user = User.create!(email: user_params[:email])
+      BungoMailer.with(user: user).activation_email.deliver_later
       flash[:success] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクをクリックして、アカウントを認証してください。'
     rescue => e
       # リニューアル以降に退会したユーザーの再登録など

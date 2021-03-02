@@ -3,13 +3,13 @@
     マイページ
 
 .mb-8
+  = @user.email
+
+.mb-8
   %h3.font-bold.mb-4 ▼ 現在のプラン
   .inline-block.border.rounded.font-bold.px-4.py-2
-    - if @user.membership.plan && @user.membership.status != 'canceled'
-      = @user.membership.plan
-    - else
-      FREE
-    - if @user.membership.status == 'trialing'
+    = @user.membership.plan
+    - if @user.membership.trialing?
       （無料トライアル）
 
 .mb-8
