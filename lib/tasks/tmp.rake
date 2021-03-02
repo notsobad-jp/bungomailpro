@@ -197,4 +197,22 @@ namespace :tmp do
       end
     end
   end
+
+
+  task destroy_canceled_users: :environment do |_task, _args|
+    # 0. localでrollback
+    # 0-1. 本番DBをlocalにリストア
+    # 1. 手動でmembershipのplanのnull:falseを解除
+    # 2. 解約済みをplan: nilに
+    Membership.where(status: 3).update_all(plan: nil)
+    # 3. db:migrate（EmailDigestテーブル作成）
+    # 4. 全ユーザーのEmailDigest作成(解約者はupdated_atを更新)
+    digests = []
+    User.each do |user|
+      digests << {digest: "", created_at: user.created_at, updated_at: user.membership.plan.nil? ? user.updated_at : user.created_at}
+    end
+    EmailDigest.insert_all(digests)
+    # 5. 解約済みユーザーを削除
+    User.includes(:membership).where(membership: {plan: nil}).destroy_all
+  end
 end
