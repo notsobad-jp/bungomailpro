@@ -9,16 +9,36 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "validates_format_of_email" do
-    it "should accept normal gmail address" do
-      user = build(:user, email: "hogehoge@gmail.com")
-      expect(user.valid?).to be_truthy
+  describe "validates gmail alias email" do
+    context "on: :create" do
+      it "should accept normal gmail address" do
+        user = build(:user, email: "hogehoge@gmail.com")
+        expect(user.valid?).to be_truthy
+      end
+
+      it "should not accept gmail alias address" do
+        user = build(:user, email: "hogehoge+hoge@gmail.com")
+        expect(user.valid?).to be_falsy
+        expect(user.errors.full_messages).to include("Emailは不正な値です")
+      end
     end
 
-    it "should not accept gmail alias address" do
-      user = build(:user, email: "hogehoge+hoge@gmail.com")
-      expect(user.valid?).to be_falsy
-      expect(user.errors.full_messages).to include("Emailは不正な値です")
+    context "on: :update" do
+      it "should accept normal gmail address" do
+        email = "hogehoge@gmail.com"
+        User.insert({email: email, created_at: Time.current, updated_at: Time.current})
+        user = User.find_by(email: email)
+        user.activation_state = "hogehoge"  # 適当な変更
+        expect(user.valid?).to be_truthy
+      end
+
+      it "should accept gmail alias address" do
+        email = "hogehoge+hoge@gmail.com"
+        User.insert({email: email, created_at: Time.current, updated_at: Time.current})
+        user = User.find_by(email: email)
+        user.activation_state = "hogehoge"  # 適当な変更
+        expect(user.valid?).to be_truthy
+      end
     end
   end
 
