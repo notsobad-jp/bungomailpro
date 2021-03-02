@@ -135,9 +135,9 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
   end
 
   create_table "email_digests", primary_key: "digest", id: :string, force: :cascade do |t|
-    t.datetime "deleted_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["updated_at"], name: "index_email_digests_on_updated_at"
   end
 
   create_table "guten_books", force: :cascade do |t|

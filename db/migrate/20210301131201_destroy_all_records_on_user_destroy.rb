@@ -2,10 +2,10 @@ class DestroyAllRecordsOnUserDestroy < ActiveRecord::Migration[6.0]
   def up
     create_table :email_digests, id: false do |t|
       t.string :digest, null: false, primary_key: true
-      t.datetime :deleted_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
+    add_index :email_digests, :updated_at
 
     change_column :memberships, :plan, :string, null: true
     remove_column :memberships, :status, :integer, null: false, default: 1

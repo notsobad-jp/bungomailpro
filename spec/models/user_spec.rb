@@ -18,7 +18,7 @@ RSpec.describe User, type: :model do
       email_digest = EmailDigest.find_by(digest: Digest::SHA256.hexdigest(user.email))
       user.destroy
       expect(User.exists?(user.id)).to be_falsy
-      expect(email_digest.reload.deleted_at.between?(Time.current.ago(1.minute), Time.current)).to be_truthy
+      expect(email_digest.reload.updated_at.between?(Time.current.ago(1.minute), Time.current)).to be_truthy
     end
   end
 
@@ -28,14 +28,14 @@ RSpec.describe User, type: :model do
 
     context "when canceled before renewal" do
       it "should accept registration" do
-        EmailDigest.create(digest: Digest::SHA256.hexdigest(email), deleted_at: Time.zone.parse("2018-05-01"))
+        EmailDigest.create(digest: Digest::SHA256.hexdigest(email), updated_at: Time.zone.parse("2018-05-01"))
         expect(create(:user, email: email)).to be_truthy
       end
     end
 
     context "when canceled after renewal" do
       it "should deny registration" do
-        EmailDigest.create(digest: Digest::SHA256.hexdigest(email), deleted_at: Time.zone.parse("2022-05-01"))
+        EmailDigest.create(digest: Digest::SHA256.hexdigest(email), updated_at: Time.zone.parse("2022-05-01"))
         create(:user, email: email) rescue exception = $! # $! は例外クラスのこと
         expect(exception.class).to eq(ActiveRecord::RecordNotUnique)
       end
