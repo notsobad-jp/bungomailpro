@@ -12,8 +12,17 @@ class User < ApplicationRecord
   after_initialize do
     self.password = SecureRandom.hex(10)
   end
+
+  # リニューアル以前の退会ユーザーは再登録可能にする
+  before_create do
+    email_digest = EmailDigest.find_by(digest: Digest::SHA256.hexdigest(email))
+    if email_digest && email_digest.deleted_at < Time.zone.parse("2021-12-31")  # FIXME: リニューアル以前かどうかで判定
+      email_digest.destroy!
+    end
+  end
+
   after_create :create_email_digest
-  after_update :create_membership, if: Proc.new { |user| user.activation_state_changed? && user.activation_state == 'active' }
+  after_update :create_membership, if: Proc.new { |user| user.saved_change_to_activation_state == ['pending', 'active'] }
   after_destroy :update_email_digest
 
   validates :email, presence: true, uniqueness: true
@@ -26,10 +35,10 @@ class User < ApplicationRecord
   end
 
   def create_email_digest
-    EmailDigest.create!(digest: BCrypt::Password.create(email))
+    EmailDigest.create!(digest: Digest::SHA256.hexdigest(email))
   end
 
   def update_email_digest
-    EmailDigest.find_by(digest: BCrypt::Password.create(email)).update!(deleted_at: Time.current)
+    EmailDigest.find_by(digest: Digest::SHA256.hexdigest(email)).update!(deleted_at: Time.current)
   end
 end

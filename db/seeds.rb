@@ -6,11 +6,34 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-admin = User.create(
+User.insert({
   id: "37f4e418-227e-485d-ab41-c50f887b9956",
   email: "info@notsobad.jp",
   created_at: Time.zone.parse("2018/4/1"),
   updated_at: Time.zone.parse("2018/4/1"),
-  activation_state: "active"
-)
-admin.membership.update(plan: 'basic')
+  activation_state: "active",
+})
+
+Membership.insert({
+  id: '37f4e418-227e-485d-ab41-c50f887b9956',
+  plan: 'basic',
+})
+
+Channel.insert_all([
+  {
+    code: "bungomail-official",
+    id: "1418479c-d5a7-4d29-a174-c5133ca484b6",
+    delivery_time: "07:00:00",
+    user_id: "37f4e418-227e-485d-ab41-c50f887b9956",
+    updated_at: "2018-05-01 00:00:00",
+    created_at: "2018-05-01 00:00:00",
+  },
+  {
+    code: "juvenile",
+    id: "470a73fb-d1ae-4ffb-9c6b-5b9dc292f4ef",
+    delivery_time: "07:00:00",
+    user_id: "37f4e418-227e-485d-ab41-c50f887b9956",
+    updated_at: "2021-05-01 00:00:00",
+    created_at: "2021-05-01 00:00:00"
+  }
+])

@@ -42,7 +42,7 @@ RSpec.describe MembershipLog, type: :model do
     end
 
     it "should not be applicable when canceled" do
-      m_log = build(:membership_log, status: :canceled)
+      m_log = build(:membership_log, canceled: true)
       expect(m_log.send(:applicable?)).to be_falsy
     end
   end
@@ -57,13 +57,11 @@ RSpec.describe MembershipLog, type: :model do
     end
 
     context "when applicable" do
-      let!(:official_channel) { create(:channel, id: Channel::OFFICIAL_CHANNEL_ID) }
-      let!(:juvenile_channel) { create(:channel, id: Channel::JUVENILE_CHANNEL_ID) }
-      let(:m_log) { create(:membership_log, plan: 'basic', status: :trialing) }
+      let(:m_log) { create(:membership_log, plan: 'basic', trialing: :true) }
 
-      it "should apply plan and status" do
+      it "should apply plan and trialing" do
         expect{m_log.apply}.to change(m_log.membership, :plan).from('free').to('basic').
-                           and change(m_log.membership, :status).from('active').to('trialing').
+                           and change(m_log.membership, :trialing).from(false).to(true).
                            and change(m_log, :finished).from(false).to(true)
       end
     end

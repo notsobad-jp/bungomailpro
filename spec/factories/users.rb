@@ -2,16 +2,27 @@ FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "test#{n}@example.com"}
 
-    trait :without_membership do
-      before(:create) { |user| user.class.skip_callback(:create, :after, :create_membership) }
-      after(:create) { |user| user.class.set_callback(:create, :after, :create_membership) }
+    trait :with_trialing_membership do
+      after(:create) do |user|
+        Membership.insert({id: user.id, plan: 'basic', trialing: true})
+      end
     end
 
     trait :with_basic_membership do
-      without_membership
       after(:create) do |user|
-        user.membership = create(:membership, plan: 'basic')
-        user.subscriptions.create(channel_id: Channel::OFFICIAL_CHANNEL_ID)
+        Membership.insert({id: user.id, plan: 'basic', trialing: false})
+      end
+    end
+
+    trait :with_juvenile_sub do
+      after(:create) do |user|
+        Subscription.insert({user_id: user.id, channel_id: Channel::JUVENILE_CHANNEL_ID})
+      end
+    end
+
+    trait :with_official_sub do
+      after(:create) do |user|
+        Subscription.insert({user_id: user.id, channel_id: Channel::OFFICIAL_CHANNEL_ID})
       end
     end
   end
