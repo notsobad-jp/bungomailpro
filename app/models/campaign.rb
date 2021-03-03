@@ -65,7 +65,7 @@ class Campaign < ApplicationRecord
       ■ブンゴウメール公式サイト：https://bungomail.com
       ■青空文庫でこの作品を読む：#{campaign_group.book.aozora_file_url}
       ■運営へのご支援はこちら： https://www.buymeacoffee.com/bungomail
-      ■月末まで一時的に配信を停止： https://forms.gle/d2gZZBtbeAEdXySW9
+      ■月末まで一時的に配信を停止： https://bungomail.com/unsubscribe
 
       -------
       配信元: ブンゴウメール編集部
@@ -98,7 +98,7 @@ class Campaign < ApplicationRecord
   def unsubscribe_url
     case self.campaign_group.list_id
     when 9399756 # ブンゴウメール配信リスト
-      "https://goo.gl/forms/kVz3fE9HdDq5iuA03"
+      "https://bungomail.com/unsubscribe"
     when 10315463 # ドグラ・マグラ配信リスト
       "https://bungomail.com/campaigns/dogramagra"
     end
