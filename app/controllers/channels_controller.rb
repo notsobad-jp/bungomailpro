@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  skip_before_action :require_login, only: [:index, :show]
+  skip_before_action :require_login, only: [:index, :show, :feed]
   after_action :authorize_record
 
   def index
@@ -14,6 +14,12 @@ class ChannelsController < ApplicationController
     @subscription = Subscription.find_by(user_id: current_user.id, channel_id: @channel.id) if current_user
 
     @meta_title = @channel.title || 'マイチャネル'
+  end
+
+  def feed
+    codes = Channel.pluck(:code).compact # 公開チャネルはcodeでチャネル検索
+    @channel = codes.include?(params[:id]) ? Channel.find_by(code: params[:id]) : Channel.find(params[:id])
+    @posts = @channel.chapters.where('chapters.send_at < ?', Time.current).order('chapters.delivery_date DESC').limit(30)
   end
 
   private

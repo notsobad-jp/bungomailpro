@@ -2,6 +2,7 @@ class Channel < ApplicationRecord
   belongs_to :user
   has_one :channel_profile, foreign_key: :id, dependent: :destroy
   has_many :book_assignments, dependent: :destroy
+  has_many :chapters, through: :book_assignments
   has_many :delayed_jobs, through: :book_assignments
   has_many :subscriptions, dependent: :destroy
   has_many :active_subscriptions, -> { where paused: false }, class_name: 'Subscription'
@@ -14,7 +15,6 @@ class Channel < ApplicationRecord
 
   OFFICIAL_CHANNEL_ID = '1418479c-d5a7-4d29-a174-c5133ca484b6'
   JUVENILE_CHANNEL_ID = '470a73fb-d1ae-4ffb-9c6b-5b9dc292f4ef'
-
 
   def update_jobs_run_at
     self.delayed_jobs.each do |job|

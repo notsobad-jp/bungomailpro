@@ -4,7 +4,9 @@ Rails.application.routes.draw do
     get 'completed', on: :collection
   end
   resources :subscriptions
-  resources :channels
+  resources :channels do
+    get :feed, on: :member, defaults: { format: :rss }
+  end
   resources :book_assignments
   resources :users do
     get 'activate', on: :member

@@ -12,4 +12,8 @@ class ChannelPolicy < ApplicationPolicy
   def create?
     user && user.membership.plan == 'pro'
   end
+
+  def feed?
+    true
+  end
 end
