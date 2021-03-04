@@ -1,18 +1,18 @@
 class BungoMailer < ApplicationMailer
-  def chapter_email
-    @chapter = params[:chapter]
-    @book = @chapter.book_assignment.book
-    @channel = @chapter.book_assignment.channel
-    @word_count = @chapter.content.gsub(" ", "").length
+  def feed_email
+    @feed = params[:feed]
+    @book = @feed.book_assignment.book
+    @channel = @feed.book_assignment.channel
+    @word_count = @feed.content.gsub(" ", "").length
 
     sender_name = envelope_display_name("#{@book.author_name}（ブンゴウメール）")
     send_to = @channel.google_group_key || @channel.active_subscribers.map(&:email)
 
-    xsmtp_api_params = { to: send_to, category: 'chapter' }
+    xsmtp_api_params = { to: send_to, category: 'feed' }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    mail(from: "#{sender_name} <bungomail@notsobad.jp>", subject: @chapter.title)
-    logger.info "[CHAPTER] channel: #{@channel.code || @channel.id}, title: #{@chapter.title}"
+    mail(from: "#{sender_name} <bungomail@notsobad.jp>", subject: @feed.title)
+    logger.info "[FEED] channel: #{@channel.code || @channel.id}, title: #{@feed.title}"
   end
 
   def magic_login_email

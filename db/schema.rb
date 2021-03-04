@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_095225) do
+ActiveRecord::Schema.define(version: 2021_03_04_095628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
@@ -107,18 +107,6 @@ ActiveRecord::Schema.define(version: 2021_03_04_095225) do
     t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
-  create_table "chapters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "book_assignment_id", null: false
-    t.uuid "delayed_job_id"
-    t.string "title", null: false
-    t.text "content", null: false
-    t.date "delivery_date", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["book_assignment_id"], name: "index_chapters_on_book_assignment_id"
-    t.index ["delayed_job_id"], name: "index_chapters_on_delayed_job_id"
-  end
-
   create_table "delayed_jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -138,6 +126,18 @@ ActiveRecord::Schema.define(version: 2021_03_04_095225) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "trial_ended_at"
+  end
+
+  create_table "feeds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "book_assignment_id", null: false
+    t.uuid "delayed_job_id"
+    t.string "title", null: false
+    t.text "content", null: false
+    t.date "delivery_date", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["book_assignment_id"], name: "index_feeds_on_book_assignment_id"
+    t.index ["delayed_job_id"], name: "index_feeds_on_delayed_job_id"
   end
 
   create_table "guten_books", force: :cascade do |t|
@@ -247,8 +247,8 @@ ActiveRecord::Schema.define(version: 2021_03_04_095225) do
   add_foreign_key "campaigns", "campaign_groups"
   add_foreign_key "channel_profiles", "channels", column: "id", on_delete: :cascade
   add_foreign_key "channels", "users"
-  add_foreign_key "chapters", "book_assignments", on_delete: :cascade
-  add_foreign_key "chapters", "delayed_jobs", on_delete: :nullify
+  add_foreign_key "feeds", "book_assignments", on_delete: :cascade
+  add_foreign_key "feeds", "delayed_jobs", on_delete: :nullify
   add_foreign_key "guten_books_subjects", "guten_books", on_delete: :cascade
   add_foreign_key "guten_books_subjects", "subjects", on_delete: :cascade
   add_foreign_key "membership_logs", "users"

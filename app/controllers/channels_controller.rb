@@ -19,7 +19,7 @@ class ChannelsController < ApplicationController
   def feed
     codes = Channel.pluck(:code).compact # 公開チャネルはcodeでチャネル検索
     @channel = codes.include?(params[:id]) ? Channel.find_by(code: params[:id]) : Channel.find(params[:id])
-    @posts = @channel.chapters.where('chapters.send_at < ?', Time.current).order('chapters.delivery_date DESC').limit(30)
+    @feeds = @channel.feeds.where('feeds.send_at < ?', Time.current).order('feeds.delivery_date DESC').limit(30)
   end
 
   private

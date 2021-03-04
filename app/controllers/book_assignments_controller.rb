@@ -6,7 +6,7 @@ class BookAssignmentsController < ApplicationController
     @channel = Channel.find(params[:channel_id])
     @book_assignment = @channel.book_assignments.new(book_id: params[:book_id], book_type: params[:book_type], count: 30, start_date: Time.zone.tomorrow + 50)
     if @book_assignment.save
-      # TODO: workerでchapter分割して配信処理
+      # TODO: workerでfeed分割して配信処理
       flash[:success] = '配信予約が完了しました！'
     else
       p @book_assignment.errors

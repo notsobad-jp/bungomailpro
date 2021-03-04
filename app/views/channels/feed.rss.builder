@@ -16,14 +16,14 @@ xml.rss(
     xml.ttl "40"
     xml.pubDate(Time.current.rfc822)
     xml.atom :link, "href" => channel_url(@channel.code || @channel.id), "rel" => "self", "type" => "application/rss+xml"
-    @posts.each do |p|
+    @feeds.each do |feed|
       xml.item do
-        xml.title p.title #タイトル
+        xml.title feed.title #タイトル
         xml.description do
-          xml.cdata! p.content
+          xml.cdata! feed.content
         end
-        xml.pubDate p.send_at.rfc822 #公開日
-        xml.guid "#{channel_url(@channel.code || @channel.id)}/chapters/#{p.id}"
+        xml.pubDate feed.send_at.rfc822 #公開日
+        xml.guid "#{channel_url(@channel.code || @channel.id)}/feeds/#{feed.id}"
         xml.link feed_channel_url(@channel.code || @channel.id)
       end
     end

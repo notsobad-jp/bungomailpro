@@ -1,8 +1,8 @@
 class BookAssignment < ApplicationRecord
   belongs_to :channel
   belongs_to :book, polymorphic: true
-  has_many :chapters, dependent: :destroy
-  has_many :delayed_jobs, through: :chapters
+  has_many :feeds, dependent: :destroy
+  has_many :delayed_jobs, through: :feeds
 
   validates :start_date, presence: true
   validates :count, presence: true
@@ -12,14 +12,14 @@ class BookAssignment < ApplicationRecord
     self.twitter_share_url = self.twitter_short_url
   end
 
-  def create_chapters
-    chapters = []
+  def create_feeds
+    feeds = []
     contents = self.book.contents(count: self.count)
     delivery_date = self.start_date
 
     contents.each.with_index(1) do |content, index|
       title = "#{self.book.title}（#{index}/#{contents.count}）"
-      chapters << {
+      feeds << {
         title: title,
         content: content,
         delivery_date: delivery_date,
@@ -27,7 +27,7 @@ class BookAssignment < ApplicationRecord
       }
       delivery_date += 1.day
     end
-    Chapter.insert_all chapters
+    Feed.insert_all feeds
   end
 
   def twitter_short_url
