@@ -42,34 +42,32 @@ RSpec.describe User, type: :model do
     end
   end
 
-  # 退会時は全削除してEmailDigestを更新する
+  # 退会時は全削除してEmailDigestだけ残る
   describe "cancel membership" do
     let(:user) { create(:user) }
 
-    it "should update deleted_at of EmailDigest" do
+    it "should leave EmailDigest" do
       email_digest = EmailDigest.find_by(digest: Digest::SHA256.hexdigest(user.email))
       user.destroy
       expect(User.exists?(user.id)).to be_falsy
-      expect(email_digest.reload.updated_at.between?(Time.current.ago(1.minute), Time.current)).to be_truthy
+      expect(EmailDigest.exists?(email_digest.id)).to be_truthy
     end
   end
 
-  describe "re-registration after destroy" do
+  describe "re-registration after trial" do
     let(:email) { "hogehoge@example.com" }
+    let(:trial_ended_at) { Time.zone.parse("2021-01-01") }
 
-    context "when canceled before renewal" do
-      it "should accept registration" do
-        EmailDigest.create(digest: Digest::SHA256.hexdigest(email), updated_at: Time.zone.parse("2018-05-01"))
-        expect(create(:user, email: email)).to be_truthy
-      end
+    it "should accept registration" do
+      EmailDigest.create(digest: Digest::SHA256.hexdigest(email), trial_ended_at: trial_ended_at)
+      expect(create(:user, email: email)).to be_truthy
     end
 
-    context "when canceled after renewal" do
-      it "should deny registration" do
-        EmailDigest.create(digest: Digest::SHA256.hexdigest(email), updated_at: Time.zone.parse("2022-05-01"))
-        create(:user, email: email) rescue exception = $! # $! は例外クラスのこと
-        expect(exception.class).to eq(ActiveRecord::RecordNotUnique)
-      end
+    it "should has trial_end_at" do
+      EmailDigest.create(digest: Digest::SHA256.hexdigest(email), trial_ended_at: trial_ended_at)
+      user = create(:user, email: email)
+      user.activate!
+      expect(user.membership.trial_end_at).to eq(trial_ended_at)
     end
   end
 end

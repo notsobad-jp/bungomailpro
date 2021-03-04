@@ -10,35 +10,24 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates_format_of :email, without: /.*\+.*@gmail\.com/, on: :create  # gmailエイリアスアドレスでの登録は弾く （リニューアル以前に登録されたアドレスがあるので on: :create のみ）
 
-  ##########################################
-  # Callbacks
-  ##########################################
   # activation実行に必要なのでダミーのパスワードを設定
   ## before_validateでcryptedの作成処理が走るので、それより先に用意できるようにafter_initializeを使用
   after_initialize do
     self.password = SecureRandom.hex(10)
   end
 
-  # リニューアル以前の退会ユーザーは再登録可能にする
-  before_create do
-    email_digest = EmailDigest.find_by(digest: Digest::SHA256.hexdigest(email))
-    if email_digest && email_digest.updated_at < Time.zone.parse("2021-12-31")  # FIXME: リニューアル以前かどうかで判定
-      email_digest.destroy!
-    end
-  end
-
   # 新規作成時（未activation）: EmailDigest作成
   after_create do
-    EmailDigest.create!(digest: Digest::SHA256.hexdigest(email))
+    EmailDigest.find_or_create_by!(digest: Digest::SHA256.hexdigest(email)) # 退会済みユーザーの場合はEmailDigestが存在する
   end
 
-  # activation実行時:
+  # activation実行時: Membership作成
   after_update if: Proc.new { |user| user.saved_change_to_activation_state == ['pending', 'active'] } do
-    Membership.create!(id: self.id, plan: 'free')
+    Membership.create!(id: self.id, plan: 'free', trial_end_at: email_digest.trial_ended_at)  # トライアル→退会→再登録の場合: 最初からトライアル終了状態で作成
   end
 
-  # 退会時: EmailDigestのupdated_at更新
-  after_destroy do
-    EmailDigest.find_by(digest: Digest::SHA256.hexdigest(email))&.touch
+
+  def email_digest
+    EmailDigest.find_by!(digest: Digest::SHA256.hexdigest(email))
   end
 end

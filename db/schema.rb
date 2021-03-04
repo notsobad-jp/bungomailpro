@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_01_131201) do
+ActiveRecord::Schema.define(version: 2021_03_04_095225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
   create_table "email_digests", primary_key: "digest", id: :string, force: :cascade do |t|
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["updated_at"], name: "index_email_digests_on_updated_at"
+    t.datetime "trial_ended_at"
   end
 
   create_table "guten_books", force: :cascade do |t|
