@@ -3,14 +3,6 @@ require 'rails_helper'
 RSpec.describe Subscription, type: :model do
   # Insert Member to Google Group
   describe "insert_google_member" do
-    context "when no google_group_key exists" do
-      let(:subscription) { create(:subscription) }
-
-      it "should raise exception" do
-        expect(subscription.send(:google_insert_member)).to be_nil
-      end
-    end
-
     context "when google_group_key exists" do
       context "with valid & non-existing email" do
         let(:subscription) { create(:subscription, channel: create(:channel, :with_google_group)) }
@@ -23,13 +15,13 @@ RSpec.describe Subscription, type: :model do
       end
 
       context "with existing email" do
-        let(:subscription) { create(:subscription, user: create(:user, email: 'test5@example.com'), channel: create(:channel, :with_google_group)) }
+        let(:subscription) { create(:subscription, user: create(:user, email: 'duplicated@example.com'), channel: create(:channel, :with_google_group)) }
 
         it "should raise duplicate exception" do
           VCR.use_cassette 'model/subscription/google_insert_member/duplicated' do
-            subscription.send(:google_insert_member) rescue exception = $! # $! は例外クラスのこと
-            expect(exception.status_code).to eq(409)
-            expect(exception.message).to include("duplicate")
+            res = subscription.send(:google_insert_member)
+            expect(res.status_code).to eq(409)
+            expect(res.message).to include("duplicate")
           end
         end
       end
@@ -39,21 +31,9 @@ RSpec.describe Subscription, type: :model do
 
         it "should raise notFound exception" do
           VCR.use_cassette 'model/subscription/google_insert_member/invalid' do
-            subscription.send(:google_insert_member) rescue exception = $! # $! は例外クラスのこと
-            expect(exception.status_code).to eq(404)
-            expect(exception.message).to include("notFound")
-          end
-        end
-      end
-
-      context "with aliased email" do
-        let(:subscription) { create(:subscription, user: create(:user, email: 'test5+alias@gmail.com'), channel: create(:channel, :with_google_group)) }
-
-        it "should raise notFound exception" do
-          VCR.use_cassette 'model/subscription/google_insert_member/aliased' do
-            subscription.send(:google_insert_member) rescue exception = $! # $! は例外クラスのこと
-            expect(exception.status_code).to eq(404)
-            expect(exception.message).to include("notFound")
+            res = subscription.send(:google_insert_member)
+            expect(res.status_code).to eq(404)
+            expect(res.message).to include("notFound")
           end
         end
       end

@@ -26,6 +26,7 @@ class Subscription < ApplicationRecord
       @@service.insert_member(channel.google_group_key, member)
     rescue => e
       logger.error "[Error] google insert failed: #{id} #{e}"
+      e
     end
   end
 
@@ -36,6 +37,7 @@ class Subscription < ApplicationRecord
       @@service.update_member(channel.google_group_key, user_email, member)
     rescue => e
       logger.error "[Error] google update failed: #{id} #{e}"
+      e
     end
   end
 
@@ -44,6 +46,7 @@ class Subscription < ApplicationRecord
       @@service.delete_member(channel.google_group_key, user_email)
     rescue => e
       logger.error "[Error] google delete failed: #{id} #{e}"
+      e
     end
   end
 end
