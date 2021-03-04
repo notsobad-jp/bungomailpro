@@ -42,4 +42,19 @@ RSpec.describe Feed, type: :model do
       end
     end
   end
+
+  describe "scope: :delivered" do
+    let(:ba1) { create(:book_assignment, :with_book, channel: create(:channel, delivery_time: Time.current.ago(1.minute).strftime("%T"))) }
+    let(:ba2) { create(:book_assignment, book_id: ba1.book_id, channel: create(:channel, delivery_time: Time.current.since(1.minute).strftime("%T"))) }
+
+    it "should include right records" do
+      feed1 = create(:feed, book_assignment_id: ba1.id, delivery_date: Time.zone.yesterday)  # 日付が昨日: 対象
+      feed2 = create(:feed, book_assignment_id: ba1.id, delivery_date: Time.zone.tomorrow) # 日付が明日: 対象外
+      feed3 = create(:feed, book_assignment_id: ba1.id, delivery_date: Time.zone.today) # 日付が今日で時間が過ぎてる: 対象
+      feed4 = create(:feed, book_assignment_id: ba2.id, delivery_date: Time.zone.today) # 日付が今日で時間が過ぎていない: 対象外
+
+      expect(Feed.delivered.length).to eq(2)
+      expect(Feed.delivered.to_a).to eq([feed1, feed3])
+    end
+  end
 end
