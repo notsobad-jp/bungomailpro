@@ -2,12 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Membership, type: :model do
   describe "start_trialing" do
-    let!(:membership) { create(:membership) } # callbackでsubscription作成するので、このタイミングで実行しておく
+    let!(:membership) { create(:membership, trial_end_at: Time.current.next_month.end_of_month) } # callbackでsubscription作成するので、このタイミングで実行しておく
 
     context "when trial started" do
       it "should subscribe official channel" do
         expect{membership.update(plan: 'basic', trialing: true)}.to change{Subscription.count}.by(1)
         expect(membership.user.subscriptions.find_by(channel_id: Channel::OFFICIAL_CHANNEL_ID)).to be_truthy
+      end
+
+      it "should update email_digest trial_ended_at" do
+        # end_of_monthがミリ秒まで保持してずれちゃうので、to_iで比較
+        expect{membership.update(plan: 'basic', trialing: true)}.to change{membership.user.email_digest.trial_ended_at.to_i}.from(0).to(membership.trial_end_at.to_i)
       end
     end
 

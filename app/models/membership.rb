@@ -9,6 +9,7 @@ class Membership < ApplicationRecord
 
   # trial開始: 公式チャネル購読
   after_update if: :trialing_started? do
+    user.email_digest.update!(trial_ended_at: trial_end_at)
     user.subscriptions.create!(channel_id: Channel::OFFICIAL_CHANNEL_ID)
   end
 
