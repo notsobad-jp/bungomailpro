@@ -28,6 +28,6 @@ class User < ApplicationRecord
 
 
   def email_digest
-    EmailDigest.find_by!(digest: Digest::SHA256.hexdigest(email))
+    EmailDigest.find(Digest::SHA256.hexdigest(email))
   end
 end
