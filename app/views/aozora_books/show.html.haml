@@ -2,5 +2,14 @@
   %h1.text-lg.font-bold
     = @book.title
 
-= link_to book_assignments_path(channel_id: current_user.channels.first.id, book_id: @book.id, book_type: 'AozoraBook'), method: :post, class: 'block sm:inline-block rounded bg-indigo-600 text-white px-4 py-2 hover:opacity-75' do
-  配信予約する
+- if current_user && current_user.plan == 'basic'
+  - channel = current_user.channels.first
+  = form_with url: book_assignments_path, local: true, class: '' do |f|
+    = f.hidden_field :channel_id, value: channel.id
+    = f.hidden_field :book_id, value: @book.id
+    = f.hidden_field :book_type, value: 'AozoraBook'
+
+    = f.label :start_date
+    = f.date_field :start_date, value: channel.nearest_assignable_date
+
+    = f.submit '配信予約する', class: 'block sm:inline-block cursor-pointer rounded bg-indigo-600 text-white px-4 py-2 hover:opacity-75'

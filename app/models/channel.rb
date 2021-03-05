@@ -22,4 +22,7 @@ class Channel < ApplicationRecord
       job.update(run_at: run_at)
     end
   end
+
+  def nearest_assignable_date
+  end
 end

@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_many :channels, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
-  delegate :plan, :status, to: :membership, prefix: true, allow_nil: true
+  delegate :plan, :trialing, to: :membership
 
   validates :email, presence: true, uniqueness: true
   validates_format_of :email, without: /.*\+.*@gmail\.com/, on: :create  # gmailエイリアスアドレスでの登録は弾く （リニューアル以前に登録されたアドレスがあるので on: :create のみ）
