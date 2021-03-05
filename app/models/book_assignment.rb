@@ -57,6 +57,6 @@ class BookAssignment < ApplicationRecord
   end
 
   def end_date_comes_after_start_date
-    errors.add(:end_date, "配信終了日は開始日より後に設定してください") if end_date <= start_date
+    errors.add(:end_date, "配信終了日は開始日より後に設定してください") if end_date && end_date <= start_date
   end
 end

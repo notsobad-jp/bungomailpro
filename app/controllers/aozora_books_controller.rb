@@ -7,6 +7,7 @@ class AozoraBooksController < ApplicationController
 
   def show
     @book = AozoraBook.find(params[:id])
+    @book_assignment = BookAssignment.new
     @meta_title = @book.title
   end
 end
