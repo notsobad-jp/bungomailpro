@@ -25,30 +25,31 @@ class Membership < ApplicationRecord
   end
 
 
-  def schedule_trial
+  def schedule_trial(apply_at)
     raise 'trial ended' if plan == 'basic' || trial_end_at.present?
-    self.membership_logs.create!(plan: 'basic', trialing: true, apply_at: Time.current.next_month.beginning_of_month)  # 翌月初からトライアル開始
-    self.membership_logs.create!(plan: 'free', apply_at: Time.current.since(2.month).beginning_of_month) # 変更がなければ翌々月初からfreeプランに戻る
-    self.update!(trial_end_at: Time.current.next_month.end_of_month)
+    self.membership_logs.create!(plan: 'basic', trialing: true, apply_at: apply_at)
+    self.membership_logs.create!(plan: 'free', apply_at: apply_at.since(1.month)) # 変更がなければ1ヶ月後にfreeプランに戻る
+    self.update!(trial_end_at: apply_at.end_of_month)
   end
 
   # 決済情報登録して、翌月末かトライアル終了後から課金開始
-  def schedule_billing
+  def schedule_billing(apply_at)
     raise 'already billing' if plan == 'basic' && !trialing?   # ありえるのは free-active OR basic-trialingからの登録
     self.membership_logs.scheduled.update_all(canceled: true)
-    self.membership_logs.create!(plan: 'basic', apply_at: billing_start_at)
+    self.membership_logs.create!(plan: 'basic', apply_at: apply_at)
   end
 
   # 月末で解約してfreeプランに戻る
-  def cancel_billing
+  def schedule_cancel(apply_at)
     raise 'not billing' if plan == 'free' || trialing?
-    self.membership_logs.create!(plan: 'free', apply_at: Time.current.next_month.beginning_of_month)
+    self.membership_logs.create!(plan: 'free', apply_at: apply_at)
   end
 
 
   private
 
-  ## 課金開始時期: トライアル開始前 -> 翌々月初、 トライアル中 -> 翌月初、 トライアル終了後 -> 翌月初
+  # 課金開始時期
+  ## トライアル開始前 -> 翌々月初、 トライアル中 -> 翌月初、 トライアル終了後 -> 翌月初
   def billing_start_at
     [trial_end_at.since(1.second), Time.current.next_month.beginning_of_month].max
   end

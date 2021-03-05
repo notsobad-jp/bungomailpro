@@ -67,4 +67,55 @@ RSpec.describe Membership, type: :model do
       end
     end
   end
+
+  describe "schedule_trial" do
+    let(:apply_at) { Time.current.next_month.beginning_of_month }
+
+    it "should raise error when user is already basic plan" do
+      user = create(:user, :with_basic_membership)
+      expect{user.membership.schedule_trial(apply_at)}.to raise_error('trial ended')
+    end
+
+    it "should raise error when trial is already finished" do
+      user = create(:user, :with_free_membership)
+      user.membership.update(trial_end_at: Time.current.ago(1.month))
+      expect{user.membership.schedule_trial(apply_at)}.to raise_error('trial ended')
+    end
+
+    it "should create membership_logs for trial start & end" do
+      user = create(:user, :with_free_membership)
+      expect{user.membership.schedule_trial(apply_at)}.to change{MembershipLog.count}.by(2).
+                                                      and change{user.membership.trial_end_at}.from(nil).to(Time.current.next_month.end_of_month)
+    end
+  end
+
+  describe "schedule_billing" do
+    let(:apply_at) { Time.current.next_month.beginning_of_month }
+
+    it "should raise error when user is already basic plan" do
+      user = create(:user, :with_basic_membership)
+      expect{user.membership.schedule_billing(apply_at)}.to raise_error('already billing')
+    end
+
+    it "should cancel scheduled logs and create new log" do
+      user = create(:user, :with_trialing_membership)
+      log = create(:membership_log, user_id: user.id, apply_at: Time.current.tomorrow)  # トライアル終了時の予約ログ
+      expect{user.membership.schedule_billing(apply_at)}.to change{MembershipLog.count}.by(1)
+      expect(log.reload.canceled).to be_truthy
+    end
+  end
+
+  describe "schedule_cancel" do
+    let(:apply_at) { Time.current.next_month.beginning_of_month }
+
+    it "should raise error when user is free plan" do
+      user = create(:user, :with_free_membership)
+      expect{user.membership.schedule_cancel(apply_at)}.to raise_error('not billing')
+    end
+
+    it "should cancel scheduled logs and create new log" do
+      user = create(:user, :with_basic_membership)
+      expect{user.membership.schedule_cancel(apply_at)}.to change{MembershipLog.count}.by(1)
+    end
+  end
 end
