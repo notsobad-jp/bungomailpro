@@ -24,5 +24,7 @@ class Channel < ApplicationRecord
   end
 
   def nearest_assignable_date
+    return Time.zone.tomorrow if book_assignments.blank?
+    [book_assignments.maximum(:end_date), Time.zone.today].max.next_day
   end
 end

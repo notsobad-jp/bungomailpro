@@ -29,4 +29,25 @@ RSpec.describe Channel, type: :model do
       end
     end
   end
+
+  describe "nearest_assignable_date" do
+    context "when no feed exists" do
+      let(:channel) { create(:channel) }
+
+      it "should return tomorrow" do
+        expect(channel.nearest_assignable_date).to eq(Time.zone.tomorrow)
+      end
+    end
+
+    context "when last feed is not delivered yet" do
+      let(:channel) { create(:channel, :with_book_assignment) }
+
+      before do
+      end
+
+      it "should return tomorrow" do
+        expect(channel.nearest_assignable_date).to eq(Time.zone.tomorrow)
+      end
+    end
+  end
 end
