@@ -9,23 +9,23 @@ RSpec.describe Channel, type: :model do
     let(:channel) { create(:channel, delivery_time: '10:00:00') }
 
     before do
-      ba = create(:book_assignment, :with_book, channel: channel)
-      ba.create_feeds
-      ba.feeds.map(&:schedule)
+      @ba = create(:book_assignment, :with_book, channel: channel)
+      @ba.create_feeds
+      @ba.feeds.map(&:schedule)
     end
 
     context "when delivery_time not changed" do
       it "should have original run_at" do
-        expect(channel.delayed_jobs.minimum(:run_at)).to eq(Time.zone.tomorrow.to_time.change(hour: 10))
-        expect(channel.delayed_jobs.maximum(:run_at)).to eq((Time.zone.tomorrow + 29).to_time.change(hour: 10))
+        expect(channel.delayed_jobs.minimum(:run_at)).to eq(@ba.start_date.to_time.change(hour: 10))
+        expect(channel.delayed_jobs.maximum(:run_at)).to eq(@ba.end_date.to_time.change(hour: 10))
       end
     end
 
     context "when delivery_time changed" do
       it "should update run_at with new time" do
         channel.update(delivery_time: '15:00:00')
-        expect(channel.delayed_jobs.minimum(:run_at)).to eq(Time.zone.tomorrow.to_time.change(hour: 15))
-        expect(channel.delayed_jobs.maximum(:run_at)).to eq((Time.zone.tomorrow + 29).to_time.change(hour: 15))
+        expect(channel.delayed_jobs.minimum(:run_at)).to eq(@ba.start_date.to_time.change(hour: 15))
+        expect(channel.delayed_jobs.maximum(:run_at)).to eq(@ba.end_date.to_time.change(hour: 15))
       end
     end
   end
@@ -39,14 +39,11 @@ RSpec.describe Channel, type: :model do
       end
     end
 
-    context "when last feed is not delivered yet" do
+    context "when assignment last_date is not passed yet" do
       let(:channel) { create(:channel, :with_book_assignment) }
 
-      before do
-      end
-
-      it "should return tomorrow" do
-        expect(channel.nearest_assignable_date).to eq(Time.zone.tomorrow)
+      it "should return the day after last_date" do
+        expect(channel.nearest_assignable_date).to eq(Time.zone.today.next_month.end_of_month.next_day)
       end
     end
   end

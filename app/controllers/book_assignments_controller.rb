@@ -6,7 +6,7 @@ class BookAssignmentsController < ApplicationController
       book_id: book_assignment_params[:book_id],
       book_type: book_assignment_params[:book_type],
       start_date: book_assignment_params[:start_date],
-      count: 30,
+      end_date: Time.zone.today.next_month.end_of_month,
     )
     authorize @book_assignment
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_095628) do
+ActiveRecord::Schema.define(version: 2021_03_05_083950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
@@ -46,14 +46,15 @@ ActiveRecord::Schema.define(version: 2021_03_04_095628) do
     t.uuid "channel_id", null: false
     t.integer "book_id", null: false
     t.string "book_type", null: false
-    t.integer "count", null: false
     t.date "start_date", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "twitter_share_url"
-    t.index "channel_id, daterange(start_date, date((start_date + (((count - 1))::double precision * '1 day'::interval))))", name: "gist_index_book_assignments_on_delivery_period", using: :gist
+    t.date "end_date", null: false
+    t.index "channel_id, daterange(start_date, end_date)", name: "gist_index_book_assignments_on_delivery_period", using: :gist
     t.index ["book_id", "book_type"], name: "index_book_assignments_on_book_id_and_book_type"
     t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
+    t.index ["end_date"], name: "index_book_assignments_on_end_date"
     t.index ["start_date"], name: "index_book_assignments_on_start_date"
   end
 

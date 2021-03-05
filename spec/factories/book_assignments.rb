@@ -3,8 +3,8 @@ FactoryBot.define do
     association :channel
     book_id { 1567 }
     book_type { 'AozoraBook' }
-    count { 30 }
-    start_date { Time.zone.tomorrow }
+    start_date { Time.zone.today.next_month.beginning_of_month }
+    end_date { start_date + 29 }
 
     trait :with_book do
       before(:create) { create(:aozora_book) }
