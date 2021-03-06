@@ -14,12 +14,14 @@ class SubscriptionsController < ApplicationController
     redirect_to channel_path(@channel)
   end
 
-  # 一時停止
+  # 一時停止/再開
   def update
     @sub = Subscription.find(params[:id])
+    paused = params[:paused] == 'true'
     begin
-      @sub.update!(paused: true)
-      flash[:success] = '配信を月末まで一時停止しました。翌月から自動的に配信を再開します。'
+      @sub.update!(paused: paused)
+      message = paused ? '配信を月末まで一時停止しました。翌月初から自動的に配信を再開します。' : '配信を再開しました！翌日の配信からメールが届くようになります。'
+      flash[:success] = message
     rescue => e
       logger.error "[Error]Pausing failed: #{e.message}, #{current_user.id}"
       flash[:error] = '処理に失敗しました。。何回か試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
