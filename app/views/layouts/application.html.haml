@@ -26,7 +26,7 @@
       %noscript
         %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
-    - if current_page?(root_url)
+    - if current_page?(root_url) || current_page?(lp_new_url)
       = yield
     - else
       = render partial: 'layouts/header'

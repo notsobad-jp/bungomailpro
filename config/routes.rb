@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'mypage' => "users#mypage"
 
   # TODO: 新システム移行後は不要
+  get 'lp_new' => 'pages#lp_new', as: :lp_new
   resources :channel_subscriptions
   resources :lists do
     get 'books', on: :member
