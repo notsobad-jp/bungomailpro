@@ -4,12 +4,11 @@ class SubscriptionsController < ApplicationController
   # 購読
   def create
     @channel = Channel.find(params[:channel_id])
-    begin
-      current_user.subscriptions.create!(channel_id: @channel.id)
+    @subscription = current_user.subscriptions.new(channel_id: @channel.id)
+    if @subscription.save
       flash[:success] = '登録完了しました！翌日の配信からメールが届きます。<a href="https://blog.bungomail.com/entry/2018/05/21/172542" target="_blank" class="text-link">メールの受信設定</a>を事前に必ずご確認ください。'
-    rescue => e
-      logger.error "[Error]Subscription failed: #{e.message}, #{current_user.id}"
-      flash[:error] = '処理に失敗しました。。何回か試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
+    else
+      flash[:error] = @subscription.errors.full_messages.first
     end
     redirect_to channel_path(@channel)
   end

@@ -2,6 +2,7 @@ class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :channel
 
+  validate :check_subscriptions_count, on: :create
   delegate :email, prefix: true, to: :user
 
   @@service = GoogleDirectoryService.instance
@@ -19,6 +20,11 @@ class Subscription < ApplicationRecord
   end
 
   private
+
+  def check_subscriptions_count
+    return if user.subscriptions.count < Membership::MAXIMUM_SUBSCRIPTIONS_COUNT[user.plan.to_sym]
+    errors.add(:base, "購読上限数を超えています。他のチャネルの購読を解除するか、プランをアップグレードしてください。")
+  end
 
   def google_insert_member
     begin

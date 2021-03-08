@@ -9,6 +9,12 @@ FactoryBot.define do
     end
   end
 
+  trait :with_channel_profile do
+    after(:create) do |channel|
+      channel.channel_profile = create(:channel_profile)
+    end
+  end
+
   trait :with_google_group do
     after(:create) do |channel|
       channel.channel_profile = create(:channel_profile, google_group_key: 'test@notsobad.jp')

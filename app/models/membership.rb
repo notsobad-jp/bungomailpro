@@ -2,6 +2,8 @@ class Membership < ApplicationRecord
   belongs_to :user, foreign_key: :id
   has_many :membership_logs, foreign_key: :user_id
 
+  MAXIMUM_SUBSCRIPTIONS_COUNT = { free: 1, basic: 5 }.freeze
+
   # freeプラン開始（activate時）: 児童チャネル購読
   after_create do
     user.subscriptions.create!(channel_id: Channel::JUVENILE_CHANNEL_ID)
