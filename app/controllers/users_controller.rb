@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
     begin
       user = User.create!(email: user_params[:email])
-      BungoMailer.with(user: user).activation_email.deliver_later
+      BungoMailer.with(user: user).activation_email.deliver_later(queue: 'activation')
       flash[:success] = '登録いただいたアドレスに認証用メールを送信しました。メール内のリンクをクリックして、アカウントを認証してください。'
     rescue => e
       # リニューアル以降に退会したユーザーの再登録など
