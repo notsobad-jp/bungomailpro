@@ -1,3 +1,5 @@
+@import 'microtip/microtip';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
