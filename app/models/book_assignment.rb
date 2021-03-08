@@ -13,8 +13,14 @@ class BookAssignment < ApplicationRecord
     self.twitter_share_url = self.twitter_short_url
   end
 
+
   def count
     (end_date - start_date) + 1
+  end
+
+  def create_and_schedule_feeds
+    feed_ids = create_feeds
+    Feed.find(feed_ids).map(&:schedule)
   end
 
   def create_feeds
@@ -32,7 +38,8 @@ class BookAssignment < ApplicationRecord
       }
       delivery_date += 1.day
     end
-    Feed.insert_all feeds
+    res = Feed.insert_all feeds
+    res.rows.flatten  # 作成したfeedのid一覧を配列で返す
   end
 
   def twitter_short_url

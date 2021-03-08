@@ -1,5 +1,4 @@
 class BookAssignmentsController < ApplicationController
-  # TODO:
   def create
     @channel = Channel.find(book_assignment_params[:channel_id])
     @book_assignment = @channel.book_assignments.new(
@@ -11,7 +10,7 @@ class BookAssignmentsController < ApplicationController
     authorize @book_assignment
 
     if @book_assignment.save
-      # TODO: workerでfeed分割して配信処理
+      @book_assignment.delay.create_and_schedule_feeds
       flash[:success] = '配信予約が完了しました！'
     else
       flash[:error] = @book_assignment.errors.values.join("。") || '処理に失敗しました。。何回か試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'

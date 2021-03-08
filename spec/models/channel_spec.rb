@@ -10,8 +10,7 @@ RSpec.describe Channel, type: :model do
 
     before do
       @ba = create(:book_assignment, :with_book, channel: channel)
-      @ba.create_feeds
-      @ba.feeds.map(&:schedule)
+      @ba.create_and_schedule_feeds
     end
 
     context "when delivery_time not changed" do

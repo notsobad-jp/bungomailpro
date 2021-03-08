@@ -24,7 +24,7 @@
             = link_to '配信再開', subscription_path(@subscription, paused: false), method: :patch, class: "rounded block bg-red-500 text-white font-bold px-6 py-2 text-center sm:inline-block", data: { confirm: 'このチャネルの配信を翌日から再開します。よろしいですか？' }
           - else
             = link_to '月末まで配信停止', subscription_path(@subscription, paused: true), method: :patch, class: "rounded block bg-red-500 text-white font-bold px-6 py-2 text-center sm:inline-block", data: { confirm: 'このチャネルの配信を月末まで一時停止します。よろしいですか？' }
-          = link_to '購読を解除する', subscription_path(@subscription), method: :delete, class: "rounded block bg-red-500 text-white font-bold px-6 py-2 text-center sm:inline-block", data: { confirm: 'このチャネルの購読をし、翌日からのメール配信を停止します。よろしいですか？' }
+          = link_to '購読を解除する', subscription_path(@subscription), method: :delete, class: "rounded block bg-red-500 text-white font-bold px-6 py-2 text-center sm:inline-block", data: { confirm: 'このチャネルの購読を解除し、翌日以降のメール配信をすべて停止します。よろしいですか？' }
       - else
         = link_to '購読する', subscriptions_path(channel_id: @channel.id), method: :post, class: "rounded block bg-indigo-500 text-white font-bold px-6 py-2 text-center sm:inline-block"
 

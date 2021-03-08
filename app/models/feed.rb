@@ -9,6 +9,7 @@ class Feed < ApplicationRecord
     self.delayed_job&.delete
   end
 
+
   def schedule
     return if self.send_at < Time.current
     res = BungoMailer.with(feed: self).feed_email.deliver_later(queue: 'feed_email', wait_until: self.send_at)
