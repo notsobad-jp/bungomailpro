@@ -21,4 +21,5 @@
   - @subscriptions.each do |sub|
     %li
       = sub.channel.title
-      （#{sub.status}）
+      - if sub.paused?
+        %small （配信停止中）

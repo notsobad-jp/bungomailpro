@@ -26,12 +26,11 @@
       %noscript
         %iframe(src="https://www.googletagmanager.com/ns.html?id=#{ENV['GOOGLE_TAG_MANAGER_ID']}" height="0" width="0" style="display:none; visibility:hidden;")
 
-    = render partial: 'layouts/header'
-
-    .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
-      - if current_page?(root_url)
-        = yield
-      - else
+    - if current_page?(root_url)
+      = yield
+    - else
+      = render partial: 'layouts/header'
+      .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
         .mb-32.grid.grid-cols-1(class="sm:grid-cols-3 sm:gap-12")
           .col-span-2.border-b.pb-8.mb-8(class="sm:border-b-0 sm:pb-0 sm:mb-0")
             = render partial: 'layouts/breadcrumb'

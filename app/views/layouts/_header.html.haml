@@ -1,7 +1,8 @@
-.mb-4.bg-gray-100.full-bleed.shadow-sm(style="background-image: url('/assets/images/seigaiha.png')")
-  .container.mx-auto.max-w-screen-lg.px-2.flex.items-stretch.justify-between(class="sm:px-0")
-    %div
-      = link_to 'ブンゴウメール', root_path, class: 'inline-block py-3 font-bold'
+.mb-6.bg-gray-100.full-bleed.shadow-sm(style="background-image: url('/assets/images/seigaiha.png')")
+  .container.mx-auto.max-w-screen-lg.px-2.py-2.flex.items-center.justify-between(class="sm:px-0")
+    %div.flex.items-center
+      - path = current_user ? mypage_path : root_path
+      = link_to 'ブンゴウメール', path, class: 'inline-block py-3 text-lg font-bold'
 
     -# TODO
     - if Rails.env.development?
