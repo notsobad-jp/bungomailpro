@@ -27,6 +27,12 @@ class Channel < ApplicationRecord
     [book_assignments.maximum(:end_date), Time.zone.today].max.next_day
   end
 
+  # 検索条件をもとに本を1冊ピックアップしてidを返す(チャネルで過去に配信した作品は除外)
+  def pick_book_id
+    q = {}  # TODO
+    AozoraBook.search(q).where.not(id: book_assignments.pluck(:book_id)).pluck(:id).sample
+  end
+
   def public?
     code.present?
   end

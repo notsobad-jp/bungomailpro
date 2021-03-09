@@ -21,6 +21,6 @@ class AozoraBooksController < ApplicationController
   private
 
   def search_params
-    params.fetch(:q, {}).permit(:title, :author)
+    params.fetch(:q, {}).permit(:title, :author, words_count: [])
   end
 end

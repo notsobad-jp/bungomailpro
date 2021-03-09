@@ -7,6 +7,9 @@
   = f.text_field :title, value: @q[:title]
   = f.label :author
   = f.text_field :author, value: @q[:author]
+  = f.label :words_count
+  = f.text_field :words_count, multiple: true, value: @q[:words_count]&.min
+  = f.text_field :words_count, multiple: true, value: @q[:words_count]&.max
 
   = f.submit '検索', class: 'block sm:inline-block cursor-pointer rounded bg-indigo-600 text-white px-4 py-2 hover:opacity-75'
 
