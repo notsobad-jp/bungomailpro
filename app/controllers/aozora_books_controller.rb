@@ -11,6 +11,10 @@ class AozoraBooksController < ApplicationController
     @book = AozoraBook.find(params[:id])
     @book_assignment = BookAssignment.new
     @meta_title = @book.title
+    @breadcrumbs = [
+      {text: '作品検索', link: aozora_books_path},
+      {text: @book.title},
+    ]
   end
 
   private

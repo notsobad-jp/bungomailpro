@@ -15,6 +15,10 @@ class ChannelsController < ApplicationController
     @subscription = Subscription.find_by(user_id: current_user.id, channel_id: @channel.id) if current_user
 
     @meta_title = @channel.title || 'マイチャネル'
+    @breadcrumbs = [
+      {text: '公開チャネル', link: channels_path},
+      {text: @meta_title},
+    ] if @channel.code.present?
   end
 
   def feed
