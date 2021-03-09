@@ -16,11 +16,9 @@ class Channel < ApplicationRecord
   OFFICIAL_CHANNEL_ID = '1418479c-d5a7-4d29-a174-c5133ca484b6'
   JUVENILE_CHANNEL_ID = '470a73fb-d1ae-4ffb-9c6b-5b9dc292f4ef'
 
-  def update_jobs_run_at
-    self.delayed_jobs.each do |job|
-      run_at = job.run_at.change(hour: delivery_time.hour, min: delivery_time.min)
-      job.update(run_at: run_at)
-    end
+
+  def finished?
+    %w(dogramagra business-model alterego).include?(code)
   end
 
   def nearest_assignable_date
@@ -32,5 +30,12 @@ class Channel < ApplicationRecord
   ## 公開チャネルはfree, 公式チャネルやカスタム配信はbasicプランから
   def required_plan
     (id != OFFICIAL_CHANNEL_ID && channel_profile.present?) ? 'free' : 'basic'
+  end
+
+  def update_jobs_run_at
+    self.delayed_jobs.each do |job|
+      run_at = job.run_at.change(hour: delivery_time.hour, min: delivery_time.min)
+      job.update(run_at: run_at)
+    end
   end
 end

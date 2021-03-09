@@ -13,7 +13,7 @@
       .text-xs.rounded.inline-block.border.border-yellow-500.bg-yellow-50.text-yellow-700.font-bold.px-2.py-1(aria-label="このチャネルの購読には、Basicプランの登録が必要です" data-microtip-position="top" role="tooltip")
         Basic
   %div
-    - if %w(alterego dogramagra business-model).include?(@channel.code)
+    - if @channel.finished?
       .rounded.block.bg-indigo-500.text-white.font-bold.px-6.py-2.text-center.opacity-50(class="sm:inline-block")
         配信終了しました
     - else

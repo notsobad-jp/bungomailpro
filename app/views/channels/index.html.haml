@@ -5,7 +5,8 @@
 .mb-8
   .grid.grid-cols-1.gap-x-8.gap-y-12(class="sm:grid-cols-2")
     - @channels.each do |channel|
-      = link_to channel_path(channel.code), class: 'hover:opacity-75' do
+      - opacity = channel.finished? ? 'opacity-50 hover:opacity-75' : 'hover:opacity-75'
+      = link_to channel_path(channel.code), class: opacity do
         .flex.flex-col.h-full.border.rounded
           .rounded-t
             - image_path = "/assets/images/channels/#{channel.code}.png"
@@ -20,9 +21,5 @@
                   Basic
             .text-gray-500
               = channel.description.truncate(50)
-          - if %w(dogramagra business-model alterego).include?(channel.code)
-            .bg-indigo-600.text-white.text-center.p-2.rounded-b.opacity-50
-              配信終了しました
-          - else
-            .bg-indigo-600.text-white.text-center.p-2.rounded-b
-              詳細を見る
+          .bg-indigo-600.text-white.text-center.p-2.rounded-b
+            = channel.finished? ? '配信終了しました' : '詳細を見る'
