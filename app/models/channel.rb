@@ -15,6 +15,7 @@ class Channel < ApplicationRecord
 
   OFFICIAL_CHANNEL_ID = '1418479c-d5a7-4d29-a174-c5133ca484b6'
   JUVENILE_CHANNEL_ID = '470a73fb-d1ae-4ffb-9c6b-5b9dc292f4ef'
+  PUBLIC_CHANNEL_CODES = %w(bungomail-official juvenile dogramagra alterego business-model) # channels#indexではこの並び順で表示
 
 
   def finished?
@@ -26,10 +27,14 @@ class Channel < ApplicationRecord
     [book_assignments.maximum(:end_date), Time.zone.today].max.next_day
   end
 
+  def public?
+    code.present?
+  end
+
   # 購読に必要な契約プラン
   ## 公開チャネルはfree, 公式チャネルやカスタム配信はbasicプランから
   def required_plan
-    (id != OFFICIAL_CHANNEL_ID && channel_profile.present?) ? 'free' : 'basic'
+    (public? && code != 'bungomail-official') ? 'free' : 'basic'
   end
 
   def update_jobs_run_at

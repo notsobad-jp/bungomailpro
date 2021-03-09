@@ -35,7 +35,7 @@ RSpec.describe Subscription, type: :model do
   end
 
   describe "check_subscriptions_count" do
-    let(:pub_channel) { create(:channel, :with_channel_profile) }
+    let(:pub_channel) { create(:channel, :with_channel_profile, code: 'public') }
     subject { user.subscriptions.create(channel_id: pub_channel.id) }
 
     context "when user is free plan" do
@@ -90,7 +90,7 @@ RSpec.describe Subscription, type: :model do
   describe "insert_google_member" do
     context "when google_group_key exists" do
       context "with valid & non-existing email" do
-        let(:subscription) { create(:subscription, channel: create(:channel, :with_google_group)) }
+        let(:subscription) { create(:subscription, channel: create(:channel, :with_google_group, code: 'public')) }
 
         it "should succeed" do
           VCR.use_cassette 'model/subscription/google_insert_member/valid' do
@@ -100,7 +100,7 @@ RSpec.describe Subscription, type: :model do
       end
 
       context "with existing email" do
-        let(:subscription) { create(:subscription, user: create(:user, :with_free_membership, email: 'duplicated@example.com'), channel: create(:channel, :with_google_group)) }
+        let(:subscription) { create(:subscription, user: create(:user, :with_free_membership, email: 'duplicated@example.com'), channel: create(:channel, :with_google_group, code: 'public')) }
 
         it "should raise duplicate exception" do
           VCR.use_cassette 'model/subscription/google_insert_member/duplicated' do
@@ -112,7 +112,7 @@ RSpec.describe Subscription, type: :model do
       end
 
       context "with invalid email" do
-        let(:subscription) { create(:subscription, user: create(:user, :with_free_membership, email: 'hoge@gmail.com'), channel: create(:channel, :with_google_group)) }
+        let(:subscription) { create(:subscription, user: create(:user, :with_free_membership, email: 'hoge@gmail.com'), channel: create(:channel, :with_google_group, code: 'public')) }
 
         it "should raise notFound exception" do
           VCR.use_cassette 'model/subscription/google_insert_member/invalid' do

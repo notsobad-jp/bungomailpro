@@ -3,14 +3,15 @@ class ChannelsController < ApplicationController
   after_action :authorize_record
 
   def index
-    codes = %w(bungomail-official juvenile dogramagra alterego business-model)  # 指定した順番で表示
-    @channels = Channel.where.not(code: nil).index_by(&:code).sort{|a, b| codes.index(a[0]) <=> codes.index(b[0]) }.to_h.values
+    # 公開チャネルをcodeの指定順で表示
+    codes = Channel::PUBLIC_CHANNEL_CODES
+    @channels = Channel.where(code: codes).index_by(&:code).sort{|a, b| codes.index(a[0]) <=> codes.index(b[0]) }.to_h.values
     @meta_title = '公開チャネル'
   end
 
   def show
-    codes = Channel.pluck(:code).compact # 公開チャネルはcodeでチャネル検索
-    @channel = codes.include?(params[:id]) ? Channel.find_by(code: params[:id]) : Channel.find(params[:id])
+     # 公開チャネルはcodeでチャネル検索
+    @channel = Channel::PUBLIC_CHANNEL_CODES.include?(params[:id]) ? Channel.find_by(code: params[:id]) : Channel.find(params[:id])
     @book_assignments = @channel.book_assignments.includes(:book).where("start_date < ?", Date.current).order(start_date: :desc).page(params[:page]).per 10
     @subscription = Subscription.find_by(user_id: current_user.id, channel_id: @channel.id) if current_user
 
@@ -22,8 +23,8 @@ class ChannelsController < ApplicationController
   end
 
   def feed
-    codes = Channel.pluck(:code).compact # 公開チャネルはcodeでチャネル検索
-    @channel = codes.include?(params[:id]) ? Channel.find_by(code: params[:id]) : Channel.find(params[:id])
+     # 公開チャネルはcodeでチャネル検索
+    @channel = Channel::PUBLIC_CHANNEL_CODES.include?(params[:id]) ? Channel.find_by(code: params[:id]) : Channel.find(params[:id])
     @feeds = @channel.feeds.delivered.order('feeds.delivery_date DESC').limit(30)
   end
 
