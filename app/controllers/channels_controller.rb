@@ -3,7 +3,8 @@ class ChannelsController < ApplicationController
   after_action :authorize_record
 
   def index
-    @channels = Channel.where.not(code: nil)
+    codes = %w(bungomail-official juvenile dogramagra alterego business-model)  # 指定した順番で表示
+    @channels = Channel.where.not(code: nil).index_by(&:code).sort{|a, b| codes.index(a[0]) <=> codes.index(b[0]) }.to_h.values
     @meta_title = '公開チャネル'
   end
 
