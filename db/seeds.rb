@@ -37,3 +37,18 @@ Channel.insert_all([
     created_at: "2021-05-01 00:00:00"
   }
 ])
+
+ChannelProfile.insert_all([
+  {
+    id: "1418479c-d5a7-4d29-a174-c5133ca484b6",
+    title: "ブンゴウメール公式チャネル",
+    updated_at: "2018-05-01 00:00:00",
+    created_at: "2018-05-01 00:00:00",
+  },
+  {
+    id: "470a73fb-d1ae-4ffb-9c6b-5b9dc292f4ef",
+    title: "児童文学チャネル",
+    updated_at: "2021-05-01 00:00:00",
+    created_at: "2021-05-01 00:00:00"
+  }
+])

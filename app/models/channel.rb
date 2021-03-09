@@ -27,4 +27,10 @@ class Channel < ApplicationRecord
     return Time.zone.tomorrow if book_assignments.blank?
     [book_assignments.maximum(:end_date), Time.zone.today].max.next_day
   end
+
+  # 購読に必要な契約プラン
+  ## 公開チャネルはfree, 公式チャネルやカスタム配信はbasicプランから
+  def required_plan
+    (id != OFFICIAL_CHANNEL_ID && channel_profile.present?) ? 'free' : 'basic'
+  end
 end
