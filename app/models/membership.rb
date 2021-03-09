@@ -6,13 +6,13 @@ class Membership < ApplicationRecord
 
   # freeプラン開始（activate時）: 児童チャネル購読
   after_create do
-    user.subscriptions.create!(channel_id: Channel::JUVENILE_CHANNEL_ID)
+    user.subscriptions.new(channel_id: Channel::JUVENILE_CHANNEL_ID).save!(validate: false)
   end
 
   # trial開始: 公式チャネル購読
   after_update if: :trialing_started? do
     user.email_digest.update!(trial_ended_at: trial_end_at)
-    user.subscriptions.create!(channel_id: Channel::OFFICIAL_CHANNEL_ID)
+    user.subscriptions.new(channel_id: Channel::OFFICIAL_CHANNEL_ID).save!(validate: false) # FIXME: subscriptionsのvalidationが先に来てしまうので一旦スキップ
   end
 
   # basicプラン解約: 無料チャネル以外解約・自作チャネルの削除・配信停止
