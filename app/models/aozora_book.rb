@@ -269,7 +269,7 @@ class AozoraBook < ApplicationRecord
     end
 
     def search(q)
-      results = self.where.not(category_id: nil).where.not(author_id: nil).sorted
+      results = self.where.not(category_id: nil).where.not(author_id: nil)
       results = results.where("title LIKE ?", "%#{q[:title]}%") if q[:title].present?
       results = results.where("author LIKE ?", "%#{q[:author]}%") if q[:author].present?
       results = results.where(category_id: q[:category]) if q[:category].present?
