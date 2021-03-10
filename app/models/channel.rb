@@ -27,14 +27,21 @@ class Channel < ApplicationRecord
     [book_assignments.maximum(:end_date), Time.zone.today].max.next_day
   end
 
-  # 検索条件をもとに本を1冊ピックアップしてidを返す(チャネルで過去に配信した作品は除外)
-  def pick_book_id
-    q = {}  # TODO
-    AozoraBook.search(q).where.not(id: book_assignments.pluck(:book_id)).pluck(:id).sample
+  # 検索条件をもとに本を1冊ピックアップ
+  def pick_book(q)
+    books = AozoraBook.search(q).where.not(id: book_assignments.pluck(:book_id)) # 配信済みの作品は除外
+    books = books.where.not(author_id: recent_author_ids) if q[:author].blank? # 著者指定なければ、直近で配信した著者も避ける
+    id = books.ids.sample
+    AozoraBook.find_by(id: id)
   end
 
   def public?
     code.present?
+  end
+
+  # 直近のn作品で配信したauthorのid一覧
+  def recent_author_ids(n=6)
+    book_assignments.order(start_date: :desc).limit(n).preload(:book).map{|ba| ba.book.author_id}
   end
 
   # 購読に必要な契約プラン
