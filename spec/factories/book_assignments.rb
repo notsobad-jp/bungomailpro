@@ -7,7 +7,7 @@ FactoryBot.define do
     end_date { start_date + 29 }
 
     trait :with_book do
-      before(:create) { |ba| create(:aozora_book, id: ba.book_id) }
+      before(:create) { |ba| create(:aozora_book_meros) }
     end
   end
 end

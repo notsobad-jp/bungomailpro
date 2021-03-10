@@ -46,4 +46,25 @@ RSpec.describe Channel, type: :model do
       end
     end
   end
+
+  describe "recent_author_ids" do
+    let(:channel) { create(:channel) }
+
+    context "when it has book_assignments" do
+      it "should return recent author ids" do
+        books = create_list(:aozora_book, 10)
+        books.each_with_index do |book, index|
+          create(:book_assignment, channel_id: channel.id, book_id: book.id, start_date: Time.zone.today.ago(index.month), end_date: Time.zone.today.ago(index.month).since(20.days))
+        end
+        expect(channel.recent_author_ids).to eq([1,2,3,4,5,6])
+        expect(channel.recent_author_ids(3)).to eq([1,2,3])
+      end
+    end
+
+    context "when it has no book_assignment" do
+      it "should return blank" do
+        expect(channel.recent_author_ids).to eq([])
+      end
+    end
+  end
 end

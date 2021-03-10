@@ -271,12 +271,12 @@ class AozoraBook < ApplicationRecord
     def search(q)
       results = self.where.not(category_id: nil).where.not(author_id: nil).where(rights_reserved: false)
       results = results.where("title LIKE ?", "%#{q[:title]}%") if q[:title].present?
-      results = results.where("author LIKE ?", "%#{q[:author]}%") if q[:author].present?
+      results = results.where("author LIKE ?", "%#{q[:author]}%") if q[:author].present?  # FIXME: フルネームだと空白が必要。複数検索への対応どうするか
       results = results.where(category_id: q[:category]) if q[:category].present?
       results = results.where(character_type: q[:character_type]) if q[:character_type].present?
       results = results.where(juvenile: q[:juvenile]=="true") if q[:juvenile].present?  # true/falseが文字列で来る
 
-      if q[:words_count].present? && q[:words_count].length == 2
+      if q[:words_count].reject(&:blank?).length == 2
         range = Range.new(*q[:words_count].map(&:to_i))
         results = results.where(words_count: range) # 文字数の最小・最大が ["10", "30"] みたいな形で来る
       end
