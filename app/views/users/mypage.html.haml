@@ -1,25 +1,80 @@
 .mb-8
-  %h1.text-lg.font-bold
+  %h1.text-lg.font-bold.mb-4.flex.items-center
+    %svg(class="w-6 h-6 mt-1 mr-2" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+      %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z")
     マイページ
-
-.mb-8
-  = @user.email
+  .rounded.bg-gray-100.px-4.py-2
+    = @user.email
 
 .mb-8
   %h3.font-bold.mb-4 ▼ 現在のプラン
-  .inline-block.border.rounded.font-bold.px-4.py-2
-    = @user.membership.plan
-    - if @user.membership.trialing?
-      （無料トライアル）
+
+  %div(class="grid sm:grid-cols-3 gap-4 text-center")
+    .rounded.border.flex.flex-col
+      .p-4.flex-1
+        .mb-2
+          .h5.font-bold
+            Freeプラン
+            %span.rounded.bg-yellow-600.text-white.text-xs.px-1.py-1 選択中
+          %small 無料
+        .text-sm.text-left
+          Freeチャネルを1つまで購読できます。
+      .rounded-b.p-2.bg-red-400.text-white.text-sm.opacity-50 現在のプランです
+    .rounded.border.flex.flex-col
+      .p-4.flex-1
+        .mb-2
+          .h5.font-bold Basicプラン
+          %small 350円/月
+        .text-sm.text-left
+          Basic + Freeチャネルを3つまで購読できます。
+      .rounded-b.p-2.bg-red-600.text-white.text-sm Basicプランに変更する
+    .rounded.border.opacity-50.flex.flex-col
+      .p-4.flex-1
+        .mb-2
+          .h5.font-bold
+            Proプラン
+            %small （準備中）
+          %small 500円/月
+        .text-sm.text-left
+          全チャネルを5つまで購読 + 好きな作品の配信もできます。
+      .rounded-b.p-2.bg-red-400.text-white.text-sm Proプランに変更する
+
+  /
+    .inline-block.border.rounded.font-bold.px-4.py-2
+      = @user.membership.plan
+      - if @user.membership.trialing?
+        （無料トライアル）
 
 .mb-8
-  = button_to '退会する', user_path(@user), method: :delete, class: 'text-link bg-transparent cursor-pointer'
+  = button_to user_path(@user), method: :delete, class: 'text-link bg-transparent cursor-pointer flex items-center' do
+    %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+      %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
+    退会する
 
 .mb-8
   %h3.font-bold.mb-4 ▼ 購読中のチャネル
-  %ul
-  - @subscriptions.each do |sub|
-    %li
-      = sub.channel.title
-      - if sub.paused?
-        %small （配信停止中）
+  %div(class="grid sm:grid-cols-3 gap-4 text-center")
+    .rounded.border.flex.flex-col
+      .p-4.flex-1
+        .mb-2
+          .h5.font-bold
+            ブンゴウメール公式チャネル
+            %span.rounded.bg-yellow-600.text-white.text-xs.px-1.py-1 購読中
+        .text-sm.text-left
+          いろいろな文豪の人気作品を毎月1冊ピックアップして配信する、ブンゴウメールの公式チャネルです。
+      .rounded-b.p-2.border.border-blue-600.text-blue-600.text-sm 購読解除する
+    .rounded.border.flex.flex-col
+      .p-4.flex-1
+        .mb-2
+          .h5.font-bold
+            名作長編チャネル
+        .text-sm.text-left
+          3ヶ月以上かけて長編作品を配信するチャネルです。
+      .rounded-b.p-2.bg-blue-600.text-white.text-sm 購読する
+
+  /
+    - @subscriptions.each do |sub|
+      %li
+        = sub.channel.title
+        - if sub.paused?
+          %small （配信停止中）
