@@ -1,4 +1,4 @@
-.mb-8
+.mb-12
   %h1.text-lg.font-bold.mb-4.flex.items-center
     %svg(class="w-6 h-6 mt-1 mr-2" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
       %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z")
@@ -6,38 +6,74 @@
   .rounded.bg-gray-100.px-4.py-2
     = @user.email
 
-.mb-8
+.mb-12
   %h3.font-bold.mb-4 ▼ 現在のプラン
 
   %div(class="grid sm:grid-cols-3 gap-4 text-center")
     .rounded.border.flex.flex-col
-      .p-4.flex-1
-        .mb-2
-          .h5.font-bold
-            Freeプラン
-            %span.rounded.bg-yellow-600.text-white.text-xs.px-1.py-1 選択中
-          %small 無料
-        .text-sm.text-left
-          Freeチャネルを1つまで購読できます。
+      .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
+        Freeプラン
+      .p-4.flex-1.border-b
+        .mb-2.text-2xl.font-bold
+          無料
+        .text-sm
+          まずは無料でお試し
+      .p-6.space-y-6
+        %div
+          .text-xs.text-gray-500 購読できるチャネル
+          .text-lg.font-bold Freeチャネルのみ
+        %div
+          .text-xs.text-gray-500 購読チャネル数の上限
+          .text-xl.font-bold 1つ
+        %div
+          .text-xs.text-gray-500 好きな作品の配信
+          .text-xl.font-bold
+            %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+              %path(d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z")
+
       .rounded-b.p-2.bg-red-400.text-white.text-sm.opacity-50 現在のプランです
     .rounded.border.flex.flex-col
-      .p-4.flex-1
-        .mb-2
-          .h5.font-bold Basicプラン
-          %small 350円/月
-        .text-sm.text-left
-          Basic + Freeチャネルを3つまで購読できます。
+      .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
+        Basicプラン
+      .p-4.flex-1.border-b
+        .mb-2.text-2xl.font-bold
+          350円/月
+        .text-sm
+          毎月1冊、おまかせ読書
+      .p-6.space-y-6
+        %div
+          .text-xs.text-gray-500 購読できるチャネル
+          .text-lg.font-bold すべてのチャネル
+        %div
+          .text-xs.text-gray-500 購読チャネル数の上限
+          .text-xl.font-bold 3つ
+        %div
+          .text-xs.text-gray-500 好きな作品の配信
+          .text-xl.font-bold
+            %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+              %path(d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z")
       .rounded-b.p-2.bg-red-600.text-white.text-sm Basicプランに変更する
-    .rounded.border.opacity-50.flex.flex-col
-      .p-4.flex-1
-        .mb-2
-          .h5.font-bold
-            Proプラン
-            %small （準備中）
-          %small 500円/月
-        .text-sm.text-left
-          全チャネルを5つまで購読 + 好きな作品の配信もできます。
-      .rounded-b.p-2.bg-red-400.text-white.text-sm Proプランに変更する
+    .rounded.border.flex.flex-col.opacity-50
+      .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
+        Proプラン
+      .p-4.flex-1.border-b
+        .mb-2.text-2xl.font-bold
+          500円/月
+        .text-sm
+          さらに楽しみたい方へ
+      .p-6.space-y-6
+        %div
+          .text-xs.text-gray-500 購読できるチャネル
+          .text-lg.font-bold すべてのチャネル
+        %div
+          .text-xs.text-gray-500 購読チャネル数の上限
+          .text-xl.font-bold 5つ
+        %div
+          .text-xs.text-gray-500 好きな作品の配信
+          .text-xl.font-bold
+            %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+              %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z")
+      .rounded-b.p-2.bg-gray-500.text-white.text-sm 準備中です
 
   /
     .inline-block.border.rounded.font-bold.px-4.py-2
@@ -45,14 +81,14 @@
       - if @user.membership.trialing?
         （無料トライアル）
 
-.mb-8
-  = button_to user_path(@user), method: :delete, class: 'text-link bg-transparent cursor-pointer flex items-center' do
-    %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
-      %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
-    退会する
+-# .mb-12
+-#   = button_to user_path(@user), method: :delete, class: 'text-link bg-transparent cursor-pointer flex items-center' do
+-#     %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+-#       %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
+-#     退会する
 
-.mb-8
-  %h3.font-bold.mb-4 ▼ 購読中のチャネル
+.mb-12
+  %h3.font-bold.mb-4 ▼ チャネル購読状況
   %div(class="grid sm:grid-cols-3 gap-4 text-center")
     .rounded.border.flex.flex-col
       .p-4.flex-1
@@ -70,14 +106,6 @@
             長編チャネル
         .text-sm.text-left
           様々な文豪の長編作品を、数ヶ月かけて配信するチャネルです。
-      .rounded-b.p-2.bg-blue-600.text-white.text-sm 購読する
-    .rounded.border.flex.flex-col.opacity-50
-      .p-4.flex-1
-        .mb-2
-          .h5.font-bold
-            （準備中）
-        .text-sm.text-left
-          新しいチャネルも今後随時追加される予定です。
       .rounded-b.p-2.bg-blue-600.text-white.text-sm 購読する
 
   /
