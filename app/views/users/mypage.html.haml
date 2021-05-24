@@ -52,7 +52,7 @@
           .text-xl.font-bold
             %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
               %path(d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z")
-      .rounded-b.p-2.bg-red-600.text-white.text-sm Basicプランに変更する
+      = link_to 'Basicプランに変更する', new_membership_path, class: 'rounded-b p-2 bg-red-600 text-white text-sm'
     .rounded.border.flex.flex-col.opacity-50
       .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
         Proプラン

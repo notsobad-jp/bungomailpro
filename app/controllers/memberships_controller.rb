@@ -31,7 +31,7 @@ class MembershipsController < ApplicationController
     current_user.membership.update!(stripe_customer_id: cus.id, stripe_subscription_id: sub.id)
     current_user.membership.schedule_billing
 
-    redirect_to(mypage_path, flash: { success: '決済処理が完了しました！月末まで無料トライアルを継続し、翌月から課金を開始します。' })
+    redirect_to(mypage_path, flash: { success: '決済処理が完了しました！翌月初から無料トライアルを開始します。配信開始までしばらくお待ちください。' })
   rescue => e
     logger.error "[Error]Stripe subscription failed. #{e}"
     redirect_to(new_membership_path, flash: { error: '決済処理に失敗しました。。課金処理を中止したため、これにより支払いが発生することはありません。' })
