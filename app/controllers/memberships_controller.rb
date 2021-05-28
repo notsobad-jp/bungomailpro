@@ -23,15 +23,42 @@ class MembershipsController < ApplicationController
       payment_method: session.setup_intent.payment_method,
       invoice_settings: {default_payment_method: session.setup_intent.payment_method},
     })
-    sub = Stripe::Subscription.create({
+
+    # sub = Stripe::Subscription.create({
+    #   customer: cus.id,
+    #   items: [ {price: ENV['STRIPE_PLAN_ID']} ],
+    #   trial_end: current_user.membership.trial_end_at.since(1.second).to_i,
+    # })
+    beginning_of_next_month = Time.current.next_month.beginning_of_month
+    # sub = Stripe::SubscriptionSchedule.create({
+    #   customer: cus.id,
+    #   start_date: beginning_of_next_month.to_i,
+    #   end_behavior: 'release',
+    #   phases: [
+    #     {
+    #       items: [ {price: ENV['STRIPE_PLAN_ID']} ],
+    #       trial: true,
+    #       iterations: 1,
+    #     },
+    #   ],
+    # })
+    sub = Stripe::SubscriptionSchedule.create({
       customer: cus.id,
-      items: [ {price: ENV['STRIPE_PLAN_ID']} ],
-      trial_end: current_user.membership.trial_end_at.since(1.second).to_i,
+      start_date: Time.current.since(5.minutes).to_i,
+      end_behavior: 'release',
+      phases: [
+        {
+          items: [ {price: ENV['STRIPE_PLAN_ID']} ],
+          trial: true,
+          end_date: Time.current.since(10.minutes).to_i,
+        },
+      ],
     })
+
     current_user.membership.update!(stripe_customer_id: cus.id, stripe_subscription_id: sub.id)
     current_user.membership.schedule_billing
 
-    redirect_to(mypage_path, flash: { success: '決済処理が完了しました！翌月初から無料トライアルを開始します。' })
+    redirect_to(mypage_path, flash: { success: '決済処理が完了しました！翌月初から1ヶ月間の無料トライアルを開始し、翌々月から課金を開始します。' })
   rescue => e
     logger.error "[Error]Stripe subscription failed. #{e}"
     redirect_to(new_membership_path, flash: { error: '決済処理に失敗しました。。課金処理を中止したため、これにより支払いが発生することはありません。' })
