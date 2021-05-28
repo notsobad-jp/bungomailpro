@@ -13,8 +13,10 @@
     .rounded.border.flex.flex-col
       .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
         Freeプラン
+        - if @user.plan == 'free'
+          .inline.rounded.text-xs.px-1.bg-yellow-600.text-white 選択中
       .p-4.flex-1.border-b
-        .mb-2.text-2xl.font-bold
+        .mb-2.text-3xl.font-bold
           無料
         .text-sm
           まずは無料でお試し
@@ -31,13 +33,20 @@
             %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
               %path(d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z")
 
-      .rounded-b.p-2.bg-red-400.text-white.text-sm.opacity-50 現在のプランです
+      - if @user.plan == 'basic'
+        -# TODO: 解約時のリンクを用意する
+        = link_to 'Freeプランに変更する', new_membership_path, class: 'rounded-b py-3 bg-red-600 text-white text-sm'
+      - else
+        .rounded-b.py-3.bg-red-400.text-white.text-sm.opacity-50 現在のプランです
     .rounded.border.flex.flex-col
       .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
         Basicプラン
+        - if @user.plan == 'basic'
+          .inline.rounded.text-xs.px-1.bg-yellow-600.text-white 選択中
       .p-4.flex-1.border-b
-        .mb-2.text-2xl.font-bold
-          350円/月
+        .mb-2.text-3xl.font-bold
+          ￥350
+          .text-sm.inline /月 (税込)
         .text-sm
           毎月1冊、おまかせ読書
       .p-6.space-y-6
@@ -52,15 +61,19 @@
           .text-xl.font-bold
             %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
               %path(d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z")
-      = link_to 'Basicプランに変更する', new_membership_path, class: 'rounded-b p-2 bg-red-600 text-white text-sm'
+      - if @user.plan == 'free' # TODO: 適用待ちのとき
+        = link_to 'Basicプランに変更する', new_membership_path, class: 'rounded-b py-3 bg-red-600 text-white text-sm'
+      - else
+        .rounded-b.py-3.bg-red-400.text-white.text-sm.opacity-50 現在のプランです
     .rounded.border.flex.flex-col.opacity-50
       .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
         Proプラン
       .p-4.flex-1.border-b
-        .mb-2.text-2xl.font-bold
-          500円/月
+        .mb-2.text-3xl.font-bold
+          ￥500
+          .text-sm.inline /月 (税込)
         .text-sm
-          さらに楽しみたい方へ
+          もっと読書したい方へ
       .p-6.space-y-6
         %div
           .text-xs.text-gray-500 購読できるチャネル
@@ -73,7 +86,7 @@
           .text-xl.font-bold
             %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
               %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z")
-      .rounded-b.p-2.bg-gray-500.text-white.text-sm 準備中です
+      .rounded-b.py-3.bg-gray-500.text-white.text-sm 準備中です
 
   /
     .inline-block.border.rounded.font-bold.px-4.py-2

@@ -3,7 +3,7 @@ class Subscription < ApplicationRecord
   belongs_to :channel
 
   validate :check_channel_required_plan, on: :create
-  validate :check_subscriptions_count, on: :create
+  # validate :check_subscriptions_count, on: :create  # 移行時に一時的にカウント超過するので停止
   delegate :email, prefix: true, to: :user
 
   def self.restart_all

@@ -1,43 +1,50 @@
-%h1.ui.large.header
-  %i.icon.credit.card.outline
-  決済情報の登録
+.mb-4
+  %h1.text-lg.font-bold
+    決済情報の登録
 
--# %small
--#   = link_to page_path(:plan) do
--#     %i.icon.chevron.right
--#     料金プランを確認する
+.mb-12
+  .mb-4 お申し込みいただく内容をご確認ください。
 
-.ui.secondary.center.aligned.segment
-  %h3.ui.small.header
-    月額500円(税込)
-  %button#checkout-button.my-2.bg-indigo-600.text-white.text-center.font-bold.px-4.py-2.rounded(class="hover:opacity-75")
-    決済情報を登録する
-  %br
-  %p 無料トライアル期間中に解約した場合、一切料金は発生いたしません
+  .max-w-sm.mb-4
+    .rounded.border.flex.flex-col.text-center
+      .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
+        Basicプラン
+      .p-4.flex-1
+        .mb-2.text-3xl.font-bold
+          ￥350
+          .text-sm.inline /月 (税込)
+        .text-sm
+          毎月1冊、おまかせ読書
+      .px-2.pt-2.pb-4
+        %button#checkout-button(class='w-full rounded py-3 bg-red-600 text-white text-sm')
+          クレジットカードで支払う
+  .text-xs
+    ※本サービスの決済には、世界的に利用シェアの高い決済プラットフォームであるStripeを利用しています。クレジットカード情報の登録・保管はセキュリティの高いStripe社のシステム上で直接行われ、弊社サーバ上には一切保管されません。
 
-%h5.ui.small.header
-  %i.icon.info.circle
-  ご利用の流れ
-.ui.bulleted.list
-  .item
-    クレジットカードを登録しても、無料トライアル期間が終了するまで料金は発生しません。
-  .item
-    無料トライアル終了前に解約いただいた場合、料金は一切発生しません。
-  .item
-    トライアル終了後、毎月1日に当月分の料金をご請求します。
-%h5.ui.small.header
-  %i.icon.exclamation.triangle
-  その他注意事項
-.ui.bulleted.list
-  .item
-    プランの解約はいつでも可能です。ただしすでにお支払いいただいた分の返金は致しかねますので、あらかじめご了承ください。
-  .item
-    決済に失敗した場合はメールでお知らせしますので、必要に応じて登録カード情報をご修正ください。数日経っても決済に失敗する場合、自動的に契約を解除させていただきます。
-  .item
-    一度解約してから再度ご契約いただいた場合、無料トライアルは付与されません。ご了承ください。
-  .item
-    利用可能なクレジットカードは、以下のブランドです。
-    VISA, MasterCard, AmericanExpress, JCB, DinersClub, Discover
+.mb-12
+  %h5.font-bold.text-lg.mb-4
+    ▼ ご利用の流れ
+  %ul.list-disc.list-inside
+    %li
+      .inline.font-bold.text-red-600 翌月初から1ヶ月間のトライアル期間
+      となります。トライアル開始までしばらくお待ちください。
+    %li
+      無料トライアル終了前に解約いただいた場合、料金は一切発生しません。
+    %li
+      トライアル終了後、
+      .inline.font-bold.text-red-600 毎月1日
+      に当月分の料金をご請求します。
+
+.mb-12
+  %h5.font-bold.text-lg.mb-4
+    ▼ その他・注意事項
+  %ul.list-disc.list-inside
+    %li
+      プランの解約はいつでも可能です。ただしすでにお支払いいただいた分の返金は致しかねますので、あらかじめご了承ください。
+    %li
+      決済に失敗した場合はメールでお知らせしますので、必要に応じて登録カード情報をご修正ください。数日経っても決済に失敗する場合、自動的に契約を解除させていただきます。
+    %li
+      一度解約してから再度ご契約いただいた場合、無料トライアルは付与されません。ご了承ください。
 
 
 
