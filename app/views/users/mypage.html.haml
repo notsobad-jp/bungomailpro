@@ -6,8 +6,43 @@
   .rounded.bg-gray-100.px-4.py-2
     = @user.email
 
+
+.mb-12
+  %h3.font-bold.mb-4 ▼ チャネル購読状況
+  %div(class="grid sm:grid-cols-3 gap-4 text-center")
+    .rounded.border.flex.flex-col
+      .p-4.flex-1
+        .mb-2
+          .h5.font-bold
+            ブンゴウメール公式チャネル
+            - if @user.subscriptions.find_by(channel_id: Channel::OFFICIAL_CHANNEL_ID)
+              %span.rounded.bg-yellow-600.text-white.text-xs.px-1.py-1 購読中
+        .text-sm.text-left
+          様々な文豪の短編作品を、毎月1冊ピックアップして配信するチャネルです。
+      - if @user.subscriptions.find_by(channel_id: Channel::OFFICIAL_CHANNEL_ID)
+        .rounded-b.p-2.border.border-blue-600.text-blue-600.text-sm 購読解除する
+      - else
+    .rounded.border.flex.flex-col
+      .p-4.flex-1
+        .mb-2
+          .h5.font-bold
+            長編作品チャネル
+            - if @user.subscriptions.find_by(channel_id: Channel::NOVEL_CHANNEL_ID)
+        .text-sm.text-left
+          様々な文豪の長編作品を、数ヶ月かけて配信するチャネルです。
+      .rounded-b.p-2.bg-blue-600.text-white.text-sm 購読する
+
+
 .mb-12
   %h3.font-bold.mb-4 ▼ 現在のプラン
+
+  .mb-8.rounded.bg-gray-100.px-4.py-2
+    .mb-1
+      %span.font-bold= "#{@user.plan.capitalize}プラン"
+      - if @user.trialing
+        %span.text-sm （トライアル）
+    - if log = @user.membership_logs.scheduled.first
+      .text-sm= "#{log.apply_at.strftime('%Y年%-m月%-d日')}〜 #{log.plan.capitalize}プラン#{log.trialing && '(トライアル)'}"
 
   %div(class="grid sm:grid-cols-3 gap-4 text-center")
     .rounded.border.flex.flex-col
@@ -61,8 +96,11 @@
           .text-xl.font-bold
             %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
               %path(d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z")
-      - if @user.plan == 'free' # TODO: 適用待ちのとき
-        = link_to 'Basicプランに変更する', new_membership_path, class: 'rounded-b py-3 bg-red-600 text-white text-sm'
+      - if @user.plan == 'free'
+        - if @user.membership_logs.scheduled.present? # 変更適用待ち
+          .rounded-b.py-3.bg-red-400.text-white.text-sm.opacity-50 申し込み済みです
+        - else
+          = link_to 'Basicプランに変更する', new_membership_path, class: 'rounded-b py-3 bg-red-600 text-white text-sm'
       - else
         .rounded-b.py-3.bg-red-400.text-white.text-sm.opacity-50 現在のプランです
     .rounded.border.flex.flex-col.opacity-50
@@ -87,43 +125,3 @@
             %svg(class="w-6 h-6 mt-2 mx-auto" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
               %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z")
       .rounded-b.py-3.bg-gray-500.text-white.text-sm 準備中です
-
-  /
-    .inline-block.border.rounded.font-bold.px-4.py-2
-      = @user.membership.plan
-      - if @user.membership.trialing?
-        （無料トライアル）
-
--# .mb-12
--#   = button_to user_path(@user), method: :delete, class: 'text-link bg-transparent cursor-pointer flex items-center' do
--#     %svg(class="w-4 h-4" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
--#       %path(d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z")
--#     退会する
-
-.mb-12
-  %h3.font-bold.mb-4 ▼ チャネル購読状況
-  %div(class="grid sm:grid-cols-3 gap-4 text-center")
-    .rounded.border.flex.flex-col
-      .p-4.flex-1
-        .mb-2
-          .h5.font-bold
-            短編チャネル
-            %span.rounded.bg-yellow-600.text-white.text-xs.px-1.py-1 購読中
-        .text-sm.text-left
-          様々な文豪の短編作品を、毎月1冊ピックアップして配信するチャネルです。
-      .rounded-b.p-2.border.border-blue-600.text-blue-600.text-sm 購読解除する
-    .rounded.border.flex.flex-col
-      .p-4.flex-1
-        .mb-2
-          .h5.font-bold
-            長編チャネル
-        .text-sm.text-left
-          様々な文豪の長編作品を、数ヶ月かけて配信するチャネルです。
-      .rounded-b.p-2.bg-blue-600.text-white.text-sm 購読する
-
-  /
-    - @subscriptions.each do |sub|
-      %li
-        = sub.channel.title
-        - if sub.paused?
-          %small （配信停止中）
