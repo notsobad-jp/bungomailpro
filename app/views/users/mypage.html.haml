@@ -14,9 +14,7 @@
       .p-4.flex-1
         .mb-2
           .h5.font-bold
-            ブンゴウメール公式チャネル
-            -# - if @user.subscriptions.find_by(channel_id: Channel::OFFICIAL_CHANNEL_ID)
-            -#   %span.rounded.bg-yellow-600.text-white.text-xs.px-1 購読中
+            = link_to 'ブンゴウメール公式チャネル', channel_path('bungomail-official'), class: 'text-link'
         .text-sm.mb-4
           様々な文豪の短編作品を、毎月1冊ピックアップして配信するチャネルです。
 
@@ -30,14 +28,12 @@
       .p-4.flex-1
         .mb-2
           .h5.font-bold
-            長編作品チャネル
+            = link_to '長編作品チャネル', channel_path('long-novel'), class: 'text-link'
             %span.rounded.bg-yellow-600.text-white.text-xs.px-1 無料
-            -# - if @user.subscriptions.find_by(channel_id: Channel::NOVEL_CHANNEL_ID)
-            -#   %span.rounded.bg-yellow-600.text-white.text-xs.px-1 購読中
         .text-sm
           様々な文豪の長編作品を、数ヶ月かけて配信するチャネルです。
       - if sub = @user.subscriptions.find_by(channel_id: Channel::NOVEL_CHANNEL_ID)
-        = link_to '購読解除する', subscription_path(sub, redirect_to: '/mypage'), method: :delete, class: 'rounded-b p-2 border border-blue-600 text-blue-600 text-sm text-center'
+        = link_to '購読解除する', subscription_path(sub, redirect_to: '/mypage'), method: :delete, class: 'rounded-b p-2 border border-blue-600 text-blue-600 text-sm text-center hover:bg-blue-50'
       - else
         = link_to '購読する', subscriptions_path(channel_id: Channel::NOVEL_CHANNEL_ID, redirect_to: '/mypage'), method: :post, class: 'rounded-b p-2 bg-blue-600 text-white text-sm text-center'
   .text-sm
@@ -49,7 +45,7 @@
 .mb-12
   %h3.font-bold.mb-4 ▼ 現在のプラン
 
-  .mb-8.rounded.bg-gray-100.px-4.py-2
+  .mb-12.rounded.bg-gray-100.px-4.py-2
     .mb-1
       %span.font-bold= "#{@user.plan.capitalize}プラン"
       - if @user.trialing
