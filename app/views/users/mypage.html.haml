@@ -28,9 +28,13 @@
           .h5.font-bold
             長編作品チャネル
             - if @user.subscriptions.find_by(channel_id: Channel::NOVEL_CHANNEL_ID)
+              %span.rounded.bg-yellow-600.text-white.text-xs.px-1.py-1 購読中
         .text-sm.text-left
           様々な文豪の長編作品を、数ヶ月かけて配信するチャネルです。
-      .rounded-b.p-2.bg-blue-600.text-white.text-sm 購読する
+      - if sub = @user.subscriptions.find_by(channel_id: Channel::NOVEL_CHANNEL_ID)
+        = link_to '購読解除する', subscription_path(sub, redirect_to: '/mypage'), method: :delete, class: 'rounded-b p-2 border border-blue-600 text-blue-600 text-sm'
+      - else
+        = link_to '購読する', subscriptions_path(channel_id: Channel::NOVEL_CHANNEL_ID, redirect_to: '/mypage'), method: :post, class: 'rounded-b p-2 bg-blue-600 text-white text-sm'
 
 
 .mb-12

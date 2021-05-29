@@ -10,7 +10,7 @@ class SubscriptionsController < ApplicationController
     else
       flash[:error] = @subscription.errors.full_messages.first
     end
-    redirect_to channel_path(@channel)
+    redirect_to params[:redirect_to] || channel_path(@channel)
   end
 
   # 一時停止/再開
@@ -38,7 +38,7 @@ class SubscriptionsController < ApplicationController
       logger.error "[Error]Unsubscription failed: #{e.message}, #{current_user.id}"
       flash[:error] = '処理に失敗しました。。何回か試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
     end
-    redirect_to channel_path(@sub.channel)
+    redirect_to params[:redirect_to] || channel_path(@sub.channel)
   end
 
   private
