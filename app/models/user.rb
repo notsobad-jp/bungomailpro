@@ -4,7 +4,6 @@ class User < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
-  validates_format_of :email, without: /.*\+.*@gmail\.com/, on: :create  # gmailエイリアスアドレスでの登録は弾く （リニューアル以前に登録されたアドレスがあるので on: :create のみ）
 
   # activation実行に必要なのでダミーのパスワードを設定
   ## before_validateでcryptedの作成処理が走るので、それより先に用意できるようにafter_initializeを使用
