@@ -37,6 +37,17 @@ class BungoMailer < ApplicationMailer
     logger.info "[ACTIVATION] Activation mail sent to #{@user.id}"
   end
 
+  def customer_portal_email
+    @user = params[:user]
+    @url = params[:url]
+
+    xsmtp_api_params = { category: 'customer_portal' }
+    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
+
+    mail(to: @user.email, subject: "【ブンゴウメール】ご登録情報の確認用URL")
+    logger.info "[CUSTOMER_PORTAL] Customer Portal mail sent to #{@user.id}"
+  end
+
   private
 
   # メール送信名をRFCに準拠した形にフォーマット
