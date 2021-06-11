@@ -2,8 +2,6 @@ class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :channel
 
-  validate :check_channel_required_plan, on: :create
-  # validate :check_subscriptions_count, on: :create  # 移行時に一時的にカウント超過するので停止
   delegate :email, prefix: true, to: :user
 
   def self.restart_all
@@ -21,19 +19,5 @@ class Subscription < ApplicationRecord
         e
       end
     end
-  end
-
-  private
-
-  # チャネルごとの購読可能プランを満たしているかチェック
-  def check_channel_required_plan
-    return if user.plan == 'basic' || channel.required_plan == 'free'
-    errors.add(:base, "このチャネルの購読には、Basicプランへの登録が必要です。")
-  end
-
-  # 契約プランごとの購読上限数を超えていないかチェック
-  def check_subscriptions_count
-    return if user.subscriptions.count < Membership::MAXIMUM_SUBSCRIPTIONS_COUNT[user.plan.to_sym]
-    errors.add(:base, "購読上限数を超えています。他のチャネルの購読を解除するか、プランをアップグレードしてください。")
   end
 end

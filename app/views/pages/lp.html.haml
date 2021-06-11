@@ -3,13 +3,6 @@
     %div.flex.items-center
       = link_to 'ブンゴウメール', root_path, class: 'inline-block py-3 text-lg font-bold'
 
-    - if Rails.env.development? # FIXME: リリースまでログインリンクを隠す
-      %div.flex.space-x-4
-        = link_to login_path, class: 'inline-block border rounded border-gray-700 px-4 py-2 hover:bg-white hover:opacity-75' do
-          ログイン
-        = link_to new_user_path, class: 'inline-block rounded bg-indigo-600 text-white px-4 py-2 hover:opacity-75' do
-          新規登録
-
 .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
   .bg-gray-100.full-bleed.mb-24.-mt-6(style="background-image: url('/assets/images/seigaiha.png')")
     .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")

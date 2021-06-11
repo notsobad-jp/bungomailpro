@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_05_083950) do
+ActiveRecord::Schema.define(version: 2021_06_11_043559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
@@ -172,31 +172,6 @@ ActiveRecord::Schema.define(version: 2021_03_05_083950) do
     t.index ["subject_id"], name: "index_guten_books_subjects_on_subject_id"
   end
 
-  create_table "membership_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.string "plan"
-    t.datetime "apply_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.boolean "finished", default: false, null: false
-    t.boolean "canceled", default: false, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.boolean "trialing", default: false, null: false
-    t.index ["apply_at"], name: "index_membership_logs_on_apply_at"
-    t.index ["user_id"], name: "index_membership_logs_on_user_id"
-  end
-
-  create_table "memberships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "stripe_customer_id"
-    t.string "stripe_subscription_id"
-    t.string "plan"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "trial_end_at"
-    t.boolean "trialing", default: false, null: false
-    t.index ["plan"], name: "index_memberships_on_plan"
-    t.index ["trial_end_at"], name: "index_memberships_on_trial_end_at"
-  end
-
   create_table "senders", id: :serial, force: :cascade do |t|
     t.string "nickname", null: false
     t.string "name", null: false
@@ -237,6 +212,7 @@ ActiveRecord::Schema.define(version: 2021_03_05_083950) do
     t.string "activation_state"
     t.string "activation_token"
     t.datetime "activation_token_expires_at"
+    t.string "stripe_customer_id"
     t.index ["activation_token"], name: "index_users_on_activation_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
@@ -252,8 +228,6 @@ ActiveRecord::Schema.define(version: 2021_03_05_083950) do
   add_foreign_key "feeds", "delayed_jobs", on_delete: :nullify
   add_foreign_key "guten_books_subjects", "guten_books", on_delete: :cascade
   add_foreign_key "guten_books_subjects", "subjects", on_delete: :cascade
-  add_foreign_key "membership_logs", "users"
-  add_foreign_key "memberships", "users", column: "id"
   add_foreign_key "subscriptions", "channels", on_delete: :cascade
   add_foreign_key "subscriptions", "users", on_delete: :cascade
 end

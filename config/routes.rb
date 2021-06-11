@@ -8,20 +8,11 @@ Rails.application.routes.draw do
     get :feed, on: :member, defaults: { format: :rss }
   end
   resources :book_assignments
-  resources :users do
-    get 'activate', on: :member
-  end
-  resources :aozora_books, only: [:index, :show]
 
   get 'signup' => 'users#new'
-  get 'login' => 'magic_tokens#new'
-  delete 'logout' => 'magic_tokens#destroy'
-  get 'auth' => 'magic_tokens#auth'
   get '/campaigns/dogramagra' => "pages#dogramagra"
-  get 'mypage' => "users#mypage"
 
   # TODO: 新システム移行後は不要
-  get 'lp_new' => 'pages#lp_new', as: :lp_new
   resources :channel_subscriptions
   resources :lists do
     get 'books', on: :member

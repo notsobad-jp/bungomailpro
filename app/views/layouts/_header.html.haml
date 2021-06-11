@@ -1,17 +1,4 @@
 .mb-6.bg-gray-100.full-bleed.shadow-sm(style="background-image: url('/assets/images/seigaiha.png')")
   .container.mx-auto.max-w-screen-lg.px-2.py-2.flex.items-center.justify-between(class="sm:px-0")
     %div.flex.items-center
-      - path = current_user ? mypage_path : root_path
-      = link_to 'ブンゴウメール', path, class: 'inline-block py-3 text-lg font-bold'
-
-    -# TODO
-    - if Rails.env.development?
-      - if current_user
-        %div.flex.space-x-4
-          = link_to mypage_path, class: 'inline-block text-sm flex items-center hover:opacity-75' do
-            マイページ
-          = button_to logout_path, method: :delete, class: 'text-sm h-full hover:opacity-75' do
-            ログアウト
-      - else
-        = link_to login_path, class: 'inline-block text-sm flex items-center hover:opacity-75' do
-          ログイン
+      = link_to 'ブンゴウメール', root_path, class: 'inline-block py-3 text-lg font-bold'
