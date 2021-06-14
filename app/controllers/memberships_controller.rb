@@ -3,31 +3,40 @@ class MembershipsController < ApplicationController
 
   # Checkout表示のためのメアド入力ページ
   def new
-    @session = Stripe::Checkout::Session.create(
-      payment_method_types: ['card'],
-      mode: 'subscription',
-      success_url: "#{memberships_create_url}?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: memberships_new_url,
-      line_items: [{
-        quantity: 1,
-        price: ENV['STRIPE_PLAN_ID'],
-      }],
-      subscription_data: {
-        trial_end: Time.current.next_month.next_month.beginning_of_month.to_i, # 翌々月初までトライアル
-      }
-    )
     @meta_title = '決済情報の登録'
     @no_index = true
   end
 
 
-  # Checkoutでの決済情報登録完了時のリダイレクトページ
   def create
+    customer = Stripe::Customer.create
+    @session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      mode: 'setup',
+      customer: customer['id'],
+      success_url: "#{memberships_completed_url}?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: memberships_new_url,
+    )
+    render layout: false
+  end
+
+
+  # Checkoutでの決済情報登録完了時のリダイレクトページ
+  def completed
     redirect_to root_path and return unless params[:session_id]  # 直接アクセスしてきたらリダイレクト
 
     session = Stripe::Checkout::Session.retrieve({id: params[:session_id], expand: ['customer']})
     user = User.find_or_initialize_by(email: session.customer.email)
     user.update!(stripe_customer_id: session.customer.id)
+
+    beginning_of_next_next_month = Time.current.next_month.next_month.beginning_of_month
+    Stripe::Subscription.create({
+      customer: session.customer.id,
+      trial_end: beginning_of_next_next_month.to_i,
+      items: [
+        {price: ENV['STRIPE_PLAN_ID']}
+      ],
+    })
 
     redirect_to(root_path, flash: { success: '決済処理が完了しました！翌月初から1ヶ月間の無料トライアルを開始し、翌々月から課金を開始します。' })
   rescue => e

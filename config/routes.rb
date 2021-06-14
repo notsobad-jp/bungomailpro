@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :memberships do
     get 'new'
     get 'create'
+    get 'completed'
     get 'edit'
     post 'update'
   end

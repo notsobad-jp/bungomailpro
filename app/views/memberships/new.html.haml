@@ -18,7 +18,7 @@
         .text-sm
           毎月1冊、おまかせ読書
       .px-2.pt-2.pb-4
-        %button#checkout-button(class='w-full rounded py-3 bg-red-600 text-white text-sm')
+        = link_to memberships_create_path, class: 'block w-full rounded py-3 bg-red-600 text-white text-sm' do
           クレジットカードで支払う
   .text-xs.px-4.py-2.rounded.bg-blue-50.border.border-blue-500.text-blue-700.flex.items-center
     %svg(class="mr-2 w-8 h-8 fill-current" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
@@ -56,24 +56,3 @@
       決済に失敗した場合はメールでお知らせしますので、必要に応じて登録カード情報をご修正ください。数日経っても決済に失敗する場合、自動的に契約を解除させていただきます。
     %li
       一度解約してから再度ご契約いただいた場合、無料トライアルは付与されません。ご了承ください。
-
-
-
-
-%script(src="https://js.stripe.com/v3/")
-:javascript
-  var stripe = Stripe("#{ENV['STRIPE_PUBLISHABLE_KEY']}");
-  var checkoutButton = document.getElementById('checkout-button');
-
-  checkoutButton.addEventListener('click', function() {
-    stripe.redirectToCheckout({
-      // Make the id field from the Checkout Session creation API response
-      // available to this file, so you can provide it as argument here
-      // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-      sessionId: "#{@session.id}"
-    }).then(function (result) {
-      // If `redirectToCheckout` fails due to a browser or network
-      // error, display the localized error message to your customer
-      // using `result.error.message`.
-    });
-  });
