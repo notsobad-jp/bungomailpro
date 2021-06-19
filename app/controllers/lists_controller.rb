@@ -1,6 +1,4 @@
 class ListsController < ApplicationController
-  skip_before_action :require_login
-
   def books
     year = params[:year] || Time.current.year
     start = Time.current.change(year: year).beginning_of_year

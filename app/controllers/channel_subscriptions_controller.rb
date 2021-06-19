@@ -1,6 +1,4 @@
 class ChannelSubscriptionsController < ApplicationController
-  skip_before_action :require_login
-
   # 3月1日以降のフロー
   ## subscriptionのgoogle callbackはOFFになってる前提で、ここでGoogle更新もやってる
 

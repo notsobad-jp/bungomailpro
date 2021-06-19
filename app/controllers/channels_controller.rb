@@ -1,5 +1,4 @@
 class ChannelsController < ApplicationController
-  skip_before_action :require_login, only: [:index, :show, :feed]
   after_action :authorize_record
 
   def index
