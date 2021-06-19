@@ -7,12 +7,6 @@ class ChannelSubscriptionsController < ApplicationController
     service = GoogleDirectoryService.instance
     user = User.find_or_create_by(email: params[:email])
 
-    # 新規作成時は、callbackさせないようにmembership作成（リニューアルまでの暫定措置）
-    if !user.membership
-      Membership.insert({id: user.id, plan: 'free'})
-      user.reload
-    end
-
     # すでに購読済みの場合はエラー
     if user.subscriptions.present?
       return redirect_to root_path, flash: { error: 'このメールアドレスはすでに登録されています' }
