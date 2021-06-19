@@ -20,7 +20,7 @@
       .px-2.pt-2.pb-4
         = link_to memberships_create_path, class: 'block w-full rounded py-3 bg-red-600 text-white text-sm' do
           クレジットカードで支払う
-  .text-xs.px-4.py-2.rounded.bg-blue-50.border.border-blue-500.text-blue-700.flex.items-center
+  .text-xs.px-4.py-2.rounded.bg-blue-50.border.border-blue-500.text-blue-900.flex.items-center
     %svg(class="mr-2 w-8 h-8 fill-current" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
       %path(d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z")
     本サービスの決済には、世界的に利用シェアの高い決済プラットフォームであるStripeを利用しています。クレジットカード情報は当社では保持せず、Stripe社にて国際基準に準拠して安全に保管されます。
@@ -28,22 +28,52 @@
 .mb-12
   %h5.font-bold.text-lg.mb-4
     ▼ ご利用の流れ
-  %img.mb-4(src="/assets/images/flow.png")
-  -# %div(class="rounded bg-blue-50 border border-blue-500 mb-12 px-4 py-3 text-blue-900 text-xs sm:text-sm")
-  -#   %svg(class="inline-block mr-1 w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg")
-  -#     %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z")
-  -#   %span(class="flex-1")
-  -#     6月中は有料プランの登録有無に関わらず、これまで通り無料で作品が配信されます。7月以降も
+  %table.table-fixed.w-full.mb-12
+    %thead.bg-gray-100
+      %tr
+        %th.border.py-2
+          = Time.current.month
+          月
+        %th.border
+          = Time.current.since(1.month).month
+          月
+        %th.border
+          = Time.current.since(2.month).month
+          月
+    %tbody
+      %tr
+        %td.border.py-12.flex.items-center
+          .text-center.text-yellow-600.min-w-content.text-sm.pr-2(class="sm:pl-6 sm:pr-6 sm:text-base")
+            %svg(class="inline w-6 h-6 fill-current text-yellow-600" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+              %path(d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z")
+            %br
+            決済情報
+            %br
+            登録
+          .flex-1.border-b-2.border-dashed.border-yellow-700
+          %svg(class="w-8 h-8 fill-current text-yellow-700 w-content" focusable="false" viewBox="0 0 24 24" aria-hidden="true" style="margin-left: -15px")
+            %path(d="M10 17l5-5-5-5v10z")
+        %td.border.px-2
+          .px-2.right-triangle._yellow.inline-block.bg-yellow-200.text-yellow-700.relative.text-sm.font-bold(style="height:50px; line-height:50px; width: calc(100% - 25px);")
+            無料トライアル
+        %td.border.px-2
+          .px-2.right-triangle._red.inline-block.bg-red-200.text-red-700.relative.text-sm.font-bold(style="height:50px; line-height:50px; width: calc(100% - 25px);")
+            課金開始
 
   %ul.list-disc.list-inside
     %li
-      .inline.font-bold.text-red-600 翌月初から1ヶ月間のトライアル期間
+      決済登録日に関わらず、
+      .inline.font-bold.text-red-600
+        翌月初から1ヶ月間が無料トライアル期間
       となります。トライアル開始までしばらくお待ちください。
     %li
-      無料トライアル終了前に解約いただいた場合、料金は一切発生しません。
+      無料トライアル終了前に解約いただいた場合、
+      .inline.font-bold.text-red-600
+        料金は一切発生しません。
     %li
       トライアル終了後、
-      .inline.font-bold.text-red-600 毎月1日
+      .inline.font-bold.text-red-600
+        毎月1日
       に当月分の料金をご請求します。
 
 .mb-12
@@ -56,3 +86,20 @@
       決済に失敗した場合はメールでお知らせしますので、必要に応じて登録カード情報をご修正ください。数日経っても決済に失敗する場合、自動的に契約を解除させていただきます。
     %li
       一度解約してから再度ご契約いただいた場合、無料トライアルは付与されません。ご了承ください。
+
+
+
+:css
+  .right-triangle:after {
+    position: absolute;
+    display: block;
+    content: '';
+    width: 0;
+    height: 0;
+    top: 0;
+    right: -25px;
+    border: 25px solid transparent;
+    border-right-width: 0;
+  }
+  .right-triangle._yellow:after { border-left-color: rgba(253, 230, 138, var(--tw-bg-opacity)); }
+  .right-triangle._red:after { border-left-color: rgba(254, 202, 202, var(--tw-bg-opacity)); }
