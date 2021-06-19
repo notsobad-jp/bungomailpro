@@ -50,7 +50,7 @@ class MembershipsController < ApplicationController
 
   # Customer Portalの表示申請ページ
   def edit
-    @meta_title = '決済情報の確認・更新'
+    @meta_title = 'お支払い情報の管理'
     @no_index = true
   end
 

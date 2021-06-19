@@ -14,23 +14,27 @@
       .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
         月額プラン申し込み
       .p-4.flex-1
-        .mb-2.text-3xl.font-bold
+        .mb-2.text-red-900.font-bold
+          %span.mr-1 🎉
+          2021年8月末までのご登録限定キャンペーン実施中
+          %span.ml-1 🎉
+        .mb-4.text-xs
+          （キャンペーン中に登録すると、今後もずっとこの料金が適用されます）
+
+        .text-3xl.font-bold.text-red-600
+          ￥350
+          .text-xs.inline /月 (税込385円)
+        .mb-2.text-2xl.font-bold.line-through
           ￥500
           .text-xs.inline /月 (税込550円)
         .text-sm
           毎月1冊、おまかせ読書
       .px-2.pt-2.pb-4
-        = link_to memberships_create_path, class: 'block w-full rounded py-4 bg-red-600 text-white text-sm max-w-sm mx-auto' do
+        = link_to memberships_create_path, class: 'block w-full rounded py-4 bg-red-600 text-white text-sm max-w-sm mx-auto hover:opacity-75' do
           カード情報を登録する
           %small.text-xs（1ヶ月無料）
-  .mb-8.text-sm
-    ※すでにお支払い情報をご登録いただいている方は、
-    = link_to 'こちらのページ', memberships_edit_path, class: 'text-link'
-    からご登録状況の確認やお支払いの停止を行うことができます。
-  .text-xs.px-4.py-2.rounded.bg-blue-50.border.border-blue-500.text-blue-900.flex.items-center
-    %svg(class="mr-2 w-8 h-8 fill-current hidden sm:block" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
-      %path(d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z")
-    本サービスの決済には、世界的に利用シェアの高い決済プラットフォームであるStripeを利用しています。クレジットカード情報は当社では保持せず、Stripe社にて国際基準に準拠して安全に保管されます。
+  .mb-8.text-xs
+    ※本サービスの決済には、世界的に利用シェアの高い決済プラットフォームであるStripeを利用しています。クレジットカード情報は当社では保持せず、Stripe社にて国際基準に準拠して安全に保管されます。
 
 .mb-20
   %h5.font-bold.text-lg.mb-4
@@ -62,7 +66,7 @@
             %path(d="M10 17l5-5-5-5v10z")
         %td.border.px-2
           .px-2.right-triangle._yellow.inline-block.bg-yellow-200.text-yellow-700.relative.text-sm.font-bold(style="height:50px; line-height:50px; width: calc(100% - 25px);")
-            無料トライアル
+            無料期間
         %td.border.px-2
           .px-2.right-triangle._red.inline-block.bg-red-200.text-red-700.relative.text-sm.font-bold(style="height:50px; line-height:50px; width: calc(100% - 25px);")
             課金開始
@@ -85,7 +89,7 @@
 
   .text-sm.px-4.py-2.rounded.bg-blue-50.border.border-blue-500.text-blue-900.flex.items-center
     ブンゴウメールでは毎月月初から作品の配信を開始するため、トライアルも月初からの開始となるように調整しています。
-    作品の途中からになってもすぐに配信を開始したいという場合は、運営までお問い合わせください。
+    作品の途中からでもすぐに配信を開始したいという場合は、運営までお問い合わせください（その場合は翌月初から課金開始となります）。
 
 .mb-12
   %h5.font-bold.text-lg.mb-4
