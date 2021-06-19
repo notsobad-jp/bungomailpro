@@ -2,12 +2,20 @@
   %h1.text-lg.font-bold.mb-4.flex.items-center
     %svg(class="w-6 h-6 mt-1 mr-2" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
       %path(d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z")
-    お支払い情報の確認・更新・キャンセル
+    お支払い情報の管理
 
 .mb-12
   .mb-4.text-sm
-    ご登録いただいているメールアドレスを入力すると、お支払状況の確認・クレジットカード情報の更新・お支払いの停止（キャンセル）を行うためのセキュアなURLをメールでお送りします。
-  = form_with(url: memberships_update_path, local: true, class: 'flex flex-col sm:flex-row') do |f|
+    ご登録いただいているメールアドレスを入力すると、お支払情報を管理するためのセキュアなURLをメールでお送りします。
+
+  = form_with(url: memberships_update_path, local: true, class: 'flex flex-col sm:flex-row mb-8') do |f|
     = f.email_field :email, class: "p-2 flex-1 rounded-l rounded-r sm:rounded-r-none border mb-2 sm:mb-0", placeholder: 'メールアドレス', required: true
     = button_tag type: 'submit', class: 'bg-indigo-500 border border-indigo-500 rounded-l sm:rounded-l-none rounded-r text-white px-4 py-2' do
       送信する
+
+  .mb-4.text-sm
+    .mb-2 リンク先のマイページでは、以下の操作が可能です。
+    %ul.list-disc.list-inside
+      %li お支払履歴の確認
+      %li クレジットカード情報の更新
+      %li お支払いの停止（キャンセル）

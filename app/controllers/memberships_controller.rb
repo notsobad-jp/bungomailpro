@@ -3,7 +3,7 @@ class MembershipsController < ApplicationController
 
   # Checkout表示のための説明ページ
   def new
-    @meta_title = '決済情報の登録'
+    @meta_title = '新規ユーザー登録'
     @no_index = true
   end
 

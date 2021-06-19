@@ -1,25 +1,28 @@
 .mb-4
   %h1.text-lg.font-bold.mb-4.flex.items-center
     %svg(class="w-6 h-6 mt-1 mr-2" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
-      %path(d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z")
-    決済情報の登録
+      %path(d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z")
+    新規ユーザー登録
 
 .mb-20
-  .mb-4 お申し込みいただく内容をご確認ください。
+  .mb-4.text-sm
+    ブンゴウメールの利用にはクレジットカードの登録が必要です。
+    1ヶ月間の無料トライアル中に解約された場合、料金は一切発生しません。
 
-  .max-w-sm.mb-4
+  .mb-4
     .rounded.border.flex.flex-col.text-center
       .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
-        Basicプラン
+        月額プラン申し込み
       .p-4.flex-1
         .mb-2.text-3xl.font-bold
-          ￥350
-          .text-sm.inline /月 (税込)
+          ￥500
+          .text-xs.inline /月 (税込550円)
         .text-sm
           毎月1冊、おまかせ読書
       .px-2.pt-2.pb-4
-        = link_to memberships_create_path, class: 'block w-full rounded py-3 bg-red-600 text-white text-sm' do
-          クレジットカードで支払う
+        = link_to memberships_create_path, class: 'block w-full rounded py-4 bg-red-600 text-white text-sm max-w-sm mx-auto' do
+          カード情報を登録する
+          %small.text-xs（1ヶ月無料）
   .mb-8.text-sm
     ※すでにお支払い情報をご登録いただいている方は、
     = link_to 'こちらのページ', memberships_edit_path, class: 'text-link'
