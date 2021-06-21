@@ -12,14 +12,14 @@
   .mb-4
     .rounded.border.flex.flex-col.text-center
       .h5.text-sm.font-bold.px-4.py-1.border-b.bg-gray-100
-        月額プラン申し込み
+        新規ユーザー登録
       .p-4.flex-1
-        .mb-2.text-red-900.font-bold
+        .mb-2.text-red-700.font-bold
           %span.mr-1 🎉
-          2021年8月末までのご登録限定キャンペーン実施中
+          2021年7月31日までのご登録限定キャンペーン実施中
           %span.ml-1 🎉
         .mb-4.text-xs
-          （キャンペーン中に登録すると、今後もずっとこの料金が適用されます）
+          キャンペーン中に登録すると、今後もずっとこの料金が適用されます。
 
         .text-3xl.font-bold.text-red-600
           ￥350
@@ -29,12 +29,14 @@
           .text-xs.inline /月 (税込550円)
         .text-sm
           毎月1冊、おまかせ読書
-      .px-2.pt-2.pb-4
-        = link_to memberships_create_path, class: 'block w-full rounded py-4 bg-red-600 text-white text-sm max-w-sm mx-auto hover:opacity-75' do
+      .px-4.pt-2.pb-4
+        = link_to memberships_create_path, class: 'block w-full rounded py-4 bg-red-600 text-white text-sm hover:opacity-75' do
           カード情報を登録する
           %small.text-xs（1ヶ月無料）
   .mb-8.text-xs
-    ※本サービスの決済には、世界的に利用シェアの高い決済プラットフォームであるStripeを利用しています。クレジットカード情報は当社では保持せず、Stripe社にて国際基準に準拠して安全に保管されます。
+    ※本サービスの決済には、世界的に利用シェアの高い決済プラットフォームである
+    = link_to 'Stripe', 'https://stripe.com/jp', target: '_blank', class: 'text-link', rel: 'nofollow'
+    を利用しています。クレジットカード情報は当社では保持せず、Stripe社にて国際基準に準拠して安全に保管されます。
 
 .mb-20
   %h5.font-bold.text-lg.mb-4
@@ -88,8 +90,8 @@
       に当月分の料金をご請求します。
 
   .text-sm.px-4.py-2.rounded.bg-blue-50.border.border-blue-500.text-blue-900.flex.items-center
-    ブンゴウメールでは毎月月初から作品の配信を開始するため、トライアルも月初からの開始となるように調整しています。
-    作品の途中からでもすぐに配信を開始したいという場合は、運営までお問い合わせください（その場合は翌月初から課金開始となります）。
+    ブンゴウメールでは毎月1日から新しい作品を配信するため、トライアルも月初から開始するように調整しています。
+    作品の途中からになってもすぐに配信を開始したいという場合は、運営までお問い合わせください（その場合は翌月初から課金開始となります）。
 
 .mb-12
   %h5.font-bold.text-lg.mb-4
@@ -101,6 +103,9 @@
       決済に失敗した場合はメールでお知らせしますので、必要に応じて登録カード情報をご修正ください。数日経っても決済に失敗する場合、自動的に契約を解除させていただきます。
     %li
       一度解約してから再度ご契約いただいた場合、無料トライアルは付与されません。ご了承ください。
+    %li
+      利用可能なクレジットカードブランドは、 Visa, MasterCard, AmericanExpress, JCB, DinersClub, Discoverです。
+      = image_tag('/assets/images/memberships/cards.png', class: 'h-10 mt-1')
 
 
 
