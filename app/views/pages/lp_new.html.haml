@@ -36,11 +36,9 @@
 
   .px-4.py-2.bg-blue-50.border-t.border-b.border-blue-500.text-blue-800.-mt-24.mb-12.full-bleed.text-sm
     .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
-      %svg(class="mr-1 w-6 h-6 fill-current inline-block" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
-        %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z")
-      ブンゴウメールの無料配信は2021年7月で終了します。8月以降も利用をご希望の場合は、
-      = link_to '「新規登録」', memberships_new_path, class: 'text-link'
-      から改めてご登録をお願いします。
+      【2021年7月31日までのご登録限定】
+      = link_to memberships_new_path, class: 'text-link' do
+        期間中に登録すると、ずっとおトクな料金で利用できるキャンペーン実施中です🎉
 
   .grid.grid-cols-1.gap-8.mb-24(class="sm:grid-cols-3 sm:gap-12")
     %div
