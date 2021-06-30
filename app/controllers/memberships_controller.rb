@@ -35,6 +35,7 @@ class MembershipsController < ApplicationController
     beginning_of_next_next_month = Time.current.next_month.next_month.beginning_of_month
     Stripe::Subscription.create({
       customer: session.customer.id,
+      default_tax_rates: [ENV['STRIPE_TAX_RATE']],
       trial_end: beginning_of_next_next_month.to_i,
       items: [
         {price: ENV['STRIPE_PLAN_ID']}

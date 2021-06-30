@@ -30,9 +30,17 @@
               新規登録
               .text-sm （1ヶ月無料）
           .text-xs.mt-2.text-center
-            ご登録済みの方は
+            お支払い情報をご登録済みの方は
             = link_to 'こちらのページ', memberships_edit_path, class: 'text-link'
             から登録情報の確認ができます
+
+  .px-4.py-2.bg-blue-50.border-t.border-b.border-blue-500.text-blue-800.-mt-24.mb-12.full-bleed.text-sm
+    .container.mx-auto.max-w-screen-lg.px-2(class="sm:px-0")
+      %svg(class="mr-1 w-6 h-6 fill-current inline-block" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+        %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z")
+      ブンゴウメールの無料配信は2021年7月で終了します。8月以降も利用をご希望の場合は、
+      = link_to '「新規登録」', memberships_new_path, class: 'text-link'
+      から改めてご登録をお願いします。
 
   .grid.grid-cols-1.gap-8.mb-24(class="sm:grid-cols-3 sm:gap-12")
     %div
@@ -458,7 +466,7 @@
         1ヶ月間の無料トライアル期間があります。
         %br
         トライアル終了前に解約した場合、料金は一切発生しません。
-      .flex(class="flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0")
+      .flex(class="flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 mb-12")
         = link_to memberships_new_path, class: 'rounded bg-red-600 text-white w-full py-4 text-center flex items-center justify-center hover:bg-red-500' do
           %svg(class="mr-2 w-8 h-8 fill-current" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
             %path(d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z")
@@ -471,3 +479,10 @@
           .flex.flex-col
             お支払い情報の管理
             .text-sm （利用者メニュー）
+
+      .px-4.py-2.bg-blue-50.rounded.border.border-blue-500.text-blue-800
+        %svg(class="mr-1 w-6 h-6 fill-current inline-block" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+          %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z")
+        2021年7月まで配信していた無料版の配信解約をご希望の場合は、
+        = link_to 'こちらのページ', page_path(:unsubscribe), class: 'text-link'
+        からご解約お願いします。

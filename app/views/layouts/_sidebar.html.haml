@@ -1,4 +1,4 @@
-- if Rails.env.development?
+- if Rails.env.development? || Time.current > Time.zone.parse("2021-07-01")
   .mb-8.space-y-4
     = link_to memberships_new_path, class: 'rounded bg-red-600 text-white w-full py-4 text-center flex items-center justify-center hover:bg-red-500' do
       %svg(class="mr-2 w-8 h-8 fill-current" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
