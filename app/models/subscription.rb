@@ -3,6 +3,7 @@ class Subscription < ApplicationRecord
   belongs_to :channel
 
   delegate :email, prefix: true, to: :user
+  @@service = GoogleDirectoryService.instance
 
   def self.restart_all
     self.includes(channel: :channel_profile).where(paused: true).each do |sub|
