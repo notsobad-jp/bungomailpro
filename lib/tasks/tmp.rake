@@ -215,4 +215,28 @@ namespace :tmp do
     # 5. 解約済みユーザーを削除
     User.includes(:membership).where(membership: {plan: nil}).destroy_all
   end
+
+
+  task copy_campaigns_to_feeds: :environment do |_task, _args|
+    assignments = []
+    CampaignGroup.where("start_at > ?", Time.zone.parse("2021-04-01")).each do |cg|
+      assignments << {
+        channel_id: Channel::OFFICIAL_CHANNEL_ID,
+        book_id: cg.book_id,
+        book_type: 'AozoraBook',
+        start_date: cg.start_at.to_date,
+        end_date: cg.start_at.to_date + (cg.count - 1).days,
+        created_at: cg.created_at,
+        updated_at: cg.updated_at,
+      }
+    end
+    BookAssignment.insert_all(assignments)
+    p "Inserted: #{assignments.length}"
+
+    BookAssignment.where("start_date > ?", Time.zone.parse("2021-04-01")).each do |ba|
+      res = ba.create_feeds
+      p "Created feeds for #{ba.start_date}:"
+      p res
+    end
+  end
 end
