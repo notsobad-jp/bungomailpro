@@ -16,7 +16,7 @@ class ChannelsController < ApplicationController
 
     @meta_title = @channel.title || 'マイチャネル'
     @breadcrumbs = [
-      {text: '公開チャネル', link: channels_path},
+      # {text: '公開チャネル', link: channels_path},
       {text: @meta_title},
     ] if @channel.code.present?
   end
