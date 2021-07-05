@@ -3,19 +3,16 @@
 <%= simple_format @feed.content.gsub(/(\r\n|\r|\n)/, "<br />") %>
 
 <br />=========================<br />
-<% if @feed.book_assignment.twitter_share_url.present? %>
-  ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　<br />
-  <%= link_to(nil, @feed.book_assignment.twitter_share_url) %><br />
-  <br />
-<% end %>
+ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　<br />
+<%= link_to(nil, @feed.book_assignment.twitter_share_url || "https://bit.ly/3wh90Ee") %><br />
+<br />
 ■Twitterでみんなの感想を見る：<%= link_to(nil, "https://goo.gl/rgfoDv") %><br />
 ■ブンゴウメール公式サイト：<%= link_to(nil, "https://bungomail.com") %><br />
 ■青空文庫でこの作品を読む：<%= link_to(nil, @book.aozora_file_url) %><br />
-■運営へのご支援はこちら： <%= link_to(nil, "https://www.buymeacoffee.com/bungomail") %><br />
-■月末まで一時的に配信を停止： <%= link_to(nil, "https://bungomail.com/unsubscribe") %><br />
-<br />
 -------<br />
 配信元: ブンゴウメール編集部<br />
 NOT SO BAD, LLC.<br />
-Web: <%= link_to(nil, "https://bungomail.com") %><br />
-配信停止： <%= link_to(nil, "https://bungomail.com/unsubscribe") %><br />
+Web： <%= link_to(nil, "https://bungomail.com") %><br />
+<% if @feed.book_assignment.channel.code == 'bungomail-official' %>
+  配信停止（解約）： <%= link_to(nil, memberships_edit_url) %><br />
+<% end %>
