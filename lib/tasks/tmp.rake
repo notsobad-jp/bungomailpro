@@ -239,4 +239,15 @@ namespace :tmp do
       p res
     end
   end
+
+  task import_aozora_subtitle: :environment do |_task, _args|
+    CSV.foreach('tmp/aozora_books.csv', headers: true) do |fg|
+      next if fg["役割フラグ"] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
+      book = AozoraBook.find_by(id: fg[0].to_i)
+      next unless book
+
+      book.update!(sub_title: fg["副題"]) if fg["副題"].present?
+      puts "[Updated] #{book.title}"
+    end
+  end
 end
