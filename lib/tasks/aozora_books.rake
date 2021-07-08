@@ -4,9 +4,8 @@ include ActionView::Helpers::TextHelper
 namespace :aozora_books do
   desc 'CSVファイルからbookデータをimport'
   task import: :environment do |_task, _args|
-    CSV.foreach('tmp/aozora_books.csv') do |fg|
-      next if fg[0] == '作品ID' # 見出し行をスキップ
-      next if fg[23] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
+    CSV.foreach('tmp/aozora_books.csv', headers: true) do |fg|
+      next if fg["役割フラグ"] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
 
       # ファイルID（古い作品では存在しない場合もあるので、そのときはnil）
       match, author_id, file_id = fg[50].match(%r{https?://www\.aozora\.gr\.jp/cards/(\d+)/files/\d+_(\d+).html}).to_a
@@ -23,6 +22,7 @@ namespace :aozora_books do
         AozoraBook.create!(
           id: fg[0].to_i,
           title: fg[1],
+          sub_title: fg["副題"],
           author: "#{fg[15]} #{fg[16]}",
           author_id: author_id,
           file_id: file_id,
@@ -31,6 +31,9 @@ namespace :aozora_books do
           published_at: published_match ? published_match[1] : nil,
           character_type: fg[9].presence,
           juvenile: fg[8].match(/K\d{3}/i).present?,
+          published_date: fg["公開日"],
+          last_updated_date: fg["最終更新日"],
+          source: fg["底本名1"],
         )
         puts "[#{fg[0]}] #{fg[10]}, #{fg[23]}, #{fg[1]}: #{fg[15]} #{fg[16]}(#{fg[14]}), #{file_id}"
       end
