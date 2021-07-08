@@ -3,6 +3,10 @@ require 'open-uri'
 class AozoraBook < ApplicationRecord
   has_many :campaign_group, dependent: :destroy
   has_many :book_assignments, as: :book, dependent: :restrict_with_exception
+  has_many :book_variants, foreign_key: :standard_book_id
+  has_many :variants, through: :book_variants
+  has_one :book_variant, foreign_key: :variant_book_id
+  has_one :standard, through: :book_variant
   self.primary_key = :id
 
   scope :sorted, -> { order(access_count: :desc) }

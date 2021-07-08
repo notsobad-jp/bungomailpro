@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_07_072417) do
+ActiveRecord::Schema.define(version: 2021_07_08_024254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
@@ -57,6 +57,17 @@ ActiveRecord::Schema.define(version: 2021_07_07_072417) do
     t.index ["channel_id"], name: "index_book_assignments_on_channel_id"
     t.index ["end_date"], name: "index_book_assignments_on_end_date"
     t.index ["start_date"], name: "index_book_assignments_on_start_date"
+  end
+
+  create_table "book_variants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "standard_book_id", null: false
+    t.integer "variant_book_id", null: false
+    t.string "character_type", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["standard_book_id", "variant_book_id"], name: "index_book_variants_on_standard_book_id_and_variant_book_id", unique: true
+    t.index ["standard_book_id"], name: "index_book_variants_on_standard_book_id"
+    t.index ["variant_book_id"], name: "index_book_variants_on_variant_book_id"
   end
 
   create_table "campaign_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
