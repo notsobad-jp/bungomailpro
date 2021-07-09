@@ -302,7 +302,7 @@ namespace :tmp do
       end
 
       # どちらかが文字数ゼロのやつ: 無条件除外
-      words_counts = items.pluck("words_count")
+      words_counts = items.pluck("words_count").sort
       if words_counts.include? 0
         # p "--- zero words ---"
         # p items
@@ -314,11 +314,12 @@ namespace :tmp do
         p "--- different beginning ---"
         p "trigram: #{trigram}"
         p items
+        # hoge = $stdin.gets
         next
       end
 
       # 文字数が全然違うやつ
-      if [words_counts[0], words_counts[1]].min * 2 < [words_counts[0], words_counts[1]].max
+      if words_counts[0] * 2 < words_counts[1]
         p "--- different words_count ---"
         p items
         next
