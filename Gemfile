@@ -35,6 +35,7 @@ group :development do
   gem 'letter_opener'
   gem "rack-dev-mark"
   gem 'sitemap_generator'
+  gem 'trigram' # 文字列の類似度チェック
 
   # 新しいバージョンは複数workerをkillできないバグがあるので古いので固定
   ## https://github.com/collectiveidea/delayed_job/issues/798

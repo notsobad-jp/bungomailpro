@@ -255,4 +255,78 @@ namespace :tmp do
       puts "[Updated] #{book.title}"
     end
   end
+
+  task filter_title_duplicated_books: :environment do |_task, _args|
+    result = ActiveRecord::Base.connection.select_all("
+      SELECT
+        concat(aozora_books.title, aozora_books.sub_title, aozora_books.author) AS key,
+        aozora_books.id,
+        aozora_books.title,
+        aozora_books.sub_title,
+        aozora_books.author,
+        aozora_books.character_type,
+        aozora_books.beginning,
+        aozora_books.words_count
+      FROM
+      (
+        SELECT
+          concat(title, sub_title, author) AS key,
+          title,
+          sub_title,
+          author,
+          count(title) as cnt
+        FROM
+          aozora_books
+        GROUP BY
+          title,
+          sub_title,
+          author
+        HAVING
+          count(title) > 1
+        ) AS title_cnt
+        INNER JOIN
+          aozora_books
+        ON
+          title_cnt.key = concat(aozora_books.title, aozora_books.sub_title, aozora_books.author)
+        ORDER BY
+          title, sub_title, author
+    ")
+    grouped_items = result.group_by{|r| r["key"]}
+    count = 0
+    grouped_items.each do |key, items|
+      # itemが3つ以上あるやつ
+      if items.length > 2
+        p "--- more than 2 records ---"
+        p items
+        next
+      end
+
+      # どちらかが文字数ゼロのやつ: 無条件除外
+      words_counts = items.pluck("words_count")
+      if words_counts.include? 0
+        # p "--- zero words ---"
+        # p items
+        next
+      end
+
+      # 書き出しが違うやつ
+      if (trigram = Trigram.compare(*items.pluck("beginning"))) < 0.1
+        p "--- different beginning ---"
+        p "trigram: #{trigram}"
+        p items
+        next
+      end
+
+      # 文字数が全然違うやつ
+      if [words_counts[0], words_counts[1]].min * 2 < [words_counts[0], words_counts[1]].max
+        p "--- different words_count ---"
+        p items
+        next
+      end
+
+      count += 1
+    end
+    p "------"
+    p count
+  end
 end
