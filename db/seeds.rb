@@ -14,11 +14,6 @@ User.insert({
   activation_state: "active",
 })
 
-Membership.insert({
-  id: '37f4e418-227e-485d-ab41-c50f887b9956',
-  plan: 'basic',
-})
-
 Channel.insert_all([
   {
     code: "bungomail-official",
