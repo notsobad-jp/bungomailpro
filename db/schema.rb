@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 2021_07_08_083003) do
     t.string "sub_title"
     t.integer "canonical_book_id"
     t.index ["access_count"], name: "index_aozora_books_on_access_count"
-    t.index ["canonical_book_id"], name: "index_aozora_books_on_canonical_book_id"
     t.index ["category_id"], name: "index_aozora_books_on_category_id"
     t.index ["character_type"], name: "index_aozora_books_on_character_type"
     t.index ["juvenile"], name: "index_aozora_books_on_juvenile"
@@ -222,6 +221,7 @@ ActiveRecord::Schema.define(version: 2021_07_08_083003) do
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
+  add_foreign_key "aozora_books", "aozora_books", column: "canonical_book_id"
   add_foreign_key "book_assignments", "channels", on_delete: :cascade
   add_foreign_key "campaign_groups", "aozora_books", column: "book_id"
   add_foreign_key "campaigns", "campaign_groups"
