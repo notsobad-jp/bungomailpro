@@ -240,6 +240,7 @@ namespace :tmp do
     end
   end
 
+
   task import_aozora_additional_info: :environment do |_task, _args|
     CSV.foreach('tmp/aozora_books.csv', headers: true) do |fg|
       next if fg["役割フラグ"] != '著者'  # 翻訳者などのレコードをスキップ（同じ作品が著者レコードで入るはず）
@@ -254,80 +255,5 @@ namespace :tmp do
 
       puts "[Updated] #{book.title}"
     end
-  end
-
-  task canonicalize_variant_books: :environment do |_task, _args|
-    result = ActiveRecord::Base.connection.select_all("
-      SELECT
-        concat(aozora_books.title, aozora_books.sub_title, aozora_books.author) AS key,
-        aozora_books.id,
-        aozora_books.title,
-        aozora_books.sub_title,
-        aozora_books.author,
-        aozora_books.character_type,
-        aozora_books.beginning,
-        aozora_books.access_count,
-        aozora_books.words_count
-      FROM
-      (
-        SELECT
-          concat(title, sub_title, author) AS key,
-          title,
-          sub_title,
-          author,
-          count(title) as cnt
-        FROM
-          aozora_books
-        GROUP BY
-          title,
-          sub_title,
-          author
-        HAVING
-          count(title) > 1
-        ) AS title_cnt
-        INNER JOIN
-          aozora_books
-        ON
-          title_cnt.key = concat(aozora_books.title, aozora_books.sub_title, aozora_books.author)
-        ORDER BY
-          title, sub_title, author
-    ")
-
-    skipped_books = {}
-    result.group_by{|r| r["key"]}.each do |key, items|
-      words_counts = items.pluck("words_count").sort
-      if words_counts.include?(0) # どちらかが文字数ゼロのやつ: 無条件除外
-        skipped_books[key] = items
-        p "skipped: #{key}"
-        next
-      end
-
-      more_than_two_items = items.length > 2 && 'more than 2 items' # itemが3つ以上あるやつ
-      different_words_count = words_counts[0] * 2 < words_counts[1] && 'different words count' # 文字数が違うやつ
-      if !more_than_two_items
-        trigram = Trigram.compare(*items.pluck("beginning"))
-        different_beginning = trigram < 0.1 && 'different beginning' # 書き出しが全然違うやつ
-      end
-
-      if more_than_two_items || different_beginning || different_words_count
-        p "-----#{ more_than_two_items || different_beginning || different_words_count }-----"
-        pp items.map{|m| m.reject{|k,v| k == 'key' } }
-        p "Press any key to canonicalize, or press enter to skip:"
-        if $stdin.gets.blank?
-          skipped_books[key] = items
-          p "skipped: #{key}"
-          next
-        end
-      end
-
-      # 正規化処理
-      canonical, *variants = items.sort_by{ |item| [AozoraBook::CHARACTER_ORDER.index(item["character_type"]), -item["access_count"]] }
-      books = AozoraBook.where(id: variants.pluck("id"))
-      books.update_all(canonical_book_id: canonical["id"])
-      p "canonicalized: #{key}"
-    end
-    p "====================="
-    p "Skipped books:"
-    pp skipped_books.keys
   end
 end
