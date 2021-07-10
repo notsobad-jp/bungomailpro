@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_07_08_083003) do
     t.string "sub_title"
     t.integer "canonical_book_id"
     t.index ["access_count"], name: "index_aozora_books_on_access_count"
+    t.index ["canonical_book_id"], name: "index_aozora_books_on_canonical_book_id"
     t.index ["category_id"], name: "index_aozora_books_on_category_id"
     t.index ["character_type"], name: "index_aozora_books_on_character_type"
     t.index ["juvenile"], name: "index_aozora_books_on_juvenile"
