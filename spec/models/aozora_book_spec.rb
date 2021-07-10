@@ -10,7 +10,7 @@ RSpec.describe AozoraBook, type: :model do
           {"access_count" => 300, "character_type" => "新字新仮名"},
           {"access_count" => 500, "character_type" => "新字旧仮名"},
         ]
-        res = variants.sort_by{ |variant| [AozoraBook::CHARACTER_ORDER.index(variant["character_type"]), -variant["access_count"]] }
+        res = variants.sort_by{ |variant| [%w(新字新仮名 新字旧仮名 旧字新仮名 旧字旧仮名).index(variant["character_type"]), -variant["access_count"]] }
         expect(res.pluck("character_type")).to eq %w(新字新仮名 新字旧仮名 旧字新仮名 旧字旧仮名)
       end
     end
@@ -23,7 +23,7 @@ RSpec.describe AozoraBook, type: :model do
           {"access_count" => 300, "character_type" => "新字新仮名"},
           {"access_count" => 500, "character_type" => "旧字旧仮名"},
         ]
-        res = variants.sort_by{ |variant| [AozoraBook::CHARACTER_ORDER.index(variant["character_type"]), -variant["access_count"]] }
+        res = variants.sort_by{ |variant| [%w(新字新仮名 新字旧仮名 旧字新仮名 旧字旧仮名).index(variant["character_type"]), -variant["access_count"]] }
         expect(res.pluck("access_count")).to eq [400, 300, 800, 500]
       end
     end

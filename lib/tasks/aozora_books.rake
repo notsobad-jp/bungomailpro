@@ -99,11 +99,92 @@ namespace :aozora_books do
 
   desc '同一作品の正規化'
   task canonicalize_variant_books: :environment do |_task, _args|
-    skipped_books = {}
+    def canonicalize(items)
+      canonical, *variants = items.sort_by{ |item| [%w(新字新仮名 新字旧仮名 旧字新仮名 旧字旧仮名).index(item["character_type"]), -item["access_count"]] } # 文字種順 -> アクセス数降順
+      books = AozoraBook.where(id: variants.pluck("id"))
+      books.update_all(canonical_book_id: canonical["id"])
+    end
+
     AozoraBook.duplicated_books.group_by{|r| r["key"]}.each do |key, items|
       words_counts = items.pluck("words_count").sort
       if words_counts.include?(0) # どちらかが文字数ゼロのやつ: 無条件除外
-        skipped_books[key] = items
+        p "skipped: #{key}"
+        next
+      end
+
+      # 過去に正規化の判断をした作品群
+      past_judges = {
+        canonicalized: [
+          [390, 56007, 56880], #うつせみ樋口 一葉
+          [389, 55671, 56041], # たけくらべ樋口 一葉
+          [387, 55672, 56042], # にごりえ樋口 一葉
+          [392, 55674, 56043], # ゆく雲樋口 一葉
+          [391, 56008, 56889], # わかれ道樋口 一葉
+          [1326, 53808], # わが町織田 作之助 -> 底本違い
+          [42309, 59640], # ラプンツェルグリム ヴィルヘルム・カール, グリム ヤーコプ・ルートヴィッヒ・カール -> 底本違い
+          [4356, 45688, 52522], # 五所川原太宰 治
+          [158, 43751], # 侏儒の言葉芥川 竜之介 -> 書き出しが違うけど同じ作品
+          [386, 55670, 56040], # 十三夜樋口 一葉
+          [388, 55668, 56039], # 大つごもり樋口 一葉
+          [45498, 45499, 46386], # 山越しの阿弥陀像の画因折口 信夫
+          [2533, 43494, 46534], # 歌よみに与ふる書正岡 子規
+          [4388, 4398, 24380], # 死者の書折口 信夫
+          [69, 45761], # 河童芥川 竜之介
+          [1091, 57471], # 竜潭譚泉 鏡花
+          [3423, 48403], # 紅玉泉 鏡花
+          [98, 24453, 43017], # 蜜柑芥川 竜之介
+          [4094, 56010], # 軒もる月樋口 一葉
+          [456, 43737, 46322, 48222], # 銀河鉄道の夜宮沢 賢治
+          [54728, 57207], # 銭形平次捕物控200 死骸の花嫁野村 胡堂
+          [54759, 57215], # 銭形平次捕物控233 鬼の面野村 胡堂
+          [50263, 50507], # 革命の研究クロポトキン ピョートル・アレクセーヴィチ -> 書き出しが違うけど同一作品
+          [691, 692, 45245], # 高瀬舟森 鴎外
+        ],
+        skipped: [
+          [4132, 4239], # あとがき（『宮本百合子選集』第二巻）宮本 百合子 -> 片方はボツ原稿
+          [51114, 51509], # お母さん小川 未明
+          [57226, 57227], # かいじん二十めんそう江戸川 乱歩
+          [4649, 56933], # みなかみ紀行若山 牧水 -> 単体の作品と、同名の作品集
+          [53491, 56731], # アラスカの氷河中谷 宇吉郎 -> 片方は抄録
+          [3276, 4044], # 今年こそは宮本 百合子
+          [43397, 45111], # 仔牛新美 南吉
+          [143, 144, 2325], # 仙人芥川 竜之介 -> 別の2作品と、1つはその解説
+          [486, 47858], # 入れ札菊池 寛 -> 同名の戯曲と小説
+          [49593, 57354], # 可愛い山石川 欣一 -> 単体の作品と、同名の作品集
+          [55497, 55498], # 四行詩富永 太郎
+          [186, 4308], # 夢芥川 竜之介
+          [45096, 52231], # 島新美 南吉
+          [47408, 47409], # 惑ひ伊藤 野枝
+          [44456, 44753], # 感想岸田 国士
+          [46579, 55785], # 我が生活中原 中也
+          [55252, 55316], # 折々の記吉川 英治
+          [42487, 42539], # 故郷豊島 与志雄
+          [42536, 42565], # 文学以前豊島 与志雄
+          [2781, 2784, 2836], # 文芸時評宮本 百合子
+          [42458, 45066], # 椎の木豊島 与志雄
+          [44644, 44861], # 演出者として岸田 国士
+          [55490, 55491, 55492, 55493], # 無題富永 太郎
+          [4158, 7913], # 無題（一）宮本 百合子
+          [4162, 7929], # 無題（三）宮本 百合子
+          [4161, 7917], # 無題（二）宮本 百合子
+          [4195, 7936], # 無題（四）宮本 百合子
+          [1309, 45617], # 番町皿屋敷岡本 綺堂 -> 同名の戯曲と小説
+          [4809, 47926], # 花を持てる女堀 辰雄
+          [749, 48249], # 草木塔種田 山頭火
+          [503, 47857], # 藤十郎の恋菊池 寛 -> 同名の戯曲と小説
+          [44891, 53193], # 隣の花岸田 国士
+          [42689, 53804], # 雨織田 作之助
+          [54820, 54823], # 雲竹内 浩三
+          [4760, 4789], # 魔のひととき原 民喜 -> 同名の詩と散文
+        ]
+      }
+
+      # 過去判断済みのやつはそれに従って処理
+      if past_judges[:canonicalized].include? items.pluck("id").sort
+        canonicalize(items)
+        p "canonicalized: #{key}"
+        next
+      elsif past_judges[:skipped].include? items.pluck("id").sort
         p "skipped: #{key}"
         next
       end
@@ -121,20 +202,17 @@ namespace :aozora_books do
         pp items.map{|m| m.reject{|k,v| k == 'key' } }
         p "Press any key to canonicalize, or press enter to skip:"
         if $stdin.gets.blank?
-          skipped_books[key] = items
-          p "skipped: #{key}"
-          next
+          p "[skipped] #{items.pluck('id').sort}, # #{key}"
+        else
+          canonicalize(items)
+          p "[canonicalized] #{items.pluck('id').sort}, # #{key}"
         end
+        next
       end
 
-      # 正規化処理
-      canonical, *variants = items.sort_by{ |item| [AozoraBook::CHARACTER_ORDER.index(item["character_type"]), -item["access_count"]] }
-      books = AozoraBook.where(id: variants.pluck("id"))
-      books.update_all(canonical_book_id: canonical["id"])
+      # それ以外（自動判定できるやつ）は正規化
+      canonicalize(items)
       p "canonicalized: #{key}"
     end
-    p "====================="
-    p "Skipped books:"
-    pp skipped_books.keys
   end
 end
