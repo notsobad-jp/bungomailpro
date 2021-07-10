@@ -296,18 +296,17 @@ namespace :tmp do
     skipped_books = {}
     result.group_by{|r| r["key"]}.each do |key, items|
       words_counts = items.pluck("words_count").sort
-      zero_words = words_counts.include?(0) && 'zero words' # どちらかが文字数ゼロのやつ: 無条件除外
-      if zero_words
+      if words_counts.include?(0) # どちらかが文字数ゼロのやつ: 無条件除外
         skipped_books[key] = items
         p "skipped: #{key}"
         next
       end
 
       more_than_two_items = items.length > 2 && 'more than 2 items' # itemが3つ以上あるやつ
-      different_words_count = words_counts[0] * 2 < words_counts[1] # 文字数が違うやつ
+      different_words_count = words_counts[0] * 2 < words_counts[1] && 'different words count' # 文字数が違うやつ
       if !more_than_two_items
         trigram = Trigram.compare(*items.pluck("beginning"))
-        different_beginning = trigram < 0.1 && 'different_beginning' # 書き出しが全然違うやつ
+        different_beginning = trigram < 0.1 && 'different beginning' # 書き出しが全然違うやつ
       end
 
       if more_than_two_items || different_beginning || different_words_count
