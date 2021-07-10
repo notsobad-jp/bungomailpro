@@ -22,6 +22,7 @@ gem 'pragmatic_tokenizer'
 gem 'pragmatic_segmenter'
 gem 'lemmatizer'
 gem 'google-api-client'
+gem 'trigram' # 文字列の類似度チェック
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -35,7 +36,6 @@ group :development do
   gem 'letter_opener'
   gem "rack-dev-mark"
   gem 'sitemap_generator'
-  gem 'trigram' # 文字列の類似度チェック
 
   # 新しいバージョンは複数workerをkillできないバグがあるので古いので固定
   ## https://github.com/collectiveidea/delayed_job/issues/798
