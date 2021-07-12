@@ -248,8 +248,6 @@ namespace :tmp do
       next unless book
 
       book.update!(
-        published_date: fg["公開日"],
-        last_updated_date: fg["最終更新日"],
         source: fg["底本名1"],
       )
 

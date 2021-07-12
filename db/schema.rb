@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_08_083003) do
+ActiveRecord::Schema.define(version: 2021_07_12_014943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2021_07_08_083003) do
     t.boolean "juvenile", default: false, null: false
     t.string "sub_title"
     t.integer "canonical_book_id"
+    t.string "source"
     t.index ["access_count"], name: "index_aozora_books_on_access_count"
     t.index ["canonical_book_id"], name: "index_aozora_books_on_canonical_book_id"
     t.index ["category_id"], name: "index_aozora_books_on_category_id"
