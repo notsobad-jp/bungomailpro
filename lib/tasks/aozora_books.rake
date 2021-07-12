@@ -216,4 +216,15 @@ namespace :aozora_books do
       p "canonicalized: #{display_key}"
     end
   end
+
+  desc 'variantsのアクセス数をcanonicalに合算'
+  task aggregate_variants_access_count: :environment do |_task, _args|
+    canonical_ids = AozoraBook.where.not(canonical_book_id: nil).pluck(:canonical_book_id).uniq
+    AozoraBook.where(id: canonical_ids).each do |canonical|
+      variants_count = canonical.variants.sum(:access_count)
+      canonical_count = canonical.access_count
+      canonical.update!(access_count: canonical_count + variants_count)
+      p "Updated #{canonical.title}: #{canonical_count} -> #{canonical_count + variants_count}"
+    end
+  end
 end
