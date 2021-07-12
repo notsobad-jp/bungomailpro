@@ -106,9 +106,10 @@ namespace :aozora_books do
     end
 
     AozoraBook.duplicated_books.group_by{|r| r["key"]}.each do |key, items|
+      display_key = "#{items.first['author']}『#{items.first['title']} #{items.first['sub_title']}』"
       words_counts = items.pluck("words_count").sort
       if words_counts.include?(0) # どちらかが文字数ゼロのやつ: 無条件除外
-        p "skipped: #{key}"
+        p "skipped: #{display_key}"
         next
       end
 
@@ -128,7 +129,7 @@ namespace :aozora_books do
           [388, 55668, 56039], # 大つごもり樋口 一葉
           [45498, 45499, 46386], # 山越しの阿弥陀像の画因折口 信夫
           [2533, 43494, 46534], # 歌よみに与ふる書正岡 子規
-          [4388, 4398, 24380], # 死者の書折口 信夫
+          [4388, 4398, 24379, 24380], # 死者の書折口 信夫
           [69, 45761], # 河童芥川 竜之介
           [1091, 57471], # 竜潭譚泉 鏡花
           [3423, 48403], # 紅玉泉 鏡花
@@ -182,10 +183,10 @@ namespace :aozora_books do
       # 過去判断済みのやつはそれに従って処理
       if past_judges[:canonicalized].include? items.pluck("id").sort
         canonicalize(items)
-        p "canonicalized: #{key}"
+        p "canonicalized: #{display_key}"
         next
       elsif past_judges[:skipped].include? items.pluck("id").sort
-        p "skipped: #{key}"
+        p "skipped: #{display_key}"
         next
       end
 
@@ -202,17 +203,17 @@ namespace :aozora_books do
         pp items.map{|m| m.reject{|k,v| k == 'key' } }
         p "Press any key to canonicalize, or press enter to skip:"
         if $stdin.gets.blank?
-          p "[skipped] #{items.pluck('id').sort}, # #{key}"
+          p "[skipped] #{items.pluck('id').sort}, # #{display_key}"
         else
           canonicalize(items)
-          p "[canonicalized] #{items.pluck('id').sort}, # #{key}"
+          p "[canonicalized] #{items.pluck('id').sort}, # #{display_key}"
         end
         next
       end
 
       # それ以外（自動判定できるやつ）は正規化
       canonicalize(items)
-      p "canonicalized: #{key}"
+      p "canonicalized: #{display_key}"
     end
   end
 end

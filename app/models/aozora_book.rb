@@ -303,11 +303,12 @@ class AozoraBook < ApplicationRecord
     def duplicated_books
       ActiveRecord::Base.connection.select_all("
         SELECT
-          concat(aozora_books.title, aozora_books.sub_title, aozora_books.author) AS key,
+          concat(aozora_books.title, aozora_books.sub_title, aozora_books.author_id) AS key,
           aozora_books.id,
           aozora_books.title,
           aozora_books.sub_title,
           aozora_books.author,
+          aozora_books.author_id,
           aozora_books.character_type,
           aozora_books.beginning,
           aozora_books.access_count,
@@ -315,26 +316,26 @@ class AozoraBook < ApplicationRecord
         FROM
         (
           SELECT
-            concat(title, sub_title, author) AS key,
+            concat(title, sub_title, author_id) AS key,
             title,
             sub_title,
-            author,
+            author_id,
             count(title) as cnt
           FROM
             aozora_books
           GROUP BY
             title,
             sub_title,
-            author
+            author_id
           HAVING
             count(title) > 1
           ) AS title_cnt
           INNER JOIN
             aozora_books
           ON
-            title_cnt.key = concat(aozora_books.title, aozora_books.sub_title, aozora_books.author)
+            title_cnt.key = concat(aozora_books.title, aozora_books.sub_title, aozora_books.author_id)
           ORDER BY
-            title, sub_title, author
+            title, sub_title, author_id
       ")
     end
   end
