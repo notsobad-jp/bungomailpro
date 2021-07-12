@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_12_014943) do
+ActiveRecord::Schema.define(version: 2021_07_12_041348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
@@ -163,7 +163,10 @@ ActiveRecord::Schema.define(version: 2021_07_12_014943) do
     t.float "ngsl_ratio"
     t.integer "birth_year"
     t.integer "death_year"
+    t.integer "canonical_book_id"
+    t.string "sub_title"
     t.index ["author_id"], name: "index_guten_books_on_author_id"
+    t.index ["canonical_book_id"], name: "index_guten_books_on_canonical_book_id"
     t.index ["category_id"], name: "index_guten_books_on_category_id"
     t.index ["ngsl_ratio"], name: "index_guten_books_on_ngsl_ratio"
   end
@@ -231,6 +234,7 @@ ActiveRecord::Schema.define(version: 2021_07_12_014943) do
   add_foreign_key "channels", "users"
   add_foreign_key "feeds", "book_assignments", on_delete: :cascade
   add_foreign_key "feeds", "delayed_jobs", on_delete: :nullify
+  add_foreign_key "guten_books", "guten_books", column: "canonical_book_id"
   add_foreign_key "guten_books_subjects", "guten_books", on_delete: :cascade
   add_foreign_key "guten_books_subjects", "subjects", on_delete: :cascade
   add_foreign_key "subscriptions", "channels", on_delete: :cascade
