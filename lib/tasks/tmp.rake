@@ -247,9 +247,11 @@ namespace :tmp do
       book = AozoraBook.find_by(id: fg[0].to_i)
       next unless book
 
+      source = "「#{fg['底本名1']}」#{fg['底本出版社名1']}"
+      source += ", #{fg['底本初版発行年1']}" if fg['底本初版発行年1'].present?
       book.update!(
-        source: fg["底本名1"],
-      )
+        source: source,
+      ) if fg['底本名1'].present?
 
       puts "[Updated] #{book.title}"
     end
