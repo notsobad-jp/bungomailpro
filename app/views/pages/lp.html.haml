@@ -210,19 +210,34 @@
       .bg-gray-100.p-2.border-b
         %h5.font-bold 月額プラン
       .p-4.flex-1
-        .mb-2.text-red-700.font-bold
-          %span.mr-1 🎉
-          2021年7月31日までのご登録限定キャンペーン実施中
-          %span.ml-1 🎉
-        .mb-4.text-xs
-          キャンペーン中に登録すると、今後もずっとこの料金が適用されます。
+        - if Time.current < Time.zone.parse("2021-08-01")
+          .mb-2.text-red-700.font-bold
+            %span.mr-1 🎉
+            2021年7月31日までのご登録限定キャンペーン実施中
+            %span.ml-1 🎉
+          .mb-4.text-xs
+            キャンペーン中に登録すると、今後もずっとこの料金が適用されます。
 
-        .text-3xl.font-bold.text-red-600
-          ￥350
-          .text-xs.inline /月 (税込385円)
-        .mb-2.text-2xl.font-bold.line-through
-          ￥500
-          .text-xs.inline /月 (税込550円)
+          .text-3xl.font-bold.text-red-600
+            ￥350
+            .text-xs.inline /月 (税込385円)
+          .mb-2.text-2xl.font-bold.line-through
+            ￥500
+            .text-xs.inline /月 (税込550円)
+        - else
+          .mb-2.text-red-700.font-bold
+            %span.mr-1 🎉
+            1ヶ月間の無料トライアル
+            %span.ml-1 🎉
+          .mb-4.text-xs
+            トライアル期間中に解約すれば、料金は一切発生しません
+          .text-3xl.font-bold.mb-2
+            ￥500
+            .text-xs.inline /月 (税込550円)
+          .text-sm
+            毎月1冊、おまかせ読書
+
+
       .px-4.pt-2.pb-4
         = link_to memberships_new_path, class: 'rounded bg-red-600 text-white w-full py-3 text-center flex items-center justify-center hover:bg-red-500' do
           %svg(class="mr-2 w-8 h-8 fill-current" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
@@ -484,9 +499,10 @@
             お支払い情報の管理
             .text-sm （利用者メニュー）
 
-      .px-4.py-2.bg-blue-50.rounded.border.border-blue-500.text-blue-800
-        %svg(class="mr-1 w-6 h-6 fill-current inline-block" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
-          %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z")
-        2021年7月まで配信していた無料版の配信解約をご希望の場合は、
-        = link_to 'こちらのページ', page_path(:unsubscribe), class: 'text-link'
-        からご解約お願いします。
+      - if Time.current < Time.zone.parse("2021-08-01")
+        .px-4.py-2.bg-blue-50.rounded.border.border-blue-500.text-blue-800
+          %svg(class="mr-1 w-6 h-6 fill-current inline-block" focusable="false" viewBox="0 0 24 24" aria-hidden="true")
+            %path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z")
+          2021年7月まで配信していた無料版の配信解約をご希望の場合は、
+          = link_to 'こちらのページ', page_path(:unsubscribe), class: 'text-link'
+          からご解約お願いします。
