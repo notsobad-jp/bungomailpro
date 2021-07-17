@@ -4,16 +4,13 @@
 
 =========================
 ハッシュタグ「#ブンゴウメール」をつけて感想をつぶやこう！　
-<%= @feed.book_assignment.twitter_short_url %>
+<%= @feed.book_assignment.twitter_share_url || "https://bit.ly/3wh90Ee" %>
 
 ■Twitterでみんなの感想を見る：https://goo.gl/rgfoDv
 ■ブンゴウメール公式サイト：https://bungomail.com
 ■青空文庫でこの作品を読む：<%= @book.aozora_file_url %>
-■運営へのご支援はこちら： https://www.buymeacoffee.com/bungomail
-■月末まで一時的に配信を停止： https://bungomail.com/unsubscribe
 
 -------
 配信元: ブンゴウメール編集部
 NOT SO BAD, LLC.
 Web: https://bungomail.com
-配信停止： https://bungomail.com/unsubscribe

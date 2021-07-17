@@ -9,10 +9,8 @@
 ■Twitterでみんなの感想を見る：<%= link_to(nil, "https://goo.gl/rgfoDv") %><br />
 ■ブンゴウメール公式サイト：<%= link_to(nil, "https://bungomail.com") %><br />
 ■青空文庫でこの作品を読む：<%= link_to(nil, @book.aozora_file_url) %><br />
+<br />
 -------<br />
 配信元: ブンゴウメール編集部<br />
 NOT SO BAD, LLC.<br />
 Web： <%= link_to(nil, "https://bungomail.com") %><br />
-<% if @feed.book_assignment.channel.code == 'bungomail-official' %>
-  配信停止（解約）： <%= link_to(nil, memberships_edit_url) %><br />
-<% end %>
